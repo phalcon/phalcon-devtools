@@ -18,11 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-if(!isset($_ENV['PTOOLSPATH'])){
+$phalconToolsPath = getenv("PTOOLSPATH");
+if(!$phalconToolsPath){
 	die("Phalcon: PTOOLSPATH enviroment variable isn't set\n");
 }
 
-$phalconToolsPath = "c:\\phalcon-tools\\";
 $path = str_replace("\\", "/", getcwd());
 $_SERVER['phToolsPath'] = $phalconToolsPath;
 
