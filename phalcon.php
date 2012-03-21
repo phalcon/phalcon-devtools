@@ -18,6 +18,10 @@
   +------------------------------------------------------------------------+
 */
 
+if(!isset($_ENV['PTOOLSPATH'])){
+	die("Phalcon: PTOOLSPATH enviroment variable isn't set\n");
+}
+
 $phalconToolsPath = "c:\\phalcon-tools\\";
 $path = str_replace("\\", "/", getcwd());
 $_SERVER['phToolsPath'] = $phalconToolsPath;
@@ -31,8 +35,8 @@ if(isset($_SERVER['argv'][1])){
 		$_SERVER['argv'][] = $path;		
 		require $scriptPath;
 	} else {
-		echo 'Phalcon: ', $command, " isn't a recognized command\n";
+		die('Phalcon: '.$command." isn't a recognized command\n");
 	}
 } else {
-	echo "Phalcon: incorrect usage\n";
+	die("Phalcon: incorrect usage\n");
 }
