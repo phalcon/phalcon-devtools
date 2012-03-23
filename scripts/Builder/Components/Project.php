@@ -22,9 +22,9 @@ use Phalcon_Builder as Builder;
 use Phalcon_BuilderException as BuilderException;
 
 /**
- * ApplicationBuilderComponent
+ * ProjectBuilderComponent
  *
- * Builder para construir aplicaciones
+ * Builder to create application skeletons
  *
  * @category 	Phalcon
  * @package 	Scripts
@@ -32,7 +32,11 @@ use Phalcon_BuilderException as BuilderException;
  * @license 	New BSD License
  * @version 	$Id: Application.php,v 7a54c57f039b 2011/10/19 23:41:19 andres $
  */
-class ApplicationBuilderComponent {
+class ProjectBuilderComponent {
+
+	public function __construct($options){
+		$this->_options = $options;
+	}
 
 	/**
 	 * Create .INI file by default of application
@@ -57,6 +61,19 @@ class ApplicationBuilderComponent {
 	}
 
 	/**
+	 * Create ControllerBase
+	 *
+	 */
+	private static function createControllerBase($path){
+		$file = $path.'app/controllers/ControllerBase.php';
+		if(file_exists($file)==false){
+			$code = "<?php".PHP_EOL.PHP_EOL.
+			"class ControllerBase extends Phalcon_Controller {".PHP_EOL.PHP_EOL."}".PHP_EOL;
+			file_put_contents($file, $code);
+		}
+	}
+
+	/**
 	 * Create Bootstrap file by default of application
 	 *
 	 */
@@ -65,11 +82,13 @@ class ApplicationBuilderComponent {
 			$code = "<?php".PHP_EOL.PHP_EOL.
 				"try {".PHP_EOL.
 				PHP_EOL.
+				"\t"."require \"../app/controllers/ControllerBase.php\";".PHP_EOL.
+				PHP_EOL.
 				"\t"."\$front = Phalcon_Controller_Front::getInstance();".PHP_EOL.
 				PHP_EOL.
 				"\t"."\$config = new Phalcon_Config_Adapter_Ini(\"../app/config/config.ini\");".PHP_EOL.
  				"\t"."\$front->setConfig(\$config);".PHP_EOL.
- 				PHP_EOL.				
+ 				PHP_EOL.
 				"\t"."echo \$front->dispatchLoop()->getContent();".PHP_EOL.
 				"}".PHP_EOL.
 				"catch(Phalcon_Exception \$e){".PHP_EOL.
@@ -86,7 +105,7 @@ class ApplicationBuilderComponent {
 	private static function createControllerFile($path){
 		$modelBuilder = Builder::factory('Controller', array(
 			'name' => 'index',
-			'directory' => $path			
+			'directory' => $path
 		));
 		$modelBuilder->build();
 	}
@@ -138,11 +157,6 @@ class ApplicationBuilderComponent {
 		file_put_contents($path.'app/views/index/index.phtml', $str);
 	}
 
-	public function __construct($options){
-		$this->_options = $options;		
-	}
-
-
 	public function build(){
 
 		$path = '';
@@ -159,7 +173,7 @@ class ApplicationBuilderComponent {
 				$path .= $this->_options['name'].'/';
 				@mkdir($path);
 			}
-		}		
+		}
 
 		@mkdir($path.'app');
 		@mkdir($path.'app/logs');
@@ -177,9 +191,12 @@ class ApplicationBuilderComponent {
 		@mkdir($path.'public/files');
 		@mkdir($path.'public/javascript');
 
+		file_put_contents($path.'.phalcon', '');
+
 		self::createINIFiles($path, $name);
-		self::createBootstrapFile($path);
 		self::createHtaccessFiles($path);
+		self::createBootstrapFile($path);
+		self::createControllerBase($path);
 		self::createIndexViewFiles($path);
 		self::createControllerFile($path);
 

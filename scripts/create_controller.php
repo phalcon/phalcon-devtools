@@ -18,8 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-if(isset($_SERVER['phToolsPath'])){
-	chdir($_SERVER['phToolsPath']);
+$pToolsPath = getenv("PTOOLSPATH");
+if($pToolsPath){
+	chdir($pToolsPath);
 }
 
 require_once 'Script/Script.php';
@@ -58,7 +59,7 @@ class CreateController extends Phalcon_Script {
 		}
 
 		$this->checkRequired(array("name"));
-		
+
 		$modelBuilder = Builder::factory('Controller', array(
 			'name' => $this->getOption('name'),
 			'directory' => $this->getOption('directory'),

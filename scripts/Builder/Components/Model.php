@@ -73,6 +73,10 @@ class ModelBuilderComponent {
 		return 'string';
 	}
 
+	private function _getConfig($path){
+		return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
+	}
+
 	public function __construct($options){
 		if(!isset($options['name'])){
 			throw new BuilderException("Please, specify the model name");
@@ -91,151 +95,164 @@ class ModelBuilderComponent {
 
 	public function build(){
 
-		if($this->_options['name']){
+		if(!$this->_options['name']){
+			throw new BuilderException("You must specify the table name");
+		}
 
-			$config = Phalcon_Script::getConfigPaths();
-			$modelsDir = 'public/'.$config->phalcon->modelsDir;
-
-			$modelPath = $modelsDir.'/'.$this->_options['className'].'.php';
-
-			if(file_exists($modelPath)){
-				if(!$this->_options['force']){
-					throw new BuilderException("The model file '{$this->_options['name']}.php' already exists in models dir");
-				}
+		$path = '';
+		if(isset($this->_options['directory'])){
+			if($this->_options['directory']){
+				$path = $this->_options['directory'].'/';
 			}
+		}
 
-			$initialize = array();
+		if(!file_exists($path.'.phalcon')){
+			throw new BuilderException("This command should be invoked inside a phalcon project directory");
+		}
 
-			try {
-				Phalcon_Db_Pool::setDefaultDescriptor($config->database);
-				$db = Phalcon_Db_Pool::getConnection();
+		$useSettersGetters = $this->_options['genSettersGetters'];
+
+		$config = $this->_getConfig($path);
+		$modelsDir = 'public/'.$config->phalcon->modelsDir;
+
+		$modelPath = $path.$modelsDir.'/'.$this->_options['className'].'.php';
+
+		if(file_exists($modelPath)){
+			if(!$this->_options['force']){
+				throw new BuilderException("The model file '".$this->_options['className'].".php' already exist in models dir");
 			}
-			catch(Phalcon_Db_Exception $e){
-				throw new ScriptException('Phalcon_Db_Exception: '.$e->getMessage());
-			}
+		}
 
-			if(isset($this->_options['schema'])){
-				if($this->_options['schema']!=$db->getDatabaseName()){
-					$initialize[] = "\t\t\$this->setSchema(\"{$this->_options['schema']}\");";
-				}
-				$schema = $this->_options['schema'];
-			} else {
-				$schema = null;
-			}
+		$initialize = array();
 
-			if($this->_options['fileName']!=$this->_options['name']){
-				$initialize[] = "\t\t\$this->setSource(\"{$this->_options['name']}\");";
-			}
+		try {
+			Phalcon_Db_Pool::setDefaultDescriptor($config->database);
+			$db = Phalcon_Db_Pool::getConnection();
+		}
+		catch(Phalcon_Db_Exception $e){
+			throw new ScriptException('Phalcon_Db_Exception: '.$e->getMessage());
+		}
 
-			$table = $this->_options['name'];
-			if($db->tableExists($table, $schema)){
-				$fields = $db->describeTable($table, $schema);
-			} else {
-				throw new BuilderException("Table $table not exists");
+		if(isset($this->_options['schema'])){
+			if($this->_options['schema']!=$db->getDatabaseName()){
+				$initialize[] = "\t\t\$this->setSchema(\"{$this->_options['schema']}\");";
 			}
+			$schema = $this->_options['schema'];
+		} else {
+			$schema = null;
+		}
 
-			if(isset($this->_options['hasMany'])){
-				if(count($this->_options['hasMany'])){
-					foreach($this->_options['hasMany'] as $entityName => $relation){
-						if(is_string($relation['fields'])){
-							if(preg_match('/_id$/', $relation['relationFields'])&&$relation['fields']=='id'){
-								//$initialize[] = "\t\t\$this->hasMany(\"$entityName\")";
-								$initialize[] = "\t\t\$this->hasMany(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
-							} else {
-								$initialize[] = "\t\t\$this->hasMany(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
-							}
-						}
-					}
-				}
-			}
+		if($this->_options['fileName']!=$this->_options['name']){
+			$initialize[] = "\t\t\$this->setSource(\"{$this->_options['name']}\");";
+		}
 
-			if(isset($this->_options['belongsTo'])){
-				if(count($this->_options['belongsTo'])){
-					foreach($this->_options['belongsTo'] as $entityName => $relation){
-						if(is_string($relation['fields'])){
-							if(preg_match('/_id$/', $relation['fields'])&&$relation['relationFields']=='id'){
-								//$initialize[] = "\t\t\$this->belongsTo(\"$entityName\")";
-								$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
-							} else {
-								$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
-							}
+		$table = $this->_options['name'];
+		if($db->tableExists($table, $schema)){
+			$fields = $db->describeTable($table, $schema);
+		} else {
+			throw new BuilderException("Table $table not exists");
+		}
+
+		if(isset($this->_options['hasMany'])){
+			if(count($this->_options['hasMany'])){
+				foreach($this->_options['hasMany'] as $entityName => $relation){
+					if(is_string($relation['fields'])){
+						if(preg_match('/_id$/', $relation['relationFields'])&&$relation['fields']=='id'){
+							$initialize[] = "\t\t\$this->hasMany(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
 						} else {
-
+							$initialize[] = "\t\t\$this->hasMany(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
 						}
 					}
 				}
 			}
+		}
 
-			if(isset($this->_options['foreignKeys'])){
-				if(count($this->_options['foreignKeys'])){
-					foreach($this->_options['foreignKeys'] as $foreignKey){
-						$initialize[] = "\t\t\$this->addForeignKey(\"{$foreignKey['fields']}\", \"{$foreignKey['entity']}\", \"{$foreignKey['referencedFields']}\")";
+		if(isset($this->_options['belongsTo'])){
+			if(count($this->_options['belongsTo'])){
+				foreach($this->_options['belongsTo'] as $entityName => $relation){
+					if(is_string($relation['fields'])){
+						if(preg_match('/_id$/', $relation['fields'])&&$relation['relationFields']=='id'){
+							$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
+						} else {
+							$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
+						}
 					}
 				}
 			}
+		}
 
-			$methodRawCode = array();
-			$alreadyInitialized = false;
-			$alreadyValidations = false;
-			if(file_exists($modelPath)){
-				try {
-					$posibleMethods = array();
+		if(isset($this->_options['foreignKeys'])){
+			if(count($this->_options['foreignKeys'])){
+				foreach($this->_options['foreignKeys'] as $foreignKey){
+					$initialize[] = "\t\t\$this->addForeignKey(\"{$foreignKey['fields']}\", \"{$foreignKey['entity']}\", \"{$foreignKey['referencedFields']}\")";
+				}
+			}
+		}
+
+		$methodRawCode = array();
+		$alreadyInitialized = false;
+		$alreadyValidations = false;
+		if(file_exists($modelPath)){
+			try {
+				$posibleMethods = array();
+				if($useSettersGetters){
 					foreach($fields as $field){
 						$methodName = Utils::camelize($field['Field']);
 						$posibleMethods['set'.$methodName] = true;
 						$posibleMethods['get'.$methodName] = true;
 					}
-					require $modelPath;
-					$linesCode = file($modelPath);
-					$reflection = new ReflectionClass($this->_options['className']);
-					foreach($reflection->getMethods() as $method){
-						if($method->getDeclaringClass()->getName()==$this->_options['className']){
-							$methodName = $method->getName();
-							if(!isset($posibleMethods[$methodName])){
-								$methodRawCode[$methodName] = join('', array_slice($linesCode, $method->getStartLine()-1, $method->getEndLine()-$method->getStartLine()+1));
-							} else {
-								continue;
-							}
-							if($methodName=='initialize'){
-								$alreadyInitialized = true;
-							} else {
-								if($methodName=='validation'){
-									$alreadyValidations = true;
-								}
+				}
+				require $modelPath;
+				$linesCode = file($modelPath);
+				$reflection = new ReflectionClass($this->_options['className']);
+				foreach($reflection->getMethods() as $method){
+					if($method->getDeclaringClass()->getName()==$this->_options['className']){
+						$methodName = $method->getName();
+						if(!isset($posibleMethods[$methodName])){
+							$methodRawCode[$methodName] = join('', array_slice($linesCode, $method->getStartLine()-1, $method->getEndLine()-$method->getStartLine()+1));
+						} else {
+							continue;
+						}
+						if($methodName=='initialize'){
+							$alreadyInitialized = true;
+						} else {
+							if($methodName=='validation'){
+								$alreadyValidations = true;
 							}
 						}
 					}
 				}
-				catch(ReflectionException $e){
-
-				}
 			}
+			catch(ReflectionException $e){
+			}
+		}
 
-			$validations = array();
-			/*foreach($fields as $field){
-				if(strpos($field['Type'], 'enum')!==false){
-					$domain = array();
-					if(preg_match('/\((.*)\)/', $field['Type'], $matches)){
-						foreach(explode(',', $matches[1]) as $item){
-							$domain[] = $item;
-						}
+		$validations = array();
+		/*foreach($fields as $field){
+			if(strpos($field['Type'], 'enum')!==false){
+				$domain = array();
+				if(preg_match('/\((.*)\)/', $field['Type'], $matches)){
+					foreach(explode(',', $matches[1]) as $item){
+						$domain[] = $item;
 					}
-					$varItems = join(', ', $domain);
-					$validations[] = "\t\t\$this->validate(\"InclusionIn\", array(\n\t\t\t\"field\" => \"{$field['Field']}\",\n\t\t\t\"domain\" => array($varItems),\n\t\t\t\"required\" => true\n\t\t))";
 				}
-				if($field['Field']=='email'){
-					$validations[] = "\t\t\$this->validate(\"Email\", array(\n\t\t\t\"field\" => \"{$field['Field']}\",\n\t\t\t\"required\" => true\n\t\t))";
-				}
+				$varItems = join(', ', $domain);
+				$validations[] = "\t\t\$this->validate(\"InclusionIn\", array(\n\t\t\t\"field\" => \"{$field['Field']}\",\n\t\t\t\"domain\" => array($varItems),\n\t\t\t\"required\" => true\n\t\t))";
 			}
-			if(count($validations)){
-				$validations[] = "\t\tif(\$this->validationHasFailed()==true){\n\t\t\treturn false;\n\t\t}";
-			}*/
+			if($field['Field']=='email'){
+				$validations[] = "\t\t\$this->validate(\"Email\", array(\n\t\t\t\"field\" => \"{$field['Field']}\",\n\t\t\t\"required\" => true\n\t\t))";
+			}
+		}
+		if(count($validations)){
+			$validations[] = "\t\tif(\$this->validationHasFailed()==true){\n\t\t\treturn false;\n\t\t}";
+		}*/
 
-			$attributes = array();
-			$setters = array();
-			$getters = array();
-			foreach($fields as $field){
-				$type = $this->getPHPType($field['Type']);
+		$attributes = array();
+		$setters = array();
+		$getters = array();
+		foreach($fields as $field){
+			$type = $this->getPHPType($field['Type']);
+			if($useSettersGetters){
 				$attributes[] = "\t/**\n\t * @var $type\n\t */\n\tprotected \${$field['Field']};\n";
 				$setterName = Utils::camelize($field['Field']);
 				$setters[] = "\t/**\n\t * Method to set the value of field {$field['Field']}\n\t * @param $type \${$field['Field']}\n\t */\n\tpublic function set$setterName(\${$field['Field']}){\n\t\t\$this->{$field['Field']} = \${$field['Field']};\n\t}\n";
@@ -244,39 +261,41 @@ class ModelBuilderComponent {
 				} else {
 					$getters[] = "\t/**\n\t * Returns the value of field {$field['Field']}\n\t * @return $type\n\t */\n\tpublic function get$setterName(){\n\t\treturn \$this->{$field['Field']};\n\t}\n";
 				}
+			} else {
+				$attributes[] = "\t/**\n\t * @var $type\n\t */\n\tpublic \${$field['Field']};\n";
 			}
-			if($alreadyValidations==false){
-				if(count($validations)>0){
-					$validationsCode = "\n\t/**\n\t * Validations and business logic \n\t */\n\tpublic function validation(){\t\t\n".join(";\n", $validations)."\n\t}\n";
-				} else {
-					$validationsCode = "";
-				}
+		}
+
+		if($alreadyValidations==false){
+			if(count($validations)>0){
+				$validationsCode = "\n\t/**\n\t * Validations and business logic \n\t */\n\tpublic function validation(){\t\t\n".join(";\n", $validations)."\n\t}\n";
 			} else {
 				$validationsCode = "";
 			}
-			if($alreadyInitialized==false){
-				if(count($initialize)>0){
-					$initCode = "\n\t/**\n\t * Initializer method for model.\n\t */\n\tpublic function initialize(){\t\t\n".join(";\n", $initialize).";\n\t}\n";
-				} else {
-					$initCode = "";
-				}
+		} else {
+			$validationsCode = "";
+		}
+		if($alreadyInitialized==false){
+			if(count($initialize)>0){
+				$initCode = "\n\t/**\n\t * Initializer method for model.\n\t */\n\tpublic function initialize(){\t\t\n".join(";\n", $initialize).";\n\t}\n";
 			} else {
 				$initCode = "";
 			}
-			$code = "<?php\n";
-			if(file_exists('license.txt')){
-				$code.=PHP_EOL.file_get_contents('license.txt');
-			}
-			$code.="\nclass ".$this->_options['className']." extends Phalcon_Model_Base {\n\n".join("\n", $attributes)."\n\n".join("\n", $setters)."\n\n".join("\n", $getters).$validationsCode.$initCode."\n";
-			foreach($methodRawCode as $methodCode){
-				$code.=$methodCode.PHP_EOL;
-			}
-			$code.="}\n\n";
-			file_put_contents("$modelsDir/{$this->_options['className']}.php", $code);
-
 		} else {
-			throw new BuilderException("Please, you must specify the table name");
+			$initCode = "";
 		}
+
+		$code = "<?php\n";
+		if(file_exists('license.txt')){
+			$code.=PHP_EOL.file_get_contents('license.txt');
+		}
+		$code.="\nclass ".$this->_options['className']." extends Phalcon_Model_Base {\n\n".join("\n", $attributes)."\n\n".join("\n", $setters)."\n\n".join("\n", $getters).$validationsCode.$initCode."\n";
+		foreach($methodRawCode as $methodCode){
+			$code.=$methodCode.PHP_EOL;
+		}
+		$code.="}\n\n";
+		file_put_contents($path.$modelsDir."/".$this->_options['className'].".php", $code);
+
 	}
 
 }

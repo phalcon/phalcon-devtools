@@ -20,22 +20,37 @@
 
 $phalconToolsPath = getenv("PTOOLSPATH");
 if(!$phalconToolsPath){
-	die("Phalcon: PTOOLSPATH enviroment variable isn't set\n");
+	die("Phalcon: PTOOLSPATH environment variable isn't set\n");
 }
 
-$path = str_replace("\\", "/", getcwd());
-$_SERVER['phToolsPath'] = $phalconToolsPath;
+if(PHP_OS=="WINNT"){
+	$path = str_replace("\\", "/", getcwd());
+} else {
+	$path = getcwd();
+}
 
 if(isset($_SERVER['argv'][1])){
-	$_SERVER['argv'][1] = str_replace('-', '_', $_SERVER['argv'][1]);		
-	$command = $_SERVER['argv'][1];
-	$scriptPath = $phalconToolsPath."scripts\\$command.php";
-	if(file_exists($scriptPath)){
-		$_SERVER['argv'][] = "--directory";
-		$_SERVER['argv'][] = $path;		
-		require $scriptPath;
+	if($_SERVER['argv'][1]=='commands'){
+		echo 'Available commands:', PHP_EOL;
+		$directory = new DirectoryIterator($phalconToolsPath."scripts");
+		foreach($directory as $file){
+			if(!$file->isDir()){
+				$command = str_replace('.php', '', $file->getFileName());
+				$command = str_replace('_', '-', $command);
+				echo $command, PHP_EOL;
+			}
+		}
 	} else {
-		die('Phalcon: '.$command." isn't a recognized command\n");
+		$_SERVER['argv'][1] = str_replace('-', '_', $_SERVER['argv'][1]);
+		$command = $_SERVER['argv'][1];
+		$scriptPath = $phalconToolsPath."scripts".DIRECTORY_SEPARATOR.$command.".php";
+		if(file_exists($scriptPath)){
+			$_SERVER['argv'][] = "--directory";
+			$_SERVER['argv'][] = $path;
+			require $scriptPath;
+		} else {
+			die('Phalcon: '.$command." isn't a recognized command\n");
+		}
 	}
 } else {
 	die("Phalcon: incorrect usage\n");

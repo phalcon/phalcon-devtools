@@ -202,7 +202,7 @@ class Phalcon_Script {
 	 * @param array $posibleParameters
 	 */
 	public function showHelp($posibleParameters){
-		echo basename($_SERVER['PHP_SELF']).' - Modo de uso:'.PHP_EOL.PHP_EOL;
+		echo basename($_SERVER['PHP_SELF']).' - Usage:'.PHP_EOL.PHP_EOL;
 		foreach($posibleParameters as $parameter => $description){
 			echo html_entity_decode($description, ENT_COMPAT, $this->_encoding).PHP_EOL;
 		}
@@ -238,21 +238,20 @@ class Phalcon_Script {
 	}
 
 	/**
-	 * Filter value
+	 * Filters a value
  	 *
  	 * @access	protected
 	 * @param	string $paramValue
 	 * @return	mixed
 	 */
 	protected function filter($paramValue){
-		//Si hay más de un argumento, toma los demas como filtros
 		if(func_num_args()>1){
 			$params = func_get_args();
 			unset($params[0]);
 			$filter = new Phalcon_Filter();
 			return $filter->sanitize($paramValue, $params);
 		} else {
-			throw new ScriptException('Debe indicar al menos un filtro a aplicar');
+			throw new ScriptException('You must specify at least one filter to apply');
 		}
 		return $paramValue;
 	}
@@ -334,16 +333,6 @@ class Phalcon_Script {
 
 	public function getParameters(){
 		return $this->_parameters;
-	}
-
-	/**
-	 * Get the config.ini information
-	 *
-	 * @return array
-	 */
-	static function getConfigPaths(){
-		$config = new Phalcon_Config_Adapter_Ini("app/config/config.ini");
-		return $config;
 	}
 
 }

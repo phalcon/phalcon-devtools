@@ -18,12 +18,19 @@
   +------------------------------------------------------------------------+
 */
 
+$pToolsPath = getenv("PTOOLSPATH");
+if($pToolsPath){
+	chdir($pToolsPath);
+}
+
 require_once 'Script/Script.php';
 require_once 'Script/Color/ScriptColor.php';
+
 use Phalcon_Builder as Builder;
 use Phalcon_Utils as Utils;
+
 /**
- * Create all models of an application by command line.
+ * Create all the models related to application by command line.
  *
  * @category	Kumbia
  * @package		Scripts
@@ -35,7 +42,7 @@ class CreateAllModels extends Phalcon_Script {
 	public function run(){
 
 		$posibleParameters = array(
-			'force'				=> "--force \t\tForza is rewritten to the models. [optional]",
+			'force'				=> "--force \t\tForce script to rewrite all the models if the already exists. [optional]",
 			'define-relations' 	=> "--define-relations \tPossible relations defined according to convention. [optional]",
 			'foreign-keys' 		=> "--foreign-keys \t\tDefine any virtual foreign keys. [optional]",
 			'validations' 		=> "--validations \t\tDefine possible domain validation according to conventions. [optional]",

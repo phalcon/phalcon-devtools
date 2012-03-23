@@ -18,6 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
+$pToolsPath = getenv("PTOOLSPATH");
+if($pToolsPath){
+	chdir($pToolsPath);
+}
+
 require 'Script/Script.php';
 require 'Script/Color/ScriptColor.php';
 require 'Builder/Builder.php';
@@ -28,7 +33,7 @@ use Phalcon_Utils as Utils;
 /**
  * ScaffoldScript
  *
- * Make scaffold on application
+ * Scaffold a controller, model and view for a database table
  *
  * @category 	Phalcon
  * @package 	Scaffold
@@ -36,17 +41,18 @@ use Phalcon_Utils as Utils;
  * @license 	New BSD License
  * @version 	$Id: create_scaffold.php,v f5add30bf4ba 2011/10/26 21:05:13 andres $
  */
-class CreateScaffold extends Phalcon_Script {
+class Scaffold extends Phalcon_Script {
 
 	public function run(){
 
 		$posibleParameters = array(
-			'table-name=s' 		=> "--table-name \tTable name of the source model.",
-			'schema=s' 			=> "--schema \tName of the schema in where the table is, only if this differs from the default schema. [optional]",
+			'table-name=s' 		=> "--table-name \tName of table",
+			'schema=s' 			=> "--schema \tName of the schema where the table is, only if it differs from the default schema. [optional]",
 			//'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.[optional]",
 			'theme=s' 			=> "--theme \tTheme to be applied. [optional]",
-			'force' 			=> "--force \tForza is rewritten to the model. [optional]",
-			'debug' 			=> "--debug \tShows the trace of the framework in case an exception is generated. [optional]",
+			'directory=s' => "--directory path Base path on which project will be created",
+			'force' 			=> "--force \tForces to rewrite generated code if they already exists. [optional]",
+			'debug' 			=> "--debug \tShows the trace of the framework in case of an exception is generated. [optional]",
 			'help' 				=> "--help \t\tShow help"
 		);
 
@@ -66,14 +72,15 @@ class CreateScaffold extends Phalcon_Script {
 		$fileName = Utils::uncamelize($className);
 
 		$scaffoldBuilder = Builder::factory('Scaffold', array(
-			'name' 			=> $name,
-			'theme' 		=> $this->getOption('theme'),
-			'force' 		=> $this->isReceivedOption('force'),
-			'schema' 		=> $schema,
-			'fileName' 		=> $fileName,
-			'className' 	=> $className,
-			//'autocomplete' 	=> $this->getOption('autocomplete')
-
+			'name' => $name,
+			'theme'	=> $this->getOption('theme'),
+			'schema' => $schema,
+			'fileName' => $fileName,
+			'className'	=> $className,
+			'force'	=> $this->isReceivedOption('force'),
+			'genSettersGetters' => $this->isReceivedOption('gen-setters-getters'),
+			'directory' => $this->getOption('directory'),
+			'autocomplete' 	=> $this->getOption('autocomplete')
 		));
 
 		$scaffoldBuilder->build();
@@ -84,7 +91,7 @@ class CreateScaffold extends Phalcon_Script {
 
 
 try {
-	$script = new CreateScaffold();
+	$script = new Scaffold();
 	$script->run();
 }
 catch(CoreException $e){

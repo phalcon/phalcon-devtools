@@ -18,6 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
+$pToolsPath = getenv("PTOOLSPATH");
+if($pToolsPath){
+	chdir($pToolsPath);
+}
+
 require 'scripts/Script/Script.php';
 require 'scripts/Script/Color/ScriptColor.php';
 require 'scripts/Builder/Builder.php';
@@ -44,6 +49,8 @@ class CreateModel extends Phalcon_Script {
 			'table-name=s' 	=> "--table-name \tTable name of the source model.",
 			'schema=s' 		=> "--schema \tName of the schema where the table if this differs from the default schema. [optional]",
 			'class-name=s' 	=> "--class-name \tPHP class name to use the model. [optional]",
+			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
+			'directory=s' => "--directory path Base path on which project will be created",
 			'force' 		=> "--force \tRewrite the model. [optional]",
 			'debug' 		=> "--debug \tShows the trace of the framework in case an exception is generated. [optional]",
 			'help' 			=> "--help \t\tShow help"
@@ -60,7 +67,7 @@ class CreateModel extends Phalcon_Script {
 
 		$name = $this->getOption('table-name');
 		$schema = $this->getOption('schema');
-		
+
 		$className = $this->getOption('class-name');
 		if(!$className){
 			$className = $name;
@@ -74,6 +81,8 @@ class CreateModel extends Phalcon_Script {
 			'schema' => $schema,
 			'className' => $className,
 			'fileName' => $fileName,
+			'genSettersGetters' => $this->isReceivedOption('gen-setters-getters'),
+			'directory' => $this->getOption('directory'),
 			'force' => $this->isReceivedOption('force')
 		));
 

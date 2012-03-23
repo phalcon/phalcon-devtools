@@ -1,1 +1,0 @@
-print_r($_ENV);

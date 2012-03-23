@@ -47,7 +47,7 @@ class ControllerBuilderComponent {
 		}
 		if(!isset($options['force'])){
 			$options['force'] = false;
-		}		
+		}
 		$this->_options = $options;
 	}
 
@@ -60,15 +60,19 @@ class ControllerBuilderComponent {
 			}
 		}
 
+		if(!file_exists($path.'.phalcon')){
+			throw new BuilderException("This command should be invoked inside a phalcon project directory");
+		}
+
 		$name = $this->_options['name'];
 		$controllersDir = 'app/controllers/';
 		$controllerPath = $path.$controllersDir.Utils::camelize($name)."Controller.php";
-		$code = "<?php\n\nclass ".Utils::camelize($name)."Controller extends Phalcon_Controller {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";		
+		$code = "<?php\n\nclass ".Utils::camelize($name)."Controller extends Phalcon_Controller {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
 		if(!file_exists($controllerPath)){
 			file_put_contents($controllerPath, $code);
 		} else {
 	 		throw new BuilderException("The Controller '$name' already exists");
-		}		
+		}
 
 	}
 
