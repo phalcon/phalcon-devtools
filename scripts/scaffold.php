@@ -49,6 +49,7 @@ class Scaffold extends Phalcon_Script {
 			'table-name=s' 		=> "--table-name \tName of table",
 			'schema=s' 			=> "--schema \tName of the schema where the table is, only if it differs from the default schema. [optional]",
 			//'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.[optional]",
+			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
 			'theme=s' 			=> "--theme \tTheme to be applied. [optional]",
 			'directory=s' => "--directory path Base path on which project will be created",
 			'force' 			=> "--force \tForces to rewrite generated code if they already exists. [optional]",

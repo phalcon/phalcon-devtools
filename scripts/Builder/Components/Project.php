@@ -45,17 +45,17 @@ class ProjectBuilderComponent {
 	private static function createINIFiles($path, $name){
 		if(file_exists($path.'app/config/config.ini')==false){
 			$str =	'[database]'.PHP_EOL.
-					'adapter = Mysql'.PHP_EOL.
-					'host = "127.0.0.1"'.PHP_EOL.
-					'username = "root"'.PHP_EOL.
-					'password = ""'.PHP_EOL.
-					'name = "test_db"'.PHP_EOL.
-					''.PHP_EOL.
-					'[phalcon]'.PHP_EOL.
-					'controllersDir = "../app/controllers/"'.PHP_EOL.
-					'modelsDir = "../app/models/"'.PHP_EOL.
-					'viewsDir = "../app/views/"'.PHP_EOL.
-					'baseUri = "/'.$name.'/"'.PHP_EOL;
+			'adapter = Mysql'.PHP_EOL.
+			'host = "127.0.0.1"'.PHP_EOL.
+			'username = "root"'.PHP_EOL.
+			'password = ""'.PHP_EOL.
+			'name = "test_db"'.PHP_EOL.
+			''.PHP_EOL.
+			'[phalcon]'.PHP_EOL.
+			'controllersDir = "../app/controllers/"'.PHP_EOL.
+			'modelsDir = "../app/models/"'.PHP_EOL.
+			'viewsDir = "../app/views/"'.PHP_EOL.
+			'baseUri = "/'.$name.'/"'.PHP_EOL;
 			file_put_contents($path.'app/config/config.ini', $str);
 		}
 	}
@@ -80,20 +80,20 @@ class ProjectBuilderComponent {
 	private static function createBootstrapFile($path){
 		if(file_exists($path.'public/index.php')==false){
 			$code = "<?php".PHP_EOL.PHP_EOL.
-				"try {".PHP_EOL.
-				PHP_EOL.
-				"\t"."require \"../app/controllers/ControllerBase.php\";".PHP_EOL.
-				PHP_EOL.
-				"\t"."\$front = Phalcon_Controller_Front::getInstance();".PHP_EOL.
-				PHP_EOL.
-				"\t"."\$config = new Phalcon_Config_Adapter_Ini(\"../app/config/config.ini\");".PHP_EOL.
- 				"\t"."\$front->setConfig(\$config);".PHP_EOL.
- 				PHP_EOL.
-				"\t"."echo \$front->dispatchLoop()->getContent();".PHP_EOL.
-				"}".PHP_EOL.
-				"catch(Phalcon_Exception \$e){".PHP_EOL.
-				"\t"."echo \"PhalconException: \", \$e->getMessage();".PHP_EOL.
-				"}";
+			"try {".PHP_EOL.
+			PHP_EOL.
+			"\t"."require \"../app/controllers/ControllerBase.php\";".PHP_EOL.
+			PHP_EOL.
+			"\t"."\$front = Phalcon_Controller_Front::getInstance();".PHP_EOL.
+			PHP_EOL.
+			"\t"."\$config = new Phalcon_Config_Adapter_Ini(\"../app/config/config.ini\");".PHP_EOL.
+ 			"\t"."\$front->setConfig(\$config);".PHP_EOL.
+ 			PHP_EOL.
+			"\t"."echo \$front->dispatchLoop()->getContent();".PHP_EOL.
+			"}".PHP_EOL.
+			"catch(Phalcon_Exception \$e){".PHP_EOL.
+			"\t"."echo \"PhalconException: \", \$e->getMessage();".PHP_EOL.
+			"}";
 			file_put_contents($path.'public/index.php', $code);
 		}
 	}
@@ -143,15 +143,20 @@ class ProjectBuilderComponent {
 	 *
 	 */
 	private static function createIndexViewFiles($path){
-		$str = '<html>'.PHP_EOL.
-				"\t".'<head>'.PHP_EOL.
-				"\t\t".'<title>Phalcon PHP Framework</title>'.PHP_EOL.
-				"\t".'</head>'.PHP_EOL.
-				"\t".'<body>'.PHP_EOL.
-				"\t\t".'<?php echo $this->getContent(); ?>'.PHP_EOL.
-				"\t".'</body>'.PHP_EOL.
-				'</html>';
-		file_put_contents($path.'app/views/index.phtml', $str);
+
+		$file = $path.'app/views/index.phtml';
+		if(!file_exists($file)){
+			$str = '<!DOCTYPE html>'.PHP_EOL.
+			'<html>'.PHP_EOL.
+			"\t".'<head>'.PHP_EOL.
+			"\t\t".'<title>Phalcon PHP Framework</title>'.PHP_EOL.
+			"\t".'</head>'.PHP_EOL.
+			"\t".'<body>'.PHP_EOL.
+			"\t\t".'<?php echo $this->getContent(); ?>'.PHP_EOL.
+			"\t".'</body>'.PHP_EOL.
+			'</html>';
+			file_put_contents($file, $str);
+		}
 
 		$str = '<h1>Congratulations!</h1>'.PHP_EOL.'You\'re now flying with Phalcon.';
 		file_put_contents($path.'app/views/index/index.phtml', $str);

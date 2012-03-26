@@ -289,7 +289,11 @@ class ModelBuilderComponent {
 		if(file_exists('license.txt')){
 			$code.=PHP_EOL.file_get_contents('license.txt');
 		}
-		$code.="\nclass ".$this->_options['className']." extends Phalcon_Model_Base {\n\n".join("\n", $attributes)."\n\n".join("\n", $setters)."\n\n".join("\n", $getters).$validationsCode.$initCode."\n";
+		$code.="\nclass ".$this->_options['className']." extends Phalcon_Model_Base {\n\n".join("\n", $attributes)."\n";
+		if($useSettersGetters){
+			$code.="\n".join("\n", $setters)."\n\n".join("\n", $getters);
+		}
+		$code.=$validationsCode.$initCode."\n";
 		foreach($methodRawCode as $methodCode){
 			$code.=$methodCode.PHP_EOL;
 		}
