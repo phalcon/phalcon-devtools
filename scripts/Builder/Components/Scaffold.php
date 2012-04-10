@@ -130,7 +130,7 @@ class ScaffoldBuilderComponent {
 		$relationField = '';
 
 		$single 						 = $name;
-		$options['name'] 				 = $single;
+		$options['name'] 				 = strtolower(Phalcon_Utils::camelize($single));
 		$options['plural'] 				 = $single;
 		$options['single'] 				 = $single;
 		$options['entity']				 = $entity;
@@ -279,7 +279,7 @@ class ScaffoldBuilderComponent {
 
 
 		$exceptions = array();
-		foreach($options['attributes'] as $attribute => $x){
+		foreach($options['attributes'] as $attribute){
 			if(preg_match('/_at$/', $attribute)){
 				$exceptions[] = '"'.$attribute.'"';
 			} else {
@@ -334,7 +334,7 @@ class ScaffoldBuilderComponent {
 			foreach($'.$options['name'].'->getMessages() as $message){
 				Flash::error((string) $message);
 			}
-			return $this->_forward("'.$options['name'].'/edit");
+			return $this->_forward("'.$options['name'].'/edit/".$'.$options['name'].'->'.$orderPksString.');
 		} else {
 			Flash::success("'.$options['name'].' was updated successfully");
 			return $this->_forward("'.$options['name'].'/index");
@@ -624,7 +624,7 @@ class ScaffoldBuilderComponent {
 			"\t".'<tr>'.PHP_EOL.
 			'</table>'.PHP_EOL.PHP_EOL.
 			'<div align="center">'.PHP_EOL.
-			"\t".'<h1>Editando '.$options['name'].'</h1>'.PHP_EOL.
+			"\t".'<h1>Edit '.$options['name'].'</h1>'.PHP_EOL.
 			'</div>'.PHP_EOL.PHP_EOL.
 			"\t".'<table align="center">'.PHP_EOL;
 
@@ -666,8 +666,7 @@ class ScaffoldBuilderComponent {
 	<tr>
 </table>
 
-'.PHP_EOL.PHP_EOL.
-			'<table class="browse" align="center">'.PHP_EOL.
+<table class="browse" align="center">'.PHP_EOL.
 			"\t".'<thead>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL;
 			foreach($options['attributes'] as $attribute => $dataType){
@@ -677,11 +676,11 @@ class ScaffoldBuilderComponent {
 			"\t".'</thead>'.PHP_EOL.
 			"\t".'<tbody>'.PHP_EOL.
 			"\t".'<?php
-			if(isset($page->items)){
-				foreach($page->items as $'.$options['name'].'){ ?>'.PHP_EOL.
+		if(isset($page->items)){
+			foreach($page->items as $'.$options['name'].'){ ?>'.PHP_EOL.
 				"\t\t".'<tr>'.PHP_EOL;
 				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
-				foreach($options['attributes'] as $fieldName => $dataType){
+				foreach($options['dataTypes'] as $fieldName => $dataType){
 					$code.="\t\t\t".'<td><?php echo ';
 					if(!isset($options['allReferences'][$fieldName])){
 						if(strpos($dataType, 'date')!==false){
@@ -709,7 +708,7 @@ class ScaffoldBuilderComponent {
 
 				$code.="\t\t".'</tr>'.PHP_EOL.
 				"\t".'<?php }
-			}?>'.PHP_EOL.
+		} ?>'.PHP_EOL.
 			"\t".'</tbody>'.PHP_EOL.
 			"\t".'<tbody>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL.
