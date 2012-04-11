@@ -129,10 +129,10 @@ class ScaffoldBuilderComponent {
 
 		$relationField = '';
 
-		$single 						 = $name;
-		$options['name'] 				 = strtolower(Phalcon_Utils::camelize($single));
-		$options['plural'] 				 = $single;
-		$options['single'] 				 = $single;
+		$single = $name;
+		$options['name'] = strtolower(Phalcon_Utils::camelize($single));
+		$options['plural'] = str_replace('_', ' ', $single);
+		$options['single'] = str_replace('_', ' ', $single);
 		$options['entity']				 = $entity;
 		$options['theSingle'] 			 = $single;
 		$options['singleVar'] 			 = $single;
@@ -235,7 +235,7 @@ class ScaffoldBuilderComponent {
 
 		$'.$options['name'].' = '.$options['className'].'::find($parameters);
 		if(count($'.$options['name'].')==0){
-			Flash::notice("The search did not find any '.$options['name'].'");
+			Flash::notice("The search did not find any '.$options['plural'].'", "alert alert-info");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -308,7 +308,7 @@ class ScaffoldBuilderComponent {
 			}
 			return $this->_forward("'.$options['name'].'/new");
 		} else {
-			Flash::success("'.$options['className'].' was created successfully");
+			Flash::success("'.$options['single'].' was created successfully");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -324,7 +324,7 @@ class ScaffoldBuilderComponent {
 		$'.$orderPksString.' = $this->request->getPost("'.$orderPksString.'", "int");
 		$'.$options['name'].' = '.$options['className'].'::findFirst("'.$orderPksString.'=\'$'.$orderPksString.'\'");
 		if($'.$options['name'].'==false){
-			Flash::error("'.$options['name'].' does not exist ".$'.$orderPksString.');
+			Flash::error("'.$options['single'].' does not exist ".$'.$orderPksString.');
 			return $this->_forward("'.$options['name'].'/index");
 		}';
 
@@ -336,7 +336,7 @@ class ScaffoldBuilderComponent {
 			}
 			return $this->_forward("'.$options['name'].'/edit/".$'.$options['name'].'->'.$orderPksString.');
 		} else {
-			Flash::success("'.$options['name'].' was updated successfully");
+			Flash::success("'.$options['single'].' was updated successfully");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -359,7 +359,7 @@ class ScaffoldBuilderComponent {
 			}
 			return $this->_forward("'.$options['name'].'/search");
 		} else {
-			Flash::success("'.$options['name'].' was deleted");
+			Flash::success("'.$options['single'].' was deleted");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 	}'.PHP_EOL.PHP_EOL;
@@ -661,7 +661,7 @@ class ScaffoldBuilderComponent {
 			<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/index", "Go Back")); ?>
 		</td>
 		<td align="right">
-			<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/new", "Create '.$options['name'].'")); ?>
+			<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/new", "Create '.$options['single'].'")); ?>
 		</td>
 	<tr>
 </table>

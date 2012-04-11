@@ -149,20 +149,47 @@ class TwitterBootstrapBuilderComponent {
 
 		$setParams = $selectDefinition = array();
 
-		$relationField = '';
+		//Try to find relations
+		$relationFields = array();
+		foreach($attributes as $attribute){
+			if(preg_match('/([a-z_0-9]+)_id$/', $attribute, $matches)){
+				if($connection->tableExists($matches[1])){
+					$pk = array();
+					$detailField = null;
+					$describe = $connection->describeTable($matches[1]);
+					foreach($describe as $field){
+						if($field['Field']=='name'||$field['Field']=='description'){
+							$detailField = $field['Field'];
+						}
+						if($field['Key']=='PRI'){
+							$pk[] = $field['Field'];
+						}
+					}
+					if($detailField && count($pk) == 1){
+						$relationFields[$attribute] = array(
+							'table' => $matches[1],
+							'detail' => $detailField,
+							'primaryKey' => $pk[0],
+							'modelName' => Phalcon_Utils::camelize($matches[1]),
+							'varName' => Phalcon_Utils::lcfirst(Phalcon_Utils::camelize($matches[1]))
+						);
+					}
+				}
+			}
+		}
 
 		$single = $name;
 		$options['name'] = strtolower(Phalcon_Utils::camelize($single));
-		$options['plural'] = $single;
-		$options['single'] = $single;
-		$options['entity'] = $entity;
+		$options['plural'] = str_replace('_', ' ', $single);
+		$options['single'] = str_replace('_', ' ', $single);
+		$options['entity'] = $single;
 		$options['theSingle'] = $single;
 		$options['singleVar'] = $single;
 		$options['setParams'] = $setParams;
 		$options['attributes'] = $attributes;
 		$options['dataTypes'] = $dataTypes;
 		$options['primaryKeys'] = $primaryKeys;
-		$options['relationField'] = $relationField;
+		$options['relationFields'] = $relationFields;
 		$options['selectDefinition'] = $selectDefinition;
 		$options['autocompleteFields'] = array();
 		$options['belongsToDefinitions'] = array();
@@ -239,6 +266,14 @@ class TwitterBootstrapBuilderComponent {
 			//Index
 			"\t".'function indexAction(){
 		$this->session->conditions = null;'.PHP_EOL;
+
+			if(count($options['relationFields'])){
+				$code.=PHP_EOL;
+				foreach($options['relationFields'] as $relationField){
+					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+				}
+			}
+
 			$code.="\t".'}'.PHP_EOL.PHP_EOL;
 
 			$primaryKeys = $options['primaryKeys'];
@@ -279,7 +314,7 @@ class TwitterBootstrapBuilderComponent {
 
 		$'.$options['name'].' = '.$options['className'].'::find($parameters);
 		if(count($'.$options['name'].')==0){
-			Flash::notice("The search did not find any '.$options['name'].'", "alert alert-info");
+			Flash::notice("The search did not find any '.$options['plural'].'", "alert alert-info");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -295,7 +330,15 @@ class TwitterBootstrapBuilderComponent {
 	}'.PHP_EOL.PHP_EOL;
 
 			//New
-			$code.="\t".'function newAction(){'.PHP_EOL.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
+			$code.="\t".'function newAction(){'.PHP_EOL.PHP_EOL;
+
+			if(count($options['relationFields'])){
+				foreach($options['relationFields'] as $relationField){
+					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+				}
+			}
+
+			$code.="\t".'}'.PHP_EOL.PHP_EOL;
 
 			//Edit
 			$code.="\t".'function editAction($'.$orderPksString.'){
@@ -307,7 +350,7 @@ class TwitterBootstrapBuilderComponent {
 
 			$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
 			if(!$'.$options['name'].'){
-				Flash::error("'.$options['name'].' was not found", "alert alert-error");
+				Flash::error("'.$options['single'].' was not found", "alert alert-error");
 				return $this->_forward("'.$options['name'].'/index");
 			}
 			$this->view->setVar("'.$orderPksString.'", $'.$options['name'].'->'.$orderPksString.');
@@ -318,6 +361,14 @@ class TwitterBootstrapBuilderComponent {
 			foreach($options['attributes'] as $field){
 				$code.="\t\t\t".'Tag::displayTo("'.$field.'", $'.$options['name'].'->'.$field.');'.PHP_EOL;
 			}
+
+			if(count($options['relationFields'])){
+				$code.=PHP_EOL;
+				foreach($options['relationFields'] as $relationField){
+					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+				}
+			}
+
 			$code.="\t\t".'}
 	}'.PHP_EOL;
 
@@ -351,7 +402,7 @@ class TwitterBootstrapBuilderComponent {
 			}
 			return $this->_forward("'.$options['name'].'/new");
 		} else {
-			Flash::success("'.$options['className'].' was created successfully", "alert alert-success");
+			Flash::success("'.$options['single'].' was created successfully", "alert alert-success");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -367,7 +418,7 @@ class TwitterBootstrapBuilderComponent {
 		$'.$orderPksString.' = $this->request->getPost("'.$orderPksString.'", "int");
 		$'.$options['name'].' = '.$options['className'].'::findFirst("'.$orderPksString.'=\'$'.$orderPksString.'\'");
 		if($'.$options['name'].'==false){
-			Flash::error("'.$options['name'].' does not exist ".$'.$orderPksString.', "alert alert-error");
+			Flash::error("'.$options['single'].' does not exist ".$'.$orderPksString.', "alert alert-error");
 			return $this->_forward("'.$options['name'].'/index");
 		}';
 
@@ -379,7 +430,7 @@ class TwitterBootstrapBuilderComponent {
 			}
 			return $this->_forward("'.$options['name'].'/edit/".$'.$options['name'].'->'.$orderPksString.');
 		} else {
-			Flash::success("'.$options['name'].' was updated successfully", "alert alert-success");
+			Flash::success("'.$options['single'].' was updated successfully", "alert alert-success");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -392,7 +443,7 @@ class TwitterBootstrapBuilderComponent {
 
 		$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
 		if(!$'.$options['name'].'){
-			Flash::error("'.$options['name'].' not found", "alert alert-error");
+			Flash::error("'.$options['single'].' was not found", "alert alert-error");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -402,7 +453,7 @@ class TwitterBootstrapBuilderComponent {
 			}
 			return $this->_forward("'.$options['name'].'/search");
 		} else {
-			Flash::success("'.$options['name'].' was deleted", "alert alert-success");
+			Flash::success("'.$options['single'].' was deleted", "alert alert-success");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 	}'.PHP_EOL.PHP_EOL;
@@ -463,9 +514,8 @@ class TwitterBootstrapBuilderComponent {
 
 		$code = '';
 		$entity	= $options['entity'];
-		$relationField = $options['relationField'];
+		$relationFields = $options['relationFields'];
 		$autocompleteFields	= $options['autocompleteFields'];
-		$selectDefinition = $options['selectDefinition'];
 
 		foreach($options['dataTypes'] as $attribute => $dataType){
 
@@ -475,9 +525,9 @@ class TwitterBootstrapBuilderComponent {
 				$code .= "\t\t".'<label for="'.$attribute.'">'.$this->_getPosibleLabel($attribute).'</label>'.PHP_EOL;
 			}
 
-			if(isset($relationField[$attribute])){
-				$code.=PHP_EOL."\t\t".'<?php echo Phalcon_Tag::select(array("'.$attribute.'", $'.$selectDefinition[$attribute]['varName'].
-					', "using" => "'.$selectDefinition[$attribute]['primaryKey'].','.$selectDefinition[$attribute]['detail'].'", "useDummy" => true)) ?>';
+			if(isset($relationFields[$attribute])){
+				$code.= "\t\t".'<?php echo Phalcon_Tag::select(array("'.$attribute.'", $'.$relationFields[$attribute]['varName'].
+					', "using" => array("'.$relationFields[$attribute]['primaryKey'].'", "'.$relationFields[$attribute]['detail'].'"), "useDummy" => true)) ?>';
 			} else {
 				//PKs
 				if(($action=='new'||$action=='edit' ) && $attribute=='id'){
@@ -527,11 +577,11 @@ class TwitterBootstrapBuilderComponent {
 						}
 					}
 				}
-				if(($action=='new'||$action=='edit' ) && $attribute=='id'){
-					$code .= PHP_EOL.PHP_EOL;
-				} else {
-					$code .= PHP_EOL."\t".'</div>'.PHP_EOL.PHP_EOL;
-				}
+			}
+			if(($action=='new'||$action=='edit' ) && $attribute=='id'){
+				$code .= PHP_EOL.PHP_EOL;
+			} else {
+				$code .= PHP_EOL."\t".'</div>'.PHP_EOL.PHP_EOL;
 			}
 		}
 		return $code;
@@ -549,7 +599,7 @@ class TwitterBootstrapBuilderComponent {
 			mkdir($dirPath);
 		}
 
-		$relationField = $options['relationField'];
+		$relationFields = $options['relationFields'];
 		$belongsToDefinitions = $options['belongsToDefinitions'];
 		$selectDefinition = $options['selectDefinition'];
 		$autocompleteFields	= $options['autocompleteFields'];
@@ -597,7 +647,7 @@ class TwitterBootstrapBuilderComponent {
 		$viewPath = $dirPath.'/new.phtml';
 		if(!file_exists($viewPath)){
 
-			$relationField = $options['relationField'];
+			$relationFields = $options['relationFields'];
 			$belongsToDefinitions = $options['belongsToDefinitions'];
 			$selectDefinition = $options['selectDefinition'];
 			$autocompleteFields	= $options['autocompleteFields'];
@@ -610,7 +660,7 @@ class TwitterBootstrapBuilderComponent {
 			$code = '<?php echo Phalcon_Tag::form("'.$options['name'].'/create") ?>'.PHP_EOL.PHP_EOL.
 			'<ul class="pager">'.PHP_EOL.
 			"\t".'<li class="previous pull-left">'.PHP_EOL.
-			"\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'", "Go Back")) ?>'.PHP_EOL.
+			"\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'", "&larr; Go Back")) ?>'.PHP_EOL.
 			"\t".'</li>'.PHP_EOL.
 			"\t".'<li class="pull-right">'.PHP_EOL.
 			"\t\t".'<?php echo Phalcon_Tag::submitButton(array("Save", "class" => "btn btn-success")) ?>'.PHP_EOL.
@@ -646,7 +696,7 @@ class TwitterBootstrapBuilderComponent {
 		$viewPath = $dirPath.'/edit.phtml';
 		if($viewPath){
 
-			$relationField = $options['relationField'];
+			$relationFields = $options['relationFields'];
 			$belongsToDefinitions = $options['belongsToDefinitions'];
 			$selectDefinition = $options['selectDefinition'];
 			$autocompleteFields	= $options['autocompleteFields'];
@@ -659,7 +709,7 @@ class TwitterBootstrapBuilderComponent {
 			$code = '<?php echo Phalcon_Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL.PHP_EOL.
 			'<ul class="pager">'.PHP_EOL.
 			"\t".'<li class="previous pull-left">'.PHP_EOL.
-			"\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'", "Go Back")) ?>'.PHP_EOL.
+			"\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'", "&larr; Go Back")) ?>'.PHP_EOL.
 			"\t".'</li>'.PHP_EOL.
 			"\t".'<li class="pull-right">'.PHP_EOL.
 			"\t\t".'<?php echo Phalcon_Tag::submitButton(array("Save", "class" => "btn btn-success")) ?>'.PHP_EOL.
@@ -698,10 +748,10 @@ class TwitterBootstrapBuilderComponent {
 
 <ul class="pager">
 	<li class="previous pull-left">
-		<?php echo Phalcon_Tag::linkTo("'.$options['name'].'/index", "Go Back"); ?>
+		<?php echo Phalcon_Tag::linkTo("'.$options['name'].'/index", "&larr; Go Back"); ?>
 	</li>
 	<li class="pull-right">
-		<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/new", "Create '.$options['name'].'", "class" => "btn btn-primary")); ?>
+		<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/new", "Create '.$options['single'].'", "class" => "btn btn-primary")); ?>
 	</li>
 </ul>
 
@@ -754,8 +804,8 @@ class TwitterBootstrapBuilderComponent {
 			"\t\t\t".'<td colspan="'.(count($options['attributes'])+2).'" align="right">'.PHP_EOL.
 			"\t\t\t\t".'<div class="btn-group">'.PHP_EOL.
 			"\t\t\t\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/search", \'<i class="icon-fast-backward"></i> First\', "class" => "btn")) ?>'.PHP_EOL.
-			"\t\t\t\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/search?page=".$page->before, "Previous", "class" => "btn ")) ?>'.PHP_EOL.
-			"\t\t\t\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/search?page=".$page->next, "Next", "class" => "btn")) ?>'.PHP_EOL.
+			"\t\t\t\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/search?page=".$page->before, \'<i class="icon-step-backward"></i> Previous\', "class" => "btn ")) ?>'.PHP_EOL.
+			"\t\t\t\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/search?page=".$page->next, \'<i class="icon-step-forward"></i> Next\', "class" => "btn")) ?>'.PHP_EOL.
 			"\t\t\t\t\t".'<?php echo Phalcon_Tag::linkTo(array("'.$options['name'].'/search?page=".$page->last, \'<i class="icon-fast-forward"></i> Last\', "class" => "btn")) ?>'.PHP_EOL.
 			"\t\t\t\t\t".'<span class="help-inline"><?php echo $page->current, "/", $page->total_pages ?></span>'.PHP_EOL.
 			"\t\t\t\t".'</div>'.PHP_EOL.
