@@ -255,7 +255,7 @@ class TwitterBootstrapBuilderComponent {
 	 */
 	private function _makeController($path, $options){
 
-		$controllerPath = $options['controllersDir'].$options['className'].'Controller.php';
+		$controllerPath = $options['controllersDir'].ucfirst(strtolower($options['className'])).'Controller.php';
 
 		if(!file_exists($controllerPath)){
 
@@ -768,7 +768,7 @@ class TwitterBootstrapBuilderComponent {
 		if(isset($page->items)){
 			foreach($page->items as $'.$options['name'].'){ ?>'.PHP_EOL.
 				"\t\t".'<tr>'.PHP_EOL;
-				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
+				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['relationFields']);
 				foreach($options['dataTypes'] as $fieldName => $dataType){
 					$code.="\t\t\t".'<td><?php echo ';
 					if(!isset($options['allReferences'][$fieldName])){
@@ -782,8 +782,7 @@ class TwitterBootstrapBuilderComponent {
 							}
 						}
 					} else {
-						$detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
-						$code.='$'.$options['name'].'->get'.$options['allReferences'][$fieldName]['tableName'].'()->get'.$detailField.'()';
+						$code.='$'.$options['name'].'->get'.$options['allReferences'][$fieldName]['modelName'].'()->'.$options['allReferences'][$fieldName]['detail'];
 					}
 					$code.=' ?></td>'.PHP_EOL;
 				}

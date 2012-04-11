@@ -186,7 +186,7 @@ class ScaffoldBuilderComponent {
 	 */
 	private function _makeController($path, $options){
 
-		$controllerPath = $options['controllersDir'].$options['className'].'Controller.php';
+		$controllerPath = $options['controllersDir'].ucfirst(strtolower($options['className'])).'Controller.php';
 
 		$code = '<?php'.PHP_EOL.PHP_EOL.
 		'use Phalcon_Tag as Tag;'.PHP_EOL.
