@@ -1,8 +1,7 @@
 #!/bin/bash
 
 if [ -z "$PTOOLSPATH" ]; then
-        if [ "$0" == "-bash" ];
-        then
+        if [ "$0" == "-bash" -o "$0" == "bash" ]; then
         	echo "Phalcon Developer Tools Installer"
         	echo "Make sure phalcon.sh is in the same dir as phalcon.php and that you are running this with sudo or as root."
         	echo "Installing Devtools..."
