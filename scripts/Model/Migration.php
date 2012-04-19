@@ -130,7 +130,7 @@ class Phalcon_Model_Migration {
 						$fieldDefinition[] = "'size' => 1";
 						break;
 					default:
-						throw new ActiveRecordMigrationException('Tipo de dato no reconocido '.$matches[1].' en la columna '.$field['Field']);
+						throw new Phalcon_Model_Exception('Unrecognized data type '.$matches[1].' atcolumn '.$field['Field']);
 				}
 				if(isset($matches[3])){
 					$fieldDefinition[] = "'size' => ".$matches[3];
@@ -142,7 +142,7 @@ class Phalcon_Model_Migration {
 					$fieldDefinition[] = "'unsigned' => true";
 				}
 			} else {
-				throw new ActiveRecordMigrationException('Tipo de dato no reconocido '.$field['Type']);
+				throw new Phalcon_Model_Exception('Unrecognized data type '.$field['Type']);
 			}
 			if($field['Key']=='PRI'){
 				$fieldDefinition[] = "'primary' => true";
@@ -262,7 +262,7 @@ class Phalcon_Model_Migration {
 					}
 				}
 			} else {
-				throw new ActiveRecordMigrationException('No se encontró la clase de migración '.$className.' en '.$filePath);
+				throw new Phalcon_Model_Exception('Migration class cannot be found '.$className.' at '.$filePath);
 			}
 		}
 	}
@@ -279,12 +279,12 @@ class Phalcon_Model_Migration {
 		$tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
 		if(isset($definition['columns'])){
 			if(count($definition['columns'])==0){
-				throw new ActiveRecordMigrationException('La tabla debe tener al menos una columna');
+				throw new Phalcon_Model_Exception('Table must have at least one column');
 			}
 			$fields = array();
 			foreach($definition['columns'] as $tableColumn){
 				if(!is_object($tableColumn)){
-					throw new ActiveRecordMigrationException('La tabla debe tener al menos una columna');
+					throw new Phalcon_Model_Exception('Table must have at least one column');
 				}
 				$fields[$tableColumn->getName()] = $tableColumn;
 			}
