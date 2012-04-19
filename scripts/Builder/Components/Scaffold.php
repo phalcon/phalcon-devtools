@@ -180,7 +180,7 @@ class ScaffoldBuilderComponent {
 	}
 
 	/**
-	 * Make controller of model by scaffold
+	 * Generate controller using scaffold
 	 *
 	 * @param array $options
 	 */
