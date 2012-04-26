@@ -23,8 +23,9 @@ if($pToolsPath){
 	chdir($pToolsPath);
 }
 
-require_once 'Script/Script.php';
-require_once 'Script/Color/ScriptColor.php';
+require 'scripts/Script/Script.php';
+require 'scripts/Script/Color/ScriptColor.php';
+require 'scripts/Builder/Builder.php';
 
 use Phalcon_Builder as Builder;
 use Phalcon_Utils as Utils;
@@ -32,8 +33,8 @@ use Phalcon_Utils as Utils;
 /**
  * Create all the models related to application by command line.
  *
- * @category	Kumbia
- * @package		Scripts
+ * @category 	Phalcon
+ * @package 	Scripts
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license		New BSD License
  */
@@ -42,10 +43,14 @@ class CreateAllModels extends Phalcon_Script {
 	public function run(){
 
 		$posibleParameters = array(
+			'config-ini=s' 		=> "--config-ini path Configuration file [optional]",
+			'models-dir=s' 		=> "--models-dir path Models directory [optional]",
 			'force'				=> "--force \t\tForce script to rewrite all the models if the already exists. [optional]",
+			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
 			'define-relations' 	=> "--define-relations \tPossible relations defined according to convention. [optional]",
 			'foreign-keys' 		=> "--foreign-keys \t\tDefine any virtual foreign keys. [optional]",
 			'validations' 		=> "--validations \t\tDefine possible domain validation according to conventions. [optional]",
+			'directory=s' 		=> "--directory path Base path on which project will be created",
 			'help' 				=> "--help \t\t\tShow help"
 		);
 
@@ -56,98 +61,101 @@ class CreateAllModels extends Phalcon_Script {
 			return;
 		}
 
-		$config = Phalcon_Script::getConfigPaths();
-		$modelsDir = 'public/'.$config->phalcon->modelsDir;
+		$path = '';
+		if($this->isReceivedOption('directory')){
+			$path = $this->getOption('directory').'/';
+		}
+
+		if(!$this->isReceivedOption('models-dir')){
+			if($this->isReceivedOption('config-dir')){
+				$config = new Phalcon_Config_Adapter_Ini($path.$this->getOption('config-dir'));
+			}  else {
+				$config = new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
+			}
+			$modelsDir = 'public/'.$config->phalcon->modelsDir;
+		} else {
+			$modelsDir = $this->getOption('models-dir');
+		}
 
 		$forceProcess = $this->isReceivedOption('force');
 		$defineRelations = $this->isReceivedOption('define-relations');
 		$defineForeignKeys = $this->isReceivedOption('foreign-keys');
 
-		try{
-			Phalcon_Db_Pool::setDefaultDescriptor($config->database);
-			$db = Phalcon_Db_Pool::getConnection();
-		}
-		catch(Phalcon_Db_Exception $e){
-			throw new ScriptException('Phalcon_Db_Exception: '.$e->getMessage());
-		}
+		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
+		$connection = Phalcon_Db_Pool::getConnection();
+
 		$schema = $this->getOption('schema');
 		if(!$schema){
-			$schema = $db->getDatabaseName();
+			$schema = $connection->getDatabaseName();
 		}
 
 		$hasMany = array();
 		$belongsTo = array();
 		$foreignKeys = array();
 		if($defineRelations||$defineForeignKeys){
-			foreach($db->listTables($schema) as $name){
-				if($db->tableExists($name, $schema)){
-					if($defineRelations){
-						if(!isset($hasMany[$name])){
-							$hasMany[$name] = array();
+			foreach($connection->listTables($schema) as $name){
+				if($defineRelations){
+					if(!isset($hasMany[$name])){
+						$hasMany[$name] = array();
+					}
+					if(!isset($belongsTo[$name])){
+						$belongsTo[$name] = array();
+					}
+				}
+				if($defineForeignKeys){
+					$foreignKeys[$name] = array();
+				}
+				foreach($connection->describeTable($name, $schema) as $field){
+					if(preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)){
+						if($defineRelations){
+							$hasMany[$matches[1]][Utils::camelize($name)] = array(
+								'fields' => 'id',
+								'relationFields' => $field['Field']
+							);
+							$belongsTo[$name][Utils::camelize($matches[1])] = array(
+								'fields' => $field['Field'],
+								'relationFields' => 'id'
+							);
 						}
-						if(!isset($belongsTo[$name])){
-							$belongsTo[$name] = array();
+						if($defineForeignKeys){
+							$foreignKeys[$name][] = array(
+								'fields' => $field['Field'],
+								'entity' => Utils::camelize($matches[1]),
+								'referencedFields' => 'id'
+							);
+						}
+					}
+				}
+				foreach($connection->describeReferences($name, $schema) as $reference){
+					if($defineRelations){
+						if($reference['referencedSchema']==$schema){
+							if(count($reference['columns'])==1){
+								$belongsTo[$name][Utils::camelize($reference['referencedTable'])] = array(
+									'fields' => $reference['columns'][0],
+									'relationFields' => $reference['referencedColumns'][0]
+								);
+								$hasMany[$reference['referencedTable']][$name] = array(
+									'fields' => $reference['columns'][0],
+									'relationFields' => $reference['referencedColumns'][0]
+								);
+							}
 						}
 					}
 					if($defineForeignKeys){
-						$foreignKeys[$name] = array();
-					}
-					foreach($db->describeTable($name, $schema) as $field){
-						if(preg_match('/([a-z_]+)_id$/', $field['Field'], $matches)){
-							if($defineRelations){
-								$hasMany[$matches[1]][Utils::camelize($name)] = array(
-									'fields' => 'id',
-									'relationFields' => $field['Field']
-								);
-								$belongsTo[$name][Utils::camelize($matches[1])] = array(
-									'fields' => $field['Field'],
-									'relationFields' => 'id'
-								);
-							}
-							if($defineForeignKeys){
+						if($reference['referencedSchema']==$schema){
+							if(count($reference['columns'])==1){
 								$foreignKeys[$name][] = array(
-									'fields' => $field['Field'],
-									'entity' => Utils::camelize($matches[1]),
-									'referencedFields' => 'id'
+									'fields' => $reference['columns'][0],
+									'entity' => Utils::camelize($reference['referencedTable']),
+									'referencedFields' => $reference['referencedColumns'][0]
 								);
 							}
 						}
 					}
-					/*foreach($db->describeReferences($name, $schema) as $reference){
-						if($defineRelations){
-							if($reference['referencedSchema']==$schema){
-								if(count($reference['columns'])==1){
-									$belongsTo[$name][Utils::camelize($reference['referencedTable'])] = array(
-										'fields' => $reference['columns'][0],
-										'relationFields' => $reference['referencedColumns'][0]
-									);
-									$hasMany[$reference['referencedTable']][$name] = array(
-										'fields' => $reference['columns'][0],
-										'relationFields' => $reference['referencedColumns'][0]
-									);
-								} else {
-
-								}
-							}
-						}
-						if($defineForeignKeys){
-							if($reference['referencedSchema']==$schema){
-								if(count($reference['columns'])==1){
-									$foreignKeys[$name][] = array(
-										'fields' => $reference['columns'][0],
-										'entity' => Utils::camelize($reference['referencedTable']),
-										'referencedFields' => $reference['referencedColumns'][0]
-									);
-								}
-							}
-						}
-					}*/
-				} else {
-					throw new ScriptException("Table '$name' not exists");
 				}
 			}
 		} else {
-			foreach($db->listTables($schema) as $name){
+			foreach($connection->listTables($schema) as $name){
 				if($defineRelations){
 					$hasMany[$name] = array();
 					$belongsTo[$name] = array();
@@ -156,23 +164,26 @@ class CreateAllModels extends Phalcon_Script {
 			}
 		}
 
-		foreach($db->listTables($schema) as $name){
+		foreach($connection->listTables($schema) as $name){
 			$className = Utils::camelize($name);
 			if(!file_exists($modelsDir.'/'.$className.'.php')||$forceProcess){
 
-				$hasManyModel = array();
 				if(isset($hasMany[$className])){
 					$hasManyModel = $hasMany[$className];
+				} else {
+					$hasManyModel = array();
 				}
 
-				$belongsToModel = array();
 				if(isset($belongsTo[$className])){
 					$belongsToModel = $belongsTo[$className];
+				} else {
+					$belongsToModel = array();
 				}
 
-				$foreignKeysModel = array();
 				if(isset($foreignKeys[$className])){
 					$foreignKeysModel = $foreignKeys[$className];
+				} else {
+					$foreignKeysModel = array();
 				}
 
 				$modelBuilder = Builder::factory('Model', array(
@@ -181,11 +192,14 @@ class CreateAllModels extends Phalcon_Script {
 					'force' => $forceProcess,
 					'hasMany' => $hasManyModel,
 					'belongsTo' => $belongsToModel,
-					'foreignKeys' => $foreignKeysModel
+					'foreignKeys' => $foreignKeysModel,
+					'genSettersGetters' => $this->isReceivedOption('gen-setters-getters'),
+					'directory' => $this->getOption('directory'),
 				));
+
 				$modelBuilder->build();
 			} else {
-				echo "INFO: Skip model \"$name\" because already exists\n";
+				echo "INFO: Skip model \"$name\" because it already exist\n";
 			}
 		}
 
@@ -197,13 +211,13 @@ try {
 	$script = new CreateAllModels();
 	$script->run();
 }
-catch(CoreException $e){
+catch(Phalcon_Exception $e){
 	ScriptColor::lookSupportedShell();
-	echo ScriptColor::colorize(get_class($e).' : '.$e->getConsoleMessage()."\n", ScriptColor::LIGHT_RED);
+	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
 	if($script->getOption('debug')=='yes'){
 		echo $e->getTraceAsString()."\n";
 	}
 }
 catch(Exception $e){
-	echo "Exception : ".$e->getMessage()."\n";
+	echo 'Exception : '.$e->getMessage()."\n";
 }

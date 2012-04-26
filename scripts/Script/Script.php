@@ -124,7 +124,7 @@ class Phalcon_Script {
 		$numberArguments = count($_SERVER['argv']);
 		for($i=1;$i<$numberArguments;$i++){
 			$argv = $_SERVER['argv'][$i];
-			if(preg_match('/([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)/', $argv, $matches)){
+			if(preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)$#', $argv, $matches)){
 				if(strlen($matches[1])==1){
 					$param = substr($matches[2], 1);
 					$paramName = substr($matches[2], 0, 1);
