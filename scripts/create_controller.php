@@ -46,7 +46,7 @@ class CreateController extends Phalcon_Script {
 
 		$posibleParameters = array(
 			'name=s' 		=> "--name \t\t Controller Name",
-			'directory=s'   => "--directory path Directory on which project will be created",
+			'directory=s'   => "--directory path Directory where the project will be created",
 			'force'			=> "--force \t Force to rewrite controller [optional]",
 			'help' 			=> "--help \t\t Show help"
 		);

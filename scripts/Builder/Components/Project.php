@@ -196,7 +196,7 @@ class ProjectBuilderComponent {
 		@mkdir($path.'public/files');
 		@mkdir($path.'public/javascript');
 
-		file_put_contents($path.'.phalcon', '');
+		@mkdir($path.'.phalcon');
 
 		self::createINIFiles($path, $name);
 		self::createHtaccessFiles($path);

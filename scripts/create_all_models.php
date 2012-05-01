@@ -43,14 +43,14 @@ class CreateAllModels extends Phalcon_Script {
 	public function run(){
 
 		$posibleParameters = array(
-			'config-ini=s' 		=> "--config-ini path Configuration file [optional]",
-			'models-dir=s' 		=> "--models-dir path Models directory [optional]",
+			'config-ini=s' 		=> "--config-ini path \tConfiguration file [optional]",
+			'models-dir=s' 		=> "--models-dir path \tModels directory [optional]",
 			'force'				=> "--force \t\tForce script to rewrite all the models if the already exists. [optional]",
 			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
 			'define-relations' 	=> "--define-relations \tPossible relations defined according to convention. [optional]",
 			'foreign-keys' 		=> "--foreign-keys \t\tDefine any virtual foreign keys. [optional]",
 			'validations' 		=> "--validations \t\tDefine possible domain validation according to conventions. [optional]",
-			'directory=s' 		=> "--directory path Base path on which project will be created",
+			'directory=s' 		=> "--directory path \tBase path on which project will be created",
 			'help' 				=> "--help \t\t\tShow help"
 		);
 
@@ -72,7 +72,11 @@ class CreateAllModels extends Phalcon_Script {
 			}  else {
 				$config = new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
 			}
-			$modelsDir = 'public/'.$config->phalcon->modelsDir;
+			if(file_exists($path.'public')){
+				$modelsDir = 'public/'.$config->phalcon->modelsDir;
+			} else {
+				$modelsDir = $config->phalcon->modelsDir;
+			}
 		} else {
 			$modelsDir = $this->getOption('models-dir');
 		}

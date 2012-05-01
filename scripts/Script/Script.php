@@ -202,7 +202,7 @@ class Phalcon_Script {
 	 * @param array $posibleParameters
 	 */
 	public function showHelp($posibleParameters){
-		echo basename($_SERVER['PHP_SELF']).' - Usage:'.PHP_EOL.PHP_EOL;
+		echo get_class($this).' - Usage:'.PHP_EOL.PHP_EOL;
 		foreach($posibleParameters as $parameter => $description){
 			echo html_entity_decode($description, ENT_COMPAT, $this->_encoding).PHP_EOL;
 		}

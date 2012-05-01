@@ -12,7 +12,7 @@
  */
 class Phalcon_Model_Migration_Profiler extends Phalcon_Db_Profiler {
 
-	public function beforeStartProfile(DbProfilerItem $profile){
+	public function beforeStartProfile($profile){
 		echo $profile->getInitialTime(), ': ', str_replace(array("\n", "\t"), " ", $profile->getSQLStatement());
 	}
 

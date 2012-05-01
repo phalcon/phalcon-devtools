@@ -50,7 +50,9 @@ class Phalcon_Model_Migration {
 	 * @param stdClass $config
 	 */
 	public static function setup($config){
-		self::$_connection->setProfiling(new Phalcon_Model_Migration_Profiler());
+		Phalcon_Db_Pool::setDefaultDescriptor($config);
+		self::$_connection = Phalcon_Db_Pool::getConnection();
+		self::$_connection->setProfiler(new Phalcon_Model_Migration_Profiler());
 	}
 
 	/**
@@ -162,9 +164,9 @@ class Phalcon_Model_Migration {
 
 		$indexesDefinition = array();
 		$indexes = self::$_connection->describeIndexes($table, $defaultSchema);
-		foreach($indexes as $indexName => $indexColumns){
+		foreach($indexes as $indexName => $dbIndex){
 			$indexDefinition = array();
-			foreach($indexColumns as $indexColumn){
+			foreach($dbIndex->getColumns() as $indexColumn){
 				$indexDefinition[] = "'".$indexColumn."'";
 			}
 			$indexesDefinition[] = "\t\t\t\tnew Phalcon_Db_Index('".$indexName."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $indexDefinition)."\n\t\t\t\t))";
@@ -172,20 +174,21 @@ class Phalcon_Model_Migration {
 
 		$referencesDefinition = array();
 		$references = self::$_connection->describeReferences($table, $defaultSchema);
-		foreach($references as $constraintName => $reference){
+		foreach($references as $constraintName => $dbReference){
 
 			$columns = array();
-			foreach($reference['columns'] as $column){
+			foreach($dbReference->getColumns() as $column){
 				$columns[] = "'".$column."'";
 			}
+
 			$referencedColumns = array();
-			foreach($reference['referencedColumns'] as $referencedColumn){
+			foreach($dbReference->getReferencedColumns() as $referencedColumn){
 				$referencedColumns[] = "'".$referencedColumn."'";
 			}
 
 			$referenceDefinition = array();
-			$referenceDefinition[] = "'referencedSchema' => '".$reference['referencedSchema']."'";
-			$referenceDefinition[] = "'referencedTable' => '".$reference['referencedTable']."'";
+			$referenceDefinition[] = "'referencedSchema' => '".$dbReference->getReferencedSchema()."'";
+			$referenceDefinition[] = "'referencedTable' => '".$dbReference->getReferencedTable()."'";
 			$referenceDefinition[] = "'columns' => array(".join(",", $columns).")";
 			$referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns).")";
 
@@ -202,11 +205,17 @@ class Phalcon_Model_Migration {
 		$className = Phalcon_Utils::camelize($table).'Migration_'.$classVersion;
 		$classData = "class ".$className." extends Phalcon_Model_Migration {\n\n".
 		"\tpublic function up(){\n\t\t\$this->morphTable('".$table."', array(".
-		"\n\t\t\t'columns' => array(\n".join(",\n", $tableDefinition)."\n\t\t\t),".
-		"\n\t\t\t'indexes' => array(\n".join(",\n", $indexesDefinition)."\n\t\t\t),".
-		"\n\t\t\t'references' => array(\n".join(",\n", $referencesDefinition)."\n\t\t\t),".
-		"\n\t\t\t'options' => array(\n".join(",\n", $optionsDefinition)."\n\t\t\t)\n".
-		"\t\t));\n\t}";
+		"\n\t\t\t'columns' => array(\n".join(",\n", $tableDefinition)."\n\t\t\t),";
+		if(count($indexesDefinition)){
+			$classData.="\n\t\t\t'indexes' => array(\n".join(",\n", $indexesDefinition)."\n\t\t\t),";
+		}
+		if(count($referenceDefinition)){
+			$classData.="\n\t\t\t'references' => array(\n".join(",\n", $referencesDefinition)."\n\t\t\t),";
+		}
+		if(count($optionsDefinition)){
+			$classData.="\n\t\t\t'options' => array(\n".join(",\n", $optionsDefinition)."\n\t\t\t)\n";
+		}
+		$classData.="\t\t));\n\t}";
 		if($exportData=='always'||$exportData=='oncreate'){
 			if($exportData=='oncreate'){
 				$classData.="\n\n\tpublic function afterCreateTable(){\n";
@@ -244,6 +253,12 @@ class Phalcon_Model_Migration {
 		return $classData;
 	}
 
+	/**
+	 * Migrate single file
+	 *
+	 * @param string $version
+	 * @param string $filePath
+	 */
 	public static function migrateFile($version, $filePath){
 		if(file_exists($filePath)){
 			$fileName = basename($filePath);
@@ -265,7 +280,7 @@ class Phalcon_Model_Migration {
 	}
 
 	/**
-	 * Look for table structure modifications and apply to them
+	 * Look for table definition modifications and apply to real table
 	 *
 	 * @param string $tableName
 	 * @param array $tableColumns
@@ -300,10 +315,10 @@ class Phalcon_Model_Migration {
 						if($localFields[$fieldName]['Type']!=$columnDefinition){
 							$changed = true;
 						}
-						if($tableColumn->isNotNull()!=true&&$localFields[$fieldName]['Null']=='NO'){
+						if($tableColumn->isNotNull()!=true && $localFields[$fieldName]['Null']=='NO'){
 							$changed = true;
 						} else {
-							if($tableColumn->isNotNull()==true&&$localFields[$fieldName]['Null']=='YES'){
+							if($tableColumn->isNotNull()==true && $localFields[$fieldName]['Null']=='YES'){
 								$changed = true;
 							}
 						}
@@ -331,7 +346,15 @@ class Phalcon_Model_Migration {
 				foreach($definition['references'] as $tableReference){
 					$references[$tableReference->getName()] = $tableReference;
 				}
-				$localReferences = self::$_connection->describeReferences($tableName, $defaultSchema);
+				$localReferences = array();
+				$activeReferences = self::$_connection->describeReferences($tableName, $defaultSchema);
+				foreach($activeReferences as $activeReference){
+					$localReferences[$activeReference->getName()] = array(
+						'referencedTable' => $activeReference->getReferencedTable(),
+						'columns' => $activeReference->getColumns(),
+						'referencedColumns' => $activeReference->getReferencedColumns(),
+					);
+				}
 				foreach($definition['references'] as $tableReference){
 					if(!isset($localReferences[$tableReference->getName()])){
 						self::$_connection->addForeignKey($tableName, $tableReference->getSchemaName(), $tableReference);
@@ -386,7 +409,11 @@ class Phalcon_Model_Migration {
 				foreach($definition['indexes'] as $tableIndex){
 					$indexes[$tableIndex->getName()] = $tableIndex;
 				}
-				$localIndexes = self::$_connection->describeIndexes($tableName, $defaultSchema);
+				$localIndexes = array();
+				$actualIndexes = self::$_connection->describeIndexes($tableName, $defaultSchema);
+				foreach($actualIndexes as $actualIndex){
+					$localIndexes[$actualIndex->getName()] = $actualIndex->getColumns();
+				}
 				foreach($definition['indexes'] as $tableIndex){
 					if(!isset($localIndexes[$tableIndex->getName()])){
 						if($tableIndex->getName()=='PRIMARY'){

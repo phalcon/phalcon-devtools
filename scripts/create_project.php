@@ -43,10 +43,14 @@ class CreateProject extends Phalcon_Script {
 
 	public function __construct(){
 
+	}
+
+	public function run(){
+
 		$posibleParameters = array(
-			'directory=s' => "--directory path Base path on which project will be created",
-			'debug' 		=> "--debug \tShows the trace of the framework in case of an exception is generated. [optional]",
-			'help' => "--help \t\t Show help"
+			'directory=s' => "--directory path \tBase path on which project will be created",
+			'debug' 		=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
+			'help' => "--help \t\t\tShow help"
 		);
 
 		$this->parseParameters($posibleParameters);
@@ -55,11 +59,8 @@ class CreateProject extends Phalcon_Script {
 			return;
 		}
 
-	}
-
-	public function run(){
-
 		$parameters = $this->getParameters();
+
 		if(isset($parameters[1])){
 			$name = $parameters[1];
 		} else {
