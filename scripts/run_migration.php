@@ -133,14 +133,13 @@ class RunMigration extends Phalcon_Script {
 			} else {
 				$migrationPath = $migrationsDir.'/'.$version.'/'.$tableName.'.php';
 				if(file_exists($migrationPath)){
-					//ActiveRecordMigration::migrateFile((string) $version, $migrationPath);
+					Phalcon_Model_Migration::migrateFile((string) $version, $migrationPath);
 				} else {
 					throw new ScriptException('Migration class was not found '.$migrationPath);
 				}
 			}
+			echo 'Version ', $version, ' was successfully migrated';
 		}
-
-		//CoreConfig::writeAppConfig($config);
 
 	}
 

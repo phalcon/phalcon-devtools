@@ -102,30 +102,30 @@ class Phalcon_Model_Migration {
 					case 'int':
 					case 'smallint':
 					case 'double':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_INTEGER";
+						$fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
 						$numericFields[$field['Field']] = true;
 						break;
 					case 'varchar':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_VARCHAR";
+						$fieldDefinition[] = "'type' => Column::TYPE_VARCHAR";
 						break;
 					case 'char':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_CHAR";
+						$fieldDefinition[] = "'type' => Column::TYPE_CHAR";
 						break;
 					case 'date':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_DATE";
+						$fieldDefinition[] = "'type' => Column::TYPE_DATE";
 						break;
 					case 'datetime':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_DATETIME";
+						$fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
 						break;
 					case 'decimal':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_DECIMAL";
+						$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
 						$numericFields[$field['Field']] = true;
 						break;
 					case 'text':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_TEXT";
+						$fieldDefinition[] = "'type' => Column::TYPE_TEXT";
 						break;
 					case 'enum':
-						$fieldDefinition[] = "'type' => Phalcon_Db_Column::TYPE_CHAR";
+						$fieldDefinition[] = "'type' => Column::TYPE_CHAR";
 						$fieldDefinition[] = "'size' => 1";
 						break;
 					default:
@@ -158,7 +158,7 @@ class Phalcon_Model_Migration {
 				$fieldDefinition[] = "'first' => true";
 			}
 			$oldColumn = $field['Field'];
-			$tableDefinition[] = "\t\t\t\tnew Phalcon_Db_Column('".$field['Field']."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $fieldDefinition)."\n\t\t\t\t))";
+			$tableDefinition[] = "\t\t\t\tnew Column('".$field['Field']."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $fieldDefinition)."\n\t\t\t\t))";
 			$allFields[] = "'".$field['Field']."'";
 		}
 
@@ -169,7 +169,7 @@ class Phalcon_Model_Migration {
 			foreach($dbIndex->getColumns() as $indexColumn){
 				$indexDefinition[] = "'".$indexColumn."'";
 			}
-			$indexesDefinition[] = "\t\t\t\tnew Phalcon_Db_Index('".$indexName."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $indexDefinition)."\n\t\t\t\t))";
+			$indexesDefinition[] = "\t\t\t\tnew Index('".$indexName."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $indexDefinition)."\n\t\t\t\t))";
 		}
 
 		$referencesDefinition = array();
@@ -192,7 +192,7 @@ class Phalcon_Model_Migration {
 			$referenceDefinition[] = "'columns' => array(".join(",", $columns).")";
 			$referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns).")";
 
-			$referencesDefinition[] = "\t\t\t\tnew Phalcon_Db_Reference('".$constraintName."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $referenceDefinition)."\n\t\t\t\t))";
+			$referencesDefinition[] = "\t\t\t\tnew Reference('".$constraintName."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $referenceDefinition)."\n\t\t\t\t))";
 		}
 
 		$optionsDefinition = array();
@@ -203,7 +203,11 @@ class Phalcon_Model_Migration {
 
 		$classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
 		$className = Phalcon_Utils::camelize($table).'Migration_'.$classVersion;
-		$classData = "class ".$className." extends Phalcon_Model_Migration {\n\n".
+		$classData = "use Phalcon_Db_Column as Column;
+use Phalcon_Db_Index as Index;
+use Phalcon_Db_Reference as Reference;
+
+class ".$className." extends Phalcon_Model_Migration {\n\n".
 		"\tpublic function up(){\n\t\t\$this->morphTable('".$table."', array(".
 		"\n\t\t\t'columns' => array(\n".join(",\n", $tableDefinition)."\n\t\t\t),";
 		if(count($indexesDefinition)){
