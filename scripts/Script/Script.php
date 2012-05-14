@@ -18,7 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-require 'scripts/Script/ScriptException.php';
+#require 'scripts/Script/ScriptException.php';
+require 'ScriptException.php';
 
 use Phalcon_Builder as Builder;
 use Phalcon_Utils as Utils;

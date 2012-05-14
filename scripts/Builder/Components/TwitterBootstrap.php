@@ -99,6 +99,7 @@ class TwitterBootstrapBuilderComponent {
 		if(!file_exists($imgPath)){
 			mkdir($imgPath, 0777, true);
 			copy('resources/bootstrap/img/glyphicons-halflings.png', $imgPath.'/glyphicons-halflings.png');
+			copy('resources/bootstrap/img/glyphicons-halflings-white.png', $imgPath.'/glyphicons-halflings-white.png')
 		}
 
 		$name = $options['name'];

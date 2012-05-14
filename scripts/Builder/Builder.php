@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-require 'BuilderException.php';
+require_once 'BuilderException.php';
 
 use Phalcon_BuilderException as BuilderException;
 use Phalcon_Builder as Builder;
@@ -46,9 +46,13 @@ class Phalcon_Builder {
 	public static function factory($component, $options=array()){
 		$className = $component.'BuilderComponent';
 		if(!class_exists($className, false)){
-			$path = 'scripts/Builder/Components/'.$component.'.php';
+			$basePath = '';
+			if(isset($options['PTOOLSPATH']) && $options['PTOOLSPATH']){
+				$basePath = $options['PTOOLSPATH'];
+			}
+			$path = $basePath.'scripts/Builder/Components/'.$component.'.php';
 			if(file_exists($path)){
-				require $path;
+				require_once $path;
 			} else {
 				throw new Phalcon_BuilderException('The builder component "'.$component.'" does not exist');
 			}
