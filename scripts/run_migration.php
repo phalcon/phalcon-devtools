@@ -72,6 +72,10 @@ class RunMigration extends Phalcon_Script {
 			$path = $this->getOption('directory').'/';
 		}
 
+		if(!file_exists($path.'.phalcon')){
+			throw new ScriptException("This command should be invoked inside a phalcon project directory");
+		}
+
 		if($this->isReceivedOption('config-dir')){
 			$config = new Phalcon_Config_Adapter_Ini($path.$this->getOption('config-dir'));
 		}  else {
@@ -111,8 +115,9 @@ class RunMigration extends Phalcon_Script {
 			mkdir($path.'.phalcon');
 		}
 
-		if(file_exists($path.'.phalcon/migration-version')){
-			$fromVersion = file_get_contents($path.'.phalcon/migration-version');
+		$migrationFid = $path.'.phalcon/migration-version';
+		if(file_exists($migrationFid)){
+			$fromVersion = file_get_contents($migrationFid);
 		} else {
 			$fromVersion = (string) $version;
 		}
@@ -133,14 +138,15 @@ class RunMigration extends Phalcon_Script {
 			} else {
 				$migrationPath = $migrationsDir.'/'.$version.'/'.$tableName.'.php';
 				if(file_exists($migrationPath)){
-					//ActiveRecordMigration::migrateFile((string) $version, $migrationPath);
+					Phalcon_Model_Migration::migrateFile((string) $version, $migrationPath);
 				} else {
 					throw new ScriptException('Migration class was not found '.$migrationPath);
 				}
 			}
+			echo 'Version ', $version, ' was successfully migrated', PHP_EOL;
 		}
 
-		//CoreConfig::writeAppConfig($config);
+		file_put_contents($migrationFid, (string) $version);
 
 	}
 

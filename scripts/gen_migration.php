@@ -74,6 +74,10 @@ class GenerateMigration extends Phalcon_Script {
 			$path = $this->getOption('directory').'/';
 		}
 
+		if(!file_exists($path.'.phalcon')){
+			throw new ScriptException("This command should be invoked inside a phalcon project directory");
+		}
+
 		if($this->isReceivedOption('config-dir')){
 			$config = new Phalcon_Config_Adapter_Ini($path.$this->getOption('config-dir'));
 		}  else {
@@ -138,6 +142,8 @@ class GenerateMigration extends Phalcon_Script {
 			$migration = Phalcon_Model_Migration::generate($version, $tableName, $exportData);
 			file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
 		}
+
+		echo 'Version ', $version, ' was successfully generated', PHP_EOL;
 
 	}
 

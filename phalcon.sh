@@ -20,7 +20,7 @@
 #
 
 alter_profile(){
-	local $DIR = "$1"
+	local DIR = "$1"
 	export PTOOLSPATH="$DIR/"
 	export PATH="$PATH:$DIR"
 	PTOOLSVAR="export PTOOLSPATH=$DIR/"
