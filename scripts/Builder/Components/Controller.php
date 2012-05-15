@@ -54,23 +54,21 @@ class ControllerBuilderComponent {
 	public function build(){
 
 		$path = '';
-		if(isset($this->_options['PROJECTPATH'])){
-			if($this->_options['PROJECTPATH']){
-				$path = $this->_options['PROJECTPATH'].'/../';
+		if(isset($this->_options['directory'])){
+			if($this->_options['directory']){
+				$path = $this->_options['directory'].'/';
 			}
 		}
-		//die($path.'.phalcon');
+
 		if(!file_exists($path.'.phalcon')){
-			throw new BuilderException("This command should be invoked inside a phalcon project");
+			throw new BuilderException("This command should be invoked inside a phalcon project directory");
 		}
+
 		$name = $this->_options['name'];
-		if(!$name){
-			throw new BuilderException("The Controller name is empty");
-		}
 		$controllersDir = 'app/controllers/';
 		$controllerPath = $path.$controllersDir.Utils::camelize($name)."Controller.php";
 		$code = "<?php\n\nclass ".Utils::camelize($name)."Controller extends Phalcon_Controller {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
-		if(!file_exists($controllerPath) || $this->_options['force']==true){
+		if(!file_exists($controllerPath)){
 			file_put_contents($controllerPath, $code);
 		} else {
 	 		throw new BuilderException("The Controller '$name' already exists");

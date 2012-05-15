@@ -100,14 +100,14 @@ class ModelBuilderComponent {
 		}
 
 		$path = '';
-		if(isset($this->_options['PROJECTPATH'])){
-			if($this->_options['PROJECTPATH']){
-				$path = $this->_options['PROJECTPATH'].'/../';
+		if(isset($this->_options['directory'])){
+			if($this->_options['directory']){
+				$path = $this->_options['directory'].'/';
 			}
 		}
 
 		if(!file_exists($path.'.phalcon')){
-			throw new BuilderException("This command should be invoked inside a phalcon project");
+			throw new BuilderException("This command should be invoked inside a phalcon project directory");
 		}
 
 		$useSettersGetters = $this->_options['genSettersGetters'];

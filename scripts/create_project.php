@@ -67,12 +67,9 @@ class CreateProject extends Phalcon_Script {
 			$name = "";
 		}
 
-		print_r($parameters);
-
 		$modelBuilder = Builder::factory('Project', array(
 			'name' => $name,
-			//'directory' => $this->getOption('directory')
-			'PROJECTPATH' => $this->getOption('directory')
+			'directory' => $this->getOption('directory')
 		));
 		$modelBuilder->build();
 	}
