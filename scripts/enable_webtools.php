@@ -46,6 +46,7 @@ class EnableWebTools extends Phalcon_Script {
 
 		$posibleParameters = array(
 			'debug'	=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
+			'directory=s' => "--directory path \tBase path on which project will be created",
 			'help' 	=> "--help \t\t\tShow help"
 		);
 
@@ -55,30 +56,26 @@ class EnableWebTools extends Phalcon_Script {
 			return;
 		}
 
-		$publicDir = 'public/';
-		$PTOOLSPATH = getenv('PTOOLSPATH');
-		$PROJECTPATH = $this->_options['PROJECTPATH'] = $_SERVER['argv'][2];
-
 		$path = '';
-		if(isset($this->_options['PROJECTPATH'])){
-			if($this->_options['PROJECTPATH']){
-				$path = $this->_options['PROJECTPATH'].'/';
-			}
+		if($this->isReceivedOption('directory')){
+			$path = $this->getOption('directory').'/';
 		}
-		
-		if(extension_loaded('phalcon')==false){
+
+		if(!extension_loaded('phalcon')){
 			throw new ScriptException("Phalcon PHP Framework is not loaded yet!");
 		}
 
 		if(!file_exists($path.'.phalcon')){
 			throw new ScriptException("This command should be invoked inside a phalcon project");
 		}
-		
-		$webToolsConfigPath = $path.$publicDir."config.php";
-		$code = "<?php\n\n\$settings = array('webtools' => array('PTOOLSPATH' => '$PTOOLSPATH', 'PROJECTPATH' => '$PROJECTPATH'));\n\$config = new Phalcon_Config(\$settings);\n\n";
+
+		$pToolsPath = getenv("PTOOLSPATH");
+		copy($pToolsPath.'webtools.php', $path.'public/webtools.php');
+
+		$webToolsConfigPath = $path."public/webtools.config.php";
+		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".$pToolsPath."\");\n\n";
 		if(!file_exists($webToolsConfigPath)){
 			file_put_contents($webToolsConfigPath, $code);
-			copy($PTOOLSPATH.'webtools.php', $path.$publicDir.'webtools.php');
 		} else {
 	 		throw new ScriptException("The config.php already exists");
 		}
