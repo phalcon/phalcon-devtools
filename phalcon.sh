@@ -20,7 +20,7 @@
 #
 
 alter_profile(){
-	local DIR = "$1"
+	DIR="$1"
 	export PTOOLSPATH="$DIR/"
 	export PATH="$PATH:$DIR"
 	PTOOLSVAR="export PTOOLSPATH=$DIR/"
@@ -39,27 +39,32 @@ alter_profile(){
 	fi
 }
 
-if [ -z "$PTOOLSPATH" ]; then 
-        if [ "$0" == "-bash" -o "$0" == "bash" ]; then ## bash check (linux/osx)
-                echo "Phalcon Developer Tools Installer"
-                echo "Make sure phalcon.sh is in the same dir as phalcon.php and that you are running this with sudo or as root."
-                echo "Installing Devtools..."
-                DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-		alter_profile $DIR
-		echo "Working dir is: $DIR"
-        else
-		echo 'Phalcon Developer Tools need to be installed...'
-		echo 'Run this installer with ". ./phalcon.sh". Exiting...'
-                exit 1
+check_install(){
+	if [ -z "$PTOOLSPATH" ]; then 
+        	if [ "$0" == "-bash" -o "$0" == "bash" ]; then ## bash check (linux/osx)
+                	echo "Phalcon Developer Tools Installer"
+                	echo "Make sure phalcon.sh is in the same dir as phalcon.php and that you are running this with sudo or as root."
+                	echo "Installing Devtools..."
+                	DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+			alter_profile $DIR
+			echo "Working dir is: $DIR"
+        	else
+			echo 'Phalcon Developer Tools need to be installed...'
+			echo 'Run this installer with ". ./phalcon.sh". Exiting...'
+                	return 1
+		fi
+		app="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+		if [ ! -L $app/phalcon ]; then
+			echo "Generating symlink..."
+        		ln -s $app/phalcon.sh $app/phalcon
+        		chmod +x $app/phalcon
+        		echo "Done. Devtools installed!"
+		fi
+		return 1
 	fi
-	app="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-	if [ ! -L $app/phalcon ]; then
-		echo "Generating symlink..."
-        	ln -s $app/phalcon.sh $app/phalcon
-        	chmod +x $app/phalcon
-        	echo "Done. Devtools installed!"
-	fi
-	exit 1
-fi
+	return 0
+}
 
-php "$PTOOLSPATH/phalcon.php" $*
+if check_install; then
+	php "$PTOOLSPATH/phalcon.php" $*
+fi
