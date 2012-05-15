@@ -302,6 +302,38 @@ class Phalcon_WebTools {
 		}
 	}
 
+	/**
+	 * Applies main template to
+	 */
+	public static function applyTemplate($uri, $body){
+		return '<!DOCTYPE html>
+		<html>
+			<head>
+				<title>Phalcon PHP Framework - Web DevTools.</title>
+				<link rel="stylesheet" type="text/css" href="'.$uri.'/css/bootstrap/bootstrap.min.css">
+			</head>
+			<body>
+				<div class="container-fluid">
+				    <div class="row-fluid">
+					    <div class="span2">
+					    	<!--Sidebar content-->
+					    	<div style="padding: 8px 0;" class="well">
+							    <ul class="nav nav-list">
+							      '.Phalcon_WebTools::getMenu($uri).'
+							    </ul>
+							</div>
+					    </div>
+					    <div class="span9 well">
+					    	<!--Body content-->
+					    	'.$body.'
+					    </div>
+				    </div>
+			    </div>
+			    <script type="text/javascript" href="'.$uri.'/javascript/bootstrap/bootstrap.min.js"></script>
+			</body>
+		</html>';
+	}
+
 	public static function getMenu($uri){
 		$options = array(
 			'' => array(
@@ -325,46 +357,75 @@ class Phalcon_WebTools {
 				'icons' => 'icon-info-sign'
 			),
 		);
+		$code = '';
 		foreach($options as $action => $option){
 			if($_GET['action']==$action){
-				echo '<li class="active"><a href="', $uri, '/webtools.php?action=', $action, '"><i class="', $option['icons'], '"></i>', $option['caption'], '</a></li>', PHP_EOL;
+				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$action.'"><i class="'.$option['icons'].'"></i>'.$option['caption'].'</a></li>'.PHP_EOL;
 			} else {
-				echo '<li><a href="', $uri, '/webtools.php?action=', $action, '"><i class="', $option['icons'], '"></i>', $option['caption'], '</a></li>', PHP_EOL;
+				$code.= '<li><a href="'.$uri.'/webtools.php?action='.$action.'"><i class="'.$option['icons'].'"></i>'.$option['caption'].'</a></li>'.PHP_EOL;
 			}
 		}
+		return $code;
 	}
 
-	public static function dispatch($uri, $path){
-		$webTools = new self($uri, $path);
+	public function dispatch(){
 		switch ($_GET['action']) {
 
 			case 'C':
-				echo $webTools->getControllers();
+				return $this->getControllers();
 				break;
 
 			case 'saveC':
-				echo $webTools->createController();
+				return $this->createController();
 				break;
 
 			case 'M':
-				echo $webTools->getModels();
+				return $this->getModels();
 				break;
 			case 'saveM':
-				echo $webTools->createModel();
+				return $this->createModel();
 				break;
 
 			case 'S':
-				echo $webTools->getScaffold();
+				return $this->getScaffold();
 				break;
 
 			case 'E':
-				echo $webTools->getConfig();
+				return $this->getConfig();
 				break;
 
 			default:
-				echo '<div class="alert alert-error">Unknown action</div>';
+				return '<div class="alert alert-error">Unknown action</div>';
 				break;
 		}
+	}
+
+	public static function main($path){
+
+		if(isset($_SERVER['PHP_SELF'])){
+			$uri = '/'.join(array_slice(explode('/' , dirname($_SERVER['PHP_SELF'])), 1, -1), '/');
+		} else {
+			$uri = '/';
+		}
+
+		try {
+			$webTools = new self($uri, $path);
+			if(isset($_GET['action']) && $_GET['action']){
+				$body = $webTools->dispatch();
+			} else {
+				$body = '<p><h1>Welcome to Web Developer Tools</h1></p>';
+    			$body.= '<p>This application allows you to use Phalcon Developer Tools using a web interface.</p>';
+			}
+		}
+		catch(Phalcon_Exception $e){
+			$body = '<div class="alert alert-error">'.$e->getMessage().'</div>';
+		}
+
+		if($_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
+			$body = self::applyTemplate($uri, $body);
+		}
+
+		echo $body;
 	}
 
 }

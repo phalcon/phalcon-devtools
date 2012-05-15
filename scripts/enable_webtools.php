@@ -1,21 +1,21 @@
 <?php
 
 /*
-+------------------------------------------------------------------------+
-| Phalcon Framework                                                      |
-+------------------------------------------------------------------------+
-| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
-+------------------------------------------------------------------------+
-| This source file is subject to the New BSD License that is bundled     |
-| with this package in the file docs/LICENSE.txt.                        |
-|                                                                        |
-| If you did not receive a copy of the license and are unable to         |
-| obtain it through the world-wide-web, please send an email             |
-| to license@phalconphp.com so we can send you a copy immediately.       |
-+------------------------------------------------------------------------+
-| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-|          Eduar Carvajal <eduar@phalconphp.com>                         |
-+------------------------------------------------------------------------+
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
 */
 
 $pToolsPath = getenv("PTOOLSPATH");
@@ -25,16 +25,17 @@ if($pToolsPath){
 
 require_once 'Script/Script.php';
 require_once 'Script/Color/ScriptColor.php';
+require_once 'TBootstrap/TBootstrap.php';
 
 /**
  * EnableWebTools
  *
- * Creates config to WebTools in project
+ * Copies the web-tools to a Phalcon project and store its configuration
  *
  * @category 	Phalcon
- * @package	Scripts
+ * @package		Scripts
  * @copyright	Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
- * @license	New BSD License
+ * @license		New BSD License
 */
 class EnableWebTools extends Phalcon_Script {
 
@@ -69,8 +70,10 @@ class EnableWebTools extends Phalcon_Script {
 			throw new ScriptException("This command should be invoked inside a phalcon project");
 		}
 
+		TBootstrap::install($path);
+
 		$pToolsPath = getenv("PTOOLSPATH");
-		copy($pToolsPath.'webtools.php', $path.'public/webtools.php');
+		copy('webtools.php', $path.'public/webtools.php');
 
 		$webToolsConfigPath = $path."public/webtools.config.php";
 		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".$pToolsPath."\");\n\n";

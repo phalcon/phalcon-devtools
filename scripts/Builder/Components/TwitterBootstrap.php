@@ -83,23 +83,7 @@ class TwitterBootstrapBuilderComponent {
 			throw new BuilderException("Phalcon: PTOOLSPATH environment variable isn't set\n");
 		}
 
-		$jsPath = $path.'public/javascript/bootstrap';
-		if(!file_exists($jsPath)){
-			mkdir($jsPath, 0777, true);
-			copy('resources/bootstrap/js/bootstrap.min.js', $jsPath.'/bootstrap.min.js');
-		}
-
-		$cssPath = $path.'public/css/bootstrap';
-		if(!file_exists($cssPath)){
-			mkdir($cssPath, 0777, true);
-			copy('resources/bootstrap/css/bootstrap.min.css', $cssPath.'/bootstrap.min.css');
-		}
-
-		$imgPath = $path.'public/img/bootstrap';
-		if(!file_exists($imgPath)){
-			mkdir($imgPath, 0777, true);
-			copy('resources/bootstrap/img/glyphicons-halflings.png', $imgPath.'/glyphicons-halflings.png');
-		}
+		TBootstrap::install();
 
 		$name = $options['name'];
 		$config = $this->_getConfig($path);
@@ -474,7 +458,8 @@ class TwitterBootstrapBuilderComponent {
 
 		//Make Layouts dir
 		$dirPathLayouts	= $path.'app/views/layouts';
-		//If not exists dir; we make it
+
+		//If directory did not exist; we make it
 		if(is_dir($dirPathLayouts)==false){
 			mkdir($dirPathLayouts);
 		}
@@ -519,7 +504,7 @@ class TwitterBootstrapBuilderComponent {
 
 		foreach($options['dataTypes'] as $attribute => $dataType){
 
-			if(($action=='new'||$action=='edit' ) && $attribute=='id'){
+			if(($action=='new' || $action=='edit' ) && $attribute=='id'){
 			} else {
 				$code .= "\t".'<div class="clearfix">'.PHP_EOL;
 				$code .= "\t\t".'<label for="'.$attribute.'">'.$this->_getPosibleLabel($attribute).'</label>'.PHP_EOL;

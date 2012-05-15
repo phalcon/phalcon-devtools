@@ -92,58 +92,17 @@ class GenerateMigration extends Phalcon_Script {
 		} else {
 			$migrationsDir = $path.'app/migrations';
 		}
-		if(!file_exists($migrationsDir)) {
-			mkdir($migrationsDir);
-		}
 
 		$exportData = $this->getOption('export-data');
-
 		$originalVersion = $this->getOption('version');
-		if($originalVersion){
-			if(!preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $originalVersion, $matches)){
-				throw new ScriptException('Version '.$originalVersion.' is invalid');
-			}
-			$originalVersion = $matches[0];
-			$version = new Phalcon_Version($version, 3);
-			if(file_exists($migrationsDir.'/'.$version)){
-				if(!$this->isReceivedOption('force')){
-					throw new ScriptException('Version '.$version.' is already generated');
-				}
-			}
-		} else {
-			$versions = array();
-			$iterator = new DirectoryIterator($migrationsDir);
-		    foreach($iterator as $fileinfo){
-		        if($fileinfo->isDir()){
-		        	if(preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileinfo->getFilename(), $matches)){
-		            	$versions[] = new Phalcon_Version($matches[0], 3);
-		        	}
-		        }
-		    }
-		    if(count($versions)==0){
-		    	$version = new Phalcon_Version('1.0.0');
-		    } else {
-				$version = Phalcon_Version::maximum($versions);
-				$version = $version->addMinor(1);
-		    }
-		}
-		if(!file_exists($migrationsDir.'/'.$version)){
-			mkdir($migrationsDir.'/'.$version);
-		}
 
-		Phalcon_Model_Migration::setup($config->database);
-		Phalcon_Model_Migration::setMigrationPath($migrationsDir.'/'.$version);
-		if($tableName=='all'){
-			$migrations = Phalcon_Model_Migration::generateAll($version, $exportData);
-			foreach($migrations as $tableName => $migration){
-				file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
-			}
-		} else {
-			$migration = Phalcon_Model_Migration::generate($version, $tableName, $exportData);
-			file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
-		}
-
-		echo 'Version ', $version, ' was successfully generated', PHP_EOL;
+		Phalcon_Migrations::generate(array(
+			'config' => $config,
+			'directory' => $path,
+			'tableName' => $tableName,
+			'exportData' => $exportData,
+			'originalVersion' => $originalVersion,
+		));
 
 	}
 
