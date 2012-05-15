@@ -107,7 +107,7 @@ class ModelBuilderComponent {
 		}
 
 		if(!file_exists($path.'.phalcon')){
-			throw new BuilderException("This command should be invoked inside a phalcon project PROJECTPATH");
+			throw new BuilderException("This command should be invoked inside a phalcon project");
 		}
 
 		$useSettersGetters = $this->_options['genSettersGetters'];

@@ -105,7 +105,7 @@ class ProjectBuilderComponent {
 	private static function createControllerFile($path){
 		$modelBuilder = Builder::factory('Controller', array(
 			'name' => 'index',
-			'directory' => $path
+			'PROJECTPATH' => $path
 		));
 		$modelBuilder->build();
 	}
@@ -165,9 +165,9 @@ class ProjectBuilderComponent {
 	public function build(){
 
 		$path = '';
-		if(isset($this->_options['directory'])){
-			if($this->_options['directory']){
-				$path = $this->_options['directory'].'/';
+		if(isset($this->_options['PROJECTPATH'])){
+			if($this->_options['PROJECTPATH']){
+				$path = $this->_options['PROJECTPATH'].'/';
 			}
 		}
 

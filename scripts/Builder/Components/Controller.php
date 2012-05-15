@@ -61,7 +61,7 @@ class ControllerBuilderComponent {
 		}
 		//die($path.'.phalcon');
 		if(!file_exists($path.'.phalcon')){
-			throw new BuilderException("This command should be invoked inside a phalcon project PROJECTPATH");
+			throw new BuilderException("This command should be invoked inside a phalcon project");
 		}
 		$name = $this->_options['name'];
 		if(!$name){

@@ -123,6 +123,7 @@ class Phalcon_Script {
 		$allParamNames = array();
 		$receivedParams = array();
 		$numberArguments = count($_SERVER['argv']);
+		print_r($_SERVER['argv']);
 		for($i=1;$i<$numberArguments;$i++){
 			$argv = $_SERVER['argv'][$i];
 			if(preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)$#', $argv, $matches)){

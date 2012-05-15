@@ -86,11 +86,8 @@ class WebDeveloperTools {
 	* Load the default config in the project
 	*/
 	public function __construct(){
-		$webDevToolsConfig =  new Phalcon_Config_Adapter_Ini("config.ini");
-		if(!$webDevToolsConfig->webdevtools){
-			die('WebDeveloperTools is not installed in local machine!');
-		}
-		
+		require_once 'config.php';
+
 		$this->_settings = new Phalcon_Config_Adapter_Ini("../app/config/config.ini");
 		$this->_settings->webdevtools = $webDevToolsConfig->webdevtools;
 		$projectPath = getcwd();
