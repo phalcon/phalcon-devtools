@@ -44,7 +44,7 @@ class Phalcon_WebTools {
 		$this->_path = $path;
 		$this->_uri = $uri;
 
-		$configPath = $path."app/config/config.ini";
+		$configPath = $path."/../app/config/config.ini";
 		if(file_exists($configPath)){
 			$this->_settings = new Phalcon_Config_Adapter_Ini($configPath);
 		} else {
@@ -68,8 +68,7 @@ class Phalcon_WebTools {
 	public function getControllers(){
 
 		$html = '<div class="span9">
-			<h1>Web Developer Tools Controllers Administration</h1>
-			<br/>
+			<h1>Create Controller</h1>
 			<form method="POST" class="forma-horizontal" action="?action=saveC">
 				<fieldset>
 				<div class="control-group">
@@ -141,7 +140,7 @@ class Phalcon_WebTools {
 		}
 
 		$html = '<div class="span9">
-			<h1>Web Developer Tools Models Administration</h1>
+			<h1>Generate Controller</h1>
 			<br/>
 			<form method="POST" class="forma-horizontal" action="?action=saveM">
 				<table class="table table-striped table-bordered table-condensed">
@@ -226,7 +225,7 @@ class Phalcon_WebTools {
 		}
 
 		$html = '<div class="span9">
-			<h1>Web Developer Tools Scaffold Administration</h1>
+			<h1>Generate Scaffold</h1>
 			<br/>
 			<form class="forma-horizontal" action="?action=saveS">
 				<table class="table table-striped table-bordered table-condensed">
@@ -260,8 +259,7 @@ class Phalcon_WebTools {
 	public function getConfig()	{
 
 		$html = '<div class="span7">
-			<h1>Web Developer Tools Configuration</h1>
-			<br/>
+			<h1>Active Configuration</h1>
 			<table class="table table-striped table-bordered table-condensed">
 				<tr>
 					<td><b>Adapter</b></td>
@@ -325,9 +323,9 @@ class Phalcon_WebTools {
 		);
 		foreach($options as $action => $option){
 			if($_GET['action']==$action){
-				echo '<li class="active"><a href="/webtools.php?action=', $action, '"><i class="', $option['icons'], '"></i>', $option['caption'], '</a></li>';
+				echo '<li class="active"><a href="', $uri, '/webtools.php?action=', $action, '"><i class="', $option['icons'], '"></i>', $option['caption'], '</a></li>', PHP_EOL;
 			} else {
-				echo '<li><a href="', $uri, '/webtools.php?action=', $action, '"><i class="', $option['icons'], '"></i>', $option['caption'], '</a></li>';
+				echo '<li><a href="', $uri, '/webtools.php?action=', $action, '"><i class="', $option['icons'], '"></i>', $option['caption'], '</a></li>', PHP_EOL;
 			}
 		}
 	}

@@ -57,17 +57,19 @@ require 'scripts/WebTools/WebTools.php';
 			    </div>
 			    <div class="span9 well">
 			    	<!--Body content-->
-			    	<?php if(!isset($_GET['action'])){ ?>
-			    		<h1>Welcome to Web Developer Tools</h1>
-			    		<p>Application to use Phalcon Developer Tools by web server.</p>
-			    	<?php } else {
-						try {
-							Phalcon_WebTools::dispatch($uri, $path);
+			    	<?php
+						if(isset($_GET['action']) && $_GET['action']){
+			    			try {
+								Phalcon_WebTools::dispatch($uri, $path);
+							}
+							catch(Phalcon_Exception $e){
+								echo '<div class="alert alert-error">', $e->getMessage(), '</div>';
+							}
+						} else {
+							echo '<h1>Welcome to Web Developer Tools</h1>';
+			    			echo '<p>Application to use Phalcon Developer Tools by web server.</p>';
 						}
-						catch(Phalcon_Exception $e){
-
-						}
-			    	} ?>
+			    	?>
 			    </div>
 		    </div>
 	    </div>
