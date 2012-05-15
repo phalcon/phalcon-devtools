@@ -68,9 +68,8 @@
 
 <?php
 
-$webdevtools = new WebDeveloperTools();
-$PTOOLSPATH = getenv('PTOOLSPATH');
-
+require_once 'config.php';
+$PTOOLSPATH = $settings['webtools']['PTOOLSPATH'];
 require_once $PTOOLSPATH.'scripts/Script/Script.php';
 require_once $PTOOLSPATH.'scripts/Script/Color/ScriptColor.php';
 require_once $PTOOLSPATH.'scripts/Builder/Builder.php';
@@ -86,16 +85,15 @@ class WebDeveloperTools {
 	* Load the default config in the project
 	*/
 	public function __construct(){
-		require_once 'config.php';
-
+		
 		$this->_settings = new Phalcon_Config_Adapter_Ini("../app/config/config.ini");
 		$this->_settings->webdevtools = $webDevToolsConfig->webdevtools;
-		$projectPath = getcwd();
-		$this->_settings->webdevtools->PROJECTPATH = $projectPath;
-		$devToolsPath = $webDevToolsConfig->PTOOLSPATH;
+		$projectPath = $this->_settings->webdevtools->PROJECTPATH = $settings['webtools']['PROJECTPATH'];
+		$devToolsPath = $webDevToolsConfig->PTOOLSPATH = $settings['webtools']['PTOOLSPATH'];
 
 		putenv('PROJECTPATH='.$projectPath);
 		putenv('PTOOLSPATH='.$devToolsPath);
+
 	}
 
 	/**
