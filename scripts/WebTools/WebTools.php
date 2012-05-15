@@ -68,7 +68,9 @@ class Phalcon_WebTools {
 	public function getControllers(){
 
 		$html = '<div class="span9">
-			<h1>Create Controller</h1>
+
+			<p><h1>Create Controller</h1></p>
+
 			<form method="POST" class="forma-horizontal" action="?action=saveC">
 				<fieldset>
 				<div class="control-group">
@@ -140,8 +142,9 @@ class Phalcon_WebTools {
 		}
 
 		$html = '<div class="span9">
-			<h1>Generate Controller</h1>
-			<br/>
+
+			<p><h1>Generate Models</h1></p>
+
 			<form method="POST" class="forma-horizontal" action="?action=saveM">
 				<table class="table table-striped table-bordered table-condensed">
 					<tr>
@@ -225,8 +228,9 @@ class Phalcon_WebTools {
 		}
 
 		$html = '<div class="span9">
-			<h1>Generate Scaffold</h1>
-			<br/>
+
+			<p><h1>Generate Scaffold</h1></p>
+
 			<form class="forma-horizontal" action="?action=saveS">
 				<table class="table table-striped table-bordered table-condensed">
 					<tr>
@@ -259,7 +263,7 @@ class Phalcon_WebTools {
 	public function getConfig()	{
 
 		$html = '<div class="span7">
-			<h1>Active Configuration</h1>
+			<p><h1>Active Configuration</h1></p>
 			<table class="table table-striped table-bordered table-condensed">
 				<tr>
 					<td><b>Adapter</b></td>
