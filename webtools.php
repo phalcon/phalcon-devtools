@@ -66,8 +66,8 @@ require 'scripts/WebTools/WebTools.php';
 								echo '<div class="alert alert-error">', $e->getMessage(), '</div>';
 							}
 						} else {
-							echo '<h1>Welcome to Web Developer Tools</h1>';
-			    			echo '<p>Application to use Phalcon Developer Tools by web server.</p>';
+							echo '<p><h1>Welcome to Web Developer Tools</h1></p>';
+			    			echo '<p>This application allows you to use Phalcon Developer Tools using a web interface.</p>';
 						}
 			    	?>
 			    </div>
