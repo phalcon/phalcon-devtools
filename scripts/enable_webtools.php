@@ -29,12 +29,12 @@ require_once 'Script/Color/ScriptColor.php';
 /**
  * EnableWebTools
  *
-  * Creates config to WebTools in project
+ * Creates config to WebTools in project
  *
  * @category 	Phalcon
- * @package		Scripts
+ * @package	Scripts
  * @copyright	Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
- * @license		New BSD License
+ * @license	New BSD License
 */
 class EnableWebTools extends Phalcon_Script {
 
@@ -45,8 +45,8 @@ class EnableWebTools extends Phalcon_Script {
 	public function run(){
 
 		$posibleParameters = array(
-			'debug' 		=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
-			'help' 			=> "--help \t\t\tShow help"
+			'debug'	=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
+			'help' 	=> "--help \t\t\tShow help"
 		);
 
 		$this->parseParameters($posibleParameters);
@@ -70,7 +70,7 @@ class EnableWebTools extends Phalcon_Script {
 			throw new ScriptException("Phalcon PHP Framework is not loaded yet!");
 		}
 
-		if(!file_exists('.phalcon')){
+		if(!file_exists($path.'.phalcon')){
 			throw new ScriptException("This command should be invoked inside a phalcon project");
 		}
 		

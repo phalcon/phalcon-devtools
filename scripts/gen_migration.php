@@ -52,9 +52,9 @@ class GenerateMigration extends Phalcon_Script {
 			'directory=s'  		=> "--directory path \tDirectory where the project will be created [optional]",
 			'version=s' 		=> "--version value \tVersion to migrate [optional]",
 			'export-data=s' 	=> "--export-data type \tExport table data. Type: always,on-create [optional]",
-			'verbose' 			=> "--verbose \t\tGenerate profiling of SQL statements sent to database [optional]",
-			'force' 			=> "--force \t\tForces to overwrite existing migrations [optional]",
-			'help' 				=> "--help \t\t\tShows this help"
+			'verbose'		=> "--verbose \t\tGenerate profiling of SQL statements sent to database [optional]",
+			'force' 		=> "--force \t\tForces to overwrite existing migrations [optional]",
+			'help' 			=> "--help \t\t\tShows this help"
 		);
 
 		$this->parseParameters($posibleParameters);

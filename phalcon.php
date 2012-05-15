@@ -45,7 +45,6 @@ if(isset($_SERVER['argv'][1])){
 		$command = $_SERVER['argv'][1];
 		$scriptPath = $phalconToolsPath."scripts".DIRECTORY_SEPARATOR.$command.".php";
 		if(file_exists($scriptPath)){
-			//$_SERVER['argv'][] = "--PROJECTPATH";
 			$_SERVER['argv'][] = $path;
 			require $scriptPath;
 		} else {
