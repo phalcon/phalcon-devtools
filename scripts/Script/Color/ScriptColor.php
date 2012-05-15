@@ -21,9 +21,9 @@
 /**
  * ScriptColor
  *
- * Permite generar colores en una consola xterm, ddterm, linux, etc.
+ * Allows to generate messages using colors on xterm, ddterm, linux, etc.
  *
-  @category 	Phalcon
+ * @category 	Phalcon
  * @package 	Scripts
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
@@ -31,96 +31,97 @@
 class ScriptColor {
 
 	/**
-	 * Color por defecto de la consola
+	 * Color by Default
 	 *
 	 */
 	const NORMAL = 0;
 
 	/**
-	 * Color Rojo
+	 * Red Color
 	 *
 	 */
 	const RED = 1;
 
 	/**
-	 * Color Verde
+	 * Green Color
 	 *
 	 */
 	const GREEN = 2;
 
 	/**
-	 * Color Blanco
+	 * White Color
 	 *
 	 */
 	const WHITE = 3;
 
 	/**
-	 * Color Negro
+	 * Black Color
 	 *
 	 */
 	const BLACK = 4;
 
 	/**
-	 * Color Azul
+	 * Blue Color
 	 *
 	 */
 	const BLUE = 5;
 
 	/**
-	 * Color Cyan
+	 * Cyan Color
 	 *
 	 */
 	const CYAN = 6;
 
 	/**
-	 * Color Magenta
+	 * Magenta Color
 	 *
 	 */
 	const MAGENTA = 7;
 
 	/**
-	 * Color Rojo Claro
+	 * Light Red Color
 	 *
 	 */
 	const LIGHT_RED = 8;
 
 	/**
-	 * Fuente en negrita
+	 * Bold Style
 	 *
 	 */
 	const BOLD = 1;
 
 	/**
-	 * Fuente subrayada
+	 * Underline style
 	 *
 	 */
 	const UNDERLINE = 4;
 
 	/**
-	 * Fuente con parpadeo
+	 * Blink effect
 	 *
 	 */
 	const BLINK = 5;
 
 	/**
-	 * Indica si la consola permite salida de colores
+	 * Whether console allows colors
 	 *
 	 * @var boolean
 	 */
 	private static $_isSupportedShell = false;
 
 	/**
-	 * Nombres de las terminales soportadas
+	 * Supported terminals
 	 *
 	 * @var string
 	 */
 	private static $_supportedShells = array(
+		'xterm' => true,
 		'xterm-256color' => true,
 		'xterm-color' => true,
 	);
 
 	/**
-	 * Establece las banderas de ScriptColor
+	 * Sets component flags
 	 *
 	 * @param boolean $flags
 	 */
@@ -129,23 +130,28 @@ class ScriptColor {
 	}
 
 	/**
-	 * Identifica si la terminal actual soporta colores
+	 * Identify if console supports colors
 	 *
 	 * @return boolean
 	 */
 	public static function lookSupportedShell(){
+		self::$_isSupportedShell = false;
 		if(isset($_ENV['TERM'])){
 			if(isset(self::$_supportedShells[$_ENV['TERM']])){
 				self::$_isSupportedShell = true;
-			} else {
-				self::$_isSupportedShell = false;
+			}
+		} else {
+			if(isset($_SERVER['TERM'])){
+				if(isset(self::$_supportedShells[$_SERVER['TERM']])){
+					self::$_isSupportedShell = true;
+				}
 			}
 		}
 		return self::$_isSupportedShell;
 	}
 
 	/**
-	 * Devuelve un texto coloreado
+	 * Returns a text coloured for console
 	 *
 	 * @param string $text
 	 * @param int $color

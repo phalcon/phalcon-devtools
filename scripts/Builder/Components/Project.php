@@ -180,7 +180,12 @@ class ProjectBuilderComponent {
 			}
 		}
 
+		if(!is_writable($path)){
+			throw new BuilderException("Directory ".$path." is not writable");
+		}
+
 		@mkdir($path.'app');
+
 		@mkdir($path.'app/logs');
 		@mkdir($path.'app/views');
 		@mkdir($path.'app/config');

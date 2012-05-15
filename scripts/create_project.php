@@ -49,7 +49,7 @@ class CreateProject extends Phalcon_Script {
 
 		$posibleParameters = array(
 			'directory=s' => "--directory path \tBase path on which project will be created",
-			'debug' 		=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
+			'debug'	=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
 			'help' => "--help \t\t\tShow help"
 		);
 
