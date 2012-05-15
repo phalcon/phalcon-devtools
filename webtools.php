@@ -1,75 +1,10 @@
-<html>
-	<head>
-		<title>Phalcon PHP Framework - Web DevTools.</title>
-		<link rel="stylesheet" type="text/css" href="public/css/bootstrap/bootstrap.min.css">
-	</head>
-	<body>
-		<div class="container-fluid">
-		    <div class="row-fluid">
-			    <div class="span2">
-			    	<!--Sidebar content-->
-			    	<div style="padding: 8px 0;" class="well">
-					    <ul class="nav nav-list">
-					      <li class="active"><a href="?"><i class="icon-home icon-white"></i> Home</a></li>
-					      <li><a href="?action=C"><i class="icon-list-alt"></i> Controllers</a></li>
-					      <li><a href="?action=M"><i class="icon-list"></i> Models</a></li>
-					      <li><a href="?action=S"><i class="icon-lock"></i> Scaffold</a></li>
-					      <li><a href="?action=E"><i class="icon-info-sign"></i> Config</a></li>
-					    </ul>
-					</div>
-			    </div>
-			    <div class="span9 well">
-			    	<!--Body content-->
-			    	<?php 
-			    		if(!isset($_GET['action'])){ 
-			    	?>
-			    	<h1>Welcome to Web Developer Tools</h1>
-			    	<p>Application to use Phalcon Developer Tools by web server.</p>
-			    	<?php } else { 
-			    			$WebDeveloperTools = new WebDeveloperTools();
-			    			switch ($_GET['action']) {
-
-			    				/*Controllers*/
-			    				case 'C':
-			    					echo $WebDeveloperTools->getControllers();
-			    					break;
-			    				case 'saveC':
-			    					echo $WebDeveloperTools->saveC();
-			    					break;
-
-			    				/*Models*/		
-			    				case 'M':
-			    					echo $WebDeveloperTools->getModels();
-			    					break;
-			    				case 'saveM':
-			    					echo $WebDeveloperTools->saveM();
-			    					break;
-			    				
-			    				case 'S':
-			    					echo $WebDeveloperTools->getScaffold();
-			    					break;
-			    				
-			    				case 'E':
-			    					echo $WebDeveloperTools->getConfig();
-			    					break;
-			    				
-			    				default:
-			    					break;
-			    			}
-			    	?>
-
-			    	<?php }	?>
-			    </div>
-		    </div>
-	    </div>
-	    <script type="text/javascript" href="public/js/bootstrap/bootstrap.min.js"></script>
-	</body>
-</html>
-
 <?php
 
-require_once 'config.php';
+require 'config.php';
+
 $PTOOLSPATH = $settings['webtools']['PTOOLSPATH'];
+$PROJECTPATH = $settings['webtools']['PROJECTPATH'];
+
 require_once $PTOOLSPATH.'scripts/Script/Script.php';
 require_once $PTOOLSPATH.'scripts/Script/Color/ScriptColor.php';
 require_once $PTOOLSPATH.'scripts/Builder/Builder.php';
@@ -87,13 +22,12 @@ class WebDeveloperTools {
 	public function __construct(){
 		
 		$this->_settings = new Phalcon_Config_Adapter_Ini("../app/config/config.ini");
-		$this->_settings->webdevtools = $webDevToolsConfig->webdevtools;
-		$projectPath = $this->_settings->webdevtools->PROJECTPATH = $settings['webtools']['PROJECTPATH'];
-		$devToolsPath = $webDevToolsConfig->PTOOLSPATH = $settings['webtools']['PTOOLSPATH'];
+
+		$projectPath = $this->_settings->webdevtools->PROJECTPATH = $PROJECTPATH;
+		$devToolsPath = $this->_settings->webdevtools->PTOOLSPATH = $PTOOLSPATH;
 
 		putenv('PROJECTPATH='.$projectPath);
 		putenv('PTOOLSPATH='.$devToolsPath);
-
 	}
 
 	/**
@@ -159,12 +93,7 @@ class WebDeveloperTools {
 
 		$name = $request->getPost('name');
 		$force = $request->getPost('force');
-		$PTOOLSPATH = $this->_settings->webdevtools->PTOOLSPATH;
-		$PROJECTPATH = $this->_settings->webdevtools->PROJECTPATH;
-		require_once $PTOOLSPATH.'scripts/Script/Script.php';
-		require_once $PTOOLSPATH.'scripts/Script/Color/ScriptColor.php';
-		require_once $PTOOLSPATH.'scripts/Builder/Builder.php';
-
+		
 		try{
 			$modelBuilder = Phalcon_Builder::factory('Controller', array(
 				'name' => $name, 'PTOOLSPATH'=>$PTOOLSPATH, 'PROJECTPATH'=>$PROJECTPATH, 'force'=>$force
@@ -351,4 +280,73 @@ class WebDeveloperTools {
 	}
 
 }
+
 ?>
+
+<html>
+	<head>
+		<title>Phalcon PHP Framework - Web DevTools.</title>
+		<link rel="stylesheet" type="text/css" href="public/css/bootstrap/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="container-fluid">
+		    <div class="row-fluid">
+			    <div class="span2">
+			    	<!--Sidebar content-->
+			    	<div style="padding: 8px 0;" class="well">
+					    <ul class="nav nav-list">
+					      <li class="active"><a href="?"><i class="icon-home icon-white"></i> Home</a></li>
+					      <li><a href="?action=C"><i class="icon-list-alt"></i> Controllers</a></li>
+					      <li><a href="?action=M"><i class="icon-list"></i> Models</a></li>
+					      <li><a href="?action=S"><i class="icon-lock"></i> Scaffold</a></li>
+					      <li><a href="?action=E"><i class="icon-info-sign"></i> Config</a></li>
+					    </ul>
+					</div>
+			    </div>
+			    <div class="span9 well">
+			    	<!--Body content-->
+			    	<?php 
+			    		if(!isset($_GET['action'])){ 
+			    	?>
+			    	<h1>Welcome to Web Developer Tools</h1>
+			    	<p>Application to use Phalcon Developer Tools by web server.</p>
+			    	<?php } else { 
+			    			$WebDeveloperTools = new WebDeveloperTools();
+			    			switch ($_GET['action']) {
+
+			    				/*Controllers*/
+			    				case 'C':
+			    					echo $WebDeveloperTools->getControllers();
+			    					break;
+			    				case 'saveC':
+			    					echo $WebDeveloperTools->saveC();
+			    					break;
+
+			    				/*Models*/		
+			    				case 'M':
+			    					echo $WebDeveloperTools->getModels();
+			    					break;
+			    				case 'saveM':
+			    					echo $WebDeveloperTools->saveM();
+			    					break;
+			    				
+			    				case 'S':
+			    					echo $WebDeveloperTools->getScaffold();
+			    					break;
+			    				
+			    				case 'E':
+			    					echo $WebDeveloperTools->getConfig();
+			    					break;
+			    				
+			    				default:
+			    					break;
+			    			}
+			    	?>
+
+			    	<?php }	?>
+			    </div>
+		    </div>
+	    </div>
+	    <script type="text/javascript" href="public/js/bootstrap/bootstrap.min.js"></script>
+	</body>
+</html>
