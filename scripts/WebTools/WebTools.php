@@ -57,17 +57,18 @@ class Phalcon_WebTools {
 	 * Load the default config in the project
 	 */
 	public function __construct($uri, $path){
-
 		$this->_path = $path;
 		$this->_uri = $uri;
+		$this->readConfig();
+	}
 
-		$configPath = $path."/../app/config/config.ini";
+	public function readConfig(){
+		$configPath = $this->_path."/app/config/config.ini";
 		if(file_exists($configPath)){
 			$this->_settings = new Phalcon_Config_Adapter_Ini($configPath);
 		} else {
 			throw new Phalcon_Exception('Configuration file could not be loaded');
 		}
-
 	}
 
 	/**
@@ -84,63 +85,61 @@ class Phalcon_WebTools {
 	 */
 	public function getControllers(){
 
-		$html = '<div class="span9">
-
-			<p><h1>Create Controller</h1></p>
-
-			<form method="POST" class="forma-horizontal" action="?action=saveC">
-				<fieldset>
-				<div class="control-group">
-					<label class="control-label" for="name">Table name</label>
-					<div class="controls">
-						'.Phalcon_Tag::textField(array(
-							'name',
-							'class' => 'input-xlarge',
-							'placeholder' => 'Table name ...',
-							'style' => 'height:30px;'
-						)).'
-					</div>
-				</div>
-				<label class="checkbox">
-					<input type="checkbox" name="force" value="1">Force
-				</label>
-				<div class="form-sactions" align="right">
-		        	<button class="btn btn-primary" type="submit">Save changes</button>
-		        	<input class="btn" type="reset" value="Cancel"/>
-		        </div>
-		        </fieldset>
-			</form>
-		</div>';
-
-		return $html;
-	}
-
-	public function createController(){
-
 		$html = '';
 		$request = Phalcon_Request::getInstance();
 
-		$name = $request->getPost('name');
-		$force = $request->getPost('force');
+		if($request->getQuery('subaction')=='list'){
 
-		try {
+		}
 
-			$modelBuilder = Phalcon_Builder::factory('Controller', array(
-				'name' => $name,
-				'directory' => $PROJECTPATH,
-				'force' => $force
-			));
+		if($request->isPost()){
 
-			if($modelBuilder){
-				$html = $modelBuilder->build();
+			if($request->getQuery('subaction')=='create'){
+
+				$name = $request->getPost('name', 'string');
+				$force = $request->getPost('force', 'int');
+
+				try {
+
+					$modelBuilder = Phalcon_Builder::factory('Controller', array(
+						'name' => $name,
+						'directory' => $this->_path,
+						'force' => $force
+					));
+
+					$modelBuilder->build();
+
+					$html = '<div class="alert alert-success">The controller "'.$name.'" was created successfully</div>';
+				}
+				catch(Phalcon_BuilderException $e){
+					$html = '<div class="alert alert-error">'.$e->getMessage().'</div>';
+				}
+
 			}
-			$html = '<div class="alert alert-success">The controller "'.$name.'" was created successfully</div>';
-		}
-		catch(Phalcon_BuilderException $e){
-			$html = '<div class="alert alert-error">'.$e->getMessage().'</div>';
+
 		}
 
-		$html .= $this->getControllers();
+		$html .= '<div class="span9">
+
+			<p><h1>Create Controller</h1></p>
+
+			<form method="POST" class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=controllers&subaction=create">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="name">Controller name</label>
+						<div class="controls">
+							'.Phalcon_Tag::textField(array('name', 'placeholder' => 'Name ...')).'
+						</div>
+					</div>
+					<label class="checkbox">
+						<input type="checkbox" name="force" value="1">Force
+					</label>
+					<div align="right">
+				       	<input type="submit" class="btn btn-primary" value="Generate"/>
+					</div>
+				</fieldset>
+			</form>
+		</div>';
 
 		return $html;
 	}
@@ -162,11 +161,11 @@ class Phalcon_WebTools {
 
 			<p><h1>Generate Models</h1></p>
 
-			<form method="POST" class="forma-horizontal" action="?action=saveM">
+			<form method="post" class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=createModel">
 				<table class="table table-striped table-bordered table-condensed">
 					<tr>
 						<td><b>Schema</b></td>
-						<td><i>'.$this->_settings->database->name.'</i></td>
+						<td>'.Phalcon_Tag::textField(array('schema', 'value' => $this->_settings->database->name)).'</td>
 					</tr>
 					<!--<tr>
 						<td><b>All models</b></td>
@@ -186,10 +185,9 @@ class Phalcon_WebTools {
 					</tr>
 					<tr>
 						<td colspan="2">
-							<div class="form-actions" align="right">
-					        	<button class="btn btn-primary" type="submit">Save changes</button>
-					        	<button class="btn">Cancel</button>
-					        </div>
+							<div align="right">
+		        				<input type="submit" class="btn btn-primary" value="Generate"/>
+		        			</div>
 						</td>
 					</tr>
 				</table>
@@ -204,23 +202,23 @@ class Phalcon_WebTools {
 		$html = '';
 		$request = Phalcon_Request::getInstance();
 
-		$genSettersGetters = $request->getPost('gen-setters-getters', 'int');
-		$tableName = $request->getPost('table-name');
 		$force = $request->getPost('force', 'int');
+		$schema = $request->getPost('schema');
+		$tableName = $request->getPost('table-name');
+		$genSettersGetters = $request->getPost('gen-setters-getters', 'int');
 
 		try {
 
 			$modelBuilder = Phalcon_Builder::factory('Model', array(
 				'name' => $tableName,
 				'genSettersGetters' => $genSettersGetters,
-				'directory' => $PROJECTPATH,
+				'directory' => $this->_path,
 				'force' => $force
 			));
 
-			if($modelBuilder){
-				$html = $modelBuilder->build();
-			}
-			$html = '<div class="alert alert-success">The model "'.$tableName.'" was created success</div>';
+			$html = $modelBuilder->build();
+
+			$html = '<div class="alert alert-success">The model "'.$tableName.'" was created successfully</div>';
 		}
 		catch(Phalcon_BuilderException $e){
 			$html = '<div class="alert alert-error">'.$e->getMessage().'</div>';
@@ -248,7 +246,7 @@ class Phalcon_WebTools {
 
 			<p><h1>Generate Scaffold</h1></p>
 
-			<form class="forma-horizontal" action="?action=saveS">
+			<form class="forma-horizontal" action="'.$this->_uri.'/webtools.php??action=generateScaffold">
 				<table class="table table-striped table-bordered table-condensed">
 					<tr>
 						<td><b>Schema</b></td>
@@ -324,13 +322,19 @@ class Phalcon_WebTools {
 			$ini.=PHP_EOL;
 		}
 
-		$configPath = $this->_path."/../app/config/config.ini";
+		$configPath = $this->_path."/app/config/config.ini";
 		if(is_writable($configPath)){
 			file_put_contents($configPath, $ini);
-			return '<div class="alert alert-success">Configuration was successfully updated</div>';
+			$html = '<div class="alert alert-success">Configuration was successfully updated</div>';
 		} else {
-			return '<div class="alert alert-error">Sorry, configuration file is not writable</div>';
+			$html = '<div class="alert alert-error">Sorry, configuration file is not writable</div>';
 		}
+
+		$this->readConfig();
+
+		$html.= $this->getConfig();
+
+		return $html;
 	}
 
 	/**
@@ -410,7 +414,7 @@ class Phalcon_WebTools {
 			),
 		);
 		$code = '';
-		$activeAction = isset($_GET['action']) ? $_GET['action'] : '';
+		$activeAction = isset($_GET['action']) ? $_GET['action'] : 'home';
 		foreach($options as $action => $option){
 			if($activeAction==$action){
 				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$action.'">'.$option['caption'].'</a></li>'.PHP_EOL;
@@ -422,14 +426,50 @@ class Phalcon_WebTools {
 	}
 
 	public static function getMenu($uri){
+
+		$activeAction = isset($_GET['action']) ? $_GET['action'] : 'home';
+		$activeSubAction = isset($_GET['subAction']) ? $_GET['subAction'] : '';
+
+		$options = array(
+			'home' => array(
+				'' => array(
+					'caption' => 'home'
+				)
+			),
+			'controllers' => array(
+				'' => array(
+					'caption' => 'Generate',
+				),
+				'list' => array(
+					'caption' => 'List',
+				)
+			),
+			'models' => array(
+				'' => array(
+					'caption' => 'Generate'
+				),
+				'list' => array(
+					'caption' => 'List',
+				)
+			),
+			'scaffold' => array(
+				'' => array(
+					'caption' => 'Generate'
+				)
+			),
+			'config' => array(
+				'' => array(
+					'caption' => 'Edit'
+				)
+			),
+		);
+
 		$code = '';
-		$options = array();
-		$activeAction = isset($_GET['action']) ? $_GET['action'] : '';
-		foreach($options as $action => $option){
-			if($activeAction==$action){
-				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$action.'"><i class="'.$option['icons'].'"></i>'.$option['caption'].'</a></li>'.PHP_EOL;
+		foreach($options[$activeAction] as $subAction => $option){
+			if($activeSubAction==$subAction){
+				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$activeAction.'&subaction='.$subAction.'">'.$option['caption'].'</a></li>'.PHP_EOL;
 			} else {
-				$code.= '<li><a href="'.$uri.'/webtools.php?action='.$action.'"><i class="'.$option['icons'].'"></i>'.$option['caption'].'</a></li>'.PHP_EOL;
+				$code.= '<li><a href="'.$uri.'/webtools.php?action='.$activeAction.'&subaction='.$subAction.'">'.$option['caption'].'</a></li>'.PHP_EOL;
 			}
 		}
 		return $code;
@@ -440,10 +480,6 @@ class Phalcon_WebTools {
 
 			case 'controllers':
 				return $this->getControllers();
-				break;
-
-			case 'createController':
-				return $this->createController();
 				break;
 
 			case 'models':
@@ -458,12 +494,19 @@ class Phalcon_WebTools {
 				return $this->getScaffold();
 				break;
 
+			case 'generateScaffold':
+				return $this->generateScaffold();
+				break;
+
 			case 'config':
 				return $this->getConfig();
 				break;
 
 			case 'saveConfig':
 				return $this->saveConfig();
+				break;
+
+			case 'home':
 				break;
 
 			default:
