@@ -136,6 +136,11 @@ class ProjectBuilderComponent {
 			file_put_contents($path.'public/.htaccess', $code);
 		}
 
+		if(file_exists($path.'index.html')==false){
+			$code = '<html><body><h1>Mod-Rewrite not enabled</h1><p>Please enable rewrite urls on your web server to continue</body></html>';
+			file_put_contents($path.'index.html', $code);
+		}
+
 	}
 
 	/**

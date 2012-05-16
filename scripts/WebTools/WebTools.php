@@ -36,6 +36,23 @@ class Phalcon_WebTools {
 
 	private $_settings;
 
+	private $_posibleConfig = array(
+		'phalcon' => array(
+			'controllersDir' => 'string',
+			'modelsDir' => 'string',
+			'viewsDir' => 'string',
+			'baseUri' => 'string',
+			'basePath' => 'string',
+		),
+		'database' => array(
+			'adapter' => 'string',
+			'host' => 'string',
+			'name' => 'string',
+			'username' => 'string',
+			'password' => 'string',
+		)
+	);
+
 	/**
 	 * Load the default config in the project
 	 */
@@ -262,33 +279,58 @@ class Phalcon_WebTools {
 
 	public function getConfig()	{
 
-		$html = '<div class="span7">
-			<p><h1>Active Configuration</h1></p>
-			<table class="table table-striped table-bordered table-condensed">
-				<tr>
-					<td><b>Adapter</b></td>
-					<td><i>'.$this->_settings->database->adapter.'</i></td>
-				</tr>
-				<tr>
-					<td><b>Database</b></td>
-					<td><i>'.$this->_settings->database->name.'</i></td>
-				</tr>
-				<tr>
-					<td><b>Controllers path</b></td>
-					<td><i>'.$this->_settings->phalcon->controllersDir.'</i></td>
-				</tr>
-				<tr>
-					<td><b>Models path</b></td>
-					<td><i>'.$this->_settings->phalcon->modelsDir.'</i></td>
-				</tr>
-				<tr>
-					<td><b>View path</b></td>
-					<td><i>'.$this->_settings->phalcon->viewsDir.'</i></td>
-				</tr>
-			</table>
-		</div>';
+		$html = '<div class="span7"><p><h1>Edit Configuration</h1></p>';
+		$html .= '<form method="post" action="'.$this->_uri.'/webtools.php?action=saveConfig">';
+		$html .= '<div align="right"><input type="submit" class="btn btn-success" value="Save"/></div>';
+		foreach($this->_posibleConfig as $section => $config){
+			$html.= '<p><h3>'.$section.'</h3></p>';
+			$html.= '<table class="table table-striped table-bordered table-condensed">';
+			foreach($config as $name => $type){
+				if(isset($this->_settings->$section->$name)){
+					$value = $this->_settings->$section->$name;
+				} else {
+					$value = '';
+				}
+				$html.='<tr>
+					<td><b>'.$name.'</b></td>
+					<td>'.Phalcon_Tag::textField(array($name, 'value' => $value)).'</i></td>
+				</tr>';
+			}
+			$html.= '</table>';
+		}
+		$html.= '</form></div>';
 
 		return $html;
+	}
+
+	public function saveConfig(){
+
+		$newConfig = array();
+		$request = Phalcon_Request::getInstance();
+		foreach($this->_posibleConfig as $section => $config){
+			foreach($config as $name => $type){
+				if(isset($_POST[$name])){
+					$newConfig[$section][$name] = $request->getPost($name, $type);
+				}
+			}
+		}
+
+		$ini = '';
+		foreach($newConfig as $section => $settings){
+			$ini.='['.$section.']'.PHP_EOL;
+			foreach($settings as $name => $value){
+				$ini.=$name.' = '.$value.PHP_EOL;
+			}
+			$ini.=PHP_EOL;
+		}
+
+		$configPath = $this->_path."/../app/config/config.ini";
+		if(is_writable($configPath)){
+			file_put_contents($configPath, $ini);
+			return '<div class="alert alert-success">Configuration was successfully updated</div>';
+		} else {
+			return '<div class="alert alert-error">Sorry, configuration file is not writable</div>';
+		}
 	}
 
 	/**
@@ -313,13 +355,28 @@ class Phalcon_WebTools {
 				<link rel="stylesheet" type="text/css" href="'.$uri.'/css/bootstrap/bootstrap.min.css">
 			</head>
 			<body>
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="container">
+							<a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+								<span class="icon-bar"></span>
+	          					<span class="icon-bar"></span>
+	          					<span class="icon-bar"></span>
+        					</a>
+        					<a href="#" class="brand">Phalcon Web Tools</a>
+        					<div class="nav-collapse">
+          						<ul class="nav">'.self::getNavMenu($uri).'</ul>
+        					</div>
+      					</div>
+    				</div>
+  				</div>
 				<div class="container-fluid">
 				    <div class="row-fluid">
 					    <div class="span2">
 					    	<!--Sidebar content-->
 					    	<div style="padding: 8px 0;" class="well">
 							    <ul class="nav nav-list">
-							      '.Phalcon_WebTools::getMenu($uri).'
+							      '.self::getMenu($uri).'
 							    </ul>
 							</div>
 					    </div>
@@ -334,32 +391,42 @@ class Phalcon_WebTools {
 		</html>';
 	}
 
-	public static function getMenu($uri){
+	public static function getNavMenu($uri){
 		$options = array(
-			'' => array(
+			'home' => array(
 				'caption' => 'Home',
-				'icons' => 'icon-home icon-white'
 			),
-			'C' => array(
+			'controllers' => array(
 				'caption' => 'Controllers',
-				'icons' => 'icon-list-alt'
 			),
-			'M' => array(
+			'models' => array(
 				'caption' => 'Models',
-				'icons' => 'icon-list'
 			),
-			'S' => array(
-				'caption' => 'Scaffold',
-				'icons' => 'icon-lock'
+			'scaffold' => array(
+				'caption' => 'Scaffold'
 			),
-			'E' => array(
-				'caption' => 'Configuration',
-				'icons' => 'icon-info-sign'
+			'config' => array(
+				'caption' => 'Configuration'
 			),
 		);
 		$code = '';
+		$activeAction = isset($_GET['action']) ? $_GET['action'] : '';
 		foreach($options as $action => $option){
-			if($_GET['action']==$action){
+			if($activeAction==$action){
+				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$action.'">'.$option['caption'].'</a></li>'.PHP_EOL;
+			} else {
+				$code.= '<li><a href="'.$uri.'/webtools.php?action='.$action.'">'.$option['caption'].'</a></li>'.PHP_EOL;
+			}
+		}
+		return $code;
+	}
+
+	public static function getMenu($uri){
+		$code = '';
+		$options = array();
+		$activeAction = isset($_GET['action']) ? $_GET['action'] : '';
+		foreach($options as $action => $option){
+			if($activeAction==$action){
 				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$action.'"><i class="'.$option['icons'].'"></i>'.$option['caption'].'</a></li>'.PHP_EOL;
 			} else {
 				$code.= '<li><a href="'.$uri.'/webtools.php?action='.$action.'"><i class="'.$option['icons'].'"></i>'.$option['caption'].'</a></li>'.PHP_EOL;
@@ -371,27 +438,32 @@ class Phalcon_WebTools {
 	public function dispatch(){
 		switch ($_GET['action']) {
 
-			case 'C':
+			case 'controllers':
 				return $this->getControllers();
 				break;
 
-			case 'saveC':
+			case 'createController':
 				return $this->createController();
 				break;
 
-			case 'M':
+			case 'models':
 				return $this->getModels();
 				break;
-			case 'saveM':
+
+			case 'createModel':
 				return $this->createModel();
 				break;
 
-			case 'S':
+			case 'scaffold':
 				return $this->getScaffold();
 				break;
 
-			case 'E':
+			case 'config':
 				return $this->getConfig();
+				break;
+
+			case 'saveConfig':
+				return $this->saveConfig();
 				break;
 
 			default:
@@ -421,7 +493,7 @@ class Phalcon_WebTools {
 			$body = '<div class="alert alert-error">'.$e->getMessage().'</div>';
 		}
 
-		if($_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
+		if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
 			$body = self::applyTemplate($uri, $body);
 		}
 

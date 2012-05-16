@@ -79,8 +79,6 @@ class EnableWebTools extends Phalcon_Script {
 		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".$pToolsPath."\");\n\n";
 		if(!file_exists($webToolsConfigPath)){
 			file_put_contents($webToolsConfigPath, $code);
-		} else {
-	 		throw new ScriptException("The config.php already exists");
 		}
 
 	}
