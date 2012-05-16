@@ -135,7 +135,7 @@ class Phalcon_WebTools {
 						<input type="checkbox" name="force" value="1">Force
 					</label>
 					<div align="right">
-				       	<input type="submit" class="btn btn-primary" value="Generate"/>
+						<input type="submit" class="btn btn-primary" value="Generate"/>
 					</div>
 				</fieldset>
 			</form>
@@ -186,8 +186,8 @@ class Phalcon_WebTools {
 					<tr>
 						<td colspan="2">
 							<div align="right">
-		        				<input type="submit" class="btn btn-primary" value="Generate"/>
-		        			</div>
+								<input type="submit" class="btn btn-primary" value="Generate"/>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -262,10 +262,9 @@ class Phalcon_WebTools {
 					</tr>
 					<tr>
 						<td colspan="2">
-							<div class="form-actions" align="right">
-					        	<button class="btn btn-primary" type="submit">Save changes</button>
-					        	<button class="btn">Cancel</button>
-					        </div>
+							<div align="right">
+								<input type="submit" class="btn btn-primary" value="Generate"/>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -279,13 +278,18 @@ class Phalcon_WebTools {
 	 * Makes HTML view to Migration
 	 */
 	public function getMigration()	{
-		
+
 		$html = '';
-		$migrationDir = $this->_path.'/app/migrations';
+		$migrationsDir = $this->_path.'/app/migrations';
+
+		if(!file_exists($migrationsDir)){
+			mkdir($migrationsDir);
+		}
+
 		$request = Phalcon_Request::getInstance();
-		
+
 		$folders = array();
-		foreach(scandir($migrationDir) as $item){
+		foreach(scandir($migrationsDir) as $item){
 			if (is_file($item) || $item=='.' || $item=='..') {
 				continue;
 			}
@@ -296,12 +300,11 @@ class Phalcon_WebTools {
 		$foldersKeys = array_keys($folders);
 
 		$connection = $this->getConnection();
-		$tables = array('all'=>'All');
+		$tables = array('all' => 'All');
 		$result = $connection->query("SHOW TABLES");
 		while($table = $connection->fetchArray($result)){
-			$tables[$table[0]]=$table[0];
+			$tables[$table[0]] = $table[0];
 		}
-
 
 		if($request->isPost()){
 
@@ -311,7 +314,6 @@ class Phalcon_WebTools {
 			require_once 'scripts/Model/Migration/Profiler.php';
 			require_once 'scripts/Script/ScriptException.php';
 
-					
 			if($request->getQuery('subaction')=='create'){
 
 				$tableName = $request->getPost('table-name', 'string');
@@ -322,26 +324,27 @@ class Phalcon_WebTools {
 				try {
 
 					ob_start();
-					$migrationOut = Phalcon_Migrations::generate(array(
+					Phalcon_Migrations::generate(array(
 						'config' => $this->_settings,
 						'directory' => $this->_path,
 						'tableName' => $tableName,
 						'exportData' => $exportData,
-						'migrationsDir' => $migrationDir,
-						'originalVersion' => $version
+						'migrationsDir' => $migrationsDir,
+						'originalVersion' => $version,
+						'force' => $force
 					));
+					$html = ob_get_contents();
 					ob_end_clean();
-					ob_end_flush();
 
-					$_GET['subaction']='';
+					$_GET['subaction'] = '';
 					if(!$version){
 						$version = $foldersKeys[0];
 					}
 
-					$html = '<div class="alert alert-success">The migration "'.$version.'" was created successfully</div>';
+					$html .= '<div class="alert alert-success">The migration was created successfully</div>';
 				}
 				catch(Phalcon_BuilderException $e){
-					$html = '<div class="alert alert-error">'.$e->getMessage().'</div>';
+					$html .= '<div class="alert alert-error">'.$e->getMessage().'</div>';
 				}
 
 			} else {
@@ -361,29 +364,35 @@ class Phalcon_WebTools {
 							'tableName' => 'all',
 							'migrationsDir' => $migrationDir
 						));
+						$html = ob_get_contents();
 						ob_end_clean();
-						ob_end_flush();
 
-						$_GET['subaction']='list';
+						$_GET['subaction'] = 'list';
 						if(!$version){
 							$version = $foldersKeys[0];
 						}
 
-						$html = '<div class="alert alert-success">The migration "'.$version.'" was executed successfully</div>';
+						$html .= '<div class="alert alert-success">The migration "'.$version.'" was executed successfully</div>';
 					}
 					catch(Phalcon_BuilderException $e){
-						$html = '<div class="alert alert-error">'.$e->getMessage().'</div>';
+						$html .= '<div class="alert alert-error">'.$e->getMessage().'</div>';
 					}
 
 				}
 			}
 
-		} 
+		}
 
 		$html .= '<div class="span9">
 				<p><h1>Generate  Migration</h1></p>';
-				
+
 		if(!$request->getQuery('subaction')){
+
+			if(!isset($foldersKeys[0])){
+				$version = 'None';
+			} else {
+				$version = $foldersKeys[0];
+			}
 
 			//Generate
 			$html .= '
@@ -391,7 +400,7 @@ class Phalcon_WebTools {
 					<table class="table table-striped table-bordered table-condensed">
 						<tr>
 							<td><b>Current Version</b></td>
-							<td><i>'.$foldersKeys[0].'</i></td>
+							<td><i>'.$version.'</i></td>
 						</tr>
 						<tr>
 							<td><b>New Version</b></td>
@@ -407,15 +416,15 @@ class Phalcon_WebTools {
 						</tr>
 						<tr>
 							<td colspan="2">
-								<div class="form-actions" align="right">
-						        	<button class="btn btn-primary" type="submit">Generate</button>
-						        	<button class="btn">Cancel</button>
-						        </div>
+								<div align="right">
+									<input type="submit" class="btn btn-primary" value="Generate"/>
+								</div>
 							</td>
 						</tr>
 					</table>
 				</form>';
 		} else {
+
 			//List
 			$html .= '
 				<form method="POST" class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=migration&subaction=run">
@@ -426,10 +435,9 @@ class Phalcon_WebTools {
 						</tr>
 						<tr>
 							<td colspan="2">
-								<div class="form-actions" align="right">
-						        	<button class="btn btn-primary" type="submit">Run Migration</button>
-						        	<button class="btn">Cancel</button>
-						        </div>
+								<div align="right">
+									<input type="submit" class="btn btn-primary" value="Generate"/>
+								</div>
 							</td>
 						</tr>
 					</table>
@@ -576,7 +584,7 @@ class Phalcon_WebTools {
 				'caption' => 'Scaffold'
 			),
 			'migration' => array(
-				'caption' => 'Migration'
+				'caption' => 'Migrations'
 			),
 			'config' => array(
 				'caption' => 'Configuration'
@@ -630,8 +638,8 @@ class Phalcon_WebTools {
 				'' => array(
 					'caption' => 'Generate'
 				),
-				'list' => array(
-					'caption' => 'List'
+				'run' => array(
+					'caption' => 'Run'
 				)
 			),
 			'config' => array(

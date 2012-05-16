@@ -80,6 +80,7 @@ class ProjectBuilderComponent {
 	private static function createBootstrapFile($path){
 		if(file_exists($path.'public/index.php')==false){
 			$code = "<?php".PHP_EOL.PHP_EOL.
+			"error_reporting(E_ALL);".PHP_EOL.PHP_EOL.
 			"try {".PHP_EOL.
 			PHP_EOL.
 			"\t"."require \"../app/controllers/ControllerBase.php\";".PHP_EOL.

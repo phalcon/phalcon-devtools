@@ -17,6 +17,7 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
+
 class Phalcon_Migrations {
 
 	public static function generate($options){
@@ -27,7 +28,8 @@ class Phalcon_Migrations {
 		$exportData = $options['exportData'];
 		$migrationsDir = $options['migrationsDir'];
 		$originalVersion = $options['originalVersion'];
-		
+		$force = $options['force'];
+
 		if($migrationsDir && !file_exists($migrationsDir)){
 			mkdir($migrationsDir);
 		}
@@ -37,9 +39,9 @@ class Phalcon_Migrations {
 				throw new ScriptException('Version '.$originalVersion.' is invalid');
 			}
 			$originalVersion = $matches[0];
-			$version = new Phalcon_Version($version, 3);
+			$version = new Phalcon_Version($originalVersion, 3);
 			if(file_exists($migrationsDir.'/'.$version)){
-				if(!$this->isReceivedOption('force')){
+				if(!$force){
 					throw new ScriptException('Version '.$version.' is already generated');
 				}
 			}

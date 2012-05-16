@@ -71,7 +71,7 @@ class Phalcon_Model_Migration {
 	 * @param	string $exportData
 	 * @return	string
 	 */
-	public function generateAll($version, $exportData=null){
+	public static function generateAll($version, $exportData=null){
 		$classDefinition = array();
 		foreach(self::$_connection->listTables() as $table){
 			$classDefinition[$table] = self::generate($version, $table, $exportData);
@@ -213,7 +213,7 @@ class ".$className." extends Phalcon_Model_Migration {\n\n".
 		if(count($indexesDefinition)){
 			$classData.="\n\t\t\t'indexes' => array(\n".join(",\n", $indexesDefinition)."\n\t\t\t),";
 		}
-		if(count($referenceDefinition)){
+		if(count($referencesDefinition)){
 			$classData.="\n\t\t\t'references' => array(\n".join(",\n", $referencesDefinition)."\n\t\t\t),";
 		}
 		if(count($optionsDefinition)){

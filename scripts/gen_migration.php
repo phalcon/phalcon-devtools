@@ -104,7 +104,8 @@ class GenerateMigration extends Phalcon_Script {
 			'tableName' => $tableName,
 			'exportData' => $exportData,
 			'migrationsDir' => $migrationsDir,
-			'originalVersion' => $originalVersion
+			'originalVersion' => $originalVersion,
+			'force' => $this->isReceivedOption('force')
 		));
 
 	}

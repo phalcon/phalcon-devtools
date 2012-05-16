@@ -26,6 +26,7 @@ if($pToolsPath){
 require_once 'Builder/Builder.php';
 require_once 'Model/Migration.php';
 require_once 'Model/Migration/Profiler.php';
+require_once 'Migrations/Migrations.php';
 require_once 'Script/Script.php';
 require_once 'Script/Color/ScriptColor.php';
 require_once 'Version/Version.php';
@@ -94,7 +95,8 @@ class RunMigration extends Phalcon_Script {
 		Phalcon_Migrations::run(array(
 			'directory' => $path,
 			'migrationsDir' => $migrationsDir,
-			'config' => $config
+			'config' => $config,
+			'force' => $this->isReceivedOption('force')
 		));
 
 	}
