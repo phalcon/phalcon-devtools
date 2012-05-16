@@ -246,7 +246,7 @@ class Phalcon_WebTools {
 
 			<p><h1>Generate Scaffold</h1></p>
 
-			<form class="forma-horizontal" action="'.$this->_uri.'/webtools.php??action=generateScaffold">
+			<form class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=generateScaffold">
 				<table class="table table-striped table-bordered table-condensed">
 					<tr>
 						<td><b>Schema</b></td>
@@ -271,6 +271,172 @@ class Phalcon_WebTools {
 				</table>
 			</form>
 		</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Makes HTML view to Migration
+	 */
+	public function getMigration()	{
+		
+		$html = '';
+		$migrationDir = $this->_path.'/app/migrations';
+		$request = Phalcon_Request::getInstance();
+		
+		$folders = array();
+		foreach(scandir($migrationDir) as $item){
+			if (is_file($item) || $item=='.' || $item=='..') {
+				continue;
+			}
+			$folders[$item]= $item;
+		}
+		natsort($folders);
+		$folders = array_reverse($folders);
+		$foldersKeys = array_keys($folders);
+
+		$connection = $this->getConnection();
+		$tables = array('all'=>'All');
+		$result = $connection->query("SHOW TABLES");
+		while($table = $connection->fetchArray($result)){
+			$tables[$table[0]]=$table[0];
+		}
+
+
+		if($request->isPost()){
+
+			require_once 'scripts/Migrations/Migrations.php';
+			require_once 'scripts/Version/Version.php';
+			require_once 'scripts/Model/Migration.php';
+			require_once 'scripts/Model/Migration/Profiler.php';
+			require_once 'scripts/Script/ScriptException.php';
+
+					
+			if($request->getQuery('subaction')=='create'){
+
+				$tableName = $request->getPost('table-name', 'string');
+				$version = $request->getPost('version', 'string');
+				$force = $request->getPost('force', 'int');
+				$exportData = '';
+
+				try {
+
+					ob_start();
+					$migrationOut = Phalcon_Migrations::generate(array(
+						'config' => $this->_settings,
+						'directory' => $this->_path,
+						'tableName' => $tableName,
+						'exportData' => $exportData,
+						'migrationsDir' => $migrationDir,
+						'originalVersion' => $version
+					));
+					ob_end_clean();
+					ob_end_flush();
+
+					$_GET['subaction']='';
+					if(!$version){
+						$version = $foldersKeys[0];
+					}
+
+					$html = '<div class="alert alert-success">The migration "'.$version.'" was created successfully</div>';
+				}
+				catch(Phalcon_BuilderException $e){
+					$html = '<div class="alert alert-error">'.$e->getMessage().'</div>';
+				}
+
+			} else {
+
+				if($request->getQuery('subaction')=='run'){
+					echo "a";
+					$version = '';
+					$force = '';
+					$exportData = '';
+
+					try {
+
+						ob_start();
+						$migrationOut = Phalcon_Migrations::run(array(
+							'config' => $this->_settings,
+							'directory' => $this->_path,
+							'tableName' => 'all',
+							'migrationsDir' => $migrationDir
+						));
+						ob_end_clean();
+						ob_end_flush();
+
+						$_GET['subaction']='list';
+						if(!$version){
+							$version = $foldersKeys[0];
+						}
+
+						$html = '<div class="alert alert-success">The migration "'.$version.'" was executed successfully</div>';
+					}
+					catch(Phalcon_BuilderException $e){
+						$html = '<div class="alert alert-error">'.$e->getMessage().'</div>';
+					}
+
+				}
+			}
+
+		} 
+
+		$html .= '<div class="span9">
+				<p><h1>Generate  Migration</h1></p>';
+				
+		if(!$request->getQuery('subaction')){
+
+			//Generate
+			$html .= '
+				<form method="POST" class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=migration&subaction=create">
+					<table class="table table-striped table-bordered table-condensed">
+						<tr>
+							<td><b>Current Version</b></td>
+							<td><i>'.$foldersKeys[0].'</i></td>
+						</tr>
+						<tr>
+							<td><b>New Version</b></td>
+							<td>'.Phalcon_Tag::textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')).'</td>
+						</tr>
+						<tr>
+							<td><b>Table name</b></td>
+							<td><i>'.Phalcon_Tag::selectStatic('table-name', $tables).'</i></td>
+						</tr>
+						<tr>
+							<td><b>Force</b></td>
+							<td><i><input type="checkbox" name="force" /></i></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="form-actions" align="right">
+						        	<button class="btn btn-primary" type="submit">Generate</button>
+						        	<button class="btn">Cancel</button>
+						        </div>
+							</td>
+						</tr>
+					</table>
+				</form>';
+		} else {
+			//List
+			$html .= '
+				<form method="POST" class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=migration&subaction=run">
+					<table class="table table-striped table-bordered table-condensed">
+						<tr>
+							<td><b>Current Version</b></td>
+							<td><i>'.$foldersKeys[0].'</i></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="form-actions" align="right">
+						        	<button class="btn btn-primary" type="submit">Run Migration</button>
+						        	<button class="btn">Cancel</button>
+						        </div>
+							</td>
+						</tr>
+					</table>
+				</form>';
+		}
+
+		$html .= '</div>';
 
 		return $html;
 	}
@@ -409,6 +575,9 @@ class Phalcon_WebTools {
 			'scaffold' => array(
 				'caption' => 'Scaffold'
 			),
+			'migration' => array(
+				'caption' => 'Migration'
+			),
 			'config' => array(
 				'caption' => 'Configuration'
 			),
@@ -428,7 +597,7 @@ class Phalcon_WebTools {
 	public static function getMenu($uri){
 
 		$activeAction = isset($_GET['action']) ? $_GET['action'] : 'home';
-		$activeSubAction = isset($_GET['subAction']) ? $_GET['subAction'] : '';
+		$activesubaction = isset($_GET['subaction']) ? $_GET['subaction'] : '';
 
 		$options = array(
 			'home' => array(
@@ -457,6 +626,14 @@ class Phalcon_WebTools {
 					'caption' => 'Generate'
 				)
 			),
+			'migration' => array(
+				'' => array(
+					'caption' => 'Generate'
+				),
+				'list' => array(
+					'caption' => 'List'
+				)
+			),
 			'config' => array(
 				'' => array(
 					'caption' => 'Edit'
@@ -465,11 +642,11 @@ class Phalcon_WebTools {
 		);
 
 		$code = '';
-		foreach($options[$activeAction] as $subAction => $option){
-			if($activeSubAction==$subAction){
-				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$activeAction.'&subaction='.$subAction.'">'.$option['caption'].'</a></li>'.PHP_EOL;
+		foreach($options[$activeAction] as $subaction => $option){
+			if($activesubaction==$subaction){
+				$code.= '<li class="active"><a href="'.$uri.'/webtools.php?action='.$activeAction.'&subaction='.$subaction.'">'.$option['caption'].'</a></li>'.PHP_EOL;
 			} else {
-				$code.= '<li><a href="'.$uri.'/webtools.php?action='.$activeAction.'&subaction='.$subAction.'">'.$option['caption'].'</a></li>'.PHP_EOL;
+				$code.= '<li><a href="'.$uri.'/webtools.php?action='.$activeAction.'&subaction='.$subaction.'">'.$option['caption'].'</a></li>'.PHP_EOL;
 			}
 		}
 		return $code;
@@ -496,6 +673,10 @@ class Phalcon_WebTools {
 
 			case 'generateScaffold':
 				return $this->generateScaffold();
+				break;
+
+			case 'migration':
+				return $this->getMigration();
 				break;
 
 			case 'config':

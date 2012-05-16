@@ -23,11 +23,12 @@ class Phalcon_Migrations {
 
 		$path = $options['directory'];
 		$config = $options['config'];
+		$tableName = $options['tableName'];
+		$exportData = $options['exportData'];
 		$migrationsDir = $options['migrationsDir'];
 		$originalVersion = $options['originalVersion'];
-		$exportData = $options['exportData'];
-
-		if(!file_exists($migrationsDir)){
+		
+		if($migrationsDir && !file_exists($migrationsDir)){
 			mkdir($migrationsDir);
 		}
 
@@ -86,6 +87,12 @@ class Phalcon_Migrations {
 		$path = $options['directory'];
 		$config = $options['config'];
 		$migrationsDir = $options['migrationsDir'];
+
+		if(isset($options['tableName'])){
+			$tableName = $options['tableName'];
+		} else {
+			$tableName = 'all';
+		}
 
 		if(!file_exists($migrationsDir)){
 			throw new Phalcon_Model_Exception('Migrations directory could not found');

@@ -27,6 +27,7 @@ require_once 'Builder/Builder.php';
 require_once 'Model/Migration.php';
 require_once 'Model/Migration/Profiler.php';
 require_once 'Script/Script.php';
+require_once 'Migrations/Migrations.php';
 require_once 'Script/Color/ScriptColor.php';
 require_once 'Version/Version.php';
 
@@ -83,6 +84,7 @@ class GenerateMigration extends Phalcon_Script {
 		}  else {
 			$config = new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
 		}
+
 		if(!isset($config->database)){
 			throw new ScriptException('Database section at configuration file could not found');
 		}
@@ -101,7 +103,8 @@ class GenerateMigration extends Phalcon_Script {
 			'directory' => $path,
 			'tableName' => $tableName,
 			'exportData' => $exportData,
-			'originalVersion' => $originalVersion,
+			'migrationsDir' => $migrationsDir,
+			'originalVersion' => $originalVersion
 		));
 
 	}
