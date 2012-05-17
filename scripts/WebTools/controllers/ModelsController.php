@@ -46,6 +46,8 @@ class ModelsController extends ControllerBase {
 			$schema = $this->request->getPost('schema');
 			$tableName = $this->request->getPost('table-name');
 			$genSettersGetters = $this->request->getPost('gen-setters-getters', 'int');
+			$foreignKeys = $this->request->getPost('foreign-keys', 'int');
+			$defineRelations = $this->request->getPost('define-relations', 'int');
 
 			try {
 
@@ -55,19 +57,24 @@ class ModelsController extends ControllerBase {
 				}
 
 				$modelBuilder = Phalcon_Builder::factory($component, array(
-					'name' => $tableName,
-					'genSettersGetters' => $genSettersGetters,
-					'directory' => Phalcon_WebTools::getPath(),
-					'force' => $force,
-					'modelsDir' => $this->_settings->phalcon->modelsDir,
-					'define-relations' => true,
-					'foreign-keys' => true
-
+					'name' 					=> $tableName,
+					'force' 				=> $force,
+					'modelsDir' 			=> $this->_settings->phalcon->modelsDir,
+					'directory' 			=> Phalcon_WebTools::getPath(),
+					'foreignKeys' 			=> $foreignKeys,
+					'defineRelations' 		=> $defineRelations,
+					'genSettersGetters' 	=> $genSettersGetters
+					
 				));
 
 				$html = $modelBuilder->build();
 
-				Phalcon_Flash::success('The model "'.$tableName.'" was created successfully', 'alert alert-success');
+				if($tableName=='all'){
+					Phalcon_Flash::success('The all models was created successfully', 'alert alert-success');
+				} else {
+					Phalcon_Flash::success('The model "'.$tableName.'" was created successfully', 'alert alert-success');	
+				}
+				
 			}
 			catch(Phalcon_BuilderException $e){
 				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');

@@ -19,6 +19,7 @@
 */
 
 use Phalcon_BuilderException as BuilderException;
+use Phalcon_Builder as Builder;
 use Phalcon_Utils as Utils;
 
 /**
@@ -46,15 +47,30 @@ class AllModelsBuilderComponent {
 	}
 
 	public function build(){
-
-		$config = $this->_getConfig('');
-		$modelsDir = $this->_options['modelsDir'];
+		
 		$schema = $this->_options['schema'];
+		$config = $this->_getConfig($this->_options['directory'].'/');
+		$modelsDir = $config->phalcon->modelsDir;
 		$forceProcess = $this->_options['force'];
-		$defineRelations = $this->_options['define-relations'];
-		$defineForeignKeys = $this->_options['foreign-keys'];
-		$genSettersGetters = $this->_options['gen-setters-getters'];
-		var_dump($config->database);
+
+		if(isset($this->_options['define-relations'])){
+			$defineRelations = $this->_options['define-relations'];
+		} else {
+			$defineRelations = $this->_options['defineRelations'];	
+		}
+
+		if(isset($this->_options['foreign-keys'])){
+			$defineForeignKeys = $this->_options['foreign-keys'];
+		} else {
+			$defineForeignKeys = $this->_options['foreignKeys'];	
+		}
+
+		if(isset($this->_options['gen-setters-getters'])){
+			$genSettersGetters = $this->_options['gen-setters-getters'];
+		} else {
+			$genSettersGetters = $this->_options['genSettersGetters'];	
+		}
+
 		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
 		$connection = Phalcon_Db_Pool::getConnection();
 
@@ -103,26 +119,26 @@ class AllModelsBuilderComponent {
 				}
 				foreach($connection->describeReferences($name, $schema) as $reference){
 					if($defineRelations){
-						if($reference['referencedSchema']==$schema){
-							if(count($reference['columns'])==1){
-								$belongsTo[$name][Utils::camelize($reference['referencedTable'])] = array(
-									'fields' => $reference['columns'][0],
-									'relationFields' => $reference['referencedColumns'][0]
+						if($reference->_referencedSchema==$schema){
+							if(count($reference->_columns)==1){
+								$belongsTo[$name][Utils::camelize($reference->_referencedTable)] = array(
+									'fields' => $reference->_columns[0],
+									'relationFields' => $reference->_referencedColumns[0]
 								);
-								$hasMany[$reference['referencedTable']][$name] = array(
-									'fields' => $reference['columns'][0],
-									'relationFields' => $reference['referencedColumns'][0]
+								$hasMany[$reference->_referencedTable][$name] = array(
+									'fields' => $reference->_columns[0],
+									'relationFields' => $reference->_referencedColumns[0]
 								);
 							}
 						}
 					}
 					if($defineForeignKeys){
-						if($reference['referencedSchema']==$schema){
-							if(count($reference['columns'])==1){
+						if($reference->_referencedSchema==$schema){
+							if(count($reference->_columns)==1){
 								$foreignKeys[$name][] = array(
-									'fields' => $reference['columns'][0],
-									'entity' => Utils::camelize($reference['referencedTable']),
-									'referencedFields' => $reference['referencedColumns'][0]
+									'fields' => $reference->_columns[0],
+									'entity' => Utils::camelize($reference->_referencedTable),
+									'referencedFields' => $reference->_referencedColumns[0]
 								);
 							}
 						}
@@ -168,8 +184,8 @@ class AllModelsBuilderComponent {
 					'hasMany' => $hasManyModel,
 					'belongsTo' => $belongsToModel,
 					'foreignKeys' => $foreignKeysModel,
-					'genSettersGetters' => $this->isReceivedOption('gen-setters-getters'),
-					'directory' => $this->getOption('directory'),
+					'genSettersGetters' => $genSettersGetters,
+					'directory' => $this->_options['directory'],
 				));
 
 				$modelBuilder->build();
