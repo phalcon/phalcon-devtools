@@ -37,9 +37,9 @@ class ControllersController extends ControllerBase {
 			try {
 
 				$modelBuilder = Phalcon_Builder::factory('Controller', array(
-					'name' => $name,
-					'directory' => Phalcon_WebTools::getPath(),
-					'force' => $force
+					'name' 		=> $name,
+					'directory'	=> Phalcon_WebTools::getPath(),
+					'force' 	=> $force
 				));
 
 				$modelBuilder->build();
