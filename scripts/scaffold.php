@@ -50,7 +50,7 @@ class Scaffold extends Phalcon_Script {
 			'schema=s' 			=> "--schema \tName of the schema where the table is, only if it differs from the default schema. [optional]",
 			//'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.[optional]",
 			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
-			'theme=s' 			=> "--theme \tTheme to be applied. [optional]",
+			//'theme=s' 			=> "--theme \tTheme to be applied. [optional]",
 			'directory=s' => "--directory path Base path on which project will be created",
 			'force' 			=> "--force \tForces to rewrite generated code if they already exists. [optional]",
 			'debug' 			=> "--debug \tShows the trace of the framework in case of an exception is generated. [optional]",
@@ -69,9 +69,6 @@ class Scaffold extends Phalcon_Script {
 		$name = $this->getOption('table-name');
 		$schema = $this->getOption('schema');
 
-		$className = Utils::camelize($name);
-		$fileName = Utils::uncamelize($className);
-
 		$scaffoldBuilder = Builder::factory('Scaffold', array(
 			'name' => $name,
 			'theme'	=> $this->getOption('theme'),
@@ -89,7 +86,6 @@ class Scaffold extends Phalcon_Script {
 	}
 
 }
-
 
 try {
 	$script = new Scaffold();

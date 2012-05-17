@@ -120,7 +120,7 @@ class Phalcon_Migrations {
 			mkdir($path.'.phalcon');
 		}
 
-		$migrationFid = $path.'.phalcon/migration-version';
+		$migrationFid = $path.'/.phalcon/migration-version';
 		if(file_exists($migrationFid)){
 			$fromVersion = file_get_contents($migrationFid);
 		} else {

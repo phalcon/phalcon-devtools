@@ -70,7 +70,7 @@ class RunMigration extends Phalcon_Script {
 
 		$path = '';
 		if($this->isReceivedOption('directory')){
-			$path = $this->getOption('directory').'/';
+			$path = $this->getOption('directory');
 		}
 
 		if(!file_exists($path.'.phalcon')){

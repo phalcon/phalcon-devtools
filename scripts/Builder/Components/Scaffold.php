@@ -92,6 +92,9 @@ class ScaffoldBuilderComponent {
 		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
 		$connection = Phalcon_Db_Pool::getConnection();
 
+		$options̈́['className'] = Utils::camelize($options['name']);
+		$options̈́['fileName'] = Utils::uncamelize($options̈́['className']);
+
 		if(!$options['manager']->isModel($options['className'])){
 
 			$modelBuilder = Builder::factory('Model', array(

@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+error_reporting(E_ALL);
+
 $phalconToolsPath = getenv("PTOOLSPATH");
 if(!$phalconToolsPath){
 	die("Phalcon: PTOOLSPATH environment variable isn't set\n");

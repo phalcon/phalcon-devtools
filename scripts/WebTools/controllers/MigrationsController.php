@@ -25,21 +25,27 @@ require 'scripts/Model/Migration/Profiler.php';
 
 class MigrationsController extends ControllerBase {
 
-	protected function _prepareVersions(){
-
+	protected function _getMigrationsDir(){
 		$migrationsDir = Phalcon_WebTools::getPath('app/migrations');
-
 		if(!file_exists($migrationsDir)){
 			mkdir($migrationsDir);
 		}
+		return $migrationsDir;
+	}
+
+	protected function _prepareVersions(){
+
+		$migrationsDir = $this->_getMigrationsDir();
 
 		$folders = array();
-		foreach(scandir($migrationsDir) as $item){
-			if (is_file($item) || $item=='.' || $item=='..') {
-				continue;
+
+		$iterator = new DirectoryIterator($migrationsDir);
+		foreach($iterator as $fileinfo){
+			if(!$fileinfo->isDot()){
+				$folders[$fileinfo->getFileName()] = $fileinfo->getFileName();
 			}
-			$folders[$item] = $item;
 		}
+
 		natsort($folders);
 		$folders = array_reverse($folders);
 		$foldersKeys = array_keys($folders);
@@ -68,16 +74,18 @@ class MigrationsController extends ControllerBase {
 	}
 
 	/**
-	 * Makes HTML view to Migration
+	 * Generates migrations
 	 */
-	public function getMigration()	{
+	public function generateAction()	{
 
 		if($this->request->isPost()){
 
-			$tableName = $request->getPost('table-name', 'string');
-			$version = $request->getPost('version', 'string');
-			$force = $request->getPost('force', 'int');
 			$exportData = '';
+			$tableName = $this->request->getPost('table-name', 'string');
+			$version = $this->request->getPost('version', 'string');
+			$force = $this->request->getPost('force', 'int');
+
+			$migrationsDir = $this->_getMigrationsDir();
 
 			try {
 
@@ -91,13 +99,15 @@ class MigrationsController extends ControllerBase {
 					'force' => $force
 				));
 
-				$html .= '<div class="alert alert-success">The migration was created successfully</div>';
+				Phalcon_Flash::success("The migration was generated successfully", "alert alert-success");
 			}
 			catch(Phalcon_BuilderException $e){
 				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
 			}
 
 		}
+
+		return $this->_forward('migrations/index');
 
 	}
 
@@ -107,15 +117,17 @@ class MigrationsController extends ControllerBase {
 
 			$version = '';
 			$exportData = '';
-			$force = $request->getPost('force', 'int');
+			$force = $this->request->getPost('force', 'int');
 
 			try {
+
+				$migrationsDir = $this->_getMigrationsDir();
 
 				Phalcon_Migrations::run(array(
 					'config' => $this->_settings,
 					'directory' => Phalcon_WebTools::getPath(),
 					'tableName' => 'all',
-					'migrationsDir' => $migrationDir,
+					'migrationsDir' => $migrationsDir,
 					'force' => $force
 				));
 
@@ -129,7 +141,5 @@ class MigrationsController extends ControllerBase {
 		$this->_prepareVersions();
 
 	}
-
-
 
 }
