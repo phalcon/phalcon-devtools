@@ -49,8 +49,6 @@ class ModelsController extends ControllerBase {
 			$foreignKeys = $this->request->getPost('foreignKeys', 'int');
 			$defineRelations = $this->request->getPost('defineRelations', 'int');
 
-			var_dump($defineRelations);
-
 			try {
 
 				$component = 'Model';

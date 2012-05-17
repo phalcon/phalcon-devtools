@@ -129,15 +129,15 @@ class AllModelsBuilderComponent {
 					$referencedColumns = $reference->getReferencedColumns();
 					$referencedModel = Utils::camelize($reference->getReferencedTable());
 					if($defineRelations){
-						if($reference->_referencedSchema==$schema){
+						if($reference->getReferencedSchema()==$schema){
 							if(count($columns)==1){
 								$belongsTo[$name][$referencedModel] = array(
 									'fields' => $columns[0],
 									'relationFields' => $referencedColumns[0]
 								);
-								$hasMany[$reference->getReferencedTable()][$name] = array(
-									'fields' => $columns[0],
-									'relationFields' => $referencedColumns[0]
+								$hasMany[$reference->getReferencedTable()][Utils::camelize($name)] = array(
+									'fields' => $referencedColumns[0],
+									'relationFields' => $columns[0]
 								);
 							}
 						}
@@ -164,8 +164,6 @@ class AllModelsBuilderComponent {
 				}
 			}
 		}
-
-		//print_r($belongsTo);
 
 		foreach($connection->listTables($schema) as $name){
 			$className = Utils::camelize($name);
