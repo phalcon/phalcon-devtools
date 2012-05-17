@@ -34,6 +34,8 @@ use Phalcon_Utils as Utils;
  */
 class AllModelsBuilderComponent {
 
+	private $_options;
+
 	public function __construct($options){
 		$this->_options = $options;
 	}
@@ -88,7 +90,7 @@ class AllModelsBuilderComponent {
 		$hasMany = array();
 		$belongsTo = array();
 		$foreignKeys = array();
-		if($defineRelations||$defineForeignKeys){
+		if($defineRelations || $defineForeignKeys){
 			foreach($connection->listTables($schema) as $name){
 				if($defineRelations){
 					if(!isset($hasMany[$name])){
@@ -123,27 +125,30 @@ class AllModelsBuilderComponent {
 					}
 				}
 				foreach($connection->describeReferences($name, $schema) as $reference){
+					$columns = $reference->getColumns();
+					$referencedColumns = $reference->getReferencedColumns();
+					$referencedModel = Utils::camelize($reference->getReferencedTable());
 					if($defineRelations){
 						if($reference->_referencedSchema==$schema){
-							if(count($reference->_columns)==1){
-								$belongsTo[$name][Utils::camelize($reference->_referencedTable)] = array(
-									'fields' => $reference->_columns[0],
-									'relationFields' => $reference->_referencedColumns[0]
+							if(count($columns)==1){
+								$belongsTo[$name][$referencedModel] = array(
+									'fields' => $columns[0],
+									'relationFields' => $referencedColumns[0]
 								);
-								$hasMany[$reference->_referencedTable][$name] = array(
-									'fields' => $reference->_columns[0],
-									'relationFields' => $reference->_referencedColumns[0]
+								$hasMany[$reference->getReferencedTable()][$name] = array(
+									'fields' => $columns[0],
+									'relationFields' => $referencedColumns[0]
 								);
 							}
 						}
 					}
 					if($defineForeignKeys){
-						if($reference->_referencedSchema==$schema){
-							if(count($reference->_columns)==1){
+						if($reference->getReferencedSchema()==$schema){
+							if(count($columns)==1){
 								$foreignKeys[$name][] = array(
-									'fields' => $reference->_columns[0],
-									'entity' => Utils::camelize($reference->_referencedTable),
-									'referencedFields' => $reference->_referencedColumns[0]
+									'fields' => $columns[0],
+									'entity' => $referencedModel,
+									'referencedFields' => $referencedColumns[0]
 								);
 							}
 						}
@@ -160,24 +165,26 @@ class AllModelsBuilderComponent {
 			}
 		}
 
+		//print_r($belongsTo);
+
 		foreach($connection->listTables($schema) as $name){
 			$className = Utils::camelize($name);
 			if(!file_exists($modelsDir.'/'.$className.'.php')||$forceProcess){
 
-				if(isset($hasMany[$className])){
-					$hasManyModel = $hasMany[$className];
+				if(isset($hasMany[$name])){
+					$hasManyModel = $hasMany[$name];
 				} else {
 					$hasManyModel = array();
 				}
 
-				if(isset($belongsTo[$className])){
-					$belongsToModel = $belongsTo[$className];
+				if(isset($belongsTo[$name])){
+					$belongsToModel = $belongsTo[$name];
 				} else {
 					$belongsToModel = array();
 				}
 
-				if(isset($foreignKeys[$className])){
-					$foreignKeysModel = $foreignKeys[$className];
+				if(isset($foreignKeys[$name])){
+					$foreignKeysModel = $foreignKeys[$name];
 				} else {
 					$foreignKeysModel = array();
 				}

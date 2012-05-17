@@ -49,6 +49,8 @@ class ModelsController extends ControllerBase {
 			$foreignKeys = $this->request->getPost('foreignKeys', 'int');
 			$defineRelations = $this->request->getPost('defineRelations', 'int');
 
+			var_dump($defineRelations);
+
 			try {
 
 				$component = 'Model';
@@ -70,7 +72,7 @@ class ModelsController extends ControllerBase {
 				$modelBuilder->build();
 
 				if($tableName=='all'){
-					Phalcon_Flash::success('All models was created successfully', 'alert alert-success');
+					Phalcon_Flash::success('Models were created successfully', 'alert alert-success');
 				} else {
 					Phalcon_Flash::success('Model "'.$tableName.'" was created successfully', 'alert alert-success');
 				}
