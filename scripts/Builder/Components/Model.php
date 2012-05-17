@@ -30,7 +30,6 @@ use Phalcon_Utils as Utils;
  * @package 	Scripts
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
- * @version 	$Id: Model.php,v a434b34d7989 2011/10/26 22:23:04 andres $
  */
 class ModelBuilderComponent {
 
@@ -51,8 +50,24 @@ class ModelBuilderComponent {
 		'Decimal' => 'Decimal'
 	);
 
+	public function __construct($options){
+		if(!isset($options['name'])){
+			throw new BuilderException("Please, specify the model name");
+		}
+		if(!isset($options['force'])){
+			$options['force'] = false;
+		}
+		if(!isset($options['className'])){
+			$options['className'] = Utils::camelize($options['name']);
+		}
+		if(!isset($options['fileName'])){
+			$options['fileName'] = $options['name'];
+		}
+		$this->_options = $options;
+	}
+
 	/**
-	 * Devuelve el tipo PHP asociado
+	 * Returns the associated PHP type
 	 *
 	 * @param string $type
 	 * @return string
@@ -74,23 +89,11 @@ class ModelBuilderComponent {
 	}
 
 	private function _getConfig($path){
-		return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
-	}
-
-	public function __construct($options){
-		if(!isset($options['name'])){
-			throw new BuilderException("Please, specify the model name");
+		if(isset($this->_options['config']) && $this->_options['config']){
+			return $this->_options['config'];
+		} else {
+			return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
 		}
-		if(!isset($options['force'])){
-			$options['force'] = false;
-		}
-		if(!isset($options['className'])){
-			$options['className'] = Utils::camelize($options['name']);
-		}
-		if(!isset($options['fileName'])){
-			$options['fileName'] = $options['name'];
-		}
-		$this->_options = $options;
 	}
 
 	public function build(){
@@ -125,13 +128,8 @@ class ModelBuilderComponent {
 
 		$initialize = array();
 
-		try {
-			Phalcon_Db_Pool::setDefaultDescriptor($config->database);
-			$db = Phalcon_Db_Pool::getConnection();
-		}
-		catch(Phalcon_Db_Exception $e){
-			throw new ScriptException('Phalcon_Db_Exception: '.$e->getMessage());
-		}
+		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
+		$db = Phalcon_Db_Pool::getConnection();
 
 		if(isset($this->_options['schema'])){
 			if($this->_options['schema']!=$db->getDatabaseName()){

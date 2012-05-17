@@ -66,6 +66,7 @@ class CreateAllModels extends Phalcon_Script {
 			$path = $this->getOption('directory').'/';
 		}
 
+		$config = null;
 		if(!$this->isReceivedOption('models-dir')){
 			if($this->isReceivedOption('config-dir')){
 				$config = new Phalcon_Config_Adapter_Ini($path.$this->getOption('config-dir'));
@@ -81,131 +82,23 @@ class CreateAllModels extends Phalcon_Script {
 			$modelsDir = $this->getOption('models-dir');
 		}
 
+		$schema = $this->getOption('schema');
 		$forceProcess = $this->isReceivedOption('force');
 		$defineRelations = $this->isReceivedOption('define-relations');
 		$defineForeignKeys = $this->isReceivedOption('foreign-keys');
+		$genSettersGetters = $this->isReceivedOption('gen-setters-getters');
 
-		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
-		$connection = Phalcon_Db_Pool::getConnection();
-
-		$schema = $this->getOption('schema');
-		if(!$schema){
-			$schema = $connection->getDatabaseName();
-		}
-
-		$hasMany = array();
-		$belongsTo = array();
-		$foreignKeys = array();
-		if($defineRelations||$defineForeignKeys){
-			foreach($connection->listTables($schema) as $name){
-				if($defineRelations){
-					if(!isset($hasMany[$name])){
-						$hasMany[$name] = array();
-					}
-					if(!isset($belongsTo[$name])){
-						$belongsTo[$name] = array();
-					}
-				}
-				if($defineForeignKeys){
-					$foreignKeys[$name] = array();
-				}
-				foreach($connection->describeTable($name, $schema) as $field){
-					if(preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)){
-						if($defineRelations){
-							$hasMany[$matches[1]][Utils::camelize($name)] = array(
-								'fields' => 'id',
-								'relationFields' => $field['Field']
-							);
-							$belongsTo[$name][Utils::camelize($matches[1])] = array(
-								'fields' => $field['Field'],
-								'relationFields' => 'id'
-							);
-						}
-						if($defineForeignKeys){
-							$foreignKeys[$name][] = array(
-								'fields' => $field['Field'],
-								'entity' => Utils::camelize($matches[1]),
-								'referencedFields' => 'id'
-							);
-						}
-					}
-				}
-				foreach($connection->describeReferences($name, $schema) as $reference){
-					if($defineRelations){
-						if($reference['referencedSchema']==$schema){
-							if(count($reference['columns'])==1){
-								$belongsTo[$name][Utils::camelize($reference['referencedTable'])] = array(
-									'fields' => $reference['columns'][0],
-									'relationFields' => $reference['referencedColumns'][0]
-								);
-								$hasMany[$reference['referencedTable']][$name] = array(
-									'fields' => $reference['columns'][0],
-									'relationFields' => $reference['referencedColumns'][0]
-								);
-							}
-						}
-					}
-					if($defineForeignKeys){
-						if($reference['referencedSchema']==$schema){
-							if(count($reference['columns'])==1){
-								$foreignKeys[$name][] = array(
-									'fields' => $reference['columns'][0],
-									'entity' => Utils::camelize($reference['referencedTable']),
-									'referencedFields' => $reference['referencedColumns'][0]
-								);
-							}
-						}
-					}
-				}
-			}
-		} else {
-			foreach($connection->listTables($schema) as $name){
-				if($defineRelations){
-					$hasMany[$name] = array();
-					$belongsTo[$name] = array();
-					$foreignKeys[$name] = array();
-				}
-			}
-		}
-
-		foreach($connection->listTables($schema) as $name){
-			$className = Utils::camelize($name);
-			if(!file_exists($modelsDir.'/'.$className.'.php')||$forceProcess){
-
-				if(isset($hasMany[$className])){
-					$hasManyModel = $hasMany[$className];
-				} else {
-					$hasManyModel = array();
-				}
-
-				if(isset($belongsTo[$className])){
-					$belongsToModel = $belongsTo[$className];
-				} else {
-					$belongsToModel = array();
-				}
-
-				if(isset($foreignKeys[$className])){
-					$foreignKeysModel = $foreignKeys[$className];
-				} else {
-					$foreignKeysModel = array();
-				}
-
-				$modelBuilder = Builder::factory('Model', array(
-					'name' => $name,
-					'schema' => $schema,
-					'force' => $forceProcess,
-					'hasMany' => $hasManyModel,
-					'belongsTo' => $belongsToModel,
-					'foreignKeys' => $foreignKeysModel,
-					'genSettersGetters' => $this->isReceivedOption('gen-setters-getters'),
-					'directory' => $this->getOption('directory'),
-				));
-
-				$modelBuilder->build();
-			} else {
-				echo "INFO: Skip model \"$name\" because it already exist\n";
-			}
-		}
+		$modelBuilder = Builder::factory('AllModels', array(
+			'name' => $name,
+			'schema' => $schema,
+			'force' => $forceProcess,
+			'defineRelations' => $defineRelations,
+			'defineForeignKeys' => $defineForeignKeys,
+			'foreignKeys' => $foreignKeysModel,
+			'genSettersGetters' => $genSettersGetters,
+			'directory' => $this->getOption('directory'),
+			'config' => $config
+		));
 
 	}
 

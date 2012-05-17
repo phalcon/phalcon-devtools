@@ -1,0 +1,23 @@
+<div class="span9">
+
+	<p><h1>Run Migration</h1></p>
+
+	<form method="post" class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=migration&subAction=run">
+
+		<table class="table table-striped table-bordered table-condensed">
+			<tr>
+				<td><b>Current Version</b></td>
+				<td><i><?php echo $version ?></i></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div align="right">
+						<input type="submit" class="btn btn-primary" value="Run"/>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+	</form>
+
+</div>

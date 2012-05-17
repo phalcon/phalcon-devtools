@@ -25,15 +25,13 @@ require 'scripts/Model/Migration/Profiler.php';
 
 class MigrationsController extends ControllerBase {
 
-	public function indexAction(){
+	protected function _prepareVersions(){
 
 		$migrationsDir = Phalcon_WebTools::getPath('app/migrations');
 
 		if(!file_exists($migrationsDir)){
 			mkdir($migrationsDir);
 		}
-
-		$request = Phalcon_Request::getInstance();
 
 		$folders = array();
 		foreach(scandir($migrationsDir) as $item){
@@ -46,6 +44,18 @@ class MigrationsController extends ControllerBase {
 		$folders = array_reverse($folders);
 		$foldersKeys = array_keys($folders);
 
+		if(isset($foldersKeys[0])){
+			$this->view->setVar('version', $foldersKeys[0]);
+		} else {
+			$this->view->setVar('version', 'None');
+		}
+
+	}
+
+	public function indexAction(){
+
+		$this->_prepareVersions();
+
 		$tables = array('all' => 'All');
 		$connection = $this->_getConnection();
 
@@ -55,12 +65,6 @@ class MigrationsController extends ControllerBase {
 		}
 
 		$this->view->setVar('tables', $tables);
-		if(isset($foldersKeys[0])){
-			$this->view->setVar('version', $foldersKeys[0]);
-		} else {
-			$this->view->setVar('version', 'None');
-		}
-
 	}
 
 	/**
@@ -79,7 +83,7 @@ class MigrationsController extends ControllerBase {
 
 				Phalcon_Migrations::generate(array(
 					'config' => $this->_settings,
-					'directory' => $this->_path,
+					'directory' => Phalcon_WebTools::getPath(),
 					'tableName' => $tableName,
 					'exportData' => $exportData,
 					'migrationsDir' => $migrationsDir,
@@ -90,79 +94,42 @@ class MigrationsController extends ControllerBase {
 				$html .= '<div class="alert alert-success">The migration was created successfully</div>';
 			}
 			catch(Phalcon_BuilderException $e){
-				$html .= '<div class="alert alert-error">'.$e->getMessage().'</div>';
+				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
 			}
 
 		}
-
-		if(!$request->getQuery('subAction')){
-
-			if(!isset($foldersKeys[0])){
-				$version = 'None';
-			} else {
-				$version = $foldersKeys[0];
-			}
-
-			$html .= '';
-		} else {
-
-			$html .= '<div class="span9">
-				<p><h1>Run  Migration</h1></p>
-				<form method="post" class="forma-horizontal" action="'.$this->_uri.'/webtools.php?action=migration&subAction=run">
-					<table class="table table-striped table-bordered table-condensed">
-						<tr>
-							<td><b>Current Version</b></td>
-							<td><i>'.$foldersKeys[0].'</i></td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div align="right">
-									<input type="submit" class="btn btn-primary" value="Generate"/>
-								</div>
-							</td>
-						</tr>
-					</table>
-				</form>';
-		}
-
-		$html .= '</div>';
-
-		return $html;
-	}
-
-	public function prepareRun(){
 
 	}
 
 	public function runAction(){
 
-		$version = '';
-		$force = $request->getPost('force', 'int');
-		$exportData = '';
+		if($this->request->isPost()){
 
-		try {
+			$version = '';
+			$exportData = '';
+			$force = $request->getPost('force', 'int');
 
-						ob_start();
-						$migrationOut = Phalcon_Migrations::run(array(
-							'config' => $this->_settings,
-							'directory' => $this->_path,
-							'tableName' => 'all',
-							'migrationsDir' => $migrationDir,
-							'force' => $force
-						));
-						$html = nl2br(ob_get_contents());
-						ob_end_clean();
+			try {
 
-						$_GET['subAction'] = 'run';
-						if(!$version){
-							$version = $foldersKeys[0];
-						}
+				Phalcon_Migrations::run(array(
+					'config' => $this->_settings,
+					'directory' => Phalcon_WebTools::getPath(),
+					'tableName' => 'all',
+					'migrationsDir' => $migrationDir,
+					'force' => $force
+				));
 
-						$html .= '<div class="alert alert-success">The migration "'.$version.'" was executed successfully</div>';
-					}
-					catch(Phalcon_BuilderException $e){
-						$html .= '<div class="alert alert-error">'.$e->getMessage().'</div>';
-					}
+				Phalcon_Flash::success("The migration was executed successfully", "alert alert-success");
+			}
+			catch(Phalcon_BuilderException $e){
+				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
+			}
+		}
+
+		$this->_prepareVersions();
+
 	}
+
+
 
 }
