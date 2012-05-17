@@ -89,17 +89,16 @@ class CreateAllModels extends Phalcon_Script {
 		$genSettersGetters = $this->isReceivedOption('gen-setters-getters');
 
 		$modelBuilder = Builder::factory('AllModels', array(
-			'name' => $name,
-			'schema' => $schema,
 			'force' => $forceProcess,
-			'defineRelations' => $defineRelations,
-			'defineForeignKeys' => $defineForeignKeys,
-			'foreignKeys' => $foreignKeysModel,
-			'genSettersGetters' => $genSettersGetters,
+			'config' => $config,
+			'schema' => $schema,
 			'directory' => $this->getOption('directory'),
-			'config' => $config
+			'foreignKeys' => $defineForeignKeys,
+			'defineRelations' => $defineRelations,
+			'genSettersGetters' => $genSettersGetters
 		));
 
+		$modelBuilder->build();
 	}
 
 }

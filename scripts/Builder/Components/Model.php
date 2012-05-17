@@ -180,7 +180,7 @@ class ModelBuilderComponent {
 		}
 
 		if(isset($this->_options['foreignKeys'])){
-			if(count($this->_options['foreignKeys'])){
+			if(count($this->_options['foreignKeys']) && is_array($this->_options['foreignKeys'])){
 				foreach($this->_options['foreignKeys'] as $foreignKey){
 					$initialize[] = "\t\t\$this->addForeignKey(\"{$foreignKey['fields']}\", \"{$foreignKey['entity']}\", \"{$foreignKey['referencedFields']}\")";
 				}
