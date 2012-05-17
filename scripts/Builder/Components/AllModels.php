@@ -47,13 +47,14 @@ class AllModelsBuilderComponent {
 
 	public function build(){
 
+		$config = $this->_getConfig('');
 		$modelsDir = $this->_options['modelsDir'];
 		$schema = $this->_options['schema'];
 		$forceProcess = $this->_options['force'];
 		$defineRelations = $this->_options['define-relations'];
 		$defineForeignKeys = $this->_options['foreign-keys'];
 		$genSettersGetters = $this->_options['gen-setters-getters'];
-
+		var_dump($config->database);
 		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
 		$connection = Phalcon_Db_Pool::getConnection();
 

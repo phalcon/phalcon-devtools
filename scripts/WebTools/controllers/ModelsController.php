@@ -24,7 +24,7 @@ class ModelsController extends ControllerBase {
 
 		$connection = $this->_getConnection();
 
-		$tables = array();
+		$tables = array('all' => 'All');
 		$result = $connection->query("SHOW TABLES");
 		while($table = $connection->fetchArray($result)){
 			$tables[$table[0]] = $table[0];
@@ -49,11 +49,20 @@ class ModelsController extends ControllerBase {
 
 			try {
 
-				$modelBuilder = Phalcon_Builder::factory('Model', array(
+				$component = 'Model';
+				if($tableName=='all'){
+					$component = 'AllModels';
+				}
+
+				$modelBuilder = Phalcon_Builder::factory($component, array(
 					'name' => $tableName,
 					'genSettersGetters' => $genSettersGetters,
 					'directory' => Phalcon_WebTools::getPath(),
-					'force' => $force
+					'force' => $force,
+					'modelsDir' => $this->_settings->phalcon->modelsDir,
+					'define-relations' => true,
+					'foreign-keys' => true
+
 				));
 
 				$html = $modelBuilder->build();
