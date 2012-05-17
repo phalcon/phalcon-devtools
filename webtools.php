@@ -29,6 +29,5 @@ if(PHP_OS=="WINNT"){
 chdir(PTOOLSPATH);
 
 require 'scripts/WebTools/WebTools.php';
-require 'scripts/Builder/Builder.php';
 
 Phalcon_WebTools::main($path);
