@@ -4,7 +4,7 @@
 
 	<p><h1>Generate Scaffold</h1></p>
 
-	<form class="forma-horizontal" action="<?php echo $this->url("webtools.php?_url=scaffold/generate") ?>">
+	<form method="post" class="forma-horizontal" action="<?php echo $this->url("webtools.php?_url=scaffold/generate") ?>">
 
 		<table class="table table-striped table-bordered table-condensed">
 			<tr>
@@ -13,7 +13,11 @@
 			</tr>
 			<tr>
 				<td><b>Table name</b></td>
-				<td><i><?php echo Phalcon_Tag::selectStatic('table-name', $tables) ?></i></td>
+				<td><i><?php echo Phalcon_Tag::selectStatic('tableName', $tables) ?></i></td>
+			</tr>
+			<tr>
+				<td><b>Add setters and getters</b></td>
+				<td><i><input type="checkbox" name="genSettersGetters" value="1"/></i></td>
 			</tr>
 			<tr>
 				<td><b>Force</b></td>

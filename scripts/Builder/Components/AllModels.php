@@ -47,28 +47,33 @@ class AllModelsBuilderComponent {
 	}
 
 	public function build(){
-		
+
+		$path = '.';
+		if(isset($this->_options['directory'])){
+			$path = $this->_options['directory'];
+		}
+
 		$schema = $this->_options['schema'];
-		$config = $this->_getConfig($this->_options['directory'].'/');
+		$config = $this->_getConfig($path.'/');
 		$modelsDir = $config->phalcon->modelsDir;
 		$forceProcess = $this->_options['force'];
 
-		if(isset($this->_options['define-relations'])){
-			$defineRelations = $this->_options['define-relations'];
+		if(isset($this->_options['defineRelations'])){
+			$defineRelations = $this->_options['defineRelations'];
 		} else {
-			$defineRelations = $this->_options['defineRelations'];	
+			$defineRelations = false;
 		}
 
-		if(isset($this->_options['foreign-keys'])){
-			$defineForeignKeys = $this->_options['foreign-keys'];
+		if(isset($this->_options['foreignKeys'])){
+			$defineForeignKeys = $this->_options['foreignKeys'];
 		} else {
-			$defineForeignKeys = $this->_options['foreignKeys'];	
+			$defineForeignKeys = false;
 		}
 
-		if(isset($this->_options['gen-setters-getters'])){
-			$genSettersGetters = $this->_options['gen-setters-getters'];
+		if(isset($this->_options['genSettersGetters'])){
+			$genSettersGetters = $this->_options['genSettersGetters'];
 		} else {
-			$genSettersGetters = $this->_options['genSettersGetters'];	
+			$genSettersGetters = false;
 		}
 
 		Phalcon_Db_Pool::setDefaultDescriptor($config->database);

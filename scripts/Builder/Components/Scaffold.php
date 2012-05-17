@@ -92,8 +92,8 @@ class ScaffoldBuilderComponent {
 		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
 		$connection = Phalcon_Db_Pool::getConnection();
 
-		$options̈́['className'] = Utils::camelize($options['name']);
-		$options̈́['fileName'] = Utils::uncamelize($options̈́['className']);
+		$options['className'] = Utils::camelize($options['name']);
+		$options['fileName'] = Utils::uncamelize($options['className']);
 
 		if(!$options['manager']->isModel($options['className'])){
 
@@ -102,7 +102,7 @@ class ScaffoldBuilderComponent {
 				'schema' => $options['schema'],
 				'className' => $options['className'],
 				'fileName' => $options['fileName'],
-				'genSettersGetters' => $options['gen-setters-getters'],
+				'genSettersGetters' => $options['genSettersGetters'],
 				'directory' => $options['directory'],
 				'force' => $options['force']
 			));
@@ -133,9 +133,9 @@ class ScaffoldBuilderComponent {
 		$relationField = '';
 
 		$single = $name;
-		$options['name'] = strtolower(Phalcon_Utils::camelize($single));
-		$options['plural'] = str_replace('_', ' ', $single);
-		$options['single'] = str_replace('_', ' ', $single);
+		$options['name'] 				 = strtolower(Phalcon_Utils::camelize($single));
+		$options['plural'] 				 = str_replace('_', ' ', $single);
+		$options['single']				 = str_replace('_', ' ', $single);
 		$options['entity']				 = $entity;
 		$options['theSingle'] 			 = $single;
 		$options['singleVar'] 			 = $single;

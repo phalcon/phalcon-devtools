@@ -51,7 +51,7 @@ class Scaffold extends Phalcon_Script {
 			//'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.[optional]",
 			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
 			//'theme=s' 			=> "--theme \tTheme to be applied. [optional]",
-			'directory=s' => "--directory path Base path on which project will be created",
+			'directory=s' 		=> "--directory path Base path on which project will be created",
 			'force' 			=> "--force \tForces to rewrite generated code if they already exists. [optional]",
 			'debug' 			=> "--debug \tShows the trace of the framework in case of an exception is generated. [optional]",
 			'help' 				=> "--help \t\tShow help"
@@ -73,8 +73,6 @@ class Scaffold extends Phalcon_Script {
 			'name' => $name,
 			'theme'	=> $this->getOption('theme'),
 			'schema' => $schema,
-			'fileName' => $fileName,
-			'className'	=> $className,
 			'force'	=> $this->isReceivedOption('force'),
 			'genSettersGetters' => $this->isReceivedOption('gen-setters-getters'),
 			'directory' => $this->getOption('directory'),

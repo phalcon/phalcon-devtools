@@ -44,10 +44,10 @@ class ModelsController extends ControllerBase {
 
 			$force = $this->request->getPost('force', 'int');
 			$schema = $this->request->getPost('schema');
-			$tableName = $this->request->getPost('table-name');
-			$genSettersGetters = $this->request->getPost('gen-setters-getters', 'int');
-			$foreignKeys = $this->request->getPost('foreign-keys', 'int');
-			$defineRelations = $this->request->getPost('define-relations', 'int');
+			$tableName = $this->request->getPost('tableName');
+			$genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
+			$foreignKeys = $this->request->getPost('foreignKeys', 'int');
+			$defineRelations = $this->request->getPost('defineRelations', 'int');
 
 			try {
 
@@ -64,17 +64,17 @@ class ModelsController extends ControllerBase {
 					'foreignKeys' 			=> $foreignKeys,
 					'defineRelations' 		=> $defineRelations,
 					'genSettersGetters' 	=> $genSettersGetters
-					
+
 				));
 
-				$html = $modelBuilder->build();
+				$modelBuilder->build();
 
 				if($tableName=='all'){
-					Phalcon_Flash::success('The all models was created successfully', 'alert alert-success');
+					Phalcon_Flash::success('All models was created successfully', 'alert alert-success');
 				} else {
-					Phalcon_Flash::success('The model "'.$tableName.'" was created successfully', 'alert alert-success');	
+					Phalcon_Flash::success('Model "'.$tableName.'" was created successfully', 'alert alert-success');
 				}
-				
+
 			}
 			catch(Phalcon_BuilderException $e){
 				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');

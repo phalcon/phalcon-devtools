@@ -39,6 +39,39 @@ class ScaffoldController extends ControllerBase {
 	 */
 	public function generateAction(){
 
+		if($this->request->isPost()){
+
+			$schema = $this->request->getPost('schema', 'string');
+			$tableName = $this->request->getPost('tableName', 'string');
+			$version = $this->request->getPost('version', 'string');
+			$force = $this->request->getPost('force', 'int');
+			$genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
+
+			try {
+
+				$scaffoldBuilder = Phalcon_Builder::factory('Scaffold', array(
+					'name' => $tableName,
+					'theme'	=> null,
+					'schema' => $schema,
+					'force'	=> $force,
+					'genSettersGetters' => $genSettersGetters,
+					'directory' => Phalcon_WebTools::getPath(),
+					'autocomplete' 	=> false
+				));
+
+				$scaffoldBuilder->build();
+
+				Phalcon_Flash::success('Model "'.$tableName.'" was created successfully', 'alert alert-success');
+
+			}
+			catch(Phalcon_BuilderException $e){
+				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
+			}
+
+		}
+
+		return $this->_forward('scaffold/index');
+
 
 	}
 
