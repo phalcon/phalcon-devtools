@@ -1,0 +1,37 @@
+<div class="span9">
+
+	<?php echo $this->getContent() ?>
+
+	<p><h1>Generate  Migration</h1></p>
+
+	<form method="POST" class="forma-horizontal" action="<?php echo $this->url("webtools.php?_url=migrations/generate") ?>">
+
+		<table class="table table-striped table-bordered table-condensed">
+			<tr>
+				<td><b>Current Version</b></td>
+				<td><i><?php echo $version ?></i></td>
+			</tr>
+			<tr>
+				<td><b>New Version</b></td>
+				<td><?php echo Phalcon_Tag::textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
+			</tr>
+			<tr>
+				<td><b>Table name</b></td>
+				<td><i><php echo Phalcon_Tag::selectStatic('table-name', $tables) ?></i></td>
+			</tr>
+			<tr>
+				<td><b>Force</b></td>
+				<td><i><input type="checkbox" name="force" value="1"/></i></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div align="right">
+						<input type="submit" class="btn btn-primary" value="Generate"/>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+	</form>
+
+</div>

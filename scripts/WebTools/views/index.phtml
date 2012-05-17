@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Phalcon // Web DevTools</title>
+		<?php echo Phalcon_Tag::stylesheetLink('css/bootstrap/bootstrap.min.css') ?>
+	</head>
+	<body>
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container">
+					<a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<a href="#" class="brand">Phalcon Web Tools</a>
+					<div class="nav-collapse">
+						<ul class="nav"><?php echo Phalcon_WebTools::getNavMenu($this->getControllerName()) ?></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span2">
+				    <div style="padding: 8px 0;" class="well">
+						<ul class="nav nav-list">
+							<?php Phalcon_WebTools::getMenu($this->getControllerName(), $this->getActionName()) ?>
+						</ul>
+					</div>
+				</div>
+				<div class="span9 well">
+					<?php echo $this->getContent() ?>
+				</div>
+			</div>
+	    </div>
+	    <?php echo Phalcon_Tag::javascriptInclude('javascript/bootstrap/bootstrap.min.js') ?>
+	</body>
+</html>
