@@ -61,7 +61,7 @@ class ScaffoldController extends ControllerBase {
 
 				$scaffoldBuilder->build();
 
-				Phalcon_Flash::success('Model "'.$tableName.'" was created successfully', 'alert alert-success');
+				Phalcon_Flash::success('Scaffold for table "'.$tableName.'" was generated successfully', 'alert alert-success');
 
 			}
 			catch(Phalcon_BuilderException $e){

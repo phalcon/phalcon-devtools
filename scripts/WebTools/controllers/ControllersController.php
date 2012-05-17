@@ -42,9 +42,12 @@ class ControllersController extends ControllerBase {
 					'force' 	=> $force
 				));
 
-				$modelBuilder->build();
+				$fileName = $modelBuilder->build();
 
-				Phalcon_Flash::success('The controller "'.$name.'" was created successfully', 'alert alert-success');
+				Phalcon_Flash::success('The controller "'.$fileName.'" was created successfully', 'alert alert-success');
+
+				return $this->_forward('controllers/edit/'.$fileName);
+
 			}
 			catch(Phalcon_BuilderException $e){
 				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
@@ -53,6 +56,55 @@ class ControllersController extends ControllerBase {
 		}
 
 		return $this->_forward('controllers/index');
+
+	}
+
+	public function listAction(){
+		$this->view->setVar('controllersDir', Phalcon_WebTools::getPath('public/'.$this->_settings->phalcon->controllersDir));
+	}
+
+	public function editAction($fileName){
+
+		$fileName = str_replace('..', '', $fileName);
+
+		$controllersDir = Phalcon_WebTools::getPath('public/'.$this->_settings->phalcon->controllersDir);
+		if(!file_exists($controllersDir.'/'.$fileName)){
+			Phalcon_Flash::error('Controller could not be found', 'alert alert-error');
+			return $this->_forward('controllers/list');
+		}
+
+		Phalcon_Tag::setDefault('code', file_get_contents($controllersDir.'/'.$fileName));
+		Phalcon_Tag::setDefault('name', $fileName);
+		$this->view->setVar('name', $fileName);
+
+	}
+
+	public function saveAction(){
+
+		if($this->request->isPost()){
+
+			$fileName = $this->request->getPost('name', 'string');
+
+			$fileName = str_replace('..', '', $fileName);
+
+			$controllersDir = Phalcon_WebTools::getPath('public/'.$this->_settings->phalcon->controllersDir);
+			if(!file_exists($controllersDir.'/'.$fileName)){
+				Phalcon_Flash::error('Controller could not be found', 'alert alert-error');
+				return $this->_forward('controllers/list');
+			}
+
+			if(!is_writable($controllersDir.'/'.$fileName)){
+				Phalcon_Flash::error('Controller file does not have write access', 'alert alert-error');
+				return $this->_forward('controllers/list');
+			}
+
+			file_put_contents($controllersDir.'/'.$fileName, $this->request->getPost('code'));
+
+			Phalcon_Flash::success('The controller "'.$fileName.'" was saved successfully', 'alert alert-success');
+
+		}
+
+		return $this->_forward('controllers/list');
 
 	}
 

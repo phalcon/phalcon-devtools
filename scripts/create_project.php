@@ -23,9 +23,9 @@ if($pToolsPath){
 	chdir($pToolsPath);
 }
 
-require_once 'Script/Script.php';
-require_once 'Script/Color/ScriptColor.php';
-require_once 'Builder/Builder.php';
+require 'Script/Script.php';
+require 'Script/Color/ScriptColor.php';
+require 'WebTools/WebTools.php';
 
 use Phalcon_Builder as Builder;
 
@@ -49,6 +49,7 @@ class CreateProject extends Phalcon_Script {
 
 		$posibleParameters = array(
 			'directory=s' => "--directory path \tBase path on which project will be created",
+			'enable-webtools' => "--enable-webtools \tWhether to enable web developer tools",
 			'debug'	=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
 			'help' => "--help \t\t\tShow help"
 		);
@@ -67,11 +68,13 @@ class CreateProject extends Phalcon_Script {
 			$name = "";
 		}
 
-		$modelBuilder = Builder::factory('Project', array(
+		$builder = Builder::factory('Project', array(
 			'name' => $name,
-			'directory' => $this->getOption('directory')
+			'directory' => $this->getOption('directory'),
+			'enableWebTools' => $this->isReceivedOption('enable-webtools')
 		));
-		$modelBuilder->build();
+
+		$builder->build();
 	}
 
 }

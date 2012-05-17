@@ -23,9 +23,9 @@ if($pToolsPath){
 	chdir($pToolsPath);
 }
 
-require_once 'Script/Script.php';
-require_once 'Script/Color/ScriptColor.php';
-require_once 'TBootstrap/TBootstrap.php';
+require 'Script/Script.php';
+require 'Script/Color/ScriptColor.php';
+require 'WebTools/WebTools.php';
 
 /**
  * EnableWebTools
@@ -66,20 +66,7 @@ class EnableWebTools extends Phalcon_Script {
 			throw new ScriptException("Phalcon PHP Framework is not loaded yet!");
 		}
 
-		if(!file_exists($path.'.phalcon')){
-			throw new ScriptException("This command should be invoked inside a phalcon project");
-		}
-
-		TBootstrap::install($path);
-
-		$pToolsPath = getenv("PTOOLSPATH");
-		copy('webtools.php', $path.'public/webtools.php');
-
-		$webToolsConfigPath = $path."public/webtools.config.php";
-		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".$pToolsPath."\");\n\n";
-		if(!file_exists($webToolsConfigPath)){
-			file_put_contents($webToolsConfigPath, $code);
-		}
+		Phalcon_WebTools::install($path);
 
 	}
 

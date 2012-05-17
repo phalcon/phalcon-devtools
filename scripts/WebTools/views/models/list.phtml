@@ -1,0 +1,28 @@
+<?php echo $this->getContent() ?>
+
+<p><h1>Edit Models</h1></p>
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<td><b>Name</b></td>
+			<td><b>Size</b></td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+		$iterator = new DirectoryIterator($modelsDir);
+		foreach($iterator as $fileinfo){
+			if(!$fileinfo->isDot()){
+				echo '<tr>
+					<td>', $fileinfo->getFileName(), '</td>
+					<td>', $fileinfo->getSize(), '</td>
+					<td><a href="', $this->url("webtools.php?_url=models/edit/".$fileinfo->getFileName()), '"
+					    class"="btn">Edit</a></td>
+				</tr>';
+			}
+		}
+	?>
+	</tbody>
+</table>

@@ -66,13 +66,16 @@ class ControllerBuilderComponent {
 
 		$name = $this->_options['name'];
 		$controllersDir = 'app/controllers/';
-		$controllerPath = $path.$controllersDir.Utils::camelize($name)."Controller.php";
-		$code = "<?php\n\nclass ".Utils::camelize($name)."Controller extends Phalcon_Controller {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
+		$className = Utils::camelize($name);
+		$controllerPath = $path.$controllersDir.$className."Controller.php";
+		$code = "<?php\n\nclass ".$className."Controller extends Phalcon_Controller {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
 		if(!file_exists($controllerPath) || $this->_options['force']==true){
 			file_put_contents($controllerPath, $code);
 		} else {
 	 		throw new BuilderException("The Controller '$name' already exists");
 		}
+
+		return $className.'Controller.php';
 
 	}
 

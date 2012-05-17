@@ -672,7 +672,7 @@ class ScaffoldBuilderComponent {
 <table class="browse" align="center">'.PHP_EOL.
 			"\t".'<thead>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL;
-			foreach($options['attributes'] as $attribute => $dataType){
+			foreach($options['attributes'] as $attribute){
 				$code.="\t\t\t".'<th>'.$this->_getPosibleLabel($attribute).'</th>'.PHP_EOL;
 			}
 			$code.="\t\t".'</tr>'.PHP_EOL.

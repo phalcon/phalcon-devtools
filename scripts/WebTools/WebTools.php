@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+require 'scripts/TBootstrap/TBootstrap.php';
+require 'scripts/CodeMirror/CodeMirror.php';
 require 'scripts/Builder/Builder.php';
 require 'scripts/WebTools/controllers/ControllerBase.php';
 
@@ -142,6 +144,25 @@ class Phalcon_WebTools {
 		}
 		catch(Phalcon_Exception $e){
 			echo get_class($e), ': ', $e->getMessage();
+		}
+	}
+
+	public static function install($path){
+
+		if(!file_exists($path.'.phalcon')){
+			throw new ScriptException("This command should be invoked inside a phalcon project");
+		}
+
+		TBootstrap::install($path);
+		CodeMirror::install($path);
+
+		$pToolsPath = getenv("PTOOLSPATH");
+		copy('webtools.php', $path.'public/webtools.php');
+
+		$webToolsConfigPath = $path."public/webtools.config.php";
+		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".$pToolsPath."\");\n\n";
+		if(!file_exists($webToolsConfigPath)){
+			file_put_contents($webToolsConfigPath, $code);
 		}
 	}
 
