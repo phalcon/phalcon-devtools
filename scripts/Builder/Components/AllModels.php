@@ -55,7 +55,6 @@ class AllModelsBuilderComponent {
 			$path = $this->_options['directory'];
 		}
 
-		$schema = $this->_options['schema'];
 		$config = $this->_getConfig($path.'/');
 		$modelsDir = $config->phalcon->modelsDir;
 		$forceProcess = $this->_options['force'];
