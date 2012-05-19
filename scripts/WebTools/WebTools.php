@@ -162,9 +162,7 @@ class Phalcon_WebTools {
 		$webToolsConfigPath = $path."public/webtools.config.php";
 
 		if(PHP_OS=="WINNT"){
-			$pToolsPath = str_replace("\\", "/", getcwd());
-		} else {
-			$pToolsPath = getcwd();
+			$pToolsPath = str_replace("\\", "/", $pToolsPath);
 		}
 
 		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".$pToolsPath."\");\n\n";
