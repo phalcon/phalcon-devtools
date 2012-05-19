@@ -160,6 +160,13 @@ class Phalcon_WebTools {
 		copy('webtools.php', $path.'public/webtools.php');
 
 		$webToolsConfigPath = $path."public/webtools.config.php";
+
+		if(PHP_OS=="WINNT"){
+			$pToolsPath = str_replace("\\", "/", getcwd());
+		} else {
+			$pToolsPath = getcwd();
+		}
+
 		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".$pToolsPath."\");\n\n";
 		if(!file_exists($webToolsConfigPath)){
 			file_put_contents($webToolsConfigPath, $code);
