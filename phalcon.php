@@ -26,7 +26,7 @@ if(!$phalconToolsPath){
 }
 
 if(PHP_OS=="WINNT"){
-	$path = str_replace("\\", "/", getcwd());
+	$path = str_replace("\\", "/", getcwd())."/";
 } else {
 	$path = getcwd();
 }
