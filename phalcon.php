@@ -31,6 +31,10 @@ if(PHP_OS=="WINNT"){
 	$path = getcwd();
 }
 
+if(!extension_loaded('phalcon')){
+	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install'.PHP_EOL);
+}
+
 if(isset($_SERVER['argv'][1])){
 	if($_SERVER['argv'][1]=='commands'){
 		echo 'Available commands:', PHP_EOL;
