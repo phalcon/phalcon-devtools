@@ -191,33 +191,43 @@ class ScaffoldBuilderComponent {
 
 		$controllerPath = $options['controllersDir'].ucfirst(strtolower($options['className'])).'Controller.php';
 
-		$code = '<?php'.PHP_EOL.PHP_EOL.
-		'use Phalcon_Tag as Tag;'.PHP_EOL.
-		'use Phalcon_Flash as Flash;'.PHP_EOL.PHP_EOL.
-		'class '.$options['className'].'Controller extends ControllerBase {'.PHP_EOL.PHP_EOL.
-		//Index
-		"\t".'function indexAction(){
+		if(!file_exists($controllerPath)){
+
+			$code = '<?php'.PHP_EOL.PHP_EOL.
+			'use Phalcon_Tag as Tag;'.PHP_EOL.
+			'use Phalcon_Flash as Flash;'.PHP_EOL.PHP_EOL.
+			'class '.$options['className'].'Controller extends ControllerBase {'.PHP_EOL.PHP_EOL.
+			//Index
+			"\t".'function indexAction(){
 		$this->session->conditions = null;'.PHP_EOL;
-		$code.="\t".'}'.PHP_EOL.PHP_EOL;
 
-		$primaryKeys = $options['primaryKeys'];
-		$paramsPks = $conditionsPks = $orderPks = array();
-		foreach($primaryKeys as $primaryKey){
-			$orderPks[] = $primaryKey;
-			$paramsPks[] = '$'.$primaryKey;
-			$conditionsPks[] =	'\''.$primaryKey.'="\'.$'.$primaryKey.'.\'"\'';
-		}
-		if(count($orderPks)==0){
-			$orderPks[] = 1;
-		}
-		$paramsPksString = implode(', ',$paramsPks);
-		$conditionsPksString = implode(' AND ',$conditionsPks);
-		$orderPksString	= implode(', ',$orderPks);
-		$autocompleteFields = $options['autocompleteFields'];
+			if(count($options['relationFields'])){
+				$code.=PHP_EOL;
+				foreach($options['relationFields'] as $relationField){
+					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+				}
+			}
 
-		//Search
-		$code.=
-		"\t".'function searchAction(){
+			$code.="\t".'}'.PHP_EOL.PHP_EOL;
+
+			$primaryKeys = $options['primaryKeys'];
+			$paramsPks = $conditionsPks = $orderPks = array();
+			foreach($primaryKeys as $primaryKey){
+				$orderPks[] = $primaryKey;
+				$paramsPks[] = '$'.$primaryKey;
+				$conditionsPks[] =	'\''.$primaryKey.'="\'.$'.$primaryKey.'.\'"\'';
+			}
+			if(count($orderPks)==0){
+				$orderPks[] = 1;
+			}
+			$paramsPksString = implode(', ',$paramsPks);
+			$conditionsPksString = implode(' AND ',$conditionsPks);
+			$orderPksString	= implode(', ',$orderPks);
+			$autocompleteFields = $options['autocompleteFields'];
+
+			//Search
+			$code.=
+			"\t".'function searchAction(){
 
 		$numberPage = 1;
 		if($this->request->isPost()){
@@ -249,15 +259,23 @@ class ScaffoldBuilderComponent {
 		));
 		$page = $paginator->getPaginate();
 
-		$this->view->setParamToView("page", $page);
-		$this->view->setParamToView("'.$options['name'].'", $'.$options['name'].');
+		$this->view->setVar("page", $page);
+		$this->view->setVar("'.$options['name'].'", $'.$options['name'].');
 	}'.PHP_EOL.PHP_EOL;
 
-		//New
-		$code.="\t".'function newAction(){'.PHP_EOL.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
+			//New
+			$code.="\t".'function newAction(){'.PHP_EOL.PHP_EOL;
 
-		//Edit
-		$code.="\t".'function editAction($'.$orderPksString.'){
+			if(count($options['relationFields'])){
+				foreach($options['relationFields'] as $relationField){
+					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+				}
+			}
+
+			$code.="\t".'}'.PHP_EOL.PHP_EOL;
+
+			//Edit
+			$code.="\t".'function editAction($'.$orderPksString.'){
 
 		$request = Phalcon_Request::getInstance();
 		if(!$request->isPost()){
@@ -266,34 +284,41 @@ class ScaffoldBuilderComponent {
 
 			$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
 			if(!$'.$options['name'].'){
-				Flash::error("'.$options['name'].' was not found");
+				Flash::error("'.$options['single'].' was not found");
 				return $this->_forward("'.$options['name'].'/index");
 			}
-			$this->view->setParamToView("'.$orderPksString.'", $'.$options['name'].'->'.$orderPksString.');
+			$this->view->setVar("'.$orderPksString.'", $'.$options['name'].'->'.$orderPksString.');
 		'.PHP_EOL;
 
-		//genSettersGetters
+			//genSettersGetters
 
-		foreach($options['attributes'] as $field){
-			$code.="\t\t\t".'Tag::displayTo("'.$field.'", $'.$options['name'].'->'.$field.');'.PHP_EOL;
-		}
-		$code.="\t\t".'}
-	}'.PHP_EOL;
+			foreach($options['attributes'] as $field){
+				$code.="\t\t\t".'Tag::displayTo("'.$field.'", $'.$options['name'].'->'.$field.');'.PHP_EOL;
+			}
 
-
-		$exceptions = array();
-		foreach($options['attributes'] as $attribute){
-			if(preg_match('/_at$/', $attribute)){
-				$exceptions[] = '"'.$attribute.'"';
-			} else {
-				if(preg_match('/_in$/', $attribute)){
-					$exceptions[] = '"'.$attribute.'"';
+			if(count($options['relationFields'])){
+				$code.=PHP_EOL;
+				foreach($options['relationFields'] as $relationField){
+					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
 				}
 			}
-		}
 
-		//createAction
-		$code.= PHP_EOL."\t".'function createAction(){
+			$code.="\t\t".'}
+	}'.PHP_EOL;
+
+			$exceptions = array();
+			foreach($options['attributes'] as $attribute){
+				if(preg_match('/_at$/', $attribute)){
+					$exceptions[] = '"'.$attribute.'"';
+				} else {
+					if(preg_match('/_in$/', $attribute)){
+						$exceptions[] = '"'.$attribute.'"';
+					}
+				}
+			}
+
+			//createAction
+			$code.= PHP_EOL."\t".'function createAction(){
 
 		if(!$this->request->isPost()){
 			return $this->_forward("'.$options['name'].'/index");
@@ -301,24 +326,24 @@ class ScaffoldBuilderComponent {
 
 		$'.$options['name'].' = new '.$options['className'].'();';
 
-		$entity = $options['entity'];
+			$entity = $options['entity'];
 
-		self::_captureFilterInput($code, $options);
+			self::_captureFilterInput($code, $options);
 
-		$code .= PHP_EOL."\t\t".'if(!$'.$options['name'].'->save()){
+			$code .= PHP_EOL."\t\t".'if(!$'.$options['name'].'->save()){
 			foreach($'.$options['name'].'->getMessages() as $message){
 				Flash::error((string) $message);
 			}
 			return $this->_forward("'.$options['name'].'/new");
 		} else {
-			Flash::success("'.$options['single'].' was created successfully");
+			Flash::success("'.$options['single'].' was created successfully", "alert alert-success");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
 	}'.PHP_EOL;
 
-		//saveAction
-		$code.= PHP_EOL."\t".'function saveAction(){
+			//saveAction
+			$code.= PHP_EOL."\t".'function saveAction(){
 
 		if(!$this->request->isPost()){
 			return $this->_forward("'.$options['name'].'/index");
@@ -326,14 +351,14 @@ class ScaffoldBuilderComponent {
 
 		$'.$orderPksString.' = $this->request->getPost("'.$orderPksString.'", "int");
 		$'.$options['name'].' = '.$options['className'].'::findFirst("'.$orderPksString.'=\'$'.$orderPksString.'\'");
-		if($'.$options['name'].'==false){
-			Flash::error("'.$options['single'].' does not exist ".$'.$orderPksString.');
+		if(!$'.$options['name'].'){
+			Flash::error("'.$options['single'].' does not exist ".$'.$orderPksString.', "alert alert-error");
 			return $this->_forward("'.$options['name'].'/index");
 		}';
 
-		self::_captureFilterInput($code, $options);
+			self::_captureFilterInput($code, $options);
 
-		$code .= PHP_EOL."\t\t".'if(!$'.$options['name'].'->save()){
+			$code .= PHP_EOL."\t\t".'if(!$'.$options['name'].'->save()){
 			foreach($'.$options['name'].'->getMessages() as $message){
 				Flash::error((string) $message);
 			}
@@ -345,14 +370,14 @@ class ScaffoldBuilderComponent {
 
 	}'.PHP_EOL;
 
-		//Delete
-		$code.= PHP_EOL."\t".'function deleteAction($'.$orderPksString.'){
+			//Delete
+			$code.= PHP_EOL."\t".'function deleteAction($'.$orderPksString.'){
 
 		$'.$orderPksString.' = $this->filter->sanitize($'.$orderPksString.', array("int"));
 
 		$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
 		if(!$'.$options['name'].'){
-			Flash::error("'.$options['name'].' not found");
+			Flash::error("'.$options['single'].' was not found");
 			return $this->_forward("'.$options['name'].'/index");
 		}
 
@@ -367,9 +392,11 @@ class ScaffoldBuilderComponent {
 		}
 	}'.PHP_EOL.PHP_EOL;
 
-		$code .= "".'}'.PHP_EOL;
+			$code .= "".'}'.PHP_EOL;
 
-		file_put_contents($controllerPath, $code);
+			file_put_contents($controllerPath, $code);
+		}
+
 	}
 
 	/**
@@ -483,6 +510,12 @@ class ScaffoldBuilderComponent {
 									//Date field
 									if(strpos($dataType, 'date')!==false){
 										$code.=PHP_EOL."\t\t\t\t".'<?php echo Phalcon_Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
+									} else {
+										if(strpos($dataType, 'text')!==false){
+											$code.=PHP_EOL."\t\t\t\t".'<?php echo Phalcon_Tag::textArea(array("'.$attribute.'", "cols" => "40", "rows" => "5")) ?>';
+										} else {
+											$code.=PHP_EOL."\t\t\t".'<?php echo Phalcon_Tag::textField(array("'.$attribute.'", "size" => 30)) ?>';
+										}
 									}
 								}
 							}

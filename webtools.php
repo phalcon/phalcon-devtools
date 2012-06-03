@@ -28,10 +28,6 @@ if(PHP_OS=="WINNT"){
 
 chdir(PTOOLSPATH);
 
-if(!extension_loaded('phalcon')){
-	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install'.PHP_EOL);
-}
-
 require 'scripts/WebTools/WebTools.php';
 
 Phalcon_WebTools::main($path);

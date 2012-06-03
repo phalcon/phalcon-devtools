@@ -60,15 +60,21 @@ class ControllerBuilderComponent {
 			}
 		}
 
+		if(isset($this->_options['baseClass'])){
+			$baseClass = $this->_options['baseClass'];
+		} else {
+			$baseClass = 'Phalcon_Controller';
+		}
+
 		if(!file_exists($path.'.phalcon')){
-			throw new BuilderException("This command should be invoked inside a phalcon project directory");
+			throw new BuilderException("This command should be invoked inside a Phalcon project directory");
 		}
 
 		$name = $this->_options['name'];
 		$controllersDir = 'app/controllers/';
 		$className = Utils::camelize($name);
 		$controllerPath = $path.$controllersDir.$className."Controller.php";
-		$code = "<?php\n\nclass ".$className."Controller extends Phalcon_Controller {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
+		$code = "<?php\n\nclass ".$className."Controller extends ".$baseClass." {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
 		if(!file_exists($controllerPath) || $this->_options['force']==true){
 			file_put_contents($controllerPath, $code);
 		} else {

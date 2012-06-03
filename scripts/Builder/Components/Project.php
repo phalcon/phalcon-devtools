@@ -108,7 +108,8 @@ class ProjectBuilderComponent {
 	private static function createControllerFile($path){
 		$modelBuilder = Builder::factory('Controller', array(
 			'name' => 'index',
-			'directory' => $path
+			'directory' => $path,
+			'baseClass' => 'ControllerBase'
 		));
 		$modelBuilder->build();
 	}

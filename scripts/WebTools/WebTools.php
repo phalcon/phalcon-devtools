@@ -133,6 +133,14 @@ class Phalcon_WebTools {
 
 		self::$_path = $path;
 
+		if(!extension_loaded('phalcon')){
+			die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install'.PHP_EOL);
+		}
+
+		if(!class_exists('Phalcon_Router_Regex', false)){
+			die('Phalcon 0.4.0 or superior is required'.PHP_EOL);
+		}
+
 		try {
 			$front = Phalcon_Controller_Front::getInstance();
 

@@ -554,9 +554,14 @@ class TwitterBootstrapBuilderComponent {
 								$varItems = str_replace(array("\n", " "), '', var_export($domain, true));
 								$code.="\t\t".'<?php echo Phalcon_Tag::selectStatic(array("'.$attribute.'", '.$varItems.', "useDummy" => true)) ?>';
 							} else {
-								//Date field
 								if(strpos($dataType, 'date')!==false){
-									$code.="\t\t".'<?php echo Phalcon_Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
+									$code.=PHP_EOL."\t\t\t\t".'<?php echo Phalcon_Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
+								} else {
+									if(strpos($dataType, 'text')!==false){
+										$code.=PHP_EOL."\t\t\t\t".'<?php echo Phalcon_Tag::textArea(array("'.$attribute.'", "cols" => "40", "rows" => "5")) ?>';
+									} else {
+										$code.=PHP_EOL."\t\t\t".'<?php echo Phalcon_Tag::textField(array("'.$attribute.'", "size" => 30)) ?>';
+									}
 								}
 							}
 						}
