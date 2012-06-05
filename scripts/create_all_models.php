@@ -47,6 +47,7 @@ class CreateAllModels extends Phalcon_Script {
 			'models-dir=s' 		=> "--models-dir path \tModels directory [optional]",
 			'force'				=> "--force \t\tForce script to rewrite all the models if the already exists. [optional]",
 			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
+			'gen-doc-methods' 	=> "--gen-doc-methods \tHelps to improve code completion on IDEs [optional]",
 			'define-relations' 	=> "--define-relations \tPossible relations defined according to convention. [optional]",
 			'foreign-keys' 		=> "--foreign-keys \t\tDefine any virtual foreign keys. [optional]",
 			'validations' 		=> "--validations \t\tDefine possible domain validation according to conventions. [optional]",
@@ -87,6 +88,7 @@ class CreateAllModels extends Phalcon_Script {
 		$defineRelations = $this->isReceivedOption('define-relations');
 		$defineForeignKeys = $this->isReceivedOption('foreign-keys');
 		$genSettersGetters = $this->isReceivedOption('gen-setters-getters');
+		$genDocMethods = $this->isReceivedOption('gen-doc-methods');
 
 		$modelBuilder = Builder::factory('AllModels', array(
 			'force' => $forceProcess,
@@ -95,7 +97,8 @@ class CreateAllModels extends Phalcon_Script {
 			'directory' => $this->getOption('directory'),
 			'foreignKeys' => $defineForeignKeys,
 			'defineRelations' => $defineRelations,
-			'genSettersGetters' => $genSettersGetters
+			'genSettersGetters' => $genSettersGetters,
+			'genDocMethods' => $genDocMethods
 		));
 
 		$modelBuilder->build();

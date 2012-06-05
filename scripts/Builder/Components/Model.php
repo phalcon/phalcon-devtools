@@ -46,8 +46,8 @@ class ModelBuilderComponent {
 	 * @var array
 	 */
 	private $_typeMap = array(
-		'Date' => 'Date',
-		'Decimal' => 'Decimal'
+		//'Date' => 'Date',
+		//'Decimal' => 'Decimal'
 	);
 
 	public function __construct($options){
@@ -114,6 +114,7 @@ class ModelBuilderComponent {
 		}
 
 		$useSettersGetters = $this->_options['genSettersGetters'];
+		$genDocMethods = $this->_options['genDocMethods'];
 
 		$config = $this->_getConfig($path);
 		$modelsDir = 'public/'.$config->phalcon->modelsDir;
@@ -226,7 +227,7 @@ class ModelBuilderComponent {
 		}
 
 		$validations = array();
-		/*foreach($fields as $field){
+		foreach($fields as $field){
 			if(strpos($field['Type'], 'enum')!==false){
 				$domain = array();
 				if(preg_match('/\((.*)\)/', $field['Type'], $matches)){
@@ -243,7 +244,7 @@ class ModelBuilderComponent {
 		}
 		if(count($validations)){
 			$validations[] = "\t\tif(\$this->validationHasFailed()==true){\n\t\t\treturn false;\n\t\t}";
-		}*/
+		}
 
 		$attributes = array();
 		$setters = array();
@@ -295,6 +296,18 @@ class ModelBuilderComponent {
 		foreach($methodRawCode as $methodCode){
 			$code.=$methodCode.PHP_EOL;
 		}
+
+		if($genDocMethods){
+			$code.="\n\t/**\n\t * @return ".$this->_options['className']."[]\n\t */\n";
+			$code.="\tstatic public function find(\$parameters=array()){\n";
+			$code.="\t\treturn parent::find(\$parameters);\n";
+			$code.="\t}\n\n";
+			$code.="\n\t/**\n\t * @return ".$this->_options['className']."\n\t */\n";
+			$code.="\tstatic public function findFirst(\$parameters=array()){\n";
+			$code.="\t\treturn parent::findFirst(\$parameters);\n";
+			$code.="\t}\n\n";
+		}
+
 		$code.="}\n\n";
 		file_put_contents($path.$modelsDir."/".$this->_options['className'].".php", $code);
 
