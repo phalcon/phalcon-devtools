@@ -32,13 +32,7 @@ use Phalcon_BuilderException as BuilderException;
  * @license 	New BSD License
  * @version 	$Id: Application.php,v 7a54c57f039b 2011/10/19 23:41:19 andres $
  */
-class ProjectBuilderComponent {
-
-	private $_options = array();
-
-	public function __construct($options){
-		$this->_options = $options;
-	}
+class ProjectBuilderComponent extends Phalcon_BuilderComponent {
 
 	/**
 	 * Create .INI file by default of application

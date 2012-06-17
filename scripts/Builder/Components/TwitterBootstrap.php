@@ -32,17 +32,7 @@ use Phalcon_Utils as Utils;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class TwitterBootstrapBuilderComponent {
-
-	private $_options;
-
-	public function __construct($options){
-		$this->_options = $options;
-	}
-
-	private function _getConfig($path){
-		return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
-	}
+class TwitterBootstrapBuilderComponent extends Phalcon_BuilderComponent {
 
 	private function _findDetailField($entity){
 		$posible = array('name');

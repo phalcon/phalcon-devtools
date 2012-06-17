@@ -32,21 +32,7 @@ use Phalcon_Utils as Utils;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class AllModelsBuilderComponent {
-
-	private $_options;
-
-	public function __construct($options){
-		$this->_options = $options;
-	}
-
-	private function _getConfig($path){
-		if(isset($this->_options['config']) && $this->_options['config']){
-			return $this->_options['config'];
-		} else {
-			return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
-		}
-	}
+class AllModelsBuilderComponent extends Phalcon_BuilderComponent {
 
 	public function build(){
 

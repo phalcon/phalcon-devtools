@@ -51,6 +51,14 @@ class ControllerBuilderComponent {
 		$this->_options = $options;
 	}
 
+	private function _getConfig($path){
+		if(isset($this->_options['config']) && $this->_options['config']){
+			return $this->_options['config'];
+		} else {
+			return Phalcon_Builder::getConfig();
+		}
+	}
+
 	public function build(){
 
 		$path = '';
@@ -70,8 +78,10 @@ class ControllerBuilderComponent {
 			throw new BuilderException("This command should be invoked inside a Phalcon project directory");
 		}
 
+		$config = $this->_getConfig();
+		$controllersDir = $config->phalcon->controllersDir;
+
 		$name = $this->_options['name'];
-		$controllersDir = 'app/controllers/';
 		$className = Utils::camelize($name);
 		$controllerPath = $path.$controllersDir.$className."Controller.php";
 		$code = "<?php\n\nclass ".$className."Controller extends ".$baseClass." {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";

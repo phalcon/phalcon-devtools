@@ -20,7 +20,7 @@
 
 use Phalcon_Builder as Builder;
 use Phalcon_BuilderException as BuilderException;
-use Phalcon_Utils as Utils;
+use Phalcon_Text as Text;
 
 /**
  * ScaffoldBuilderComponent
@@ -33,17 +33,7 @@ use Phalcon_Utils as Utils;
  * @license 	New BSD License
  * @version 	$Id: Scaffold.php,v 5f278793c1ae 2011/10/27 02:50:13 andres $
  */
-class ScaffoldBuilderComponent {
-
-	private $_options;
-
-	public function __construct($options){
-		$this->_options = $options;
-	}
-
-	private function _getConfig($path){
-		return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
-	}
+class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {	
 
 	private function _findDetailField($entity){
 		$posible = array('name');
@@ -92,8 +82,8 @@ class ScaffoldBuilderComponent {
 		Phalcon_Db_Pool::setDefaultDescriptor($config->database);
 		$connection = Phalcon_Db_Pool::getConnection();
 
-		$options['className'] = Utils::camelize($options['name']);
-		$options['fileName'] = Utils::uncamelize($options['className']);
+		$options['className'] = Text::camelize($options['name']);
+		$options['fileName'] = Text::uncamelize($options['className']);
 
 		if(!$options['manager']->isModel($options['className'])){
 
@@ -133,7 +123,7 @@ class ScaffoldBuilderComponent {
 		$relationField = '';
 
 		$single = $name;
-		$options['name'] 				 = strtolower(Phalcon_Utils::camelize($single));
+		$options['name'] 				 = strtolower(Phalcon_Text::camelize($single));
 		$options['plural'] 				 = str_replace('_', ' ', $single);
 		$options['single']				 = str_replace('_', ' ', $single);
 		$options['entity']				 = $entity;
@@ -413,7 +403,7 @@ class ScaffoldBuilderComponent {
 			mkdir($dirPathLayouts);
 		}
 
-		$fileName = Phalcon_Utils::uncamelize($options['name']);
+		$fileName = Phalcon_Text::uncamelize($options['name']);
 		$viewPath = $dirPathLayouts.'/'.$fileName.'.phtml';
 		if(!file_exists($viewPath)){
 

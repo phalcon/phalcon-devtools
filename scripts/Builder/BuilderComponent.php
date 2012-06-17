@@ -18,44 +18,35 @@
   +------------------------------------------------------------------------+
 */
 
-require 'BuilderException.php';
-require 'BuilderComponent.php';
-
-use Phalcon_BuilderException as BuilderException;
-use Phalcon_Builder as Builder;
-use Phalcon_Utils as Utils;
-
 /**
- * Builder
+ * BuilderComponent
  *
- * Loads components to generate code
+ * Base class for builder components
  *
  * @category 	Phalcon
  * @package 	Scripts
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Phalcon_Builder {
+class Phalcon_BuilderComponent {
 
-	/**
-	 * Factories a builder component
-	 *
-	 * @param	string $component
-	 * @param	array $options
-	 * @return	Object
-	 */
-	public static function factory($component, $options=array()){
-		$className = $component.'BuilderComponent';
-		if(!class_exists($className, false)){
-			$path = 'scripts/Builder/Components/'.$component.'.php';
-			if(file_exists($path)){
-				require $path;
+	protected $_options = array();
+
+	public function __construct($options){
+		$this->_options = $options;
+	}
+
+	protected function _getConfig($path){
+		if(file_exists($path."app/config/config.ini")){
+			return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
+		} else {
+			if(file_exists($path."app/config/config.php")){
+				require $path."app/config/config.php";
+				return $config;
 			} else {
-				throw new Phalcon_BuilderException('The builder component "'.$component.'" does not exist');
+				throw new Phalcon_BuilderException('Builder can\'t locate the configuration file');
 			}
 		}
-		$componentObject = new $className($options);
-		return $componentObject;
 	}
 
 }

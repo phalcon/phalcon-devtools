@@ -31,14 +31,7 @@ use Phalcon_Utils as Utils;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class ModelBuilderComponent {
-
-	/**
-	 * Opciones del ModelBuilder
-	 *
-	 * @var array
-	 */
-	private $_options = array();
+class ModelBuilderComponent extends Phalcon_BuilderComponent {
 
 	/**
 	 * Mapa de datos escalares a objetos
@@ -86,15 +79,7 @@ class ModelBuilderComponent {
 			return 'Decimal';
 		}*/
 		return 'string';
-	}
-
-	private function _getConfig($path){
-		if(isset($this->_options['config']) && $this->_options['config']){
-			return $this->_options['config'];
-		} else {
-			return new Phalcon_Config_Adapter_Ini($path."app/config/config.ini");
-		}
-	}
+	}	
 
 	public function build(){
 
