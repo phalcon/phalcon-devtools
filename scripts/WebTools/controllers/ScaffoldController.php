@@ -26,7 +26,8 @@ class ScaffoldController extends ControllerBase {
 
 		$tables = array();
 		$result = $connection->query("SHOW TABLES");
-		while($table = $connection->fetchArray($result)){
+		$result->setFetchMode(Phalcon_DB::DB_NUM);
+		while($table = $result->fetchArray($result)){
 			$tables[$table[0]] = $table[0];
 		}
 

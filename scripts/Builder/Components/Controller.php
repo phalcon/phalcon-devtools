@@ -32,15 +32,13 @@ use Phalcon_Utils as Utils;
  * @license 	New BSD License
  * @version 	$Id: Model.php,v a434b34d7989 2011/10/26 22:23:04 andres $
  */
-class ControllerBuilderComponent {
+class ControllerBuilderComponent extends Phalcon_BuilderComponent {
 
 	/**
 	 * Opciones del ModelBuilder
 	 *
 	 * @var array
 	 */
-	private $_options = array();
-
 	public function __construct($options){
 		if(!isset($options['name'])){
 			throw new BuilderException("Please, specify the controller name");
@@ -49,14 +47,6 @@ class ControllerBuilderComponent {
 			$options['force'] = false;
 		}
 		$this->_options = $options;
-	}
-
-	private function _getConfig($path){
-		if(isset($this->_options['config']) && $this->_options['config']){
-			return $this->_options['config'];
-		} else {
-			return Phalcon_Builder::getConfig();
-		}
 	}
 
 	public function build(){
@@ -78,12 +68,12 @@ class ControllerBuilderComponent {
 			throw new BuilderException("This command should be invoked inside a Phalcon project directory");
 		}
 
-		$config = $this->_getConfig();
+		$config = $this->_getConfig($path);
 		$controllersDir = $config->phalcon->controllersDir;
 
 		$name = $this->_options['name'];
 		$className = Utils::camelize($name);
-		$controllerPath = $path.$controllersDir.$className."Controller.php";
+		$controllerPath = $path."public/".$controllersDir.$className."Controller.php";
 		$code = "<?php\n\nclass ".$className."Controller extends ".$baseClass." {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
 		if(!file_exists($controllerPath) || $this->_options['force']==true){
 			file_put_contents($controllerPath, $code);

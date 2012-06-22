@@ -191,10 +191,12 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 			"\t".'function indexAction(){
 		$this->session->conditions = null;'.PHP_EOL;
 
-			if(count($options['relationFields'])){
-				$code.=PHP_EOL;
-				foreach($options['relationFields'] as $relationField){
-					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+			if(isset($options['relationFields'])){
+				if(count($options['relationFields'])){
+					$code.=PHP_EOL;
+					foreach($options['relationFields'] as $relationField){
+						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+					}
 				}
 			}
 
@@ -256,9 +258,11 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 			//New
 			$code.="\t".'function newAction(){'.PHP_EOL.PHP_EOL;
 
-			if(count($options['relationFields'])){
-				foreach($options['relationFields'] as $relationField){
-					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+			if(isset($options['relationFields'])){
+				if(count($options['relationFields'])){
+					foreach($options['relationFields'] as $relationField){
+						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+					}
 				}
 			}
 
@@ -286,10 +290,12 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 				$code.="\t\t\t".'Tag::displayTo("'.$field.'", $'.$options['name'].'->'.$field.');'.PHP_EOL;
 			}
 
-			if(count($options['relationFields'])){
-				$code.=PHP_EOL;
-				foreach($options['relationFields'] as $relationField){
-					$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+			if(isset($options['relationFields'])){
+				if(count($options['relationFields'])){
+					$code.=PHP_EOL;
+					foreach($options['relationFields'] as $relationField){
+						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+					}
 				}
 			}
 

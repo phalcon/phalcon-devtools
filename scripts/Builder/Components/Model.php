@@ -99,7 +99,12 @@ class ModelBuilderComponent extends Phalcon_BuilderComponent {
 		}
 
 		$useSettersGetters = $this->_options['genSettersGetters'];
-		$genDocMethods = $this->_options['genDocMethods'];
+		if(isset($this->_options['genDocMethods'])){
+			$genDocMethods = $this->_options['genDocMethods'];	
+		} else {
+			$genDocMethods = false;
+		}
+		
 
 		$config = $this->_getConfig($path);
 		$modelsDir = 'public/'.$config->phalcon->modelsDir;
@@ -141,7 +146,7 @@ class ModelBuilderComponent extends Phalcon_BuilderComponent {
 			if(count($this->_options['hasMany'])){
 				foreach($this->_options['hasMany'] as $entityName => $relation){
 					if(is_string($relation['fields'])){
-						if(preg_match('/_id$/', $relation['relationFields'])&&$relation['fields']=='id'){
+						if(preg_match('/_id$/', $relation['relationFields']) && $relation['fields']=='id'){
 							$initialize[] = "\t\t\$this->hasMany(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
 						} else {
 							$initialize[] = "\t\t\$this->hasMany(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";

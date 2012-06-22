@@ -137,8 +137,8 @@ class Phalcon_WebTools {
 			die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install'.PHP_EOL);
 		}
 
-		if(!class_exists('Phalcon_Router_Regex', false)){
-			die('Phalcon 0.4.0 or superior is required'.PHP_EOL);
+		if(!class_exists('Phalcon_Db_Result_Mysql', false)){
+			die('Phalcon 0.4.1 or superior is required'.PHP_EOL);
 		}
 
 		try {
@@ -152,6 +152,7 @@ class Phalcon_WebTools {
 		}
 		catch(Phalcon_Exception $e){
 			echo get_class($e), ': ', $e->getMessage();
+			echo nl2br($e->getTraceAsString());
 		}
 	}
 

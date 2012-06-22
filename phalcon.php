@@ -26,13 +26,17 @@ if(!$phalconToolsPath){
 }
 
 if(PHP_OS=="WINNT"){
-	$path = str_replace("\\", "/", getcwd())."/";
+	$path = str_replace("\\", "/", getcwd());
 } else {
 	$path = getcwd();
 }
 
 if(!extension_loaded('phalcon')){
 	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install'.PHP_EOL);
+}
+
+if(!file_exists($phalconToolsPath."scripts")){
+	die('Phalcon sripts PATH does not exist, check your PTOOLSPATH env variable ('.$phalconToolsPath.'scripts)'.PHP_EOL);	
 }
 
 if(isset($_SERVER['argv'][1])){
