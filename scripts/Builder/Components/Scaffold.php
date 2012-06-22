@@ -117,6 +117,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 
 		$attributes = $metaData->getAttributes($entity);
 		$dataTypes = $metaData->getDataTypes($entity);
+		$identityField = $metaData->getIdentityField($entity);
 
 		$setParams = $selectDefinition = array();
 
@@ -133,6 +134,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 		$options['attributes'] 			 = $attributes;
 		$options['dataTypes'] 			 = $dataTypes;
 		$options['primaryKeys']          = $primaryKeys;
+		$options['identityField']		 = $identityField;
 		$options['relationField'] 		 = $relationField;
 		$options['selectDefinition']	 = $selectDefinition;
 		$options['autocompleteFields'] 	 = array();
@@ -447,13 +449,14 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 		$relationField = $options['relationField'];
 		$autocompleteFields	= $options['autocompleteFields'];
 		$selectDefinition = $options['selectDefinition'];
+		$identityField = $options['identityField'];
 
 		foreach($options['dataTypes'] as $attribute => $dataType){
 			if(!preg_match('/_at$/', $attribute)){
 
 				$code.= "\t\t".'<tr>'.PHP_EOL.
 				"\t\t\t".'<td align="right">'.PHP_EOL;
-				if(($action=='new'||$action=='edit' ) && $attribute=='id'){
+				if(($action=='new'||$action=='edit' ) && $attribute==$identityField){
 				}else{
 					$code .= "\t\t\t\t".'<label for="'.$attribute.'">'.$this->_getPosibleLabel($attribute).'</label>'.PHP_EOL;
 				}
@@ -464,8 +467,10 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 						', "using" => "'.$selectDefinition[$attribute]['primaryKey'].','.$selectDefinition[$attribute]['detail'].'", "useDummy" => true)) ?>';
 				} else {
 					//PKs
-					if(($action=='new'||$action=='edit' ) && $attribute=='id'){
-						$code.=PHP_EOL."\t\t\t\t".'<input type="hidden" name="'.$attribute.'" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
+					if(($action=='new'||$action=='edit' ) && $attribute==$identityField){
+						if($action=='edit'){
+							$code.=PHP_EOL."\t\t\t\t".'<input type="hidden" name="'.$attribute.'" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
+						} 
 					} else {
 						//Char Field
 						if(strpos($dataType, 'char')!==false){
