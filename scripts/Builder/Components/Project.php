@@ -35,10 +35,10 @@ use Phalcon_BuilderException as BuilderException;
 class ProjectBuilderComponent extends Phalcon_BuilderComponent {
 
 	/**
-	 * Create .INI file by default of application
+	 * Creates a default configuration file with INI format
 	 *
 	 */
-	private static function createINIFiles($path, $name){
+	private static function createINIConfig($path, $name){
 		if(file_exists($path.'app/config/config.ini')==false){
 			$str =	'[database]'.PHP_EOL.
 			'adapter = Mysql'.PHP_EOL.
@@ -53,6 +53,29 @@ class ProjectBuilderComponent extends Phalcon_BuilderComponent {
 			'viewsDir = "../app/views/"'.PHP_EOL.
 			'baseUri = "/'.$name.'/"'.PHP_EOL;
 			file_put_contents($path.'app/config/config.ini', $str);
+		}
+	}
+
+	private static function createPHPConfig($path, $name){
+		if(file_exists($path.'app/config/config.php')==false){
+			$str =	"<?php".PHP_EOL.
+			"".PHP_EOL.
+			"\$config = new Phalcon_Config(array(".PHP_EOL.
+			"	'database' => array(".PHP_EOL.
+			"		'adapter' => 'Mysql',".PHP_EOL.
+			"		'host' => 'localhost',".PHP_EOL.
+			"		'username' => 'phalcon',".PHP_EOL.
+			"		'password' => 'secret',".PHP_EOL.
+			"		'name' => 'php_site'".PHP_EOL.
+			"	),".PHP_EOL.
+			"	'phalcon' => array(".PHP_EOL.
+			"		'controllersDir' => '../app/controllers/',".PHP_EOL.
+			"		'modelsDir' => '../app/models/',".PHP_EOL.
+			"		'viewsDir' => '../app/views/',".PHP_EOL.
+			"		'baseUri' => '/".$name."/'".PHP_EOL.
+			"	),".PHP_EOL.			
+			"));".PHP_EOL;
+			file_put_contents($path.'app/config/config.php', $str);
 		}
 	}
 
@@ -73,25 +96,30 @@ class ProjectBuilderComponent extends Phalcon_BuilderComponent {
 	 * Create Bootstrap file by default of application
 	 *
 	 */
-	private static function createBootstrapFile($path){
+	private static function createBootstrapFile($path, $useIniConfig){
 		if(file_exists($path.'public/index.php')==false){
 			$code = "<?php".PHP_EOL.PHP_EOL.
 			"error_reporting(E_ALL);".PHP_EOL.PHP_EOL.
 			"try {".PHP_EOL.
 			PHP_EOL.
-			"\t"."require \"../app/controllers/ControllerBase.php\";".PHP_EOL.
-			PHP_EOL.
+			"\t"."require \"../app/controllers/ControllerBase.php\";".PHP_EOL;
+			if(!$useIniConfig){
+				$code.="\t"."require \"../app/config/config.php\";".PHP_EOL;
+			}
+			$code.=PHP_EOL.
 			"\t"."\$front = Phalcon_Controller_Front::getInstance();".PHP_EOL.
-			PHP_EOL.
-			"\t"."\$config = new Phalcon_Config_Adapter_Ini(\"../app/config/config.ini\");".PHP_EOL.
- 			"\t"."\$front->setConfig(\$config);".PHP_EOL.
+			PHP_EOL;
+			if($useIniConfig){
+				$code.="\t"."\$config = new Phalcon_Config_Adapter_Ini(\"../app/config/config.ini\");".PHP_EOL;
+			} 
+ 			$code.="\t"."\$front->setConfig(\$config);".PHP_EOL.
  			PHP_EOL.
 			"\t"."echo \$front->dispatchLoop()->getContent();".PHP_EOL.
 			"}".PHP_EOL.
 			"catch(Phalcon_Exception \$e){".PHP_EOL.
 			"\t"."echo \"PhalconException: \", \$e->getMessage();".PHP_EOL.
 			"}";
-			file_put_contents($path.'public/index.php', $code);
+			file_put_contents($path.'public/index.php', $code);	
 		}
 	}
 
@@ -135,7 +163,7 @@ class ProjectBuilderComponent extends Phalcon_BuilderComponent {
 		}
 
 		if(file_exists($path.'index.html')==false){
-			$code = '<html><body><h1>Mod-Rewrite not enabled</h1><p>Please enable rewrite urls on your web server to continue</body></html>';
+			$code = '<html><body><h1>Mod-Rewrite is not enabled</h1><p>Please enable rewrite module on your web server to continue</body></html>';
 			file_put_contents($path.'index.html', $code);
 		}
 
@@ -161,8 +189,11 @@ class ProjectBuilderComponent extends Phalcon_BuilderComponent {
 			file_put_contents($file, $str);
 		}
 
-		$str = '<h1>Congratulations!</h1>'.PHP_EOL.'You\'re now flying with Phalcon.';
-		file_put_contents($path.'app/views/index/index.phtml', $str);
+		$file = $path.'app/views/index/index.phtml';
+		if(!file_exists($file)){
+			$str = '<h1>Congratulations!</h1>'.PHP_EOL.'You\'re now flying with Phalcon.';
+			file_put_contents($file, $str);
+		}
 	}
 
 	public function build(){
@@ -202,13 +233,24 @@ class ProjectBuilderComponent extends Phalcon_BuilderComponent {
 		@mkdir($path.'public/css');
 		@mkdir($path.'public/temp');
 		@mkdir($path.'public/files');
-		@mkdir($path.'public/javascript');
+		@mkdir($path.'public/js');
 
 		@mkdir($path.'.phalcon');
 
-		self::createINIFiles($path, $name);
-		self::createHtaccessFiles($path);
-		self::createBootstrapFile($path);
+		if(isset($this->_options['useIniConfig'])){
+			$useIniConfig = $this->_options['useIniConfig'];
+		} else {
+			$useIniConfig = false;
+		}
+
+		if($useIniConfig){
+			self::createINIConfig($path, $name);
+		} else {
+			self::createPHPConfig($path, $name);
+		}
+		self::createBootstrapFile($path, $useIniConfig);
+
+		self::createHtaccessFiles($path);		
 		self::createControllerBase($path);
 		self::createIndexViewFiles($path);
 		self::createControllerFile($path);

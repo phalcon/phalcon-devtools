@@ -73,7 +73,7 @@ class TwitterBootstrapBuilderComponent extends Phalcon_BuilderComponent {
 			throw new BuilderException("Phalcon: PTOOLSPATH environment variable isn't set\n");
 		}
 
-		TBootstrap::install();
+		TBootstrap::install($path);
 
 		$name = $options['name'];
 		$config = $this->_getConfig($path);
@@ -95,7 +95,7 @@ class TwitterBootstrapBuilderComponent extends Phalcon_BuilderComponent {
 				'schema' => $options['schema'],
 				'className' => $options['className'],
 				'fileName' => $options['fileName'],
-				'genSettersGetters' => $options['gen-setters-getters'],
+				'genSettersGetters' => $options['genSettersGetters'],
 				'directory' => $options['directory'],
 				'force' => $options['force']
 			));
@@ -145,12 +145,12 @@ class TwitterBootstrapBuilderComponent extends Phalcon_BuilderComponent {
 							'detail' => $detailField,
 							'primaryKey' => $pk[0],
 							'modelName' => Phalcon_Utils::camelize($matches[1]),
-							'varName' => Phalcon_Utils::lcfirst(Phalcon_Utils::camelize($matches[1]))
+							'varName' => lcfirst(Phalcon_Utils::camelize($matches[1]))
 						);
 					}
 				}
 			}
-		}
+		}		
 
 		$single = $name;
 		$options['name'] = strtolower(Phalcon_Utils::camelize($single));
@@ -240,6 +240,8 @@ class TwitterBootstrapBuilderComponent extends Phalcon_BuilderComponent {
 			//Index
 			"\t".'function indexAction(){
 		$this->session->conditions = null;'.PHP_EOL;
+
+			var_dump($options['relationFields']);
 
 			if(count($options['relationFields'])){
 				$code.=PHP_EOL;

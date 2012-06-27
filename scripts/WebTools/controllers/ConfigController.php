@@ -44,6 +44,11 @@ class ConfigController extends ControllerBase {
 
 	public function saveAction(){
 
+		$isIniConfig = false;
+		$configPath = Phalcon_WebTools::getPath("app/config/config.ini");
+		if(file_exists($configPath)){
+			$isIniConfig = true;
+		}
 
 		if($this->request->isPost()){
 
@@ -56,16 +61,24 @@ class ConfigController extends ControllerBase {
 				}
 			}
 
-			$ini = '';
-			foreach($newConfig as $section => $settings){
-				$ini.='['.$section.']'.PHP_EOL;
-				foreach($settings as $name => $value){
-					$ini.=$name.' = '.$value.PHP_EOL;
+			if($isIniConfig){				
+				$ini = '';
+				foreach($newConfig as $section => $settings){
+					$ini.='['.$section.']'.PHP_EOL;
+					foreach($settings as $name => $value){
+						$ini.=$name.' = '.$value.PHP_EOL;
+					}
+					$ini.=PHP_EOL;
 				}
-				$ini.=PHP_EOL;
+
+				$path = Phalcon_WebTools::getPath("app/config/config.ini");
+
+			} else {
+				$path = Phalcon_WebTools::getPath("app/config/config.php");
+				$ini = '<?php'.PHP_EOL.PHP_EOL.'$config = new Phalcon_Config('.var_export($newConfig, true).');';
 			}
 
-			$configPath = Phalcon_WebTools::getPath("app/config/config.ini");
+			$configPath = $path;
 			if(is_writable($configPath)){
 				file_put_contents($configPath, $ini);
 				$this->_readConfig();

@@ -89,9 +89,9 @@ try {
 	$script = new Scaffold();
 	$script->run();
 }
-catch(CoreException $e){
+catch(Phalcon_Exception $e){
 	ScriptColor::lookSupportedShell();
-	echo ScriptColor::colorize(get_class($e).' : '.$e->getConsoleMessage()."\n", ScriptColor::LIGHT_RED);
+	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
 	if($script->getOption('debug')=='yes'){
 		echo $e->getTraceAsString()."\n";
 	}

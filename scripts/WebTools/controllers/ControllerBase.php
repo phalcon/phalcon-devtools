@@ -31,7 +31,7 @@ class ControllerBase extends Phalcon_Controller {
 	 * Checks remote address ip to disable remote activity
 	 */
 	protected function _checkAccess(){
-		if(isset($_SERVER['REMOTE_ADDR']) && ($_SERVER['REMOTE_ADDR']=='127.0.0.1' or $_SERVER['REMOTE_ADDR'] == '::1')){
+		if(isset($_SERVER['REMOTE_ADDR']) && ($_SERVER['REMOTE_ADDR']=='127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1')){
 			return false;
 		} else {
 			throw new Phalcon_Exception('WebTools can only be used on the local machine (Your IP: '.$_SERVER['REMOTE_ADDR'].')');
@@ -43,7 +43,13 @@ class ControllerBase extends Phalcon_Controller {
 		if(file_exists($configPath)){
 			$this->_settings = new Phalcon_Config_Adapter_Ini($configPath);
 		} else {
-			throw new Phalcon_Exception('Configuration file could not be loaded');
+			$configPath = Phalcon_WebTools::getPath("app/config/config.php");
+			if(file_exists($configPath)){
+				require $configPath;
+				$this->_settings = $config;
+			} else {
+				throw new Phalcon_Exception('Configuration file could not be loaded');
+			}
 		}
 	}
 

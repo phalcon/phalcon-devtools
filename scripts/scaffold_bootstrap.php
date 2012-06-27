@@ -26,6 +26,7 @@ if($pToolsPath){
 require 'Script/Script.php';
 require 'Script/Color/ScriptColor.php';
 require 'Builder/Builder.php';
+require 'TBootstrap/TBootstrap.php';
 
 use Phalcon_Builder as Builder;
 use Phalcon_Utils as Utils;
@@ -94,9 +95,9 @@ try {
 	$script = new ScaffoldBootstrap();
 	$script->run();
 }
-catch(CoreException $e){
+catch(Phalcon_Exception $e){
 	ScriptColor::lookSupportedShell();
-	echo ScriptColor::colorize(get_class($e).' : '.$e->getConsoleMessage()."\n", ScriptColor::LIGHT_RED);
+	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
 	if($script->getOption('debug')=='yes'){
 		echo $e->getTraceAsString()."\n";
 	}

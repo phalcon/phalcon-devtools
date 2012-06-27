@@ -151,7 +151,7 @@ class Phalcon_WebTools {
 			echo $front->dispatchLoop()->getContent();
 		}
 		catch(Phalcon_Exception $e){
-			echo get_class($e), ': ', $e->getMessage();
+			echo get_class($e), ': ', $e->getMessage(), "<br>";
 			echo nl2br($e->getTraceAsString());
 		}
 	}
