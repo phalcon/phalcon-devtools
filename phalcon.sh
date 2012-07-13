@@ -28,12 +28,15 @@ alter_profile(){
 	if [ -e $HOME/.profile ]; then 
 		echo "$PTOOLSVAR" >> $HOME/.profile
 		echo "$PATHVAR" >> $HOME/.profile
+		source $HOME/.profile
 	elif [ -e $HOME/.bash_profile ]; then
 		echo "$PTOOLSVAR" >> $HOME/.bash_profile
 		echo "$PATHVAR" >> $HOME/.bash_profile
+		source $HOME/.bash_profile
 	elif [ -e $HOME/.bashrc ]; then
                	echo "$PTOOLSVAR" >> $HOME/.bashrc
 		echo "$PATHVAR" >> $HOME/.bashrc
+		source $HOME/.bashrc
 	else
 		echo "No bash profile detected. Environment vars might dissapear at console restart!"
 	fi
@@ -41,7 +44,8 @@ alter_profile(){
 
 check_install(){
 	if [ -z "$PTOOLSPATH" ]; then 
-        	if [ "$0" == "-bash" -o "$0" == "bash" ]; then ## bash check (linux/osx)
+        	if [ `echo $0 | grep "bash"`=="bash" ]; then ## bash check (linux/osx)
+        	#if [ "$0" == "-bash" -o "$0" == "bash" ]; then ## bash check (linux/osx)
                 	echo "Phalcon Developer Tools Installer"
                 	echo "Make sure phalcon.sh is in the same dir as phalcon.php and that you are running this with sudo or as root."
                 	echo "Installing Devtools..."
