@@ -46,47 +46,49 @@ class CreateProject extends Phalcon_Script {
 	}
 
 	public function run(){
-
+		$helpText = 
+		"------------------
+			\r|-- Usage \n\r|-- phalcon project ? \t\t\t\t\t Shows this help text\r
+			\r|-- phalcon project [name] [directory] [enable-webtools] Creates a project
+			\r|-----------------\n\r
+		";
+		
+		
 		$posibleParameters = array(
-			'directory=s' => "--directory path \tBase path on which project will be created",
-			'enable-webtools' => "--enable-webtools \tWhether to enable web developer tools",
-			'debug'	=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
-			'help' => "--help \t\t\tShow help"
+			'directory=s' => '--directory path \tBase path on which project will be created',
+			'trace' => '--trace \t\tShows the trace of the framework in case of exception.'
 		);
 
 		$this->parseParameters($posibleParameters);
-		if($this->isReceivedOption('help')){
-			$this->showHelp($posibleParameters);
+		$parameters = $this->getParameters();
+		
+		if (!isset($parameters[1]) || $parameters[1] == '?'){
+			echo $helpText;
 			return;
 		}
-
-		$parameters = $this->getParameters();
-
-		if(isset($parameters[1])){
-			$name = $parameters[1];
-		} else {
-			$name = "";
-		}
+		
+		$projectName = isset($parameters[1]) ? $parameters[1] : 'default';
+		$projectPath = isset($parameters[2]) ? $parameters[2] : $parameters['directory'];
+		$enableWebtools = isset($parameters[3]) ? $parameters[3] : false;
 
 		$builder = Builder::factory('Project', array(
-			'name' => $name,
-			'directory' => $this->getOption('directory'),
-			'enableWebTools' => $this->isReceivedOption('enable-webtools')
+			'name' => $projectName,
+			'directory' => $projectPath,
+			'enableWebTools' => $enableWebtools
 		));
 
 		$builder->build();
 	}
-
 }
 
 try {
 	$script = new CreateProject();
 	$script->run();
 }
-catch(Phalcon_Exception $e){
+catch(Phalcon_Exception $e) {
 	ScriptColor::lookSupportedShell();
 	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
-	if($script->getOption('debug')=='yes'){
+	if($script->getOption('trace')){
 		echo $e->getTraceAsString()."\n";
 	}
 }

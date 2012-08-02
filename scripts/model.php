@@ -23,77 +23,76 @@ if($pToolsPath){
 	chdir($pToolsPath);
 }
 
-require 'Script/Script.php';
-require 'Script/Color/ScriptColor.php';
-require 'Builder/Builder.php';
+require 'scripts/Script/Script.php';
+require 'scripts/Script/Color/ScriptColor.php';
+require 'scripts/Builder/Builder.php';
 
 use Phalcon_Builder as Builder;
 use Phalcon_Utils as Utils;
 
 /**
- * ScaffoldScript
+ * CreateModel
  *
- * Scaffold a controller, model and view for a database table
+ * Create a model from command line
  *
  * @category 	Phalcon
- * @package 	Scaffold
+ * @package 	Scripts
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
- * @version 	$Id: create_scaffold.php,v f5add30bf4ba 2011/10/26 21:05:13 andres $
+ * @version 	$Id$
  */
-class Scaffold extends Phalcon_Script {
+class CreateModel extends Phalcon_Script {
 
 	public function run(){
-
 		$posibleParameters = array(
-			'schema=s' 			=> "--schema \tName of the schema.",
-			'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.",
-			'get-set' 	=> "--get-set \tAttributes will be protected and have setters/getters.",
-			'theme=s' 			=> "--theme \tTheme to be applied. ",
-			'directory=s' 		=> "--directory \tBase path on which project was created",
-			'force' 			=> "--force \tForces to rewrite generated code if they already exists.",
-			'trace' 			=> "--trace \tShows the trace of the framework in case of exception.",
+			'schema=s' 		=> "--schema \t\tName of the schema. [optional]",
+			'get-set' 	=> "--get-set \t\tAttributes will be protected and have setters/getters.",
+			'doc' 	=> "--doc \t\t\tHelps to improve code completion on IDEs [optional]",
+			'directory=s' => "--directory \t\tBase path on which project will be created",
+			'force' 		=> "--force \t\tRewrite the model. [optional]",
+			'trace' 		=> "--trace \t\tShows the trace of the framework in case of exception.",
 		);
 
 		$this->parseParameters($posibleParameters);
-
-
+	
 		$parameters = $this->getParameters();
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
 			echo 
 			"------------------ 
-			\r|-- Example\n\r|-- phalcon scaffold users --autocomplete=login
-			\r|-----------------\r\n|-- Usage \n\r|-- phalcon scaffold [table name] [options] 
+			\r|-- Example\n\r|-- phalcon model User users --schema=my --get-set --doc --force --trace
+			\r|-----------------\r\n|-- Usage \n\r|-- phalcon model [className] [tableName] [options] 
 			\r|-----------------\n\r|-- Options:\n\r------------------\n\r
 			\r";
-			echo join("\n\r", $posibleParameters) . "\n";
+			echo join("\n", $posibleParameters) . "\n";
 			return;
 		}
-
 		
-
 		$name = $parameters[1];
+		 
+		$className = Utils::camelize(isset($parameters[2]) ? $parameters[2] : $name);
+		$fileName = Utils::uncamelize($className);
+		
 		$schema = $this->getOption('schema');
 
-		$scaffoldBuilder = Builder::factory('Scaffold', array(
+		$modelBuilder = Builder::factory('Model', array(
 			'name' => $name,
-			'theme'	=> $this->getOption('theme'),
 			'schema' => $schema,
-			'force'	=> $this->isReceivedOption('force'),
+			'className' => $className,
+			'fileName' => $fileName,
 			'genSettersGetters' => $this->isReceivedOption('get-set'),
+			'genDocMethods' => $this->isReceivedOption('doc'),
 			'directory' => $this->getOption('directory'),
-			'autocomplete' 	=> $this->getOption('autocomplete')
+			'force' => $this->isReceivedOption('force')
 		));
 
-		$scaffoldBuilder->build();
-
+		$modelBuilder->build();
 	}
 
 }
 
 try {
-	$script = new Scaffold();
+	$script = new CreateModel();
 	$script->run();
 }
 catch(Phalcon_Exception $e){
