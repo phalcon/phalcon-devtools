@@ -46,27 +46,36 @@ class ScaffoldBootstrap extends Phalcon_Script {
 	public function run(){
 
 		$posibleParameters = array(
-			'table-name=s' 		=> "--table-name \tName of table",
-			'schema=s' 			=> "--schema \tName of the schema where the table is, only if it differs from the default schema. [optional]",
-			//'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.[optional]",
-			'gen-setters-getters' 	=> "--gen-setters-getters \tIf this option was given. Attributes will be protected and have setters/getters to access it. [optional]",
-			'theme=s' 			=> "--theme \tTheme to be applied. [optional]",
-			'directory=s' 		=> "--directory path Base path on which project will be created",
-			'force' 			=> "--force \tForces to rewrite generated code if they already exists. [optional]",
-			'debug' 			=> "--debug \tShows the trace of the framework in case of an exception is generated. [optional]",
-			'help' 				=> "--help \t\tShow help"
+			'schema=s' 			=> "--schema \tName of the schema.",
+			'get-set' 	=> "--get-set \tAttributes will be protected and have setters/getters. ",
+			'theme=s' 			=> "--theme \tTheme to be applied.",
+			'directory=s' 		=> "--directory \tBase path on which project was created",
+			'force' 			=> "--force \tForces to rewrite generated code if they already exists.",
+			'trace' 			=> "--trace \tShows the trace of the framework in case of exception.",
+			'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.",
 		);
 
 		$this->parseParameters($posibleParameters);
 
-		if($this->isReceivedOption('help')){
-			$this->showHelp($posibleParameters);
+		$parameters = $this->getParameters();
+		
+		if (!isset($parameters[1]) || $parameters[1] == '?'){
+			echo 
+			"------------------" . PHP_EOL .  
+			"|-- Example" . PHP_EOL . 
+			"|-- phalcon scaffold-bootstrap users --autocomplete=login" . PHP_EOL . 
+			"|-----------------" . PHP_EOL . 
+			"|-- Usage" . PHP_EOL .  
+			"|-- phalcon scaffold-bootstrap [table name] [options]" . PHP_EOL .  
+			"|-----------------" . PHP_EOL . 
+			"|-- Options: " . PHP_EOL . 
+			"------------------" . PHP_EOL . PHP_EOL;
+		
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 
-		$this->checkRequired(array('table-name'));
-
-		$name = $this->getOption('table-name');
+		$name = $parameters[1];
 		$schema = $this->getOption('schema');
 
 		$className = Utils::camelize($name);
@@ -79,17 +88,30 @@ class ScaffoldBootstrap extends Phalcon_Script {
 			'fileName' => $fileName,
 			'className'	=> $className,
 			'force'	=> $this->isReceivedOption('force'),
-			'genSettersGetters' => $this->isReceivedOption('gen-setters-getters'),
+			'genSettersGetters' => $this->isReceivedOption('get-set'),
 			'directory' => $this->getOption('directory'),
 			'autocomplete' 	=> $this->getOption('autocomplete')
 		));
-
+		
+		$path = '/' . basename($this->getOption('directory')) .'/';
+		
 		$scaffoldBuilder->build();
-
+		
+		$head = 
+			'<link rel="stylesheet" href="' . $path . 'public/css/bootstrap/bootstrap.min.css" type="text/css" />' . PHP_EOL.
+			'<script type="text/javascript" src="' . $path . 'public/javascript/bootstrap/bootstrap.min.js' . '"></script>';
+		
+		echo 
+			"Twitter bootstrap scaffolding generated." . PHP_EOL .
+			"Remember to put the contents of head.remove-me.html file in the <head> of your layout." . PHP_EOL .
+			"head.html:" . PHP_EOL . 
+			"---------------------" . PHP_EOL .
+			$head . PHP_EOL .
+			"---------------------" . PHP_EOL;
+		
+		file_put_contents($this->getOption('directory') .'/head.remove-me.html', $head);
 	}
-
 }
-
 
 try {
 	$script = new ScaffoldBootstrap();
@@ -98,7 +120,7 @@ try {
 catch(Phalcon_Exception $e){
 	ScriptColor::lookSupportedShell();
 	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
-	if($script->getOption('debug')=='yes'){
+	if($script->getOption('trace')){
 		echo $e->getTraceAsString()."\n";
 	}
 }

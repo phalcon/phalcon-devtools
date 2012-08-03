@@ -23,92 +23,72 @@ if($pToolsPath){
 	chdir($pToolsPath);
 }
 
-require 'Script/Script.php';
-require 'Script/Color/ScriptColor.php';
-require 'Builder/Builder.php';
+require_once 'Script/Script.php';
+require_once 'Script/Color/ScriptColor.php';
+require_once 'Builder/Builder.php';
 
 use Phalcon_Builder as Builder;
-use Phalcon_Utils as Utils;
 
 /**
- * ScaffoldScript
+ * CreateController
  *
- * Scaffold a controller, model and view for a database table
+ * Create a handler for the command line.
  *
  * @category 	Phalcon
- * @package 	Scaffold
+ * @package 	Scripts
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
- * @version 	$Id: create_scaffold.php,v f5add30bf4ba 2011/10/26 21:05:13 andres $
+ * @version 	$Id: create_controller.php,v 8a71037c1754 2011/12/13 09:12:19 eduar $
  */
-class Scaffold extends Phalcon_Script {
+class CreateController extends Phalcon_Script {
 
-	public function run(){
+	public function __construct(){
 
 		$posibleParameters = array(
-			'schema=s' 			=> "--schema \tName of the schema.",
-			'autocomplete=s' 	=> "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.",
-			'get-set' 	=> "--get-set \tAttributes will be protected and have setters/getters.",
-			'theme=s' 			=> "--theme \tTheme to be applied. ",
-			'directory=s' 		=> "--directory \tBase path on which project was created",
-			'force' 			=> "--force \tForces to rewrite generated code if they already exists.",
-			'trace' 			=> "--trace \tShows the trace of the framework in case of exception.",
+			'directory=s'   => "--directory path Directory where the project will be created",
+			'force'			=> "--force \t Force to rewrite controller [optional]",
 		);
 
 		$this->parseParameters($posibleParameters);
-
-
+		
 		$parameters = $this->getParameters();
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
 			echo 
-			"------------------ " . PHP_EOL . 
-			"|-- Example" . PHP_EOL . 
-			"|-- phalcon scaffold users --autocomplete=login" . PHP_EOL . 
-			"|-----------------" . PHP_EOL . 
-			"|-- Usage" . PHP_EOL .  
-			"|-- phalcon scaffold [table name] [options]" . PHP_EOL .  
-			"|-----------------" . PHP_EOL . 
-			"|-- Options:" . PHP_EOL . 
-			"------------------" . PHP_EOL . PHP_EOL; 
-
+				"------------------" . PHP_EOL .
+				"|-- Example" . PHP_EOL . 
+				"|-- phalcon controller User --force" . PHP_EOL .
+				"|-----------------" . PHP_EOL . 
+				"|-- Usage " . PHP_EOL . 
+				"|-- phalcon [controller name] [options]" . PHP_EOL .
+				"|-----------------" . PHP_EOL . 
+				"|-- Options:" . PHP_EOL . 
+				"------------------" . PHP_EOL ;
 			
 			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 
-		
+		//$this->checkRequired(array("name"));
 
-		$name = $parameters[1];
-		$schema = $this->getOption('schema');
-
-		$scaffoldBuilder = Builder::factory('Scaffold', array(
-			'name' => $name,
-			'theme'	=> $this->getOption('theme'),
-			'schema' => $schema,
-			'force'	=> $this->isReceivedOption('force'),
-			'genSettersGetters' => $this->isReceivedOption('get-set'),
+		$modelBuilder = Builder::factory('Controller', array(
+			'name' => $parameters[1],
 			'directory' => $this->getOption('directory'),
-			'autocomplete' 	=> $this->getOption('autocomplete')
+			'force' => $this->isReceivedOption('force')
 		));
 
-		$scaffoldBuilder->build();
-
+		$modelBuilder->build();
 	}
 
 }
 
 try {
-	$script = new Scaffold();
-	$script->run();
+	$script = new CreateController();
 }
 catch(Phalcon_Exception $e){
 	ScriptColor::lookSupportedShell();
 	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
-	if($script->getOption('trace')){
-		echo $e->getTraceAsString()."\n";
-	}
 }
 catch(Exception $e){
-	echo 'Exception : '.$e->getMessage()."\n";
+	echo "Exception : ".$e->getMessage()."\n";
 }
