@@ -62,12 +62,18 @@ class Scaffold extends Phalcon_Script {
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
 			echo 
-			"------------------ 
-			\r|-- Example\n\r|-- phalcon scaffold users --autocomplete=login
-			\r|-----------------\r\n|-- Usage \n\r|-- phalcon scaffold [table name] [options] 
-			\r|-----------------\n\r|-- Options:\n\r------------------\n\r
-			\r";
-			echo join("\n\r", $posibleParameters) . "\n";
+			"------------------ " . PHP_EOL . 
+			"|-- Example" . PHP_EOL . 
+			"|-- phalcon scaffold users --autocomplete=login" . PHP_EOL . 
+			"|-----------------" . PHP_EOL . 
+			"|-- Usage" . PHP_EOL .  
+			"|-- phalcon scaffold [table name] [options]" . PHP_EOL .  
+			"|-----------------" . PHP_EOL . 
+			"|-- Options:" . PHP_EOL . 
+			"------------------" . PHP_EOL . PHP_EOL; 
+
+			
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 

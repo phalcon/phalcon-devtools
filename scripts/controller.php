@@ -55,12 +55,17 @@ class CreateController extends Phalcon_Script {
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
 			echo 
-			"------------------ 
-			\r|-- Example\n\r|-- phalcon controller User --force
-			\r|-----------------\r\n|-- Usage \n\r|-- phalcon [controller name] [options] 
-			\r|-----------------\n\r|-- Options:\n\r------------------\n\r
-			\r";
-			echo join("\n\r", $posibleParameters) . "\n";
+				"------------------" . PHP_EOL .
+				"|-- Example" . PHP_EOL . 
+				"|-- phalcon controller User --force" . PHP_EOL .
+				"|-----------------" . PHP_EOL . 
+				"|-- Usage " . PHP_EOL . 
+				"|-- phalcon [controller name] [options]" . PHP_EOL .
+				"|-----------------" . PHP_EOL . 
+				"|-- Options:" . PHP_EOL . 
+				"------------------" . PHP_EOL ;
+			
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 

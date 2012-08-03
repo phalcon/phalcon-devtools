@@ -55,7 +55,6 @@ class GenerateMigration extends Phalcon_Script {
 			'data=s' 			=> "--data \t\tExport table data. Type: always,on-create.",
 			'verbose' 			=> "--verbose \tGenerate profiling of SQL statements sent to database.",
 			'force' 			=> "--force \tForces to overwrite existing migrations.",
-			//'help' 				=> "--help \t\t\tShows this help"
 		);
 
 		$this->parseParameters($posibleParameters);
@@ -63,12 +62,16 @@ class GenerateMigration extends Phalcon_Script {
 		$parameters = $this->getParameters();
 		if (isset($parameters[1]) && $parameters[1] == '?'){
 			echo 
-			"------------------ 
-			\r|-- Example\n\r|-- phalcon migration --data --verbose
-			\r|-----------------\r\n|-- Usage \n\r|-- phalcon migration [options] 
-			\r|-----------------\n\r|-- Options:\n\r------------------\n\r
-			\r";
-			echo join("\n", $posibleParameters) . "\n";
+				"------------------" . PHP_EOL . 
+				"|-- Example" . PHP_EOL . 
+				"|-- phalcon migration --data --verbose" . PHP_EOL . 
+				"|-----------------" . PHP_EOL . 
+				"|-- Usage" . PHP_EOL . 
+				"|-- phalcon migration [options]" . PHP_EOL . 
+				"|-----------------" . PHP_EOL . 
+				"|-- Options:" . PHP_EOL . 
+				"------------------" . PHP_EOL ;
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 

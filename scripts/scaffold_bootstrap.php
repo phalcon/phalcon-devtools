@@ -61,12 +61,17 @@ class ScaffoldBootstrap extends Phalcon_Script {
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
 			echo 
-			"------------------ 
-			\r|-- Example\n\r|-- phalcon scaffold-bootstrap users --autocomplete=login
-			\r|-----------------\r\n|-- Usage \n\r|-- phalcon scaffold-bootstrap [table name] [options] 
-			\r|-----------------\n\r|-- Options:\n\r------------------\n\r
-			\r";
-			echo join("\n\r", $posibleParameters) . "\n";
+			"------------------" . PHP_EOL .  
+			"|-- Example" . PHP_EOL . 
+			"|-- phalcon scaffold-bootstrap users --autocomplete=login" . PHP_EOL . 
+			"|-----------------" . PHP_EOL . 
+			"|-- Usage" . PHP_EOL .  
+			"|-- phalcon scaffold-bootstrap [table name] [options]" . PHP_EOL .  
+			"|-----------------" . PHP_EOL . 
+			"|-- Options: " . PHP_EOL . 
+			"------------------" . PHP_EOL . PHP_EOL;
+		
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 
@@ -93,15 +98,16 @@ class ScaffoldBootstrap extends Phalcon_Script {
 		$scaffoldBuilder->build();
 		
 		$head = 
-		'<link rel="stylesheet" href="'.$path.'public/css/bootstrap/bootstrap.min.css" type="text/css" />'. "\n".
-		'<script type="text/javascript" src="'.$path.'public/javascript/bootstrap/bootstrap.min.js'.'"></script>';
+			'<link rel="stylesheet" href="' . $path . 'public/css/bootstrap/bootstrap.min.css" type="text/css" />' . PHP_EOL.
+			'<script type="text/javascript" src="' . $path . 'public/javascript/bootstrap/bootstrap.min.js' . '"></script>';
 		
 		echo 
-		"Twitter bootstrap scaffolding generated.
-		\rRemember to put the contents of head.remove-me.html file in the <head> of your layout.
-		\rhead.html:\r\n\r\n---------------------\r\n" .
-		$head .
-		"\n\n---------------------\r\n";
+			"Twitter bootstrap scaffolding generated." . PHP_EOL .
+			"Remember to put the contents of head.remove-me.html file in the <head> of your layout." . PHP_EOL .
+			"head.html:" . PHP_EOL . 
+			"---------------------" . PHP_EOL .
+			$head . PHP_EOL .
+			"---------------------" . PHP_EOL;
 		
 		file_put_contents($this->getOption('directory') .'/head.remove-me.html', $head);
 	}

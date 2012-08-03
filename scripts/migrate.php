@@ -60,12 +60,18 @@ class RunMigration extends Phalcon_Script {
 		$parameters = $this->getParameters();
 		if (isset($parameters[1]) && $parameters[1] == '?'){
 			echo 
-			"------------------ 
-			\r|-- Example\n\r|-- phalcon migrate --version 201109311921 --table users
-			\r|-----------------\r\n|-- Usage \n\r|-- phalcon migrate [options] 
-			\r|-----------------\n\r|-- Options:\n\r------------------\n\r
-			\r";
-			echo join("\n", $posibleParameters) . "\n";
+			"------------------" . PHP_EOL . 
+			"|-- Example" . PHP_EOL . 
+			"|-- phalcon migrate --version 201109311921 --table users" . PHP_EOL . 
+			"|-----------------" . PHP_EOL . 
+			"|-- Usage" . PHP_EOL . 
+			"|-- phalcon migrate [options]" . PHP_EOL . 
+			"|-----------------" . PHP_EOL . 
+			"|-- Options:" . PHP_EOL . 
+			"------------------" . PHP_EOL ;
+
+			
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 		

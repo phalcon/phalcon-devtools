@@ -41,19 +41,16 @@ if(!file_exists($phalconToolsPath."scripts")){
 
 if(!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1]=='commands'){
 	echo 
-	'|----------------------'.
-	"\n\r".
-	'|-- Available commands:' . 
-	"\r\n".
-	'|----------------------'. 
-	PHP_EOL;
+		'|----------------------' . PHP_EOL .
+		'|-- Available commands:' . PHP_EOL .
+		'|----------------------' . PHP_EOL ;
 	
 	$directory = new DirectoryIterator($phalconToolsPath."scripts");
 	foreach($directory as $file){
 		if(!$file->isDir()){
 			$command = str_replace('.php', '', $file->getFileName());
 			$command = str_replace('_', '-', $command);
-			echo '- ' . $command, PHP_EOL;
+			echo '- ' . $command . PHP_EOL;
 		}
 	}
 } else {

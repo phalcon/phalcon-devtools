@@ -47,11 +47,11 @@ class CreateProject extends Phalcon_Script {
 
 	public function run(){
 		$helpText = 
-		"------------------
-			\r|-- Usage \n\r|-- phalcon project ? \t\t\t\t\t Shows this help text\r
-			\r|-- phalcon project [name] [directory] [enable-webtools] Creates a project
-			\r|-----------------\n\r
-		";
+			"------------------" . PHP_EOL . 
+			"|-- Usage " . PHP_EOL . 
+			"|-- phalcon project ? \t\t\t\t\t Shows this help text" . PHP_EOL . 
+			"|-- phalcon project [name] [directory] [enable-webtools] Creates a project" . PHP_EOL . 
+			"|-----------------" . PHP_EOL ;
 		
 		
 		$posibleParameters = array(

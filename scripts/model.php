@@ -59,12 +59,18 @@ class CreateModel extends Phalcon_Script {
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
 			echo 
-			"------------------ 
-			\r|-- Example\n\r|-- phalcon model User users --schema=my --get-set --doc --force --trace
-			\r|-----------------\r\n|-- Usage \n\r|-- phalcon model [className] [tableName] [options] 
-			\r|-----------------\n\r|-- Options:\n\r------------------\n\r
-			\r";
-			echo join("\n", $posibleParameters) . "\n";
+				"------------------" . PHP_EOL .  
+				"|-- Example" . PHP_EOL . 
+				"|-- phalcon model User users --schema=my --get-set --doc --force --trace" . PHP_EOL . 
+				"|-----------------" . PHP_EOL . 
+				"|-- Usage " . PHP_EOL . 
+				"|-- phalcon model [className] [tableName] [options] " . PHP_EOL . 
+				"|-----------------" . PHP_EOL . 
+				"|-- Options:" . PHP_EOL . 
+				"------------------" . PHP_EOL . PHP_EOL;
+
+			
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 		
