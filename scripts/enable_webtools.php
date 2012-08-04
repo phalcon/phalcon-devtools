@@ -46,16 +46,30 @@ class EnableWebTools extends Phalcon_Script {
 	public function run(){
 
 		$posibleParameters = array(
-			'debug'	=> "--debug \t\tShows the trace of the framework in case of an exception is generated. [optional]",
+			'trace'	=> "--trace \t\tShows the trace of the framework in case of exception.",
 			'directory=s' => "--directory path \tBase path on which project will be created",
-			'help' 	=> "--help \t\t\tShow help"
 		);
 
 		$this->parseParameters($posibleParameters);
-		if($this->isReceivedOption('help')){
-			$this->showHelp($posibleParameters);
+		
+		$parameters = $this->getParameters();
+		if (isset($parameters[1]) && $parameters[1] == '?'){
+			echo 
+			"------------------" . PHP_EOL . 
+			"|-- Example" . PHP_EOL . 
+			"|-- phalcon enable-webtools --trace" . PHP_EOL . 
+			"|-----------------" . PHP_EOL . 
+			"|-- Usage" . PHP_EOL . 
+			"|-- phalcon enable-webtools [options]" . PHP_EOL . 
+			"|-----------------" . PHP_EOL . 
+			"|-- Options:" . PHP_EOL . 
+			"------------------" . PHP_EOL . PHP_EOL ;
+
+			
+			echo join(PHP_EOL, $posibleParameters) . PHP_EOL ;
 			return;
 		}
+		
 
 		$path = '';
 		if($this->isReceivedOption('directory')){
@@ -79,7 +93,7 @@ try {
 catch(Phalcon_Exception $e){
 	ScriptColor::lookSupportedShell();
 	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
-	if($script->getOption('debug')=='yes'){
+	if($script->getOption('trace')){
 		echo $e->getTraceAsString()."\n";
 	}
 }
