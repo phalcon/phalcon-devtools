@@ -117,6 +117,10 @@ class Phalcon_Model_Migration {
 					case 'datetime':
 						$fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
 						break;
+                    case 'float':
+    					$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
+						$numericFields[$field['Field']] = true;
+						break;
 					case 'decimal':
 						$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
 						$numericFields[$field['Field']] = true;
@@ -254,6 +258,7 @@ class ".$className." extends Phalcon_Model_Migration {\n\n".
 			$classData.="\n\t}";
 		}
 		$classData.="\n\n}";
+        $classData = str_replace("\t", "    ", $classData);
 		return $classData;
 	}
 
