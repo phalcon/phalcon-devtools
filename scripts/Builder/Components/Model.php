@@ -244,14 +244,14 @@ class ModelBuilderComponent extends Phalcon_BuilderComponent {
 			if($useSettersGetters){
 				$attributes[] = "\t/**\n\t * @var $type\n\t */\n\tprotected \${$field['Field']};\n";
 				$setterName = Utils::camelize($field['Field']);
-				$setters[] = "\t/**\n\t * Method to set the value of field {$field['Field']}\n\t * @param $type \${$field['Field']}\n\t */\n\tpublic function set$setterName(\${$field['Field']}){\n\t\t\$this->{$field['Field']} = \${$field['Field']};\n\t}\n";
+				$setters[] = "\t/**\n\t * Method to set the value of field {$field['Field']}\n\n\t * @param $type \${$field['Field']}\n\t */\n\tpublic function set$setterName(\${$field['Field']}){\n\t\t\$this->{$field['Field']} = \${$field['Field']};\n\t}\n";
 				if(isset($this->_typeMap[$type])){
-					$getters[] = "\t/**\n\t * Returns the value of field {$field['Field']}\n\t * @return $type\n\t */\n\tpublic function get$setterName(){\n\t\tif(\$this->{$field['Field']}){\n\t\t\treturn new {$this->_typeMap[$type]}(\$this->{$field['Field']});\n\t\t} else {\n\t\t\treturn null;\n\t\t}\n\t}\n";
+					$getters[] = "\t/**\n\t * Returns the value of field {$field['Field']}\n\n\t * @return $type\n\t */\n\tpublic function get$setterName(){\n\t\tif(\$this->{$field['Field']}){\n\t\t\treturn new {$this->_typeMap[$type]}(\$this->{$field['Field']});\n\t\t} else {\n\t\t\treturn null;\n\t\t}\n\t}\n";
 				} else {
-					$getters[] = "\t/**\n\t * Returns the value of field {$field['Field']}\n\t * @return $type\n\t */\n\tpublic function get$setterName(){\n\t\treturn \$this->{$field['Field']};\n\t}\n";
+					$getters[] = "\t/**\n\t * Returns the value of field {$field['Field']}\n\n\t * @return $type\n\t */\n\tpublic function get$setterName(){\n\t\treturn \$this->{$field['Field']};\n\t}\n";
 				}
 			} else {
-				$attributes[] = "\t/**\n\t * @var $type\n\t */\n\tpublic \${$field['Field']};\n";
+				$attributes[] = "\t/**\n\n\t * @var $type\n\t */\n\tpublic \${$field['Field']};\n";
 			}
 		}
 
@@ -289,16 +289,17 @@ class ModelBuilderComponent extends Phalcon_BuilderComponent {
 
 		if($genDocMethods){
 			$code.="\n\t/**\n\t * @return ".$this->_options['className']."[]\n\t */\n";
-			$code.="\tstatic public function find(\$parameters=array()){\n";
+			$code.="\tpublic static function find(\$parameters=array()){\n";
 			$code.="\t\treturn parent::find(\$parameters);\n";
 			$code.="\t}\n\n";
 			$code.="\n\t/**\n\t * @return ".$this->_options['className']."\n\t */\n";
-			$code.="\tstatic public function findFirst(\$parameters=array()){\n";
+			$code.="\tpublic static function findFirst(\$parameters=array()){\n";
 			$code.="\t\treturn parent::findFirst(\$parameters);\n";
 			$code.="\t}\n\n";
 		}
 
-		$code.="}\n\n";
+		$code.="}\n";
+		$code = str_replace("\t", "    ", $code);
 		file_put_contents($path.$modelsDir."/".$this->_options['className'].".php", $code);
 
 	}

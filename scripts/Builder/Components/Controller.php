@@ -75,6 +75,7 @@ class ControllerBuilderComponent extends Phalcon_BuilderComponent {
 		$className = Utils::camelize($name);
 		$controllerPath = $path."public/".$controllersDir.$className."Controller.php";
 		$code = "<?php\n\nclass ".$className."Controller extends ".$baseClass." {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
+		$code = str_replace("\t", "    ", $code);
 		if(!file_exists($controllerPath) || $this->_options['force']==true){
 			file_put_contents($controllerPath, $code);
 		} else {

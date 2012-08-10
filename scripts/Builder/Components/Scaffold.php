@@ -391,7 +391,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 	}'.PHP_EOL.PHP_EOL;
 
 			$code .= "".'}'.PHP_EOL;
-
+			$code = str_replace("\t", "    ", $code);
 			file_put_contents($controllerPath, $code);
 		}
 
@@ -429,6 +429,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 			}
 			$code.="\t".'<?php echo $this->getContent(); ?>'.PHP_EOL.
 			'</div>';
+			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 
 		}
@@ -527,6 +528,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 			}
 			$code.=PHP_EOL."\t\t".'</tr>'.PHP_EOL;
 		}
+		$code = str_replace("\t", "    ", $code);
 		return $code;
 	}
 
@@ -575,6 +577,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 		'</div>';
 
 		//index.phtml
+		$code = str_replace("\t", "    ", $code);
 		file_put_contents($viewPath, $code);
 	}
 
@@ -623,6 +626,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 			"\t".'</form>'.PHP_EOL;
 
 			//index.phtml
+			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 		}
 	}
@@ -672,6 +676,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 			"\t".'<?php echo Phalcon_Tag::endForm() ?>'.PHP_EOL;
 
 			//index.phtml
+			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 
 		}
@@ -763,6 +768,7 @@ class ScaffoldBuilderComponent extends Phalcon_BuilderComponent {
 			"\t\t".'</tr>'.PHP_EOL.
 			"\t".'<tbody>'.PHP_EOL.
 			'</table>';
+			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 		}
 	}
