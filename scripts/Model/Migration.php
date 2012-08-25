@@ -234,8 +234,8 @@ class ".$className." extends Phalcon_Model_Migration {\n\n".
 
 			$fileHandler = fopen(self::$_migrationPath.'/'.$table.'.dat', 'w');
 			$cursor = self::$_connection->query('SELECT * FROM '.$table);
-			self::$_connection->setFetchMode(DbBase::DB_ASSOC);
-			while($row = self::$_connection->fetchArray($cursor)){
+			$cursor->setFetchMode(DbBase::DB_ASSOC);
+			while($row = $cursor->fetchArray($cursor)){
 				$data = array();
 				foreach($row as $key => $value){
 					if(isset($numericFields[$key])){
@@ -258,7 +258,7 @@ class ".$className." extends Phalcon_Model_Migration {\n\n".
 			$classData.="\n\t}";
 		}
 		$classData.="\n\n}";
-        $classData = str_replace("\t", "    ", $classData);
+		$classData = str_replace("\t", "    ", $classData);
 		return $classData;
 	}
 
