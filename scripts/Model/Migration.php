@@ -234,7 +234,7 @@ class ".$className." extends Phalcon_Model_Migration {\n\n".
 
 			$fileHandler = fopen(self::$_migrationPath.'/'.$table.'.dat', 'w');
 			$cursor = self::$_connection->query('SELECT * FROM '.$table);
-			$cursor->setFetchMode(DbBase::DB_ASSOC);
+			$cursor->setFetchMode(Phalcon_Db::FETCH_ASSOC);
 			while($row = $cursor->fetchArray($cursor)){
 				$data = array();
 				foreach($row as $key => $value){
