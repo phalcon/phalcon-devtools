@@ -18,34 +18,38 @@
   +------------------------------------------------------------------------+
 */
 
-error_reporting(E_ALL);
+namespace Phalcon;
 
-use Phalcon\Script;
-use Phalcon\Script\Color;
+use \Phalcon\Builder\Exception as BuilderException;
 
-if(!extension_loaded('phalcon')){
-	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install' . PHP_EOL);
-}
+/**
+ * Builder
+ *
+ * Loads components to generate code
+ *
+ * @category 	Phalcon
+ * @package 	Builder
+ * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @license 	New BSD License
+ */
+class Builder {
 
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/scripts');
-spl_autoload_register(function($class) {
-	include str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-});
+	/**
+	 * Factories a builder component
+	 *
+	 * @static
+	 * @param	string $component
+	 * @param	array $options
+	 * @return	\Phalcon\Builder\Component
+	 * @throws  \Phalcon\Builder\Exception
+	 */
+	public static function factory($component, $options=array()) {
+		// TODO Check why autoloader is not loading the classes
+//		if (!in_array($component, get_declared_classes())) {
+//			throw new BuilderException('The builder component "'.$component.'" does not exist');
+//		}
 
-$vendor = sprintf('Phalcon DevTools (%s)', Script::VERSION);
-print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
+		return new $component($options);
+	}
 
-$script = new Script;
-$script->attach(new \Phalcon\Command\Commands);
-$script->attach(new \Phalcon\Command\Project);
-$script->attach(new \Phalcon\Command\Scaffold);
-
-try {
-	$script->run();
-}
-catch (\Phalcon\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
-}
-catch (\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
 }

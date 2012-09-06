@@ -18,34 +18,41 @@
   +------------------------------------------------------------------------+
 */
 
-error_reporting(E_ALL);
+namespace Phalcon\Builder;
 
-use Phalcon\Script;
-use Phalcon\Script\Color;
+use Phalcon\Builder\Exception as BuilderException;
 
-if(!extension_loaded('phalcon')){
-	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install' . PHP_EOL);
-}
+/**
+ * BuilderComponent
+ *
+ * Base class for builder components
+ *
+ * @category 	Phalcon
+ * @package 	Scripts
+ * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @license 	New BSD License
+ */
+abstract class Component {
 
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/scripts');
-spl_autoload_register(function($class) {
-	include str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-});
+	protected $_options = array();
 
-$vendor = sprintf('Phalcon DevTools (%s)', Script::VERSION);
-print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
+	public function __construct($options){
+		$this->_options = $options;
+	}
 
-$script = new Script;
-$script->attach(new \Phalcon\Command\Commands);
-$script->attach(new \Phalcon\Command\Project);
-$script->attach(new \Phalcon\Command\Scaffold);
+	protected function _getConfig($path){
+		if (file_exists($path."app/config/config.ini")) {
+			return new \Phalcon\Config\Adapter\Ini($path."app/config/config.ini");
+		} else {
+			if (file_exists($path."app/config/config.php")) {
+				require $path."app/config/config.php";
+				return $config;
+			} else {
+				throw new BuilderException('Builder can\'t locate the configuration file');
+			}
+		}
+	}
 
-try {
-	$script->run();
-}
-catch (\Phalcon\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
-}
-catch (\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
+	abstract public function build();
+
 }

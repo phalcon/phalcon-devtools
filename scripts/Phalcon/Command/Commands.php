@@ -18,34 +18,20 @@
   +------------------------------------------------------------------------+
 */
 
-error_reporting(E_ALL);
+namespace Phalcon\Command;
 
-use Phalcon\Script;
 use Phalcon\Script\Color;
 
-if(!extension_loaded('phalcon')){
-	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install' . PHP_EOL);
-}
+class Commands extends Command
+{
+	const COMMAND = 'commands';
 
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/scripts');
-spl_autoload_register(function($class) {
-	include str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-});
+	public function getCommand() {
+		return static::COMMAND;
+	}
 
-$vendor = sprintf('Phalcon DevTools (%s)', Script::VERSION);
-print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
+	public function getHelp() {
 
-$script = new Script;
-$script->attach(new \Phalcon\Command\Commands);
-$script->attach(new \Phalcon\Command\Project);
-$script->attach(new \Phalcon\Command\Scaffold);
+	}
 
-try {
-	$script->run();
-}
-catch (\Phalcon\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
-}
-catch (\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
 }
