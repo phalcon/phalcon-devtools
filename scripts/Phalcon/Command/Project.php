@@ -54,7 +54,7 @@ class Project extends Command {
 		$this->parseParameters($possibleParameters);
 		$parameters = $this->getParameters();
 		
-		if (!isset($parameters[1]) || $parameters[1] == '?'){
+		if (!isset($parameters[1]) || $parameters[1] == '?') {
 			$this->getHelp();
 			return;
 		}
@@ -97,21 +97,21 @@ class Project extends Command {
 
 		print Color::head('Arguments:') . PHP_EOL;
 		print Color::colorize('  ?', Color::FG_GREEN);
-	  	print Color::colorize("\tShows this help text"). PHP_EOL . PHP_EOL;
+	  	print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
 		print Color::head('Options:') . PHP_EOL;
 
 		print Color::colorize('  --name', Color::FG_GREEN);
-		print Color::colorize("             Name of the new project"). PHP_EOL;
+		print Color::colorize("             Name of the new project") . PHP_EOL;
 
 		print Color::colorize('  --type', Color::FG_GREEN);
-		print Color::colorize("             Type of the application to be genrated (micro, simple, model)"). PHP_EOL;
+		print Color::colorize("             Type of the application to be genrated (micro, simple, model)") . PHP_EOL;
 
 		print Color::colorize('  --directory', Color::FG_GREEN);
-		print Color::colorize("        Base path on which project will be created"). PHP_EOL;
+		print Color::colorize("        Base path on which project will be created") . PHP_EOL;
 
 		print Color::colorize('  --enable-webtools', Color::FG_GREEN);
-		print Color::colorize("  Determines if webtools should be enabled"). PHP_EOL . PHP_EOL;
+		print Color::colorize("  Determines if webtools should be enabled") . PHP_EOL . PHP_EOL;
 	}
 }
 

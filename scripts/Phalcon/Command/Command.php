@@ -209,7 +209,7 @@ abstract class Command
 			if(func_num_args()>1){
 				$params = func_get_args();
 				unset($params[0]);
-				$filter = new Phalcon_Filter();
+				$filter = new \Phalcon\Filter();
 				return $filter->sanitize($this->_parameters[$option], $params);
 			}
 			return $this->_parameters[$option];
@@ -239,7 +239,7 @@ abstract class Command
 		if(func_num_args()>1){
 			$params = func_get_args();
 			unset($params[0]);
-			$filter = new Phalcon_Filter();
+			$filter = new \Phalcon\Filter();
 			return $filter->sanitize($paramValue, $params);
 		} else {
 			throw new ScriptException('You must specify at least one filter to apply');
@@ -326,7 +326,17 @@ abstract class Command
 		return $this->_parameters;
 	}
 
+	/**
+	 * Returns the command identifier
+	 *
+	 * @return string
+	 */
 	abstract public function getCommand();
 
+	/**
+	 * Prints the help for current command.
+	 *
+	 * @return void
+	 */
 	abstract public function getHelp();
 }

@@ -41,8 +41,8 @@ print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_
 
 $script = new Script;
 $script->attach(new \Phalcon\Command\Commands);
+$script->attach(new \Phalcon\Command\Controller);
 $script->attach(new \Phalcon\Command\Project);
-$script->attach(new \Phalcon\Command\Scaffold);
 
 try {
 	$script->run();
