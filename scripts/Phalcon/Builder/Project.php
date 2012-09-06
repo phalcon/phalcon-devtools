@@ -38,98 +38,91 @@ use Phalcon\Script\Color;
  */
 class Project extends Component {
 
-	/**
-	 * Creates a default configuration file with INI format
-	 *
-	 */
-	private static function createINIConfig($path, $name) {
-		if (file_exists($path.'app/config/config.ini') == false) {
-			$str =	'[database]'.PHP_EOL.
-			'adapter = Mysql'.PHP_EOL.
-			'host = "127.0.0.1"'.PHP_EOL.
-			'username = "root"'.PHP_EOL.
-			'password = ""'.PHP_EOL.
-			'name = "test_db"'.PHP_EOL.
-			''.PHP_EOL.
-			'[phalcon]'.PHP_EOL.
-			'controllersDir = "../app/controllers/"'.PHP_EOL.
-			'modelsDir = "../app/models/"'.PHP_EOL.
-			'viewsDir = "../app/views/"'.PHP_EOL.
-			'baseUri = "/'.$name.'/"'.PHP_EOL;
-			file_put_contents($path.'app/config/config.ini', $str);
-		}
-	}
+	const TYPE_MICRO = 'micro';
+	const TYPE_SIMPLE = 'simple';
+	const TYPE_MODULE = 'module';
 
-	private static function createPHPConfig($path, $name){
-		if (file_exists($path.'app/config/config.php') == false) {
-			$str =	"<?php".PHP_EOL.
-			"".PHP_EOL.
-			"\$config = new \\Phalcon\\Config(array(".PHP_EOL.
-			"	'database' => array(".PHP_EOL.
-			"		'adapter' => 'Mysql',".PHP_EOL.
-			"		'host' => 'localhost',".PHP_EOL.
-			"		'username' => 'phalcon',".PHP_EOL.
-			"		'password' => 'secret',".PHP_EOL.
-			"		'name' => 'php_site'".PHP_EOL.
-			"	),".PHP_EOL.
-			"	'phalcon' => array(".PHP_EOL.
-			"		'controllersDir' => '../app/controllers/',".PHP_EOL.
-			"		'modelsDir' => '../app/models/',".PHP_EOL.
-			"		'viewsDir' => '../app/views/',".PHP_EOL.
-			"		'baseUri' => '/".$name."/'".PHP_EOL.
-			"	),".PHP_EOL.			
-			"));".PHP_EOL;
-			file_put_contents($path.'app/config/config.php', $str);
+	private $_types = array(
+//		self::TYPE_MICRO,
+		self::TYPE_SIMPLE,
+//		self::TYPE_MODULE,
+	);
+
+	private $_dirs = array(
+		self::TYPE_SIMPLE => array(
+			'app',
+			'app/logs',
+			'app/views',
+			'app/config',
+			'app/models',
+			'app/controllers',
+			'app/views/index',
+			'app/views/layouts',
+			'public',
+			'public/img',
+			'public/css',
+			'public/temp',
+			'public/files',
+			'public/js',
+			'.phalcon'
+		)
+	);
+
+	/**
+	 * @static
+	 * @param $path
+	 * @param $name
+	 * @param $type
+	 *
+	 * @return void
+	 */
+	private static function createConfig($path, $name, $type){
+		if (file_exists($path.'app/config/config.' . $type) == false) {
+			$str = file_get_contents(TEMPLATES_PATH . '/project/config.' . $type);
+			$str = preg_replace('/@@name@@/', $name, $str);
+			file_put_contents($path.'app/config/config.' . $type, $str);
 		}
 	}
 
 	/**
 	 * Create ControllerBase
 	 *
+	 * @static
+	 * @param $path
+	 * @param $name
+	 *
+	 * @return void
 	 */
-	private static function createControllerBase($path){
-		$file = $path.'app/controllers/ControllerBase.php';
-		if(file_exists($file)==false){
-			$code = "<?php".PHP_EOL.PHP_EOL.
-			"class ControllerBase extends Phalcon_Controller {".PHP_EOL.PHP_EOL."}".PHP_EOL;
-			file_put_contents($file, $code);
+	private static function createControllerBase($path, $name) {
+		if (file_exists($path . 'app/controllers/ControllerBase.php') == false) {
+			$str = file_get_contents(TEMPLATES_PATH . '/project/controller.php');
+			$str = preg_replace('/@@name@@/', $name, $str);
+			file_put_contents($path . 'app/controllers/ControllerBase.php', $str);
 		}
 	}
 
 	/**
 	 * Create Bootstrap file by default of application
 	 *
+	 * @return void
 	 */
 	private static function createBootstrapFile($path, $useIniConfig){
-		if(file_exists($path.'public/index.php')==false){
-			$code = "<?php".PHP_EOL.PHP_EOL.
-			"error_reporting(E_ALL);".PHP_EOL.PHP_EOL.
-			"try {".PHP_EOL.
-			PHP_EOL.
-			"\t"."require \"../app/controllers/ControllerBase.php\";".PHP_EOL;
-			if(!$useIniConfig){
-				$code.="\t"."require \"../app/config/config.php\";".PHP_EOL;
+		if (file_exists($path . 'public/index.php') == false) {
+			$config = '$config = include(__DIR__."/../app/config/config.php");';
+			if ($useIniConfig) {
+				$config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__."/../app/config/config.ini");';
 			}
-			$code.=PHP_EOL.
-			"\t"."\$front = Phalcon_Controller_Front::getInstance();".PHP_EOL.
-			PHP_EOL;
-			if($useIniConfig){
-				$code.="\t"."\$config = new Phalcon_Config_Adapter_Ini(\"../app/config/config.ini\");".PHP_EOL;
-			} 
- 			$code.="\t"."\$front->setConfig(\$config);".PHP_EOL.
- 			PHP_EOL.
-			"\t"."echo \$front->dispatchLoop()->getContent();".PHP_EOL.
-			"}".PHP_EOL.
-			"catch(Phalcon_Exception \$e){".PHP_EOL.
-			"\t"."echo \"PhalconException: \", \$e->getMessage();".PHP_EOL.
-			"}";
-			file_put_contents($path.'public/index.php', $code);	
+
+			$str = file_get_contents(TEMPLATES_PATH . '/project/index.php');
+			$str = preg_replace('/@@config@@/', $config, $str);
+			file_put_contents($path . 'public/index.php', $str);
 		}
 	}
 
 	/**
 	 * Create indexController file
 	 *
+	 * @return void
 	 */
 	private static function createControllerFile($path){
 		$modelBuilder = Builder::factory('\\Phalcon\\Builder\\Controller', array(
@@ -146,7 +139,7 @@ class Project extends Component {
 	 */
 	private static function createHtaccessFiles($path){
 
-		if(file_exists($path.'.htaccess')==false){
+		if (file_exists($path . '.htaccess') == false) {
 			$code = '<IfModule mod_rewrite.c>'.PHP_EOL.
 				"\t".'RewriteEngine on'.PHP_EOL.
 				"\t".'RewriteRule  ^$ public/    [L]'.PHP_EOL.
@@ -155,18 +148,11 @@ class Project extends Component {
 			file_put_contents($path.'.htaccess', $code);
 		}
 
-		if(file_exists($path.'public/.htaccess')==false){
-			$code = 'AddDefaultCharset UTF-8'.PHP_EOL.
-				'<IfModule mod_rewrite.c>'.PHP_EOL.
-				"\t".'RewriteEngine On'.PHP_EOL.
-				"\t".'RewriteCond %{REQUEST_FILENAME} !-d'.PHP_EOL.
-				"\t".'RewriteCond %{REQUEST_FILENAME} !-f'.PHP_EOL.
-				"\t".'RewriteRule ^(.*)$ index.php?_url=$1 [QSA,L]'.PHP_EOL.
-				'</IfModule>';
-			file_put_contents($path.'public/.htaccess', $code);
+		if (file_exists($path . 'public/.htaccess') == false) {
+			file_put_contents($path.'public/.htaccess', file_get_contents(TEMPLATES_PATH . '/project/htaccess'));
 		}
 
-		if(file_exists($path.'index.html')==false){
+		if (file_exists($path.'index.html') == false) {
 			$code = '<html><body><h1>Mod-Rewrite is not enabled</h1><p>Please enable rewrite module on your web server to continue</body></html>';
 			file_put_contents($path.'index.html', $code);
 		}
@@ -200,46 +186,38 @@ class Project extends Component {
 		}
 	}
 
-	public function build(){
-
+	public function build() {
 		$path = '';
-		if(isset($this->_options['directory'])){
-			if($this->_options['directory']){
-				$path = $this->_options['directory'].'/';
+		if (isset($this->_options['directory'])) {
+			if ($this->_options['directory']) {
+				$path = $this->_options['directory'] . '/';
 			}
 		}
 
 		$name = null;
-		if(isset($this->_options['name'])){
-			if($this->_options['name']){
+		if (isset($this->_options['name'])) {
+			if ($this->_options['name']) {
 				$name = $this->_options['name'];
-				$path .= $this->_options['name'].'/';
+				$path .= $this->_options['name'] . '/';
 				@mkdir($path);
 			}
 		}
 
-		if(!is_writable($path)){
-			throw new BuilderException("Directory ".$path." is not writable");
+		$type = 'simple';
+		if (isset($this->_options['type'])) {
+			if (!in_array($this->_options['type'], $this->_types)) {
+				throw new BuilderException('Type "' . $this->_options['type'] . '" is not supported yet');
+			}
+			$type = $this->_options['type'];
 		}
 
-		@mkdir($path.'app');
+		if (!is_writable($path)) {
+			throw new BuilderException("Directory " . $path . " is not writable");
+		}
 
-		@mkdir($path.'app/logs');
-		@mkdir($path.'app/views');
-		@mkdir($path.'app/config');
-		@mkdir($path.'app/models');
-		@mkdir($path.'app/controllers');
-		@mkdir($path.'app/views/index');
-		@mkdir($path.'app/views/layouts');
-
-		@mkdir($path.'public');
-		@mkdir($path.'public/img');
-		@mkdir($path.'public/css');
-		@mkdir($path.'public/temp');
-		@mkdir($path.'public/files');
-		@mkdir($path.'public/js');
-
-		@mkdir($path.'.phalcon');
+		foreach ($this->_dirs[$type] as $dir) {
+			@mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir);
+		}
 
 		if(isset($this->_options['useIniConfig'])){
 			$useIniConfig = $this->_options['useIniConfig'];
@@ -247,24 +225,24 @@ class Project extends Component {
 			$useIniConfig = false;
 		}
 
-		if($useIniConfig){
-			self::createINIConfig($path, $name);
+		if ($useIniConfig) {
+			self::createConfig($path, $name, 'ini');
 		} else {
-			self::createPHPConfig($path, $name);
+			self::createConfig($path, $name, 'php');
 		}
-		self::createBootstrapFile($path, $useIniConfig);
 
+		self::createBootstrapFile($path, $useIniConfig);
 		self::createHtaccessFiles($path);		
-		self::createControllerBase($path);
+		self::createControllerBase($path, $name);
 		self::createIndexViewFiles($path);
 		self::createControllerFile($path);
 
-		if(isset($this->_options['enableWebTools']) && $this->_options['enableWebTools']){
+		if (isset($this->_options['enableWebTools']) && $this->_options['enableWebTools']) {
 			// TODO implement
 			// Phalcon_WebTools::install($path);
 		}
 
-		print Color::success('Project ' . $this->_options['name'] . ' was successfully created.') . PHP_EOL;
+		print Color::success('Project "' . $this->_options['name'] . '" was successfully created.') . PHP_EOL;
 
 	}
 

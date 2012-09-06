@@ -36,17 +36,16 @@ abstract class Component {
 
 	protected $_options = array();
 
-	public function __construct($options){
+	public function __construct($options) {
 		$this->_options = $options;
 	}
 
-	protected function _getConfig($path){
-		if (file_exists($path."app/config/config.ini")) {
-			return new \Phalcon\Config\Adapter\Ini($path."app/config/config.ini");
+	protected function _getConfig($path) {
+		if (file_exists($path . "app/config/config.ini")) {
+			return new \Phalcon\Config\Adapter\Ini($path . "app/config/config.ini");
 		} else {
-			if (file_exists($path."app/config/config.php")) {
-				require $path."app/config/config.php";
-				return $config;
+			if (file_exists($path . "app/config/config.php")) {
+				return include($path . "app/config/config.php");
 			} else {
 				throw new BuilderException('Builder can\'t locate the configuration file');
 			}

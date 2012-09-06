@@ -27,6 +27,10 @@ if(!extension_loaded('phalcon')){
 	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install' . PHP_EOL);
 }
 
+if (!defined('TEMPLATES_PATH')) {
+	define('TEMPLATES_PATH', __DIR__ . '/templates');
+}
+
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/scripts');
 spl_autoload_register(function($class) {
 	include str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';

@@ -20,6 +20,8 @@
 
 namespace Phalcon\Command;
 
+use Phalcon\Script\Exception as ScriptException;
+
 abstract class Command
 {
 	/**
@@ -41,39 +43,40 @@ abstract class Command
 	 *
 	 * @var array
 	 */
-	private $_posibleArguments = array();
+	private $_possibleArguments = array();
 
 	/**
 	 * Parse the parameters passed to the script.
 	 *
 	 * @param	array $parameters
-	 * @param	array $posibleAlias
+	 * @param	array $possibleAlias
 	 * @return	array
+	 * @throws \Phalcon\Script\Exception
 	 */
-	public function parseParameters($parameters=array(), $posibleAlias=array()){
+	public function parseParameters($parameters = array(), $possibleAlias = array()) {
 
 		$arguments = array();
-		$posibleArguments = array();
-		foreach($parameters as $parameter => $description){
-			if(strpos($parameter, "=")!==false){
+
+		foreach ($parameters as $parameter => $description) {
+			if (strpos($parameter, "=") !== false) {
 				$parameterParts = explode("=", $parameter);
-				if(count($parameterParts)!=2){
+				if (count($parameterParts)!=2) {
 					throw new ScriptException("Invalid definition for the parameter '$parameter'");
 				}
-				if(strlen($parameterParts[0])==""){
+				if (strlen($parameterParts[0])=="") {
 					throw new ScriptException("Invalid definition for the parameter '".$parameter."'");
 				}
-				if(!in_array($parameterParts[1], array('s', 'i'))){
+				if (!in_array($parameterParts[1], array('s', 'i'))) {
 					throw new ScriptException("Incorrect data type on parameter '".$parameter."'");
 				}
-				$this->_posibleArguments[$parameterParts[0]] = true;
+				$this->_possibleArguments[$parameterParts[0]] = true;
 				$arguments[$parameterParts[0]] = array(
 					'have-option' => true,
 					'option-required' => true,
 					'data-type' => $parameterParts[1]
 				);
 			} else {
-				if(strpos($parameter, "=")!==false){
+				if (strpos($parameter, "=") !== false) {
 					$parameterParts = explode("=", $parameter);
 					if(count($parameterParts)!=2){
 						throw new ScriptException("Invalid definition for the parameter '$parameter'");
@@ -84,15 +87,15 @@ abstract class Command
 					if(!in_array($parameterParts[1], array('s', 'i'))){
 						throw new ScriptException("Incorrect data type on parameter '$parameter'");
 					}
-					$this->_posibleArguments[$parameterParts[0]] = true;
+					$this->_possibleArguments[$parameterParts[0]] = true;
 					$arguments[$parameterParts[0]] = array(
 						'have-option' => true,
 						'option-required' => false,
 						'data-type' => $parameterParts[1]
 					);
 				} else {
-					if(preg_match('/([a-zA-Z0-9]+)/', $parameter)){
-						$this->_posibleArguments[$parameter] = true;
+					if (preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
+						$this->_possibleArguments[$parameter] = true;
 						$arguments[$parameter] = array(
 							'have-option' => false,
 							'option-required' => false
@@ -106,9 +109,9 @@ abstract class Command
 
 		$param = '';
 		$paramName = '';
-		$allParamNames = array();
 		$receivedParams = array();
 		$numberArguments = count($_SERVER['argv']);
+
 		for($i=1;$i<$numberArguments;$i++){
 			$argv = $_SERVER['argv'][$i];
 			if(preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)$#', $argv, $matches)){
@@ -121,11 +124,11 @@ abstract class Command
 					}
 					$paramName = $matches[2];
 				}
-				if(!isset($this->_posibleArguments[$paramName])){
-					if(!isset($posibleAlias[$paramName])){
+				if(!isset($this->_possibleArguments[$paramName])){
+					if(!isset($possibleAlias[$paramName])){
 						throw new ScriptException("Unknow parameter '$paramName'");
 					} else {
-						$paramName = $posibleAlias[$paramName];
+						$paramName = $possibleAlias[$paramName];
 					}
 				}
 				if(isset($arguments[$paramName])){
@@ -157,6 +160,7 @@ abstract class Command
 				}
 			}
 		}
+
 		$this->_parameters = $receivedParams;
 		return $receivedParams;
 	}

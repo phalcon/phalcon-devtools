@@ -39,13 +39,19 @@ class Project extends Command {
 
 	const COMMAND = 'project';
 
+	/**
+	 * Executes the current command
+	 *
+	 * @return mixed
+	 */
 	public function run() {
-		$posibleParameters = array(
+		$possibleParameters = array(
 			'directory=s' => '--directory path \tBase path on which project will be created',
+			'type=s' => '--directory path \tBase path on which project will be created',
 			'trace' => '--trace \t\tShows the trace of the framework in case of exception.'
 		);
 
-		$this->parseParameters($posibleParameters);
+		$this->parseParameters($possibleParameters);
 		$parameters = $this->getParameters();
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
@@ -54,28 +60,40 @@ class Project extends Command {
 		}
 		
 		$projectName = isset($parameters[1]) ? $parameters[1] : 'default';
-		$projectPath = isset($parameters[2]) ? $parameters[2] : $parameters['directory'];
-		$enableWebtools = isset($parameters[3]) ? $parameters[3] : false;
+		$projectType = isset($parameters[2]) ? $parameters[2] : \Phalcon\Builder\Project::TYPE_SIMPLE;
+		$projectPath = isset($parameters[3]) ? $parameters[3] : '';
+		$enableWebtools = isset($parameters[4]) ? $parameters[4] : false;
 
 		$builder = Builder::factory('\\Phalcon\\Builder\\Project', array(
 			'name' => $projectName,
+			'type' => $projectType,
 			'directory' => $projectPath,
-			'enableWebTools' => $enableWebtools
+			'enableWebTools' => $enableWebtools,
 		));
 
 		return $builder->build();
 	}
 
+	/**
+	 * Returns the command identifier
+	 *
+	 * @return string
+	 */
 	public function getCommand() {
 		return static::COMMAND;
 	}
 
+	/**
+	 * Prints the help for current command.
+	 *
+	 * @return void
+	 */
 	public function getHelp() {
 		print Color::head('Help:') . PHP_EOL;
 		print Color::colorize('  Creates a project') . PHP_EOL . PHP_EOL;
 
 		print Color::head('Usage:') . PHP_EOL;
-		print Color::colorize('  project [name] [directory] [enable-webtools]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+		print Color::colorize('  project [name] [type] [directory] [enable-webtools]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
 		print Color::head('Arguments:') . PHP_EOL;
 		print Color::colorize('  ?', Color::FG_GREEN);
@@ -85,6 +103,9 @@ class Project extends Command {
 
 		print Color::colorize('  --name', Color::FG_GREEN);
 		print Color::colorize("             Name of the new project"). PHP_EOL;
+
+		print Color::colorize('  --type', Color::FG_GREEN);
+		print Color::colorize("             Type of the application to be genrated (micro, simple, model)"). PHP_EOL;
 
 		print Color::colorize('  --directory', Color::FG_GREEN);
 		print Color::colorize("        Base path on which project will be created"). PHP_EOL;
