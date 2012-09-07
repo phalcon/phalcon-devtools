@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /*
@@ -43,6 +44,7 @@ $script = new Script;
 $script->attach(new \Phalcon\Command\Commands);
 $script->attach(new \Phalcon\Command\Controller);
 $script->attach(new \Phalcon\Command\Project);
+$script->attach(new \Phalcon\Command\Scaffold);
 
 try {
 	$script->run();

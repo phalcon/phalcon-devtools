@@ -23,7 +23,6 @@ namespace Phalcon\Command;
 use \Phalcon\Builder;
 use \Phalcon\Command\Command;
 use \Phalcon\Script\Color;
-use Phalcon_Utils as Utils;
 
 /**
  * \Phalcon\Command\Scaffold
@@ -35,7 +34,6 @@ use Phalcon_Utils as Utils;
  * @subpackage  Scaffold
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
- * @version 	$Id: create_scaffold.php,v f5add30bf4ba 2011/10/26 21:05:13 andres $
  */
 class Scaffold extends Command {
 
@@ -54,20 +52,17 @@ class Scaffold extends Command {
 		);
 
 		$this->parseParameters($posibleParameters);
-
-
 		$parameters = $this->getParameters();
 		
 		if (!isset($parameters[1]) || $parameters[1] == '?') {
 			$this->getHelp();
-			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 
 		$name = $parameters[1];
 		$schema = $this->getOption('schema');
 
-		$scaffoldBuilder = Builder::factory('Scaffold', array(
+		$scaffoldBuilder = Builder::factory('\\Phalcon\\Builder\\Scaffold', array(
 			'name' => $name,
 			'theme'	=> $this->getOption('theme'),
 			'schema' => $schema,
@@ -86,31 +81,32 @@ class Scaffold extends Command {
 	}
 
 	public function getHelp() {
-		echo
-			"------------------ " . PHP_EOL .
-			"|-- Example" . PHP_EOL .
-			"|-- phalcon scaffold users --autocomplete=login" . PHP_EOL .
-			"|-----------------" . PHP_EOL .
-			"|-- Usage" . PHP_EOL .
-			"|-- phalcon scaffold [table name] [options]" . PHP_EOL .
-			"|-----------------" . PHP_EOL .
-			"|-- Options:" . PHP_EOL .
-			"------------------" . PHP_EOL . PHP_EOL;
+		print Color::head('Help:') . PHP_EOL;
+		print Color::colorize('  Creates a scaffold from a database table') . PHP_EOL . PHP_EOL;
+
+		print Color::head('Usage:') . PHP_EOL;
+		print Color::colorize('  scaffold [tableName] [options]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+		print Color::head('Arguments:') . PHP_EOL;
+		print Color::colorize('  ?', Color::FG_GREEN);
+		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
+
+		print Color::head('Options:') . PHP_EOL;
+
+		print Color::colorize('  --schema', Color::FG_GREEN);
+		print Color::colorize("        Name of the schema") . PHP_EOL;
+
+		print Color::colorize('  --autocomplete', Color::FG_GREEN);
+		print Color::colorize("  Fields relationship that will use AutoComplete lists instead of SELECT") . PHP_EOL;
+
+		print Color::colorize('  --get-set', Color::FG_GREEN);
+		print Color::colorize("       Attributes will be protected and have setters/getters") . PHP_EOL;
+
+		print Color::colorize('  --theme', Color::FG_GREEN);
+		print Color::colorize("         Theme to be applied") . PHP_EOL;
+
+		print Color::colorize('  --directory', Color::FG_GREEN);
+		print Color::colorize("     Base path on which project was created") . PHP_EOL . PHP_EOL;
 	}
 
 }
-
-//try {
-//	$script = new Scaffold();
-//	$script->run();
-//}
-//catch(\Phalcon\Exception $e){
-//	Color::lookSupportedShell();
-//	print Color::colorize(get_class($e).' : '.$e->getMessage()."\n", Color::COLOR_LIGHT_RED);
-//	if($script->getOption('trace')) {
-//		print $e->getTraceAsString()."\n";
-//	}
-//}
-//catch(\Exception $e){
-//	print 'Exception : '.$e->getMessage()."\n";
-//}
