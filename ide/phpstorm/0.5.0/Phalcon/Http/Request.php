@@ -266,9 +266,9 @@ namespace Phalcon\Http {
 
 
 		/**
-		 * Gets attached files as Phalcon\Http\Request\File instances
+		 * Gets attached files as \Phalcon\Http\Request\File instances
 		 *
-		 * @return Phalcon\Http\Request\File[]
+		 * @return \Phalcon\Http\Request\File[]
 		 */
 		public function getUploadedFiles(){ }
 

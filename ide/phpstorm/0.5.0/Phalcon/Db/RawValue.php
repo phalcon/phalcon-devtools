@@ -21,7 +21,7 @@ namespace Phalcon\Db {
 		protected $_value;
 
 		/**
-		 * Phalcon\Db\RawValue constructor
+		 * \Phalcon\Db\RawValue constructor
 		 *
 		 * @param string $value
 		 */

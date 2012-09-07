@@ -25,7 +25,7 @@ namespace Phalcon\Db\Result {
 		protected $_pdoStatement;
 
 		/**
-		 * Phalcon\Db\Result\Pdo constructor
+		 * \Phalcon\Db\Result\Pdo constructor
 		 *
 		 * @param PDOStatement $result
 		 */
@@ -34,7 +34,7 @@ namespace Phalcon\Db\Result {
 
 		/**
 		 * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
-		 * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+		 * This method is affected by the active fetch flag set using \Phalcon\Db\Result\Pdo::setFetchMode
 		 *
 		 *<code>
 		 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
@@ -77,7 +77,7 @@ namespace Phalcon\Db\Result {
 
 
 		/**
-		 * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetchArray
+		 * Changes the fetching mode affecting \Phalcon\Db\Result\Pdo::fetchArray
 		 *
 		 *<code>
 		 *	//Return array with integer indexes

@@ -19,7 +19,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the DependencyInjector container
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -27,7 +27,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the DependencyInjector container
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 

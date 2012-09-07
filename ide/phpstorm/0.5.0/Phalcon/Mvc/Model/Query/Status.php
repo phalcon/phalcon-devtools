@@ -18,10 +18,10 @@ namespace Phalcon\Mvc\Model\Query {
 		protected $_model;
 
 		/**
-		 * Phalcon\Mvc\Model\Query\Status
+		 * \Phalcon\Mvc\Model\Query\Status
 		 *
 		 * @param boolean $success
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 */
 		public function __construct($success, $model){ }
 
@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model\Query {
 		/**
 		 * Returns the model which executed the action
 		 *
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public function getModel(){ }
 
@@ -37,7 +37,7 @@ namespace Phalcon\Mvc\Model\Query {
 		/**
 		 * Returns the messages produced by a operation failed
 		 *
-		 * @return Phalcon\Mvc\Model\Message[]
+		 * @return \Phalcon\Mvc\Model\Message[]
 		 */
 		public function getMessages(){ }
 

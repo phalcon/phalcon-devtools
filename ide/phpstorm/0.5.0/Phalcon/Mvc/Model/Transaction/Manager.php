@@ -63,7 +63,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		/**
 		 * Sets the dependency injection container
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -71,7 +71,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		/**
 		 * Returns the dependency injection container
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 
@@ -85,10 +85,10 @@ namespace Phalcon\Mvc\Model\Transaction {
 
 
 		/**
-		 * Returns a new Phalcon\Mvc\Model\Transaction or an already created once
+		 * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
 		 *
 		 * @param boolean $autoBegin
-		 * @return Phalcon\Mvc\Model\Transaction
+		 * @return \Phalcon\Mvc\Model\Transaction
 		 */
 		public function get($autoBegin){ }
 
@@ -119,7 +119,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		/**
 		 * Notifies the manager about a rollbacked transaction
 		 *
-		 * @param Phalcon\Mvc\Model\Transaction $transaction
+		 * @param \Phalcon\Mvc\Model\Transaction $transaction
 		 */
 		public function notifyRollback($transaction){ }
 
@@ -127,7 +127,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		/**
 		 * Notifies the manager about a commited transaction
 		 *
-		 * @param Phalcon\Mvc\Model\Transaction $transaction
+		 * @param \Phalcon\Mvc\Model\Transaction $transaction
 		 */
 		public function notifyCommit($transaction){ }
 

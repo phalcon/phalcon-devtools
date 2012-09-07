@@ -18,7 +18,7 @@ namespace Phalcon\Paginator\Adapter {
 		protected $_page;
 
 		/**
-		 * Phalcon\Paginator\Adapter\NativeArray constructor
+		 * \Phalcon\Paginator\Adapter\NativeArray constructor
 		  *
 		 * @param array $config
 		 */

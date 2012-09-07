@@ -49,7 +49,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Sets the event manager
 		 *
-		 * @param Phalcon\Events\Manager $eventsManager
+		 * @param \Phalcon\Events\Manager $eventsManager
 		 */
 		public function setEventsManager($eventsManager){ }
 
@@ -57,7 +57,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 
@@ -65,7 +65,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Initializes a model in the model manager
 		 *
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 */
 		public function initialize($model){ }
 
@@ -150,7 +150,7 @@ namespace Phalcon\Mvc\Model {
 		 *
 		 * @param array $relation
 		 * @param string $method
-		 * @param Phalcon\Mvc\Model $record
+		 * @param \Phalcon\Mvc\Model $record
 		 */
 		protected function _getRelationRecords(){ }
 
@@ -161,8 +161,8 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $method
 		 * @param string $modelName
 		 * @param string $modelRelation
-		 * @param Phalcon\Mvc\Model $record
-		 * @return Phalcon\Mvc\Model\Resultset
+		 * @param \Phalcon\Mvc\Model $record
+		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
 		public function getBelongsToRecords($method, $modelName, $modelRelation, $record){ }
 
@@ -173,8 +173,8 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $method
 		 * @param string $modelName
 		 * @param string $modelRelation
-		 * @param Phalcon\Mvc\Model $record
-		 * @return Phalcon\Mvc\Model\Resultset
+		 * @param \Phalcon\Mvc\Model $record
+		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
 		public function getHasManyRecords($method, $modelName, $modelRelation, $record){ }
 
@@ -185,8 +185,8 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $method
 		 * @param string $modelName
 		 * @param string $modelRelation
-		 * @param Phalcon\Mvc\Model $record
-		 * @return Phalcon\Mvc\Model\Resultset
+		 * @param \Phalcon\Mvc\Model $record
+		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
 		public function getHasOneRecords($method, $modelName, $modelRelation, $record){ }
 
@@ -194,7 +194,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Gets belongsTo relations defined on a model
 		 *
-		 * @param  Phalcon\Mvc\Model $model
+		 * @param  \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getBelongsTo($model){ }
@@ -203,7 +203,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Gets hasMany relations defined on a model
 		 *
-		 * @param  Phalcon\Mvc\Model $model
+		 * @param  \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getHasMany($model){ }
@@ -212,7 +212,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Gets hasOne relations defined on a model
 		 *
-		 * @param  Phalcon\Mvc\Model $model
+		 * @param  \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getHasOne($model){ }
@@ -221,7 +221,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Gets hasOne relations defined on a model
 		 *
-		 * @param  Phalcon\Mvc\Model $model
+		 * @param  \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getHasOneAndHasMany($model){ }

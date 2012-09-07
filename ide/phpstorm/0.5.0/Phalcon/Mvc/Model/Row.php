@@ -36,7 +36,7 @@ namespace Phalcon\Mvc\Model {
 		 * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 		 *
 		 * @param int $index
-		 * @param Phalcon\Mvc\Model $value
+		 * @param \Phalcon\Mvc\Model $value
 		 */
 		public function offsetSet($index, $value){ }
 

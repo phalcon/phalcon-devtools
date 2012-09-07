@@ -34,7 +34,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 		protected $_metaData;
 
 		/**
-		 * Phalcon\Mvc\Model\MetaData constructor
+		 * \Phalcon\Mvc\Model\MetaData constructor
 		 *
 		 * @param string $adapter
 		 * @param array $options

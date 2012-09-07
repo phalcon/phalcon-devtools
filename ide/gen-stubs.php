@@ -156,37 +156,42 @@ foreach(get_declared_classes() as $className){
 	if($className=='Phalcon\Mvc\User'){
 		$source .= '
 		/**
- 		 * @var Phalcon\Mvc\View
+ 		 * @var \Phalcon\Mvc\View
  		 */
 		public $view;
 
 		/**
-		 * @var Phalcon\Mvc\Router
+		 * @var \Phalcon\Mvc\Router
 	 	 */
 		public $router;
 
 		/**
-		 * @var Phalcon\Mvc\Dispatcher
+		 * @var \Phalcon\Mvc\Dispatcher
 	 	 */
 		public $dispatcher;
 
 		/**
-		 * @var Phalcon\DI
+		 * @var \Phalcon\DI
 	 	 */
 		public $di;
 
 		/**
-		 * @var Phalcon\HTTP\Request
+		 * @var \Phalcon\HTTP\Request
 	 	 */
 		public $request;
 
 		/**
-		 * @var Phalcon\HTTP\Response
+		 * @var \Phalcon\HTTP\Response
 	 	 */
 		public $response;
 
 		/**
-		 * @var Phalcon\Session\Bag
+		 * @var \Phalcon\Flash\Direct
+	 	 */
+		public $flash;
+
+		/**
+		 * @var \Phalcon\Session\Bag
 	 	 */
 		public $persistent;
 		';
@@ -198,6 +203,7 @@ foreach(get_declared_classes() as $className){
 
 			$source.=PHP_EOL;
 			if (isset($docMethods[$method->name])) {
+				$docMethods[$method->name] = str_replace(' Phalcon', ' \Phalcon', $docMethods[$method->name]);
 				foreach (explode("\n", $docMethods[$method->name]) as $commentPiece) {
 					$source.="\t\t".$commentPiece."\n";
 				}

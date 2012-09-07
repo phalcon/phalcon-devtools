@@ -15,7 +15,7 @@ namespace Phalcon\Mvc\Model {
 		protected $_messages;
 
 		/**
-		 * Phalcon\Mvc\Model\Validator constructor
+		 * \Phalcon\Mvc\Model\Validator constructor
 		 *
 		 * @param array $options
 		 */

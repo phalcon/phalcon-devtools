@@ -51,7 +51,7 @@ namespace Phalcon\Cache\Backend {
 		protected $_memcache;
 
 		/**
-		 * Phalcon\Backend\Adapter\Memcache constructor
+		 * \Phalcon\Backend\Adapter\Memcache constructor
 		 *
 		 * @param mixed $frontendObject
 		 * @param array $backendOptions

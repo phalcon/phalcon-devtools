@@ -18,7 +18,7 @@ namespace Phalcon\Logger {
 		protected $_time;
 
 		/**
-		 * Phalcon\Logger\Item contructor
+		 * \Phalcon\Logger\Item contructor
 		 *
 		 * @param string $message
 		 * @param integer $type

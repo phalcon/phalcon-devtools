@@ -18,9 +18,9 @@ namespace Phalcon\Mvc\View {
 		protected $_view;
 
 		/**
-		 * Phalcon\Mvc\View\Engine constructor
+		 * \Phalcon\Mvc\View\Engine constructor
 		 *
-		 * @param Phalcon\Mvc\View $view
+		 * @param \Phalcon\Mvc\View $view
 		 * @param array $params
 		 */
 		public function __construct($view, $dependencyInjector){ }

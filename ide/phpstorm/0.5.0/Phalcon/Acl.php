@@ -57,7 +57,7 @@ namespace Phalcon {
 		/**
 		 * Sets the events manager
 		 *
-		 * @param Phalcon\Events\Manager $eventManager
+		 * @param \Phalcon\Events\Manager $eventManager
 		 */
 		public function setEventsManager($eventsManager){ }
 
@@ -65,7 +65,7 @@ namespace Phalcon {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 

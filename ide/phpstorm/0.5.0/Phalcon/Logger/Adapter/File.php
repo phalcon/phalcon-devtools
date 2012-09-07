@@ -51,7 +51,7 @@ namespace Phalcon\Logger\Adapter {
 		protected $_format;
 
 		/**
-		 * Phalcon\Logger\Adapter\File constructor
+		 * \Phalcon\Logger\Adapter\File constructor
 		 *
 		 * @param string $name
 		 * @param array $options

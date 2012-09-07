@@ -70,7 +70,7 @@ namespace Phalcon {
 		/**
 		 * Return the last DI created
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public static function getDefault(){ }
 

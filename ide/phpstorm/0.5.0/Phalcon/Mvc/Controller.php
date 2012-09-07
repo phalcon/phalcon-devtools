@@ -52,7 +52,7 @@ namespace Phalcon\Mvc {
 		protected $_eventsManager;
 
 		/**
-		 * Phalcon\Mvc\Controller constructor
+		 * \Phalcon\Mvc\Controller constructor
 		 *
 		 */
 		final public function __construct(){ }

@@ -58,7 +58,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the dependency injector
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -66,7 +66,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the internal dependency injector
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 
@@ -74,7 +74,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the events manager
 		 *
-		 * @param Phalcon\Events\Manager $eventsManager
+		 * @param \Phalcon\Events\Manager $eventsManager
 		 */
 		public function setEventsManager($eventsManager){ }
 
@@ -82,7 +82,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 
@@ -180,7 +180,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Dispatches a controller action taking into account the routing parameters
 		 *
-		 * @return Phalcon\Mvc\Controller
+		 * @return \Phalcon\Mvc\Controller
 		 */
 		public function dispatch(){ }
 
@@ -210,7 +210,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the lastest dispatched controller
 		 *
-		 * @return Phalcon\Mvc\Controller
+		 * @return \Phalcon\Mvc\Controller
 		 */
 		public function getLastController(){ }
 
@@ -226,7 +226,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the active controller in the dispatcher
 		 *
-		 * @return Phalcon\Mvc\Controller
+		 * @return \Phalcon\Mvc\Controller
 		 */
 		public function getActiveController(){ }
 

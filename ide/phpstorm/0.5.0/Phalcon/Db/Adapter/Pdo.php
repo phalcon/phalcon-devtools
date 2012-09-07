@@ -47,7 +47,7 @@ namespace Phalcon\Db\Adapter {
 		protected $_affectedRows;
 
 		/**
-		 * Constructor for Phalcon\Db\Adapter\Pdo
+		 * Constructor for \Phalcon\Db\Adapter\Pdo
 		 *
 		 * @param array $descriptor
 		 */
@@ -55,7 +55,7 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+		 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
 		 * Call it when you need to restore a database connection
 		 *
 		 * @param 	array $descriptor
@@ -75,7 +75,7 @@ namespace Phalcon\Db\Adapter {
 		 *</code>
 		 *
 		 * @param  string $sqlStatement
-		 * @return Phalcon\Db\Result\Pdo
+		 * @return \Phalcon\Db\Result\Pdo
 		 */
 		public function query($sqlStatement){ }
 
@@ -110,7 +110,7 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Closes active connection returning success. Phalcon automatically closes and destroys active connections within Phalcon\Db\Pool
+		 * Closes active connection returning success. \Phalcon automatically closes and destroys active connections within \Phalcon\Db\Pool
 		 *
 		 * @return boolean
 		 */

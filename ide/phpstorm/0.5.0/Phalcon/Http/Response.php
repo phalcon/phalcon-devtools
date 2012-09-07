@@ -34,7 +34,7 @@ namespace Phalcon\Http {
 		 *
 		 * @param int $code
 		 * @param string $message
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function setStatusCode($code, $message){ }
 
@@ -42,7 +42,7 @@ namespace Phalcon\Http {
 		/**
 		 * Returns headers set by the user
 		 *
-		 * @return Phalcon\Http\Response\Headers
+		 * @return \Phalcon\Http\Response\Headers
 		 */
 		public function getHeaders(){ }
 
@@ -56,7 +56,7 @@ namespace Phalcon\Http {
 		 *
 		 * @param string $name
 		 * @param string $value
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function setHeader($name, $value){ }
 
@@ -69,7 +69,7 @@ namespace Phalcon\Http {
 		 *</code>
 		 *
 		 * @param string $header
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function setRawHeader($header){ }
 
@@ -77,7 +77,7 @@ namespace Phalcon\Http {
 		/**
 		 * Resets all the stablished headers
 		 *
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function resetHeaders(){ }
 
@@ -86,7 +86,7 @@ namespace Phalcon\Http {
 		 * Sets output expire time header
 		 *
 		 * @param DateTime $datetime
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function setExpires($datetime){ }
 
@@ -94,7 +94,7 @@ namespace Phalcon\Http {
 		/**
 		 * Sends a Not-Modified response
 		 *
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function setNotModified(){ }
 
@@ -121,7 +121,7 @@ namespace Phalcon\Http {
 		 * @param string $location
 		 * @param boolean $externalRedirect
 		 * @param int $statusCode
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function redirect($location, $externalRedirect, $statusCode){ }
 
@@ -134,7 +134,7 @@ namespace Phalcon\Http {
 		 *</code>
 		 *
 		 * @param string $content
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function setContent($content){ }
 
@@ -143,7 +143,7 @@ namespace Phalcon\Http {
 		 * Appends a string to the HTTP response body
 		 *
 		 * @param string $content
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function appendContent($content){ }
 
@@ -159,7 +159,7 @@ namespace Phalcon\Http {
 		/**
 		 * Sends headers to the client
 		 *
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function sendHeaders(){ }
 
@@ -167,7 +167,7 @@ namespace Phalcon\Http {
 		/**
 		 * Prints out HTTP response to the client
 		 *
-		 * @return Phalcon\Http\Response
+		 * @return \Phalcon\Http\Response
 		 */
 		public function send(){ }
 

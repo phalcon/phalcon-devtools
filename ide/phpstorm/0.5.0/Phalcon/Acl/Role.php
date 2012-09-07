@@ -17,7 +17,7 @@ namespace Phalcon\Acl {
 		protected $_description;
 
 		/**
-		 * Phalcon\Acl\Role description
+		 * \Phalcon\Acl\Role description
 		 *
 		 * @param string $name
 		 * @param string $description

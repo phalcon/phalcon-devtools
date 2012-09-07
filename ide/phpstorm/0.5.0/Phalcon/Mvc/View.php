@@ -81,7 +81,7 @@ namespace Phalcon\Mvc {
 		protected $_activeRenderPath;
 
 		/**
-		 * Phalcon\Mvc\View constructor
+		 * \Phalcon\Mvc\View constructor
 		 *
 		 * @param array $options
 		 */
@@ -227,7 +227,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
+		 * Loads registered template engines, if none is registered it will use \Phalcon\Mvc\View\Engine\Php
 		 *
 		 * @return array
 		 */
@@ -241,7 +241,7 @@ namespace Phalcon\Mvc {
 		 * @param string $viewPath
 		 * @param boolean $silence
 		 * @param boolean $mustClean
-		 * @param Phalcon\Cache\Backend $cache
+		 * @param \Phalcon\Cache\Backend $cache
 		 */
 		protected function _engineRender(){ }
 
@@ -282,7 +282,7 @@ namespace Phalcon\Mvc {
 		 * Choose a view different to render than last-controller/last-action
 		 *
 		 * <code>
-		 * class ProductsController extends Phalcon\Mvc\Controller
+		 * class ProductsController extends \Phalcon\Mvc\Controller
 		 * {
 		 *
 		 *    public function saveAction()
@@ -321,9 +321,9 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Create a Phalcon\Cache based on the internal cache options
+		 * Create a \Phalcon\Cache based on the internal cache options
 		 *
-		 * @return Phalcon\Cache\Backend
+		 * @return \Phalcon\Cache\Backend
 		 */
 		protected function _createCache(){ }
 
@@ -331,7 +331,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the cache instance used to cache
 		 *
-		 * @return Phalcon\Cache\Backend
+		 * @return \Phalcon\Cache\Backend
 		 */
 		public function getCache(){ }
 

@@ -49,7 +49,7 @@ namespace Phalcon\Mvc {
 		protected $_defaultParams;
 
 		/**
-		 * Phalcon\Mvc\Router constructor
+		 * \Phalcon\Mvc\Router constructor
 		 *
 		 * @param boolean $defaultRoutes
 		 */
@@ -59,7 +59,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the dependency injector
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -67,7 +67,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the internal dependency injector
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 
@@ -126,7 +126,7 @@ namespace Phalcon\Mvc {
 		 * @param string $pattern
 		 * @param string/array $paths
 		 * @param string $httpMethods
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function add($pattern, $paths, $httpMethods){ }
 
@@ -136,7 +136,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $pattern
 		 * @param string/array $paths
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function addGet($pattern, $paths){ }
 
@@ -146,7 +146,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $pattern
 		 * @param string/array $paths
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function addPost($pattern, $paths){ }
 
@@ -156,7 +156,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $pattern
 		 * @param string/array $paths
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function addPut($pattern, $paths){ }
 
@@ -166,7 +166,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $pattern
 		 * @param string/array $paths
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function addDelete($pattern, $paths){ }
 
@@ -176,7 +176,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $pattern
 		 * @param string/array $paths
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function addOptions($pattern, $paths){ }
 
@@ -186,7 +186,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $pattern
 		 * @param string/array $paths
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function addHead($pattern, $paths){ }
 
@@ -232,7 +232,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the route that matchs the handled URI
 		 *
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function getMatchedRoute(){ }
 
@@ -256,7 +256,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Return all the routes defined in the router
 		 *
-		 * @return Phalcon\Mvc\Router\Route[]
+		 * @return \Phalcon\Mvc\Router\Route[]
 		 */
 		public function getRoutes(){ }
 
@@ -264,7 +264,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns a route object by its id
 		 *
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function getRouteById($id){ }
 
@@ -272,7 +272,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns a route object by its name
 		 *
-		 * @return Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function getRouteByName($name){ }
 

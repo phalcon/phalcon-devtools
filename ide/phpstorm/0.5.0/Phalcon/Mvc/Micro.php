@@ -30,7 +30,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the DependencyInjector container
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -38,7 +38,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the DependencyInjector container
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 
@@ -46,7 +46,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the events manager
 		 *
-		 * @param Phalcon\Events\Manager $eventsManager
+		 * @param \Phalcon\Events\Manager $eventsManager
 		 */
 		public function setEventsManager($eventsManager){ }
 
@@ -54,7 +54,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 
@@ -133,7 +133,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the internal router used by the application
 		 *
-		 * @return Phalcon\Mvc\Router
+		 * @return \Phalcon\Mvc\Router
 		 */
 		public function getRouter(){ }
 

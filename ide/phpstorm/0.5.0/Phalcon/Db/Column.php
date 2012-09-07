@@ -69,7 +69,7 @@ namespace Phalcon\Db {
 		protected $_after;
 
 		/**
-		 * Phalcon\Db\Column constructor
+		 * \Phalcon\Db\Column constructor
 		 *
 		 * @param string $columnName
 		 * @param array $definition

@@ -97,7 +97,7 @@ namespace Phalcon\Mvc\Model {
 		 * Gets row in a specific position of the resultset
 		 *
 		 * @param int $index
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public function offsetGet($index){ }
 
@@ -106,7 +106,7 @@ namespace Phalcon\Mvc\Model {
 		 * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 		 *
 		 * @param int $index
-		 * @param Phalcon\Mvc\Model $value
+		 * @param \Phalcon\Mvc\Model $value
 		 */
 		public function offsetSet($index, $value){ }
 
@@ -122,7 +122,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Get first row in the resultset
 		 *
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public function getFirst(){ }
 
@@ -130,7 +130,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Get last row in the resultset
 		 *
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public function getLast(){ }
 
@@ -146,7 +146,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns the associated cache for the resultset
 		 *
-		 * @return Phalcon\Cache\Backend
+		 * @return \Phalcon\Cache\Backend
 		 */
 		public function getCache(){ }
 

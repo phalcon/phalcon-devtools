@@ -44,7 +44,7 @@ namespace Phalcon\Acl\Adapter {
 
 
 		/**
-		 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+		 * Sets the default access level (Phalcon\Acl::ALLOW or \Phalcon\Acl::DENY)
 		 *
 		 * @param int $defaultAccess
 		 */
@@ -61,7 +61,7 @@ namespace Phalcon\Acl\Adapter {
 		 * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
 		 *
 		 * Example:
-		 * <code>$acl->addRole(new Phalcon\Acl\Role('administrator'), 'consultor');</code>
+		 * <code>$acl->addRole(new \Phalcon\Acl\Role('administrator'), 'consultor');</code>
 		 * <code>$acl->addRole('administrator', 'consultor');</code>
 		 *
 		 * @param  string $roleObject
@@ -107,15 +107,15 @@ namespace Phalcon\Acl\Adapter {
 		 * Example:
 		 * <code>
 		 * //Add a resource to the the list allowing access to an action
-		 * $acl->addResource(new Phalcon\Acl\Resource('customers'), 'search');
+		 * $acl->addResource(new \Phalcon\Acl\Resource('customers'), 'search');
 		 * $acl->addResource('customers', 'search');
 		 *
 		 * //Add a resource  with an access list
-		 * $acl->addResource(new Phalcon\Acl\Resource('customers'), array('create', 'search'));
+		 * $acl->addResource(new \Phalcon\Acl\Resource('customers'), array('create', 'search'));
 		 * $acl->addResource('customers', array('create', 'search'));
 		 * </code>
 		 *
-		 * @param   Phalcon\Acl\Resource $resource
+		 * @param   \Phalcon\Acl\Resource $resource
 		 * @return  boolean
 		 */
 		public function addResource($resource, $accessList){ }

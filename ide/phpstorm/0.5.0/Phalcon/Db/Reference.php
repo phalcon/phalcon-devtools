@@ -32,7 +32,7 @@ namespace Phalcon\Db {
 		protected $_referencedColumns;
 
 		/**
-		 * Phalcon\Db\Reference constructor
+		 * \Phalcon\Db\Reference constructor
 		 *
 		 * @param string $referenceName
 		 * @param array $definition
@@ -89,10 +89,10 @@ namespace Phalcon\Db {
 
 
 		/**
-		 * Restore a Phalcon\Db\Reference object from export
+		 * Restore a \Phalcon\Db\Reference object from export
 		 *
 		 * @param array $data
-		 * @return Phalcon\Db\Reference
+		 * @return \Phalcon\Db\Reference
 		 */
 		public static function __set_state($data){ }
 

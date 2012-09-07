@@ -22,7 +22,7 @@ namespace Phalcon\Db {
 		protected $_columns;
 
 		/**
-		 * Phalcon\Db\Index constructor
+		 * \Phalcon\Db\Index constructor
 		 *
 		 * @param string $indexName
 		 * @param array $columns
@@ -47,10 +47,10 @@ namespace Phalcon\Db {
 
 
 		/**
-		 * Restore a Phalcon\Db\Index object from export
+		 * Restore a \Phalcon\Db\Index object from export
 		 *
 		 * @param array $data
-		 * @return Phalcon\Db\Index
+		 * @return \Phalcon\Db\Index
 		 */
 		public static function __set_state($data){ }
 

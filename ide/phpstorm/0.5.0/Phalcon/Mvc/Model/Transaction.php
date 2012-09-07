@@ -56,9 +56,9 @@ namespace Phalcon\Mvc\Model {
 		protected $_rollbackRecord;
 
 		/**
-		 * Phalcon\Mvc\Model\Transaction constructor
+		 * \Phalcon\Mvc\Model\Transaction constructor
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 * @param boolean $autoBegin
 		 */
 		public function __construct($dependencyInjector, $autoBegin){ }
@@ -67,7 +67,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Sets transaction manager related to the transaction
 		 *
-		 * @param Phalcon\Mvc\Model\Transaction\Manager $manager
+		 * @param \Phalcon\Mvc\Model\Transaction\Manager $manager
 		 */
 		public function setTransactionManager($manager){ }
 
@@ -92,7 +92,7 @@ namespace Phalcon\Mvc\Model {
 		 * Rollbacks the transaction
 		 *
 		 * @param  string $rollbackMessage
-		 * @param  Phalcon\Mvc\Model $rollbackRecord
+		 * @param  \Phalcon\Mvc\Model $rollbackRecord
 		 * @return boolean
 		 */
 		public function rollback($rollbackMessage, $rollbackRecord){ }
@@ -149,7 +149,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Sets object which generates rollback action
 		 *
-		 * @param Phalcon\Mvc\Model $record
+		 * @param \Phalcon\Mvc\Model $record
 		 */
 		public function setRollbackedRecord($record){ }
 

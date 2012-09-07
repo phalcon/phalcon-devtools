@@ -48,7 +48,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 		protected $_ttl;
 
 		/**
-		 * Phalcon\Mvc\Model\MetaData\Apc constructor
+		 * \Phalcon\Mvc\Model\MetaData\Apc constructor
 		 *
 		 * @param array $options
 		 */

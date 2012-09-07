@@ -55,7 +55,7 @@ namespace Phalcon {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 

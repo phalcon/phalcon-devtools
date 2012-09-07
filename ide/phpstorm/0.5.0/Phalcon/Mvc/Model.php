@@ -66,9 +66,9 @@ namespace Phalcon\Mvc {
 		protected static $_disableEvents;
 
 		/**
-		 * Phalcon\Mvc\Model constructor
+		 * \Phalcon\Mvc\Model constructor
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 * @param string $managerService
 		 * @param string $dbService
 		 */
@@ -78,7 +78,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the dependency injection container
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -86,7 +86,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the dependency injection container
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 
@@ -94,7 +94,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the event manager
 		 *
-		 * @param Phalcon\Events\Manager $eventsManager
+		 * @param \Phalcon\Events\Manager $eventsManager
 		 */
 		public function setEventsManager($eventsManager){ }
 
@@ -102,7 +102,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 
@@ -110,9 +110,9 @@ namespace Phalcon\Mvc {
 		/**
 		 * Creates a SQL statement which returns many rows
 		 *
-		 * @param Phalcon\DI $dependencyInjector
-		 * @param Phalcon\Mvc\Model $model
-		 * @param Phalcon\Db $connection
+		 * @param \Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Db $connection
 		 * @param array $params
 		 * @return array
 		 */
@@ -123,7 +123,7 @@ namespace Phalcon\Mvc {
 		 * Gets a resulset from the cache or creates one
 		 *
 		 * @param string $modelName
-		 * @param Phalcon\Db $connection
+		 * @param \Phalcon\Db $connection
 		 * @param array $params
 		 * @param boolean $unique
 		 */
@@ -136,7 +136,7 @@ namespace Phalcon\Mvc {
 		 *<code>
 		 *try {
 		 *
-		 *  $transactionManager = new Phalcon\Mvc\Model\Transaction\Manager();
+		 *  $transactionManager = new \Phalcon\Mvc\Model\Transaction\Manager();
 		 *
 		 *  $transaction = $transactionManager->get();
 		 *
@@ -164,8 +164,8 @@ namespace Phalcon\Mvc {
 		 *
 		 *</code>
 		 *
-		 * @param Phalcon\Mvc\Model\Transaction $transaction
-		 * @return Phalcon\Mvc\Model
+		 * @param \Phalcon\Mvc\Model\Transaction $transaction
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public function setTransaction($transaction){ }
 
@@ -174,7 +174,7 @@ namespace Phalcon\Mvc {
 		 * Sets table name which model should be mapped
 		 *
 		 * @param string $source
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		protected function setSource(){ }
 
@@ -191,7 +191,7 @@ namespace Phalcon\Mvc {
 		 * Sets schema name where table mapped is located
 		 *
 		 * @param string $schema
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		protected function setSchema(){ }
 
@@ -229,7 +229,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Gets internal database connection
 		 *
-		 * @return Phalcon\Db
+		 * @return \Phalcon\Db
 		 */
 		public function getConnection(){ }
 
@@ -238,7 +238,7 @@ namespace Phalcon\Mvc {
 		 * Assigns values to a model from an array returning a new model
 		 *
 		 *<code>
-		 *$robot = Phalcon\Mvc\Model::dumpResult(new Robots(), array(
+		 *$robot = \Phalcon\Mvc\Model::dumpResult(new Robots(), array(
 		 *  'type' => 'mechanical',
 		 *  'name' => 'Astro Boy',
 		 *  'year' => 1952
@@ -246,8 +246,8 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $result
-		 * @param Phalcon\Mvc\Model\Base $base
-		 * @return Phalcon\Mvc\Model\Base $result
+		 * @param \Phalcon\Mvc\Model\Base $base
+		 * @return \Phalcon\Mvc\Model\Base $result
 		 */
 		public static function dumpResult($base, $result){ }
 
@@ -279,7 +279,7 @@ namespace Phalcon\Mvc {
 		 * </code>
 		 *
 		 * @param 	array $parameters
-		 * @return  Phalcon\Mvc\Model\Resultset
+		 * @return  \Phalcon\Mvc\Model\Resultset
 		 */
 		public static function find($parameters){ }
 
@@ -304,7 +304,7 @@ namespace Phalcon\Mvc {
 		 * </code>
 		 *
 		 * @param array $parameters
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public static function findFirst($parameters){ }
 
@@ -312,8 +312,8 @@ namespace Phalcon\Mvc {
 		/**
 		 * Checks if the current record already exists or not
 		 *
-		 * @param Phalcon\Mvc\Model\Metadata $metaData
-		 * @param Phalcon\Db $connection
+		 * @param \Phalcon\Mvc\Model\Metadata $metaData
+		 * @param \Phalcon\Db $connection
 		 * @return boolean
 		 */
 		protected function _exists(){ }
@@ -325,7 +325,7 @@ namespace Phalcon\Mvc {
 		 * @param string $function
 		 * @param string $alias
 		 * @param array $parameters
-		 * @return Phalcon\Mvc\Model\Resultset
+		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
 		protected static function _prepareGroupResult(){ }
 
@@ -333,7 +333,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Generate a resulset from an SQL select with aggregations
 		 *
-		 * @param Phalcon\Db $connection
+		 * @param \Phalcon\Db $connection
 		 * @param array $params
 		 * @param string $sqlSelect
 		 * @param string $alias
@@ -479,7 +479,7 @@ namespace Phalcon\Mvc {
 		 * <code>
 		 * use \Phalcon\Mvc\Model\Message as Message;
 		 *
-		 * class Robots extends Phalcon\Mvc\Model
+		 * class Robots extends \Phalcon\Mvc\Model
 		 * {
 		 *
 		 *   public function beforeSave()
@@ -492,7 +492,7 @@ namespace Phalcon\Mvc {
 		 * }
 		 * </code>
 		 *
-		 * @param Phalcon\Mvc\Model\Message $message
+		 * @param \Phalcon\Mvc\Model\Message $message
 		 */
 		public function appendMessage($message){ }
 
@@ -501,9 +501,9 @@ namespace Phalcon\Mvc {
 		 * Executes validators on every validation call
 		 *
 		 *<code>
-		 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+		 *use \Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 		 *
-		 *class Subscriptors extends Phalcon\Mvc\Model
+		 *class Subscriptors extends \Phalcon\Mvc\Model
 		 *{
 		 *
 		 *	public function validation()
@@ -530,9 +530,9 @@ namespace Phalcon\Mvc {
 		 * Check whether validation process has generated any messages
 		 *
 		 *<code>
-		 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+		 *use \Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 		 *
-		 *class Subscriptors extends Phalcon\Mvc\Model
+		 *class Subscriptors extends \Phalcon\Mvc\Model
 		 *{
 		 *
 		 *	public function validation()
@@ -572,7 +572,7 @@ namespace Phalcon\Mvc {
 		 *}
 		 * </code>
 		 *
-		 * @return Phalcon\Mvc\Model\Message[]
+		 * @return \Phalcon\Mvc\Model\Message[]
 		 */
 		public function getMessages(){ }
 
@@ -596,8 +596,8 @@ namespace Phalcon\Mvc {
 		/**
 		 * Executes internal hooks before save a record
 		 *
-		 * @param Phalcon\DI $dependencyInjector
-		 * @param Phalcon\Mvc\Model\Metadata $metaData
+		 * @param \Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\Mvc\Model\Metadata $metaData
 		 * @param boolean $disableEvents
 		 * @param boolean $exists
 		 * @param string $identityField
@@ -620,8 +620,8 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sends a pre-build INSERT SQL statement to the relational database system
 		 *
-		 * @param Phalcon\Mvc\Model\Metadata $metaData
-		 * @param Phalcon\Db $connection
+		 * @param \Phalcon\Mvc\Model\Metadata $metaData
+		 * @param \Phalcon\Db $connection
 		 * @param string $table
 		 * @return boolean
 		 */
@@ -631,8 +631,8 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sends a pre-build UPDATE SQL statement to the relational database system
 		 *
-		 * @param Phalcon\Mvc\Model\Metadata $metaData
-		 * @param Phalcon\Db $connection
+		 * @param \Phalcon\Mvc\Model\Metadata $metaData
+		 * @param \Phalcon\Db $connection
 		 * @param string $table
 		 * @return boolean
 		 */

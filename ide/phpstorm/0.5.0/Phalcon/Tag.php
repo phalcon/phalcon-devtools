@@ -21,7 +21,7 @@ namespace Phalcon {
 		/**
 		 * Sets the dependency injector container.
 		 *
-		 * @param Phalcon\DI $dispatcher
+		 * @param \Phalcon\DI $dispatcher
 		 */
 		public static function setDI($dependencyInjector){ }
 
@@ -29,7 +29,7 @@ namespace Phalcon {
 		/**
 		 * Internally gets the request dispatcher
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public static function getDI(){ }
 
@@ -37,7 +37,7 @@ namespace Phalcon {
 		/**
 		 * Return a URL service from the DI
 		 *
-		 * @return Phalcon\Mvc\Url
+		 * @return \Phalcon\Mvc\Url
 		 */
 		public static function getUrlService(){ }
 
@@ -45,7 +45,7 @@ namespace Phalcon {
 		/**
 		 * Returns a Dispatcher service from the DI
 		 *
-		 * @return Phalcon\Mvc\Dispatcher
+		 * @return \Phalcon\Mvc\Dispatcher
 		 */
 		public static function getDispatcherService(){ }
 
@@ -55,10 +55,10 @@ namespace Phalcon {
 		 *
 		 * <code>
 		 * //Assigning "peter" to "name" component
-		 * Phalcon\Tag::setDefault("name", "peter");
+		 * \Phalcon\Tag::setDefault("name", "peter");
 		 *
 		 * //Later in the view
-		 * echo Phalcon\Tag::textField("name"); //Will have the value "peter" by default
+		 * echo \Phalcon\Tag::textField("name"); //Will have the value "peter" by default
 		 * </code>
 		 *
 		 * @param string $id
@@ -68,7 +68,7 @@ namespace Phalcon {
 
 
 		/**
-		 * Alias of Phalcon\Tag::setDefault
+		 * Alias of \Phalcon\Tag::setDefault
 		 *
 		 * @param string $id
 		 * @param string $value
@@ -78,7 +78,7 @@ namespace Phalcon {
 
 		/**
 		 * Every helper calls this function to check whether a component has a predefined
-		 * value using Phalcon\Tag::setDefault or value from $_POST
+		 * value using \Phalcon\Tag::setDefault or value from $_POST
 		 *
 		 * @param string $name
 		 * @return mixed
@@ -95,7 +95,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML A tag using framework conventions
 		 *
-		 * <code>echo Phalcon\Tag::linkTo('signup/register', 'Register Here!')</code>
+		 * <code>echo \Phalcon\Tag::linkTo('signup/register', 'Register Here!')</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -116,7 +116,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="text"] tag
 		 *
-		 * <code>echo Phalcon\Tag::textField(array("name", "size" => 30))</code>
+		 * <code>echo \Phalcon\Tag::textField(array("name", "size" => 30))</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -127,7 +127,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="password"] tag
 		 *
-		 * <code>echo Phalcon\Tag::passwordField(array("name", "size" => 30))</code>
+		 * <code>echo \Phalcon\Tag::passwordField(array("name", "size" => 30))</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -138,7 +138,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="hidden"] tag
 		 *
-		 * <code>echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"))</code>
+		 * <code>echo \Phalcon\Tag::hiddenField(array("name", "value" => "mike"))</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -149,7 +149,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="file"] tag
 		 *
-		 * <code>echo Phalcon\Tag::fileField("file")</code>
+		 * <code>echo \Phalcon\Tag::fileField("file")</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -160,7 +160,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="check"] tag
 		 *
-		 * <code>echo Phalcon\Tag::checkField(array("name", "size" => 30))</code>
+		 * <code>echo \Phalcon\Tag::checkField(array("name", "size" => 30))</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -171,7 +171,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="submit"] tag
 		 *
-		 * <code>echo Phalcon\Tag::submitButton("Save")</code>
+		 * <code>echo \Phalcon\Tag::submitButton("Save")</code>
 		 *
 		 * @param array $params
 		 * @return string
@@ -182,7 +182,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML SELECT tag using a PHP array for options
 		 *
-		 * <code>echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))</code>
+		 * <code>echo \Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -191,9 +191,9 @@ namespace Phalcon {
 
 
 		/**
-		 * Builds a HTML SELECT tag using a Phalcon_Model resultset as options
+		 * Builds a HTML SELECT tag using a \Phalcon_Model resultset as options
 		 *
-		 * <code>echo Phalcon\Tag::selectStatic(array(
+		 * <code>echo \Phalcon\Tag::selectStatic(array(
 		 *	"robotId",
 		 *	Robots::find("type = 'mechanical'"),
 		 *	"using" => array("id", "name")
@@ -208,7 +208,7 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML TEXTAREA tag
 		 *
-		 * <code>echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))</code>
+		 * <code>echo \Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -220,8 +220,8 @@ namespace Phalcon {
 		 * Builds a HTML FORM tag
 		 *
 		 * <code>
-		 * echo Phalcon\Tag::form("posts/save");
-		 * echo Phalcon\Tag::form(array("posts/save", "method" => "post"));
+		 * echo \Phalcon\Tag::form("posts/save");
+		 * echo \Phalcon\Tag::form(array("posts/save", "method" => "post"));
 		 * </code>
 		 *
 		 * @param array $parameters
@@ -274,8 +274,8 @@ namespace Phalcon {
 		 * Builds a LINK[rel="stylesheet"] tag
 		 *
 		 * <code>
-		 * echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
-		 * echo Phalcon\Tag::stylesheetLink("css/style.css");
+		 * echo \Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+		 * echo \Phalcon\Tag::stylesheetLink("css/style.css");
 		 * </code>
 		 *
 		 * @param array $parameters
@@ -289,8 +289,8 @@ namespace Phalcon {
 		 * Builds a SCRIPT[type="javascript"] tag
 		 *
 		 * <code>
-		 * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
-		 * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
+		 * echo \Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
+		 * echo \Phalcon\Tag::javascriptInclude("javascript/jquery.js");
 		 * </code>
 		 *
 		 * @param array $parameters

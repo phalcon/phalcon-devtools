@@ -38,7 +38,7 @@ namespace Phalcon\Mvc\Model {
 		protected $_field;
 
 		/**
-		 * Phalcon\Mvc\Model\Message constructor
+		 * \Phalcon\Mvc\Model\Message constructor
 		 *
 		 * @param string $message
 		 * @param string $field
@@ -107,7 +107,7 @@ namespace Phalcon\Mvc\Model {
 		 * Magic __set_state helps to recover messsages from serialization
 		 *
 		 * @param array $message
-		 * @return Phalcon\Mvc\Model\Message
+		 * @return \Phalcon\Mvc\Model\Message
 		 */
 		public static function __set_state($message){ }
 

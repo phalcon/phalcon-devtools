@@ -64,7 +64,7 @@ namespace Phalcon {
 		protected static $_connectionConsecutive;
 
 		/**
-		 * Phalcon\Db constructor
+		 * \Phalcon\Db constructor
 		 *
 		 * @param array $descriptor
 		 */
@@ -74,7 +74,7 @@ namespace Phalcon {
 		/**
 		 * Sets the event manager
 		 *
-		 * @param Phalcon\Events\Manager $eventsManager
+		 * @param \Phalcon\Events\Manager $eventsManager
 		 */
 		public function setEventsManager($eventsManager){ }
 
@@ -82,7 +82,7 @@ namespace Phalcon {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 
@@ -96,7 +96,7 @@ namespace Phalcon {
 		 * print_r($robot);
 		 *
 		 * //Getting first robot with associative indexes only
-		 * $robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+		 * $robot = $connection->fecthOne("SELECT * FROM robots", \Phalcon\Db::FETCH_ASSOC);
 		 * print_r($robot);
 		 * </code>
 		 *
@@ -118,7 +118,7 @@ namespace Phalcon {
 		 * }
 		 *
 		 * //Getting all robots with associative indexes only
-		 * $robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+		 * $robots = $connection->fetchAll("SELECT * FROM robots", \Phalcon\Db::FETCH_ASSOC);
 		 * foreach($robots as $robot){
 		 *    print_r($robot);
 		 * }
@@ -291,7 +291,7 @@ namespace Phalcon {
 		 *
 		 * @param string $tableName
 		 * @param 	string $schemaName
-		 * @param Phalcon\Db\Column $column
+		 * @param \Phalcon\Db\Column $column
 		 * @return boolean
 		 */
 		public function addColumn($tableName, $schemaName, $column){ }
@@ -302,7 +302,7 @@ namespace Phalcon {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Column $column
+		 * @param \Phalcon\Db\Column $column
 		 * @return 	boolean
 		 */
 		public function modifyColumn($tableName, $schemaName, $column){ }
@@ -346,7 +346,7 @@ namespace Phalcon {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Index $index
+		 * @param \Phalcon\Db\Index $index
 		 * @return 	boolean
 		 */
 		public function addPrimaryKey($tableName, $schemaName, $index){ }
@@ -367,7 +367,7 @@ namespace Phalcon {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Reference $reference
+		 * @param \Phalcon\Db\Reference $reference
 		 * @return boolean true
 		 */
 		public function addForeignKey($tableName, $schemaName, $reference){ }
@@ -387,7 +387,7 @@ namespace Phalcon {
 		/**
 		 * Returns the SQL column definition from a column
 		 *
-		 * @param Phalcon\Db\Column $column
+		 * @param \Phalcon\Db\Column $column
 		 * @return string
 		 */
 		public function getColumnDefinition($column){ }
@@ -445,7 +445,7 @@ namespace Phalcon {
 		/**
 		 * Returns internal dialect instance
 		 *
-		 * @return Phalcon\Db\Dialect
+		 * @return \Phalcon\Db\Dialect
 		 */
 		public function getDialect(){ }
 

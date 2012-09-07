@@ -22,10 +22,10 @@ namespace Phalcon\Mvc\Model\Transaction {
 		protected $_record;
 
 		/**
-		 * Phalcon\Mvc\Model\Transaction\Failed constructor
+		 * \Phalcon\Mvc\Model\Transaction\Failed constructor
 		 *
 		 * @param string $message
-		 * @param Phalcon\Mvc\Model $record
+		 * @param \Phalcon\Mvc\Model $record
 		 */
 		public function __construct($message, $record){ }
 
@@ -41,7 +41,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		/**
 		 * Returns validation record messages which stop the transaction
 		 *
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public function getRecord(){ }
 

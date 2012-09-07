@@ -22,7 +22,7 @@ namespace Phalcon\Db\Dialect {
 		/**
 		 * Gets the column name in PostgreSQL
 		 *
-		 * @param Phalcon\Db\Column $column
+		 * @param \Phalcon\Db\Column $column
 		 */
 		public static function getColumnDefinition($column){ }
 
@@ -32,7 +32,7 @@ namespace Phalcon\Db\Dialect {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Column $column
+		 * @param \Phalcon\Db\Column $column
 		 * @return string
 		 */
 		public static function addColumn(){ }
@@ -43,7 +43,7 @@ namespace Phalcon\Db\Dialect {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Column $column
+		 * @param \Phalcon\Db\Column $column
 		 * @return string
 		 */
 		public static function modifyColumn(){ }
@@ -65,7 +65,7 @@ namespace Phalcon\Db\Dialect {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Index $index
+		 * @param \Phalcon\Db\Index $index
 		 * @return string
 		 */
 		public static function addIndex(){ }
@@ -87,7 +87,7 @@ namespace Phalcon\Db\Dialect {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Index $index
+		 * @param \Phalcon\Db\Index $index
 		 * @return string
 		 */
 		public static function addPrimaryKey(){ }
@@ -108,7 +108,7 @@ namespace Phalcon\Db\Dialect {
 		 *
 		 * @param string $tableName
 		 * @param string $schemaName
-		 * @param Phalcon\Db\Reference $reference
+		 * @param \Phalcon\Db\Reference $reference
 		 * @return string
 		 */
 		public static function addForeignKey(){ }

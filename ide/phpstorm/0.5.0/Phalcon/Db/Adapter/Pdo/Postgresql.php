@@ -49,7 +49,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 		protected $_affectedRows;
 
 		/**
-		 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+		 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
 		 * Call it when you need to restore a database connection.
 		 *
 		 * Support set search_path after connectted if schema is specified in config.
@@ -61,13 +61,13 @@ namespace Phalcon\Db\Adapter\Pdo {
 
 
 		/**
-		 * Returns an array of Phalcon\Db\Column objects describing a table
+		 * Returns an array of \Phalcon\Db\Column objects describing a table
 		 *
 		 * <code>print_r($connection->describeColumns("posts") ?></code>
 		 *
 		 * @param string $table
 		 * @param string $schema
-		 * @return Phalcon\Db\Column[]
+		 * @return \Phalcon\Db\Column[]
 		 */
 		public function describeColumns($table, $schema){ }
 
@@ -77,7 +77,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 *
 		 * @param string $table
 		 * @param string $schema
-		 * @return Phalcon\Db\Index[]
+		 * @return \Phalcon\Db\Index[]
 		 */
 		public function describeIndexes($table, $schema){ }
 
@@ -87,7 +87,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 *
 		 * @param string $table
 		 * @param string $schema
-		 * @return Phalcon\Db\Reference[]
+		 * @return \Phalcon\Db\Reference[]
 		 */
 		public function describeReferences($table, $schema){ }
 

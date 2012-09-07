@@ -15,7 +15,7 @@ namespace Phalcon\Flash {
 		/**
 		 * Sets the dependency injector
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -23,7 +23,7 @@ namespace Phalcon\Flash {
 		/**
 		 * Returns the internal dependency injector
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 

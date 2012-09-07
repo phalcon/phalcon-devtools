@@ -35,7 +35,7 @@ namespace Phalcon\Http\Request {
 		protected $_size;
 
 		/**
-		 * Phalcon\Http\Request\File constructor
+		 * \Phalcon\Http\Request\File constructor
 		 *
 		 * @param array $file
 		 */

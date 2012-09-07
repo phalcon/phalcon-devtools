@@ -45,7 +45,7 @@ namespace Phalcon\Cache\Backend {
 		protected $_started;
 
 		/**
-		 * Phalcon\Backend\Adapter\File constructor
+		 * \Phalcon\Backend\Adapter\File constructor
 		 *
 		 * @param mixed $frontendObject
 		 * @param array $backendOptions

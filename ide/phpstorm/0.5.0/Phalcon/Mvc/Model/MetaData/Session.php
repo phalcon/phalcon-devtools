@@ -44,7 +44,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 		protected $_suffix;
 
 		/**
-		 * Phalcon\Mvc\Model\MetaData\Session constructor
+		 * \Phalcon\Mvc\Model\MetaData\Session constructor
 		 *
 		 * @param array $options
 		 */

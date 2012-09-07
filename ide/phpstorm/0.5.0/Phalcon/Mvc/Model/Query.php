@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model {
 		protected $_tempSQLAliasesModels;
 
 		/**
-		 * Phalcon\Mvc\Model\Query constructor
+		 * \Phalcon\Mvc\Model\Query constructor
 		 *
 		 * @param string $phql
 		 */
@@ -39,7 +39,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Sets the dependency injection container
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -47,7 +47,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns the dependency injection container
 		 *
-		 * @return Phalcon\DI
+		 * @return \Phalcon\DI
 		 */
 		public function getDI(){ }
 
@@ -103,7 +103,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Resolves a table in a SELECT statement checking if the model exists
 		 *
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @param array $qualifiedName
 		 * @return string
 		 */
@@ -113,7 +113,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Resolves a JOIN clause checking if the associated models exist
 		 *
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @param array $join
 		 * @return array
 		 */
@@ -133,7 +133,7 @@ namespace Phalcon\Mvc\Model {
 		 * Resolves all the JOINS in a SELECT statement
 		 *
 		 * @param array $select
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @param array $models
 		 * @param array $sqlModels
 		 * @param array $sqlAliases
@@ -176,7 +176,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Analyzes a SELECT intermediate code and produces an array to be executed later
 		 *
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @param array $ast
 		 */
 		protected function _prepareSelect(){ }
@@ -185,7 +185,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Analyzes an INSERT intermediate code and produces an array to be executed later
 		 *
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @param array $ast
 		 * @return array
 		 */
@@ -195,7 +195,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Analyzes an UPDATE intermediate code and produces an array to be executed later
 		 *
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @param array $ast
 		 * @return array
 		 */
@@ -205,7 +205,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Analyzes a DELETE intermediate code and produces an array to be executed later
 		 *
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @param array $ast
 		 * @return array
 		 */
@@ -213,55 +213,55 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
-		 * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
+		 * Parses the intermediate code produced by \Phalcon\Mvc\Model\Query\Lang generating another
+		 * intermediate representation that could be executed by \Phalcon\Mvc\Model\Query
 		 *
-		 * @param Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model $manager
 		 * @return array
 		 */
 		public function parse($manager){ }
 
 
 		/**
-		 * Executes the SELECT intermediate representation producing a Phalcon\Mvc\Query\Resultset
+		 * Executes the SELECT intermediate representation producing a \Phalcon\Mvc\Query\Resultset
 		 *
-		 * @param Phalcon\Mvc\Model $manager
-		 * @param Phalcon\Mvc\Model\Metada $metaData
+		 * @param \Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return Phalcon\Mvc\Query\Resultset
+		 * @return \Phalcon\Mvc\Query\Resultset
 		 */
 		protected function _executeSelect(){ }
 
 
 		/**
-		 * Executes the INSERT intermediate representation producing a Phalcon\Mvc\Query\Status
+		 * Executes the INSERT intermediate representation producing a \Phalcon\Mvc\Query\Status
 		 *
-		 * @param Phalcon\Mvc\Model $manager
-		 * @param Phalcon\Mvc\Model\Metada $metaData
+		 * @param \Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return Phalcon\Mvc\Query\Status
+		 * @return \Phalcon\Mvc\Query\Status
 		 */
 		protected function _executeInsert(){ }
 
 
 		/**
-		 * Executes the UPDATE intermediate representation producing a Phalcon\Mvc\Query\Status
+		 * Executes the UPDATE intermediate representation producing a \Phalcon\Mvc\Query\Status
 		 *
-		 * @param Phalcon\Mvc\Model $manager
-		 * @param Phalcon\Mvc\Model\Metada $metaData
+		 * @param \Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return Phalcon\Mvc\Query\Status
+		 * @return \Phalcon\Mvc\Query\Status
 		 */
 		protected function _executeUpdate(){ }
 
 
 		/**
-		 * Executes the DELETE intermediate representation producing a Phalcon\Mvc\Query\Status
+		 * Executes the DELETE intermediate representation producing a \Phalcon\Mvc\Query\Status
 		 *
-		 * @param Phalcon\Mvc\Model $manager
-		 * @param Phalcon\Mvc\Model\Metada $metaData
+		 * @param \Phalcon\Mvc\Model $manager
+		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return Phalcon\Mvc\Query\Status
+		 * @return \Phalcon\Mvc\Query\Status
 		 */
 		protected function _executeDelete(){ }
 

@@ -20,7 +20,7 @@ namespace Phalcon\Mvc\Model {
 		 * Adds the bind parameter to the criteria
 		 *
 		 * @param string $bindParams
-		 * @return Phalcon\Mvc\Model\Criteria
+		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function bind($bindParams){ }
 
@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model {
 		 * Adds the conditions parameter to the criteria
 		 *
 		 * @param string $conditions
-		 * @return Phalcon\Mvc\Model\Criteria
+		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function where($conditions){ }
 
@@ -38,7 +38,7 @@ namespace Phalcon\Mvc\Model {
 		 * Adds the conditions parameter to the criteria
 		 *
 		 * @param string $conditions
-		 * @return Phalcon\Mvc\Model\Criteria
+		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function conditions($conditions){ }
 
@@ -47,7 +47,7 @@ namespace Phalcon\Mvc\Model {
 		 * Adds the order-by parameter to the criteria
 		 *
 		 * @param string $orderColumns
-		 * @return Phalcon\Mvc\Model\Criteria
+		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function order($orderColumns){ }
 
@@ -56,7 +56,7 @@ namespace Phalcon\Mvc\Model {
 		 * Adds the limit parameter to the criteria
 		 *
 		 * @param string $orderColumns
-		 * @return Phalcon\Mvc\Model\Criteria
+		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function limit($limit){ }
 
@@ -65,7 +65,7 @@ namespace Phalcon\Mvc\Model {
 		 * Adds the "for_update" parameter to the criteria
 		 *
 		 * @param string $orderColumns
-		 * @return Phalcon\Mvc\Model\Criteria
+		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function forUpdate($forUpdate){ }
 
@@ -74,7 +74,7 @@ namespace Phalcon\Mvc\Model {
 		 * Adds the "shared_lock" parameter to the criteria
 		 *
 		 * @param string $orderColumns
-		 * @return Phalcon\Mvc\Model\Criteria
+		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function sharedLock($sharedLock){ }
 
@@ -120,9 +120,9 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
+		 * Builds a \Phalcon\Mvc\Model\Criteria based on an input array like $_POST
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 * @param string $modelName
 		 * @param array $data
 		 */

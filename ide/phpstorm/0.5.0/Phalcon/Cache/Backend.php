@@ -24,7 +24,7 @@ namespace Phalcon\Cache {
 		protected $_started;
 
 		/**
-		 * Phalcon\Cache\Backend constructor
+		 * \Phalcon\Cache\Backend constructor
 		 *
 		 * @param mixed $frontendObject
 		 * @param array $backendOptions

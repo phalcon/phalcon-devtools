@@ -17,7 +17,7 @@ namespace Phalcon\Acl {
 		protected $_description;
 
 		/**
-		 * Phalcon\Acl\Resource description
+		 * \Phalcon\Acl\Resource description
 		 *
 		 * @param string $name
 		 * @param string $description

@@ -9,44 +9,49 @@ namespace Phalcon\Mvc {
 		protected $_eventsManager;
 
 		/**
- 		 * @var Phalcon\Mvc\View
+ 		 * @var \Phalcon\Mvc\View
  		 */
 		public $view;
 
 		/**
-		 * @var Phalcon\Mvc\Router
+		 * @var \Phalcon\Mvc\Router
 	 	 */
 		public $router;
 
 		/**
-		 * @var Phalcon\Mvc\Dispatcher
+		 * @var \Phalcon\Mvc\Dispatcher
 	 	 */
 		public $dispatcher;
 
 		/**
-		 * @var Phalcon\DI
+		 * @var \Phalcon\DI
 	 	 */
 		public $di;
 
 		/**
-		 * @var Phalcon\HTTP\Request
+		 * @var \Phalcon\HTTP\Request
 	 	 */
 		public $request;
 
 		/**
-		 * @var Phalcon\HTTP\Response
+		 * @var \Phalcon\HTTP\Response
 	 	 */
 		public $response;
 
 		/**
-		 * @var Phalcon\Session\Bag
+		 * @var \Phalcon\Flash\Direct
+	 	 */
+		public $flash;
+
+		/**
+		 * @var \Phalcon\Session\Bag
 	 	 */
 		public $persistent;
 		
 		/**
 		 * Sets the dependency injector
 		 *
-		 * @param Phalcon\DI $dependencyInjector
+		 * @param \Phalcon\DI $dependencyInjector
 		 */
 		public function setDI($dependencyInjector){ }
 
@@ -57,7 +62,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the event manager
 		 *
-		 * @param Phalcon\Events\Manager $eventsManager
+		 * @param \Phalcon\Events\Manager $eventsManager
 		 */
 		public function setEventsManager($eventsManager){ }
 
@@ -65,7 +70,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the internal event manager
 		 *
-		 * @return Phalcon\Events\Manager
+		 * @return \Phalcon\Events\Manager
 		 */
 		public function getEventsManager(){ }
 

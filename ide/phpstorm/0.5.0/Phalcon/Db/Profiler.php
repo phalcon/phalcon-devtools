@@ -51,7 +51,7 @@ namespace Phalcon\Db {
 		 * Starts the profile of a SQL sentence
 		 *
 		 * @param string $sqlStatement
-		 * @return Phalcon\Db\Profiler
+		 * @return \Phalcon\Db\Profiler
 		 */
 		public function startProfile($sqlStatement){ }
 
@@ -59,7 +59,7 @@ namespace Phalcon\Db {
 		/**
 		 * Stops the active profile
 		 *
-		 * @return Phalcon\Db\Profiler
+		 * @return \Phalcon\Db\Profiler
 		 */
 		public function stopProfile(){ }
 
@@ -83,7 +83,7 @@ namespace Phalcon\Db {
 		/**
 		 * Returns all the processed profiles
 		 *
-		 * @return Phalcon\Db\Profiler\Item[]
+		 * @return \Phalcon\Db\Profiler\Item[]
 		 */
 		public function getProfiles(){ }
 
@@ -91,7 +91,7 @@ namespace Phalcon\Db {
 		/**
 		 * Resets the profiler, cleaning up all the profiles
 		 *
-		 * @return Phalcon\Db\Profiler
+		 * @return \Phalcon\Db\Profiler
 		 */
 		public function reset(){ }
 
@@ -99,7 +99,7 @@ namespace Phalcon\Db {
 		/**
 		 * Returns the last profile executed in the profiler
 		 *
-		 * @return Phalcon\Db\Profiler\Item
+		 * @return \Phalcon\Db\Profiler\Item
 		 */
 		public function getLastProfile(){ }
 

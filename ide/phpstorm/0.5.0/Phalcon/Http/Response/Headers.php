@@ -56,7 +56,7 @@ namespace Phalcon\Http\Response {
 
 
 		/**
-		 * Restore a Phalcon\Http\Response\Headers object
+		 * Restore a \Phalcon\Http\Response\Headers object
 		 */
 		public static function __set_state($data){ }
 

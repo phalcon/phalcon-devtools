@@ -29,10 +29,10 @@ namespace Phalcon {
 	class Config {
 
 		/**
-		 * Phalcon\Config constructor
+		 * \Phalcon\Config constructor
 		 *
 		 * @param array $arrayConfig
-		 * @return Phalcon\Config
+		 * @return \Phalcon\Config
 		 */
 		public function __construct($arrayConfig){ }
 

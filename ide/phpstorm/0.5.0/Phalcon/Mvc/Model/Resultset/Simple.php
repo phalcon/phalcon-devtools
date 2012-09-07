@@ -28,11 +28,11 @@ namespace Phalcon\Mvc\Model\Resultset {
 		protected $_model;
 
 		/**
-		 * Phalcon\Mvc\Model\Resultset\Simple constructor
+		 * \Phalcon\Mvc\Model\Resultset\Simple constructor
 		 *
-		 * @param Phalcon\Mvc\Model $model
-		 * @param Phalcon\Mvc\Model\Result $result
-		 * @param Phalcon\Cache\Backend $cache
+		 * @param \Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model\Result $result
+		 * @param \Phalcon\Cache\Backend $cache
 		 */
 		public function __construct($model, $result, $cache){ }
 
@@ -64,7 +64,7 @@ namespace Phalcon\Mvc\Model\Resultset {
 		/**
 		 * Returns current row in the resultset
 		 *
-		 * @return Phalcon\Mvc\Model
+		 * @return \Phalcon\Mvc\Model
 		 */
 		public function current(){ }
 

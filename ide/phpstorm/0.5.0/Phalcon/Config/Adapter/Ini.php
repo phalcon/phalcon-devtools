@@ -36,10 +36,10 @@ namespace Phalcon\Config\Adapter {
 	class Ini extends \Phalcon\Config {
 
 		/**
-		 * Phalcon\Config\Adapter\Ini constructor
+		 * \Phalcon\Config\Adapter\Ini constructor
 		 *
 		 * @param string $filePath
-		 * @return Phalcon\Config\Adapter\Ini
+		 * @return \Phalcon\Config\Adapter\Ini
 		 */
 		public function __construct($filePath){ }
 

@@ -14,7 +14,7 @@ namespace Phalcon\Cache\Frontend {
 		protected $_frontendOptions;
 
 		/**
-		 * Phalcon\Cache\Frontend\Data constructor
+		 * \Phalcon\Cache\Frontend\Data constructor
 		 *
 		 * @param array $frontendOptions
 		 */

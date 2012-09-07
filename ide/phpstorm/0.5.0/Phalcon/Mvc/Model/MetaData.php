@@ -46,7 +46,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Initialize the metadata for certain table
 		 *
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 * @param string $table
 		 * @param string $schema
 		 */
@@ -56,7 +56,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns table attributes names (fields)
 		 *
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 * @return 	array
 		 */
 		public function getAttributes($model){ }
@@ -65,7 +65,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns an array of fields which are part of the primary key
 		 *
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getPrimaryKeyAttributes($model){ }
@@ -74,7 +74,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns an arrau of fields which are not part of the primary key
 		 *
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getNonPrimaryKeyAttributes($model){ }
@@ -83,7 +83,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns an array of not null attributes
 		 *
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getNotNullAttributes($model){ }
@@ -92,7 +92,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns attributes and their data types
 		 *
-		 * @param Phalcon\Mvc\Model $model
+		 * @param \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getDataTypes($model){ }
@@ -101,7 +101,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns attributes which types are numerical
 		 *
-		 * @param  Phalcon\Mvc\Model $model
+		 * @param  \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getDataTypesNumeric($model){ }
@@ -110,7 +110,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns the name of identity field (if one is present)
 		 *
-		 * @param  Phalcon\Mvc\Model $model
+		 * @param  \Phalcon\Mvc\Model $model
 		 * @return array
 		 */
 		public function getIdentityField($model){ }

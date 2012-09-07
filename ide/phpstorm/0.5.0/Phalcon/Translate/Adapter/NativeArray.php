@@ -14,7 +14,7 @@ namespace Phalcon\Translate\Adapter {
 		protected $_translate;
 
 		/**
-		 * Phalcon\Translate\Adapter\NativeArray constructor
+		 * \Phalcon\Translate\Adapter\NativeArray constructor
 		 *
 		 * @param array $data
 		 */

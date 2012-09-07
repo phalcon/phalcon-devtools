@@ -12,7 +12,7 @@ namespace Phalcon\Cache\Frontend {
 	class None {
 
 		/**
-		 * Phalcon\Cache\Frontend\None constructor
+		 * \Phalcon\Cache\Frontend\None constructor
 		 */
 		public function __construct($frontendOptions){ }
 

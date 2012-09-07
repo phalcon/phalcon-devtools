@@ -21,7 +21,7 @@ namespace Phalcon\DI {
 		protected static $_default;
 
 		/**
-		 * Phalcon\DI\FactoryDefault constructor
+		 * \Phalcon\DI\FactoryDefault constructor
 		 */
 		public function __construct(){ }
 
