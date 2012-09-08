@@ -23,12 +23,13 @@ namespace Phalcon\Builder;
 use Phalcon\Builder\Exception as BuilderException;
 
 /**
- * BuilderComponent
+ * \Phalcon\Builder\Component
  *
  * Base class for builder components
  *
  * @category 	Phalcon
- * @package 	Scripts
+ * @package 	Builder
+ * @subpackage  Component
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
@@ -45,7 +46,8 @@ abstract class Component {
 			return new \Phalcon\Config\Adapter\Ini($path . "app/config/config.ini");
 		} else {
 			if (file_exists($path . "app/config/config.php")) {
-				return include($path . "app/config/config.php");
+				$config = include($path . "app/config/config.php");
+				return $config;
 			} else {
 				throw new BuilderException('Builder can\'t locate the configuration file');
 			}

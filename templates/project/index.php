@@ -15,10 +15,10 @@ try {
 	 */
 	$loader->registerDirs(
 		array(
-			__DIR__.$config->phalcon->controllersDir,
-			__DIR__.$config->phalcon->pluginsDir,
-			__DIR__.$config->phalcon->libraryDir,
-			__DIR__.$config->phalcon->modelsDir,
+			$config->phalcon->controllersDir,
+			$config->phalcon->pluginsDir,
+			$config->phalcon->libraryDir,
+			$config->phalcon->modelsDir,
 		)
 	)->register();
 
@@ -39,7 +39,7 @@ try {
 
 	$di->set('view', function() use ($config) {
 		$view = new \Phalcon\Mvc\View();
-		$view->setViewsDir(__DIR__.$config->phalcon->viewsDir);
+		$view->setViewsDir($config->phalcon->viewsDir);
 		return $view;
 	});
 

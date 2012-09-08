@@ -7,11 +7,11 @@ return new \Phalcon\Config(array(
 		'name'     => 'phalcon',
 	),
 	'phalcon' => array(
-		'controllersDir' => '/../app/controllers/',
-		'modelsDir'      => '/../app/models/',
-		'viewsDir'       => '/../app/views/',
-		'pluginsDir'     => '/../app/plugins/',
-		'libraryDir'     => '/../app/library/',
+		'controllersDir' => __DIR__ . '/../app/controllers/',
+		'modelsDir'      => __DIR__ . '/../app/models/',
+		'viewsDir'       => __DIR__ . '/../app/views/',
+		'pluginsDir'     => __DIR__ . '/../app/plugins/',
+		'libraryDir'     => __DIR__ . '/../app/library/',
 		'baseUri'        => '/@@name@@/',
 	),
 	'metadata' => array(

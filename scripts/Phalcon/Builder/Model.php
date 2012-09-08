@@ -117,9 +117,9 @@ class Model extends Component {
 		
 
 		$config = $this->_getConfig($path);
-		$modelsDir = 'public/'.$config->phalcon->modelsDir;
+		$modelsDir = $config->phalcon->modelsDir;
 
-		$modelPath = $path.$modelsDir.'/'.$this->_options['className'].'.php';
+		$modelPath = $modelsDir . '/' . $this->_options['className'].'.php';
 
 		if(file_exists($modelPath)){
 			if(!$this->_options['force']){
@@ -128,7 +128,7 @@ class Model extends Component {
 		}
 
 		if (!isset($config->database->adapter)) {
-			throw new BuilderException("Adapter was not find in the config. Please specify a config varaible [database][adapter]");
+			throw new BuilderException("Adapter was not found in the config. Please specify a config varaible [database][adapter]");
 		}
 
 		$initialize = array();

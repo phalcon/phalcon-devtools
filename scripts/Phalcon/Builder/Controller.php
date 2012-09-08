@@ -22,6 +22,7 @@ namespace Phalcon\Builder;
 
 use Phalcon\Builder\Component;
 use Phalcon\Builder\Exception as BuilderException;
+use Phalcon\Script\Color;
 use Phalcon\Text as Utils;
 
 /**
@@ -92,6 +93,8 @@ class Controller extends Component {
 		} else {
 	 		throw new BuilderException("The Controller '$name' already exists");
 		}
+
+		print Color::success('Controller "' . $name . '" was successfully created.') . PHP_EOL;
 
 		return $className . 'Controller.php';
 
