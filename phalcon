@@ -30,10 +30,9 @@ if (!extension_loaded('phalcon')) {
 }
 
 if (!defined('TEMPLATES_PATH')) {
-	define('TEMPLATES_PATH', __DIR__ . '/templates');
+	define('TEMPLATES_PATH', '@php_dir@/Phalcon/templates');
 }
 
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/scripts');
 spl_autoload_register(function($class) {
 	include str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
 });
@@ -52,7 +51,6 @@ try {
 	$script->run();
 }
 catch (\Phalcon\Exception $e) {
-	print $e->getTraceAsString();
 	print Color::error($e->getMessage()) . PHP_EOL;
 }
 catch (\Exception $e) {

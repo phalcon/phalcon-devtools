@@ -1,4 +1,3 @@
 @echo off
 
-set PTOOLSPATH=.
-php %PTOOLSPATH%\phalcon.php %*
+php @php_bin@\phalcon %*
