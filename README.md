@@ -5,3 +5,8 @@ Phalcon PHP is a web framework delivered as a C extension providing high perform
 
 This tools provide you useful scripts to generate code helping to develop faster and easy applications that use Phalcon framework. 
 
+Requirements
+------------
+
+* PHP >= 5.3.9
+* Phalcon >= 0.5.0
