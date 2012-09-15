@@ -246,8 +246,8 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $result
-		 * @param \Phalcon\Mvc\Model\Base $base
-		 * @return \Phalcon\Mvc\Model\Base $result
+		 * @param \Phalcon\Mvc\Model $base
+		 * @return \Phalcon\Mvc\Model $result
 		 */
 		public static function dumpResult($base, $result){ }
 
@@ -307,6 +307,14 @@ namespace Phalcon\Mvc {
 		 * @return \Phalcon\Mvc\Model
 		 */
 		public static function findFirst($parameters){ }
+
+
+		/**
+		 * Create a criteria for a especific model
+		 *
+		 * @return \Phalcon\Mvc\Model\Criteria
+		 */
+		public static function query($dependencyInjector){ }
 
 
 		/**

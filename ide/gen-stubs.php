@@ -12,7 +12,7 @@ if(!extension_loaded('phalcon')){
  * php ide/gen-stubs.php
  */
 
-define('CPHALCON_DIR', '/Users/kenjikobe/cphalcon/dev/');
+define('CPHALCON_DIR', '/Users/kenjikobe/cphalcon/ext/');
 
 class Stubs_Generator {
 

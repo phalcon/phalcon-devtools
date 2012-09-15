@@ -45,7 +45,7 @@ namespace Phalcon\Mvc {
 	 *</code>
 	 */
 	
-	abstract class Controller extends \Phalcon\Mvc\User {
+	abstract class Controller extends \Phalcon\DI\Injectable {
 
 		protected $_dependencyInjector;
 

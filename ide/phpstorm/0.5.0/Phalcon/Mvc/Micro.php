@@ -5,10 +5,24 @@ namespace Phalcon\Mvc {
 	/**
 	 * Phalcon\Mvc\Micro
 	 *
+	 * With Phalcon you can create "Micro-Framework like" applications. By doing this, you only need to
+	 * write a minimal amount of code to create a PHP application. Micro applications are suitable
+	 * to small applications, APIs and prototypes in a practical way.
 	 *
+	 *<code>
+	 *
+	 * $app = new Phalcon\Mvc\Micro();
+	 *
+	 * $app->get('/say/welcome/{name}', function ($name) {
+	 *    echo "<h1>Welcome $name!</h1>";
+	 * });
+	 *
+	 * $app->handle();
+	 *
+	 *</code>
 	 */
 	
-	class Micro extends \Phalcon\Mvc\User {
+	class Micro extends \Phalcon\DI\Injectable {
 
 		protected $_dependencyInjector;
 

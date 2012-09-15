@@ -7,6 +7,7 @@ namespace Phalcon\Mvc\Model\Resultset {
 	 *
 	 * Simple resultsets only contains a complete object.
 	 * This class builds every complete object as it's required
+	 *
 	 */
 	
 	class Simple extends \Phalcon\Mvc\Model\Resultset {
@@ -16,6 +17,8 @@ namespace Phalcon\Mvc\Model\Resultset {
 		protected $_result;
 
 		protected $_cache;
+
+		protected $_isFresh;
 
 		protected $_pointer;
 
@@ -31,7 +34,7 @@ namespace Phalcon\Mvc\Model\Resultset {
 		 * \Phalcon\Mvc\Model\Resultset\Simple constructor
 		 *
 		 * @param \Phalcon\Mvc\Model $model
-		 * @param \Phalcon\Mvc\Model\Result $result
+		 * @param \Phalcon\Db\Result\Pdo $result
 		 * @param \Phalcon\Cache\Backend $cache
 		 */
 		public function __construct($model, $result, $cache){ }
@@ -59,14 +62,6 @@ namespace Phalcon\Mvc\Model\Resultset {
 		 * @param string $data
 		 */
 		public function unserialize($data){ }
-
-
-		/**
-		 * Returns current row in the resultset
-		 *
-		 * @return \Phalcon\Mvc\Model
-		 */
-		public function current(){ }
 
 	}
 }

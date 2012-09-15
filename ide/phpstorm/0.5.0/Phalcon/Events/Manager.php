@@ -5,6 +5,10 @@ namespace Phalcon\Events {
 	/**
 	 * Phalcon\Events\Manager
 	 *
+	 * The new Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
+	 * the normal flow of operation. With the EventsManager the developer can create hooks or
+	 * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
+	 *
 	 */
 	
 	class Manager {
@@ -31,6 +35,15 @@ namespace Phalcon\Events {
 		 * @return mixed
 		 */
 		public function fire($eventType, $source){ }
+
+
+		/**
+		 * Returns all the attached listeners of a certain type
+		 *
+		 * @param string $type
+		 * @return array
+		 */
+		public function getListeners($type){ }
 
 	}
 }

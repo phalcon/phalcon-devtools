@@ -18,18 +18,38 @@ namespace Phalcon\Db\Result {
 	
 	class Pdo {
 
+		protected $_connection;
+
 		protected $_result;
 
 		protected $_fetchMode;
 
 		protected $_pdoStatement;
 
+		protected $_sqlStatement;
+
+		protected $_placeholders;
+
+		protected $_rowCount;
+
 		/**
 		 * \Phalcon\Db\Result\Pdo constructor
 		 *
+		 * @param \Phalcon\Db\Adapter\Pdo $connection
+		 * @param string $sqlStatement
+		 * @param array $placeholders
 		 * @param PDOStatement $result
 		 */
-		public function __construct($result){ }
+		public function __construct($connection, $result, $sqlStatement, $placeholders){ }
+
+
+		/**
+		 * Allows to executes the statement again. Some database systems don't support scrollable cursors,
+		 * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
+		 *
+		 * @return boolean
+		 */
+		public function execute(){ }
 
 
 		/**
@@ -47,6 +67,20 @@ namespace Phalcon\Db\Result {
 		 * @return boolean
 		 */
 		public function fetchArray(){ }
+
+
+		/**
+		 * Returns an array of arrays containing all the records in the result
+		 * This method is affected by the active fetch flag set using \Phalcon\Db\Result\Pdo::setFetchMode
+		 *
+		 *<code>
+		 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+		 *	$robots = $result->fetchAll();
+		 *</code>
+		 *
+		 * @return array
+		 */
+		public function fetchAll(){ }
 
 
 		/**

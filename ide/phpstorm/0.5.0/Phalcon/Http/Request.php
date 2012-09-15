@@ -25,9 +25,19 @@ namespace Phalcon\Http {
 
 		protected $_dependencyInjector;
 
+		/**
+		 * Sets the dependency injector
+		 *
+		 * @param \Phalcon\DI $dependencyInjector
+		 */
 		public function setDI($dependencyInjector){ }
 
 
+		/**
+		 * Returns the internal dependency injector
+		 *
+		 * @return \Phalcon\DI
+		 */
 		public function getDI(){ }
 
 

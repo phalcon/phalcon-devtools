@@ -45,13 +45,13 @@ namespace Phalcon\Mvc {
 	 *</code>
 	 */
 	
-	class Application {
+	class Application extends \Phalcon\DI\Injectable {
 
 		protected $_dependencyInjector;
 
-		protected $_modules;
-
 		protected $_eventsManager;
+
+		protected $_modules;
 
 		protected $_moduleObject;
 

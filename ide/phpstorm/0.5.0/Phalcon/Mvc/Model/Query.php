@@ -7,10 +7,21 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 * This class takes a PHQL intermediate representation and executes it.
 	 *
-	 * <code>
+	 *<code>
 	 *
+	 * $phql  = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b WHERE b.name = :name: ORDER BY c.name";
 	 *
-	 * </code>
+	 * $result = $manager->executeQuery($phql, array(
+	 *   'name' => 'Lamborghini'
+	 * ));
+	 *
+	 * foreach ($result as $row) {
+	 *   echo "Name: ", $row->cars->name, "\n";
+	 *   echo "Price: ", $row->cars->price, "\n";
+	 *   echo "Taxes: ", $row->taxes, "\n";
+	 * }
+	 *
+	 *</code>
 	 *
 	 */
 	
@@ -82,6 +93,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $expr
 		 * @param array $sqlAliases
 		 * @param boolean $quoting
+		 * @param boolean $fullPlaceholder
 		 * @return string
 		 */
 		protected function _getExpression(){ }
@@ -223,45 +235,49 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Executes the SELECT intermediate representation producing a \Phalcon\Mvc\Query\Resultset
+		 * Executes the SELECT intermediate representation producing a \Phalcon\Mvc\Model\Resultset
 		 *
 		 * @param \Phalcon\Mvc\Model $manager
 		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return \Phalcon\Mvc\Query\Resultset
+		 * @param array $placeholders
+		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
 		protected function _executeSelect(){ }
 
 
 		/**
-		 * Executes the INSERT intermediate representation producing a \Phalcon\Mvc\Query\Status
+		 * Executes the INSERT intermediate representation producing a \Phalcon\Mvc\Model\Query\Status
 		 *
 		 * @param \Phalcon\Mvc\Model $manager
 		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return \Phalcon\Mvc\Query\Status
+		 * @param array $placeholders
+		 * @return \Phalcon\Mvc\Model\Query\Status
 		 */
 		protected function _executeInsert(){ }
 
 
 		/**
-		 * Executes the UPDATE intermediate representation producing a \Phalcon\Mvc\Query\Status
+		 * Executes the UPDATE intermediate representation producing a \Phalcon\Mvc\Model\Query\Status
 		 *
 		 * @param \Phalcon\Mvc\Model $manager
 		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return \Phalcon\Mvc\Query\Status
+		 * @param array $placeholders
+		 * @return \Phalcon\Mvc\Model\Query\Status
 		 */
 		protected function _executeUpdate(){ }
 
 
 		/**
-		 * Executes the DELETE intermediate representation producing a \Phalcon\Mvc\Query\Status
+		 * Executes the DELETE intermediate representation producing a \Phalcon\Mvc\Model\Query\Status
 		 *
 		 * @param \Phalcon\Mvc\Model $manager
 		 * @param \Phalcon\Mvc\Model\Metada $metaData
 		 * @param array $intermediate
-		 * @return \Phalcon\Mvc\Query\Status
+		 * @param array $placeholders
+		 * @return \Phalcon\Mvc\Model\Query\Status
 		 */
 		protected function _executeDelete(){ }
 

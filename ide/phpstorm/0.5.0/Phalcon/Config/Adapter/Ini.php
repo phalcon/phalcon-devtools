@@ -10,17 +10,17 @@ namespace Phalcon\Config\Adapter {
 	 * Given the next configuration file:
 	 *
 	 *<code>
-	 *  [database]
-	 *	adapter = Mysql
-	 *	host = localhost
-	 *	username = scott
-	 *	password = cheetah
-	 *	name = test_db
+	 *[database]
+	 *adapter = Mysql
+	 *host = localhost
+	 *username = scott
+	 *password = cheetah
+	 *name = test_db
 	 *
-	 *	[phalcon]
-	 *	controllersDir = "../app/controllers/"
-	 *	modelsDir = "../app/models/"
-	 *	viewsDir = "../app/views/"
+	 *[phalcon]
+	 *controllersDir = "../app/controllers/"
+	 *modelsDir = "../app/models/"
+	 *viewsDir = "../app/views/"
 	 *</code>
 	 *
 	 * You can read it as follows:

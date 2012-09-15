@@ -3,24 +3,21 @@
 namespace Phalcon\Db\Adapter\Pdo {
 
 	/**
-	 * Phalcon\Db\Adapter\Pdo\Postgresql
+	 * Phalcon\Db\Adapter\Pdo\Sqlite
 	 *
-	 * Specific functions for the Postgresql database system
+	 * Specific functions for the Sqlite database system
 	 * <code>
 	 *
 	 * $config = array(
-	 *  "host" => "192.168.0.11",
-	 *  "dbname" => "blog",
-	 *  "username" => "postgres",
-	 *  "password" => ""
+	 *  "dbname" => "/tmp/test.sqlite"
 	 * );
 	 *
-	 * $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($config);
+	 * $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($config);
 	 *
 	 * </code>
 	 */
 	
-	class Postgresql extends \Phalcon\Db\Adapter\Pdo {
+	class Sqlite extends \Phalcon\Db\Adapter\Pdo {
 
 		const FETCH_ASSOC = 1;
 
@@ -52,8 +49,6 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
 		 * Call it when you need to restore a database connection.
 		 *
-		 * Support set search_path after connectted if schema is specified in config.
-		 *
 		 * @param array $descriptor
 		 * @return boolean
 		 */
@@ -70,6 +65,26 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 * @return \Phalcon\Db\Column[]
 		 */
 		public function describeColumns($table, $schema){ }
+
+
+		/**
+		 * Lists table indexes
+		 *
+		 * @param string $table
+		 * @param string $schema
+		 * @return \Phalcon\Db\Index[]
+		 */
+		public function describeIndexes($table, $schema){ }
+
+
+		/**
+		 * Lists table references
+		 *
+		 * @param string $table
+		 * @param string $schema
+		 * @return \Phalcon\Db\Reference[]
+		 */
+		public function describeReferences($table, $schema){ }
 
 	}
 }

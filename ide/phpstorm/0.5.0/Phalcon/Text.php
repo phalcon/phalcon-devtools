@@ -14,7 +14,7 @@ namespace Phalcon {
 		 * Converts strings to camelize style
 		 *
 		 *<code>
-		 *	Phalcon\Text::camelize('coco_bongo'); //CocoBongo
+		 *	echo \Phalcon\Text::camelize('coco_bongo'); //CocoBongo
 		 *</code>
 		 *
 		 * @param string $str
@@ -27,7 +27,7 @@ namespace Phalcon {
 		 * Uncamelize strings which are camelized
 		 *
 		 *<code>
-		 *	Phalcon\Text::camelize('CocoBongo'); //coco_bongo
+		 *	echo \Phalcon\Text::camelize('CocoBongo'); //coco_bongo
 		 *</code>
 		 *
 		 * @param string $str

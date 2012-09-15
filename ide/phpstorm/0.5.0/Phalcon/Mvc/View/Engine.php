@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\View {
 	 * basic interfacing between the engine and the Phalcon\Mvc\View component.
 	 */
 	
-	abstract class Engine extends \Phalcon\Mvc\User {
+	abstract class Engine extends \Phalcon\DI\Injectable {
 
 		protected $_dependencyInjector;
 
@@ -21,6 +21,7 @@ namespace Phalcon\Mvc\View {
 		 * \Phalcon\Mvc\View\Engine constructor
 		 *
 		 * @param \Phalcon\Mvc\View $view
+		 * @param \Phalcon\DI $dependencyInjector
 		 * @param array $params
 		 */
 		public function __construct($view, $dependencyInjector){ }
@@ -38,6 +39,7 @@ namespace Phalcon\Mvc\View {
 		 * Renders a partial inside another view
 		 *
 		 * @param string $partialPath
+		 * @return string
 		 */
 		public function partial($partialPath){ }
 

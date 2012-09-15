@@ -3,7 +3,7 @@
 namespace Phalcon {
 
 	/**
-	 * Phalcon_DI
+	 * Phalcon\DI
 	 *
 	 */
 	

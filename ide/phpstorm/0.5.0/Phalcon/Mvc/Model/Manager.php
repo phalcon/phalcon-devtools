@@ -40,9 +40,19 @@ namespace Phalcon\Mvc\Model {
 		public function __construct(){ }
 
 
+		/**
+		 * Sets the DependencyInjector container
+		 *
+		 * @param \Phalcon\DI $dependencyInjector
+		 */
 		public function setDI($dependencyInjector){ }
 
 
+		/**
+		 * Returns the DependencyInjector container
+		 *
+		 * @return \Phalcon\DI
+		 */
 		public function getDI(){ }
 
 
@@ -70,12 +80,28 @@ namespace Phalcon\Mvc\Model {
 		public function initialize($model){ }
 
 
+		/**
+		 * Check of a model is already initialized
+		 *
+		 * @param string $modelName
+		 * @return bool
+		 */
 		public function isInitialized($modelName){ }
 
 
+		/**
+		 * Get last initialized model
+		 *
+		 * @return \Phalcon\Mvc\Model
+		 */
 		public function getLastInitialized(){ }
 
 
+		/**
+		 * Loads a model throwing an exception if it doesn't exist
+		 *
+		 * @return \Phalcon\Mvc\Model
+		 */
 		public function load($modelName){ }
 
 
@@ -227,12 +253,32 @@ namespace Phalcon\Mvc\Model {
 		public function getHasOneAndHasMany($model){ }
 
 
-		public function getRelations($a, $b){ }
+		/**
+		 * Query the relations between two models
+		 *
+		 * @param string $first
+		 * @param string $second
+		 * @return array
+		 */
+		public function getRelations($first, $second){ }
 
 
+		/**
+		 * Creates a \Phalcon\Mvc\Model\Query without execute it
+		 *
+		 * @param string $phql
+		 * @return \Phalcon\Mvc\Model\Query
+		 */
 		public function createQuery($phql){ }
 
 
+		/**
+		 * Creates a \Phalcon\Mvc\Model\Query and execute it
+		 *
+		 * @param string $phql
+		 * @param array $placeholders
+		 * @return \Phalcon\Mvc\Model\Query
+		 */
 		public function executeQuery($phql, $placeholders){ }
 
 	}

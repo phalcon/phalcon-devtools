@@ -75,9 +75,10 @@ namespace Phalcon\Db\Adapter {
 		 *</code>
 		 *
 		 * @param  string $sqlStatement
+		 * @param  array $placeholders
 		 * @return \Phalcon\Db\Result\Pdo
 		 */
-		public function query($sqlStatement){ }
+		public function query($sqlStatement, $placeholders){ }
 
 
 		/**
@@ -92,6 +93,7 @@ namespace Phalcon\Db\Adapter {
 		 *
 		 * @param  string $sqlStatement
 		 * @param  array $placeholders
+		 * @return boolean
 		 */
 		public function execute($sqlStatement, $placeholders){ }
 
@@ -184,6 +186,36 @@ namespace Phalcon\Db\Adapter {
 		 * @return PDO
 		 */
 		public function getInternalHandler(){ }
+
+
+		/**
+		 * Lists table indexes
+		 *
+		 * @param string $table
+		 * @param string $schema
+		 * @return \Phalcon\Db\Index[]
+		 */
+		public function describeIndexes($table, $schema){ }
+
+
+		/**
+		 * Lists table references
+		 *
+		 * @param string $table
+		 * @param string $schema
+		 * @return \Phalcon\Db\Reference[]
+		 */
+		public function describeReferences($table, $schema){ }
+
+
+		/**
+		 * Gets creation options from a table
+		 *
+		 * @param string $tableName
+		 * @param string $schemaName
+		 * @return array
+		 */
+		public function tableOptions($tableName, $schemaName){ }
 
 	}
 }

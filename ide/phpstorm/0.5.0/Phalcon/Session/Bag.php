@@ -5,8 +5,14 @@ namespace Phalcon\Session {
 	/**
 	 * Phalcon\Session\Bag
 	 *
-	 * This component helps to separate session data into namespaces. Working by this way
+	 * This component helps to separate session data into "namespaces". Working by this way
 	 * you can easily create groups of session variables into the application
+	 *
+	 *<code>
+	 * $user = new Phalcon\Session\Bag();
+	 * $user->name = "Kimbra Johnson";
+	 * $user->age = 22;
+	 *</code>
 	 */
 	
 	class Bag {
@@ -24,12 +30,25 @@ namespace Phalcon\Session {
 		public function __construct(){ }
 
 
+		/**
+		 * Sets the DependencyInjector container
+		 *
+		 * @param \Phalcon\DI $dependencyInjector
+		 */
 		public function setDI($dependencyInjector){ }
 
 
+		/**
+		 * Returns the DependencyInjector container
+		 *
+		 * @return \Phalcon\DI
+		 */
 		public function getDI(){ }
 
 
+		/**
+		 * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
+		 */
 		public function initialize(){ }
 
 
@@ -49,6 +68,15 @@ namespace Phalcon\Session {
 		 * @return string
 		 */
 		public function __get($property){ }
+
+
+		/**
+		 * Isset property
+		 *
+		 * @param string $property
+		 * @return boolean
+		 */
+		public function __isset($property){ }
 
 	}
 }

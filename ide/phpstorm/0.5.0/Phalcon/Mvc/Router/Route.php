@@ -2,6 +2,12 @@
 
 namespace Phalcon\Mvc\Router {
 
+	/**
+	 * Phalcon\Mvc\Router\Route
+	 *
+	 * This class represents every route defined in the router.
+	 */
+	
 	class Route {
 
 		protected $_pattern;
@@ -18,6 +24,13 @@ namespace Phalcon\Mvc\Router {
 
 		protected static $_uniqueId;
 
+		/**
+		 * \Phalcon\Mvc\Router\Route constructor
+		 *
+		 * @param string $pattern
+		 * @param array $paths
+		 * @param array|string $httpMethods
+		 */
 		public function __construct($pattern, $paths, $httpMethods){ }
 
 
@@ -30,6 +43,11 @@ namespace Phalcon\Mvc\Router {
 		public function compilePattern($pattern){ }
 
 
+		/**
+		 * Set one or more HTTP methods that constraint the matching of the route
+		 *
+		 * @param string|array $httpMethods
+		 */
 		public function via($httpMethods){ }
 
 

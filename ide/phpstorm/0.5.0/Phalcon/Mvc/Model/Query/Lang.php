@@ -25,7 +25,7 @@ namespace Phalcon\Mvc\Model\Query {
 		/**
 		 * Parses a PHQL statement returning an intermediate representation (IR)
 		 *
-		 * @param string $phsql
+		 * @param string $phql
 		 * @return string
 		 */
 		public static function parsePHQL($phql){ }

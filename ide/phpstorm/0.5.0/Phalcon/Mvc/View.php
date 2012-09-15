@@ -24,7 +24,7 @@ namespace Phalcon\Mvc {
 	 * </code>
 	 */
 	
-	class View extends \Phalcon\Mvc\User {
+	class View extends \Phalcon\DI\Injectable {
 
 		const LEVEL_MAIN_LAYOUT = 5;
 
@@ -216,6 +216,8 @@ namespace Phalcon\Mvc {
 
 		/**
 		 * Gets extra parameters of the action rendered
+		 *
+		 * @return array
 		 */
 		public function getParams(){ }
 
@@ -310,6 +312,7 @@ namespace Phalcon\Mvc {
 		 * </code>
 		 *
 		 * @param string $partialPath
+		 * @return string
 		 */
 		public function partial($partialPath){ }
 
@@ -347,7 +350,9 @@ namespace Phalcon\Mvc {
 		/**
 		 * Externally sets the view content
 		 *
-		 *<code>$this->view->setContent("<h1>hello</h1>");</code>
+		 *<code>
+		 *$this->view->setContent("<h1>hello</h1>");
+		 *</code>
 		 *
 		 * @param string $content
 		 */
@@ -362,6 +367,11 @@ namespace Phalcon\Mvc {
 		public function getContent(){ }
 
 
+		/**
+		 * Returns the path of the view that is currently rendered
+		 *
+		 * @return string
+		 */
 		public function getActiveRenderPath(){ }
 
 

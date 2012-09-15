@@ -5,7 +5,17 @@ namespace Phalcon\Mvc {
 	/**
 	 * Phalcon\Mvc\Url
 	 *
-	 * This components aids in the generation off: URIs, URLs and Paths
+	 * This components aids in the generation of: URIs, URLs and Paths
+	 *
+	 *<code>
+	 *
+	 * //Generate a url appending a uri to the base Uri
+	 * echo $url->get('products/edit/1');
+	 *
+	 * //Generate a url for a predefined route
+	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
+	 *
+	 *</code>
 	 */
 	
 	class Url {
@@ -25,7 +35,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Sets the DependencyInjector container
+		 * Returns the DependencyInjector container
 		 *
 		 * @return \Phalcon\DI
 		 */
@@ -35,6 +45,10 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets a prefix to all the urls generated
 		 *
+		 *<code>
+		 *$url->setBasePath('/invo/');
+		 *</code>
+		 *
 		 * @param string $baseUri
 		 */
 		public function setBaseUri($baseUri){ }
@@ -43,7 +57,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Returns the prefix for all the generated urls. By default /
 		 *
-		 * @param string
+		 * @return string
 		 */
 		public function getBaseUri(){ }
 
@@ -51,7 +65,11 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets a base paths for all the generated paths
 		 *
-		 * @return string $basePath
+		 *<code>
+		 *$url->setBasePath('/var/www/');
+		 *</code>
+		 *
+		 * @param string $basePath
 		 */
 		public function setBasePath($basePath){ }
 
@@ -76,6 +94,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Generates a local path
 		 *
+		 * @param string $path
 		 * @return string
 		 */
 		public function path($path){ }

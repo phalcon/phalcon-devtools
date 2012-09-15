@@ -11,9 +11,43 @@ namespace Phalcon\Mvc\Model {
 	
 	class Criteria {
 
+		protected $_model;
+
 		protected $_params;
 
 		public function __construct(){ }
+
+
+		/**
+		 * Sets the DependencyInjector container
+		 *
+		 * @param \Phalcon\DI $dependencyInjector
+		 */
+		public function setDI($dependencyInjector){ }
+
+
+		/**
+		 * Returns the DependencyInjector container
+		 *
+		 * @return \Phalcon\DI
+		 */
+		public function getDI(){ }
+
+
+		/**
+		 * Set a model on which the query will be executed
+		 *
+		 * @param string $modelName
+		 */
+		public function setModelName($modelName){ }
+
+
+		/**
+		 * Returns an internal model name on which the criteria will be applied
+		 *
+		 * @return string
+		 */
+		public function getModelName(){ }
 
 
 		/**
@@ -127,6 +161,14 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $data
 		 */
 		public static function fromInput($dependencyInjector, $modelName, $data){ }
+
+
+		/**
+		 * Executes a find using the parameters built with the criteria
+		 *
+		 * @return \Phalcon\Mvc\Model\Resultset
+		 */
+		public function execute(){ }
 
 	}
 }

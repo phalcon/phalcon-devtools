@@ -49,6 +49,11 @@ namespace Phalcon {
 		public function __construct(){ }
 
 
+		/**
+		 * Sets the events manager
+		 *
+		 * @param \Phalcon\Events\Manager $eventsManager
+		 */
 		public function setEventsManager($eventsManager){ }
 
 
@@ -121,9 +126,19 @@ namespace Phalcon {
 		public function autoLoad($className){ }
 
 
+		/**
+		 * Get the path when a class was found
+		 *
+		 * @return string
+		 */
 		public function getFoundPath(){ }
 
 
+		/**
+		 * Get the path the loader is checking
+		 *
+		 * @return string
+		 */
 		public function getCheckedPath(){ }
 
 	}

@@ -52,43 +52,13 @@ namespace Phalcon\Db\Adapter\Pdo {
 		/**
 		 * Returns an array of \Phalcon\Db\Column objects describing a table
 		 *
-		 * <code>print_r($connection->describeColumns("posts") ?></code>
+		 * <code>print_r($connection->describeColumns("posts")); ?></code>
 		 *
 		 * @param string $table
 		 * @param string $schema
 		 * @return \Phalcon\Db\Column[]
 		 */
 		public function describeColumns($table, $schema){ }
-
-
-		/**
-		 * Lists table indexes
-		 *
-		 * @param string $table
-		 * @param string $schema
-		 * @return \Phalcon\Db\Index[]
-		 */
-		public function describeIndexes($table, $schema){ }
-
-
-		/**
-		 * Lists table references
-		 *
-		 * @param string $table
-		 * @param string $schema
-		 * @return \Phalcon\Db\Reference[]
-		 */
-		public function describeReferences($table, $schema){ }
-
-
-		/**
-		 * Gets creation options from a table
-		 *
-		 * @param string $tableName
-		 * @param string $schemaName
-		 * @return array
-		 */
-		public function tableOptions($tableName, $schemaName){ }
 
 	}
 }

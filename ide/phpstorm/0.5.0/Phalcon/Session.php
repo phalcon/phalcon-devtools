@@ -31,6 +31,11 @@ namespace Phalcon {
 
 		protected $_options;
 
+		/**
+		 * \Phalcon\Session construtor
+		 *
+		 * @param array $options
+		 */
 		public function __construct($options){ }
 
 
@@ -50,6 +55,11 @@ namespace Phalcon {
 		public function setOptions($options){ }
 
 
+		/**
+		 * Get internal options
+		 *
+		 * @return array
+		 */
 		public function getOptions(){ }
 
 
@@ -94,9 +104,19 @@ namespace Phalcon {
 		public function getId(){ }
 
 
+		/**
+		 * Check whether the session has been started
+		 *
+		 * @return boolean
+		 */
 		public function isStarted(){ }
 
 
+		/**
+		 * Destroys the active session
+		 *
+		 * @return boolean
+		 */
 		public function destroy(){ }
 
 	}

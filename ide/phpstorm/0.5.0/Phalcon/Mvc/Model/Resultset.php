@@ -38,6 +38,8 @@ namespace Phalcon\Mvc\Model {
 
 		protected $_cache;
 
+		protected $_isFresh;
+
 		protected $_pointer;
 
 		protected $_count;
@@ -136,7 +138,15 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Tell if the resultset if fresh or an old cached
+		 * Set if the resultset is fresh or an old one cached
+		 *
+		 * @param boolean $isFresh
+		 */
+		public function setIsFresh($isFresh){ }
+
+
+		/**
+		 * Tell if the resultset if fresh or an old one cached
 		 *
 		 * @return boolean
 		 */
@@ -149,6 +159,14 @@ namespace Phalcon\Mvc\Model {
 		 * @return \Phalcon\Cache\Backend
 		 */
 		public function getCache(){ }
+
+
+		/**
+		 * Returns current row in the resultset
+		 *
+		 * @return object
+		 */
+		public function current(){ }
 
 	}
 }

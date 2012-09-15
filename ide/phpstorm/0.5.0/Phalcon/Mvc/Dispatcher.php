@@ -26,17 +26,17 @@ namespace Phalcon\Mvc {
 	 *</code>
 	 */
 	
-	class Dispatcher {
+	class Dispatcher extends \Phalcon\Dispatcher {
 
 		protected $_dependencyInjector;
 
 		protected $_eventsManager;
 
+		protected $_activeHandler;
+
 		protected $_finished;
 
-		protected $_activeController;
-
-		protected $_controllerName;
+		protected $_handlerName;
 
 		protected $_actionName;
 
@@ -44,55 +44,24 @@ namespace Phalcon\Mvc {
 
 		protected $_returnedValue;
 
-		protected $_lastController;
+		protected $_lastHandler;
 
 		protected $_defaultNamespace;
 
-		protected $_defaultController;
+		protected $_defaultHandler;
 
 		protected $_defaultAction;
 
-		public function __construct(){ }
+		protected $_handlerSuffix;
 
-
-		/**
-		 * Sets the dependency injector
-		 *
-		 * @param \Phalcon\DI $dependencyInjector
-		 */
-		public function setDI($dependencyInjector){ }
-
+		protected $_actionSuffix;
 
 		/**
-		 * Returns the internal dependency injector
+		 * Sets the default controller suffix
 		 *
-		 * @return \Phalcon\DI
+		 * @param string $controllerSuffix
 		 */
-		public function getDI(){ }
-
-
-		/**
-		 * Sets the events manager
-		 *
-		 * @param \Phalcon\Events\Manager $eventsManager
-		 */
-		public function setEventsManager($eventsManager){ }
-
-
-		/**
-		 * Returns the internal event manager
-		 *
-		 * @return \Phalcon\Events\Manager
-		 */
-		public function getEventsManager(){ }
-
-
-		/**
-		 * Sets the default namespace
-		 *
-		 * @param string $namespace
-		 */
-		public function setDefaultNamespace($namespace){ }
+		public function setControllerSuffix($controllerSuffix){ }
 
 
 		/**
@@ -101,14 +70,6 @@ namespace Phalcon\Mvc {
 		 * @param string $controllerName
 		 */
 		public function setDefaultController($controllerName){ }
-
-
-		/**
-		 * Sets the default action name
-		 *
-		 * @param string $actionName
-		 */
-		public function setDefaultAction($actionName){ }
 
 
 		/**
@@ -128,64 +89,6 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Sets the action name to be dispatched
-		 *
-		 * @param string $actionName
-		 */
-		public function setActionName($actionName){ }
-
-
-		/**
-		 * Gets last dispatched action name
-		 *
-		 * @return string
-		 */
-		public function getActionName(){ }
-
-
-		/**
-		 * Sets action params to be dispatched
-		 *
-		 * @param array $params
-		 */
-		public function setParams($params){ }
-
-
-		/**
-		 * Gets action params
-		 *
-		 * @return array
-		 */
-		public function getParams(){ }
-
-
-		/**
-		 * Set a param by its name or numeric index
-		 *
-		 * @param  mixed $param
-		 * @param  mixed $value
-		 */
-		public function setParam($param, $value){ }
-
-
-		/**
-		 * Gets a param by its name or numeric index
-		 *
-		 * @param  mixed $param
-		 * @return mixed
-		 */
-		public function getParam($param){ }
-
-
-		/**
-		 * Dispatches a controller action taking into account the routing parameters
-		 *
-		 * @return \Phalcon\Mvc\Controller
-		 */
-		public function dispatch(){ }
-
-
-		/**
 		 * Throws an internal exception
 		 *
 		 * @param string $message
@@ -194,33 +97,11 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * @param array $forward
-		 */
-		public function forward($forward){ }
-
-
-		/**
-		 * Checks if the dispatch loop is finished or have more pendent controller to disptach
-		 *
-		 * @return boolean
-		 */
-		public function isFinished(){ }
-
-
-		/**
 		 * Returns the lastest dispatched controller
 		 *
 		 * @return \Phalcon\Mvc\Controller
 		 */
 		public function getLastController(){ }
-
-
-		/**
-		 * Returns value returned by the lastest dispatched action
-		 *
-		 * @return mixed
-		 */
-		public function getReturnedValue(){ }
 
 
 		/**

@@ -21,22 +21,44 @@ namespace Phalcon {
 
 		protected $_automaticHtml;
 
+		/**
+		 * \Phalcon\Flash constructor
+		 *
+		 * @param array $cssClasses
+		 */
 		public function __construct($cssClasses){ }
 
 
+		/**
+		 * Set the if the output must be implictly flushed to the output or returned as string
+		 *
+		 * @param boolean $implicitFlash
+		 */
 		public function setImplicitFlush($implicitFlush){ }
 
 
+		/**
+		 * Set the if the output must be implictly formatted with HTML
+		 *
+		 * @param boolean $automaticHtml
+		 */
 		public function setAutomaticHtml($automaticHtml){ }
 
 
+		/**
+		 * Set an array with CSS classes to format the messages
+		 *
+		 * @param array $cssClasses
+		 */
 		public function setCssClasses($cssClasses){ }
 
 
 		/**
 		 * Shows a HTML error message
 		 *
-		 * <code>$flash->error('This is an error'); </code>
+		 *<code>
+		 * $flash->error('This is an error');
+		 *</code>
 		 *
 		 * @param string $message
 		 * @return string
@@ -47,7 +69,9 @@ namespace Phalcon {
 		/**
 		 * Shows a HTML notice/information message
 		 *
-		 * <code>$flash->notice('This is an information'); </code>
+		 *<code>
+		 * $flash->notice('This is an information');
+		 *</code>
 		 *
 		 * @param string $message
 		 * @return string
@@ -58,7 +82,9 @@ namespace Phalcon {
 		/**
 		 * Shows a HTML success message
 		 *
-		 * <code>$flash->success('The process was finished successfully'); </code>
+		 *<code>
+		 * $flash->success('The process was finished successfully');
+		 *</code>
 		 *
 		 * @param string $message
 		 * @param string $classes
@@ -70,7 +96,9 @@ namespace Phalcon {
 		/**
 		 * Shows a HTML warning message
 		 *
-		 * <code>$flash->warning('Hey, this is important'); </code>
+		 *<code>
+		 * $flash->warning('Hey, this is important');
+		 *</code>
 		 *
 		 * @param string $message
 		 * @param string $classes
@@ -79,6 +107,12 @@ namespace Phalcon {
 		public function warning($message){ }
 
 
+		/**
+		 * Outputs a message formatting it with HTML
+		 *
+		 * @param string $type
+		 * @param string $message
+		 */
 		public function outputMessage($type, $message){ }
 
 	}

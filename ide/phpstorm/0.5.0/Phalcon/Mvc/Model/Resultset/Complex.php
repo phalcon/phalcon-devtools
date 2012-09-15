@@ -17,6 +17,8 @@ namespace Phalcon\Mvc\Model\Resultset {
 
 		protected $_cache;
 
+		protected $_isFresh;
+
 		protected $_pointer;
 
 		protected $_count;
@@ -31,7 +33,7 @@ namespace Phalcon\Mvc\Model\Resultset {
 		 * \Phalcon\Mvc\Model\Resultset\Complex constructor
 		 *
 		 * @param array $columnsTypes
-		 * @param \Phalcon\Db\Result $result
+		 * @param \Phalcon\Db\Result\Pdo $result
 		 * @param \Phalcon\Cache\Backend $cache
 		 */
 		public function __construct($columnsTypes, $result, $cache){ }
@@ -59,14 +61,6 @@ namespace Phalcon\Mvc\Model\Resultset {
 		 * @param string $data
 		 */
 		public function unserialize($data){ }
-
-
-		/**
-		 * Returns current row in the resultset
-		 *
-		 * @return \Phalcon\Mvc\Model
-		 */
-		public function current(){ }
 
 	}
 }

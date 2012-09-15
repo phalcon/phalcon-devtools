@@ -30,8 +30,6 @@ namespace Phalcon\Mvc {
 
 		protected $_params;
 
-		protected $_baseUri;
-
 		protected $_routes;
 
 		protected $_matchedRoute;

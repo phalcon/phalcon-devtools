@@ -3,12 +3,12 @@
 namespace Phalcon\Db\Dialect {
 
 	/**
-	 * Phalcon\Db\Dialect\Postgresql
+	 * Phalcon\Db\Dialect\Sqlite
 	 *
-	 * Generates database specific SQL for the PostgreSQL RBDM
+	 * Generates database specific SQL for the Sqlite RBDM
 	 */
 	
-	class Postgresql extends \Phalcon\Db\Dialect {
+	class Sqlite extends \Phalcon\Db\Dialect {
 
 		/**
 		 * Gets a list of columns
@@ -20,11 +20,11 @@ namespace Phalcon\Db\Dialect {
 
 
 		/**
-		 * Gets the column name in PostgreSQL
+		 * Gets the column name in Sqlite
 		 *
 		 * @param \Phalcon\Db\Column $column
 		 */
-		public static function getColumnDefinition($column){ }
+		public function getColumnDefinition($column){ }
 
 
 		/**
@@ -35,7 +35,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param \Phalcon\Db\Column $column
 		 * @return string
 		 */
-		public static function addColumn(){ }
+		public function addColumn(){ }
 
 
 		/**
@@ -46,7 +46,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param \Phalcon\Db\Column $column
 		 * @return string
 		 */
-		public static function modifyColumn(){ }
+		public function modifyColumn(){ }
 
 
 		/**
@@ -57,7 +57,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $columnName
 		 * @return 	string
 		 */
-		public static function dropColumn(){ }
+		public function dropColumn(){ }
 
 
 		/**
@@ -68,7 +68,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param \Phalcon\Db\Index $index
 		 * @return string
 		 */
-		public static function addIndex(){ }
+		public function addIndex(){ }
 
 
 		/**
@@ -79,7 +79,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $indexName
 		 * @return string
 		 */
-		public static function dropIndex(){ }
+		public function dropIndex(){ }
 
 
 		/**
@@ -90,7 +90,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param \Phalcon\Db\Index $index
 		 * @return string
 		 */
-		public static function addPrimaryKey(){ }
+		public function addPrimaryKey(){ }
 
 
 		/**
@@ -100,7 +100,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schemaName
 		 * @return string
 		 */
-		public static function dropPrimaryKey(){ }
+		public function dropPrimaryKey(){ }
 
 
 		/**
@@ -111,7 +111,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param \Phalcon\Db\Reference $reference
 		 * @return string
 		 */
-		public static function addForeignKey(){ }
+		public function addForeignKey(){ }
 
 
 		/**
@@ -122,7 +122,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $referenceName
 		 * @return string
 		 */
-		public static function dropForeignKey(){ }
+		public function dropForeignKey(){ }
 
 
 		/**
@@ -166,7 +166,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schemaName
 		 * @return string
 		 */
-		public static function tableExists($tableName, $schemaName){ }
+		public function tableExists($tableName, $schemaName){ }
 
 
 		/**
@@ -200,6 +200,15 @@ namespace Phalcon\Db\Dialect {
 		 * @return string
 		 */
 		public function describeIndexes($table, $schema){ }
+
+
+		/**
+		 * Generates SQL to query indexes detail on a table
+		 *
+		 * @param string $indexName
+		 * @return string
+		 */
+		public function describeIndex($indexName){ }
 
 
 		/**

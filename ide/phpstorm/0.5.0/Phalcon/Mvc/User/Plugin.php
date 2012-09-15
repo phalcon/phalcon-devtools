@@ -2,7 +2,7 @@
 
 namespace Phalcon\Mvc\User {
 
-	class Plugin extends \Phalcon\Mvc\User {
+	class Plugin extends \Phalcon\DI\Injectable {
 
 		protected $_dependencyInjector;
 

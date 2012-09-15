@@ -44,6 +44,8 @@ namespace Phalcon\Logger\Adapter {
 
 		protected $_path;
 
+		protected $_options;
+
 		protected $_quenue;
 
 		protected $_dateFormat;

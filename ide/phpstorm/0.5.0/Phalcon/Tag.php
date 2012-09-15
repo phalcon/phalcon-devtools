@@ -95,7 +95,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML A tag using framework conventions
 		 *
-		 * <code>echo \Phalcon\Tag::linkTo('signup/register', 'Register Here!')</code>
+		 *<code>
+		 *	echo \Phalcon\Tag::linkTo('signup/register', 'Register Here!');
+		 *</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -108,6 +110,7 @@ namespace Phalcon {
 		 *
 		 * @param   string $type
 		 * @param array $parameters
+		 * @param 	boolean $asValue
 		 * @return string
 		 */
 		protected static function _inputField(){ }
@@ -116,7 +119,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="text"] tag
 		 *
-		 * <code>echo \Phalcon\Tag::textField(array("name", "size" => 30))</code>
+		 * <code>
+		 *	echo \Phalcon\Tag::textField(array("name", "size" => 30))
+		 * </code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -127,7 +132,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="password"] tag
 		 *
-		 * <code>echo \Phalcon\Tag::passwordField(array("name", "size" => 30))</code>
+		 *<code>
+		 * echo \Phalcon\Tag::passwordField(array("name", "size" => 30))
+		 *</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -138,7 +145,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="hidden"] tag
 		 *
-		 * <code>echo \Phalcon\Tag::hiddenField(array("name", "value" => "mike"))</code>
+		 *<code>
+		 * echo \Phalcon\Tag::hiddenField(array("name", "value" => "mike"))
+		 *</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -149,7 +158,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="file"] tag
 		 *
-		 * <code>echo \Phalcon\Tag::fileField("file")</code>
+		 *<code>
+		 * echo \Phalcon\Tag::fileField("file")
+		 *</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -160,7 +171,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="check"] tag
 		 *
-		 * <code>echo \Phalcon\Tag::checkField(array("name", "size" => 30))</code>
+		 *<code>
+		 * echo \Phalcon\Tag::checkField(array("name", "size" => 30))
+		 *</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -171,7 +184,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML input[type="submit"] tag
 		 *
-		 * <code>echo \Phalcon\Tag::submitButton("Save")</code>
+		 *<code>
+		 * echo \Phalcon\Tag::submitButton("Save")
+		 *</code>
 		 *
 		 * @param array $params
 		 * @return string
@@ -182,7 +197,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML SELECT tag using a PHP array for options
 		 *
-		 * <code>echo \Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))</code>
+		 *<code>
+		 *	echo \Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))
+		 *</code>
 		 *
 		 * @param array $parameters
 		 * @return string
@@ -193,11 +210,13 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML SELECT tag using a \Phalcon_Model resultset as options
 		 *
-		 * <code>echo \Phalcon\Tag::selectStatic(array(
-		 *	"robotId",
-		 *	Robots::find("type = 'mechanical'"),
-		 *	"using" => array("id", "name")
-		 * ))</code>
+		 *<code>
+		 *	echo \Phalcon\Tag::selectStatic(array(
+		 *		"robotId",
+		 *		Robots::find("type = 'mechanical'"),
+		 *		"using" => array("id", "name")
+		 * 	));
+		 *</code>
 		 *
 		 * @param array $params
 		 * @return string
@@ -208,7 +227,9 @@ namespace Phalcon {
 		/**
 		 * Builds a HTML TEXTAREA tag
 		 *
-		 * <code>echo \Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))</code>
+		 *<code>
+		 * echo \Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
+		 *</code>
 		 *
 		 * @param array $parameters
 		 * @return string

@@ -26,7 +26,7 @@ namespace Phalcon\Http\Response {
 
 
 		/**
-		 * Sets a header value from the internal bag
+		 * Gets a header value from the internal bag
 		 *
 		 * @param string $name
 		 * @return string
@@ -44,6 +44,8 @@ namespace Phalcon\Http\Response {
 
 		/**
 		 * Sends the headers to the client
+		 *
+		 * @return boolean
 		 */
 		public function send(){ }
 
@@ -57,6 +59,8 @@ namespace Phalcon\Http\Response {
 
 		/**
 		 * Restore a \Phalcon\Http\Response\Headers object
+		 *
+		 * @return \Phalcon\Http\Response\Headers
 		 */
 		public static function __set_state($data){ }
 
