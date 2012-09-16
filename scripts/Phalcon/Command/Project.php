@@ -35,7 +35,8 @@ use Phalcon\Script\Color;
  * @copyright	Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license		New BSD License
 */
-class Project extends Command {
+class Project extends Command
+{
 
 	const COMMAND = 'project';
 
@@ -44,7 +45,8 @@ class Project extends Command {
 	 *
 	 * @return mixed
 	 */
-	public function run() {
+	public function run()
+	{
 		$possibleParameters = array(
 			'directory=s' => '--directory path \tBase path on which project will be created',
 			'type=s' => '--directory path \tBase path on which project will be created',
@@ -53,12 +55,12 @@ class Project extends Command {
 
 		$this->parseParameters($possibleParameters);
 		$parameters = $this->getParameters();
-		
+
 		if (!isset($parameters[1]) || $parameters[1] == '?') {
 			$this->getHelp();
 			return;
 		}
-		
+
 		$projectName = isset($parameters[1]) ? $parameters[1] : 'default';
 		$projectType = isset($parameters[2]) ? $parameters[2] : \Phalcon\Builder\Project::TYPE_SIMPLE;
 		$projectPath = isset($parameters[3]) ? $parameters[3] : '';
@@ -79,7 +81,8 @@ class Project extends Command {
 	 *
 	 * @return string
 	 */
-	public function getCommand() {
+	public function getCommand()
+	{
 		return static::COMMAND;
 	}
 
@@ -88,7 +91,8 @@ class Project extends Command {
 	 *
 	 * @return void
 	 */
-	public function getHelp() {
+	public function getHelp()
+	{
 		print Color::head('Help:') . PHP_EOL;
 		print Color::colorize('  Creates a project') . PHP_EOL . PHP_EOL;
 

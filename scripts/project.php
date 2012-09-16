@@ -27,7 +27,7 @@ require 'Script/Script.php';
 require 'Script/Color/ScriptColor.php';
 require 'WebTools/WebTools.php';
 
-use Phalcon_Builder as Builder;
+use Phalcon\Builder as Builder;
 
 /**
  * CreateProject
@@ -46,14 +46,14 @@ class CreateProject extends Phalcon_Script {
 	}
 
 	public function run(){
-		$helpText = 
-			"------------------" . PHP_EOL . 
-			"|-- Usage " . PHP_EOL . 
-			"|-- phalcon project ? \t\t\t\t\t Shows this help text" . PHP_EOL . 
-			"|-- phalcon project [name] [directory] [enable-webtools] Creates a project" . PHP_EOL . 
+		$helpText =
+			"------------------" . PHP_EOL .
+			"|-- Usage " . PHP_EOL .
+			"|-- phalcon project ? \t\t\t\t\t Shows this help text" . PHP_EOL .
+			"|-- phalcon project [name] [directory] [enable-webtools] Creates a project" . PHP_EOL .
 			"|-----------------" . PHP_EOL ;
-		
-		
+
+
 		$posibleParameters = array(
 			'directory=s' => '--directory path \tBase path on which project will be created',
 			'trace' => '--trace \t\tShows the trace of the framework in case of exception.'
@@ -61,12 +61,12 @@ class CreateProject extends Phalcon_Script {
 
 		$this->parseParameters($posibleParameters);
 		$parameters = $this->getParameters();
-		
+
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
 			echo $helpText;
 			return;
 		}
-		
+
 		$projectName = isset($parameters[1]) ? $parameters[1] : 'default';
 		$projectPath = isset($parameters[2]) ? $parameters[2] : $parameters['directory'];
 		$enableWebtools = isset($parameters[3]) ? $parameters[3] : false;

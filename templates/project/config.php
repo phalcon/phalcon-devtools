@@ -1,4 +1,5 @@
 <?php
+
 return new \Phalcon\Config(array(
 	'database' => array(
 		'host'     => 'localhost',
@@ -6,7 +7,7 @@ return new \Phalcon\Config(array(
 		'password' => '',
 		'name'     => 'phalcon',
 	),
-	'phalcon' => array(
+	'application' => array(
 		'controllersDir' => __DIR__ . '/../../app/controllers/',
 		'modelsDir'      => __DIR__ . '/../../app/models/',
 		'viewsDir'       => __DIR__ . '/../../app/views/',
@@ -14,7 +15,9 @@ return new \Phalcon\Config(array(
 		'libraryDir'     => __DIR__ . '/../../app/library/',
 		'baseUri'        => '/@@name@@/',
 	),
-	'metadata' => array(
-		'adapter' => 'Apc'
-	),
+	'models' => array(
+		'metadata' => array(
+			'adapter' => 'Memory'
+		)
+	)
 ));

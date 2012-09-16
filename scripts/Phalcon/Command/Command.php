@@ -170,9 +170,10 @@ abstract class Command
 	 *
 	 * @param array $required
 	 */
-	public function checkRequired($required){
-		foreach($required as $fieldRequired){
-			if(!isset($this->_parameters[$fieldRequired])){
+	public function checkRequired($required)
+	{
+		foreach ($required as $fieldRequired) {
+			if (!isset($this->_parameters[$fieldRequired])) {
 				throw new ScriptException("The parameter '$fieldRequired' is required for this script");
 			}
 		}
@@ -183,7 +184,8 @@ abstract class Command
 	 *
 	 * @param string $encoding
 	 */
-	public function setEncoding($encoding){
+	public function setEncoding($encoding)
+	{
 		$this->_encoding = $encoding;
 	}
 
@@ -192,9 +194,10 @@ abstract class Command
 	 *
 	 * @param array $posibleParameters
 	 */
-	public function showHelp($posibleParameters){
+	public function showHelp($posibleParameters)
+	{
 		echo get_class($this).' - Usage:'.PHP_EOL.PHP_EOL;
-		foreach($posibleParameters as $parameter => $description){
+		foreach ($posibleParameters as $parameter => $description) {
 			echo html_entity_decode($description, ENT_COMPAT, $this->_encoding).PHP_EOL;
 		}
 	}
@@ -204,9 +207,10 @@ abstract class Command
 	 *
 	 * @param string $option
 	 */
-	public function getOption($option){
-		if(isset($this->_parameters[$option])){
-			if(func_num_args()>1){
+	public function getOption($option)
+	{
+		if (isset($this->_parameters[$option])) {
+			if (func_num_args() > 1) {
 				$params = func_get_args();
 				unset($params[0]);
 				$filter = new \Phalcon\Filter();
@@ -235,8 +239,9 @@ abstract class Command
 	 * @param	string $paramValue
 	 * @return	mixed
 	 */
-	protected function filter($paramValue){
-		if(func_num_args()>1){
+	protected function filter($paramValue)
+	{
+		if (func_num_args() > 1) {
 			$params = func_get_args();
 			unset($params[0]);
 			$filter = new \Phalcon\Filter();
@@ -252,9 +257,10 @@ abstract class Command
 	 *
 	 * @return string
 	 */
-	public function getLastUnNamedParam(){
-		foreach(array_reverse($this->_parameters) as $key => $value){
-			if(is_numeric($key)){
+	public function getLastUnNamedParam()
+	{
+		foreach (array_reverse($this->_parameters) as $key => $value) {
+			if (is_numeric($key)) {
 				return $value;
 			}
 		}
@@ -266,7 +272,8 @@ abstract class Command
 	 *
 	 * @param Exception $exception
 	 */
-	public static function showConsoleException($exception){
+	public static function showConsoleException($exception)
+	{
 
 		$isXTermColor = false;
 		if(isset($_ENV['TERM'])){
@@ -322,7 +329,8 @@ abstract class Command
 
 	}
 
-	public function getParameters(){
+	public function getParameters()
+	{
 		return $this->_parameters;
 	}
 

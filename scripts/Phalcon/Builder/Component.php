@@ -33,15 +33,18 @@ use Phalcon\Builder\Exception as BuilderException;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-abstract class Component {
+abstract class Component
+{
 
 	protected $_options = array();
 
-	public function __construct($options) {
+	public function __construct($options)
+	{
 		$this->_options = $options;
 	}
 
-	protected function _getConfig($path) {
+	protected function _getConfig($path)
+	{
 		if (file_exists($path . "app/config/config.ini")) {
 			return new \Phalcon\Config\Adapter\Ini($path . "app/config/config.ini");
 		} else {
@@ -52,6 +55,20 @@ abstract class Component {
 				throw new BuilderException('Builder can\'t locate the configuration file');
 			}
 		}
+	}
+
+	public function isAbsolutePath($path)
+	{
+		if (PHP_OS == "WINNT") {
+			if(preg_match('/^[A-Z]:\\\\/', $path)){
+				return true;
+			}
+		} else {
+			if (substr($path, 0, 1) == DIRECTORY_SEPARATOR) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	abstract public function build();

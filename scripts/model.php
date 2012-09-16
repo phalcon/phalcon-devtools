@@ -23,13 +23,6 @@ if($pToolsPath){
 	chdir($pToolsPath);
 }
 
-require 'scripts/Script/Script.php';
-require 'scripts/Script/Color/ScriptColor.php';
-require 'scripts/Builder/Builder.php';
-
-use Phalcon_Builder as Builder;
-use Phalcon_Utils as Utils;
-
 /**
  * CreateModel
  *
@@ -41,7 +34,7 @@ use Phalcon_Utils as Utils;
  * @license 	New BSD License
  * @version 	$Id$
  */
-class CreateModel extends Phalcon_Script {
+class CreateModel extends \Phalcon\Script {
 
 	public function run(){
 		$posibleParameters = array(
@@ -54,31 +47,31 @@ class CreateModel extends Phalcon_Script {
 		);
 
 		$this->parseParameters($posibleParameters);
-	
+
 		$parameters = $this->getParameters();
-		
+
 		if (!isset($parameters[1]) || $parameters[1] == '?'){
-			echo 
-				"------------------" . PHP_EOL .  
-				"|-- Example" . PHP_EOL . 
-				"|-- phalcon model User users --schema=my --get-set --doc --force --trace" . PHP_EOL . 
-				"|-----------------" . PHP_EOL . 
-				"|-- Usage " . PHP_EOL . 
-				"|-- phalcon model [className] [tableName] [options] " . PHP_EOL . 
-				"|-----------------" . PHP_EOL . 
-				"|-- Options:" . PHP_EOL . 
+			echo
+				"------------------" . PHP_EOL .
+				"|-- Example" . PHP_EOL .
+				"|-- phalcon model User users --schema=my --get-set --doc --force --trace" . PHP_EOL .
+				"|-----------------" . PHP_EOL .
+				"|-- Usage " . PHP_EOL .
+				"|-- phalcon model [className] [tableName] [options] " . PHP_EOL .
+				"|-----------------" . PHP_EOL .
+				"|-- Options:" . PHP_EOL .
 				"------------------" . PHP_EOL . PHP_EOL;
 
-			
+
 			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
-		
+
 		$name = $parameters[1];
-		 
+
 		$className = Utils::camelize(isset($parameters[2]) ? $parameters[2] : $name);
 		$fileName = Utils::uncamelize($className);
-		
+
 		$schema = $this->getOption('schema');
 
 		$modelBuilder = Builder::factory('Model', array(
@@ -101,7 +94,7 @@ try {
 	$script = new CreateModel();
 	$script->run();
 }
-catch(Phalcon_Exception $e){
+catch(Phalcon\Exception $e){
 	ScriptColor::lookSupportedShell();
 	echo ScriptColor::colorize(get_class($e).' : '.$e->getMessage()."\n", ScriptColor::LIGHT_RED);
 	if($script->getOption('trace')){

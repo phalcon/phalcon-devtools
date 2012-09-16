@@ -35,11 +35,13 @@ use Phalcon\Script\Color;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Controller extends Command {
+class Controller extends Command
+{
 
 	const COMMAND = 'controller';
 
-	public function run() {
+	public function run()
+	{
 		$possibleParameters = array(
 			'directory=s'   => "--directory path Directory where the project will be created",
 			'force'			=> "--force \t Force to rewrite controller [optional]",
@@ -47,7 +49,7 @@ class Controller extends Command {
 
 		$this->parseParameters($possibleParameters);
 		$parameters = $this->getParameters();
-		
+
 		if (!isset($parameters[1]) || $parameters[1] == '?') {
 			$this->getHelp();
 			return;

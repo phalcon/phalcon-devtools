@@ -31,7 +31,8 @@ namespace Phalcon\Script;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-final class Color {
+final class Color
+{
 
 	const FG_BLACK = 1;
 	const FG_DARK_GRAY = 2;
@@ -136,7 +137,8 @@ final class Color {
 	 *
 	 * @return boolean
 	 */
-	public static function isSupportedShell() {
+	public static function isSupportedShell()
+	{
 		$flag = false;
 
 		if(isset($_ENV['TERM'])){
@@ -165,7 +167,8 @@ final class Color {
 	 *
 	 * @return string
 	 */
-	public static function colorize($string, $fg = null, $at = null, $bg = null) {
+	public static function colorize($string, $fg = null, $at = null, $bg = null)
+	{
 		// Shell not supported, exit early
 		if (!static::isSupportedShell()) {
 			return $string;
@@ -194,7 +197,8 @@ final class Color {
 		return $colored;
 	}
 
-	public static function head($msg) {
+	public static function head($msg)
+	{
 		return static::colorize($msg, Color::FG_BROWN);
 	}
 
@@ -205,7 +209,8 @@ final class Color {
 	 * @param $msg
 	 * @return string
 	 */
-	public static function error($msg) {
+	public static function error($msg)
+	{
 		$msg = 'Error: ' . $msg;
 		$space = strlen($msg) + 4;
 		$out  = static::colorize(str_pad(' ', $space), Color::FG_WHITE, Color::AT_BOLD, Color::BG_RED) . PHP_EOL;
@@ -221,7 +226,8 @@ final class Color {
 	 * @param $msg
 	 * @return string
 	 */
-	public static function success($msg) {
+	public static function success($msg)
+	{
 		$msg = 'Success: ' . $msg;
 		$space = strlen($msg) + 4;
 		$out  = static::colorize(str_pad(' ', $space), Color::FG_WHITE, Color::AT_BOLD, Color::BG_GREEN) . PHP_EOL;

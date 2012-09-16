@@ -39,7 +39,8 @@ class Scaffold extends Command {
 
 	const COMMAND = 'scaffold';
 
-	public function run() {
+	public function run()
+	{
 
 		$posibleParameters = array(
 			'schema=s'       => "--schema \tName of the schema.",
@@ -53,7 +54,7 @@ class Scaffold extends Command {
 
 		$this->parseParameters($posibleParameters);
 		$parameters = $this->getParameters();
-		
+
 		if (!isset($parameters[1]) || $parameters[1] == '?') {
 			$this->getHelp();
 			return;
@@ -76,11 +77,13 @@ class Scaffold extends Command {
 
 	}
 
-	public function getCommand() {
+	public function getCommand()
+	{
 		return static::COMMAND;
 	}
 
-	public function getHelp() {
+	public function getHelp()
+	{
 		print Color::head('Help:') . PHP_EOL;
 		print Color::colorize('  Creates a scaffold from a database table') . PHP_EOL . PHP_EOL;
 

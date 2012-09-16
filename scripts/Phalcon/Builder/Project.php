@@ -76,7 +76,8 @@ class Project extends Component {
 	 *
 	 * @return void
 	 */
-	private static function createConfig($path, $name, $type){
+	private static function createConfig($path, $name, $type)
+	{
 		if (file_exists($path.'app/config/config.' . $type) == false) {
 			$str = file_get_contents(TEMPLATES_PATH . '/project/config.' . $type);
 			$str = preg_replace('/@@name@@/', $name, $str);
@@ -93,7 +94,8 @@ class Project extends Component {
 	 *
 	 * @return void
 	 */
-	private static function createControllerBase($path, $name) {
+	private static function createControllerBase($path, $name)
+	{
 		if (file_exists($path . 'app/controllers/ControllerBase.php') == false) {
 			$str = file_get_contents(TEMPLATES_PATH . '/project/controller.php');
 			$str = preg_replace('/@@name@@/', $name, $str);
@@ -106,7 +108,8 @@ class Project extends Component {
 	 *
 	 * @return void
 	 */
-	private static function createBootstrapFile($path, $useIniConfig){
+	private static function createBootstrapFile($path, $useIniConfig)
+	{
 		if (file_exists($path . 'public/index.php') == false) {
 			$config = '$config = include(__DIR__."/../app/config/config.php");';
 			if ($useIniConfig) {
@@ -124,7 +127,8 @@ class Project extends Component {
 	 *
 	 * @return void
 	 */
-	private static function createControllerFile($path){
+	private static function createControllerFile($path)
+	{
 		$modelBuilder = Builder::factory('\\Phalcon\\Builder\\Controller', array(
 			'name' => 'index',
 			'directory' => $path,
@@ -137,7 +141,8 @@ class Project extends Component {
 	 * Create .htaccess files by default of application
 	 *
 	 */
-	private static function createHtaccessFiles($path){
+	private static function createHtaccessFiles($path)
+	{
 
 		if (file_exists($path . '.htaccess') == false) {
 			$code = '<IfModule mod_rewrite.c>'.PHP_EOL.
@@ -163,7 +168,8 @@ class Project extends Component {
 	 * Create view files by default
 	 *
 	 */
-	private static function createIndexViewFiles($path){
+	private static function createIndexViewFiles($path)
+	{
 
 		$file = $path.'app/views/index.phtml';
 		if(!file_exists($file)){
@@ -186,7 +192,8 @@ class Project extends Component {
 		}
 	}
 
-	public function build() {
+	public function build()
+	{
 		$path = '';
 		if (isset($this->_options['directory'])) {
 			if ($this->_options['directory']) {
@@ -199,7 +206,10 @@ class Project extends Component {
 			if ($this->_options['name']) {
 				$name = $this->_options['name'];
 				$path .= $this->_options['name'] . '/';
-				@mkdir($path);
+				if (file_exists($path)){
+					throw new BuilderException("Directory " . $path . " already exists");
+				}
+				mkdir($path);
 			}
 		}
 
@@ -232,7 +242,7 @@ class Project extends Component {
 		}
 
 		self::createBootstrapFile($path, $useIniConfig);
-		self::createHtaccessFiles($path);		
+		self::createHtaccessFiles($path);
 		self::createControllerBase($path, $name);
 		self::createIndexViewFiles($path);
 		self::createControllerFile($path);

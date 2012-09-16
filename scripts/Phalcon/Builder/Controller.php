@@ -79,12 +79,27 @@ class Controller extends Component {
 			throw new BuilderException("This command should be invoked inside a Phalcon project directory");
 		}
 
-		$config = $this->_getConfig($path);
-		$controllersDir = $config->phalcon->controllersDir;
+		if (!isset($this->_options['controllersDir'])) {
+			$config = $this->_getConfig($path);
+			if(!isset($config->application->controllersDir)){
+				throw new BuilderException("Builder don't know the controllers directory");
+			}
+			$controllersDir = $config->application->controllersDir;
+		} else {
+			$controllersDir = $this->_options['controllersDir'];
+		}
+
+		if ($this->isAbsolutePath($controllersDir) == false) {
+			$controllerPath = $path . "public/" . $controllersDir;
+		} else {
+			$controllerPath = $controllersDir;
+		}
 
 		$name = $this->_options['name'];
 		$className = Utils::camelize($name);
-		$controllerPath = $path . "public/" . $controllersDir . $className . "Controller.php";
+
+		$controllerPath .= $className . "Controller.php";
+
 		$code = "<?php\n\nclass ".$className."Controller extends ".$baseClass." {\n\n\tpublic function indexAction(){\n\n\t}\n\n}\n\n";
 		$code = str_replace("\t", "    ", $code);
 
