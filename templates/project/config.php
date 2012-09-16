@@ -2,10 +2,11 @@
 
 return new \Phalcon\Config(array(
 	'database' => array(
+		'adapter'  => 'Mysql',
 		'host'     => 'localhost',
 		'username' => 'root',
 		'password' => '',
-		'name'     => 'phalcon',
+		'name'     => 'test',
 	),
 	'application' => array(
 		'controllersDir' => __DIR__ . '/../../app/controllers/',

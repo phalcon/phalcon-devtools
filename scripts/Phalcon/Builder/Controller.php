@@ -82,7 +82,7 @@ class Controller extends Component {
 		if (!isset($this->_options['controllersDir'])) {
 			$config = $this->_getConfig($path);
 			if(!isset($config->application->controllersDir)){
-				throw new BuilderException("Builder don't know the controllers directory");
+				throw new BuilderException("Builder doesn't knows where is the controllers directory");
 			}
 			$controllersDir = $config->application->controllersDir;
 		} else {

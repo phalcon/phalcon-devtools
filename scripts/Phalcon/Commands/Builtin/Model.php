@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Command;
+namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
 use Phalcon\Command\Command;
@@ -31,16 +31,18 @@ use Phalcon\Text as Utils;
  * Create a model from command line
  *
  * @category 	Phalcon
- * @package 	Command
- * @subpackage  Model
+ * @package 	Commands
+ * @subpackage  Builtin
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Model extends Command {
+class Model extends Command
+{
 
 	const COMMAND = 'model';
 
-	public function run() {
+	public function run()
+	{
 		$posibleParameters = array(
 			'schema=s' 		=> "--schema \t\tName of the schema. [optional]",
 			'get-set' 	=> "--get-set \t\tAttributes will be protected and have setters/getters.",
@@ -51,19 +53,19 @@ class Model extends Command {
 		);
 
 		$this->parseParameters($posibleParameters);
-	
+
 		$parameters = $this->getParameters();
-		
+
 		if (!isset($parameters[1]) || $parameters[1] == '?') {
 			$this->getHelp();
 			return;
 		}
-		
+
 		$name = $parameters[1];
-		 
+
 		$className = Utils::camelize(isset($parameters[2]) ? $parameters[2] : $name);
 		$fileName = Utils::uncamelize($className);
-		
+
 		$schema = $this->getOption('schema');
 
 		$modelBuilder = Builder::factory('\\Phalcon\\Builder\\Model', array(

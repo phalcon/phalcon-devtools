@@ -201,6 +201,10 @@ class Project extends Component {
 			}
 		}
 
+		if (file_exists('.phalcon')) {
+			throw new BuilderException("Projects cannot be created inside Phalcon projects");
+		}
+
 		$name = null;
 		if (isset($this->_options['name'])) {
 			if ($this->_options['name']) {

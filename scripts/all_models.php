@@ -18,21 +18,12 @@
   +------------------------------------------------------------------------+
 */
 
-$pToolsPath = getenv("PTOOLSPATH");
-if($pToolsPath){
-	chdir($pToolsPath);
-}
+namespace Phalcon\Command;
 
-require 'scripts/Script/Script.php';
-require 'scripts/Script/Color/ScriptColor.php';
-require 'scripts/Builder/Builder.php';
-
-use Phalcon_Builder as Builder;
-use Phalcon_Utils as Utils;
-
-/**
- * added support for php config file
-**/
+use Phalcon\Builder;
+use Phalcon\Command\Command;
+use Phalcon\Script\Color;
+use Phalcon\Text as Utils;
 
 /**
  * Create all the models related to application by command line.
@@ -42,18 +33,19 @@ use Phalcon_Utils as Utils;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license		New BSD License
  */
-class CreateAllModels extends Phalcon_Script {
+class CreateAllModels extends Phalcon\Script
+{
 
 	public function run(){
 
 		$posibleParameters = array(
-			'config=s' 		=> "--config path \tConfiguration file  ",
-			'models=s' 		=> "--models path \tModels directory ",
+			'config=s' 			=> "--config path \tConfiguration file  ",
+			'models=s' 			=> "--models path \tModels directory ",
 			'force'				=> "--force \tForce script to rewrite all the models.  ",
-			'get-set' 	=> "--get-set \tAttributes will be protected and have setters/getters.  ",
-			'doc' 	=> "--doc \t\tHelps to improve code completion on IDEs  ",
-			'relations' 	=> "--relations \tPossible relations defined according to convention.  ",
-			'fk' 		=> "--fk \t\tDefine any virtual foreign keys.  ",
+			'get-set' 			=> "--get-set \tAttributes will be protected and have setters/getters.  ",
+			'doc' 				=> "--doc \t\tHelps to improve code completion on IDEs  ",
+			'relations' 		=> "--relations \tPossible relations defined according to convention.  ",
+			'fk' 				=> "--fk \t\tDefine any virtual foreign keys.  ",
 			'validations' 		=> "--validations \tDefine possible domain validation according to conventions.  ",
 			'directory=s' 		=> "--directory \tBase path on which project will be created",
 		);
@@ -61,45 +53,46 @@ class CreateAllModels extends Phalcon_Script {
 		$this->parseParameters($posibleParameters);
 
 		$parameters = $this->getParameters();
-		
-		if (isset($parameters[1]) && $parameters[1] == '?'){
-			echo 
-				"------------------" . PHP_EOL . 
-				"|-- Example" . PHP_EOL . 
-				"|-- phalcon all-models --schema=my --get-set --doc --relations --trace" . PHP_EOL . 
-				"|-----------------" . PHP_EOL . 
+
+		if (isset($parameters[1]) && $parameters[1] == '?') {
+			echo
+				"------------------" . PHP_EOL .
+				"|-- Example" . PHP_EOL .
+				"|-- phalcon all-models --schema=my --get-set --doc --relations --trace" . PHP_EOL .
+				"|-----------------" . PHP_EOL .
 				"|-- Usage ". PHP_EOL .
 				"|-- phalcon all-models [options]" . PHP_EOL .
 				"|-----------------" . PHP_EOL .
-				"|-- Options:". PHP_EOL . 
+				"|-- Options:". PHP_EOL .
 				"------------------" . PHP_EOL;
-			
+
 			echo join(PHP_EOL, $posibleParameters) . PHP_EOL;
 			return;
 		}
 
 		$path = '';
-		if($this->isReceivedOption('directory')){
+		if ($this->isReceivedOption('directory')) {
 			$path = $this->getOption('directory').'/';
 		}
 
 		$config = null;
-		if(!$this->isReceivedOption('models')){
+		if (!$this->isReceivedOption('models')) {
+
 			$fileType = file_exists($path."app/config/config.ini") ? "ini" : "php";
-			
-			if($this->isReceivedOption('config')){
+
+			if ($this->isReceivedOption('config')){
 				$configPath = $path.$this->getOption('config')."/config.".$fileType;
-			}  else {
+			} else {
 				$configPath = $path."app/config/config." . $fileType;
 			}
-			
+
 			if ($fileType == 'ini'){
-				$config = new Phalcon_Config_Adapter_Ini($configPath);
-			}else{
+				$config = new \Phalcon\Config\Adapter\Ini($configPath);
+			} else {
 				include $configPath;
 			}
-			
-			if(file_exists($path.'public')){
+
+			if (file_exists($path.'public')) {
 				$modelsDir = 'public/'.$config->phalcon->modelsDir;
 			} else {
 				$modelsDir = $config->phalcon->modelsDir;

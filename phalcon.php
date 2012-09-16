@@ -29,7 +29,7 @@ $loader = new \Phalcon\Loader();
 
 $loader->registerDirs(array(
     __DIR__ . '/scripts/'
-));
+))
 
 $loader->registerNamespaces(array(
     'Phalcon' => __DIR__.'/scripts/'
@@ -48,7 +48,7 @@ if (Version::getId()<'0050022') {
 }
 
 if (!defined('TEMPLATES_PATH')) {
-	define('TEMPLATES_PATH', __DIR__ . '/templates');
+    define('TEMPLATES_PATH', __DIR__ . '/templates');
 }
 
 $vendor = sprintf('Phalcon DevTools (%s)', Version::get());

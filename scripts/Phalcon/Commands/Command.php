@@ -18,10 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Command;
+namespace Phalcon\Commands;
 
-use Phalcon\Script\Exception as ScriptException;
-
+/**
+ * Phalcon\Commands\Command
+ *
+ * Allows to implement devtools commands
+ */
 abstract class Command
 {
 	/**
@@ -53,7 +56,8 @@ abstract class Command
 	 * @return	array
 	 * @throws \Phalcon\Script\Exception
 	 */
-	public function parseParameters($parameters = array(), $possibleAlias = array()) {
+	public function parseParameters($parameters = array(), $possibleAlias = array())
+	{
 
 		$arguments = array();
 
@@ -112,7 +116,7 @@ abstract class Command
 		$receivedParams = array();
 		$numberArguments = count($_SERVER['argv']);
 
-		for($i=1;$i<$numberArguments;$i++){
+		for ($i=1; $i < $numberArguments; $i++) {
 			$argv = $_SERVER['argv'][$i];
 			if(preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)$#', $argv, $matches)){
 				if(strlen($matches[1])==1){
@@ -228,7 +232,8 @@ abstract class Command
 	 * @param	string $option
 	 * @return	boolean
 	 */
-	public function isReceivedOption($option){
+	public function isReceivedOption($option)
+	{
 		return isset($this->_parameters[$option]);
 	}
 

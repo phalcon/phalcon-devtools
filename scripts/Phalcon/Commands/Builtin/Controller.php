@@ -18,11 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Command;
+namespace Phalcon\Commands;
 
 use Phalcon\Builder;
-use Phalcon\Command\Command;
 use Phalcon\Script\Color;
+use Phalcon\Commands\BuiltIn\Command;
 
 /**
  * CreateController
@@ -40,6 +40,9 @@ class Controller extends Command
 
 	const COMMAND = 'controller';
 
+	/**
+	 * Run the command
+	 */
 	public function run()
 	{
 		$possibleParameters = array(
@@ -55,7 +58,7 @@ class Controller extends Command
 			return;
 		}
 
-		$modelBuilder = Builder::factory('\\Phalcon\\Builder\\Controller', array(
+		$modelBuilder = Builder::factory('\Phalcon\Builder\Controller', array(
 			'name' => $parameters[1],
 			'directory' => $this->getOption('directory'),
 			'force' => $this->isReceivedOption('force')

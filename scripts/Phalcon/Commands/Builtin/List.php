@@ -26,11 +26,13 @@ class Commands extends Command
 {
 	const COMMAND = 'commands';
 
-	public function getCommand() {
+	public function getCommand()
+    {
 		return static::COMMAND;
 	}
 
-	public function getHelp() {
+	public function getHelp()
+    {
 
 	}
 
