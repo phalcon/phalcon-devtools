@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.8.0" version="2.0"
+         xmlns="http://pear.php.net/dtd/package-2.0"
+         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+    <name>Devtools</name>
+    <channel>pear.aferalabs.com</channel>
+    <summary>Phalcon Devtools</summary>
+    <description>
+        Phalcon Devtools
+    </description>
+    <lead>
+        <name>Wojtek Gancarczyk</name>
+        <user>wojtek</user>
+        <email>wojtek at aferalabs.com</email>
+        <active>yes</active>
+    </lead>
+    <date>2012-09-09</date>
+    <time>14:18:34</time>
+    <version>
+        <release>0.5.0</release>
+        <api>0.5.0</api>
+    </version>
+    <stability>
+        <release>alpha</release>
+        <api>alpha</api>
+    </stability>
+    <license>New BSD License</license>
+    <notes>
+        http://phalconphp.com/documentation
+    </notes>
+    <contents>
+        <dir name="scripts/Phalcon" baseinstalldir="Phalcon">
+            <file baseinstalldir="Phalcon" install-as="/Builder.php" name="scripts/Phalcon/Builder.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder" install-as="/Component.php" name="scripts/Phalcon/Builder/Component.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder" install-as="/Controller.php" name="scripts/Phalcon/Builder/Controller.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder" install-as="/Exception.php" name="scripts/Phalcon/Builder/Exception.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder" install-as="/Model.php" name="scripts/Phalcon/Builder/Model.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder" install-as="/Project.php" name="scripts/Phalcon/Builder/Project.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder" install-as="/Scaffold.php" name="scripts/Phalcon/Builder/Scaffold.php" role="php"/>
+
+            <file baseinstalldir="Phalcon/Command" install-as="/Command.php" name="scripts/Phalcon/Command/Command.php" role="php"/>
+            <file baseinstalldir="Phalcon/Command" install-as="/Commands.php" name="scripts/Phalcon/Command/Commands.php" role="php"/>
+            <file baseinstalldir="Phalcon/Command" install-as="/Controller.php" name="scripts/Phalcon/Command/Controller.php" role="php"/>
+            <file baseinstalldir="Phalcon/Command" install-as="/Model.php" name="scripts/Phalcon/Command/Model.php" role="php"/>
+            <file baseinstalldir="Phalcon/Command" install-as="/Project.php" name="scripts/Phalcon/Command/Project.php" role="php"/>
+            <file baseinstalldir="Phalcon/Command" install-as="/Scaffold.php" name="scripts/Phalcon/Command/Scaffold.php" role="php"/>
+
+            <file baseinstalldir="Phalcon" install-as="/Script.php" name="scripts/Phalcon/Script.php" role="php"/>
+            <file baseinstalldir="Phalcon/Script" install-as="/Color.php" name="scripts/Phalcon/Script/Color.php" role="php"/>
+            <file baseinstalldir="Phalcon/Script" install-as="/Exception.php" name="scripts/Phalcon/Script/Exception.php" role="php"/>
+
+            <file baseinstalldir="Phalcon/templates" install-as="/project/config.ini" name="templates/project/config.ini" role="php"/>
+            <file baseinstalldir="Phalcon/templates" install-as="/project/config.php" name="templates/project/config.php" role="php"/>
+            <file baseinstalldir="Phalcon/templates" install-as="/project/controller.php" name="templates/project/controller.php" role="php"/>
+            <file baseinstalldir="Phalcon/templates" install-as="/project/htaccess" name="templates/project/htaccess" role="php"/>
+            <file baseinstalldir="Phalcon/templates" install-as="/project/index.php" name="templates/project/index.php" role="php"/>
+
+            <file baseinstalldir="/" name="phalcon" role="script">
+                <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config"/>
+                <tasks:replace from="@php_bin@" to="php_bin" type="pear-config"/>
+                <tasks:replace from="@php_dir@" to="php_dir" type="pear-config"/>
+                <tasks:replace from="@package_version@" to="version" type="package-info"/>
+            </file>
+
+            <file baseinstalldir="/" name="phalcon.bat" role="script">
+                <tasks:replace from="@php_bin@" to="php_bin" type="pear-config"/>
+                <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config"/>
+                <tasks:replace from="@package_version@" to="version" type="package-info"/>
+            </file>
+        </dir>
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>5.3</min>
+            </php>
+            <pearinstaller>
+                <min>1.4.0</min>
+            </pearinstaller>
+            <extension>
+                <name>phalcon</name>
+            </extension>
+            <extension>
+                <name>pdo</name>
+            </extension>
+            <extension>
+                <name>reflection</name>
+            </extension>
+            <extension>
+                <name>spl</name>
+            </extension>
+        </required>
+    </dependencies>
+    <phprelease>
+        <installconditions>
+            <os>
+                <name>windows</name>
+            </os>
+        </installconditions>
+        <filelist>
+            <install as="phalcon" name="phalcon"/>
+            <install as="phalcon.bat" name="phalcon.bat"/>
+        </filelist>
+    </phprelease>
+    <phprelease>
+        <filelist>
+            <install as="phalcon" name="phalcon"/>
+            <ignore name="phalcon.bat"/>
+        </filelist>
+    </phprelease>
+</package>
