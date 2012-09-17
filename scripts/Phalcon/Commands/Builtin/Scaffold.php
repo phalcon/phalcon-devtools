@@ -18,11 +18,12 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Command;
+namespace Phalcon\Commands\Builtin;
 
-use \Phalcon\Builder;
-use \Phalcon\Command\Command;
-use \Phalcon\Script\Color;
+use Phalcon\Builder;
+use Phalcon\Script\Color;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandInterface;
 
 /**
  * \Phalcon\Command\Scaffold
@@ -35,22 +36,21 @@ use \Phalcon\Script\Color;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Scaffold extends Command {
+class Scaffold extends Command implements CommandInterface
+{
 
-	const COMMAND = 'scaffold';
+	protected $_posibleParameters = array(
+		'schema=s'       => "Name of the schema.",
+		'autocomplete=s' => "Fields relationship that will use AutoComplete lists instead of SELECT.",
+		'get-set'        => "Attributes will be protected and have setters/getters.",
+		'theme=s'        => "Theme to be applied. ",
+		'directory=s'    => "Base path on which project was created",
+		'force'          => "Forces to rewrite generated code if they already exists.",
+		'trace'          => "Shows the trace of the framework in case of exception.",
+	);
 
 	public function run()
 	{
-
-		$posibleParameters = array(
-			'schema=s'       => "--schema \tName of the schema.",
-			'autocomplete=s' => "--autocomplete \tFields relationship that will use AutoComplete lists instead of SELECT.",
-			'get-set'        => "--get-set \tAttributes will be protected and have setters/getters.",
-			'theme=s'        => "--theme \tTheme to be applied. ",
-			'directory=s'    => "--directory \tBase path on which project was created",
-			'force'          => "--force \tForces to rewrite generated code if they already exists.",
-			'trace'          => "--trace \tShows the trace of the framework in case of exception.",
-		);
 
 		$this->parseParameters($posibleParameters);
 		$parameters = $this->getParameters();
@@ -63,7 +63,7 @@ class Scaffold extends Command {
 		$name = $parameters[1];
 		$schema = $this->getOption('schema');
 
-		$scaffoldBuilder = Builder::factory('\\Phalcon\\Builder\\Scaffold', array(
+		$scaffoldBuilder = Builder::factory('\Phalcon\Builder\Scaffold', array(
 			'name' => $name,
 			'theme'	=> $this->getOption('theme'),
 			'schema' => $schema,
@@ -77,9 +77,9 @@ class Scaffold extends Command {
 
 	}
 
-	public function getCommand()
+	public function getCommands()
 	{
-		return static::COMMAND;
+		return array('scaffold');
 	}
 
 	public function getHelp()

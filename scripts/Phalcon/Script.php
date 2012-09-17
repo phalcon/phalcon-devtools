@@ -20,9 +20,7 @@
 
 namespace Phalcon;
 
-use Phalcon\Builder;
-use Phalcon\Command\Command;
-use Phalcon\Script\Color;
+use Phalcon\Commands\Command;
 
 /**
  * \Phalcon\Script
@@ -34,50 +32,73 @@ use Phalcon\Script\Color;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Script {
+class Script
+{
 
-	const VERSION = '0.5.0a4';
+	const COMPATIBLE_VERSION = '';
 
 	/**
-	 * @var \SplObjectStorage
+	 * Commands attached to the Script
+	 *
+	 * @var array
 	 */
 	private $_commands;
 
-	public function __construct() {
-		$this->_commands = new \SplObjectStorage;
+	public function __construct()
+	{
+		$this->_commands = array();
 	}
 
-	public function attach(Command $command) {
-		$this->_commands->attach($command);
+	public function loadBuiltInCommands()
+	{
+		$this->attach(new \Phalcon\Commands\Builtin\Enumerate());
+		$this->attach(new \Phalcon\Commands\Builtin\Controller());
+		$this->attach(new \Phalcon\Commands\Builtin\Model());
+		$this->attach(new \Phalcon\Commands\Builtin\AllModels());
+		$this->attach(new \Phalcon\Commands\Builtin\Project());
+		$this->attach(new \Phalcon\Commands\Builtin\Scaffold());
 	}
 
-	public function run() {
-		if(!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'commands'){
-			print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
-			foreach ($this->_commands as $command) {
-				print '  ' . Color::colorize($command->getCommand(), Color::FG_GREEN) . PHP_EOL;
+	public function loadUserCommands()
+	{
+
+	}
+
+	/**
+	 * Adds commands to the Script
+	 *
+	 * @param Phalcon\Commands\Command $command
+	 */
+	public function attach(Command $command)
+	{
+		$command->setScript($this);
+		$this->_commands[] = $command;
+	}
+
+	/**
+	 * Returns the commands registered in the script
+	 *
+	 * @return Phalcon\Commands\Command[]
+	 */
+	public function getCommands()
+	{
+		return $this->_commands;
+	}
+
+	/**
+	 * Run the scripts
+	 */
+	public function run()
+	{
+
+		$input = $_SERVER['argv'][1];
+		foreach ($this->_commands as $command) {
+			if (in_array($input, $command->getCommands())) {
+				return $command->run();
 			}
-			print PHP_EOL;
-		} else {
-			$input = $_SERVER['argv'][1];
-
-			foreach ($this->_commands as $command) {
-				if ($command->getCommand() == $input) {
-					return $command->run();
-				}
-			}
-
-			throw new \Phalcon\Exception($input . ' is not a recognized command');
-
-//			$scriptPath = $phalconToolsPath."scripts".DIRECTORY_SEPARATOR.$command.".php";
-//			if(file_exists($scriptPath)){
-//			$_SERVER['argv'][] = "--directory";
-//			$_SERVER['argv'][] = $path;
-//			require $scriptPath;
-//			} else {
-//				die('Phalcon: '.$command." isn't a recognized command\n");
-//			}
 		}
+
+		throw new \Phalcon\Exception($input . ' is not a recognized command');
 	}
 
 }

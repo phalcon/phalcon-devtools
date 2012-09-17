@@ -18,52 +18,17 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Commands\Builtin;
-
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandInterface;
+namespace Phalcon\Commands;
 
 /**
- * Phalcon\Commands\Enumerate
+ * Phalcon\Commands\CommandInterface
  *
- * List commands loaded in devtools
+ * This interface must be implemented by all commands
  */
-class Enumerate extends Command implements CommandInterface
-{
+interface CommandInterface {
 
-    public function run()
-    {
-        print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
-        foreach ($this->getScript()->getCommands() as $commands) {
-            $providedCommands = $commands->getCommands();
-            print '  ' . Color::colorize($providedCommands[0], Color::FG_GREEN);
-            unset($providedCommands[0]);
-            if (count($providedCommands)) {
-                print ' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
-            }
-            print PHP_EOL;
-        }
-        print PHP_EOL;
-    }
-
-    /**
-     * Returns the commands provided by the command
-     *
-     * @return string|array
-     */
-	public function getCommands()
-    {
-		return array('commands', 'list', 'enumerate');
-	}
-
-    /**
-     * Prints help on the usage of the command
-     *
-     */
-	public function getHelp()
-    {
-
-	}
+	public function run();
+	public function getCommands();
+	public function getHelp();
 
 }

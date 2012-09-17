@@ -18,16 +18,17 @@
 +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Command;
+namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
-use Phalcon\Command\Command;
 use Phalcon\Script\Color;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandInterface;
 
 /**
  * CreateProject
  *
-  * Creates project skeletons
+ * Creates project skeletons
  *
  * @category 	Phalcon
  * @package		Command
@@ -35,10 +36,8 @@ use Phalcon\Script\Color;
  * @copyright	Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license		New BSD License
 */
-class Project extends Command
+class Project extends Command implements CommandInterface
 {
-
-	const COMMAND = 'project';
 
 	/**
 	 * Executes the current command
@@ -66,7 +65,7 @@ class Project extends Command
 		$projectPath = isset($parameters[3]) ? $parameters[3] : '';
 		$enableWebtools = isset($parameters[4]) ? $parameters[4] : false;
 
-		$builder = Builder::factory('\\Phalcon\\Builder\\Project', array(
+		$builder = Builder::factory('\Phalcon\Builder\Project', array(
 			'name' => $projectName,
 			'type' => $projectType,
 			'directory' => $projectPath,
@@ -79,11 +78,11 @@ class Project extends Command
 	/**
 	 * Returns the command identifier
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function getCommand()
+	public function getCommands()
 	{
-		return static::COMMAND;
+		return array('project', 'create-project');
 	}
 
 	/**

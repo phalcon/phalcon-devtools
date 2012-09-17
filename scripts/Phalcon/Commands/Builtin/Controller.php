@@ -18,11 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Commands;
+namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
 use Phalcon\Script\Color;
-use Phalcon\Commands\BuiltIn\Command;
+use Phalcon\Commands\Command;
 
 /**
  * CreateController
@@ -37,8 +37,6 @@ use Phalcon\Commands\BuiltIn\Command;
  */
 class Controller extends Command
 {
-
-	const COMMAND = 'controller';
 
 	/**
 	 * Run the command
@@ -72,9 +70,9 @@ class Controller extends Command
 	 *
 	 * @return string
 	 */
-	public function getCommand()
+	public function getCommands()
 	{
-		return static::COMMAND;
+		return array('controller', 'create-controller');
 	}
 
 	/**

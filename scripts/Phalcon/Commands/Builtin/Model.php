@@ -20,10 +20,11 @@
 
 namespace Phalcon\Commands\Builtin;
 
+use Phalcon\Text;
 use Phalcon\Builder;
-use Phalcon\Command\Command;
 use Phalcon\Script\Color;
-use Phalcon\Text as Utils;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandInterface;
 
 /**
  * CreateModel
@@ -36,23 +37,22 @@ use Phalcon\Text as Utils;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Model extends Command
+class Model extends Command implements CommandInterface
 {
 
-	const COMMAND = 'model';
+	protected $_posibleParameters = array(
+		'schema=s' 		=> "Name of the schema. [optional]",
+		'get-set' 		=> "Attributes will be protected and have setters/getters.",
+		'doc' 			=> "Helps to improve code completion on IDEs [optional]",
+		'directory=s' 	=> "Base path on which project will be created",
+		'force' 		=> "Rewrite the model. [optional]",
+		'trace' 		=> "Shows the trace of the framework in case of exception.",
+	);
 
 	public function run()
 	{
-		$posibleParameters = array(
-			'schema=s' 		=> "--schema \t\tName of the schema. [optional]",
-			'get-set' 	=> "--get-set \t\tAttributes will be protected and have setters/getters.",
-			'doc' 	=> "--doc \t\t\tHelps to improve code completion on IDEs [optional]",
-			'directory=s' => "--directory \t\tBase path on which project will be created",
-			'force' 		=> "--force \t\tRewrite the model. [optional]",
-			'trace' 		=> "--trace \t\tShows the trace of the framework in case of exception.",
-		);
 
-		$this->parseParameters($posibleParameters);
+		$this->parseParameters($this->_posibleParameters);
 
 		$parameters = $this->getParameters();
 
@@ -63,12 +63,12 @@ class Model extends Command
 
 		$name = $parameters[1];
 
-		$className = Utils::camelize(isset($parameters[2]) ? $parameters[2] : $name);
-		$fileName = Utils::uncamelize($className);
+		$className = Text::camelize(isset($parameters[2]) ? $parameters[2] : $name);
+		$fileName = Text::uncamelize($className);
 
 		$schema = $this->getOption('schema');
 
-		$modelBuilder = Builder::factory('\\Phalcon\\Builder\\Model', array(
+		$modelBuilder = Builder::factory('\Phalcon\Builder\Model', array(
 			'name' => $name,
 			'schema' => $schema,
 			'className' => $className,
@@ -83,13 +83,13 @@ class Model extends Command
 	}
 
 	/**
-	 * Returns the command identifier
+	 * Returns the commands provided by the command
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function getCommand()
+	public function getCommands()
 	{
-		return static::COMMAND;
+		return array('model', 'create-model');
 	}
 
 	/**
@@ -109,18 +109,7 @@ class Model extends Command
 		print Color::colorize('  ?', Color::FG_GREEN);
 		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		print Color::head('Options:') . PHP_EOL;
+		$this->printParameters($this->_posibleParameters);
 
-		print Color::colorize('  --schema', Color::FG_GREEN);
-		print Color::colorize("          Name of the schema. [optional]") . PHP_EOL;
-
-		print Color::colorize('  --get-set', Color::FG_GREEN);
-		print Color::colorize("         Helps to improve code completion on IDEs [optional]") . PHP_EOL;
-
-		print Color::colorize('  --doc', Color::FG_GREEN);
-		print Color::colorize("             Type of the application to be genrated (micro, simple, model)") . PHP_EOL;
-
-		print Color::colorize('  --directory', Color::FG_GREEN);
-		print Color::colorize("       Base path on which model will be created") . PHP_EOL;
 	}
 }

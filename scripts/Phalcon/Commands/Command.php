@@ -20,6 +20,9 @@
 
 namespace Phalcon\Commands;
 
+use Phalcon\Script;
+use Phalcon\Script\Color;
+
 /**
  * Phalcon\Commands\Command
  *
@@ -118,39 +121,39 @@ abstract class Command
 
 		for ($i=1; $i < $numberArguments; $i++) {
 			$argv = $_SERVER['argv'][$i];
-			if(preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)$#', $argv, $matches)){
-				if(strlen($matches[1])==1){
+			if( preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)$#', $argv, $matches)) {
+				if (strlen($matches[1])==1){
 					$param = substr($matches[2], 1);
 					$paramName = substr($matches[2], 0, 1);
 				} else {
-					if(strlen($matches[2])<2){
+					if(strlen($matches[2]) < 2) {
 						throw new ScriptException("Invalid script parameter '$argv'");
 					}
 					$paramName = $matches[2];
 				}
-				if(!isset($this->_possibleArguments[$paramName])){
+				if(!isset($this->_possibleArguments[$paramName])) {
 					if(!isset($possibleAlias[$paramName])){
 						throw new ScriptException("Unknow parameter '$paramName'");
 					} else {
 						$paramName = $possibleAlias[$paramName];
 					}
 				}
-				if(isset($arguments[$paramName])){
-					if($param!=''){
+				if (isset($arguments[$paramName])) {
+					if ($param != '') {
 						$receivedParams[$paramName] = $param;
 						$param = '';
 						$paramName = '';
 					}
-					if($arguments[$paramName]['have-option']==false){
+					if ($arguments[$paramName]['have-option'] == false) {
 						$receivedParams[$paramName] = true;
 					}
 				}
 			} else {
 				$param = $argv;
-				if($paramName!=''){
-					if(isset($arguments[$paramName])){
-						if($param==''){
-							if($arguments[$paramName]['have-option']==true){
+				if ($paramName!='') {
+					if (isset($arguments[$paramName])) {
+						if ($param==''){
+							if ($arguments[$paramName]['have-option'] == true){
 								throw new ScriptException("The parameter '$paramName' requires an option");
 							}
 						}
@@ -240,7 +243,6 @@ abstract class Command
 	/**
 	 * Filters a value
 	 *
-	 * @access	protected
 	 * @param	string $paramValue
 	 * @return	mixed
 	 */
@@ -334,22 +336,58 @@ abstract class Command
 
 	}
 
+	/**
+	 * Prints the available options in the script
+	 *
+	 * @param array $parameters
+	 */
+	public function printParameters($parameters)
+	{
+		$length = 0;
+		foreach ($parameters as $parameter => $description){
+			if ($length == 0){
+				$length = strlen($parameter);
+			}
+			if (strlen($parameter) > $length) {
+				$length = strlen($parameter);
+			}
+		}
+
+		print Color::head('Options:') . PHP_EOL;
+		foreach ($parameters as $parameter => $description){
+			print Color::colorize(' --'.$parameter.str_repeat(' ', $length-strlen($parameter)), Color::FG_GREEN);
+			print Color::colorize("    ".$description) . PHP_EOL;
+		}
+	}
+
+	/**
+	 * Sets the script that will execute the command
+	 *
+	 * @param \Phalcon\Script $script
+	 */
+	public function setScript(Script $script)
+	{
+		$this->_script = $script;
+	}
+
+	/**
+	 * Returns the script that will execute the command
+	 *
+	 * @return \Phalcon\Script
+	 */
+	public function getScript()
+	{
+		return $this->_script;
+	}
+
+	/**
+	 * Returns the proccesed parameters
+	 *
+	 * @param array
+	 */
 	public function getParameters()
 	{
 		return $this->_parameters;
 	}
 
-	/**
-	 * Returns the command identifier
-	 *
-	 * @return string
-	 */
-	abstract public function getCommand();
-
-	/**
-	 * Prints the help for current command.
-	 *
-	 * @return void
-	 */
-	abstract public function getHelp();
 }
