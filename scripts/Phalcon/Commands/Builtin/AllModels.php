@@ -134,15 +134,7 @@ class AllModels extends Command implements CommandInterface
 	public function getHelp()
 	{
 
-		echo "------------------" . PHP_EOL .
-			"|-- Example" . PHP_EOL .
-			"|-- phalcon all-models --schema=my --get-set --doc --relations --trace" . PHP_EOL .
-			"|-----------------" . PHP_EOL .
-			"|-- Usage ". PHP_EOL .
-			"|-- phalcon all-models [options]" . PHP_EOL .
-			"|-----------------" . PHP_EOL .
-			"|-- Options:". PHP_EOL .
-			"------------------" . PHP_EOL;
+		$this->printParameters($this->_posibleParameters);
 
 	}
 

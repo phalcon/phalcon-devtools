@@ -21,6 +21,7 @@
 namespace Phalcon;
 
 use Phalcon\Commands\Command;
+use Phalcon\Script\ScriptException;
 
 /**
  * \Phalcon\Script
@@ -49,6 +50,9 @@ class Script
 		$this->_commands = array();
 	}
 
+	/**
+	 * Loads built-in commands provided by devtools
+	 */
 	public function loadBuiltInCommands()
 	{
 		$this->attach(new \Phalcon\Commands\Builtin\Enumerate());
@@ -59,6 +63,9 @@ class Script
 		$this->attach(new \Phalcon\Commands\Builtin\Scaffold());
 	}
 
+	/**
+	 * Loads built-in commands provided by the user
+	 */
 	public function loadUserCommands()
 	{
 
@@ -91,14 +98,34 @@ class Script
 	public function run()
 	{
 
-		$input = $_SERVER['argv'][1];
-		foreach ($this->_commands as $command) {
-			if (in_array($input, $command->getCommands())) {
-				return $command->run();
-			}
-		}
+		if (isset($_SERVER['argv'][1])) {
 
-		throw new \Phalcon\Exception($input . ' is not a recognized command');
+			$available = array();
+			$input = $_SERVER['argv'][1];
+			foreach ($this->_commands as $command) {
+				$providedCommands = $command->getCommands();
+				if (in_array($input, $providedCommands)) {
+					return $command->run();
+				} else {
+					foreach ($providedCommands as $command) {
+						$metaphone = metaphone($command);
+						if(!isset($available[$metaphone])){
+							$available[$metaphone] = array();
+						}
+						$available[$metaphone][] = $command;
+					}
+				}
+			}
+
+			$metaphone = metaphone($input);
+			if (isset($available[$metaphone])) {
+				throw new ScriptException('"'. $input . '" is not a recognized command. Did you mean: '.join(' or ', $available[$metaphone]).'?');
+			} else {
+				throw new ScriptException('"'. $input . '" is not a recognized command');
+			}
+		} else {
+			throw new ScriptException('Incorrect usage');
+		}
 	}
 
 }
