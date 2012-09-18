@@ -25,10 +25,33 @@ namespace Phalcon\Commands;
  *
  * This interface must be implemented by all commands
  */
-interface CommandInterface {
+interface CommandInterface
+{
 
+  /**
+   * Executes the command
+   *
+   */
 	public function run();
+
+  /**
+   * Returns the command identifier
+   *
+   * @return string
+   */
 	public function getCommands();
+
+  /**
+   * Checks whether the command can be executed outside a Phalcon project
+   *
+   * @return boolean
+   */
+  public function canBeExternal();
+
+  /**
+   * Prints help on the usage of the command
+   *
+   */
 	public function getHelp();
 
 }

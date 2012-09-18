@@ -20,11 +20,11 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder;
+use Phalcon\Text;
+use Phalcon\Script\Color;
 use Phalcon\Builder\Component;
 use Phalcon\Builder\Exception as BuilderException;
-use Phalcon\Script\Color;
-use Phalcon\Text;
+
 
 /**
  * ScaffoldBuilderComponent
@@ -37,9 +37,11 @@ use Phalcon\Text;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Scaffold extends Component {
+class Scaffold extends Component
+{
 
-	private function _findDetailField($entity){
+	private function _findDetailField($entity)
+	{
 		$posible = array('name');
 		$attributes = $entity::getAttributes();
 		foreach($attributes as $attribute){
@@ -50,7 +52,8 @@ class Scaffold extends Component {
 		return $attributes[0];
 	}
 
-	private function _getPosibleLabel($fieldName){
+	private function _getPosibleLabel($fieldName)
+	{
 		$fieldName = preg_replace('/_id$/', '', $fieldName);
 		$fieldName = preg_replace('/_at$/', '', $fieldName);
 		$fieldName = preg_replace('/_in$/', '', $fieldName);
@@ -58,7 +61,8 @@ class Scaffold extends Component {
 		return ucwords($fieldName);
 	}
 
-	public function build(){
+	public function build()
+	{
 
 		$options = $this->_options;
 
@@ -69,14 +73,8 @@ class Scaffold extends Component {
 			}
 		}
 
-		if(!file_exists($path.'.phalcon')){
-			throw new BuilderException("This command should be invoked inside a phalcon project directory");
-		}
-
 		$name = $options['name'];
 		$config = $this->_getConfig($path);
-
-
 
 		if (!isset($config->database->adapter)) {
 			throw new BuilderException("Adapter was not found in the config. Please specify a config varaible [database][adapter]");
@@ -84,11 +82,10 @@ class Scaffold extends Component {
 
 		$adapter = ucfirst($config->database->adapter);
 
-		if (!in_array($adapter, array('Mysql', 'Postgresql'))) {
-			throw new BuilderException("Adapter $adapter is not supported");
-		}
+		$this->checkDatabaseSupported($adapter);
 
 		$di = new \Phalcon\DI\FactoryDefault();
+
 		$di->set('db', function() use ($adapter, $config) {
 			$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
 			$connection = new $adapter(array(
@@ -531,7 +528,7 @@ class Scaffold extends Component {
 					if(($action=='new'||$action=='edit' ) && $attribute==$identityField){
 						if($action=='edit'){
 							$code.=PHP_EOL."\t\t\t\t".'<input type="hidden" name="'.$attribute.'" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
-						} 
+						}
 					} else {
 						//Char Field
 						if(strpos($dataType, 'char')!==false){

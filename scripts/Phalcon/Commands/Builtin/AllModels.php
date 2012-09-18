@@ -24,7 +24,7 @@ use Phalcon\Text;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandInterface;
+use Phalcon\Commands\CommandsInterface;
 
 /**
  * AllModels
@@ -37,7 +37,7 @@ use Phalcon\Commands\CommandInterface;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class AllModels extends Command implements CommandInterface
+class AllModels extends Command implements CommandsInterface
 {
 
 	protected $_posibleParameters = array(
@@ -52,17 +52,8 @@ class AllModels extends Command implements CommandInterface
 		'directory=s' 		=> "Base path on which project will be created",
 	);
 
-	public function run()
+	public function run($parameters)
 	{
-
-		$this->parseParameters($this->_posibleParameters);
-
-		$parameters = $this->getParameters();
-
-		if (!isset($parameters[1]) || $parameters[1] == '?') {
-			$this->getHelp();
-			return;
-		}
 
 		$path = '';
 		if ($this->isReceivedOption('directory')) {
@@ -102,7 +93,7 @@ class AllModels extends Command implements CommandInterface
 		$genSettersGetters = $this->isReceivedOption('get-set');
 		$genDocMethods = $this->isReceivedOption('doc');
 
-		$modelBuilder = Builder::factory('AllModels', array(
+		$modelBuilder = \Phalcon\Builder\AllModels(array(
 			'force' => $forceProcess,
 			'config' => $config,
 			'schema' => $schema,
@@ -126,6 +117,17 @@ class AllModels extends Command implements CommandInterface
 		return array('all-models', 'create-all-models');
 	}
 
+
+	/**
+	 * Checks whether the command can be executed outside a Phalcon project
+	 *
+	 * @return boolean
+	 */
+	public function canBeExternal()
+	{
+		return false;
+	}
+
 	/**
 	 * Prints the help for current command.
 	 *
@@ -133,9 +135,7 @@ class AllModels extends Command implements CommandInterface
 	 */
 	public function getHelp()
 	{
-
 		$this->printParameters($this->_posibleParameters);
-
 	}
 
 }

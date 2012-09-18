@@ -18,18 +18,35 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Script;
+namespace Phalcon\Commands;
+
+use Phalcon\Script;
+use Phalcon\Script\Color;
+use Phalcon\Events\Event;
 
 /**
- * \Phalcon\Script\ScriptException
+ * Phalcon\Commands\CommandListener
  *
- * @category 	Phalcon
- * @package 	Script
- * @subpackage  Exception
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * Listens for events in commands
  */
-class ScriptException extends \Phalcon\Exception
+class CommandsListener
 {
+
+	public function beforeCommand(Event $event, Command $command)
+	{
+
+		if ($command->canBeExternal() == false) {
+			$path = $command->getOption('directory');
+			if (!file_exists($path . '.phalcon')) {
+				throw new CommandsException("This command should be invoked inside a Phalcon project directory");
+			}
+		}
+
+		$parameters = $command->parseParameters();
+		if (count($parameters) < 2 || $command->isReceivedOption('help') || $command->getOption(1) == 'help') {
+			$command->getHelp();
+			return false;
+		}
+	}
 
 }

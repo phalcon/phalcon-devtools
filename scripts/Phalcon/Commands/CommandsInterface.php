@@ -18,18 +18,40 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Script;
+namespace Phalcon\Commands;
 
 /**
- * \Phalcon\Script\ScriptException
+ * Phalcon\Commands\CommandInterface
  *
- * @category 	Phalcon
- * @package 	Script
- * @subpackage  Exception
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * This interface must be implemented by all commands
  */
-class ScriptException extends \Phalcon\Exception
+interface CommandsInterface
 {
+
+  /**
+   * Executes the command
+   *
+   */
+	public function run($parameters);
+
+  /**
+   * Returns the command identifier
+   *
+   * @return string
+   */
+	public function getCommands();
+
+  /**
+   * Checks whether the command can be executed outside a Phalcon project
+   *
+   * @return boolean
+   */
+  public function canBeExternal();
+
+  /**
+   * Prints help on the usage of the command
+   *
+   */
+	public function getHelp();
 
 }

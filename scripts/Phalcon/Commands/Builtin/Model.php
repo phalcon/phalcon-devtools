@@ -24,7 +24,7 @@ use Phalcon\Text;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandInterface;
+use Phalcon\Commands\CommandsInterface;
 
 /**
  * CreateModel
@@ -37,7 +37,7 @@ use Phalcon\Commands\CommandInterface;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Model extends Command implements CommandInterface
+class Model extends Command implements CommandsInterface
 {
 
 	protected $_posibleParameters = array(
@@ -49,17 +49,8 @@ class Model extends Command implements CommandInterface
 		'trace' 		=> "Shows the trace of the framework in case of exception.",
 	);
 
-	public function run()
+	public function run($parameters)
 	{
-
-		$this->parseParameters($this->_posibleParameters);
-
-		$parameters = $this->getParameters();
-
-		if (!isset($parameters[1]) || $parameters[1] == '?') {
-			$this->getHelp();
-			return;
-		}
 
 		$name = $parameters[1];
 
@@ -68,7 +59,7 @@ class Model extends Command implements CommandInterface
 
 		$schema = $this->getOption('schema');
 
-		$modelBuilder = Builder::factory('\Phalcon\Builder\Model', array(
+		$modelBuilder = new \Phalcon\Builder\Model(array(
 			'name' => $name,
 			'schema' => $schema,
 			'className' => $className,
@@ -90,6 +81,14 @@ class Model extends Command implements CommandInterface
 	public function getCommands()
 	{
 		return array('model', 'create-model');
+	}
+
+	/**
+	 * Checks whether the command can be executed outside a Phalcon project
+	 */
+	public function canBeExternal()
+	{
+		return false;
 	}
 
 	/**

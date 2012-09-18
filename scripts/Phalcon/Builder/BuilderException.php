@@ -18,38 +18,19 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon;
-
-use \Phalcon\Builder\Exception as BuilderException;
+namespace Phalcon\Builder;
 
 /**
- * Builder
+ * BuilderException
  *
- * Loads components to generate code
+ * Exception Builder made
  *
  * @category 	Phalcon
- * @package 	Builder
+ * @package 	Scripts
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Builder {
-
-	/**
-	 * Factories a builder component
-	 *
-	 * @static
-	 * @param	string $component
-	 * @param	array $options
-	 * @return	\Phalcon\Builder\Component
-	 * @throws  \Phalcon\Builder\Exception
-	 */
-	public static function factory($component, $options=array()) {
-		// TODO Check why autoloader is not loading the classes
-//		if (!in_array($component, get_declared_classes())) {
-//			throw new BuilderException('The builder component "'.$component.'" does not exist');
-//		}
-
-		return new $component($options);
-	}
+class BuilderException extends \Phalcon\Exception {
 
 }
+

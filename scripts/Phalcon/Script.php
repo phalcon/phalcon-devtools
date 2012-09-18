@@ -22,6 +22,7 @@ namespace Phalcon;
 
 use Phalcon\Commands\Command;
 use Phalcon\Script\ScriptException;
+use Phalcon\Events\Manager as EventsManager;
 
 /**
  * \Phalcon\Script
@@ -36,39 +37,51 @@ use Phalcon\Script\ScriptException;
 class Script
 {
 
-	const COMPATIBLE_VERSION = '';
+	const COMPATIBLE_VERSION = '0050022';
+
+	/**
+	 * Events Manager
+	 *
+	 * @var \Phalcon\Events\Manager
+	 */
+	protected $_eventsManager;
 
 	/**
 	 * Commands attached to the Script
 	 *
 	 * @var array
 	 */
-	private $_commands;
+	protected $_commands;
 
-	public function __construct()
+	/**
+	 * \Phalcon\Script constructor
+	 *
+	 * @param \Phalcon\Events\Manager $eventsManager
+	 */
+	public function __construct(EventsManager $eventsManager)
 	{
 		$this->_commands = array();
+		$this->_eventsManager = $eventsManager;
 	}
 
 	/**
-	 * Loads built-in commands provided by devtools
+	 * Events Manager
+	 *
+	 * @param \Phalcon\Events\Manager $eventsManager
 	 */
-	public function loadBuiltInCommands()
+	public function setEventsManager(EventsManager $eventsManager)
 	{
-		$this->attach(new \Phalcon\Commands\Builtin\Enumerate());
-		$this->attach(new \Phalcon\Commands\Builtin\Controller());
-		$this->attach(new \Phalcon\Commands\Builtin\Model());
-		$this->attach(new \Phalcon\Commands\Builtin\AllModels());
-		$this->attach(new \Phalcon\Commands\Builtin\Project());
-		$this->attach(new \Phalcon\Commands\Builtin\Scaffold());
+		$this->_eventsManager = $eventsManager;
 	}
 
 	/**
-	 * Loads built-in commands provided by the user
+	 * Returns the events manager
+	 *
+	 * @return \Phalcon\Events\Manager
 	 */
-	public function loadUserCommands()
+	public function getEventsManager()
 	{
-
+		return $this->_eventsManager;
 	}
 
 	/**
@@ -78,7 +91,6 @@ class Script
 	 */
 	public function attach(Command $command)
 	{
-		$command->setScript($this);
 		$this->_commands[] = $command;
 	}
 
@@ -92,40 +104,62 @@ class Script
 		return $this->_commands;
 	}
 
+	public function dispatch(Command $command)
+	{
+		//If beforeCommand fails abort
+		if ($this->_eventsManager->fire('command:beforeCommand', $command) === false) {
+			return false;
+		}
+
+		//If run the commands fails abort too
+		if ($command->run($command->getParameters()) === false){
+			return false;
+		}
+
+		$this->_eventsManager->fire('command:afterCommand', $command);
+	}
+
 	/**
 	 * Run the scripts
 	 */
 	public function run()
 	{
 
-		if (isset($_SERVER['argv'][1])) {
-
-			$available = array();
-			$input = $_SERVER['argv'][1];
-			foreach ($this->_commands as $command) {
-				$providedCommands = $command->getCommands();
-				if (in_array($input, $providedCommands)) {
-					return $command->run();
-				} else {
-					foreach ($providedCommands as $command) {
-						$metaphone = metaphone($command);
-						if(!isset($available[$metaphone])){
-							$available[$metaphone] = array();
-						}
-						$available[$metaphone][] = $command;
-					}
-				}
-			}
-
-			$metaphone = metaphone($input);
-			if (isset($available[$metaphone])) {
-				throw new ScriptException('"'. $input . '" is not a recognized command. Did you mean: '.join(' or ', $available[$metaphone]).'?');
-			} else {
-				throw new ScriptException('"'. $input . '" is not a recognized command');
-			}
-		} else {
+		if (!isset($_SERVER['argv'][1])) {
 			throw new ScriptException('Incorrect usage');
 		}
+
+		$input = $_SERVER['argv'][1];
+
+		//Try to dispatch the command
+		foreach ($this->_commands as $command) {
+			$providedCommands = $command->getCommands();
+			if (in_array($input, $providedCommands)) {
+				return $this->dispatch($command);
+			}
+		}
+
+		//Check for alternatives
+		$available = array();
+		foreach ($this->_commands as $command) {
+			$providedCommands = $command->getCommands();
+			foreach ($providedCommands as $command) {
+				$soundex = soundex($command);
+				if(!isset($available[$soundex])){
+					$available[$soundex] = array();
+				}
+				$available[$soundex][] = $command;
+			}
+		}
+
+		//Show exception with/without alternatives
+		$soundex = soundex($input);
+		if (isset($available[$soundex])) {
+			throw new ScriptException('"'. $input . '" is not a recognized command. Did you mean: '.join(' or ', $available[$soundex]).'?');
+		} else {
+			throw new ScriptException('"'. $input . '" is not a recognized command');
+		}
+
 	}
 
 }

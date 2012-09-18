@@ -21,8 +21,9 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Builder;
+use Phalcon\Db\Column;
 use Phalcon\Builder\Component;
-use Phalcon\Builder\Exception as BuilderException;
+use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Text as Utils;
 
@@ -76,16 +77,18 @@ class Model extends Component
 	public function getPHPType($type)
 	{
 		switch ($type) {
-			case \Phalcon\Db\Column::TYPE_INTEGER:
-			case \Phalcon\Db\Column::TYPE_DECIMAL:
-			case \Phalcon\Db\Column::TYPE_FLOAT:
+			case Column::TYPE_INTEGER:
 				return 'integer';
 				break;
-			case \Phalcon\Db\Column::TYPE_DATE:
-			case \Phalcon\Db\Column::TYPE_VARCHAR:
-			case \Phalcon\Db\Column::TYPE_DATETIME:
-			case \Phalcon\Db\Column::TYPE_CHAR:
-			case \Phalcon\Db\Column::TYPE_TEXT:
+			case Column::TYPE_DECIMAL:
+			case Column::TYPE_FLOAT:
+				return 'double';
+				break;
+			case Column::TYPE_DATE:
+			case Column::TYPE_VARCHAR:
+			case Column::TYPE_DATETIME:
+			case Column::TYPE_CHAR:
+			case Column::TYPE_TEXT:
 			return 'string';
 				break;
 			default:
@@ -106,10 +109,6 @@ class Model extends Component
 			if ($this->_options['directory']) {
 				$path = $this->_options['directory'].'/';
 			}
-		}
-
-		if (!file_exists($path.'.phalcon')) {
-			throw new BuilderException("This command should be invoked inside a phalcon project directory");
 		}
 
 		$useSettersGetters = $this->_options['genSettersGetters'];
@@ -158,7 +157,7 @@ class Model extends Component
 		$adapter = ucfirst($config->database->adapter);
 
 		if (!in_array($adapter, array('Mysql', 'Postgresql', 'Sqlite'))) {
-			throw new BuilderException("Adapter $adapter is not supported");
+
 		}
 
 		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
@@ -186,7 +185,7 @@ class Model extends Component
 		if ($db->tableExists($table, $schema)) {
 			$fields = $db->describeColumns($table, $schema);
 		} else {
-			throw new BuilderException("Table $table not exists");
+			throw new BuilderException('Table "'.$table.'" does not exists');
 		}
 
 		if (isset($this->_options['hasMany'])) {

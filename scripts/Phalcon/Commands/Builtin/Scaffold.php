@@ -23,7 +23,7 @@ namespace Phalcon\Commands\Builtin;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandInterface;
+use Phalcon\Commands\CommandsInterface;
 
 /**
  * \Phalcon\Command\Scaffold
@@ -36,34 +36,24 @@ use Phalcon\Commands\CommandInterface;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Scaffold extends Command implements CommandInterface
+class Scaffold extends Command implements CommandsInterface
 {
 
-	protected $_posibleParameters = array(
+	protected $_possibleParameters = array(
 		'schema=s'       => "Name of the schema.",
-		'autocomplete=s' => "Fields relationship that will use AutoComplete lists instead of SELECT.",
 		'get-set'        => "Attributes will be protected and have setters/getters.",
-		'theme=s'        => "Theme to be applied. ",
 		'directory=s'    => "Base path on which project was created",
 		'force'          => "Forces to rewrite generated code if they already exists.",
 		'trace'          => "Shows the trace of the framework in case of exception.",
 	);
 
-	public function run()
+	public function run($parameters)
 	{
-
-		$this->parseParameters($posibleParameters);
-		$parameters = $this->getParameters();
-
-		if (!isset($parameters[1]) || $parameters[1] == '?') {
-			$this->getHelp();
-			return;
-		}
 
 		$name = $parameters[1];
 		$schema = $this->getOption('schema');
 
-		$scaffoldBuilder = Builder::factory('\Phalcon\Builder\Scaffold', array(
+		$scaffoldBuilder = new \Phalcon\Builder\Scaffold(array(
 			'name' => $name,
 			'theme'	=> $this->getOption('theme'),
 			'schema' => $schema,
@@ -77,11 +67,30 @@ class Scaffold extends Command implements CommandInterface
 
 	}
 
+	/**
+	 * Returns the command identifier
+	 *
+	 * @return string
+	 */
 	public function getCommands()
 	{
 		return array('scaffold');
 	}
 
+	/**
+	 * Checks whether the command can be executed outside a Phalcon project
+	 *
+	 * @return boolean
+	 */
+	public function canBeExternal()
+	{
+		return false;
+	}
+
+	/**
+	 * Prints help on the usage of the command
+	 *
+	 */
 	public function getHelp()
 	{
 		print Color::head('Help:') . PHP_EOL;
@@ -94,22 +103,7 @@ class Scaffold extends Command implements CommandInterface
 		print Color::colorize('  ?', Color::FG_GREEN);
 		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		print Color::head('Options:') . PHP_EOL;
-
-		print Color::colorize('  --schema', Color::FG_GREEN);
-		print Color::colorize("        Name of the schema") . PHP_EOL;
-
-		print Color::colorize('  --autocomplete', Color::FG_GREEN);
-		print Color::colorize("  Fields relationship that will use AutoComplete lists instead of SELECT") . PHP_EOL;
-
-		print Color::colorize('  --get-set', Color::FG_GREEN);
-		print Color::colorize("       Attributes will be protected and have setters/getters") . PHP_EOL;
-
-		print Color::colorize('  --theme', Color::FG_GREEN);
-		print Color::colorize("         Theme to be applied") . PHP_EOL;
-
-		print Color::colorize('  --directory', Color::FG_GREEN);
-		print Color::colorize("     Base path on which project was created") . PHP_EOL . PHP_EOL;
+		$this->printParameters($this->_possibleParameters);
 	}
 
 }

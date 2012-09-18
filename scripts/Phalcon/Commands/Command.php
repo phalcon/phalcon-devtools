@@ -22,6 +22,7 @@ namespace Phalcon\Commands;
 
 use Phalcon\Script;
 use Phalcon\Script\Color;
+use Phalcon\Events\Manager as EventsManager;
 
 /**
  * Phalcon\Commands\Command
@@ -30,26 +31,91 @@ use Phalcon\Script\Color;
  */
 abstract class Command
 {
+
+	/**
+	 * Script
+	 *
+	 * @var \Phalcon\Script
+	 */
+	protected $_script;
+
+	/**
+	 * Events Manager
+	 *
+	 * @var \Phalcon\Events\Manager
+	 */
+	protected $_eventsManager;
+
 	/**
 	 * Output encoding of the script.
 	 *
 	 * @var string
 	 */
-	private $_encoding = 'UTF-8';
+	protected $_encoding = 'UTF-8';
 
 	/**
 	 * Parameters received by the script.
 	 *
 	 * @var string
 	 */
-	private $_parameters = array();
+	protected $_parameters = array();
 
 	/**
-	 * Possible arguments.
+	 * Possible prepared arguments.
 	 *
 	 * @var array
 	 */
-	private $_possibleArguments = array();
+	protected $_preparedArguments = array();
+
+	/**
+	 * Phalcon\Commands\Command
+	 *
+	 * @param \Phalco\Script $script
+	 * @param \Phalco\Events\Manager $eventsManager
+	 */
+	final public function __construct(Script $script, EventsManager $eventsManager){
+		$this->_script = $script;
+	}
+
+	/**
+	 * Events Manager
+	 *
+	 * @param \Phalcon\Events\Manager $eventsManager
+	 */
+	public function setEventsManager(EventsManager $eventsManager)
+	{
+		$this->_eventsManager = $eventsManager;
+	}
+
+	/**
+	 * Returns the events manager
+	 *
+	 * @return \Phalcon\Events\Manager
+	 */
+	public function getEventsManager()
+	{
+		return $this->_eventsManager;
+	}
+
+	/**
+	 * Sets the script that will execute the command
+	 *
+	 * @param \Phalcon\Script $script
+	 */
+	public function setScript(Script $script)
+	{
+		$this->_script = $script;
+	}
+
+	/**
+	 * Returns the script that will execute the command
+	 *
+	 * @return \Phalcon\Script
+	 */
+	public function getScript()
+	{
+		return $this->_script;
+	}
 
 	/**
 	 * Parse the parameters passed to the script.
@@ -57,26 +123,29 @@ abstract class Command
 	 * @param	array $parameters
 	 * @param	array $possibleAlias
 	 * @return	array
-	 * @throws \Phalcon\Script\Exception
+	 * @throws	\Phalcon\Script\Exception
 	 */
 	public function parseParameters($parameters = array(), $possibleAlias = array())
 	{
 
-		$arguments = array();
+		if (count($parameters)==0) {
+			$parameters = $this->_possibleParameters;
+		}
 
+		$arguments = array();
 		foreach ($parameters as $parameter => $description) {
 			if (strpos($parameter, "=") !== false) {
 				$parameterParts = explode("=", $parameter);
-				if (count($parameterParts)!=2) {
-					throw new ScriptException("Invalid definition for the parameter '$parameter'");
+				if (count($parameterParts) != 2) {
+					throw new CommandsException("Invalid definition for the parameter '$parameter'");
 				}
-				if (strlen($parameterParts[0])=="") {
-					throw new ScriptException("Invalid definition for the parameter '".$parameter."'");
+				if (strlen($parameterParts[0]) == "") {
+					throw new CommandsException("Invalid definition for the parameter '".$parameter."'");
 				}
 				if (!in_array($parameterParts[1], array('s', 'i'))) {
-					throw new ScriptException("Incorrect data type on parameter '".$parameter."'");
+					throw new CommandsException("Incorrect data type on parameter '".$parameter."'");
 				}
-				$this->_possibleArguments[$parameterParts[0]] = true;
+				$this->_preparedArguments[$parameterParts[0]] = true;
 				$arguments[$parameterParts[0]] = array(
 					'have-option' => true,
 					'option-required' => true,
@@ -85,16 +154,16 @@ abstract class Command
 			} else {
 				if (strpos($parameter, "=") !== false) {
 					$parameterParts = explode("=", $parameter);
-					if(count($parameterParts)!=2){
-						throw new ScriptException("Invalid definition for the parameter '$parameter'");
+					if (count($parameterParts) != 2) {
+						throw new CommandsException("Invalid definition for the parameter '$parameter'");
 					}
-					if(strlen($parameterParts[0])==""){
-						throw new ScriptException("Invalid definition for the parameter '$parameter'");
+					if (strlen($parameterParts[0]) == "") {
+						throw new CommandsException("Invalid definition for the parameter '$parameter'");
 					}
-					if(!in_array($parameterParts[1], array('s', 'i'))){
-						throw new ScriptException("Incorrect data type on parameter '$parameter'");
+					if (!in_array($parameterParts[1], array('s', 'i'))) {
+						throw new CommandsException("Incorrect data type on parameter '$parameter'");
 					}
-					$this->_possibleArguments[$parameterParts[0]] = true;
+					$this->_preparedArguments[$parameterParts[0]] = true;
 					$arguments[$parameterParts[0]] = array(
 						'have-option' => true,
 						'option-required' => false,
@@ -102,13 +171,13 @@ abstract class Command
 					);
 				} else {
 					if (preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
-						$this->_possibleArguments[$parameter] = true;
+						$this->_preparedArguments[$parameter] = true;
 						$arguments[$parameter] = array(
 							'have-option' => false,
 							'option-required' => false
 						);
 					} else {
-						throw new ScriptException("Invalid parameter '$parameter'");
+						throw new CommandsException("Invalid parameter '$parameter'");
 					}
 				}
 			}
@@ -119,25 +188,29 @@ abstract class Command
 		$receivedParams = array();
 		$numberArguments = count($_SERVER['argv']);
 
-		for ($i=1; $i < $numberArguments; $i++) {
+		for ($i = 1; $i < $numberArguments; $i++) {
+
 			$argv = $_SERVER['argv'][$i];
-			if( preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)$#', $argv, $matches)) {
+			if (preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)(=(.*)){0,1}$#', $argv, $matches)) {
+
 				if (strlen($matches[1])==1){
 					$param = substr($matches[2], 1);
 					$paramName = substr($matches[2], 0, 1);
 				} else {
 					if(strlen($matches[2]) < 2) {
-						throw new ScriptException("Invalid script parameter '$argv'");
+						throw new CommandsException("Invalid script parameter '$argv'");
 					}
 					$paramName = $matches[2];
 				}
-				if(!isset($this->_possibleArguments[$paramName])) {
+
+				if(!isset($this->_preparedArguments[$paramName])) {
 					if(!isset($possibleAlias[$paramName])){
-						throw new ScriptException("Unknow parameter '$paramName'");
+						throw new CommandsException("Unknow parameter '$paramName'");
 					} else {
 						$paramName = $possibleAlias[$paramName];
 					}
 				}
+
 				if (isset($arguments[$paramName])) {
 					if ($param != '') {
 						$receivedParams[$paramName] = $param;
@@ -146,15 +219,20 @@ abstract class Command
 					}
 					if ($arguments[$paramName]['have-option'] == false) {
 						$receivedParams[$paramName] = true;
+					} else {
+						if (isset($matches[4])) {
+							$receivedParams[$paramName] = $matches[4];
+						}
 					}
 				}
+
 			} else {
 				$param = $argv;
 				if ($paramName!='') {
 					if (isset($arguments[$paramName])) {
 						if ($param==''){
 							if ($arguments[$paramName]['have-option'] == true){
-								throw new ScriptException("The parameter '$paramName' requires an option");
+								throw new CommandsException("The parameter '$paramName' requires an option");
 							}
 						}
 					}
@@ -181,7 +259,7 @@ abstract class Command
 	{
 		foreach ($required as $fieldRequired) {
 			if (!isset($this->_parameters[$fieldRequired])) {
-				throw new ScriptException("The parameter '$fieldRequired' is required for this script");
+				throw new CommandsException("The parameter '$fieldRequired' is required for this script");
 			}
 		}
 	}
@@ -214,18 +292,29 @@ abstract class Command
 	 *
 	 * @param string $option
 	 */
-	public function getOption($option)
+	public function getOption($option, $filters=null, $defaultValue=null)
 	{
-		if (isset($this->_parameters[$option])) {
-			if (func_num_args() > 1) {
-				$params = func_get_args();
-				unset($params[0]);
-				$filter = new \Phalcon\Filter();
-				return $filter->sanitize($this->_parameters[$option], $params);
+		if (is_array($option)) {
+			foreach ($option as $optionItem) {
+				if (isset($this->_parameters[$optionItem])) {
+					if ($filters !== null) {
+						$filter = new \Phalcon\Filter();
+						return $filter->sanitize($this->_parameters[$optionItem], $filters);
+					}
+					return $this->_parameters[$optionItem];
+				}
 			}
-			return $this->_parameters[$option];
+			return $defaultValue;
 		} else {
-			return null;
+			if (isset($this->_parameters[$option])) {
+				if ($filters !== null) {
+					$filter = new \Phalcon\Filter();
+					return $filter->sanitize($this->_parameters[$option], $filters);
+				}
+				return $this->_parameters[$option];
+			} else {
+				return $defaultValue;
+			}
 		}
 	}
 
@@ -246,17 +335,10 @@ abstract class Command
 	 * @param	string $paramValue
 	 * @return	mixed
 	 */
-	protected function filter($paramValue)
+	protected function filter($paramValue, $filters)
 	{
-		if (func_num_args() > 1) {
-			$params = func_get_args();
-			unset($params[0]);
-			$filter = new \Phalcon\Filter();
-			return $filter->sanitize($paramValue, $params);
-		} else {
-			throw new ScriptException('You must specify at least one filter to apply');
-		}
-		return $paramValue;
+		$filter = new \Phalcon\Filter();
+		return $filter->sanitize($paramValue, $filters);
 	}
 
 	/**
@@ -272,6 +354,16 @@ abstract class Command
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Checks if exists a certain unnamed parameter
+	 *
+	 * @param int $number
+	 */
+	public function isSetUnNamedParam($number)
+	{
+		return isset($this->_parameters[$number]);
 	}
 
 	/**
@@ -358,26 +450,6 @@ abstract class Command
 			print Color::colorize(' --'.$parameter.str_repeat(' ', $length-strlen($parameter)), Color::FG_GREEN);
 			print Color::colorize("    ".$description) . PHP_EOL;
 		}
-	}
-
-	/**
-	 * Sets the script that will execute the command
-	 *
-	 * @param \Phalcon\Script $script
-	 */
-	public function setScript(Script $script)
-	{
-		$this->_script = $script;
-	}
-
-	/**
-	 * Returns the script that will execute the command
-	 *
-	 * @return \Phalcon\Script
-	 */
-	public function getScript()
-	{
-		return $this->_script;
 	}
 
 	/**

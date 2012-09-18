@@ -20,7 +20,7 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder\Exception as BuilderException;
+use Phalcon\Builder\BuilderException as BuilderException;
 
 /**
  * \Phalcon\Builder\Component
@@ -69,6 +69,13 @@ abstract class Component
 			}
 		}
 		return false;
+	}
+
+	public function isSupportedDatabase()
+	{
+		if (!class_exists('\Phalcon\Db\Adapter\Pdo\\'.$adapter)) {
+			throw new BuilderException("Adapter $adapter is not supported");
+		}
 	}
 
 	abstract public function build();

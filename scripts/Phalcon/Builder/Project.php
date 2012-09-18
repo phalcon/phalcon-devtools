@@ -22,7 +22,6 @@ namespace Phalcon\Builder;
 
 use Phalcon\Builder;
 use Phalcon\Builder\Component;
-use Phalcon\Builder\Exception as BuilderException;
 use Phalcon\Script\Color;
 
 /**
@@ -76,10 +75,10 @@ class Project extends Component {
 	 *
 	 * @return void
 	 */
-	private static function createConfig($path, $name, $type)
+	private static function createConfig($path, $templatePath, $name, $type)
 	{
 		if (file_exists($path.'app/config/config.' . $type) == false) {
-			$str = file_get_contents(TEMPLATES_PATH . '/project/config.' . $type);
+			$str = file_get_contents($templatePath . '/project/config.' . $type);
 			$str = preg_replace('/@@name@@/', $name, $str);
 			file_put_contents($path.'app/config/config.' . $type, $str);
 		}
@@ -94,10 +93,10 @@ class Project extends Component {
 	 *
 	 * @return void
 	 */
-	private static function createControllerBase($path, $name)
+	private static function createControllerBase($path, $templatePath, $name)
 	{
 		if (file_exists($path . 'app/controllers/ControllerBase.php') == false) {
-			$str = file_get_contents(TEMPLATES_PATH . '/project/controller.php');
+			$str = file_get_contents($templatePath . '/project/controller.php');
 			$str = preg_replace('/@@name@@/', $name, $str);
 			file_put_contents($path . 'app/controllers/ControllerBase.php', $str);
 		}
@@ -108,7 +107,7 @@ class Project extends Component {
 	 *
 	 * @return void
 	 */
-	private static function createBootstrapFile($path, $useIniConfig)
+	private static function createBootstrapFile($path, $templatePath, $useIniConfig)
 	{
 		if (file_exists($path . 'public/index.php') == false) {
 			$config = '$config = include(__DIR__."/../app/config/config.php");';
@@ -116,7 +115,7 @@ class Project extends Component {
 				$config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__."/../app/config/config.ini");';
 			}
 
-			$str = file_get_contents(TEMPLATES_PATH . '/project/index.php');
+			$str = file_get_contents($templatePath . '/project/index.php');
 			$str = preg_replace('/@@config@@/', $config, $str);
 			file_put_contents($path . 'public/index.php', $str);
 		}
@@ -129,7 +128,7 @@ class Project extends Component {
 	 */
 	private static function createControllerFile($path)
 	{
-		$modelBuilder = Builder::factory('\\Phalcon\\Builder\\Controller', array(
+		$modelBuilder = new \Phalcon\Builder\Controller(array(
 			'name' => 'index',
 			'directory' => $path,
 			'baseClass' => 'ControllerBase'
@@ -141,7 +140,7 @@ class Project extends Component {
 	 * Create .htaccess files by default of application
 	 *
 	 */
-	private static function createHtaccessFiles($path)
+	private static function createHtaccessFiles($path, $templatePath)
 	{
 
 		if (file_exists($path . '.htaccess') == false) {
@@ -154,7 +153,7 @@ class Project extends Component {
 		}
 
 		if (file_exists($path . 'public/.htaccess') == false) {
-			file_put_contents($path.'public/.htaccess', file_get_contents(TEMPLATES_PATH . '/project/htaccess'));
+			file_put_contents($path.'public/.htaccess', file_get_contents($templatePath . '/project/htaccess'));
 		}
 
 		if (file_exists($path.'index.html') == false) {
@@ -201,7 +200,13 @@ class Project extends Component {
 			}
 		}
 
-		if (file_exists('.phalcon')) {
+		if (isset($this->_options['template-path'])) {
+			$templatePath = $this->_options['template-path'];
+		} else {
+			$templatePath = str_replace('scripts/'.str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__).'.php', '', __FILE__).'templates';
+		}
+
+		if (file_exists($path.'.phalcon')) {
 			throw new BuilderException("Projects cannot be created inside Phalcon projects");
 		}
 
@@ -240,18 +245,18 @@ class Project extends Component {
 		}
 
 		if ($useIniConfig) {
-			self::createConfig($path, $name, 'ini');
+			self::createConfig($path, $templatePath, $name, 'ini');
 		} else {
-			self::createConfig($path, $name, 'php');
+			self::createConfig($path, $templatePath, $name, 'php');
 		}
 
-		self::createBootstrapFile($path, $useIniConfig);
-		self::createHtaccessFiles($path);
-		self::createControllerBase($path, $name);
-		self::createIndexViewFiles($path);
-		self::createControllerFile($path);
+		self::createBootstrapFile($path, $templatePath, $useIniConfig);
+		self::createHtaccessFiles($path, $templatePath);
+		self::createControllerBase($path, $templatePath, $name);
+		self::createIndexViewFiles($path, $templatePath);
+		self::createControllerFile($path, $templatePath);
 
-		if (isset($this->_options['enableWebTools']) && $this->_options['enableWebTools']) {
+		if ($this->_options['enableWebTools']) {
 			// TODO implement
 			// Phalcon_WebTools::install($path);
 		}

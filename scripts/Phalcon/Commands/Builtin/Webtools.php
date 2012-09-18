@@ -25,26 +25,22 @@ use Phalcon\Commands\Command;
 use Phalcon\Commands\CommandsInterface;
 
 /**
- * Phalcon\Commands\Enumerate
+ * Phalcon\Commands\Webtools
  *
- * List commands loaded in devtools
+ * Enables/disables webtools in a project
  */
-class Enumerate extends Command implements CommandsInterface
+class Webtools extends Command implements CommandsInterface
 {
+
+	protected $_posibleParameters = array(
+		'action'		=> "Enables/Disables webtools in a project",
+		'trace'			=> "--trace \t\tShows the trace of the framework in case of exception.",
+		'directory=s' 	=> "--directory path \tBase path on which project will be created",
+	);
 
 	public function run($parameters)
 	{
-		print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
-		foreach ($this->getScript()->getCommands() as $commands) {
-			$providedCommands = $commands->getCommands();
-			print '  ' . Color::colorize($providedCommands[0], Color::FG_GREEN);
-			unset($providedCommands[0]);
-			if (count($providedCommands)) {
-				print ' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
-			}
-			print PHP_EOL;
-		}
-		print PHP_EOL;
+		//Phalcon\Web\Tools::install($path);
 	}
 
 	/**
@@ -54,7 +50,7 @@ class Enumerate extends Command implements CommandsInterface
 	 */
 	public function getCommands()
 	{
-		return array('commands', 'list', 'enumerate');
+		return array('webtools');
 	}
 
 	/**
@@ -62,7 +58,7 @@ class Enumerate extends Command implements CommandsInterface
 	 */
 	public function canBeExternal()
 	{
-		return true;
+		return false;
 	}
 
 	/**
@@ -72,7 +68,16 @@ class Enumerate extends Command implements CommandsInterface
 	public function getHelp()
 	{
 		print Color::head('Help:') . PHP_EOL;
-		print Color::colorize('  Lists the commands availables in Phalcon devtools') . PHP_EOL . PHP_EOL;
+		print Color::colorize('  Enables/disables webtools in a project') . PHP_EOL . PHP_EOL;
+
+		print Color::head('Usage:') . PHP_EOL;
+		print Color::colorize('  webtools [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+		print Color::head('Arguments:') . PHP_EOL;
+		print Color::colorize('  ?', Color::FG_GREEN);
+	  	print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
+
+		$this->printParameters($this->_possibleParameters);
 	}
 
 }

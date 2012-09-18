@@ -23,6 +23,7 @@ namespace Phalcon\Commands\Builtin;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsInterface;
 
 /**
  * CreateController
@@ -35,34 +36,29 @@ use Phalcon\Commands\Command;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Controller extends Command
+class Controller extends Command implements CommandsInterface
 {
+
+	protected $_possibleParameters = array(
+		'directory=s'   => "Directory where the controller should be created",
+		'base-class=s'	=> "Base class to be inherited by the controller [optional]",
+		'force'			=> "Force to rewrite controller [optional]",
+	);
 
 	/**
 	 * Run the command
 	 */
-	public function run()
+	public function run($parameters)
 	{
-		$possibleParameters = array(
-			'directory=s'   => "--directory path Directory where the project will be created",
-			'force'			=> "--force \t Force to rewrite controller [optional]",
-		);
 
-		$this->parseParameters($possibleParameters);
-		$parameters = $this->getParameters();
-
-		if (!isset($parameters[1]) || $parameters[1] == '?') {
-			$this->getHelp();
-			return;
-		}
-
-		$modelBuilder = Builder::factory('\Phalcon\Builder\Controller', array(
+		$controllerBuilder = new \Phalcon\Builder\Controller(array(
 			'name' => $parameters[1],
 			'directory' => $this->getOption('directory'),
+			'baseClass' => $this->getOption('base-class'),
 			'force' => $this->isReceivedOption('force')
 		));
 
-		$modelBuilder->build();
+		$controllerBuilder->build();
 	}
 
 	/**
@@ -73,6 +69,14 @@ class Controller extends Command
 	public function getCommands()
 	{
 		return array('controller', 'create-controller');
+	}
+
+	/**
+	 * Checks whether the command can be executed outside a Phalcon project
+	 */
+	public function canBeExternal()
+	{
+		return false;
 	}
 
 	/**
@@ -92,12 +96,6 @@ class Controller extends Command
 		print Color::colorize('  ?', Color::FG_GREEN);
 		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		print Color::head('Options:') . PHP_EOL;
-
-		print Color::colorize('  --name', Color::FG_GREEN);
-		print Color::colorize("             Name of the controller") . PHP_EOL;
-
-		print Color::colorize('  --directory', Color::FG_GREEN);
-		print Color::colorize("        Directory where the controller should be created") . PHP_EOL. PHP_EOL;
+		$this->printParameters($this->_posibleParameters);
 	}
 }
