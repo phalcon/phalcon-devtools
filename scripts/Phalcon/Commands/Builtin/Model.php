@@ -40,7 +40,7 @@ use Phalcon\Commands\CommandsInterface;
 class Model extends Command implements CommandsInterface
 {
 
-	protected $_posibleParameters = array(
+	protected $_possibleParameters = array(
 		'schema=s' 		=> "Name of the schema. [optional]",
 		'get-set' 		=> "Attributes will be protected and have setters/getters.",
 		'doc' 			=> "Helps to improve code completion on IDEs [optional]",
@@ -108,7 +108,7 @@ class Model extends Command implements CommandsInterface
 		print Color::colorize('  ?', Color::FG_GREEN);
 		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		$this->printParameters($this->_posibleParameters);
+		$this->printParameters($this->_possibleParameters);
 
 	}
 }
