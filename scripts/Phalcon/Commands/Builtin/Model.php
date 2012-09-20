@@ -43,11 +43,12 @@ class Model extends Command implements CommandsInterface
 	protected $_possibleParameters = array(
 		'name=s' 		=> "Model name",
 		'schema=s' 		=> "Name of the schema. [optional]",
-		'get-set' 		=> "Attributes will be protected and have setters/getters.",
+		'namespace=s' 	=> "Model's namespace [optional]",
+		'get-set' 		=> "Attributes will be protected and have setters/getters. [optional]",
 		'doc' 			=> "Helps to improve code completion on IDEs [optional]",
-		'directory=s' 	=> "Base path on which project will be created",
+		'directory=s' 	=> "Base path on which project will be created [optional]",
 		'force' 		=> "Rewrite the model. [optional]",
-		'trace' 		=> "Shows the trace of the framework in case of exception.",
+		'trace' 		=> "Shows the trace of the framework in case of exception. [optional]",
 	);
 
 	public function run($parameters)
@@ -67,6 +68,7 @@ class Model extends Command implements CommandsInterface
 			'fileName' => $fileName,
 			'genSettersGetters' => $this->isReceivedOption('get-set'),
 			'genDocMethods' => $this->isReceivedOption('doc'),
+			'namespace' => $this->getOption('namespace'),
 			'directory' => $this->getOption('directory'),
 			'force' => $this->isReceivedOption('force')
 		));

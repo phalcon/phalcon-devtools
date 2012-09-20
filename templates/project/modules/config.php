@@ -8,6 +8,9 @@ return new \Phalcon\Config(array(
 		'password' => '',
 		'name'     => 'test',
 	),
+	'application' => array(
+		'modelsDir' => __DIR__.'/../models/',
+	),
 	'models' => array(
 		'metadata' => array(
 			'adapter' => 'Memory'

@@ -55,6 +55,19 @@ abstract class Component
 				}
 			}
 		}
+
+		$directory = new \RecursiveDirectoryIterator('.');
+		$iterator = new \RecursiveIteratorIterator($directory);
+		foreach($iterator as $f){
+			if (preg_match('/config\.php$/', $f->getPathName())) {
+				$config = include($f->getPathName());
+				return $config;
+			} else {
+				if (preg_match('/config\.ini$/', $f->getPathName())) {
+					return new \Phalcon\Config\Adapter\Ini($f->getPathName());
+				}
+			}
+		}
 		throw new BuilderException('Builder can\'t locate the configuration file');
 	}
 
@@ -72,7 +85,7 @@ abstract class Component
 		return false;
 	}
 
-	public function isSupportedDatabase()
+	public function isSupportedAdapter($adapter)
 	{
 		if (!class_exists('\Phalcon\Db\Adapter\Pdo\\'.$adapter)) {
 			throw new BuilderException("Adapter $adapter is not supported");

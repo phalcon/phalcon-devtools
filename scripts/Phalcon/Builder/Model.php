@@ -111,14 +111,6 @@ class Model extends Component
 			}
 		}
 
-		$useSettersGetters = $this->_options['genSettersGetters'];
-		if (isset($this->_options['genDocMethods'])) {
-			$genDocMethods = $this->_options['genDocMethods'];
-		} else {
-			$genDocMethods = false;
-		}
-
-
 		$config = $this->_getConfig($path);
 
 		if (!isset($this->_options['modelsDir'])) {
@@ -153,12 +145,21 @@ class Model extends Component
 			throw new BuilderException("Adapter was not found in the config. Please specify a config variable [database][adapter]");
 		}
 
-		$initialize = array();
-		$adapter = ucfirst($config->database->adapter);
-
-		if (!in_array($adapter, array('Mysql', 'Postgresql', 'Sqlite'))) {
-
+		if (isset($this->_options['namespace'])) {
+			$namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
+		} else {
+			$namespace = '';
 		}
+
+		$useSettersGetters = $this->_options['genSettersGetters'];
+		if (isset($this->_options['genDocMethods'])) {
+			$genDocMethods = $this->_options['genDocMethods'];
+		} else {
+			$genDocMethods = false;
+		}
+
+		$adapter = $config->database->adapter;
+		$this->isSupportedAdapter($adapter);
 
 		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
 		$db = new $adapter(array(
@@ -168,6 +169,7 @@ class Model extends Component
 			'name'     => $config->database->name,
 		));
 
+		$initialize = array();
 		if (isset($this->_options['schema'])) {
 			if ($this->_options['schema'] != $db->getDatabaseName()) {
 				$initialize[] = "\t\t\$this->setSchema(\"{$this->_options['schema']}\");";
@@ -322,11 +324,11 @@ class Model extends Component
 			$initCode = "";
 		}
 
-		$code = "<?php\n";
+		$code = "<?php\n\n";
 		if (file_exists('license.txt')) {
 			$code.=PHP_EOL.file_get_contents('license.txt');
 		}
-		$code.="\nclass ".$className." extends \\Phalcon\\Mvc\\Model \n{\n\n".join("\n", $attributes)."\n";
+		$code.=$namespace."\nclass ".$className." extends \\Phalcon\\Mvc\\Model \n{\n\n".join("\n", $attributes)."\n";
 		if ($useSettersGetters) {
 			$code.="\n".join("\n", $setters)."\n\n".join("\n", $getters);
 		}
