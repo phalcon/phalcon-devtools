@@ -45,16 +45,17 @@ abstract class Component
 
 	protected function _getConfig($path)
 	{
-		if (file_exists($path . "app/config/config.ini")) {
-			return new \Phalcon\Config\Adapter\Ini($path . "app/config/config.ini");
-		} else {
-			if (file_exists($path . "app/config/config.php")) {
-				$config = include($path . "app/config/config.php");
-				return $config;
+		foreach (array('app/config/', 'config/') as $configPath) {
+			if (file_exists($path . $configPath. "config.ini")) {
+				return new \Phalcon\Config\Adapter\Ini($path . $configPath. "/config.ini");
 			} else {
-				throw new BuilderException('Builder can\'t locate the configuration file');
+				if (file_exists($path . $configPath. "/config.php")) {
+					$config = include($path . $configPath. "/config.php");
+					return $config;
+				}
 			}
 		}
+		throw new BuilderException('Builder can\'t locate the configuration file');
 	}
 
 	public function isAbsolutePath($path)

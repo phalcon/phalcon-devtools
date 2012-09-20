@@ -17,9 +17,7 @@ try {
 	$loader->registerDirs(
 		array(
 			$config->application->controllersDir,
-			$config->application->pluginsDir,
-			$config->application->libraryDir,
-			$config->application->modelsDir,
+			$config->application->modelsDir
 		)
 	)->register();
 
