@@ -142,7 +142,7 @@ namespace Phalcon {
 		 * Gets a param by its name or numeric index
 		 *
 		 * @param  mixed $param
-		 * @param  string|array $filter
+		 * @param  string|array $filters
 		 * @return mixed
 		 */
 		public function getParam($param, $filters){ }
@@ -173,6 +173,8 @@ namespace Phalcon {
 
 
 		/**
+		 * Forwards the execution flow to another controller/action
+		 *
 		 * @param array $forward
 		 */
 		public function forward($forward){ }

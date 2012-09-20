@@ -74,9 +74,6 @@ try {
 }
 catch (\Phalcon\Exception $e) {
 	print Color::error($e->getMessage()) . PHP_EOL;
-	//if(!isset($script) || $script->getOption('trace')){
-	//	print $e->getTraceAsString() . PHP_EOL;
-	//}
 }
 catch (\Exception $e) {
 	print Color::error($e->getMessage()) . PHP_EOL;

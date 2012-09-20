@@ -30,18 +30,19 @@ namespace Phalcon\Builder\Project;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Simple
+class Modules
 {
 
 	private $_dirs = array(
-		'app',
-		'app/logs',
-		'app/views',
-		'app/config',
-		'app/models',
-		'app/controllers',
-		'app/views/index',
-		'app/views/layouts',
+		'apps/',
+		'apps/frontend',
+		'apps/frontend/logs',
+		'apps/frontend/views',
+		'apps/frontend/config',
+		'apps/frontend/models',
+		'apps/frontend/controllers',
+		'apps/frontend/views/index',
+		'apps/frontend/views/layouts',
 		'public',
 		'public/img',
 		'public/css',
@@ -56,11 +57,12 @@ class Simple
 	 *
 	 * @return void
 	 */
-	private function createControllerFile($path)
+	private function createControllerFile($path, $name)
 	{
 		$modelBuilder = new \Phalcon\Builder\Controller(array(
 			'name' => 'index',
-			'directory' => $path,
+			'controllersDir' => '../'.$path.'apps/frontend/controllers/',
+			'namespace' => ucfirst($name).'\Frontend\Controllers',
 			'baseClass' => 'ControllerBase'
 		));
 		$modelBuilder->build();
@@ -83,7 +85,7 @@ class Simple
 		}
 
 		if (file_exists($path . 'public/.htaccess') == false) {
-			file_put_contents($path.'public/.htaccess', file_get_contents($templatePath . '/project/simple/htaccess'));
+			file_put_contents($path.'public/.htaccess', file_get_contents($templatePath . '/project/modules/htaccess'));
 		}
 
 		if (file_exists($path.'index.html') == false) {
@@ -100,15 +102,15 @@ class Simple
 	private function createIndexViewFiles($path, $templatePath)
 	{
 
-		$file = $path.'app/views/index.phtml';
+		$file = $path.'apps/frontend/views/index.phtml';
 		if (!file_exists($file)) {
-			$str = file_get_contents($templatePath . '/project/simple/views/index.phtml');
+			$str = file_get_contents($templatePath . '/project/modules/views/index.phtml');
 			file_put_contents($file, $str);
 		}
 
-		$file = $path.'app/views/index/index.phtml';
+		$file = $path.'apps/frontend/views/index/index.phtml';
 		if (!file_exists($file)) {
-			$str = file_get_contents($templatePath . '/project/simple/views/index/index.phtml');
+			$str = file_get_contents($templatePath . '/project/modules/views/index/index.phtml');
 			file_put_contents($file, $str);
 		}
 	}
@@ -124,10 +126,10 @@ class Simple
 	 */
 	private function createConfig($path, $templatePath, $name, $type)
 	{
-		if (file_exists($path.'app/config/config.' . $type) == false) {
-			$str = file_get_contents($templatePath . '/project/simple/config.' . $type);
+		if (file_exists($path.'apps/frontend/config/config.' . $type) == false) {
+			$str = file_get_contents($templatePath . '/project/modules/config.' . $type);
 			$str = preg_replace('/@@name@@/', $name, $str);
-			file_put_contents($path.'app/config/config.' . $type, $str);
+			file_put_contents($path.'apps/frontend/config/config.' . $type, $str);
 		}
 	}
 
@@ -141,10 +143,27 @@ class Simple
 	 */
 	private function createControllerBase($path, $templatePath, $name)
 	{
-		if (file_exists($path . 'app/controllers/ControllerBase.php') == false) {
-			$str = file_get_contents($templatePath . '/project/simple/ControllerBase.php');
-			$str = preg_replace('/@@name@@/', $name, $str);
-			file_put_contents($path . 'app/controllers/ControllerBase.php', $str);
+		if (file_exists($path . 'apps/frontend/controllers/ControllerBase.php') == false) {
+			$str = file_get_contents($templatePath . '/project/modules/ControllerBase.php');
+			$str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
+			file_put_contents($path . 'apps/frontend/controllers/ControllerBase.php', $str);
+		}
+	}
+
+	/**
+	 * Create ControllerBase
+	 *
+	 * @param $path
+	 * @param $name
+	 *
+	 * @return void
+	 */
+	private function createModule($path, $templatePath, $name)
+	{
+		if (file_exists($path . 'apps/frontend/Module.php') == false) {
+			$str = file_get_contents($templatePath . '/project/modules/Module.php');
+			$str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
+			file_put_contents($path . 'apps/frontend/Module.php', $str);
 		}
 	}
 
@@ -153,15 +172,12 @@ class Simple
 	 *
 	 * @return void
 	 */
-	private function createBootstrapFile($path, $templatePath, $useIniConfig)
+	private function createBootstrapFile($name, $path, $templatePath)
 	{
 		if (file_exists($path . 'public/index.php') == false) {
-			$config = '$config = include(__DIR__."/../app/config/config.php");';
-			if ($useIniConfig) {
-				$config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__."/../app/config/config.ini");';
-			}
-			$str = file_get_contents($templatePath . '/project/simple/index.php');
-			$str = preg_replace('/@@config@@/', $config, $str);
+			$str = file_get_contents($templatePath . '/project/modules/index.php');
+			$str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
+			$str = preg_replace('/@@name@@/', $name, $str);
 			file_put_contents($path . 'public/index.php', $str);
 		}
 	}
@@ -185,11 +201,12 @@ class Simple
 			$this->createConfig($path, $templatePath, $name, 'php');
 		}
 
-		$this->createBootstrapFile($path, $templatePath, $useIniConfig);
+		$this->createBootstrapFile($name, $path, $templatePath, $useIniConfig);
 		$this->createHtaccessFiles($path, $templatePath);
 		$this->createControllerBase($path, $templatePath, $name);
+		$this->createModule($path, $templatePath, $name);
 		$this->createIndexViewFiles($path, $templatePath);
-		$this->createControllerFile($path, $templatePath);
+		$this->createControllerFile($path, $name);
 
 		if ($options['enableWebTools']) {
 			// TODO implement

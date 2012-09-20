@@ -41,6 +41,7 @@ class Model extends Command implements CommandsInterface
 {
 
 	protected $_possibleParameters = array(
+		'name=s' 		=> "Model name",
 		'schema=s' 		=> "Name of the schema. [optional]",
 		'get-set' 		=> "Attributes will be protected and have setters/getters.",
 		'doc' 			=> "Helps to improve code completion on IDEs [optional]",
@@ -52,7 +53,7 @@ class Model extends Command implements CommandsInterface
 	public function run($parameters)
 	{
 
-		$name = $parameters[1];
+		$name = $this->getOption(array('name', 1));
 
 		$className = Text::camelize(isset($parameters[2]) ? $parameters[2] : $name);
 		$fileName = Text::uncamelize($className);

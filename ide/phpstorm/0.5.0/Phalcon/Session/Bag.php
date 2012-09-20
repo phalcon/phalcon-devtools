@@ -27,7 +27,7 @@ namespace Phalcon\Session {
 
 		protected $_session;
 
-		public function __construct(){ }
+		public function __construct($name){ }
 
 
 		/**
@@ -50,6 +50,12 @@ namespace Phalcon\Session {
 		 * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
 		 */
 		public function initialize(){ }
+
+
+		/**
+		 * Destroyes the session bag
+		 */
+		public function destroy(){ }
 
 
 		/**

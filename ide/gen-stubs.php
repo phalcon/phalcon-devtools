@@ -12,26 +12,29 @@ if(!extension_loaded('phalcon')){
  * php ide/gen-stubs.php
  */
 
-define('CPHALCON_DIR', '/Users/kenjikobe/cphalcon/ext/');
+define('CPHALCON_DIR', '/Applications/MAMP/htdocs/phalcon/target/dev');
 
-class Stubs_Generator {
+class Stubs_Generator
+{
 
 	protected $_docs = array();
 
-	public function __construct($directory){
+	public function __construct($directory)
+	{
 		$this->_scanSources($directory);
 	}
 
-	protected function _scanSources($directory){
+	protected function _scanSources($directory)
+	{
 		$iterator = new DirectoryIterator($directory);
-		foreach($iterator as $item){
-			if($item->isDir()){
-				if($item->getFileName()!='.'&&$item->getFileName()!='..'){
+		foreach ($iterator as $item) {
+			if ($item->isDir()) {
+				if ($item->getFileName() != '.' && $item->getFileName() != '..') {
 					$this->_scanSources($item->getPathname());
 				}
 			} else {
-				if(preg_match('/\.c$/', $item->getPathname())){
-					if(strpos($item->getPathname(), 'kernel')===false){
+				if (preg_match('/\.c$/', $item->getPathname())) {
+					if (strpos($item->getPathname(), 'kernel')===false) {
 						$this->_getDocs($item->getPathname());
 					}
 				}
@@ -39,20 +42,21 @@ class Stubs_Generator {
 		}
 	}
 
-	protected function _getDocs($file){
+	protected function _getDocs($file)
+	{
 		$firstDoc = true;
 		$openComment = false;
 		$nextLineMethod = false;
 		$comment = '';
-		foreach(file($file) as $line){
+		foreach (file($file) as $line) {
 			if(trim($line)=='/**'){
 				$openComment = true;
 			}
-			if($openComment===true){
+			if ($openComment===true){
 				$comment.=$line;
 			} else {
-				if($nextLineMethod===true){
-					if(preg_match('/^PHP_METHOD\(([a-zA-Z\_]+), (.*)\)/', $line, $matches)){
+				if ($nextLineMethod===true) {
+					if (preg_match('/^PHP_METHOD\(([a-zA-Z\_]+), (.*)\)/', $line, $matches)) {
 						$this->_docs[$matches[1]][$matches[2]] = trim($comment);
 						$className = $matches[1];
 					} else {
@@ -74,18 +78,20 @@ class Stubs_Generator {
 				}
 			}
 		}
-		if(isset($classDoc)){
-			if(isset($className)){
+		if (isset($classDoc)) {
+			if (isset($className)) {
 				$this->_classDocs[$className] = $classDoc;
 			}
 		}
 	}
 
-	public function getDocs(){
+	public function getDocs()
+	{
 		return $this->_docs;
 	}
 
-	public function getClassDocs(){
+	public function getClassDocs()
+	{
 		return $this->_classDocs;
 	}
 
@@ -144,16 +150,16 @@ foreach(get_declared_classes() as $className){
 	}
 
 	// constants
-	foreach($reflector->getConstants() as $constant => $value){
+	foreach ($reflector->getConstants() as $constant => $value){
 		$source.= PHP_EOL."\t\t".'const '.$constant.' = '.$value.';'.PHP_EOL;
 	}
 
 	// public and protected properties
-	foreach($reflector->getProperties() as $property){
+	foreach ($reflector->getProperties() as $property){
 		$source.= PHP_EOL."\t\t".implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
 	}
 
-	if($className=='Phalcon\Mvc\User'){
+	if ($className == 'Phalcon\DI\Injectable') {
 		$source .= '
 		/**
  		 * @var \Phalcon\Mvc\View
@@ -169,6 +175,11 @@ foreach(get_declared_classes() as $className){
 		 * @var \Phalcon\Mvc\Dispatcher
 	 	 */
 		public $dispatcher;
+
+		/**
+		 * @var \Phalcon\Mvc\Url
+	 	 */
+		public $url;
 
 		/**
 		 * @var \Phalcon\DI
@@ -191,9 +202,24 @@ foreach(get_declared_classes() as $className){
 		public $flash;
 
 		/**
+		 * @var \Phalcon\Flash\Session
+	 	 */
+		public $session;
+
+		/**
 		 * @var \Phalcon\Session\Bag
 	 	 */
 		public $persistent;
+
+		/**
+		 * @var \Phalcon\Mvc\Model\Manager
+	 	 */
+		public $modelsManager;
+
+		/**
+		 * @var \Phalcon\Mvc\Model\Metadata
+	 	 */
+		public $modelsMetadata;
 		';
 	}
 

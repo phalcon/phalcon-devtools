@@ -58,7 +58,6 @@ class Project extends Command implements CommandsInterface
 	public function run($parameters)
 	{
 
-
 		$projectName = $this->getOption(array('name', 1), null, 'default');
 		$projectType = $this->getOption(array('type', 2), null, 'simple');
 		$projectPath = $this->getOption(array('directory', 3), null, '');

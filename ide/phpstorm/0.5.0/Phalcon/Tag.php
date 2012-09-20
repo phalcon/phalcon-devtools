@@ -182,6 +182,19 @@ namespace Phalcon {
 
 
 		/**
+		 * Builds a HTML input[type="radio"] tag
+		 *
+		 *<code>
+		 * echo \Phalcon\Tag::radioField(array("name", "size" => 30))
+		 *</code>
+		 *
+		 * @param array $parameters
+		 * @return string
+		 */
+		public static function radioField($parameters){ }
+
+
+		/**
 		 * Builds a HTML input[type="submit"] tag
 		 *
 		 *<code>
