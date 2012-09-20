@@ -40,31 +40,29 @@ class Scaffold extends Command implements CommandsInterface
 {
 
 	protected $_possibleParameters = array(
-		'schema=s'       => "Name of the schema.",
-		'get-set'        => "Attributes will be protected and have setters/getters.",
-		'directory=s'    => "Base path on which project was created",
-		'force'          => "Forces to rewrite generated code if they already exists.",
-		'trace'          => "Shows the trace of the framework in case of exception.",
+		'table-name=s'   => "Table used as base to generate the scaffold",
+		'schema=s'       => "Name of the schema. [optional]",
+		'get-set'        => "Attributes will be protected and have setters/getters. [optional]",
+		'directory=s'    => "Base path on which project was created [optional]",
+		'force'          => "Forces to rewrite generated code if they already exists. [optional]",
+		'trace'          => "Shows the trace of the framework in case of exception. [optional]",
 	);
 
 	public function run($parameters)
 	{
 
-		$name = $parameters[1];
+		$name = $this->getOption(array('table-name', 1));
 		$schema = $this->getOption('schema');
 
 		$scaffoldBuilder = new \Phalcon\Builder\Scaffold(array(
 			'name' => $name,
-			'theme'	=> $this->getOption('theme'),
 			'schema' => $schema,
 			'force'	=> $this->isReceivedOption('force'),
 			'genSettersGetters' => $this->isReceivedOption('get-set'),
-			'directory' => $this->getOption('directory'),
-			'autocomplete' 	=> $this->getOption('autocomplete')
+			'directory' => $this->getOption('directory')
 		));
 
-		$scaffoldBuilder->build();
-
+		return $scaffoldBuilder->build();
 	}
 
 	/**

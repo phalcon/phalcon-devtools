@@ -23,8 +23,6 @@ namespace Phalcon\Builder;
 use Phalcon\Text;
 use Phalcon\Script\Color;
 use Phalcon\Builder\Component;
-use Phalcon\Builder\Exception as BuilderException;
-
 
 /**
  * ScaffoldBuilderComponent
@@ -82,7 +80,7 @@ class Scaffold extends Component
 
 		$adapter = ucfirst($config->database->adapter);
 
-		$this->checkDatabaseSupported($adapter);
+		$this->isSupportedAdapter($adapter);
 
 		$di = new \Phalcon\DI\FactoryDefault();
 
@@ -97,16 +95,29 @@ class Scaffold extends Component
 			return $connection;
 		});
 
-		$options['modelsDir'] = $path . $config->phalcon->modelsDir;
-		$options['controllersDir'] = $path . $config->phalcon->controllersDir;
-		$options['viewsDir'] = $path . $config->phalcon->viewsDir;
-		$options['manager'] = new \Phalcon\Mvc\Model\Manager();
-		$options['manager']->setDi($di);
+		if(isset($config->application->modelsDir)){
+			$options['modelsDir'] = $path . $config->application->modelsDir;
+		} else {
+			throw new BuilderException("The builder is unable to know where is the views directory");
+		}
+
+		if(isset($config->application->controllersDir)){
+			$options['controllersDir'] = $path . $config->application->controllersDir;
+		} else {
+			throw new BuilderException("The builder is unable to know where is the controllers directory");
+		}
+
+		if(isset($config->application->viewsDir)){
+			$options['viewsDir'] = $path . $config->application->viewsDir;
+		} else {
+			throw new BuilderException("The builder is unable to know where is the views directory");
+		}
+		$options['manager'] = $di->getShared('modelsManager');
 
 		$options['className'] = Text::camelize($options['name']);
 		$options['fileName'] = Text::uncamelize($options['className']);
 
-		$modelBuilder = Builder::factory('\\Phalcon\\Builder\\Model', array(
+		$modelBuilder = new \Phalcon\Builder\Model(array(
 			'name' => $name,
 			'schema' => $options['schema'],
 			'className' => $options['className'],
@@ -173,6 +184,8 @@ class Scaffold extends Component
 
 		//View edit.phtml
 		$this->_makeViewEdit($path, $options);
+
+		return true;
 	}
 
 	private function _captureFilterInput(&$code, $options){
@@ -245,8 +258,8 @@ class Scaffold extends Component
 			"\t".'function searchAction(){
 
 		$numberPage = 1;
-		if($this->request->isPost()){
-			$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->getDI(), "'.$options['className'].'", $_POST);
+		if( $this->request->isPost()) {
+			$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->di, "'.$options['className'].'", $_POST);
 			$this->session->conditions = $query->getConditions();
 		} else {
 			$numberPage = $this->request->getQuery("page", "int");
@@ -264,7 +277,7 @@ class Scaffold extends Component
 		$'.$options['name'].' = '.$options['className'].'::find($parameters);
 		if(count($'.$options['name'].')==0){
 			$this->flash->notice("The search did not find any '.$options['plural'].'");
-			return $this->forward("'.$options['name'].'/index");
+			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
 		}
 
 		$paginator = new \Phalcon\Paginator\Adapter\Model(array(
@@ -426,7 +439,7 @@ class Scaffold extends Component
 	private function _makeLayouts($path, $options){
 
 		//Make Layouts dir
-		$dirPathLayouts	= $path.'app/views/layouts';
+		$dirPathLayouts	= $options['viewsDir'].'/layouts';
 		//If not exists dir; we make it
 		if(is_dir($dirPathLayouts)==false){
 			mkdir($dirPathLayouts);
@@ -580,7 +593,7 @@ class Scaffold extends Component
 	 */
 	private function _makeViewIndex($path, $options){
 
-		$dirPath = $path.'app/views/'.$options['name'];
+		$dirPath = $options['viewsDir'].$options['name'];
 		if(is_dir($dirPath)==false){
 			mkdir($dirPath);
 		}
@@ -629,7 +642,7 @@ class Scaffold extends Component
 	 */
 	private function _makeViewNew($path, $options){
 
-		$dirPath = $path.'app/views/'.$options['name'];
+		$dirPath = $options['viewsDir'].$options['name'];
 		if(is_dir($dirPath)==false){
 			mkdir($dirPath);
 		}
@@ -678,7 +691,7 @@ class Scaffold extends Component
 	 */
 	private function _makeViewEdit($path, $options){
 
-		$dirPath = $path.'app/views/'.$options['name'];
+		$dirPath = $options['viewsDir'].$options['name'];
 		if(is_dir($dirPath)==false){
 			mkdir($dirPath);
 		}
@@ -730,7 +743,7 @@ class Scaffold extends Component
 	private function _makeViewSearch($path, $options){
 
 		//View model layout
-		$dirPath = $path.'app/views/'.$options['name'];
+		$dirPath = $options['viewsDir'].$options['name'];
 		$viewPath = $dirPath.'/search.phtml';
 
 		if(!file_exists($viewPath)){
