@@ -20,7 +20,6 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder;
 use Phalcon\Db\Column;
 use Phalcon\Builder\Component;
 use Phalcon\Builder\BuilderException;
@@ -128,6 +127,7 @@ class Model extends Component
 			$modelPath = $modelsDir;
 		}
 
+		$methodRawCode = array();
 		$className = $this->_options['className'];
 		$modelPath .= $className.'.php';
 
@@ -147,6 +147,7 @@ class Model extends Component
 
 		if (isset($this->_options['namespace'])) {
 			$namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
+			$methodRawCode[] = "\t".'public function getSource()'."\n\t".'{'."\n\t\t".'return "'.$this->_options['name'].'";'."\n\t".'}';
 		} else {
 			$namespace = '';
 		}
@@ -226,7 +227,6 @@ class Model extends Component
 			}
 		}
 
-		$methodRawCode = array();
 		$alreadyInitialized = false;
 		$alreadyValidations = false;
 		if (file_exists($modelPath)) {
