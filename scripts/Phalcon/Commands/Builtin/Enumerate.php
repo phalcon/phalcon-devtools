@@ -32,6 +32,8 @@ use Phalcon\Commands\CommandsInterface;
 class Enumerate extends Command implements CommandsInterface
 {
 
+	protected $_possibleParameters = array();
+
 	public function run($parameters)
 	{
 		print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
@@ -73,6 +75,8 @@ class Enumerate extends Command implements CommandsInterface
 	{
 		print Color::head('Help:') . PHP_EOL;
 		print Color::colorize('  Lists the commands availables in Phalcon devtools') . PHP_EOL . PHP_EOL;
+
+		$this->run(array());
 	}
 
 }
