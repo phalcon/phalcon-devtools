@@ -53,8 +53,8 @@ class Project extends Component
 			}
 		}
 
-		if (isset($this->_options['template-path'])) {
-			$templatePath = $this->_options['template-path'];
+		if (isset($this->_options['templatePath'])) {
+			$templatePath = $this->_options['templatePath'];
 		} else {
 			$templatePath = str_replace('scripts/'.str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__).'.php', '', __FILE__).'templates';
 		}
