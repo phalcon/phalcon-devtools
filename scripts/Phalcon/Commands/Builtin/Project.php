@@ -61,7 +61,11 @@ class Project extends Command implements CommandsInterface
 		$projectName = $this->getOption(array('name', 1), null, 'default');
 		$projectType = $this->getOption(array('type', 2), null, 'simple');
 		$projectPath = $this->getOption(array('directory', 3), null, '');
-		$templatePath = $this->getOption(array('template-path'), null, null);
+		if (defined('TEMPLATE_PATH')) {
+			$templatePath = TEMPLATE_PATH;
+		} else {
+			$templatePath = $this->getOption(array('template-path'), null, null);
+		}
 		$enableWebtools = $this->getOption(array('enable-webtools', 4), null, false);
 		$useConfigIni = $this->getOption('use-config-ini');
 
