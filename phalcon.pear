@@ -1,0 +1,82 @@
+#!/usr/bin/env php
+<?php
+
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
+
+error_reporting(E_ALL);
+
+use Phalcon\Script;
+use Phalcon\Version;
+use Phalcon\Script\Color;
+use Phalcon\Commands\CommandsListener;
+
+try {
+
+	if (!extension_loaded('phalcon')) {
+		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
+	}
+
+	$loader = new \Phalcon\Loader();
+
+	$loader->registerDirs(array(
+		'@php_dir@/'
+	));
+
+	$loader->registerNamespaces(array(
+		'Phalcon' => '@php_dir@/'
+	));
+
+	$loader->register();
+
+	if (Version::getId() < Script::COMPATIBLE_VERSION) {
+		throw new Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
+	}
+
+	$vendor = sprintf('Phalcon DevTools (%s)', Version::get());
+	print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
+
+	$eventsManager = new Phalcon\Events\Manager();
+
+	$eventsManager->attach('command', new CommandsListener());
+
+	$script = new Script($eventsManager);
+
+	$commandsToEnable = array(
+		'\Phalcon\Commands\Builtin\Enumerate',
+		'\Phalcon\Commands\Builtin\Controller',
+		'\Phalcon\Commands\Builtin\Model',
+		'\Phalcon\Commands\Builtin\AllModels',
+		'\Phalcon\Commands\Builtin\Project',
+		'\Phalcon\Commands\Builtin\Scaffold',
+		'\Phalcon\Commands\Builtin\Webtools'
+	);
+	foreach ($commandsToEnable as $command){
+		$script->attach(new $command($script, $eventsManager));
+	}
+
+	define('TEMPLATE_PATH', '@php_dir@/Phalcon/templates');
+
+	$script->run();
+}
+catch (\Phalcon\Exception $e) {
+	print Color::error($e->getMessage()) . PHP_EOL;
+}
+catch (\Exception $e) {
+	print Color::error($e->getMessage()) . PHP_EOL;
+}
