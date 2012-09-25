@@ -48,6 +48,10 @@ try {
 		throw new Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
 	}
 
+    if (!defined('TEMPLATE_PATH')) {
+        define('TEMPLATE_PATH', '@php_dir@/Phalcon/templates');
+    }
+
 	$vendor = sprintf('Phalcon DevTools (%s)', Version::get());
 	print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
 
@@ -69,8 +73,6 @@ try {
 	foreach ($commandsToEnable as $command){
 		$script->attach(new $command($script, $eventsManager));
 	}
-
-	define('TEMPLATE_PATH', '@php_dir@/Phalcon/templates');
 
 	$script->run();
 }
