@@ -172,7 +172,7 @@ class Model extends Component
 
 		$initialize = array();
 		if (isset($this->_options['schema'])) {
-			if ($this->_options['schema'] != $db->getDatabaseName()) {
+			if ($this->_options['schema'] != $config->database->name) {
 				$initialize[] = "\t\t\$this->setSchema(\"{$this->_options['schema']}\");";
 			}
 			$schema = $this->_options['schema'];

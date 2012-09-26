@@ -40,7 +40,7 @@ use Phalcon\Commands\CommandsInterface;
 class AllModels extends Command implements CommandsInterface
 {
 
-	protected $_posibleParameters = array(
+	protected $_possibleParameters = array(
 		'config=s' 			=> "Configuration file  ",
 		'models=s' 			=> "Models directory ",
 		'force'				=> "Force script to rewrite all the models.  ",
@@ -59,7 +59,6 @@ class AllModels extends Command implements CommandsInterface
 		if ($this->isReceivedOption('directory')) {
 			$path = $this->getOption('directory').'/';
 		}
-
 		$config = null;
 		if (!$this->isReceivedOption('models')) {
 
@@ -74,34 +73,28 @@ class AllModels extends Command implements CommandsInterface
 			if ($fileType == 'ini'){
 				$config = new \Phalcon\Config\Adapter\Ini($configPath);
 			} else {
-				include $configPath;
+				$config = include $configPath;
 			}
 
 			if (file_exists($path.'public')) {
-				$modelsDir = 'public/'.$config->phalcon->modelsDir;
+				$modelsDir = 'public/'.$config->application->modelsDir;
 			} else {
-				$modelsDir = $config->phalcon->modelsDir;
+				$modelsDir = $config->application->modelsDir;
 			}
 		} else {
 			$modelsDir = $this->getOption('models');
 		}
 
-		$schema = $this->getOption('schema');
-		$forceProcess = $this->isReceivedOption('force');
-		$defineRelations = $this->isReceivedOption('relations');
-		$defineForeignKeys = $this->isReceivedOption('fk');
-		$genSettersGetters = $this->isReceivedOption('get-set');
-		$genDocMethods = $this->isReceivedOption('doc');
 
-		$modelBuilder = \Phalcon\Builder\AllModels(array(
-			'force' => $forceProcess,
+		$modelBuilder = new \Phalcon\Builder\AllModels(array(
+			'force' => $this->isReceivedOption('force'),
 			'config' => $config,
-			'schema' => $schema,
+			'schema' => $this->getOption('schema'),
 			'directory' => $this->getOption('directory'),
-			'foreignKeys' => $defineForeignKeys,
-			'defineRelations' => $defineRelations,
-			'genSettersGetters' => $genSettersGetters,
-			'genDocMethods' => $genDocMethods
+			'foreignKeys' => $this->isReceivedOption('fk'),
+			'defineRelations' => $this->isReceivedOption('relations'),
+			'genSettersGetters' => $this->isReceivedOption('get-set'),
+			'genDocMethods' => $this->isReceivedOption('doc')
 		));
 
 		$modelBuilder->build();
@@ -135,7 +128,7 @@ class AllModels extends Command implements CommandsInterface
 	 */
 	public function getHelp()
 	{
-		$this->printParameters($this->_posibleParameters);
+		$this->printParameters($this->_possibleParameters);
 	}
 
 }
