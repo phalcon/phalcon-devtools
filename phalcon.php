@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /*
@@ -20,48 +21,64 @@
 
 error_reporting(E_ALL);
 
-$phalconToolsPath = getenv("PTOOLSPATH");
-if(!$phalconToolsPath){
-	die("Phalcon: PTOOLSPATH environment variable isn't set\n");
-}
+use Phalcon\Script;
+use Phalcon\Version;
+use Phalcon\Script\Color;
+use Phalcon\Commands\CommandsListener;
 
-if(PHP_OS=="WINNT"){
-	$path = str_replace("\\", "/", getcwd());
-} else {
-	$path = getcwd();
-}
+try {
 
-if(!extension_loaded('phalcon')){
-	die('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install'.PHP_EOL);
-}
-
-if(!file_exists($phalconToolsPath."scripts")){
-	die('Phalcon sripts PATH does not exist, check your PTOOLSPATH env variable ('.$phalconToolsPath.'scripts)'.PHP_EOL);	
-}
-
-if(!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1]=='commands'){
-	echo 
-		'|----------------------' . PHP_EOL .
-		'|-- Available commands:' . PHP_EOL .
-		'|----------------------' . PHP_EOL ;
-	
-	$directory = new DirectoryIterator($phalconToolsPath."scripts");
-	foreach($directory as $file){
-		if(!$file->isDir()){
-			$command = str_replace('.php', '', $file->getFileName());
-			$command = str_replace('_', '-', $command);
-			echo '- ' . $command . PHP_EOL;
-		}
+	if (!extension_loaded('phalcon')) {
+		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 	}
-} else {
-	$_SERVER['argv'][1] = str_replace('-', '_', $_SERVER['argv'][1]);
-	$command = $_SERVER['argv'][1];
-	$scriptPath = $phalconToolsPath."scripts".DIRECTORY_SEPARATOR.$command.".php";
-	if(file_exists($scriptPath)){
-		$_SERVER['argv'][] = "--directory";
-		$_SERVER['argv'][] = $path;
-		require $scriptPath;
-	} else {
-		die('Phalcon: '.$command." isn't a recognized command\n");
+
+	$loader = new \Phalcon\Loader();
+
+	$loader->registerDirs(array(
+		__DIR__ . '/scripts/'
+	));
+
+	$loader->registerNamespaces(array(
+		'Phalcon' => __DIR__.'/scripts/'
+	));
+
+	$loader->register();
+
+	if (Version::getId() < Script::COMPATIBLE_VERSION) {
+		throw new Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
 	}
+
+	if (!defined('TEMPLATE_PATH')) {
+		define('TEMPLATE_PATH', __DIR__ . '/templates');
+	}
+
+	$vendor = sprintf('Phalcon DevTools (%s)', Version::get());
+	print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
+
+	$eventsManager = new Phalcon\Events\Manager();
+
+	$eventsManager->attach('command', new CommandsListener());
+
+	$script = new Script($eventsManager);
+
+	$commandsToEnable = array(
+		'\Phalcon\Commands\Builtin\Enumerate',
+		'\Phalcon\Commands\Builtin\Controller',
+		'\Phalcon\Commands\Builtin\Model',
+		'\Phalcon\Commands\Builtin\AllModels',
+		'\Phalcon\Commands\Builtin\Project',
+		'\Phalcon\Commands\Builtin\Scaffold',
+		'\Phalcon\Commands\Builtin\Webtools'
+	);
+	foreach ($commandsToEnable as $command){
+		$script->attach(new $command($script, $eventsManager));
+	}
+
+	$script->run();
+}
+catch (\Phalcon\Exception $e) {
+	print Color::error($e->getMessage()) . PHP_EOL;
+}
+catch (\Exception $e) {
+	print Color::error($e->getMessage()) . PHP_EOL;
 }
