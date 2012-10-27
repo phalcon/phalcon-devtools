@@ -1,6 +1,6 @@
 <?php
 
-namespace Store\Frontend;
+namespace @@namespace@@\Frontend;
 
 class Module
 {
