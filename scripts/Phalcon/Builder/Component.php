@@ -20,7 +20,8 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder\BuilderException as BuilderException;
+use Phalcon\Script\Color;
+use Phalcon\Builder\BuilderException;
 
 /**
  * \Phalcon\Builder\Component
@@ -90,6 +91,11 @@ abstract class Component
 		if (!class_exists('\Phalcon\Db\Adapter\Pdo\\'.$adapter)) {
 			throw new BuilderException("Adapter $adapter is not supported");
 		}
+	}
+
+	protected function _notifySuccess($message)
+	{
+		print Color::success($message);
 	}
 
 	abstract public function build();

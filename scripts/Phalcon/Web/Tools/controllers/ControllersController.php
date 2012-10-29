@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Tag;
 use Phalcon\Web\Tools;
+use Phalcon\Builder\BuilderException;
 
 class ControllersController extends ControllerBase
 {
@@ -31,35 +33,45 @@ class ControllersController extends ControllerBase
 	/**
 	 * Generate controller
 	 */
-	public function createAction(){
+	public function createAction()
+	{
 
-		if($this->request->isPost()){
+		if ($this->request->isPost()) {
 
-			$name = $this->request->getPost('name', 'string');
+			$controllerName = $this->request->getPost('name', 'string');
 			$force = $this->request->getPost('force', 'int');
 
 			try {
 
-				$modelBuilder = Phalcon_Builder::factory('Controller', array(
-					'name' 		=> $name,
-					'directory'	=> Phalcon_WebTools::getPath(),
-					'force' 	=> $force
+				$controllerBuilder = new \Phalcon\Builder\Controller(array(
+					'name' => $controllerName,
+					'directory' => null,
+					'namespace' => null,
+					'baseClass' => null,
+					'force' => $force
 				));
 
-				$fileName = $modelBuilder->build();
+				$fileName = $controllerBuilder->build();
 
-				Phalcon_Flash::success('The controller "'.$fileName.'" was created successfully', 'alert alert-success');
+				$this->flash->success('The controller "'.$fileName.'" was created successfully');
 
-				return $this->_forward('controllers/edit/'.$fileName);
+				return $this->dispatcher->forward(array(
+					'controller' => 'controllers',
+					'action' => 'edit',
+					'params' => array($fileName)
+				));
 
 			}
-			catch(Phalcon_BuilderException $e){
-				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
+			catch(BuilderException $e){
+				$this->flash->error($e->getMessage());
 			}
 
 		}
 
-		return $this->_forward('controllers/index');
+		return $this->dispatcher->forward(array(
+			'controller' => 'controllers',
+			'action' => 'index'
+		));
 
 	}
 
@@ -76,41 +88,54 @@ class ControllersController extends ControllerBase
 		$controllersDir = Tools::getConfig()->application->controllersDir;
 		if(!file_exists($controllersDir.'/'.$fileName)){
 			$this->flash->error('Controller could not be found', 'alert alert-error');
-			return $this->_forward('controllers/list');
+			return $this->dispatcher->forward(array(
+				'controller' => 'controllers',
+				'action' => 'list'
+			));
 		}
 
-		Phalcon\Tag::setDefault('code', file_get_contents($controllersDir.'/'.$fileName));
-		Phalcon\Tag::setDefault('name', $fileName);
+		Tag::setDefault('code', file_get_contents($controllersDir.'/'.$fileName));
+		Tag::setDefault('name', $fileName);
 		$this->view->setVar('name', $fileName);
 
 	}
 
-	public function saveAction(){
+	public function saveAction()
+	{
 
-		if($this->request->isPost()){
+		if ($this->request->isPost()) {
 
 			$fileName = $this->request->getPost('name', 'string');
 
 			$fileName = str_replace('..', '', $fileName);
 
-			$controllersDir = Phalcon_WebTools::getPath('public/'.$this->_settings->phalcon->controllersDir);
+			$controllersDir = Tools::getConfig()->application->controllersDir;
 			if(!file_exists($controllersDir.'/'.$fileName)){
-				$this->flash->error('Controller could not be found', 'alert alert-error');
-				return $this->_forward('controllers/list');
+				$this->flash->error('Controller could not be found');
+				return $this->dispatcher->forward(array(
+					'controller' => 'controllers',
+					'action' => 'list'
+				));
 			}
 
 			if(!is_writable($controllersDir.'/'.$fileName)){
-				$this->flash->error('Controller file does not have write access', 'alert alert-error');
-				return $this->_forward('controllers/list');
+				$this->flash->error('Controller file does not have write access');
+				return $this->dispatcher->forward(array(
+					'controller' => 'controllers',
+					'action' => 'list'
+				));
 			}
 
 			file_put_contents($controllersDir.'/'.$fileName, $this->request->getPost('code'));
 
-			$this->flash->success('The controller "'.$fileName.'" was saved successfully', 'alert alert-success');
+			$this->flash->success('The controller "'.$fileName.'" was saved successfully');
 
 		}
 
-		return $this->_forward('controllers/list');
+		return $this->dispatcher->forward(array(
+			'controller' => 'controllers',
+			'action' => 'list'
+		));
 
 	}
 

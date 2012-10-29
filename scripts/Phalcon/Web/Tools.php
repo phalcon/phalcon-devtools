@@ -151,6 +151,8 @@ class Tools
 	public static function main($path)
 	{
 
+		chdir('..');
+
 		if (!extension_loaded('phalcon')) {
 			throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 		}
@@ -177,11 +179,11 @@ class Tools
 		}
 
 		//Read configuration
-		$configPath = "../app/config/config.ini";
+		$configPath = "app/config/config.ini";
 		if (file_exists($configPath)) {
 			$config = new Phalcon\Config\Adapter\Ini($configPath);
 		} else {
-			$configPath = "../app/config/config.php";
+			$configPath = "app/config/config.php";
 			if (file_exists($configPath)) {
 				$config = require $configPath;
 			} else {
@@ -205,6 +207,14 @@ class Tools
 				$url = new \Phalcon\Mvc\Url();
 				$url->setBaseUri($config->application->baseUri);
 				return $url;
+			});
+
+			$di->set('flash', function(){
+				return new \Phalcon\Flash\Direct(array(
+					'error' => 'alert alert-error',
+					'success' => 'alert alert-success',
+					'notice' => 'alert alert-info',
+				));
 			});
 
 			self::$_di = $di;
