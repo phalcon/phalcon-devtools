@@ -14,13 +14,16 @@ namespace Phalcon\Events {
 
 		protected $_source;
 
+		protected $_data;
+
 		/**
 		 * \Phalcon\Events\Event constructor
 		 *
 		 * @param string $type
 		 * @param object $source
+		 * @param mixed $data
 		 */
-		public function __construct($type, $source){ }
+		public function __construct($type, $source, $data){ }
 
 
 		/**
@@ -45,6 +48,22 @@ namespace Phalcon\Events {
 		 * @return object
 		 */
 		public function getSource(){ }
+
+
+		/**
+		 * Set the event's data
+		 *
+		 * @param string $data
+		 */
+		public function setData($data){ }
+
+
+		/**
+		 * Returns the event's data
+		 *
+		 * @return mixed
+		 */
+		public function getData(){ }
 
 	}
 }

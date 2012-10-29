@@ -32,9 +32,10 @@ namespace Phalcon\Events {
 		 *
 		 * @param string $eventType
 		 * @param object $source
+		 * @param mixed  $data
 		 * @return mixed
 		 */
-		public function fire($eventType, $source){ }
+		public function fire($eventType, $source, $data){ }
 
 
 		/**
