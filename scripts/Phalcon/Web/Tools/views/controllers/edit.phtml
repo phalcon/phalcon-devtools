@@ -1,0 +1,20 @@
+
+<?php Phalcon\Web\CodeMirror::importResources(); ?>
+
+<?php echo $this->getContent() ?>
+
+<p><h2>Editing Controller <?php echo $name; ?></h2></p>
+
+<form method="post" action="<?php echo $this->url->get("webtools.php?_url=/controllers/save") ?>">
+
+	<p>
+		<div align="right">
+			<input type="submit" class="btn btn-primary" value="Save"/>
+		</div>
+	</p>
+
+	<?php echo Phalcon\Tag::textArea(array('code', 'cols' => 50, 'rows' => 20)) ?>
+
+	<?php echo Phalcon\Tag::hiddenField('name') ?>
+
+</form>

@@ -18,32 +18,35 @@
   +------------------------------------------------------------------------+
 */
 
-abstract class TBootstrap {
+use Phalcon\Web\Tools;
 
-	public static function install($path){
+class ControllerBase extends \Phalcon\Mvc\Controller
+{
 
-		//Install bootstrap
-		$jsPath = $path.'public/javascript/bootstrap';
-		if(!file_exists($jsPath)){
-			mkdir($jsPath, 0777, true);
-			file_put_contents($jsPath.'/index.html', '');
-			copy('resources/bootstrap/js/bootstrap.min.js', $jsPath.'/bootstrap.min.js');
-		}
-
-		$cssPath = $path.'public/css/bootstrap';
-		if(!file_exists($cssPath)){
-			mkdir($cssPath, 0777, true);
-			file_put_contents($cssPath.'/index.html', '');
-			copy('resources/bootstrap/css/bootstrap.min.css', $cssPath.'/bootstrap.min.css');
-		}
-
-
-		$imgPath = $path.'public/img/bootstrap';
-		if(!file_exists($imgPath)){
-			mkdir($imgPath, 0777, true);
-			file_put_contents($imgPath.'/index.html', '');
-			copy('resources/bootstrap/img/glyphicons-halflings.png', $imgPath.'/glyphicons-halflings.png');
-		}
-
+	public function initialize()
+	{
+		$this->_checkAccess();
 	}
+
+	/**
+	 * Checks remote address ip to disable remote activity
+	 */
+	protected function _checkAccess()
+	{
+		if (isset($_SERVER['REMOTE_ADDR']) && ($_SERVER['REMOTE_ADDR']=='127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1')) {
+			return false;
+		} else {
+			throw new Phalcon\Exception('WebTools can only be used on the local machine (Your IP: '.$_SERVER['REMOTE_ADDR'].')');
+		}
+	}
+
+	/**
+	 * Returns connection to DB
+	 */
+	protected function _getConnection(){
+		$connection = Phalcon_Db::factory($this->_settings->database->adapter, $this->_settings->database);
+		//$connection->setFetchMode(Phalcon_Db::DB_NUM);
+		return $connection;
+	}
+
 }

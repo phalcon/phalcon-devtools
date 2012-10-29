@@ -17,13 +17,13 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
+
 namespace Phalcon\Builder;
 
 use Phalcon\Builder\Component;
 use Phalcon\Builder\BuilderException;
 use Phalcon\Text as Utils;
 use Phalcon\Script\Color;
-
 
 /**
  * AllModels

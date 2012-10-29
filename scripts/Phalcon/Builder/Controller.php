@@ -57,6 +57,8 @@ class Controller extends Component
 	}
 
 	/**
+	 * Builds a controller
+	 *
 	 * @return string
 	 * @throws \Phalcon\Builder\Exception
 	 */

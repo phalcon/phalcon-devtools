@@ -26,8 +26,6 @@ if(PHP_OS=="WINNT"){
 	$path = getcwd().'/..';
 }
 
-chdir(PTOOLSPATH);
+require PTOOLSPATH.'/scripts/Phalcon/Web/Tools.php';
 
-require 'scripts/WebTools/WebTools.php';
-
-Phalcon_WebTools::main($path);
+Phalcon\Web\Tools::main(PTOOLSPATH);

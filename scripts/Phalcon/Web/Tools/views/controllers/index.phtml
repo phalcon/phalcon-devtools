@@ -4,12 +4,12 @@
 
 	<p><h1>Create Controller</h1></p>
 
-	<form method="post" autocomplete="off" class="forma-horizontal" action="<?php echo $this->url("webtools.php?_url=controllers/create") ?>">
+	<form method="post" autocomplete="off" class="forma-horizontal" action="<?php echo $this->url->get("webtools.php?_url=controllers/create") ?>">
 		<fieldset>
 			<div class="control-group">
 				<label class="control-label" for="name">Controller name</label>
 				<div class="controls">
-					<?php echo Phalcon_Tag::textField(array('name', 'placeholder' => 'Name ...')) ?>
+					<?php echo Phalcon\Tag::textField(array('name', 'placeholder' => 'Name ...')) ?>
 				</div>
 			</div>
 			<label class="checkbox">

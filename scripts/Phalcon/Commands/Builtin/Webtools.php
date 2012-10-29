@@ -32,7 +32,7 @@ use Phalcon\Commands\CommandsInterface;
 class Webtools extends Command implements CommandsInterface
 {
 
-	protected $_posibleParameters = array(
+	protected $_possibleParameters = array(
 		'action'		=> "Enables/Disables webtools in a project",
 		'trace'			=> "--trace \t\tShows the trace of the framework in case of exception.",
 		'directory=s' 	=> "--directory path \tBase path on which project will be created",
@@ -40,7 +40,18 @@ class Webtools extends Command implements CommandsInterface
 
 	public function run($parameters)
 	{
-		//Phalcon\Web\Tools::install($path);
+
+		$action = $this->getOption(array('action', 1));
+		$directory = $this->getOption(array('directory'));
+
+		if (!$directory) {
+			$directory = __DIR__.'/../../../../';
+		}
+
+		if ($action == 'enable') {
+			\Phalcon\Web\Tools::install($directory);
+		}
+		//
 	}
 
 	/**

@@ -110,7 +110,8 @@ class Item
 	 * @param	array $versions
 	 * @return	boolean
 	 */
-	public static function between($initialVersion, $finalVersion, $versions){
+	public static function between($initialVersion, $finalVersion, $versions)
+	{
 		if (!is_object($initialVersion)) {
 			$initialVersion = new self($initialVersion);
 		}
