@@ -58,7 +58,7 @@ namespace Phalcon\Http {
 		 * @param string|array $filters
 		 * @return mixed
 		 */
-		public function get($name, $filters){ }
+		public function get($name, $filters=null){ }
 
 
 		/**
@@ -76,7 +76,7 @@ namespace Phalcon\Http {
 		 * @param string|array $filters
 		 * @return mixed
 		 */
-		public function getPost($name, $filters){ }
+		public function getPost($name, $filters=null){ }
 
 
 		/**
@@ -94,7 +94,7 @@ namespace Phalcon\Http {
 		 * @param string|array $filters
 		 * @return mixed
 		 */
-		public function getQuery($name, $filters){ }
+		public function getQuery($name, $filters=null){ }
 
 
 		/**
@@ -221,7 +221,7 @@ namespace Phalcon\Http {
 		 * @param boolean $trustForwardedHeader
 		 * @return string
 		 */
-		public function getClientAddress($trustForwardedHeader){ }
+		public function getClientAddress($trustForwardedHeader=null){ }
 
 
 		/**

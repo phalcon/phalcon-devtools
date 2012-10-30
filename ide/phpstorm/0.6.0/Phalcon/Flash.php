@@ -26,7 +26,7 @@ namespace Phalcon {
 		 *
 		 * @param array $cssClasses
 		 */
-		public function __construct($cssClasses){ }
+		public function __construct($cssClasses=null){ }
 
 
 		/**

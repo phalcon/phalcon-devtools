@@ -155,7 +155,7 @@ namespace Phalcon {
 		 * @param  string|array $filters
 		 * @return mixed
 		 */
-		public function getParam($param, $filters){ }
+		public function getParam($param, $filters=null){ }
 
 
 		/**

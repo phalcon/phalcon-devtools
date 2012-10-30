@@ -16,7 +16,7 @@ namespace Phalcon\Tag {
 		 * @param array $parameters
 		 * @param array $data
 		 */
-		public static function selectField($parameters, $data){ }
+		public static function selectField($parameters, $data=null){ }
 
 
 		protected static function _optionsFromResultset(){ }

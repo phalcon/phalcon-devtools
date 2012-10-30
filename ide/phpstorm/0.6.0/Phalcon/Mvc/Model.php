@@ -74,7 +74,7 @@ namespace Phalcon\Mvc {
 		 * @param string $managerService
 		 * @param string $dbService
 		 */
-		final public function __construct($dependencyInjector, $managerService, $dbService){ }
+		final public function __construct($dependencyInjector=null, $managerService=null, $dbService=null){ }
 
 
 		/**
@@ -285,7 +285,7 @@ namespace Phalcon\Mvc {
 		 * @param 	array $parameters
 		 * @return  \Phalcon\Mvc\Model\Resultset
 		 */
-		public static function find($parameters){ }
+		public static function find($parameters=null){ }
 
 
 		/**
@@ -310,7 +310,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return \Phalcon\Mvc\Model
 		 */
-		public static function findFirst($parameters){ }
+		public static function findFirst($parameters=null){ }
 
 
 		/**
@@ -318,7 +318,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
-		public static function query($dependencyInjector){ }
+		public static function query($dependencyInjector=null){ }
 
 
 		/**
@@ -372,7 +372,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return int
 		 */
-		public static function count($parameters){ }
+		public static function count($parameters=null){ }
 
 
 		/**
@@ -393,7 +393,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return double
 		 */
-		public static function sum($parameters){ }
+		public static function sum($parameters=null){ }
 
 
 		/**
@@ -414,7 +414,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return mixed
 		 */
-		public static function maximum($parameters){ }
+		public static function maximum($parameters=null){ }
 
 
 		/**
@@ -435,7 +435,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return mixed
 		 */
-		public static function minimum($parameters){ }
+		public static function minimum($parameters=null){ }
 
 
 		/**
@@ -456,7 +456,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return double
 		 */
-		public static function average($parameters){ }
+		public static function average($parameters=null){ }
 
 
 		/**
@@ -924,7 +924,7 @@ namespace Phalcon\Mvc {
 		 * @param array $arguments
 		 * @return mixed
 		 */
-		public function __call($method, $arguments){ }
+		public function __call($method, $arguments=null){ }
 
 
 		/**

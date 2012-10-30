@@ -114,7 +114,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param mixed $referencedFields
 		 * @param array $options
 		 */
-		public function addHasOne($model, $fields, $referenceModel, $referencedFields, $options){ }
+		public function addHasOne($model, $fields, $referenceModel, $referencedFields, $options=null){ }
 
 
 		/**
@@ -126,7 +126,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param mixed $referencedFields
 		 * @param array $options
 		 */
-		public function addBelongsTo($model, $fields, $referenceModel, $referencedFields, $options){ }
+		public function addBelongsTo($model, $fields, $referenceModel, $referencedFields, $options=null){ }
 
 
 		/**
@@ -138,7 +138,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param mixed $referencedFields
 		 * @param array $options
 		 */
-		public function addHasMany($model, $fields, $referenceModel, $referencedFields, $options){ }
+		public function addHasMany($model, $fields, $referenceModel, $referencedFields, $options=null){ }
 
 
 		/**
@@ -193,7 +193,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $parameters
 		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
-		public function getBelongsToRecords($method, $modelName, $modelRelation, $record, $parameters){ }
+		public function getBelongsToRecords($method, $modelName, $modelRelation, $record, $parameters=null){ }
 
 
 		/**
@@ -206,7 +206,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $parameters
 		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
-		public function getHasManyRecords($method, $modelName, $modelRelation, $record, $parameters){ }
+		public function getHasManyRecords($method, $modelName, $modelRelation, $record, $parameters=null){ }
 
 
 		/**
@@ -219,7 +219,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $parameters
 		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
-		public function getHasOneRecords($method, $modelName, $modelRelation, $record, $parameters){ }
+		public function getHasOneRecords($method, $modelName, $modelRelation, $record, $parameters=null){ }
 
 
 		/**
@@ -284,7 +284,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $placeholders
 		 * @return \Phalcon\Mvc\Model\Query
 		 */
-		public function executeQuery($phql, $placeholders){ }
+		public function executeQuery($phql, $placeholders=null){ }
 
 	}
 }

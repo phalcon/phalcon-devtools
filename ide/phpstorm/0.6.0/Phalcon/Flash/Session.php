@@ -67,7 +67,7 @@ namespace Phalcon\Flash {
 		 * @param boolean $remove
 		 * @return array
 		 */
-		public function getMessages($type, $remove){ }
+		public function getMessages($type=null, $remove=null){ }
 
 
 		/**
@@ -76,7 +76,7 @@ namespace Phalcon\Flash {
 		 * @param string $type
 		 * @param boolean $remove
 		 */
-		public function output($remove){ }
+		public function output($remove=null){ }
 
 	}
 }

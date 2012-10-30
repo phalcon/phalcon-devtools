@@ -37,7 +37,7 @@ namespace Phalcon\Mvc\Model\Resultset {
 		 * @param \Phalcon\Db\Result\Pdo $result
 		 * @param \Phalcon\Cache\Backend $cache
 		 */
-		public function __construct($model, $result, $cache){ }
+		public function __construct($model, $result, $cache=null){ }
 
 
 		/**

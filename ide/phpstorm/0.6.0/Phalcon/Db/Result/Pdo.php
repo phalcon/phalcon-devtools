@@ -43,7 +43,7 @@ namespace Phalcon\Db\Result {
 		 * @param array $bindTypes
 		 * @param PDOStatement $result
 		 */
-		public function __construct($connection, $result, $sqlStatement, $bindParams, $bindTypes){ }
+		public function __construct($connection, $result, $sqlStatement=null, $bindParams=null, $bindTypes=null){ }
 
 
 		/**

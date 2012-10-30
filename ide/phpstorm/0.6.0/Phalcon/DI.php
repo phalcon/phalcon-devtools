@@ -86,7 +86,7 @@ namespace Phalcon {
 		 * @param array $parameters
 		 * @return mixed
 		 */
-		public function get($alias, $parameters){ }
+		public function get($alias, $parameters=null){ }
 
 
 		/**
@@ -96,7 +96,7 @@ namespace Phalcon {
 		 * @param array $parameters
 		 * @return mixed
 		 */
-		public function getShared($alias, $parameters){ }
+		public function getShared($alias, $parameters=null){ }
 
 
 		/**
@@ -122,7 +122,7 @@ namespace Phalcon {
 		 * @param array $arguments
 		 * @return mixed
 		 */
-		public function __call($method, $arguments){ }
+		public function __call($method, $arguments=null){ }
 
 
 		/**

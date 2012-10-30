@@ -29,7 +29,7 @@ namespace Phalcon\Cache {
 		 * @param mixed $frontendObject
 		 * @param array $backendOptions
 		 */
-		public function __construct($frontendObject, $backendOptions){ }
+		public function __construct($frontendObject, $backendOptions=null){ }
 
 
 		/**

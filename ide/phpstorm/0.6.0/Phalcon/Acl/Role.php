@@ -22,7 +22,7 @@ namespace Phalcon\Acl {
 		 * @param string $name
 		 * @param string $description
 		 */
-		public function __construct($name, $description){ }
+		public function __construct($name, $description=null){ }
 
 
 		/**

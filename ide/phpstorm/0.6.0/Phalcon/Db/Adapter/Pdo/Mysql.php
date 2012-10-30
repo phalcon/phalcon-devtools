@@ -62,7 +62,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 * @param string $schema
 		 * @return \Phalcon\Db\Column[]
 		 */
-		public function describeColumns($table, $schema){ }
+		public function describeColumns($table, $schema=null){ }
 
 	}
 }

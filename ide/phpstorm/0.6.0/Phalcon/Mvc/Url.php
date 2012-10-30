@@ -88,7 +88,7 @@ namespace Phalcon\Mvc {
 		 * @param string|array $uri
 		 * @return string
 		 */
-		public function get($uri){ }
+		public function get($uri=null){ }
 
 
 		/**
@@ -97,7 +97,7 @@ namespace Phalcon\Mvc {
 		 * @param string $path
 		 * @return string
 		 */
-		public function path($path){ }
+		public function path($path=null){ }
 
 	}
 }

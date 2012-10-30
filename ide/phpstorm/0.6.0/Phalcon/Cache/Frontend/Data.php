@@ -50,7 +50,7 @@ namespace Phalcon\Cache\Frontend {
 		 *
 		 * @param array $frontendOptions
 		 */
-		public function __construct($frontendOptions){ }
+		public function __construct($frontendOptions=null){ }
 
 
 		/**

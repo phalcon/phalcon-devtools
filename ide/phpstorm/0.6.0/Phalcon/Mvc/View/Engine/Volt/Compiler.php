@@ -53,7 +53,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 		 * @param bool $extendsMode
 		 * @param bool $prependDollar
 		 */
-		public function _expression($expr, $extendsMode, $prependDollar){ }
+		public function _expression($expr, $extendsMode, $prependDollar=null){ }
 
 
 		/**
@@ -82,7 +82,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 		 * @param boolean $extendsMode
 		 * @return string
 		 */
-		public function compileString($viewCode, $extendsMode){ }
+		public function compileString($viewCode, $extendsMode=null){ }
 
 
 		/**

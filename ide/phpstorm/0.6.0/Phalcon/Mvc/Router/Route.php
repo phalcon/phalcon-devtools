@@ -31,7 +31,7 @@ namespace Phalcon\Mvc\Router {
 		 * @param array $paths
 		 * @param array|string $httpMethods
 		 */
-		public function __construct($pattern, $paths, $httpMethods){ }
+		public function __construct($pattern, $paths=null, $httpMethods=null){ }
 
 
 		/**
@@ -57,7 +57,7 @@ namespace Phalcon\Mvc\Router {
 		 * @param string $pattern
 		 * @param array $paths
 		 */
-		public function reConfigure($pattern, $paths){ }
+		public function reConfigure($pattern, $paths=null){ }
 
 
 		/**

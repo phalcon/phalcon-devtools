@@ -34,7 +34,7 @@ namespace Phalcon {
 		 * @param array $arrayConfig
 		 * @return \Phalcon\Config
 		 */
-		public function __construct($arrayConfig){ }
+		public function __construct($arrayConfig=null){ }
 
 	}
 }

@@ -24,7 +24,7 @@ namespace Phalcon\Logger {
 		 * @param integer $type
 		 * @param integer $time
 		 */
-		public function __construct($message, $type, $time){ }
+		public function __construct($message, $type, $time=null){ }
 
 
 		/**

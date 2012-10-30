@@ -23,7 +23,7 @@ namespace Phalcon\Events {
 		 * @param object $source
 		 * @param mixed $data
 		 */
-		public function __construct($type, $source, $data){ }
+		public function __construct($type, $source, $data=null){ }
 
 
 		/**

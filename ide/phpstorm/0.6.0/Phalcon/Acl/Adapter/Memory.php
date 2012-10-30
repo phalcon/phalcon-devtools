@@ -122,7 +122,7 @@ namespace Phalcon\Acl\Adapter {
 		 * @param  array $accessInherits
 		 * @return boolean
 		 */
-		public function addRole($roleObject, $accessInherits){ }
+		public function addRole($roleObject, $accessInherits=null){ }
 
 
 		/**
@@ -172,7 +172,7 @@ namespace Phalcon\Acl\Adapter {
 		 * @param   \Phalcon\Acl\Resource $resource
 		 * @return  boolean
 		 */
-		public function addResource($resource, $accessList){ }
+		public function addResource($resource, $accessList=null){ }
 
 
 		/**

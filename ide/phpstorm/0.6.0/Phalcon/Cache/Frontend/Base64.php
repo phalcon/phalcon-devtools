@@ -6,7 +6,7 @@ namespace Phalcon\Cache\Frontend {
 
 		protected $_frontendOptions;
 
-		public function __construct($frontendOptions){ }
+		public function __construct($frontendOptions=null){ }
 
 
 		public function getLifetime(){ }

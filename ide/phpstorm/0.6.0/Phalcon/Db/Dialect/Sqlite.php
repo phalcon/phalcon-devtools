@@ -153,7 +153,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param  boolean $ifExists
 		 * @return boolean
 		 */
-		public function dropTable($tableName, $schemaName, $ifExists){ }
+		public function dropTable($tableName, $schemaName, $ifExists=null){ }
 
 
 		/**
@@ -166,7 +166,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schemaName
 		 * @return string
 		 */
-		public function tableExists($tableName, $schemaName){ }
+		public function tableExists($tableName, $schemaName=null){ }
 
 
 		/**
@@ -178,7 +178,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schema
 		 * @return string
 		 */
-		public function describeColumns($table, $schema){ }
+		public function describeColumns($table, $schema=null){ }
 
 
 		/**
@@ -189,7 +189,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param       string $schemaName
 		 * @return      array
 		 */
-		public function listTables($schemaName){ }
+		public function listTables($schemaName=null){ }
 
 
 		/**
@@ -199,7 +199,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schema
 		 * @return string
 		 */
-		public function describeIndexes($table, $schema){ }
+		public function describeIndexes($table, $schema=null){ }
 
 
 		/**
@@ -218,7 +218,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schema
 		 * @return string
 		 */
-		public function describeReferences($table, $schema){ }
+		public function describeReferences($table, $schema=null){ }
 
 
 		/**
@@ -228,7 +228,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schema
 		 * @return string
 		 */
-		public function tableOptions($table, $schema){ }
+		public function tableOptions($table, $schema=null){ }
 
 	}
 }

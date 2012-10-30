@@ -1,10 +1,12 @@
+<?php use Phalcon\Tag; ?>
+
 <div class="span7">
 
 	<?php echo $this->getContent() ?>
 
 	<p><h1>Edit Configuration</h1></p>
 
-	<form method="post" autocomplete="off" action="<?php echo $this->url("webtools.php?_url=config/save") ?>">
+	<form method="post" autocomplete="off" action="<?php echo $this->url->get("webtools.php?_url=/config/save") ?>">
 
 		<p>
 			<div align="right">
@@ -25,7 +27,7 @@
 					}
 					echo '<tr>
 						<td><b>', $name, '</b></td>
-						<td>', Phalcon_Tag::textField(array($name, 'value' => $value)), '</i></td>
+						<td>', Tag::textField(array($name, 'value' => $value)), '</i></td>
 					</tr>';
 				}
 				echo '</table>';

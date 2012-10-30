@@ -27,7 +27,7 @@ namespace Phalcon\Events {
 		/**
 		 * Removes all events from the EventsManager
 		 */
-		public function dettachAll($type){ }
+		public function dettachAll($type=null){ }
 
 
 		/**
@@ -38,7 +38,7 @@ namespace Phalcon\Events {
 		 * @param mixed  $data
 		 * @return mixed
 		 */
-		public function fire($eventType, $source, $data){ }
+		public function fire($eventType, $source, $data=null){ }
 
 
 		/**

@@ -79,4 +79,14 @@ class Enumerate extends Command implements CommandsInterface
 		$this->run(array());
 	}
 
+	/**
+	 * Returns number of required parameters for this command
+	 *
+	 * @return int
+	 */
+	public function getRequiredParams()
+	{
+		return 0;
+	}
+
 }

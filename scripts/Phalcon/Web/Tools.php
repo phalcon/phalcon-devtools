@@ -129,16 +129,41 @@ class Tools
 		}
 	}
 
+	/**
+	 * Returns the config object in the services container
+	 *
+	 * @return Phalcon\Config
+	 */
 	public static function getConfig()
 	{
 		return self::$_di->getShared('config');
 	}
 
+	/**
+	 * Returns the config object in the services container
+	 *
+	 * @return Phalcon\Mvc\Url
+	 */
 	public static function getUrl()
 	{
 		return self::$_di->getShared('url');
 	}
 
+	/**
+	 * Returns the config object in the services container
+	 *
+	 * @return Phalcon\Mvc\Url
+	 */
+	public static function getConnection()
+	{
+		return self::$_di->getShared('db');
+	}
+
+	/**
+	 * Returns a local path
+	 *
+	 * @return string
+	 */
 	public static function getPath($path='')
 	{
 		if ($path) {
@@ -148,6 +173,11 @@ class Tools
 		}
 	}
 
+	/**
+	 * Executes the web tool application
+	 *
+	 * @param string $path
+	 */
 	public static function main($path)
 	{
 
@@ -217,6 +247,15 @@ class Tools
 				));
 			});
 
+			$di->set('db', function() use ($config) {
+				return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+					"host" => $config->database->host,
+					"username" => $config->database->username,
+					"password" => $config->database->password,
+					"dbname" => $config->database->name
+				));
+			});
+
 			self::$_di = $di;
 
 			$app = new \Phalcon\Mvc\Application();
@@ -225,7 +264,11 @@ class Tools
 
 			echo $app->handle()->getContent();
 		}
-		catch(Phalcon\Exception $e){
+		catch(\Phalcon\Exception $e){
+			echo get_class($e), ': ', $e->getMessage(), "<br>";
+			echo nl2br($e->getTraceAsString());
+		}
+		catch(\PDOException $e){
 			echo get_class($e), ': ', $e->getMessage(), "<br>";
 			echo nl2br($e->getTraceAsString());
 		}

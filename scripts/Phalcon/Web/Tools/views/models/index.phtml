@@ -4,16 +4,16 @@
 
 	<p><h1>Generate Models</h1></p>
 
-	<form method="post" autocomplete="off" class="forma-horizontal" action="<?php echo $this->url("webtools.php?_url=models/create") ?>">
+	<form method="post" autocomplete="off" class="forma-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/models/create") ?>">
 
 		<table class="table table-striped table-bordered table-condensed">
 			<tr>
 				<td><b>Schema</b></td>
-				<td><?php echo Phalcon_Tag::textField(array('schema', 'value' => $databaseName)) ?></td>
+				<td><?php echo Phalcon\Tag::textField(array('schema', 'value' => $databaseName)) ?></td>
 			</tr>
 			<tr>
 				<td><b>Table name</b></td>
-				<td><i><?php echo Phalcon_Tag::selectStatic('tableName', $tables) ?></i></td>
+				<td><i><?php echo Phalcon\Tag::selectStatic('tableName', $tables) ?></i></td>
 			</tr>
 			<tr>
 				<td><b>Add setters and getters</b></td>

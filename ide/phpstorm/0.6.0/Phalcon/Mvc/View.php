@@ -85,7 +85,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param array $options
 		 */
-		public function __construct($options){ }
+		public function __construct($options=null){ }
 
 
 		/**
@@ -278,7 +278,7 @@ namespace Phalcon\Mvc {
 		 * @param string $actionName
 		 * @param array $params
 		 */
-		public function render($controllerName, $actionName, $params){ }
+		public function render($controllerName, $actionName, $params=null){ }
 
 
 		/**
@@ -345,7 +345,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param boolean|array $options
 		 */
-		public function cache($options){ }
+		public function cache($options=null){ }
 
 
 		/**

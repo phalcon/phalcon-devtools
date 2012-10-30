@@ -58,7 +58,7 @@ namespace Phalcon\Logger\Adapter {
 		 * @param string $name
 		 * @param array $options
 		 */
-		public function __construct($name, $options){ }
+		public function __construct($name, $options=null){ }
 
 
 		/**
@@ -119,7 +119,7 @@ namespace Phalcon\Logger\Adapter {
 		 * @param string $message
 		 * @param int $type
 		 */
-		public function log($message, $type){ }
+		public function log($message, $type=null){ }
 
 
 		/**

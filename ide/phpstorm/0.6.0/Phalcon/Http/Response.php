@@ -126,7 +126,7 @@ namespace Phalcon\Http {
 		 * @param string $contentType
 		 * @param string $charset
 		 */
-		public function setContentType($contentType, $charset){ }
+		public function setContentType($contentType, $charset=null){ }
 
 
 		/**
@@ -143,7 +143,7 @@ namespace Phalcon\Http {
 		 * @param int $statusCode
 		 * @return \Phalcon\Http\Response
 		 */
-		public function redirect($location, $externalRedirect, $statusCode){ }
+		public function redirect($location, $externalRedirect=null, $statusCode=null){ }
 
 
 		/**

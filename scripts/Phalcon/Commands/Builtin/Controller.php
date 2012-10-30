@@ -103,4 +103,15 @@ class Controller extends Command implements CommandsInterface
 
 		$this->printParameters($this->_posibleParameters);
 	}
+
+	/**
+	 * Returns number of required parameters for this command
+	 *
+	 * @return int
+	 */
+	public function getRequiredParams()
+	{
+		return 1;
+	}
+
 }

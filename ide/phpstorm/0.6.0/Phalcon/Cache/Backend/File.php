@@ -50,7 +50,7 @@ namespace Phalcon\Cache\Backend {
 		 * @param mixed $frontendObject
 		 * @param array $backendOptions
 		 */
-		public function __construct($frontendObject, $backendOptions){ }
+		public function __construct($frontendObject, $backendOptions=null){ }
 
 
 		/**
@@ -60,7 +60,7 @@ namespace Phalcon\Cache\Backend {
 		 * @param   long $lifetime
 		 * @return  mixed
 		 */
-		public function get($keyName, $lifetime){ }
+		public function get($keyName, $lifetime=null){ }
 
 
 		/**
@@ -71,7 +71,7 @@ namespace Phalcon\Cache\Backend {
 		 * @param long $lifetime
 		 * @param boolean $stopBuffer
 		 */
-		public function save($keyName, $content, $lifetime, $stopBuffer){ }
+		public function save($keyName=null, $content=null, $lifetime=null, $stopBuffer=null){ }
 
 
 		/**
@@ -89,7 +89,7 @@ namespace Phalcon\Cache\Backend {
 		 * @param string $prefix
 		 * @return array
 		 */
-		public function queryKeys($prefix){ }
+		public function queryKeys($prefix=null){ }
 
 
 		/**
@@ -98,7 +98,7 @@ namespace Phalcon\Cache\Backend {
 		 * @param string $keyName
 		 * @return boolean
 		 */
-		public function exists($keyName){ }
+		public function exists($keyName=null){ }
 
 	}
 }

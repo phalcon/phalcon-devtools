@@ -28,7 +28,7 @@ namespace Phalcon\Translate\Adapter {
 		 * @param array $placeholders
 		 * @return string
 		 */
-		public function query($index, $placeholders){ }
+		public function query($index, $placeholders=null){ }
 
 
 		/**

@@ -108,7 +108,7 @@ namespace Phalcon {
 		 * @param int $fetchMode
 		 * @return array
 		 */
-		public function fetchOne($sqlQuery, $fetchMode){ }
+		public function fetchOne($sqlQuery, $fetchMode=null){ }
 
 
 		/**
@@ -132,7 +132,7 @@ namespace Phalcon {
 		 * @param int $fetchMode
 		 * @return array
 		 */
-		public function fetchAll($sqlQuery, $fetchMode){ }
+		public function fetchAll($sqlQuery, $fetchMode=null){ }
 
 
 		/**
@@ -156,7 +156,7 @@ namespace Phalcon {
 		 * @param 	array $dataTypes
 		 * @return 	boolean
 		 */
-		public function insert($table, $values, $fields, $dataTypes){ }
+		public function insert($table, $values, $fields=null, $dataTypes=null){ }
 
 
 		/**
@@ -182,7 +182,7 @@ namespace Phalcon {
 		 * @param 	array $dataTypes
 		 * @return 	boolean
 		 */
-		public function update($table, $fields, $values, $whereCondition, $dataTypes){ }
+		public function update($table, $fields, $values, $whereCondition=null, $dataTypes=null){ }
 
 
 		/**
@@ -205,7 +205,7 @@ namespace Phalcon {
 		 * @param  array $dataTypes
 		 * @return boolean
 		 */
-		public function delete($table, $whereCondition, $placeholders, $dataTypes){ }
+		public function delete($table, $whereCondition=null, $placeholders=null, $dataTypes=null){ }
 
 
 		/**
@@ -238,7 +238,7 @@ namespace Phalcon {
 		 * @param string $schemaName
 		 * @return string
 		 */
-		public function tableExists($tableName, $schemaName){ }
+		public function tableExists($tableName, $schemaName=null){ }
 
 
 		/**
@@ -250,7 +250,7 @@ namespace Phalcon {
 		 * @param string $schemaName
 		 * @return string
 		 */
-		public function viewExists($viewName, $schemaName){ }
+		public function viewExists($viewName, $schemaName=null){ }
 
 
 		/**
@@ -290,7 +290,7 @@ namespace Phalcon {
 		 * @param boolean $ifExists
 		 * @return boolean
 		 */
-		public function dropTable($tableName, $schemaName, $ifExists){ }
+		public function dropTable($tableName, $schemaName, $ifExists=null){ }
 
 
 		/**
@@ -408,7 +408,7 @@ namespace Phalcon {
 		 * @param string $schemaName
 		 * @return array
 		 */
-		public function listTables($schemaName){ }
+		public function listTables($schemaName=null){ }
 
 
 		/**

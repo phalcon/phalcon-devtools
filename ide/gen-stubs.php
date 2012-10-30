@@ -238,7 +238,15 @@ foreach(get_declared_classes() as $className){
 
 			$parameters = array();
 			foreach($method->getParameters() as $parameter){
-				$parameters[] = '$'.$parameter->name;
+				if ($parameter->isOptional()) {
+					if($parameter->isDefaultValueAvailable()){
+						$parameters[] = '$'.$parameter->name.'='.$parameter->getDefaultValue();
+					} else {
+						$parameters[] = '$'.$parameter->name.'=null';
+					}
+				} else {
+					$parameters[] = '$'.$parameter->name;
+				}
 			}
 			$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
 		}

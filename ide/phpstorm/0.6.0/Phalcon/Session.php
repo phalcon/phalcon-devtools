@@ -36,7 +36,7 @@ namespace Phalcon {
 		 *
 		 * @param array $options
 		 */
-		public function __construct($options){ }
+		public function __construct($options=null){ }
 
 
 		/**

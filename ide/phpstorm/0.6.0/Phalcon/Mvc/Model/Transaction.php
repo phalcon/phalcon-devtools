@@ -61,7 +61,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param \Phalcon\DI $dependencyInjector
 		 * @param boolean $autoBegin
 		 */
-		public function __construct($dependencyInjector, $autoBegin){ }
+		public function __construct($dependencyInjector, $autoBegin=null){ }
 
 
 		/**
@@ -95,7 +95,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param  \Phalcon\Mvc\Model $rollbackRecord
 		 * @return boolean
 		 */
-		public function rollback($rollbackMessage, $rollbackRecord){ }
+		public function rollback($rollbackMessage=null, $rollbackRecord=null){ }
 
 
 		/**

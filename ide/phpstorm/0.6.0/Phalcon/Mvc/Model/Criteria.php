@@ -93,7 +93,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param int $offset
 		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
-		public function limit($limit, $offset){ }
+		public function limit($limit, $offset=null){ }
 
 
 		/**
@@ -102,7 +102,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param boolean $forUpdate
 		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
-		public function forUpdate($forUpdate){ }
+		public function forUpdate($forUpdate=null){ }
 
 
 		/**
@@ -111,7 +111,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param boolean $sharedLock
 		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
-		public function sharedLock($sharedLock){ }
+		public function sharedLock($sharedLock=null){ }
 
 
 		/**

@@ -62,7 +62,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		 *
 		 * @param \Phalcon\DI $dependencyInjector
 		 */
-		public function __construct($dependencyInjector){ }
+		public function __construct($dependencyInjector=null){ }
 
 
 		/**
@@ -95,7 +95,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		 * @param boolean $autoBegin
 		 * @return \Phalcon\Mvc\Model\Transaction
 		 */
-		public function get($autoBegin){ }
+		public function get($autoBegin=null){ }
 
 
 		/**
@@ -118,7 +118,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		 *
 		 * @param boolean $collect
 		 */
-		public function rollback($collect){ }
+		public function rollback($collect=null){ }
 
 
 		/**

@@ -18,10 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-class ConfigController extends ControllerBase {
+use Phalcon\Tag;
+use Phalcon\Web\Tools;
+use Phalcon\Builder\BuilderException;
+
+class ConfigController extends ControllerBase
+{
 
 	protected $_posibleConfig = array(
-		'phalcon' => array(
+		'application' => array(
 			'controllersDir' => 'string',
 			'modelsDir' => 'string',
 			'viewsDir' => 'string',
@@ -37,15 +42,17 @@ class ConfigController extends ControllerBase {
 		)
 	);
 
-	public function indexAction(){
+	public function indexAction()
+	{
 		$this->view->setVar('posibleConfig', $this->_posibleConfig);
-		$this->view->setVar('settings', $this->_settings);
+		$this->view->setVar('settings', Tools::getConfig());
 	}
 
-	public function saveAction(){
+	public function saveAction()
+	{
 
 		$isIniConfig = false;
-		$configPath = Phalcon_WebTools::getPath("app/config/config.ini");
+		$configPath = "app/config/config.ini";
 		if(file_exists($configPath)){
 			$isIniConfig = true;
 		}
@@ -61,7 +68,7 @@ class ConfigController extends ControllerBase {
 				}
 			}
 
-			if($isIniConfig){				
+			if($isIniConfig){
 				$ini = '';
 				foreach($newConfig as $section => $settings){
 					$ini.='['.$section.']'.PHP_EOL;

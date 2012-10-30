@@ -18,7 +18,7 @@ namespace Phalcon {
 		 * @param array $placeholders
 		 * @return string
 		 */
-		public function _($translateKey, $placeholders){ }
+		public function _($translateKey, $placeholders=null){ }
 
 
 		/**

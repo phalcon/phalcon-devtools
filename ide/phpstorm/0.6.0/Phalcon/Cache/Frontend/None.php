@@ -44,7 +44,7 @@ namespace Phalcon\Cache\Frontend {
 		/**
 		 * \Phalcon\Cache\Frontend\None constructor
 		 */
-		public function __construct($frontendOptions){ }
+		public function __construct($frontendOptions=null){ }
 
 
 		/**

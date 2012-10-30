@@ -42,7 +42,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param \Phalcon\DI $dependencyInjector
 		 */
-		public function __construct($dependencyInjector){ }
+		public function __construct($dependencyInjector=null){ }
 
 
 		/**
@@ -332,7 +332,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return array
 		 */
-		public static function findFirst($parameters){ }
+		public static function findFirst($parameters=null){ }
 
 
 		/**
@@ -373,13 +373,13 @@ namespace Phalcon\Mvc {
 		 * @param 	array $parameters
 		 * @return  array
 		 */
-		public static function find($parameters){ }
+		public static function find($parameters=null){ }
 
 
 		/**
 		 *
 		 */
-		public static function count($parameters){ }
+		public static function count($parameters=null){ }
 
 
 		/**

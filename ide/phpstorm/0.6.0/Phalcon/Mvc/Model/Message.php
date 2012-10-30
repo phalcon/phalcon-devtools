@@ -44,7 +44,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $field
 		 * @param string $type
 		 */
-		public function __construct($message, $field, $type){ }
+		public function __construct($message, $field=null, $type=null){ }
 
 
 		/**

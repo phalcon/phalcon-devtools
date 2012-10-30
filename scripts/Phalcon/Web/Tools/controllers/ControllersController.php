@@ -129,7 +129,6 @@ class ControllersController extends ControllerBase
 			file_put_contents($controllersDir.'/'.$fileName, $this->request->getPost('code'));
 
 			$this->flash->success('The controller "'.$fileName.'" was saved successfully');
-
 		}
 
 		return $this->dispatcher->forward(array(

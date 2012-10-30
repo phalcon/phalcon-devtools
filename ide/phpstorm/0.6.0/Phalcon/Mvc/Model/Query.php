@@ -231,7 +231,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param \Phalcon\Mvc\Model $manager
 		 * @return array
 		 */
-		public function parse($manager){ }
+		public function parse($manager=null){ }
 
 
 		/**
@@ -288,7 +288,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $placeholders
 		 * @return mixed
 		 */
-		public function execute($placeholders){ }
+		public function execute($placeholders=null){ }
 
 	}
 }

@@ -1,11 +1,11 @@
 
-<?php CodeMirror::importResources(); ?>
+<?php Phalcon\Web\CodeMirror::importResources(); ?>
 
 <?php echo $this->getContent() ?>
 
 <p><h2>Editing Model: <?php echo $name; ?></h2></p>
 
-<form method="post" action="<?php echo $this->url("webtools.php?_url=models/save") ?>">
+<form method="post" action="<?php echo $this->url->get("webtools.php?_url=/models/save") ?>">
 
 	<p>
 		<div align="right">
@@ -13,8 +13,8 @@
 		</div>
 	</p>
 
-	<?php echo Phalcon_Tag::textArea(array('code', 'cols' => 50, 'rows' => 20)) ?>
+	<?php echo Phalcon\Tag::textArea(array('code', 'cols' => 50, 'rows' => 20)) ?>
 
-	<?php echo Phalcon_Tag::hiddenField('name') ?>
+	<?php echo Phalcon\Tag::hiddenField('name') ?>
 
 </form>

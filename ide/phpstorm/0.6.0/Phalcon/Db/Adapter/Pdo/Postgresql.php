@@ -61,7 +61,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 * @param array $descriptor
 		 * @return boolean
 		 */
-		public function connect($descriptor){ }
+		public function connect($descriptor=null){ }
 
 
 		/**
@@ -73,7 +73,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 * @param string $schema
 		 * @return \Phalcon\Db\Column[]
 		 */
-		public function describeColumns($table, $schema){ }
+		public function describeColumns($table, $schema=null){ }
 
 
 		/**

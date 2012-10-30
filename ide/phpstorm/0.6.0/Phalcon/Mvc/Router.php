@@ -51,7 +51,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param boolean $defaultRoutes
 		 */
-		public function __construct($defaultRoutes){ }
+		public function __construct($defaultRoutes=null){ }
 
 
 		/**
@@ -115,7 +115,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $uri
 		 */
-		public function handle($uri){ }
+		public function handle($uri=null){ }
 
 
 		/**
@@ -126,7 +126,7 @@ namespace Phalcon\Mvc {
 		 * @param string $httpMethods
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
-		public function add($pattern, $paths, $httpMethods){ }
+		public function add($pattern, $paths=null, $httpMethods=null){ }
 
 
 		/**
@@ -136,7 +136,7 @@ namespace Phalcon\Mvc {
 		 * @param string/array $paths
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
-		public function addGet($pattern, $paths){ }
+		public function addGet($pattern, $paths=null){ }
 
 
 		/**
@@ -146,7 +146,7 @@ namespace Phalcon\Mvc {
 		 * @param string/array $paths
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
-		public function addPost($pattern, $paths){ }
+		public function addPost($pattern, $paths=null){ }
 
 
 		/**
@@ -156,7 +156,7 @@ namespace Phalcon\Mvc {
 		 * @param string/array $paths
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
-		public function addPut($pattern, $paths){ }
+		public function addPut($pattern, $paths=null){ }
 
 
 		/**
@@ -166,7 +166,7 @@ namespace Phalcon\Mvc {
 		 * @param string/array $paths
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
-		public function addDelete($pattern, $paths){ }
+		public function addDelete($pattern, $paths=null){ }
 
 
 		/**
@@ -176,7 +176,7 @@ namespace Phalcon\Mvc {
 		 * @param string/array $paths
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
-		public function addOptions($pattern, $paths){ }
+		public function addOptions($pattern, $paths=null){ }
 
 
 		/**
@@ -186,7 +186,7 @@ namespace Phalcon\Mvc {
 		 * @param string/array $paths
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
-		public function addHead($pattern, $paths){ }
+		public function addHead($pattern, $paths=null){ }
 
 
 		/**

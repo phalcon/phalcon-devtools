@@ -65,7 +65,7 @@ namespace Phalcon\Db\Adapter {
 		 * @param 	array $descriptor
 		 * @return 	boolean
 		 */
-		public function connect($descriptor){ }
+		public function connect($descriptor=null){ }
 
 
 		/**
@@ -94,7 +94,7 @@ namespace Phalcon\Db\Adapter {
 		 * @param  array $dataTypes
 		 * @return \Phalcon\Db\Result\Pdo
 		 */
-		public function query($sqlStatement, $placeholders, $dataTypes){ }
+		public function query($sqlStatement, $placeholders=null, $dataTypes=null){ }
 
 
 		/**
@@ -112,7 +112,7 @@ namespace Phalcon\Db\Adapter {
 		 * @param  array $dataTypes
 		 * @return boolean
 		 */
-		public function execute($sqlStatement, $placeholders, $dataTypes){ }
+		public function execute($sqlStatement, $placeholders=null, $dataTypes=null){ }
 
 
 		/**
@@ -170,7 +170,7 @@ namespace Phalcon\Db\Adapter {
 		 * @param string $sequenceName
 		 * @return int
 		 */
-		public function lastInsertId($sequenceName){ }
+		public function lastInsertId($sequenceName=null){ }
 
 
 		/**
@@ -220,7 +220,7 @@ namespace Phalcon\Db\Adapter {
 		 * @param string $schema
 		 * @return \Phalcon\Db\Index[]
 		 */
-		public function describeIndexes($table, $schema){ }
+		public function describeIndexes($table, $schema=null){ }
 
 
 		/**
@@ -230,7 +230,7 @@ namespace Phalcon\Db\Adapter {
 		 * @param string $schema
 		 * @return \Phalcon\Db\Reference[]
 		 */
-		public function describeReferences($table, $schema){ }
+		public function describeReferences($table, $schema=null){ }
 
 
 		/**
@@ -240,7 +240,7 @@ namespace Phalcon\Db\Adapter {
 		 * @param string $schemaName
 		 * @return array
 		 */
-		public function tableOptions($tableName, $schemaName){ }
+		public function tableOptions($tableName, $schemaName=null){ }
 
 
 		/**

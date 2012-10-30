@@ -49,7 +49,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 		 *
 		 * @param array $options
 		 */
-		public function __construct($options){ }
+		public function __construct($options=null){ }
 
 
 		/**

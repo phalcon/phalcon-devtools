@@ -130,7 +130,7 @@ namespace Phalcon {
 		 * @param array $parameters
 		 * @return string
 		 */
-		public static function linkTo($parameters, $text){ }
+		public static function linkTo($parameters, $text=null){ }
 
 
 		/**
@@ -245,7 +245,7 @@ namespace Phalcon {
 		 * @param array $parameters
 		 * @return string
 		 */
-		public static function selectStatic($parameters, $data){ }
+		public static function selectStatic($parameters, $data=null){ }
 
 
 		/**
@@ -262,7 +262,7 @@ namespace Phalcon {
 		 * @param array $params
 		 * @return string
 		 */
-		public static function select($parameters, $data){ }
+		public static function select($parameters, $data=null){ }
 
 
 		/**
@@ -289,7 +289,7 @@ namespace Phalcon {
 		 * @param array $parameters
 		 * @return string
 		 */
-		public static function form($parameters){ }
+		public static function form($parameters=null){ }
 
 
 		/**
@@ -344,7 +344,7 @@ namespace Phalcon {
 		 * @param   boolean $local
 		 * @return string
 		 */
-		public static function stylesheetLink($parameters, $local){ }
+		public static function stylesheetLink($parameters=null, $local=null){ }
 
 
 		/**
@@ -365,7 +365,7 @@ namespace Phalcon {
 		 * @param   boolean $local
 		 * @return string
 		 */
-		public static function javascriptInclude($parameters, $local){ }
+		public static function javascriptInclude($parameters=null, $local=null){ }
 
 
 		/**
@@ -374,7 +374,7 @@ namespace Phalcon {
 		 * @param  array $parameters
 		 * @return string
 		 */
-		public static function image($parameters){ }
+		public static function image($parameters=null){ }
 
 
 		/**
@@ -385,7 +385,7 @@ namespace Phalcon {
 		 * @param boolean $lowercase
 		 * @return text
 		 */
-		public static function friendlyTitle($text, $separator, $lowercase){ }
+		public static function friendlyTitle($text, $separator=null, $lowercase=null){ }
 
 
 		/**

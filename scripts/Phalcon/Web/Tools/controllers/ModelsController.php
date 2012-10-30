@@ -18,30 +18,38 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsController extends ControllerBase {
+use Phalcon\Tag;
+use Phalcon\Web\Tools;
+use Phalcon\Builder\BuilderException;
 
-	public function indexAction(){
+class ModelsController extends ControllerBase
+{
 
-		$connection = $this->_getConnection();
+	public function indexAction()
+	{
+
+		$config = Tools::getConfig();
+		$connection = Tools::getConnection();
 
 		$tables = array('all' => 'All');
 		$result = $connection->query("SHOW TABLES");
-		$result->setFetchMode(Phalcon_DB::DB_NUM);
+		$result->setFetchMode(Phalcon\DB::FETCH_NUM);
 		while($table = $result->fetchArray($result)){
 			$tables[$table[0]] = $table[0];
 		}
 
 		$this->view->setVar('tables', $tables);
-		$this->view->setVar('databaseName', $this->_settings->database->name);
+		$this->view->setVar('databaseName', $config->database->name);
 
 	}
 
 	/**
 	 * Generate models
 	 */
-	public function createAction(){
+	public function createAction()
+	{
 
-		if($this->request->isPost()){
+		if ($this->request->isPost()) {
 
 			$force = $this->request->getPost('force', 'int');
 			$schema = $this->request->getPost('schema');
@@ -52,12 +60,12 @@ class ModelsController extends ControllerBase {
 
 			try {
 
-				$component = 'Model';
-				if($tableName=='all'){
-					$component = 'AllModels';
+				$component = '\Phalcon\Builder\Model';
+				if ($tableName == 'all') {
+					$component = '\Phalcon\Builder\AllModels';
 				}
 
-				$modelBuilder = Phalcon_Builder::factory($component, array(
+				$modelBuilder = $component(array(
 					'name' 					=> $tableName,
 					'force' 				=> $force,
 					'modelsDir' 			=> $this->_settings->phalcon->modelsDir,
@@ -70,15 +78,15 @@ class ModelsController extends ControllerBase {
 
 				$modelBuilder->build();
 
-				if($tableName=='all'){
-					Phalcon_Flash::success('Models were created successfully', 'alert alert-success');
+				if ($tableName == 'all') {
+					$this->flash->success('Models were created successfully');
 				} else {
-					Phalcon_Flash::success('Model "'.$tableName.'" was created successfully', 'alert alert-success');
+					$this->flash->success('Model "'.$tableName.'" was created successfully');
 				}
 
 			}
-			catch(Phalcon_BuilderException $e){
-				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
+			catch(BuilderException $e){
+				$this->flash->error($e->getMessage());
 			}
 
 		}
@@ -87,8 +95,9 @@ class ModelsController extends ControllerBase {
 
 	}
 
-	public function listAction(){
-		$this->view->setVar('modelsDir', Phalcon_WebTools::getPath('public/'.$this->_settings->phalcon->modelsDir));
+	public function listAction()
+	{
+		$this->view->setVar('modelsDir', Tools::getConfig()->application->modelsDir);
 	}
 
 	public function editAction($fileName){

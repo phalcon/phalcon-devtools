@@ -93,7 +93,7 @@ namespace Phalcon\CLI {
 		 * @param array $arguments
 		 * @return mixed
 		 */
-		public function handle($arguments){ }
+		public function handle($arguments=null){ }
 
 	}
 }
