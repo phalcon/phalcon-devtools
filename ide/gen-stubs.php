@@ -206,6 +206,11 @@ foreach(get_declared_classes() as $className){
 		/**
 		 * @var \Phalcon\Flash\Session
 	 	 */
+		public $flashSession;
+
+		/**
+		 * @var \Phalcon\Session\Adapter\Files
+	 	 */
 		public $session;
 
 		/**
@@ -222,6 +227,11 @@ foreach(get_declared_classes() as $className){
 		 * @var \Phalcon\Mvc\Model\Metadata
 	 	 */
 		public $modelsMetadata;
+
+		/**
+		 * @var \Phalcon\Mvc\Model\Transaction\Manager
+	 	 */
+		public $transactionManager;
 		';
 	}
 
