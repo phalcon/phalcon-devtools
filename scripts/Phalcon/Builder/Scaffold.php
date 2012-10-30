@@ -112,6 +112,7 @@ class Scaffold extends Component
 		} else {
 			throw new BuilderException("The builder is unable to know where is the views directory");
 		}
+
 		$options['manager'] = $di->getShared('modelsManager');
 
 		$options['className'] = Text::camelize($options['name']);
@@ -182,14 +183,14 @@ class Scaffold extends Component
 		return true;
 	}
 
-	private function _captureFilterInput(&$code, $options){
-		print_r($options['dataTypes']);
-		foreach($options['dataTypes'] as $field => $dataType){
+	private function _captureFilterInput(&$code, $options)
+	{
+		foreach ($options['dataTypes'] as $field => $dataType) {
 			$code .= PHP_EOL."\t\t".'$'.$options['name'].'->'.$field.' = ';
-			if(strpos($dataType, 'int')!==false){
+			if (strpos($dataType, 'int') !== false) {
 				$code .= '$this->request->getPost("'.$field.'", "int");';
 			} else {
-				if($field=='email'){
+				if ($field == 'email') {
 					$code .= '$this->request->getPost("'.$field.'", "email");';
 				} else {
 					$code .= '$this->request->getPost("'.$field.'");';
@@ -208,19 +209,19 @@ class Scaffold extends Component
 
 		$controllerPath = $options['controllersDir'].ucfirst(strtolower($options['className'])).'Controller.php';
 
-		if(!file_exists($controllerPath)){
+		if (!file_exists($controllerPath)) {
 
 			$code = '<?php'.PHP_EOL.PHP_EOL.
 			'use \Phalcon\Tag as Tag;'.PHP_EOL.PHP_EOL.
-			'class '.$options['className'].'Controller extends ControllerBase {'.PHP_EOL.PHP_EOL.
+			'class '.$options['className'].'Controller extends ControllerBase'.PHP_EOL."\t".'{'.PHP_EOL.PHP_EOL.
 			//Index
-			"\t".'function indexAction(){
+			"\t".'function indexAction()'.PHP_EOL."\t".'{
 		$this->session->conditions = null;'.PHP_EOL;
 
-			if(isset($options['relationFields'])){
-				if(count($options['relationFields'])){
+			if (isset($options['relationFields'])) {
+				if (count($options['relationFields'])) {
 					$code.=PHP_EOL;
-					foreach($options['relationFields'] as $relationField){
+					foreach ($options['relationFields'] as $relationField) {
 						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
 					}
 				}
@@ -230,12 +231,12 @@ class Scaffold extends Component
 
 			$primaryKeys = $options['primaryKeys'];
 			$paramsPks = $conditionsPks = $orderPks = array();
-			foreach($primaryKeys as $primaryKey){
+			foreach ($primaryKeys as $primaryKey) {
 				$orderPks[] = $primaryKey;
 				$paramsPks[] = '$'.$primaryKey;
 				$conditionsPks[] =	'\''.$primaryKey.'="\'.$'.$primaryKey.'.\'"\'';
 			}
-			if(count($orderPks)==0){
+			if (count($orderPks)==0) {
 				$orderPks[] = 1;
 			}
 			$paramsPksString = implode(', ',$paramsPks);
@@ -245,27 +246,27 @@ class Scaffold extends Component
 
 			//Search
 			$code.=
-			"\t".'public function searchAction(){
+			"\t".'public function searchAction()'.PHP_EOL.'{
 
 		$numberPage = 1;
-		if( $this->request->isPost()) {
+		if ($this->request->isPost()) {
 			$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->di, "'.$options['className'].'", $_POST);
 			$this->session->conditions = $query->getConditions();
 		} else {
 			$numberPage = $this->request->getQuery("page", "int");
-			if($numberPage<=0){
+			if ($numberPage <= 0) {
 				$numberPage = 1;
 			}
 		}
 
 		$parameters = array();
-		if($this->session->conditions){
+		if ($this->session->conditions) {
 			$parameters["conditions"] = $this->session->conditions;
 		}
 		$parameters["order"] = "'.$orderPksString.'";
 
 		$'.$options['name'].' = '.$options['className'].'::find($parameters);
-		if(count($'.$options['name'].')==0){
+		if (count($'.$options['name'].') == 0) {
 			$this->flash->notice("The search did not find any '.$options['plural'].'");
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
 		}
@@ -285,9 +286,9 @@ class Scaffold extends Component
 			$code.="\t".'public function newAction()
 	{'.PHP_EOL.PHP_EOL;
 
-			if(isset($options['relationFields'])){
-				if(count($options['relationFields'])){
-					foreach($options['relationFields'] as $relationField){
+			if (isset($options['relationFields'])) {
+				if (count($options['relationFields'])) {
+					foreach ($options['relationFields'] as $relationField) {
 						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
 					}
 				}
@@ -300,12 +301,12 @@ class Scaffold extends Component
 	{
 
 		$request = $this->request;
-		if(!$request->isPost()){
+		if (!$request->isPost()) {
 
 			$'.$orderPksString.' = $this->filter->sanitize($'.$orderPksString.', array("int"));
 
 			$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
-			if(!$'.$options['name'].'){
+			if (!$'.$options['name'].') {
 				$this->flash->error("'.$options['single'].' was not found");
 				return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
 			}
@@ -314,14 +315,14 @@ class Scaffold extends Component
 
 			//genSettersGetters
 
-			foreach($options['attributes'] as $field){
+			foreach ($options['attributes'] as $field) {
 				$code.="\t\t\t".'Tag::displayTo("'.$field.'", $'.$options['name'].'->'.$field.');'.PHP_EOL;
 			}
 
-			if(isset($options['relationFields'])){
-				if(count($options['relationFields'])){
+			if (isset($options['relationFields'])) {
+				if (count($options['relationFields'])) {
 					$code.=PHP_EOL;
-					foreach($options['relationFields'] as $relationField){
+					foreach ($options['relationFields'] as $relationField) {
 						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
 					}
 				}
@@ -331,11 +332,11 @@ class Scaffold extends Component
 	}'.PHP_EOL;
 
 			$exceptions = array();
-			foreach($options['attributes'] as $attribute){
-				if(preg_match('/_at$/', $attribute)){
+			foreach ($options['attributes'] as $attribute) {
+				if (preg_match('/_at$/', $attribute)) {
 					$exceptions[] = '"'.$attribute.'"';
 				} else {
-					if(preg_match('/_in$/', $attribute)){
+					if (preg_match('/_in$/', $attribute)) {
 						$exceptions[] = '"'.$attribute.'"';
 					}
 				}
@@ -345,7 +346,7 @@ class Scaffold extends Component
 			$code.= PHP_EOL."\t".'public function createAction()
 	{
 
-		if(!$this->request->isPost()){
+		if (!$this->request->isPost()) {
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
 		}
 
@@ -355,8 +356,8 @@ class Scaffold extends Component
 
 			self::_captureFilterInput($code, $options);
 
-			$code .= PHP_EOL."\t\t".'if(!$'.$options['name'].'->save()){
-			foreach($'.$options['name'].'->getMessages() as $message){
+			$code .= PHP_EOL."\t\t".'if (!$'.$options['name'].'->save()) {
+			foreach ($'.$options['name'].'->getMessages() as $message) {
 				$this->flash->error((string) $message);
 			}
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "new"));
@@ -371,21 +372,21 @@ class Scaffold extends Component
 			$code.= PHP_EOL."\t".'public function saveAction()
 	{
 
-		if(!$this->request->isPost()){
+		if (!$this->request->isPost()) {
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
 		}
 
 		$'.$orderPksString.' = $this->request->getPost("'.$orderPksString.'", "int");
 		$'.$options['name'].' = '.$options['className'].'::findFirst("'.$orderPksString.'=\'$'.$orderPksString.'\'");
-		if(!$'.$options['name'].'){
-			$this->flash->error("'.$options['single'].' does not exist ".$'.$orderPksString.', "alert alert-error");
+		if (!$'.$options['name'].') {
+			$this->flash->error("'.$options['single'].' does not exist ".$'.$orderPksString.');
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
 		}';
 
 			self::_captureFilterInput($code, $options);
 
-			$code .= PHP_EOL."\t\t".'if(!$'.$options['name'].'->save()){
-			foreach($'.$options['name'].'->getMessages() as $message){
+			$code .= PHP_EOL."\t\t".'if (!$'.$options['name'].'->save()) {
+			foreach ($'.$options['name'].'->getMessages() as $message) {
 				$this->flash->error((string) $message);
 			}
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "edit", "params" => array(.$'.$options['name'].'->'.$orderPksString.')));
@@ -402,13 +403,13 @@ class Scaffold extends Component
 		$'.$orderPksString.' = $this->filter->sanitize($'.$orderPksString.', array("int"));
 
 		$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
-		if(!$'.$options['name'].'){
+		if (!$'.$options['name'].') {
 			$this->flash->error("'.$options['single'].' was not found");
-			return $this->forward("'.$options['name'].'/index");
+			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
 		}
 
-		if(!$'.$options['name'].'->delete()){
-			foreach($'.$options['name'].'->getMessages() as $message){
+		if (!$'.$options['name'].'->delete()) {
+			foreach ($'.$options['name'].'->getMessages() as $message){
 				$this->flash->error((string) $message);
 			}
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "search"));
@@ -436,13 +437,13 @@ class Scaffold extends Component
 		//Make Layouts dir
 		$dirPathLayouts	= $options['viewsDir'].'/layouts';
 		//If not exists dir; we make it
-		if(is_dir($dirPathLayouts)==false){
+		if (is_dir($dirPathLayouts) == false) {
 			mkdir($dirPathLayouts);
 		}
 
 		$fileName = Text::uncamelize($options['name']);
 		$viewPath = $dirPathLayouts.'/'.$fileName.'.phtml';
-		if(!file_exists($viewPath)){
+		if (!file_exists($viewPath)) {
 
 			//View model layout
 			$code = '';
@@ -519,8 +520,8 @@ class Scaffold extends Component
 
 			$code.= "\t\t".'<tr>'.PHP_EOL.
 			"\t\t\t".'<td align="right">'.PHP_EOL;
-			if(($action=='new'||$action=='edit' ) && $attribute==$identityField){
-			}else{
+			if (($action == 'new' || $action == 'edit' ) && $attribute == $identityField){
+			} else {
 				$code .= "\t\t\t\t".'<label for="'.$attribute.'">'.$this->_getPossibleLabel($attribute).'</label>'.PHP_EOL;
 			}
 			$code .= "\t\t\t".'</td>'.PHP_EOL.
@@ -531,24 +532,24 @@ class Scaffold extends Component
 					', "using" => "'.$selectDefinition[$attribute]['primaryKey'].','.$selectDefinition[$attribute]['detail'].'", "useDummy" => true)) ?>';
 			} else {
 				//PKs
-				if(($action=='new'||$action=='edit' ) && $attribute==$identityField){
-					if($action=='edit'){
+				if (($action=='new' || $action=='edit' ) && $attribute == $identityField) {
+					if ($action=='edit'){
 						$code.=PHP_EOL."\t\t\t\t".'<input type="hidden" name="'.$attribute.'" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
 					}
 				} else {
 					//Char Field
-					if($dataType==\Phalcon\Db\Column::TYPE_CHAR){
+					if ($dataType==\Phalcon\Db\Column::TYPE_CHAR) {
 						$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'")) ?>';
 					} else {
 						//Decimal field
-						if($dataType==\Phalcon\Db\Column::TYPE_DECIMAL || $dataType==\Phalcon\Db\Column::TYPE_INTEGER){
+						if ($dataType==\Phalcon\Db\Column::TYPE_DECIMAL || $dataType==\Phalcon\Db\Column::TYPE_INTEGER) {
 							$code.=PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "numeric")) ?>';
 						} else {
 							//Date field
-							if($dataType==\Phalcon\Db\Column::TYPE_DATE){
+							if ($dataType==\Phalcon\Db\Column::TYPE_DATE) {
 								$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
 							} else {
-								if($dataType==\Phalcon\Db\Column::TYPE_TEXT){
+								if ($dataType==\Phalcon\Db\Column::TYPE_TEXT) {
 									$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textArea(array("'.$attribute.'", "cols" => "40", "rows" => "5")) ?>';
 								} else {
 									$code.=PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "size" => 30)) ?>';
@@ -730,7 +731,7 @@ class Scaffold extends Component
 		$dirPath = $options['viewsDir'].$options['name'];
 		$viewPath = $dirPath.'/search.phtml';
 
-		if(!file_exists($viewPath)){
+		if (!file_exists($viewPath)) {
 
 			$code = '<?php $this->getContent(); ?>
 
@@ -761,11 +762,11 @@ class Scaffold extends Component
 				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
 				foreach($options['dataTypes'] as $fieldName => $dataType){
 					$code.="\t\t\t".'<td><?php echo ';
-					if(!isset($options['allReferences'][$fieldName])){
-						if(strpos($dataType, 'date')!==false){
+					if (!isset($options['allReferences'][$fieldName])) {
+						if (strpos($dataType, 'date')!==false) {
 							$code.='(string) $'.$options['name'].'->'.$fieldName;
 						} else {
-							if(strpos($dataType, 'decimal')!==false){
+							if (strpos($dataType, 'decimal')!==false) {
 								$code.='(string) $'.$options['name'].'->'.$fieldName;
 							} else {
 								$code.='$'.$options['name'].'->'.$fieldName;

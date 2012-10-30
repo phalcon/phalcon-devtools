@@ -93,14 +93,14 @@ class Tools
 				)
 			)
 		),
-		'config' => array(
+		/*'config' => array(
 			'caption' => 'Configuration',
 			'options' => array(
 				'index' => array(
 					'caption' => 'Edit'
 				)
 			)
-		),
+		),*/
 	);
 
 	public static function getNavMenu($controllerName)
@@ -187,11 +187,25 @@ class Tools
 			throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 		}
 
+		//Read configuration
+		$configPath = "app/config/config.ini";
+		if (file_exists($configPath)) {
+			$config = new Phalcon\Config\Adapter\Ini($configPath);
+		} else {
+			$configPath = "app/config/config.php";
+			if (file_exists($configPath)) {
+				$config = require $configPath;
+			} else {
+				throw new Phalcon\Exception('Configuration file could not be loaded');
+			}
+		}
+
 		$loader = new \Phalcon\Loader();
 
 		$loader->registerDirs(array(
 			$path . '/scripts/',
-			$path . '/scripts/Phalcon/Web/Tools/controllers/'
+			$path . '/scripts/Phalcon/Web/Tools/controllers/',
+			$config->application->modelsDir
 		));
 
 		$loader->registerNamespaces(array(
@@ -206,19 +220,6 @@ class Tools
 
 		if (!defined('TEMPLATE_PATH')) {
 			define('TEMPLATE_PATH', $path . '/templates');
-		}
-
-		//Read configuration
-		$configPath = "app/config/config.ini";
-		if (file_exists($configPath)) {
-			$config = new Phalcon\Config\Adapter\Ini($configPath);
-		} else {
-			$configPath = "app/config/config.php";
-			if (file_exists($configPath)) {
-				$config = require $configPath;
-			} else {
-				throw new Phalcon\Exception('Configuration file could not be loaded');
-			}
 		}
 
 		try {

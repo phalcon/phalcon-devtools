@@ -18,22 +18,20 @@
   +------------------------------------------------------------------------+
 */
 
-require 'scripts/Migrations/Migrations.php';
-require 'scripts/Version/Version.php';
-require 'scripts/Model/Migration.php';
-require 'scripts/Model/Migration/Profiler.php';
+class MigrationsController extends ControllerBase
+{
 
-class MigrationsController extends ControllerBase {
-
-	protected function _getMigrationsDir(){
-		$migrationsDir = Phalcon_WebTools::getPath('app/migrations');
+	protected function _getMigrationsDir()
+	{
+		$migrationsDir = 'app/migrations';
 		if(!file_exists($migrationsDir)){
 			mkdir($migrationsDir);
 		}
 		return $migrationsDir;
 	}
 
-	protected function _prepareVersions(){
+	protected function _prepareVersions()
+	{
 
 		$migrationsDir = $this->_getMigrationsDir();
 
@@ -60,13 +58,14 @@ class MigrationsController extends ControllerBase {
 
 	public function indexAction(){
 
+
+		$connection = Tools::getConnection();
 		$this->_prepareVersions();
 
 		$tables = array('all' => 'All');
-		$connection = $this->_getConnection();
 
 		$result = $connection->query("SHOW TABLES");
-		$result->setFetchMode(Phalcon_DB::DB_NUM);
+		$result->setFetchMode(Phalcon\DB::FETCH_NUM);
 		while($table = $result->fetchArray($result)){
 			$tables[$table[0]] = $table[0];
 		}
@@ -76,9 +75,10 @@ class MigrationsController extends ControllerBase {
 	/**
 	 * Generates migrations
 	 */
-	public function generateAction()	{
+	public function generateAction()
+	{
 
-		if($this->request->isPost()){
+		 if ($this->request->isPost()) {
 
 			$exportData = '';
 			$tableName = $this->request->getPost('table-name', 'string');
@@ -99,21 +99,25 @@ class MigrationsController extends ControllerBase {
 					'force' => $force
 				));
 
-				Phalcon_Flash::success("The migration was generated successfully", "alert alert-success");
+				$this->flash->success("The migration was generated successfully");
 			}
 			catch(Phalcon_BuilderException $e){
-				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
+				$this->flash->error($e->getMessage());
 			}
 
 		}
 
-		return $this->_forward('migrations/index');
+		return $this->dispatcher->forward(array(
+			'controller' => 'scaffold',
+			'action' => 'index'
+		));
 
 	}
 
-	public function runAction(){
+	public function runAction()
+	{
 
-		if($this->request->isPost()){
+		if ($this->request->isPost()) {
 
 			$version = '';
 			$exportData = '';
@@ -131,10 +135,10 @@ class MigrationsController extends ControllerBase {
 					'force' => $force
 				));
 
-				Phalcon_Flash::success("The migration was executed successfully", "alert alert-success");
+				$this->flash->success("The migration was executed successfully");
 			}
-			catch(Phalcon_BuilderException $e){
-				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
+			catch(BuilderException $e){
+				$this->flash->error($e->getMessage());
 			}
 		}
 

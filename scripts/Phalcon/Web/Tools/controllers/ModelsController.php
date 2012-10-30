@@ -65,11 +65,11 @@ class ModelsController extends ControllerBase
 					$component = '\Phalcon\Builder\AllModels';
 				}
 
-				$modelBuilder = $component(array(
+				$modelBuilder = new $component(array(
 					'name' 					=> $tableName,
 					'force' 				=> $force,
-					'modelsDir' 			=> $this->_settings->phalcon->modelsDir,
-					'directory' 			=> Phalcon_WebTools::getPath(),
+					'modelsDir' 			=> Tools::getConfig()->application->modelsDir,
+					'directory' 			=> null,
 					'foreignKeys' 			=> $foreignKeys,
 					'defineRelations' 		=> $defineRelations,
 					'genSettersGetters' 	=> $genSettersGetters
@@ -91,7 +91,10 @@ class ModelsController extends ControllerBase
 
 		}
 
-		return $this->_forward('models/index');
+		return $this->dispatcher->forward(array(
+			'controller' => 'models',
+			'action' => 'list'
+		));
 
 	}
 
@@ -100,48 +103,62 @@ class ModelsController extends ControllerBase
 		$this->view->setVar('modelsDir', Tools::getConfig()->application->modelsDir);
 	}
 
-	public function editAction($fileName){
+	public function editAction($fileName)
+	{
 
 		$fileName = str_replace('..', '', $fileName);
 
-		$modelsDir = Phalcon_WebTools::getPath('public/'.$this->_settings->phalcon->modelsDir);
+		$modelsDir = Tools::getConfig()->application->modelsDir;
 		if(!file_exists($modelsDir.'/'.$fileName)){
-			Phalcon_Flash::error('MOdel could not be found', 'alert alert-error');
-			return $this->_forward('models/list');
+			$this->flash->error('Model could not be found');
+			return $this->dispatcher->forward(array(
+				'controller' => 'models',
+				'action' => 'list'
+			));
 		}
 
-		Phalcon_Tag::setDefault('code', file_get_contents($modelsDir.'/'.$fileName));
-		Phalcon_Tag::setDefault('name', $fileName);
+		Tag::setDefault('code', file_get_contents($modelsDir.'/'.$fileName));
+		Tag::setDefault('name', $fileName);
 		$this->view->setVar('name', $fileName);
 
 	}
 
-	public function saveAction(){
+	public function saveAction()
+	{
 
-		if($this->request->isPost()){
+		if ($this->request->isPost()) {
 
 			$fileName = $this->request->getPost('name', 'string');
 
 			$fileName = str_replace('..', '', $fileName);
 
-			$modelsDir = Phalcon_WebTools::getPath('public/'.$this->_settings->phalcon->modelsDir);
+			$modelsDir = Tools::getConfig()->application->modelsDir;
 			if(!file_exists($modelsDir.'/'.$fileName)){
-				Phalcon_Flash::error('model could not be found', 'alert alert-error');
-				return $this->_forward('models/list');
+				$this->flash->error('Model could not be found');
+				return $this->dispatcher->forward(array(
+					'controller' => 'models',
+					'action' => 'list'
+				));
 			}
 
 			if(!is_writable($modelsDir.'/'.$fileName)){
-				Phalcon_Flash::error('model file does not have write access', 'alert alert-error');
-				return $this->_forward('models/list');
+				$this->flash->error('Model file does not has write access');
+				return $this->dispatcher->forward(array(
+					'controller' => 'models',
+					'action' => 'list'
+				));
 			}
 
 			file_put_contents($modelsDir.'/'.$fileName, $this->request->getPost('code'));
 
-			Phalcon_Flash::success('The model "'.$fileName.'" was saved successfully', 'alert alert-success');
+			$this->flash->success('The model "'.$fileName.'" was saved successfully');
 
 		}
 
-		return $this->_forward('models/list');
+		return $this->dispatcher->forward(array(
+			'controller' => 'models',
+			'action' => 'list'
+		));
 
 	}
 

@@ -18,29 +18,37 @@
   +------------------------------------------------------------------------+
 */
 
-class ScaffoldController extends ControllerBase {
+use Phalcon\Tag;
+use Phalcon\Web\Tools;
+use Phalcon\Builder\BuilderException;
 
-	public function indexAction(){
+class ScaffoldController extends ControllerBase
+{
 
-		$connection = $this->_getConnection();
+	public function indexAction()
+	{
+
+		$config = Tools::getConfig();
+		$connection = Tools::getConnection();
 
 		$tables = array();
 		$result = $connection->query("SHOW TABLES");
-		$result->setFetchMode(Phalcon_DB::DB_NUM);
+		$result->setFetchMode(Phalcon\Db::FETCH_NUM);
 		while($table = $result->fetchArray($result)){
 			$tables[$table[0]] = $table[0];
 		}
 
 		$this->view->setVar('tables', $tables);
-		$this->view->setVar('databaseName', $this->_settings->database->name);
+		$this->view->setVar('databaseName', $config->database->name);
 	}
 
 	/**
 	 * Generate Scaffold
 	 */
-	public function generateAction(){
+	public function generateAction()
+	{
 
-		if($this->request->isPost()){
+		if ($this->request->isPost()) {
 
 			$schema = $this->request->getPost('schema', 'string');
 			$tableName = $this->request->getPost('tableName', 'string');
@@ -50,30 +58,29 @@ class ScaffoldController extends ControllerBase {
 
 			try {
 
-				$scaffoldBuilder = Phalcon_Builder::factory('Scaffold', array(
+				$scaffoldBuilder = new \Phalcon\Builder\Scaffold(array(
 					'name' => $tableName,
-					'theme'	=> null,
 					'schema' => $schema,
 					'force'	=> $force,
 					'genSettersGetters' => $genSettersGetters,
-					'directory' => Phalcon_WebTools::getPath(),
-					'autocomplete' 	=> false
+					'directory' => null
 				));
 
 				$scaffoldBuilder->build();
 
-				Phalcon_Flash::success('Scaffold for table "'.$tableName.'" was generated successfully', 'alert alert-success');
+				$this->flash->success('Scaffold for table "'.$tableName.'" was generated successfully');
 
 			}
-			catch(Phalcon_BuilderException $e){
-				Phalcon_Flash::error($e->getMessage(), 'alert alert-error');
+			catch(BuilderException $e){
+				$this->flash->error($e->getMessage());
 			}
 
 		}
 
-		return $this->_forward('scaffold/index');
-
-
+		return $this->dispatcher->forward(array(
+			'controller' => 'scaffold',
+			'action' => 'index'
+		));
 	}
 
 }

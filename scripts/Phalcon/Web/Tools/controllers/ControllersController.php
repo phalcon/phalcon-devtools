@@ -119,7 +119,7 @@ class ControllersController extends ControllerBase
 			}
 
 			if(!is_writable($controllersDir.'/'.$fileName)){
-				$this->flash->error('Controller file does not have write access');
+				$this->flash->error('Controller file does not has write access');
 				return $this->dispatcher->forward(array(
 					'controller' => 'controllers',
 					'action' => 'list'
