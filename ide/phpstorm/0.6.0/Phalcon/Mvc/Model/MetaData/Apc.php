@@ -45,8 +45,6 @@ namespace Phalcon\Mvc\Model\MetaData {
 
 		const MODELS_AUTOMATIC_DEFAULT_UPDATE = 11;
 
-		protected $_metaData;
-
 		protected $_suffix;
 
 		protected $_ttl;

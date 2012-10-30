@@ -32,18 +32,6 @@ namespace Phalcon\Cache\Backend {
 	
 	class Mongo extends \Phalcon\Cache\Backend {
 
-		protected $_frontendObject;
-
-		protected $_backendOptions;
-
-		protected $_prefix;
-
-		protected $_lastKey;
-
-		protected $_fresh;
-
-		protected $_started;
-
 		protected $_collection;
 
 		/**

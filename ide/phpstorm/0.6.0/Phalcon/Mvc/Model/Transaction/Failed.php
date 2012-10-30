@@ -11,14 +11,6 @@ namespace Phalcon\Mvc\Model\Transaction {
 	
 	class Failed extends \Exception {
 
-		protected $message;
-
-		protected $code;
-
-		protected $file;
-
-		protected $line;
-
 		protected $_record;
 
 		/**

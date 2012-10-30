@@ -11,10 +11,6 @@ namespace Phalcon\Mvc\View {
 	
 	abstract class Engine extends \Phalcon\DI\Injectable {
 
-		protected $_dependencyInjector;
-
-		protected $_eventsManager;
-
 		protected $_view;
 
 		/**

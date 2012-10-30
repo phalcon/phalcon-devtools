@@ -156,7 +156,9 @@ foreach(get_declared_classes() as $className){
 
 	// public and protected properties
 	foreach ($reflector->getProperties() as $property){
-		$source.= PHP_EOL."\t\t".implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
+		if($property->getDeclaringClass()->name == $className){
+			$source.= PHP_EOL."\t\t".implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
+		}
 	}
 
 	if ($className == 'Phalcon\DI\Injectable') {

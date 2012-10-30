@@ -10,12 +10,6 @@ namespace Phalcon\Mvc\View\Engine {
 	
 	class Php extends \Phalcon\Mvc\View\Engine {
 
-		protected $_dependencyInjector;
-
-		protected $_eventsManager;
-
-		protected $_view;
-
 		/**
 		 * Renders a view using the template engine
 		 *

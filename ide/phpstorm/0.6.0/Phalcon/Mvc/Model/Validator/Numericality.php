@@ -30,10 +30,6 @@ namespace Phalcon\Mvc\Model\Validator {
 	
 	class Numericality extends \Phalcon\Mvc\Model\Validator {
 
-		protected $_options;
-
-		protected $_messages;
-
 		/**
 		 * Executes the validator
 		 *

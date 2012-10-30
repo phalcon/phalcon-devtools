@@ -28,29 +28,9 @@ namespace Phalcon\Db\Adapter\Pdo {
 
 		const FETCH_NUM = 3;
 
-		protected $_eventsManager;
-
-		protected $_descriptor;
-
 		protected $_dialectType;
 
 		protected $_type;
-
-		protected $_dialect;
-
-		protected $_connectionId;
-
-		protected $_sqlStatement;
-
-		protected $_sqlVariables;
-
-		protected $_sqlBindTypes;
-
-		protected static $_connectionConsecutive;
-
-		protected $_pdo;
-
-		protected $_affectedRows;
 
 		/**
 		 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.

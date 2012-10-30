@@ -38,33 +38,11 @@ namespace Phalcon\CLI {
 
 		const EXCEPTION_ACTION_NOT_FOUND = 4;
 
-		protected $_dependencyInjector;
-
-		protected $_eventsManager;
-
-		protected $_activeHandler;
-
-		protected $_finished;
-
-		protected $_handlerName;
-
-		protected $_actionName;
-
-		protected $_params;
-
-		protected $_returnedValue;
-
-		protected $_lastHandler;
-
-		protected $_defaultNamespace;
-
 		protected $_defaultHandler;
 
 		protected $_defaultAction;
 
 		protected $_handlerSuffix;
-
-		protected $_actionSuffix;
 
 		/**
 		 * Sets the default task suffix

@@ -29,29 +29,9 @@ namespace Phalcon\Db\Adapter\Pdo {
 
 		const FETCH_NUM = 3;
 
-		protected $_eventsManager;
-
-		protected $_descriptor;
-
 		protected $_dialectType;
 
 		protected $_type;
-
-		protected $_dialect;
-
-		protected $_connectionId;
-
-		protected $_sqlStatement;
-
-		protected $_sqlVariables;
-
-		protected $_sqlBindTypes;
-
-		protected static $_connectionConsecutive;
-
-		protected $_pdo;
-
-		protected $_affectedRows;
 
 		/**
 		 * Returns an array of \Phalcon\Db\Column objects describing a table

@@ -12,14 +12,6 @@ namespace Phalcon\DI {
 	
 	class FactoryDefault extends \Phalcon\DI {
 
-		protected $_services;
-
-		protected $_sharedInstances;
-
-		protected $_freshInstance;
-
-		protected static $_default;
-
 		/**
 		 * \Phalcon\DI\FactoryDefault constructor
 		 */

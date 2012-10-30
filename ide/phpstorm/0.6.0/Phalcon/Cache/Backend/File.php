@@ -32,18 +32,6 @@ namespace Phalcon\Cache\Backend {
 	
 	class File extends \Phalcon\Cache\Backend {
 
-		protected $_frontendObject;
-
-		protected $_backendOptions;
-
-		protected $_prefix;
-
-		protected $_lastKey;
-
-		protected $_fresh;
-
-		protected $_started;
-
 		/**
 		 * \Phalcon\Backend\Adapter\File constructor
 		 *

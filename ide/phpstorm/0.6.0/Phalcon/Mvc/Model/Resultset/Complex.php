@@ -11,22 +11,6 @@ namespace Phalcon\Mvc\Model\Resultset {
 	
 	class Complex extends \Phalcon\Mvc\Model\Resultset {
 
-		protected $_type;
-
-		protected $_result;
-
-		protected $_cache;
-
-		protected $_isFresh;
-
-		protected $_pointer;
-
-		protected $_count;
-
-		protected $_activeRow;
-
-		protected $_rows;
-
 		protected $_columnTypes;
 
 		/**

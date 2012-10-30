@@ -10,12 +10,6 @@ namespace Phalcon\Flash {
 	
 	class Session extends \Phalcon\Flash {
 
-		protected $_cssClasses;
-
-		protected $_implicitFlush;
-
-		protected $_automaticHtml;
-
 		protected $_dependencyInjector;
 
 		/**

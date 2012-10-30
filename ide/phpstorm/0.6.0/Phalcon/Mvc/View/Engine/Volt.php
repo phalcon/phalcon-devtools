@@ -10,12 +10,6 @@ namespace Phalcon\Mvc\View\Engine {
 	
 	class Volt extends \Phalcon\Mvc\View\Engine {
 
-		protected $_dependencyInjector;
-
-		protected $_eventsManager;
-
-		protected $_view;
-
 		protected $_options;
 
 		/**

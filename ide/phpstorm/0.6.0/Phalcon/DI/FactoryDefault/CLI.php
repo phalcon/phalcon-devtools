@@ -13,14 +13,6 @@ namespace Phalcon\DI\FactoryDefault {
 	
 	class CLI extends \Phalcon\DI\FactoryDefault {
 
-		protected $_services;
-
-		protected $_sharedInstances;
-
-		protected $_freshInstance;
-
-		protected static $_default;
-
 		/**
 		 * \Phalcon\DI\FactoryDefault\CLI constructor
 		 */

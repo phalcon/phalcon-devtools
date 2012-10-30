@@ -38,10 +38,6 @@ namespace Phalcon\Mvc {
 
 		const LEVEL_NO_RENDER = 0;
 
-		protected $_dependencyInjector;
-
-		protected $_eventsManager;
-
 		protected $_options;
 
 		protected $_basePath;

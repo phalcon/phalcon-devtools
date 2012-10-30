@@ -10,12 +10,6 @@ namespace Phalcon\Flash {
 	
 	class Direct extends \Phalcon\Flash {
 
-		protected $_cssClasses;
-
-		protected $_implicitFlush;
-
-		protected $_automaticHtml;
-
 		/**
 		 * Outputs a message
 		 *

@@ -32,18 +32,6 @@ namespace Phalcon\Cache\Backend {
 	
 	class Apc extends \Phalcon\Cache\Backend {
 
-		protected $_frontendObject;
-
-		protected $_backendOptions;
-
-		protected $_prefix;
-
-		protected $_lastKey;
-
-		protected $_fresh;
-
-		protected $_started;
-
 		/**
 		 * Returns a cached content
 		 *

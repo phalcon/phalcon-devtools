@@ -66,8 +66,6 @@ namespace Phalcon\Acl\Adapter {
 
 		const DENY = 0;
 
-		protected $_eventsManager;
-
 		protected $_rolesNames;
 
 		protected $_roles;

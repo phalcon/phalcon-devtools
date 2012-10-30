@@ -46,10 +46,6 @@ namespace Phalcon\Mvc {
 	
 	abstract class Controller extends \Phalcon\DI\Injectable {
 
-		protected $_dependencyInjector;
-
-		protected $_eventsManager;
-
 		/**
 		 * \Phalcon\Mvc\Controller constructor
 		 *
