@@ -222,7 +222,7 @@ class Migration
 use Phalcon\\Db\\Index as Index;
 use Phalcon\\Db\\Reference as Reference;
 
-class ".$className." extends Phalcon\\Model\\Migration {\n\n".
+class ".$className." extends \\Phalcon\\Mvc\\Model\\Migration {\n\n".
 		"\tpublic function up(){\n\t\t\$this->morphTable('".$table."', array(".
 		"\n\t\t\t'columns' => array(\n".join(",\n", $tableDefinition)."\n\t\t\t),";
 		if (count($indexesDefinition)) {
@@ -287,7 +287,7 @@ class ".$className." extends Phalcon\\Model\\Migration {\n\n".
 		if (file_exists($filePath)) {
 			$fileName = basename($filePath);
 			$classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
-			$className = Phalcon_Utils::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
+			$className = \Phalcon\Text::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
 			require $filePath;
 			if (class_exists($className)) {
 				$migration = new $className();
@@ -298,7 +298,7 @@ class ".$className." extends Phalcon\\Model\\Migration {\n\n".
 					}
 				}
 			} else {
-				throw new Phalcon_Model_Exception('Migration class cannot be found '.$className.' at '.$filePath);
+				throw new \Phalcon\Mvc\Model\Exception('Migration class cannot be found '.$className.' at '.$filePath);
 			}
 		}
 	}
@@ -312,154 +312,171 @@ class ".$className." extends Phalcon\\Model\\Migration {\n\n".
 	public function morphTable($tableName, $definition)
 	{
 
-		$defaultSchema = self::$_connection->getDefaultSchema();
+		$defaultSchema = null;
 		$tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
-		if(isset($definition['columns'])){
-			if(count($definition['columns'])==0){
-				throw new Phalcon_Model_Exception('Table must have at least one column');
+		if (isset($definition['columns'])) {
+
+			if (count($definition['columns']) == 0) {
+				throw new \Phalcon\Mvc\Model\Exception('Table must have at least one column');
 			}
+
 			$fields = array();
-			foreach($definition['columns'] as $tableColumn){
+			foreach ($definition['columns'] as $tableColumn) {
 				if(!is_object($tableColumn)){
-					throw new Phalcon_Model_Exception('Table must have at least one column');
+					throw new \Phalcon\Mvc\Model\Exception('Table must have at least one column');
 				}
 				$fields[$tableColumn->getName()] = $tableColumn;
 			}
-			if($tableExists==true){
+
+			if ($tableExists == true) {
+
 				$localFields = array();
-				$description = self::$_connection->describeTable($tableName, $defaultSchema);
-				foreach($description as $field){
-					$localFields[$field['Field']] = $field;
+				$description = self::$_connection->describeColumns($tableName, $defaultSchema);
+				foreach ($description as $field) {
+					$localFields[$field->getName()] = $field;
 				}
-				foreach($fields as $fieldName => $tableColumn){
-					if(!isset($localFields[$fieldName])){
+
+				foreach ($fields as $fieldName => $tableColumn) {
+					if (!isset($localFields[$fieldName])) {
 						self::$_connection->addColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);
 					} else {
+
 						$changed = false;
-						$columnDefinition = strtolower(self::$_connection->getColumnDefinition($tableColumn));
-						if($localFields[$fieldName]['Type']!=$columnDefinition){
+
+						if ($localFields[$fieldName]->getType() != $tableColumn->getType()) {
 							$changed = true;
 						}
-						if($tableColumn->isNotNull()!=true && $localFields[$fieldName]['Null']=='NO'){
+
+						if ($tableColumn->isNotNull() != $localFields[$fieldName]->isNotNull()) {
 							$changed = true;
-						} else {
-							if($tableColumn->isNotNull()==true && $localFields[$fieldName]['Null']=='YES'){
-								$changed = true;
-							}
 						}
-						if($changed==true){
+
+						if ($changed == true) {
 							self::$_connection->modifyColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);
 						}
 					}
 				}
-				foreach($localFields as $fieldName => $localField){
-					if(!isset($fields[$fieldName])){
+
+				foreach ($localFields as $fieldName => $localField) {
+					if (!isset($fields[$fieldName])) {
 						self::$_connection->dropColumn($tableName, null, $fieldName);
 					}
 				}
 			} else {
 				self::$_connection->createTable($tableName, $defaultSchema, $definition);
-				if(method_exists($this, 'afterCreateTable')){
+				if (method_exists($this, 'afterCreateTable')) {
 					$this->afterCreateTable();
 				}
 			}
 		}
 
-		if(isset($definition['references'])){
-			if($tableExists==true){
+		if (isset($definition['references'])) {
+			if ($tableExists == true) {
+
 				$references = array();
-				foreach($definition['references'] as $tableReference){
+				foreach ($definition['references'] as $tableReference){
 					$references[$tableReference->getName()] = $tableReference;
 				}
+
 				$localReferences = array();
 				$activeReferences = self::$_connection->describeReferences($tableName, $defaultSchema);
-				foreach($activeReferences as $activeReference){
+				foreach ($activeReferences as $activeReference) {
 					$localReferences[$activeReference->getName()] = array(
 						'referencedTable' => $activeReference->getReferencedTable(),
 						'columns' => $activeReference->getColumns(),
 						'referencedColumns' => $activeReference->getReferencedColumns(),
 					);
 				}
-				foreach($definition['references'] as $tableReference){
-					if(!isset($localReferences[$tableReference->getName()])){
+
+				foreach ($definition['references'] as $tableReference) {
+					if (!isset($localReferences[$tableReference->getName()])) {
 						self::$_connection->addForeignKey($tableName, $tableReference->getSchemaName(), $tableReference);
 					} else {
+
 						$changed = false;
-						if($tableReference->getReferencedTable()!=$localReferences[$tableReference->getName()]['referencedTable']){
+						if ($tableReference->getReferencedTable()!=$localReferences[$tableReference->getName()]['referencedTable']) {
 							$changed = true;
 						}
-						if($changed==false){
-							if(count($tableReference->getColumns())!=count($localReferences[$tableReference->getName()]['columns'])){
+
+						if ($changed == false) {
+							if (count($tableReference->getColumns()) != count($localReferences[$tableReference->getName()]['columns'])) {
 								$changed = true;
 							}
 						}
-						if($changed==false){
-							if(count($tableReference->getReferencedColumns())!=count($localReferences[$tableReference->getName()]['referencedColumns'])){
+
+						if ($changed==false) {
+							if (count($tableReference->getReferencedColumns()) != count($localReferences[$tableReference->getName()]['referencedColumns'])) {
 								$changed = true;
 							}
 						}
-						if($changed==false){
-							foreach($tableReference->getColumns() as $columnName){
-								if(!in_array($columnName, $localReferences[$tableReference->getName()]['columns'])){
+						if ($changed == false) {
+							foreach ($tableReference->getColumns() as $columnName) {
+								if (!in_array($columnName, $localReferences[$tableReference->getName()]['columns'])) {
 									$changed = true;
 									break;
 								}
 							}
 						}
-						if($changed==false){
-							foreach($tableReference->getReferencedColumns() as $columnName){
-								if(!in_array($columnName, $localReferences[$tableReference->getName()]['referencedColumns'])){
+						if ($changed == false) {
+							foreach ($tableReference->getReferencedColumns() as $columnName){
+								if (!in_array($columnName, $localReferences[$tableReference->getName()]['referencedColumns'])){
 									$changed = true;
 									break;
 								}
 							}
 						}
-						if($changed==true){
+
+						if ($changed == true) {
 							self::$_connection->dropForeignKey($tableName, $tableReference->getSchemaName(), $tableReference->getName());
 							self::$_connection->addForeignKey($tableName, $tableReference->getSchemaName(), $tableReference);
 						}
 					}
 				}
-				foreach($localReferences as $referenceName => $reference){
-					if(!isset($references[$referenceName])){
+
+				foreach ($localReferences as $referenceName => $reference) {
+					if (!isset($references[$referenceName])) {
 						self::$_connection->dropForeignKey($tableName, null, $referenceName);
 					}
 				}
+
 			}
 		}
 
-		if(isset($definition['indexes'])){
-			if($tableExists==true){
+		if (isset($definition['indexes'])) {
+			if ($tableExists == true) {
+
 				$indexes = array();
-				foreach($definition['indexes'] as $tableIndex){
+				foreach ($definition['indexes'] as $tableIndex) {
 					$indexes[$tableIndex->getName()] = $tableIndex;
 				}
+
 				$localIndexes = array();
 				$actualIndexes = self::$_connection->describeIndexes($tableName, $defaultSchema);
-				foreach($actualIndexes as $actualIndex){
+				foreach ($actualIndexes as $actualIndex) {
 					$localIndexes[$actualIndex->getName()] = $actualIndex->getColumns();
 				}
-				foreach($definition['indexes'] as $tableIndex){
-					if(!isset($localIndexes[$tableIndex->getName()])){
-						if($tableIndex->getName()=='PRIMARY'){
+
+				foreach ($definition['indexes'] as $tableIndex) {
+					if (!isset($localIndexes[$tableIndex->getName()])) {
+						if ($tableIndex->getName() == 'PRIMARY') {
 							self::$_connection->addPrimaryKey($tableName, $tableColumn->getSchemaName(), $tableIndex);
 						} else {
 							self::$_connection->addIndex($tableName, $tableColumn->getSchemaName(), $tableIndex);
 						}
 					} else {
 						$changed = false;
-						if(count($tableIndex->getColumns())!=count($localIndexes[$tableIndex->getName()])){
+						if (count($tableIndex->getColumns()) != count($localIndexes[$tableIndex->getName()])) {
 							$changed = true;
 						} else {
-							foreach($tableIndex->getColumns() as $columnName){
-								if(!in_array($columnName, $localIndexes[$tableIndex->getName()])){
+							foreach ($tableIndex->getColumns() as $columnName) {
+								if (!in_array($columnName, $localIndexes[$tableIndex->getName()])) {
 									$changed = true;
 									break;
 								}
 							}
 						}
-						if($changed==true){
-							if($tableIndex->getName()=='PRIMARY'){
+						if ($changed == true) {
+							if ($tableIndex->getName() == 'PRIMARY') {
 								self::$_connection->dropPrimaryKey($tableName, $tableColumn->getSchemaName());
 								self::$_connection->addPrimaryKey($tableName, $tableColumn->getSchemaName(), $tableIndex);
 							} else {
@@ -469,8 +486,8 @@ class ".$className." extends Phalcon\\Model\\Migration {\n\n".
 						}
 					}
 				}
-				foreach($localIndexes as $indexName => $indexColumns){
-					if(!isset($indexes[$indexName])){
+				foreach ($localIndexes as $indexName => $indexColumns) {
+					if (!isset($indexes[$indexName])) {
 						self::$_connection->dropIndex($tableName, null, $indexName);
 					}
 				}
@@ -488,11 +505,11 @@ class ".$className." extends Phalcon\\Model\\Migration {\n\n".
 	public function batchInsert($tableName, $fields)
 	{
 		$migrationData = self::$_migrationPath.'/'.$tableName.'.dat';
-		if(file_exists($migrationData)){
+		if (file_exists($migrationData)) {
 			self::$_connection->begin();
 			self::$_connection->delete($tableName);
 			$batchHandler = fopen($migrationData, 'r');
-			while(($line = fgets($batchHandler))!==false){
+			while (($line = fgets($batchHandler)) !== false) {
 				self::$_connection->insert($tableName, explode('|', rtrim($line)), $fields, false);
 				unset($line);
 			}

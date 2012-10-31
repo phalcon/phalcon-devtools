@@ -24,6 +24,7 @@ use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Commands\CommandsInterface;
+use Phalcon\Migrations;
 
 /**
  * Migration
@@ -78,7 +79,7 @@ class Migration extends Command implements CommandsInterface
 		$action = $this->getOption(array('action', 1));
 
 		if ($action == 'generate') {
-			\Phalcon\Migrations::generate(array(
+			Migrations::generate(array(
 				'directory' => $path,
 				'tableName' => $tableName,
 				'exportData' => $exportData,
@@ -87,7 +88,13 @@ class Migration extends Command implements CommandsInterface
 				'force' => $this->isReceivedOption('force')
 			));
 		} else {
-
+			if ($action == 'run') {
+				Migrations::run(array(
+					'directory' => $path,
+					'migrationsDir' => $migrationsDir,
+					'force' => $this->isReceivedOption('force')
+				));
+			}
 		}
 
 	}
