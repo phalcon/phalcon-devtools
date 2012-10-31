@@ -17,13 +17,13 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
+
 namespace Phalcon\Builder;
 
 use Phalcon\Builder\Component;
 use Phalcon\Builder\BuilderException;
 use Phalcon\Text as Utils;
 use Phalcon\Script\Color;
-
 
 /**
  * AllModels
@@ -35,7 +35,9 @@ use Phalcon\Script\Color;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class AllModels extends Component {
+class AllModels extends Component
+{
+
 	public function __construct($options)
 	{
 		if (!isset($options['force'])) {
@@ -45,10 +47,8 @@ class AllModels extends Component {
 		$this->_options = $options;
 	}
 
-	public function build2(){
-		print_r($this->_options);
-	}
-	public function build(){
+	public function build()
+	{
 
 		$path = '.';
 		if(isset($this->_options['directory'])){
@@ -59,19 +59,19 @@ class AllModels extends Component {
 		$modelsDir = $config->application->modelsDir;
 		$forceProcess = $this->_options['force'];
 
-		if(isset($this->_options['defineRelations'])){
+		if (isset($this->_options['defineRelations'])) {
 			$defineRelations = $this->_options['defineRelations'];
 		} else {
 			$defineRelations = false;
 		}
 
-		if(isset($this->_options['foreignKeys'])){
+		if (isset($this->_options['foreignKeys'])) {
 			$defineForeignKeys = $this->_options['foreignKeys'];
 		} else {
 			$defineForeignKeys = false;
 		}
 
-		if(isset($this->_options['genSettersGetters'])){
+		if (isset($this->_options['genSettersGetters'])) {
 			$genSettersGetters = $this->_options['genSettersGetters'];
 		} else {
 			$genSettersGetters = false;
@@ -82,10 +82,10 @@ class AllModels extends Component {
 
 		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
 		$db = new $adapter(array(
-				'host'     => $config->database->host,
-				'username' => $config->database->username,
-				'password' => $config->database->password,
-				'name'     => $config->database->name,
+			'host'     => $config->database->host,
+			'username' => $config->database->username,
+			'password' => $config->database->password,
+			'name'     => $config->database->name,
 		));
 
 		$initialize = array();
@@ -101,9 +101,9 @@ class AllModels extends Component {
 		$hasMany = array();
 		$belongsTo = array();
 		$foreignKeys = array();
-		if($defineRelations || $defineForeignKeys){
-			foreach($db->listTables($schema) as $name){
-				if($defineRelations){
+		if ($defineRelations || $defineForeignKeys) {
+			foreach ($db->listTables($schema) as $name) {
+				if ($defineRelations) {
 					if(!isset($hasMany[$name])){
 						$hasMany[$name] = array();
 					}
@@ -114,9 +114,9 @@ class AllModels extends Component {
 				if($defineForeignKeys){
 					$foreignKeys[$name] = array();
 				}
-				foreach($db->tableOptions($name, $schema) as $field){
-					if(preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)){
-						if($defineRelations){
+				foreach ($db->tableOptions($name, $schema) as $field) {
+					if (preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)) {
+						if ($defineRelations) {
 							$hasMany[$matches[1]][Utils::camelize($name)] = array(
 								'fields' => 'id',
 								'relationFields' => $field['Field']
@@ -126,7 +126,7 @@ class AllModels extends Component {
 								'relationFields' => 'id'
 							);
 						}
-						if($defineForeignKeys){
+						if ($defineForeignKeys) {
 							$foreignKeys[$name][] = array(
 								'fields' => $field['Field'],
 								'entity' => Utils::camelize($matches[1]),
@@ -135,27 +135,28 @@ class AllModels extends Component {
 						}
 					}
 				}
-				foreach($db->describeReferences($name, $schema) as $reference){
+				$camelizedName = Utils::camelize($name);
+				foreach ($db->describeReferences($name, $schema) as $reference) {
 					$columns = $reference->getColumns();
 					$referencedColumns = $reference->getReferencedColumns();
 					$referencedModel = Utils::camelize($reference->getReferencedTable());
-					if($defineRelations){
-						if($reference->getReferencedSchema()==$schema){
-							if(count($columns)==1){
+					if ($defineRelations) {
+						if ($reference->getReferencedSchema() == $schema) {
+							if (count($columns) == 1) {
 								$belongsTo[$name][$referencedModel] = array(
 									'fields' => $columns[0],
 									'relationFields' => $referencedColumns[0]
 								);
-								$hasMany[$reference->getReferencedTable()][Utils::camelize($name)] = array(
+								$hasMany[$reference->getReferencedTable()][$camelizedName] = array(
 									'fields' => $referencedColumns[0],
 									'relationFields' => $columns[0]
 								);
 							}
 						}
 					}
-					if($defineForeignKeys){
-						if($reference->getReferencedSchema()==$schema){
-							if(count($columns)==1){
+					if ($defineForeignKeys) {
+						if ($reference->getReferencedSchema() == $schema) {
+							if (count($columns)==1) {
 								$foreignKeys[$name][] = array(
 									'fields' => $columns[0],
 									'entity' => $referencedModel,
@@ -167,8 +168,8 @@ class AllModels extends Component {
 				}
 			}
 		} else {
-			foreach($db->listTables($schema) as $name){
-				if($defineRelations){
+			foreach ($db->listTables($schema) as $name) {
+				if ($defineRelations) {
 					$hasMany[$name] = array();
 					$belongsTo[$name] = array();
 					$foreignKeys[$name] = array();
@@ -176,37 +177,37 @@ class AllModels extends Component {
 			}
 		}
 
-		foreach($db->listTables($schema) as $name){
+		foreach ($db->listTables($schema) as $name) {
 			$className = Utils::camelize($name);
-			if(!file_exists($modelsDir.'/'.$className.'.php')||$forceProcess){
+			if (!file_exists($modelsDir.'/'.$className.'.php') || $forceProcess) {
 
-				if(isset($hasMany[$name])){
+				if (isset($hasMany[$name])) {
 					$hasManyModel = $hasMany[$name];
 				} else {
 					$hasManyModel = array();
 				}
 
-				if(isset($belongsTo[$name])){
+				if (isset($belongsTo[$name])) {
 					$belongsToModel = $belongsTo[$name];
 				} else {
 					$belongsToModel = array();
 				}
 
-				if(isset($foreignKeys[$name])){
+				if (isset($foreignKeys[$name])) {
 					$foreignKeysModel = $foreignKeys[$name];
 				} else {
 					$foreignKeysModel = array();
 				}
 
-				$modelBuilder =new \Phalcon\Builder\Model(array(
-						'name' => $name,
-						'schema' => $schema,
-						'force' => $forceProcess,
-						'hasMany' => $hasManyModel,
-						'belongsTo' => $belongsToModel,
-						'foreignKeys' => $foreignKeysModel,
-						'genSettersGetters' => $genSettersGetters,
-						'directory' => $this->_options['directory'],
+				$modelBuilder = new \Phalcon\Builder\Model(array(
+					'name' => $name,
+					'schema' => $schema,
+					'force' => $forceProcess,
+					'hasMany' => $hasManyModel,
+					'belongsTo' => $belongsToModel,
+					'foreignKeys' => $foreignKeysModel,
+					'genSettersGetters' => $genSettersGetters,
+					'directory' => $this->_options['directory'],
 				));
 
 				$modelBuilder->build();

@@ -21,7 +21,6 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Builder\Component;
-use Phalcon\Script\Color;
 use Phalcon\Text as Utils;
 
 /**
@@ -57,6 +56,8 @@ class Controller extends Component
 	}
 
 	/**
+	 * Builds a controller
+	 *
 	 * @return string
 	 * @throws \Phalcon\Builder\Exception
 	 */
@@ -98,6 +99,10 @@ class Controller extends Component
 		}
 
 		$name = $this->_options['name'];
+		if (!$name) {
+			throw new BuilderException("The controller name is required");
+		}
+
 		$className = Utils::camelize($name);
 
 		$controllerPath .= $className . "Controller.php";
@@ -111,7 +116,7 @@ class Controller extends Component
 	 		throw new BuilderException("The Controller '$name' already exists");
 		}
 
-		print Color::success('Controller "' . $name . '" was successfully created.') . PHP_EOL;
+		$this->_notifySuccess('Controller "' . $name . '" was successfully created.');
 
 		return $className . 'Controller.php';
 

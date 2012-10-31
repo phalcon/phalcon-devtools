@@ -37,7 +37,7 @@ use Phalcon\Events\Manager as EventsManager;
 class Script
 {
 
-	const COMPATIBLE_VERSION = '0050022';
+	const COMPATIBLE_VERSION = '0060011';
 
 	/**
 	 * Events Manager

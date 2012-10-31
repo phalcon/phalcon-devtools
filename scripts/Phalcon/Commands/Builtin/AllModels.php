@@ -59,6 +59,7 @@ class AllModels extends Command implements CommandsInterface
 		if ($this->isReceivedOption('directory')) {
 			$path = $this->getOption('directory').'/';
 		}
+
 		$config = null;
 		if (!$this->isReceivedOption('models')) {
 
@@ -84,7 +85,6 @@ class AllModels extends Command implements CommandsInterface
 		} else {
 			$modelsDir = $this->getOption('models');
 		}
-
 
 		$modelBuilder = new \Phalcon\Builder\AllModels(array(
 			'force' => $this->isReceivedOption('force'),
@@ -129,6 +129,16 @@ class AllModels extends Command implements CommandsInterface
 	public function getHelp()
 	{
 		$this->printParameters($this->_possibleParameters);
+	}
+
+	/**
+	 * Returns number of required parameters for this command
+	 *
+	 * @return int
+	 */
+	public function getRequiredParams()
+	{
+		return 0;
 	}
 
 }

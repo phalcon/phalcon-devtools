@@ -15,7 +15,7 @@
 #  +------------------------------------------------------------------------+
 #  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
 #  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-#  |          Jakob <@jamurko>                         |
+#  |          Jakob <@jamurko>                                              |
 #  +------------------------------------------------------------------------+
 #
 
@@ -25,7 +25,7 @@ alter_profile(){
 	export PATH="$PATH:$DIR"
 	PTOOLSVAR="export PTOOLSPATH=$DIR/"
 	PATHVAR="export PATH=\$PATH:$DIR"
-	if [ -e $HOME/.profile ]; then 
+	if [ -e $HOME/.profile ]; then
 		echo "$PTOOLSVAR" >> $HOME/.profile
 		echo "$PATHVAR" >> $HOME/.profile
 		source $HOME/.profile
@@ -34,7 +34,7 @@ alter_profile(){
 		echo "$PATHVAR" >> $HOME/.bash_profile
 		source $HOME/.bash_profile
 	elif [ -e $HOME/.bashrc ]; then
-               	echo "$PTOOLSVAR" >> $HOME/.bashrc
+				echo "$PTOOLSVAR" >> $HOME/.bashrc
 		echo "$PATHVAR" >> $HOME/.bashrc
 		source $HOME/.bashrc
 	else
@@ -43,26 +43,25 @@ alter_profile(){
 }
 
 check_install(){
-	if [ -z "$PTOOLSPATH" ]; then 
-        	if [ `echo $0 | grep "bash"`=="bash" ]; then ## bash check (linux/osx)
-        	#if [ "$0" == "-bash" -o "$0" == "bash" ]; then ## bash check (linux/osx)
-                	echo "Phalcon Developer Tools Installer"
-                	echo "Make sure phalcon.sh is in the same dir as phalcon.php and that you are running this with sudo or as root."
-                	echo "Installing Devtools..."
-                	DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+	if [ -z "$PTOOLSPATH" ]; then
+		if [ `echo $0 | grep "bash"`=="bash" ]; then ## bash check (linux/osx)
+			echo "Phalcon Developer Tools Installer"
+			echo "Make sure phalcon.sh is in the same dir as phalcon.php and that you are running this with sudo or as root."
+			echo "Installing Devtools..."
+			DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 			alter_profile $DIR
 			echo "Working dir is: $DIR"
-        	else
+		else
 			echo 'Phalcon Developer Tools need to be installed...'
 			echo 'Run this installer with ". ./phalcon.sh". Exiting...'
-                	return 1
+			return 1
 		fi
 		app="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 		if [ ! -L $app/phalcon ]; then
 			echo "Generating symlink..."
-        		ln -s $app/phalcon.sh $app/phalcon
-        		chmod +x $app/phalcon
-        		echo "Done. Devtools installed!"
+			ln -s $app/phalcon.sh $app/phalcon
+			chmod +x $app/phalcon
+			echo "Done. Devtools installed!"
 		fi
 		return 1
 	fi

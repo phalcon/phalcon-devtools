@@ -43,7 +43,7 @@ class CommandsListener
 		}
 
 		$parameters = $command->parseParameters();
-		if (count($parameters) < 2 || $command->isReceivedOption('help') || $command->getOption(1) == 'help') {
+		if (count($parameters) < ($command->getRequiredParams()+1) || $command->isReceivedOption('help') || $command->getOption(1) == 'help') {
 			$command->getHelp();
 			return false;
 		}
