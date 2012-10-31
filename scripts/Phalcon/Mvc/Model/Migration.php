@@ -20,6 +20,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Db\Column as Column;
+
 /**
  * Phalcon\Mvc\Model\Migration
  *
@@ -36,7 +38,7 @@ class Migration
 	/**
 	 * Migration database connection
 	 *
-	 * @var DbBase
+	 * @var Phalcon\Db
 	 */
 	private static $_connection;
 
@@ -50,13 +52,32 @@ class Migration
 	/**
 	 * Prepares component
 	 *
-	 * @param stdClass $config
+	 * @param stdClass $database
 	 */
-	public static function setup($config)
+	public static function setup($database)
 	{
-		Phalcon_Db_Pool::setDefaultDescriptor($config);
-		self::$_connection = Phalcon_Db_Pool::getConnection();
-		self::$_connection->setProfiler(new Phalcon_Model_Migration_Profiler());
+
+		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $database->adapter;
+		self::$_connection = new $adapter(array(
+			'host'     => $database->host,
+			'username' => $database->username,
+			'password' => $database->password,
+			'dbname'   => $database->name,
+		));
+
+		$profiler = new \Phalcon\Mvc\Model\Migration\Profiler();
+
+		$eventsManager = new \Phalcon\Events\Manager();
+		$eventsManager->attach('db', function($event, $connection) use ($profiler) {
+			if ($event->getType() == 'beforeQuery') {
+				$profiler->startProfile($connection->getSQLStatement());
+			}
+			if ($event->getType() == 'afterQuery') {
+				$profiler->stopProfile();
+			}
+		});
+
+		self::$_connection->setEventsManager($eventsManager);
 	}
 
 	/**
@@ -100,70 +121,48 @@ class Migration
 		$allFields = array();
 		$numericFields = array();
 		$tableDefinition = array();
-		$defaultSchema = self::$_connection->getDefaultSchema();
-		$description = self::$_connection->describeTable($table, $defaultSchema);
+		//$defaultSchema = self::$_connection->getDefaultSchema();
+		$defaultSchema = null;
+		$description = self::$_connection->describeColumns($table, $defaultSchema);
 		foreach ($description as $field)  {
 			$fieldDefinition = array();
-			if (preg_match('/([a-z]+)(\(([0-9]+)(,([0-9]+))*\)){0,1}/', $field['Type'], $matches)) {
-				switch($matches[1]){
-					case 'int':
-					case 'smallint':
-					case 'double':
-						$fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
-						$numericFields[$field['Field']] = true;
-						break;
-					case 'varchar':
-						$fieldDefinition[] = "'type' => Column::TYPE_VARCHAR";
-						break;
-					case 'char':
-						$fieldDefinition[] = "'type' => Column::TYPE_CHAR";
-						break;
-					case 'date':
-						$fieldDefinition[] = "'type' => Column::TYPE_DATE";
-						break;
-					case 'datetime':
-						$fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
-						break;
-                    case 'float':
-    					$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
-						$numericFields[$field['Field']] = true;
-						break;
-					case 'decimal':
-						$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
-						$numericFields[$field['Field']] = true;
-						break;
-					case 'text':
-						$fieldDefinition[] = "'type' => Column::TYPE_TEXT";
-						break;
-					case 'enum':
-						$fieldDefinition[] = "'type' => Column::TYPE_CHAR";
-						$fieldDefinition[] = "'size' => 1";
-						break;
-					default:
-						throw new Phalcon\Mvc\Model\Exception('Unrecognized data type '.$matches[1].' at column '.$field['Field']);
-				}
-				if (isset($matches[3])) {
-					$fieldDefinition[] = "'size' => ".$matches[3];
-				}
-				if (isset($matches[5])) {
-					$fieldDefinition[] = "'scale' => ".$matches[5];
-				}
-				if (strpos($field['Type'], 'unsigned')) {
-					$fieldDefinition[] = "'unsigned' => true";
-				}
-			} else {
-				throw new Phalcon\Mvc\Model\Exception('Unrecognized data type '.$field['Type']);
+			switch($field->getType()){
+				case Column::TYPE_INTEGER:
+					$fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
+					$numericFields[$field->getName()] = true;
+					break;
+				case Column::TYPE_VARCHAR:
+					$fieldDefinition[] = "'type' => Column::TYPE_VARCHAR";
+					break;
+				case Column::TYPE_CHAR:
+					$fieldDefinition[] = "'type' => Column::TYPE_CHAR";
+					break;
+				case Column::TYPE_DATE:
+					$fieldDefinition[] = "'type' => Column::TYPE_DATE";
+					break;
+				case Column::TYPE_DATETIME:
+					$fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
+					break;
+				case Column::TYPE_DECIMAL:
+    				$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
+					$numericFields[$field->getName()] = true;
+					break;
+				case Column::TYPE_TEXT:
+					$fieldDefinition[] = "'type' => Column::TYPE_TEXT";
+					break;
+				default:
+					throw new \Phalcon\Mvc\Model\Exception('Unrecognized data type '.$field->getType().' at column '.$field->getName());
 			}
 
-			if ($field['Key'] == 'PRI') {
+			if ($field->isPrimary()) {
 				$fieldDefinition[] = "'primary' => true";
 			}
 
-			if ($field['Null'] == 'NO') {
+			if ($field->isNotNull()) {
 				$fieldDefinition[] = "'notNull' => true";
 			}
 
-			if($field['Extra'] == 'auto_increment') {
+			if ($field->isAutoIncrement()) {
 				$fieldDefinition[] = "'autoIncrement' => true";
 			}
 
@@ -173,9 +172,9 @@ class Migration
 				$fieldDefinition[] = "'first' => true";
 			}
 
-			$oldColumn = $field['Field'];
-			$tableDefinition[] = "\t\t\t\tnew Column('".$field['Field']."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $fieldDefinition)."\n\t\t\t\t))";
-			$allFields[] = "'".$field['Field']."'";
+			$oldColumn = $field->getName();
+			$tableDefinition[] = "\t\t\t\tnew Column('".$field->getName()."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $fieldDefinition)."\n\t\t\t\t))";
+			$allFields[] = "'".$field->getName()."'";
 		}
 
 		$indexesDefinition = array();
@@ -218,7 +217,7 @@ class Migration
 		}
 
 		$classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
-		$className = Phalcon_Utils::camelize($table).'Migration_'.$classVersion;
+		$className = \Phalcon\Text::camelize($table).'Migration_'.$classVersion;
 		$classData = "use Phalcon\\Db\\Column as Column;
 use Phalcon\\Db\\Index as Index;
 use Phalcon\\Db\\Reference as Reference;
@@ -249,12 +248,12 @@ class ".$className." extends Phalcon\\Model\\Migration {\n\n".
 
 			$fileHandler = fopen(self::$_migrationPath.'/'.$table.'.dat', 'w');
 			$cursor = self::$_connection->query('SELECT * FROM '.$table);
-			$cursor->setFetchMode(Phalcon_Db::DB_ASSOC);
-			while($row = $cursor->fetchArray($cursor)){
+			$cursor->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+			while ($row = $cursor->fetchArray()) {
 				$data = array();
-				foreach($row as $key => $value){
-					if(isset($numericFields[$key])){
-						if($value===''||is_null($value)){
+				foreach ($row as $key => $value) {
+					if (isset($numericFields[$key])) {
+						if ($value==='' || is_null($value)) {
 							$data[] = 'NULL';
 						} else {
 							$data[] = addslashes($value);
@@ -285,16 +284,16 @@ class ".$className." extends Phalcon\\Model\\Migration {\n\n".
 	 */
 	public static function migrateFile($version, $filePath)
 	{
-		if(file_exists($filePath)){
+		if (file_exists($filePath)) {
 			$fileName = basename($filePath);
 			$classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
 			$className = Phalcon_Utils::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
 			require $filePath;
-			if(class_exists($className)){
+			if (class_exists($className)) {
 				$migration = new $className();
-				if(method_exists($migration, 'up')){
+				if (method_exists($migration, 'up')) {
 					$migration->up();
-					if(method_exists($migration, 'afterUp')){
+					if (method_exists($migration, 'afterUp')) {
 						$migration->afterUp();
 					}
 				}

@@ -55,18 +55,6 @@ class Migration extends Command implements CommandsInterface
 	public function run($parameters)
 	{
 
-		/*$controllerName = $this->getOption(array('name', 1));
-
-		$controllerBuilder = new \Phalcon\Builder\Controller(array(
-			'name' => $controllerName,
-			'directory' => $this->getOption('directory'),
-			'namespace' => $this->getOption('namespace'),
-			'baseClass' => $this->getOption('base-class'),
-			'force' => $this->isReceivedOption('force')
-		));
-
-		return $controllerBuilder->build();*/
-
 		if($this->isReceivedOption('table')){
 			$tableName = $this->getOption('table');
 		} else {

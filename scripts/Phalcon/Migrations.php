@@ -20,11 +20,40 @@
 
 namespace Phalcon;
 
+use \Phalcon\Script\Color;
 use \Phalcon\Version\Item as VersionItem;
 use \Phalcon\Mvc\Model\Migration as ModelMigration;
 
 class Migrations
 {
+
+	protected static function _getConfig($path)
+	{
+		foreach (array('app/config/', 'config/') as $configPath) {
+			if (file_exists($path . $configPath. "config.ini")) {
+				return new \Phalcon\Config\Adapter\Ini($path . $configPath. "/config.ini");
+			} else {
+				if (file_exists($path . $configPath. "/config.php")) {
+					$config = include($path . $configPath. "/config.php");
+					return $config;
+				}
+			}
+		}
+
+		$directory = new \RecursiveDirectoryIterator('.');
+		$iterator = new \RecursiveIteratorIterator($directory);
+		foreach ($iterator as $f) {
+			if (preg_match('/config\.php$/', $f->getPathName())) {
+				$config = include($f->getPathName());
+				return $config;
+			} else {
+				if (preg_match('/config\.ini$/', $f->getPathName())) {
+					return new \Phalcon\Config\Adapter\Ini($f->getPathName());
+				}
+			}
+		}
+		throw new BuilderException('Builder can\'t locate the configuration file');
+	}
 
 	public static function generate($options)
 	{
@@ -35,6 +64,8 @@ class Migrations
 		$migrationsDir = $options['migrationsDir'];
 		$originalVersion = $options['originalVersion'];
 		$force = $options['force'];
+
+		$config = self::_getConfig($path);
 
 		if ($migrationsDir && !file_exists($migrationsDir)) {
 			mkdir($migrationsDir);
@@ -60,7 +91,7 @@ class Migrations
 		    foreach ($iterator as $fileinfo) {
 		        if ($fileinfo->isDir()) {
 		        	if (preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileinfo->getFilename(), $matches)) {
-		            	$versions[] = new Version($matches[0], 3);
+		            	$versions[] = new VersionItem($matches[0], 3);
 		        	}
 		        }
 		    }
@@ -77,7 +108,12 @@ class Migrations
 			mkdir($migrationsDir.'/'.$version);
 		}
 
-		ModelMigration::setup($config->database);
+		if(isset($config->database)){
+			ModelMigration::setup($config->database);
+		} else {
+			throw new \Exception("Cannot load database configuration");
+		}
+
 		ModelMigration::setMigrationPath($migrationsDir.'/'.$version);
 		if ($tableName == 'all') {
 			$migrations = ModelMigration::generateAll($version, $exportData);
@@ -89,7 +125,7 @@ class Migrations
 			file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
 		}
 
-		echo 'Version ', $version, ' was successfully generated', PHP_EOL;
+		print Color::success('Version '.$version.' was successfully generated').PHP_EOL;
 	}
 
 	/**

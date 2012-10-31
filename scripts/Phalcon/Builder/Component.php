@@ -44,6 +44,12 @@ abstract class Component
 		$this->_options = $options;
 	}
 
+	/**
+	 * Tries to find the current configuration in the application
+	 *
+	 * @param string $path
+	 * @return Phalcon\Config
+	 */
 	protected function _getConfig($path)
 	{
 		foreach (array('app/config/', 'config/') as $configPath) {
@@ -59,7 +65,7 @@ abstract class Component
 
 		$directory = new \RecursiveDirectoryIterator('.');
 		$iterator = new \RecursiveIteratorIterator($directory);
-		foreach($iterator as $f){
+		foreach ($iterator as $f) {
 			if (preg_match('/config\.php$/', $f->getPathName())) {
 				$config = include($f->getPathName());
 				return $config;
@@ -72,10 +78,15 @@ abstract class Component
 		throw new BuilderException('Builder can\'t locate the configuration file');
 	}
 
+	/**
+	 * Check if a path is absolute
+	 *
+	 * @return boolean
+	 */
 	public function isAbsolutePath($path)
 	{
 		if (PHP_OS == "WINNT") {
-			if(preg_match('/^[A-Z]:\\\\/', $path)){
+			if (preg_match('/^[A-Z]:\\\\/', $path)) {
 				return true;
 			}
 		} else {
@@ -86,6 +97,12 @@ abstract class Component
 		return false;
 	}
 
+	/**
+	 * Check if the current adapter is supported by Phalcon
+	 *
+	 * @param string $adapter
+	 * @throws BuilderException
+	 */
 	public function isSupportedAdapter($adapter)
 	{
 		if (!class_exists('\Phalcon\Db\Adapter\Pdo\\'.$adapter)) {
