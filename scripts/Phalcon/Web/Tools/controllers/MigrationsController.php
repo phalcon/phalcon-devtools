@@ -18,6 +18,10 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Tag;
+use Phalcon\Web\Tools;
+use Phalcon\Builder\BuilderException;
+
 class MigrationsController extends ControllerBase
 {
 
@@ -56,8 +60,8 @@ class MigrationsController extends ControllerBase
 
 	}
 
-	public function indexAction(){
-
+	public function indexAction()
+	{
 
 		$connection = Tools::getConnection();
 		$this->_prepareVersions();
@@ -89,9 +93,8 @@ class MigrationsController extends ControllerBase
 
 			try {
 
-				Phalcon_Migrations::generate(array(
-					'config' => $this->_settings,
-					'directory' => Phalcon_WebTools::getPath(),
+				\Phalcon\Migrations::generate(array(
+					'directory' => null,
 					'tableName' => $tableName,
 					'exportData' => $exportData,
 					'migrationsDir' => $migrationsDir,
@@ -101,14 +104,14 @@ class MigrationsController extends ControllerBase
 
 				$this->flash->success("The migration was generated successfully");
 			}
-			catch(Phalcon_BuilderException $e){
+			catch(BuilderException $e){
 				$this->flash->error($e->getMessage());
 			}
 
 		}
 
 		return $this->dispatcher->forward(array(
-			'controller' => 'scaffold',
+			'controller' => 'migrations',
 			'action' => 'index'
 		));
 
@@ -127,9 +130,8 @@ class MigrationsController extends ControllerBase
 
 				$migrationsDir = $this->_getMigrationsDir();
 
-				Phalcon_Migrations::run(array(
-					'config' => $this->_settings,
-					'directory' => Phalcon_WebTools::getPath(),
+				\Phalcon\Migrations::run(array(
+					'directory' => null,
 					'tableName' => 'all',
 					'migrationsDir' => $migrationsDir,
 					'force' => $force

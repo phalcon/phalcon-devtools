@@ -4,7 +4,7 @@
 
 	<p><h1>Generate  Migration</h1></p>
 
-	<form method="POST" class="forma-horizontal" action="<?php echo $this->url("webtools.php?_url=migrations/generate") ?>">
+	<form method="POST" class="forma-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/migrations/generate") ?>">
 
 		<table class="table table-striped table-bordered table-condensed">
 			<tr>
@@ -13,11 +13,11 @@
 			</tr>
 			<tr>
 				<td><b>New Version</b></td>
-				<td><?php echo Phalcon_Tag::textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
+				<td><?php echo Phalcon\Tag::textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
 			</tr>
 			<tr>
 				<td><b>Table name</b></td>
-				<td><?php echo Phalcon_Tag::selectStatic('table-name', $tables) ?></td>
+				<td><?php echo Phalcon\Tag::selectStatic('table-name', $tables) ?></td>
 			</tr>
 			<tr>
 				<td><b>Force</b></td>
