@@ -131,6 +131,10 @@ class Scaffold extends Component
 		$modelBuilder->build();
 
 		$modelClass = Text::camelize($name);
+		if(!class_exists($modelClass)){
+			require $config->application->modelsDir.'/'.$modelClass.'.php';
+		}
+
 		$entity = new $modelClass();
 
 		$metaData = $di->getShared('modelsMetadata');

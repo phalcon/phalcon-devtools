@@ -34,8 +34,7 @@ class Webtools extends Command implements CommandsInterface
 
 	protected $_possibleParameters = array(
 		'action'		=> "Enables/Disables webtools in a project",
-		'trace'			=> "--trace \t\tShows the trace of the framework in case of exception.",
-		'directory=s' 	=> "--directory path \tBase path on which project will be created",
+		'directory=s' 	=> "Base path on which project will be created",
 	);
 
 	public function run($parameters)
@@ -50,6 +49,12 @@ class Webtools extends Command implements CommandsInterface
 
 		if ($action == 'enable') {
 			\Phalcon\Web\Tools::install($directory);
+		} else {
+			if ($action == 'disable') {
+				\Phalcon\Web\Tools::install($directory);
+			} else {
+				throw new Exception("Invalid action");
+			}
 		}
 		//
 	}

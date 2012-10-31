@@ -204,8 +204,7 @@ class Tools
 
 		$loader->registerDirs(array(
 			$path . '/scripts/',
-			$path . '/scripts/Phalcon/Web/Tools/controllers/',
-			$config->application->modelsDir
+			$path . '/scripts/Phalcon/Web/Tools/controllers/'
 		));
 
 		$loader->registerNamespaces(array(
