@@ -384,10 +384,10 @@ abstract class Command
 		}
 
 		$isSupportedShell = false;
-		if($isXTermColor){
-			if(isset($_ENV['SHELL'])){
-				foreach(array('bash', 'tcl') as $shell){
-					if(preg_match('/'.$shell.'/', $_ENV['SHELL'])){
+		if ($isXTermColor) {
+			if (isset($_ENV['SHELL'])) {
+				foreach (array('bash', 'tcl') as $shell) {
+					if (preg_match('/'.$shell.'/', $_ENV['SHELL'])) {
 						$isSupportedShell = true;
 					}
 				}
@@ -396,24 +396,24 @@ abstract class Command
 
 		ScriptColor::setFlags($isSupportedShell && $isSupportedShell);
 
-		$output = "";
-		$output.= ScriptColor::colorize(get_class($exception).': ', ScriptColor::RED, ScriptColor::BOLD);
-		$message = str_replace("\"", "\\\"", $exception->getMessage());
-		$message.= ' ('.$exception->getCode().')';
-		$output.= ScriptColor::colorize($message, ScriptColor::WHITE, ScriptColor::BOLD);
-		$output.='\\n';
+		$output   = "";
+		$output  .= ScriptColor::colorize(get_class($exception) . ': ', ScriptColor::RED, ScriptColor::BOLD);
+		$message  = str_replace("\"", "\\\"", $exception->getMessage());
+		$message .= ' (' . $exception->getCode() . ')';
+		$output  .= ScriptColor::colorize($message, ScriptColor::WHITE, ScriptColor::BOLD);
+		$output  .='\\n';
 
 		$output.= Highlight::getString(file_get_contents($exception->getFile()), 'console', array(
-			'firstLine' => ($exception->getLine()-3<0 ? $exception->getLine() : $exception->getLine()-3),
-			'lastLine' => $exception->getLine()+3
+			'firstLine' => ($exception->getLine() - 3 < 0 ? $exception->getLine() : $exception->getLine() - 3),
+			'lastLine' => $exception->getLine() + 3
 		));
 
 		$i = 1;
 		$getcwd = getcwd();
-		foreach($exception->getTrace() as $trace){
+		foreach ($exception->getTrace() as $trace) {
 			$output.= ScriptColor::colorize('#'.$i, ScriptColor::WHITE, ScriptColor::UNDERLINE);
 			$output.= ' ';
-			if(isset($trace['file'])){
+			if (isset($trace['file'])) {
 				$file = str_replace($getcwd, '', $trace['file']);
 				$output.= ScriptColor::colorize($file.'\\n', ScriptColor::NORMAL);
 			}
@@ -421,7 +421,7 @@ abstract class Command
 		}
 
 		if($isSupportedShell){
-			system('echo -e "'.$output.'"');
+			system('echo -e "' . $output . '"');
 		} else {
 			echo $output;
 		}
@@ -436,7 +436,7 @@ abstract class Command
 	public function printParameters($parameters)
 	{
 		$length = 0;
-		foreach ($parameters as $parameter => $description){
+		foreach ($parameters as $parameter => $description) {
 			if ($length == 0){
 				$length = strlen($parameter);
 			}
@@ -446,9 +446,9 @@ abstract class Command
 		}
 
 		print Color::head('Options:') . PHP_EOL;
-		foreach ($parameters as $parameter => $description){
-			print Color::colorize(' --'.$parameter.str_repeat(' ', $length-strlen($parameter)), Color::FG_GREEN);
-			print Color::colorize("    ".$description) . PHP_EOL;
+		foreach ($parameters as $parameter => $description) {
+			print Color::colorize(' --' . $parameter . str_repeat(' ', $length - strlen($parameter)), Color::FG_GREEN);
+			print Color::colorize("    " . $description) . PHP_EOL;
 		}
 	}
 

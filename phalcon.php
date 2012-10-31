@@ -68,6 +68,7 @@ try {
 		'\Phalcon\Commands\Builtin\AllModels',
 		'\Phalcon\Commands\Builtin\Project',
 		'\Phalcon\Commands\Builtin\Scaffold',
+		'\Phalcon\Commands\Builtin\Migration',
 		'\Phalcon\Commands\Builtin\Webtools'
 	);
 	foreach ($commandsToEnable as $command){

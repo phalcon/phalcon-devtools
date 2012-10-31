@@ -156,7 +156,9 @@ foreach(get_declared_classes() as $className){
 
 	// public and protected properties
 	foreach ($reflector->getProperties() as $property){
-		$source.= PHP_EOL."\t\t".implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
+		if($property->getDeclaringClass()->name == $className){
+			$source.= PHP_EOL."\t\t".implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
+		}
 	}
 
 	if ($className == 'Phalcon\DI\Injectable') {
@@ -204,6 +206,11 @@ foreach(get_declared_classes() as $className){
 		/**
 		 * @var \Phalcon\Flash\Session
 	 	 */
+		public $flashSession;
+
+		/**
+		 * @var \Phalcon\Session\Adapter\Files
+	 	 */
 		public $session;
 
 		/**
@@ -220,6 +227,11 @@ foreach(get_declared_classes() as $className){
 		 * @var \Phalcon\Mvc\Model\Metadata
 	 	 */
 		public $modelsMetadata;
+
+		/**
+		 * @var \Phalcon\Mvc\Model\Transaction\Manager
+	 	 */
+		public $transactionManager;
 		';
 	}
 
@@ -238,7 +250,15 @@ foreach(get_declared_classes() as $className){
 
 			$parameters = array();
 			foreach($method->getParameters() as $parameter){
-				$parameters[] = '$'.$parameter->name;
+				if ($parameter->isOptional()) {
+					if($parameter->isDefaultValueAvailable()){
+						$parameters[] = '$'.$parameter->name.'='.$parameter->getDefaultValue();
+					} else {
+						$parameters[] = '$'.$parameter->name.'=null';
+					}
+				} else {
+					$parameters[] = '$'.$parameter->name;
+				}
 			}
 			$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
 		}
