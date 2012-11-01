@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 #  +------------------------------------------------------------------------+
@@ -39,6 +39,11 @@ alter_profile(){
 		source $HOME/.bashrc
 	else
 		echo "No bash profile detected. Environment vars might dissapear at console restart!"
+	fi
+
+	if [ -e $HOME/.cshrc ]; then
+		echo "setenv PTOOLSPATH ${DIR}/" >> $HOME/.cshrc
+		echo "setenv PATH \${PATH}:$DIR" >> $HOME/.cshrc
 	fi
 }
 
