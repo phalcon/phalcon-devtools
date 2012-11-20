@@ -190,13 +190,13 @@ class Tools
 		//Read configuration
 		$configPath = "app/config/config.ini";
 		if (file_exists($configPath)) {
-			$config = new Phalcon\Config\Adapter\Ini($configPath);
+			$config = new \Phalcon\Config\Adapter\Ini($configPath);
 		} else {
 			$configPath = "app/config/config.php";
 			if (file_exists($configPath)) {
 				$config = require $configPath;
 			} else {
-				throw new Phalcon\Exception('Configuration file could not be loaded');
+				throw new \Phalcon\Exception('Configuration file could not be loaded');
 			}
 		}
 
