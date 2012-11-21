@@ -184,7 +184,7 @@ class Tools
 		chdir('..');
 
 		if (!extension_loaded('phalcon')) {
-			throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
+			throw new \Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 		}
 
 		//Read configuration

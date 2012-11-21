@@ -53,7 +53,7 @@ class Webtools extends Command implements CommandsInterface
 			if ($action == 'disable') {
 				\Phalcon\Web\Tools::install($directory);
 			} else {
-				throw new Exception("Invalid action");
+				throw new \Exception("Invalid action");
 			}
 		}
 		//
