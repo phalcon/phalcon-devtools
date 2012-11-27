@@ -118,21 +118,25 @@ class Scaffold extends Component
 		$options['className'] = Text::camelize($options['name']);
 		$options['fileName'] = Text::uncamelize($options['className']);
 
-		$modelBuilder = new \Phalcon\Builder\Model(array(
-			'name' => $name,
-			'schema' => $options['schema'],
-			'className' => $options['className'],
-			'fileName' => $options['fileName'],
-			'genSettersGetters' => $options['genSettersGetters'],
-			'directory' => $options['directory'],
-			'force' => $options['force']
-		));
-
-		$modelBuilder->build();
-
 		$modelClass = Text::camelize($name);
+		$modelPath = $config->application->modelsDir.'/'.$modelClass.'.php';
+		if (!file_exists($modelPath)) {
+
+			$modelBuilder = new \Phalcon\Builder\Model(array(
+				'name' => $name,
+				'schema' => $options['schema'],
+				'className' => $options['className'],
+				'fileName' => $options['fileName'],
+				'genSettersGetters' => $options['genSettersGetters'],
+				'directory' => $options['directory'],
+				'force' => $options['force']
+			));
+
+			$modelBuilder->build();
+		}
+
 		if(!class_exists($modelClass)){
-			require $config->application->modelsDir.'/'.$modelClass.'.php';
+			require $modelPath;
 		}
 
 		$entity = new $modelClass();
@@ -283,7 +287,6 @@ class Scaffold extends Component
 		$page = $paginator->getPaginate();
 
 		$this->view->setVar("page", $page);
-		$this->view->setVar("'.$options['name'].'", $'.$options['name'].');
 	}'.PHP_EOL.PHP_EOL;
 
 			//New
@@ -393,7 +396,7 @@ class Scaffold extends Component
 			foreach ($'.$options['name'].'->getMessages() as $message) {
 				$this->flash->error((string) $message);
 			}
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "edit", "params" => array(.$'.$options['name'].'->'.$orderPksString.')));
+			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "edit", "params" => array($'.$options['name'].'->'.$orderPksString.')));
 		} else {
 			$this->flash->success("'.$options['single'].' was updated successfully");
 			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
