@@ -12,7 +12,7 @@ if(!extension_loaded('phalcon')){
  * php ide/gen-stubs.php
  */
 
-define('CPHALCON_DIR', '/Applications/MAMP/htdocs/phalcon/target/dev');
+define('CPHALCON_DIR', '/Users/kenjikobe/cphalcon/');
 
 class Stubs_Generator
 {
@@ -60,10 +60,15 @@ class Stubs_Generator
 						$this->_docs[$matches[1]][$matches[2]] = trim($comment);
 						$className = $matches[1];
 					} else {
-						if($firstDoc===true){
-							$classDoc = $comment;
-							$firstDoc = false;
-							$comment = '';
+						if (preg_match('/^PHALCON_DOC_METHOD\(([a-zA-Z\_]+), (.*)\)/', $line, $matches)) {
+							$this->_docs[$matches[1]][$matches[2]] = trim($comment);
+							$className = $matches[1];
+						} else {
+							if($firstDoc===true){
+								$classDoc = $comment;
+								$firstDoc = false;
+								$comment = '';
+							}
 						}
 					}
 					$nextLineMethod = false;
@@ -80,7 +85,9 @@ class Stubs_Generator
 		}
 		if (isset($classDoc)) {
 			if (isset($className)) {
-				$this->_classDocs[$className] = $classDoc;
+				if(!isset($this->_classDocs[$className])){
+					$this->_classDocs[$className] = $classDoc;
+				}
 			}
 		}
 	}
@@ -106,7 +113,9 @@ $api = new Stubs_Generator(CPHALCON_DIR);
 $classDocs = $api->getClassDocs();
 $docs = $api->getDocs();
 
-foreach(get_declared_classes() as $className){
+$allClasses = array_merge(get_declared_classes(), get_declared_interfaces());
+
+foreach($allClasses as $className){
 
 	if (!preg_match('#^Phalcon#', $className)) {
 		continue;
@@ -129,18 +138,28 @@ foreach(get_declared_classes() as $className){
 	$reflector = new ReflectionClass($className);
 
 	$typeClass = '';
-	if ($reflector->isAbstract() == true) {
-		$typeClass = 'abstract ';
-	}
-	if ($reflector->isFinal() == true) {
-		$typeClass = 'final ';
+	if ($reflector->isInterface()) {
+		if ($reflector->isAbstract() == true) {
+			$typeClass = 'abstract ';
+		}
+		if ($reflector->isFinal() == true) {
+			$typeClass = 'final ';
+		}
 	}
 
 	$extends = $reflector->getParentClass();
-	if ($extends) {
-		$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name.' {'.PHP_EOL;
+	if ($reflector->isInterface()) {
+		if ($extends) {
+			$source.="\t".'interface '.$normalClassName.' extends \\'.$extends->name.' {'.PHP_EOL;
+		} else {
+			$source.="\t".'interface '.$normalClassName.' {'.PHP_EOL;
+		}
 	} else {
-		$source.="\t".$typeClass.'class '.$normalClassName.' {'.PHP_EOL;
+		if ($extends) {
+			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name.' {'.PHP_EOL;
+		} else {
+			$source.="\t".$typeClass.'class '.$normalClassName.' {'.PHP_EOL;
+		}
 	}
 
 	if (isset($docs[$simpleClassName])) {
@@ -164,37 +183,37 @@ foreach(get_declared_classes() as $className){
 	if ($className == 'Phalcon\DI\Injectable') {
 		$source .= '
 		/**
- 		 * @var \Phalcon\Mvc\View
+ 		 * @var \Phalcon\Mvc\ViewInterface
  		 */
 		public $view;
 
 		/**
-		 * @var \Phalcon\Mvc\Router
+		 * @var \Phalcon\Mvc\RouterInterface
 	 	 */
 		public $router;
 
 		/**
-		 * @var \Phalcon\Mvc\Dispatcher
+		 * @var \Phalcon\Mvc\DispatcherInterface
 	 	 */
 		public $dispatcher;
 
 		/**
-		 * @var \Phalcon\Mvc\Url
+		 * @var \Phalcon\Mvc\UrlInterface
 	 	 */
 		public $url;
 
 		/**
-		 * @var \Phalcon\DI
+		 * @var \Phalcon\DiInterface
 	 	 */
 		public $di;
 
 		/**
-		 * @var \Phalcon\HTTP\Request
+		 * @var \Phalcon\HTTP\RequestInterface
 	 	 */
 		public $request;
 
 		/**
-		 * @var \Phalcon\HTTP\Response
+		 * @var \Phalcon\HTTP\ResponseInterface
 	 	 */
 		public $response;
 
@@ -209,7 +228,7 @@ foreach(get_declared_classes() as $className){
 		public $flashSession;
 
 		/**
-		 * @var \Phalcon\Session\Adapter\Files
+		 * @var \Phalcon\Session\AdapterInterface
 	 	 */
 		public $session;
 
@@ -219,12 +238,12 @@ foreach(get_declared_classes() as $className){
 		public $persistent;
 
 		/**
-		 * @var \Phalcon\Mvc\Model\Manager
+		 * @var \Phalcon\Mvc\Model\ManagerInterface
 	 	 */
 		public $modelsManager;
 
 		/**
-		 * @var \Phalcon\Mvc\Model\Metadata
+		 * @var \Phalcon\Mvc\Model\MetadataInterface
 	 	 */
 		public $modelsMetadata;
 
@@ -232,6 +251,11 @@ foreach(get_declared_classes() as $className){
 		 * @var \Phalcon\Mvc\Model\Transaction\Manager
 	 	 */
 		public $transactionManager;
+
+		/**
+		 * @var \Phalcon\FilterInterface
+	 	 */
+		public $filter;
 		';
 	}
 
@@ -246,7 +270,12 @@ foreach(get_declared_classes() as $className){
 					$source.="\t\t".$commentPiece."\n";
 				}
 			}
-			$source.= "\t\t".implode(' ', Reflection::getModifierNames($method->getModifiers())).' function '.$method->name.'(';
+
+			if ($reflector->isInterface()) {
+				$source.= "\t\t".'public function '.$method->name.'(';
+			} else {
+				$source.= "\t\t".implode(' ', Reflection::getModifierNames($method->getModifiers())).' function '.$method->name.'(';
+			}
 
 			$parameters = array();
 			foreach($method->getParameters() as $parameter){
@@ -260,7 +289,11 @@ foreach(get_declared_classes() as $className){
 					$parameters[] = '$'.$parameter->name;
 				}
 			}
-			$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
+			if ($reflector->isInterface()) {
+				$source.=join(', ', $parameters).');'.PHP_EOL.PHP_EOL;
+			} else {
+				$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
+			}
 		}
 	}
 
