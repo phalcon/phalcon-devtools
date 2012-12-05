@@ -210,5 +210,14 @@ namespace Phalcon\Mvc\Model {
 		 */
 		public function executeQuery($phql, $placeholders=null);
 
+
+		/**
+		 * Creates a \Phalcon\Mvc\Model\Query\Builder
+		 *
+		 * @param string $params
+		 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+		 */
+		public function createBuilder($params=null);
+
 	}
 }

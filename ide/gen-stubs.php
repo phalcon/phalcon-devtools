@@ -308,5 +308,3 @@ foreach($allClasses as $className){
 	file_put_contents($path.DIRECTORY_SEPARATOR.$normalClassName.'.php', $source);
 
 }
-
-

@@ -28,10 +28,6 @@ namespace Phalcon\Logger\Adapter {
 
 		protected $_quenue;
 
-		protected $_dateFormat;
-
-		protected $_format;
-
 		/**
 		 * \Phalcon\Logger\Adapter\File constructor
 		 *
@@ -39,49 +35,6 @@ namespace Phalcon\Logger\Adapter {
 		 * @param array $options
 		 */
 		public function __construct($name, $options=null){ }
-
-
-		/**
-		 * Set the log format
-		 *
-		 * @param string $format
-		 */
-		public function setFormat($format){ }
-
-
-		/**
-		 * Returns the log format
-		 *
-		 * @return format
-		 */
-		public function getFormat(){ }
-
-
-		/**
-		 * Applies the internal format to the message
-		 *
-		 * @param  string $message
-		 * @param  int $type
-		 * @param  int $time
-		 * @return string
-		 */
-		protected function _applyFormat(){ }
-
-
-		/**
-		 * Sets the internal date format
-		 *
-		 * @param string $date
-		 */
-		public function setDateFormat($date){ }
-
-
-		/**
-		 * Returns the internal date format
-		 *
-		 * @return string
-		 */
-		public function getDateFormat(){ }
 
 
 		/**

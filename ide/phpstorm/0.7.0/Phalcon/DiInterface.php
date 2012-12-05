@@ -123,7 +123,7 @@ namespace Phalcon {
 		/**
 		 * Return the last DI created
 		 *
-		 * @return \Phalcon\DI
+		 * @return \Phalcon\DiInterface
 		 */
 		public function getDefault();
 

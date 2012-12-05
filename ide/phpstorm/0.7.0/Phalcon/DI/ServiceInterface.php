@@ -9,7 +9,7 @@ namespace Phalcon\DI {
 	interface ServiceInterface {
 
 		/**
-		 * \Phalcon\DI\Service
+		 * \Phalcon\DI\ServiceInterface
 		 *
 		 * @param string $name
 		 * @param mixed $definition
@@ -70,7 +70,7 @@ namespace Phalcon\DI {
 		 * Restore the interal state of a service
 		 *
 		 * @param array $attributes
-		 * @return \Phalcon\DI\Service
+		 * @return \Phalcon\DI\ServiceInterface
 		 */
 		public function __set_state($attributes);
 

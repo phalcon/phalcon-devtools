@@ -60,11 +60,7 @@ namespace Phalcon\Acl\Adapter {
 	 *</code>
 	 */
 	
-	class Memory extends \Phalcon\Acl {
-
-		const ALLOW = 1;
-
-		const DENY = 0;
+	class Memory extends \Phalcon\Acl\Adapter {
 
 		protected $_rolesNames;
 
@@ -80,36 +76,10 @@ namespace Phalcon\Acl\Adapter {
 
 		protected $_accessList;
 
-		protected $_activeRole;
-
-		protected $_activeResource;
-
-		protected $_activeAccess;
-
-		protected $_accessGranted;
-
-		protected $_defaultAccess;
-
 		/**
 		 * \Phalcon\Acl\Adapter\Memory constructor
 		 */
 		public function __construct(){ }
-
-
-		/**
-		 * Sets the default access level (Phalcon\Acl::ALLOW or \Phalcon\Acl::DENY)
-		 *
-		 * @param int $defaultAccess
-		 */
-		public function setDefaultAction($defaultAccess){ }
-
-
-		/**
-		 * Returns the default ACL access level
-		 *
-		 * @return int
-		 */
-		public function getDefaultAction(){ }
 
 
 		/**
@@ -121,11 +91,11 @@ namespace Phalcon\Acl\Adapter {
 		 * $acl->addRole('administrator', 'consultant');
 		 * </code>
 		 *
-		 * @param  \Phalcon\Acl\RoleInterface $roleObject
+		 * @param  \Phalcon\Acl\RoleInterface $role
 		 * @param  array $accessInherits
 		 * @return boolean
 		 */
-		public function addRole($roleObject, $accessInherits=null){ }
+		public function addRole($role, $accessInherits=null){ }
 
 
 		/**
@@ -279,30 +249,6 @@ namespace Phalcon\Acl\Adapter {
 		 * @return boolean
 		 */
 		public function isAllowed($role, $resource, $access){ }
-
-
-		/**
-		 * Returns the role which the list is checking if it's allowed to certain resource/access
-		 *
-		 * @return string
-		 */
-		public function getActiveRole(){ }
-
-
-		/**
-		 * Returns the resource which the list is checking if some role can access it
-		 *
-		 * @return string
-		 */
-		public function getActiveResource(){ }
-
-
-		/**
-		 * Returns the access which the list is checking if some role can access it
-		 *
-		 * @return string
-		 */
-		public function getActiveAccess(){ }
 
 
 		/**

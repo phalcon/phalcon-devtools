@@ -16,7 +16,7 @@ namespace Phalcon\Translate\Adapter {
 		/**
 		 * \Phalcon\Translate\Adapter\NativeArray constructor
 		 *
-		 * @param array $data
+		 * @param array $options
 		 */
 		public function __construct($options){ }
 

@@ -189,6 +189,15 @@ namespace Phalcon\Mvc {
 
 
 		/**
+		 * Returns a parameter previously set in the view
+		 *
+		 * @param string $key
+		 * @return mixed
+		 */
+		public function getVar($key){ }
+
+
+		/**
 		 * Returns parameters to views
 		 *
 		 * @return array
