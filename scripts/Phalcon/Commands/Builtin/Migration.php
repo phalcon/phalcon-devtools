@@ -41,7 +41,7 @@ class Migration extends Command implements CommandsInterface
 {
 
 	protected $_possibleParameters = array(
-		'action=s' 		=> "Generates a Migration",
+		'action=s' 		=> "Generates a Migration [generate|run]",
 		'config=s' 		=> "Configuration file.",
 		'migrations=s'	=> "Migrations directory.",
 		'directory=s' 	=> "Directory where the project was created.",
@@ -127,14 +127,17 @@ class Migration extends Command implements CommandsInterface
 		print Color::head('Help:') . PHP_EOL;
 		print Color::colorize('  Generates/Run a Migration') . PHP_EOL . PHP_EOL;
 
-		print Color::head('Usage:') . PHP_EOL;
-		print Color::colorize('  controller [name] [directory]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+		print Color::head('Usage: Generate a Migration') . PHP_EOL;
+		print Color::colorize('  migration generate', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+		print Color::head('Usage: Run a Migration') . PHP_EOL;
+		print Color::colorize('  migration run', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
 		print Color::head('Arguments:') . PHP_EOL;
 		print Color::colorize('  ?', Color::FG_GREEN);
 		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		$this->printParameters($this->_posibleParameters);
+		$this->printParameters($this->_possibleParameters);
 	}
 
 	/**
