@@ -27,8 +27,10 @@ use Phalcon\Script\Color;
 use Phalcon\Commands\CommandsListener;
 
 try {
-
+	
+	$extensionLoaded = true;
 	if (!extension_loaded('phalcon')) {
+		$extensionLoaded = false;
 		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 	}
 
@@ -78,8 +80,17 @@ try {
 	$script->run();
 }
 catch (\Phalcon\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
+	if ($extensionLoaded) {
+		print Color::error($e->getMessage()) . PHP_EOL;
+	} else {
+		print 'ERROR: ' . $e->getMessage() . PHP_EOL;
+	}
+
 }
 catch (\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
+	if ($extensionLoaded) {
+		print Color::error($e->getMessage()) . PHP_EOL;
+	} else {
+		print 'ERROR: ' . $e->getMessage() . PHP_EOL;
+	}
 }
