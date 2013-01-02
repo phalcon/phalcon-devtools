@@ -19,7 +19,7 @@ Requirements
 ------------
 
 * PHP >= 5.3.9
-* Phalcon >= 0.5.0
+* Phalcon >= 0.7.0
 
 Installation
 ============
