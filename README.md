@@ -51,8 +51,6 @@ Alternatively you can just clone the repo and checkout the current branch
 $ cd ~
 $ git clone https://github.com/phalcon/phalcon-devtools.git
 $ cd phalcon-devtools
-$ git checkout -b 0.5.0
-$ git pull origin 0.5.0
 ```
 
 This method requires a little bit more of setup. Probably the best way would be to symlink
@@ -78,7 +76,7 @@ $ phalcon commands
 This command should display something similar to:
 
 ```bash
-Phalcon DevTools (0.5.0)
+Phalcon DevTools (0.8.0)
 
 Help:
   Lists the commands availables in Phalcon devtools
