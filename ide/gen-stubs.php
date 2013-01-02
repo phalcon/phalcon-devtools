@@ -12,7 +12,7 @@ if(!extension_loaded('phalcon')){
  * php ide/gen-stubs.php
  */
 
-define('CPHALCON_DIR', '/Users/kenjikobe/cphalcon/');
+define('CPHALCON_DIR', '/Users/gutierrezandresfelipe/cphalcon/');
 
 class Stubs_Generator
 {
@@ -256,6 +256,11 @@ foreach($allClasses as $className){
 		 * @var \Phalcon\FilterInterface
 	 	 */
 		public $filter;
+
+		/**
+		 * @var \Phalcon\Security
+	 	 */
+		public $security;
 		';
 	}
 
@@ -301,7 +306,7 @@ foreach($allClasses as $className){
 
 	$source.='}'.PHP_EOL;
 
-	$path = 'ide/phpstorm/'.$genVersion.'/'.str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
+	$path = 'ide/'.$genVersion.'/'.str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
 	if(!is_dir($path)){
 		mkdir($path, 0777, true);
 	}
