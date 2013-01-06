@@ -126,7 +126,7 @@ class Script
 	{
 
 		if (!isset($_SERVER['argv'][1])) {
-			throw new ScriptException('Incorrect usage');
+			return $this->dispatch($this->_commands[0]);
 		}
 
 		$input = $_SERVER['argv'][1];

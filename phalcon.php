@@ -64,7 +64,7 @@ try {
 	$script = new Script($eventsManager);
 
 	$commandsToEnable = array(
-		'\Phalcon\Commands\Builtin\Enumerate',
+		'\Phalcon\Commands\Builtin\Enumerate', // Enumerate has to be first, otherwise phalcon without parameters won't display help
 		'\Phalcon\Commands\Builtin\Controller',
 		'\Phalcon\Commands\Builtin\Model',
 		'\Phalcon\Commands\Builtin\AllModels',
