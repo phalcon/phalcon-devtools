@@ -16,11 +16,11 @@
         <email>wojtek at aferalabs.com</email>
         <active>yes</active>
     </lead>
-    <date>2012-09-23</date>
+    <date>2012-01-06</date>
     <time>14:18:34</time>
     <version>
-        <release>0.5.0</release>
-        <api>0.5.0</api>
+        <release>0.8.0</release>
+        <api>0.8.0</api>
     </version>
     <stability>
         <release>beta</release>
@@ -32,9 +32,10 @@
     </notes>
     <contents>
         <dir name="scripts/Phalcon" baseinstalldir="Phalcon">
-            <file baseinstalldir="Phalcon/Builder/Project" install-as="/BuilderException.php" name="scripts/Phalcon/Builder/Project/Micro.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder/Project" install-as="/Micro.php" name="scripts/Phalcon/Builder/Project/Micro.php" role="php"/>
             <file baseinstalldir="Phalcon/Builder/Project" install-as="/Modules.php" name="scripts/Phalcon/Builder/Project/Modules.php" role="php"/>
             <file baseinstalldir="Phalcon/Builder/Project" install-as="/Simple.php" name="scripts/Phalcon/Builder/Project/Simple.php" role="php"/>
+            <file baseinstalldir="Phalcon/Builder" install-as="/AllModels.php" name="scripts/Phalcon/Builder/AllModels.php" role="php"/>
             <file baseinstalldir="Phalcon/Builder" install-as="/BuilderException.php" name="scripts/Phalcon/Builder/BuilderException.php" role="php"/>
             <file baseinstalldir="Phalcon/Builder" install-as="/Component.php" name="scripts/Phalcon/Builder/Component.php" role="php"/>
             <file baseinstalldir="Phalcon/Builder" install-as="/Controller.php" name="scripts/Phalcon/Builder/Controller.php" role="php"/>
@@ -42,24 +43,48 @@
             <file baseinstalldir="Phalcon/Builder" install-as="/Model.php" name="scripts/Phalcon/Builder/Model.php" role="php"/>
             <file baseinstalldir="Phalcon/Builder" install-as="/Project.php" name="scripts/Phalcon/Builder/Project.php" role="php"/>
             <file baseinstalldir="Phalcon/Builder" install-as="/Scaffold.php" name="scripts/Phalcon/Builder/Scaffold.php" role="php"/>
-
-            <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/AllModels.php" name="scripts/Phalcon/Commands/Builtin/AllModels.php" role="php"/>
-            <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Controller.php" name="scripts/Phalcon/Commands/Builtin/Controller.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web" install-as="/TBootstrap.php" name="scripts/Phalcon/Web/TBootstrap.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web" install-as="/Tools.php" name="scripts/Phalcon/Web/Tools.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web" install-as="/CodeMirror.php" name="scripts/Phalcon/Web/CodeMirror.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/controllers" install-as="/MigrationsController.php" name="scripts/Phalcon/Web/Tools/controllers/MigrationsController.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/controllers" install-as="/ControllersController.php" name="scripts/Phalcon/Web/Tools/controllers/ControllersController.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/controllers" install-as="/ModelsController.php" name="scripts/Phalcon/Web/Tools/controllers/ModelsController.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/controllers" install-as="/IndexController.php" name="scripts/Phalcon/Web/Tools/controllers/IndexController.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/controllers" install-as="/ScaffoldController.php" name="scripts/Phalcon/Web/Tools/controllers/ScaffoldController.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/controllers" install-as="/ControllerBase.php" name="scripts/Phalcon/Web/Tools/controllers/ControllerBase.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/controllers" install-as="/ConfigController.php" name="scripts/Phalcon/Web/Tools/controllers/ConfigController.php" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/index" install-as="/index.phtml" name="scripts/Phalcon/Web/Tools/views/index/index.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/config" install-as="/index.phtml" name="scripts/Phalcon/Web/Tools/views/config/index.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/scaffold" install-as="/index.phtml" name="scripts/Phalcon/Web/Tools/views/scaffold/index.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/controllers" install-as="/list.phtml" name="scripts/Phalcon/Web/Tools/views/controllers/list.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/controllers" install-as="/index.phtml" name="scripts/Phalcon/Web/Tools/views/controllers/index.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/controllers" install-as="/edit.phtml" name="scripts/Phalcon/Web/Tools/views/controllers/edit.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/models" install-as="/list.phtml" name="scripts/Phalcon/Web/Tools/views/models/list.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/models" install-as="/index.phtml" name="scripts/Phalcon/Web/Tools/views/models/index.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/models" install-as="/edit.phtml" name="scripts/Phalcon/Web/Tools/views/models/edit.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/migrations" install-as="/index.phtml" name="scripts/Phalcon/Web/Tools/views/migrations/index.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views/migrations" install-as="/run.phtml" name="scripts/Phalcon/Web/Tools/views/migrations/run.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Web/Tools/views" install-as="/index.phtml" name="scripts/Phalcon/Web/Tools/views/index.phtml" role="php"/>
+            <file baseinstalldir="Phalcon/Mvc/Model" install-as="/Migration.php" name="scripts/Phalcon/Mvc/Model/Migration.php" role="php"/>
+            <file baseinstalldir="Phalcon/Mvc/Model/Migration" install-as="/Profiler.php" name="scripts/Phalcon/Mvc/Model/Migration/Profiler.php" role="php"/>
             <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Enumerate.php" name="scripts/Phalcon/Commands/Builtin/Enumerate.php" role="php"/>
+            <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Migration.php" name="scripts/Phalcon/Commands/Builtin/Migration.php" role="php"/>
+            <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/AllModels.php" name="scripts/Phalcon/Commands/Builtin/AllModels.php" role="php"/>
             <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Model.php" name="scripts/Phalcon/Commands/Builtin/Model.php" role="php"/>
+            <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Controller.php" name="scripts/Phalcon/Commands/Builtin/Controller.php" role="php"/>
+            <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Webtools.php" name="scripts/Phalcon/Commands/Builtin/Webtools.php" role="php"/>
             <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Project.php" name="scripts/Phalcon/Commands/Builtin/Project.php" role="php"/>
             <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Scaffold.php" name="scripts/Phalcon/Commands/Builtin/Scaffold.php" role="php"/>
-            <file baseinstalldir="Phalcon/Commands/Builtin" install-as="/Webtools.php" name="scripts/Phalcon/Commands/Builtin/Webtools.php" role="php"/>
-
             <file baseinstalldir="Phalcon/Commands" install-as="/Command.php" name="scripts/Phalcon/Commands/Command.php" role="php"/>
+            <file baseinstalldir="Phalcon/Commands" install-as="/CommandsListener.php" name="scripts/Phalcon/Commands/CommandsListener.php" role="php"/>
             <file baseinstalldir="Phalcon/Commands" install-as="/CommandInterface.php" name="scripts/Phalcon/Commands/CommandInterface.php" role="php"/>
             <file baseinstalldir="Phalcon/Commands" install-as="/CommandsException.php" name="scripts/Phalcon/Commands/CommandsException.php" role="php"/>
             <file baseinstalldir="Phalcon/Commands" install-as="/CommandsInterface.php" name="scripts/Phalcon/Commands/CommandsInterface.php" role="php"/>
-            <file baseinstalldir="Phalcon/Commands" install-as="/CommandsListener.php" name="scripts/Phalcon/Commands/CommandsListener.php" role="php"/>
-
-            <file baseinstalldir="Phalcon/Script" install-as="/Color.php" name="scripts/Phalcon/Script/Color.php" role="php"/>
+            <file baseinstalldir="Phalcon/Generator" install-as="/Stub.php" name="scripts/Phalcon/Generator/Stub.php" role="php"/>
+            <file baseinstalldir="Phalcon/Version" install-as="/Item.php" name="scripts/Phalcon/Version/Item.php" role="php"/>
             <file baseinstalldir="Phalcon/Script" install-as="/ScriptException.php" name="scripts/Phalcon/Script/ScriptException.php" role="php"/>
-
+            <file baseinstalldir="Phalcon/Script" install-as="/Color.php" name="scripts/Phalcon/Script/Color.php" role="php"/>
+            <file baseinstalldir="Phalcon" install-as="/Migrations.php" name="scripts/Phalcon/Migrations.php" role="php"/>
             <file baseinstalldir="Phalcon" install-as="/Script.php" name="scripts/Phalcon/Script.php" role="php"/>
 
             <file baseinstalldir="Phalcon/templates" install-as="/project/micro/views/404.phtml" name="templates/project/micro/views/404.phtml" role="php"/>
