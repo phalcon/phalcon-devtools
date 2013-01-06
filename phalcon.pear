@@ -28,7 +28,9 @@ use Phalcon\Commands\CommandsListener;
 
 try {
 
+    $extensionLoaded = true;
 	if (!extension_loaded('phalcon')) {
+	    $extensionLoaded = false;
 		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 	}
 
@@ -52,6 +54,10 @@ try {
         define('TEMPLATE_PATH', '@php_dir@/Phalcon/templates');
     }
 
+    if (!defined('WEB_TOOLS_PATH')) {
+        define('WEB_TOOLS_PATH', '@php_dir@/Phalcon/Web/Tools/');
+    }
+
 	$vendor = sprintf('Phalcon DevTools (%s)', Version::get());
 	print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
 
@@ -62,12 +68,13 @@ try {
 	$script = new Script($eventsManager);
 
 	$commandsToEnable = array(
-		'\Phalcon\Commands\Builtin\Enumerate',
+		'\Phalcon\Commands\Builtin\Enumerate', // Enumerate has to be first, otherwise phalcon without parameters won't display help
 		'\Phalcon\Commands\Builtin\Controller',
 		'\Phalcon\Commands\Builtin\Model',
 		'\Phalcon\Commands\Builtin\AllModels',
 		'\Phalcon\Commands\Builtin\Project',
 		'\Phalcon\Commands\Builtin\Scaffold',
+		'\Phalcon\Commands\Builtin\Migration',
 		'\Phalcon\Commands\Builtin\Webtools'
 	);
 	foreach ($commandsToEnable as $command){
@@ -77,8 +84,17 @@ try {
 	$script->run();
 }
 catch (\Phalcon\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
+	if ($extensionLoaded) {
+        print Color::error($e->getMessage()) . PHP_EOL;
+    } else {
+        print 'ERROR: ' . $e->getMessage() . PHP_EOL;
+    }
+
 }
 catch (\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
+	if ($extensionLoaded) {
+        print Color::error($e->getMessage()) . PHP_EOL;
+    } else {
+        print 'ERROR: ' . $e->getMessage() . PHP_EOL;
+    }
 }

@@ -23,7 +23,6 @@ namespace Phalcon\Web;
 use Phalcon\Version;
 use Phalcon\Script;
 use Phalcon\Script\Color;
-use Phalcon\Commands\CommandsListener;
 
 
 /**
@@ -214,7 +213,7 @@ class Tools
 		$loader->register();
 
 		if (Version::getId() < Script::COMPATIBLE_VERSION) {
-			throw new Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
+			throw new \Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
 		}
 
 		if (!defined('TEMPLATE_PATH')) {
@@ -280,9 +279,8 @@ class Tools
 	 */
 	public static function install($path)
 	{
-
 		if(!is_dir('public/')){
-			throw new Exception("Document root cannot be located");
+			throw new \Exception("Document root cannot be located");
 		}
 
 		TBootstrap::install($path);

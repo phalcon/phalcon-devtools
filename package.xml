@@ -111,6 +111,8 @@
             <file baseinstalldir="Phalcon/templates" install-as="/project/simple/htaccess" name="templates/project/simple/htaccess" role="php"/>
             <file baseinstalldir="Phalcon/templates" install-as="/project/simple/index.php" name="templates/project/simple/index.php" role="php"/>
 
+            <file baseinstalldir="Phalcon/Web/Tools" install-as="webtools.php" name="templates/webtools/webtools.php" role="php"/>
+
             <file baseinstalldir="/" name="phalcon.pear" role="script">
                 <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config"/>
                 <tasks:replace from="@php_bin@" to="php_bin" type="pear-config"/>

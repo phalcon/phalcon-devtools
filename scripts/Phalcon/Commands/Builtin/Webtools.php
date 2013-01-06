@@ -44,7 +44,11 @@ class Webtools extends Command implements CommandsInterface
 		$directory = $this->getOption(array('directory'));
 
 		if (!$directory) {
-			$directory = __DIR__.'/../../../../';
+			if (defined('WEB_TOOLS_PATH')) {
+				$directory = WEB_TOOLS_PATH;
+			} else {
+				$directory = __DIR__.'/../../../../';
+			}
 		}
 
 		if ($action == 'enable') {
