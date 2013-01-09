@@ -440,6 +440,10 @@ namespace Phalcon\Mvc {
 		/**
 		 * Perform a count over a collection
 		 *
+		 *<code>
+		 * echo 'There are ', Robots::count(), ' robots';
+		 *</code>
+		 *
 		 * @param array $parameters
 		 * @return array
 		 */
@@ -461,6 +465,22 @@ namespace Phalcon\Mvc {
 		 * @return boolean
 		 */
 		public function delete(){ }
+
+
+		/**
+		 * Serializes the object ignoring connections or protected properties
+		 *
+		 * @return string
+		 */
+		public function serialize(){ }
+
+
+		/**
+		 * Unserializes the object from a serialized string
+		 *
+		 * @param string $data
+		 */
+		public function unserialize($data){ }
 
 	}
 }

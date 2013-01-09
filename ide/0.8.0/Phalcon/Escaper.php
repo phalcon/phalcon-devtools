@@ -28,6 +28,10 @@ namespace Phalcon {
 		/**
 		 * Sets the encoding to be used by the escaper
 		 *
+		 *<code>
+		 * $escaper->setEncoding('utf-8');
+		 *</code>
+		 *
 		 * @param string $encoding
 		 */
 		public function setEnconding($encoding){ }
@@ -44,9 +48,33 @@ namespace Phalcon {
 		/**
 		 * Sets the HTML quoting type for htmlspecialchars
 		 *
+		 *<code>
+		 * $escaper->setHtmlQuoteType(ENT_XHTML);
+		 *</code>
+		 *
 		 * @param int $quoteType
 		 */
 		public function setHtmlQuoteType($quoteType){ }
+
+
+		/**
+		 * Detect the character encoding of a string to be handled by an encoder
+		 * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
+		 *
+		 * @param string $str
+		 * @param string $charset
+		 * @return string
+		 */
+		public function detectEncoding($str){ }
+
+
+		/**
+		 * Utility to normalize a string's encoding to UTF-32.
+		 *
+		 * @param string $str
+		 * @return string
+		 */
+		public function normalizeEncoding($str){ }
 
 
 		/**
@@ -61,27 +89,28 @@ namespace Phalcon {
 		/**
 		 * Escapes a HTML attribute string
 		 *
-		 * @param string $text
+		 * @param string $attribute
 		 * @return string
 		 */
-		public function escapeHtmlAttr($text){ }
+		public function escapeHtmlAttr($attribute){ }
 
 
 		/**
-		 * Sanitizes CSS strings converting non-alphanumeric chars to their hexadecimal representation
-		 *
-		 * @param array $matches
-		 * @return string
-		 */
-		public function cssSanitize($matches){ }
-
-
-		/**
-		 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
+		 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
 		 *
 		 * @param string $css
+		 * @return string
 		 */
 		public function escapeCss($css){ }
+
+
+		/**
+		 * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
+		 *
+		 * @param string $js
+		 * @return string
+		 */
+		public function escapeJs($js){ }
 
 
 		/**

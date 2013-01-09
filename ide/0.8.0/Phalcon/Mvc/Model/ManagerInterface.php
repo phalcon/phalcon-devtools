@@ -50,6 +50,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $referenceModel
 		 * @param mixed $referencedFields
 		 * @param array $options
+		 * @return 	Phalcon\Mvc\Model\RelationInterface
 		 */
 		public function addHasOne($model, $fields, $referenceModel, $referencedFields, $options=null);
 
@@ -62,6 +63,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $referenceModel
 		 * @param mixed $referencedFields
 		 * @param array $options
+		 * @return 	Phalcon\Mvc\Model\RelationInterface
 		 */
 		public function addBelongsTo($model, $fields, $referenceModel, $referencedFields, $options=null);
 
@@ -74,6 +76,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $referenceModel
 		 * @param mixed $referencedFields
 		 * @param array $options
+		 * @return 	Phalcon\Mvc\Model\RelationInterface
 		 */
 		public function addHasMany($model, $fields, $referenceModel, $referencedFields, $options=null);
 
@@ -184,13 +187,22 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Query all the relationships defined on a model
+		 *
+		 * @param string $modelName
+		 * @return \Phalcon\Mvc\RelationInterface[]
+		 */
+		public function getRelations($modelName);
+
+
+		/**
 		 * Query the relations between two models
 		 *
-		 * @param string $first
-		 * @param string $second
+		 * @param string $firstModel
+		 * @param string $secondModel
 		 * @return array
 		 */
-		public function getRelations($first, $second);
+		public function getRelationsBetween($firstModel, $secondModel);
 
 
 		/**

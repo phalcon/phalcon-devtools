@@ -220,6 +220,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 		/**
 		 * Compiles a template into a file applying the compiler options
+		 * This method does not return the compiled path if the template was not compiled
 		 *
 		 *<code>
 		 *	$compiler->compile('views/layouts/main.volt');

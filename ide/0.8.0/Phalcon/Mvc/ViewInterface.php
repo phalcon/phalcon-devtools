@@ -25,6 +25,38 @@ namespace Phalcon\Mvc {
 
 
 		/**
+		 * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+		 *
+		 * @param string $layoutsDir
+		 */
+		public function setLayoutsDir($layoutsDir);
+
+
+		/**
+		 * Gets the current layouts sub-directory
+		 *
+		 * @return string
+		 */
+		public function getLayoutsDir();
+
+
+		/**
+		 * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+		 *
+		 * @param string $partialsDir
+		 */
+		public function setPartialsDir($partialsDir);
+
+
+		/**
+		 * Gets the current partials sub-directory
+		 *
+		 * @return string
+		 */
+		public function getPartialsDir();
+
+
+		/**
 		 * Sets base path. Depending of your platform, always add a trailing slash or backslash
 		 *
 		 * @param string $basePath
@@ -46,6 +78,30 @@ namespace Phalcon\Mvc {
 		 * @param string $viewPath
 		 */
 		public function setMainView($viewPath);
+
+
+		/**
+		 * Returns the name of the main view
+		 *
+		 * @return string
+		 */
+		public function getMainView();
+
+
+		/**
+		 * Change the layout to be used instead of using the name of the latest controller name
+		 *
+		 * @param string $layout
+		 */
+		public function setLayout($layout);
+
+
+		/**
+		 * Returns the name of the main view
+		 *
+		 * @return string
+		 */
+		public function getLayout();
 
 
 		/**

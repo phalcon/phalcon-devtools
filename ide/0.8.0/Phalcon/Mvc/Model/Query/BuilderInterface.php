@@ -17,23 +17,6 @@ namespace Phalcon\Mvc\Model\Query {
 
 
 		/**
-		 * Sets the DependencyInjector container
-		 *
-		 * @param \Phalcon\DiInterface $dependencyInjector
-		 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
-		 */
-		public function setDI($dependencyInjector);
-
-
-		/**
-		 * Returns the DependencyInjector container
-		 *
-		 * @return \Phalcon\DiInterface
-		 */
-		public function getDI();
-
-
-		/**
 		 * Sets the columns to be queried
 		 *
 		 * @param string|array $columns

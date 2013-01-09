@@ -25,6 +25,8 @@ namespace Phalcon\Http {
 
 		protected $_dependencyInjector;
 
+		protected $_rawBody;
+
 		protected $_filter;
 
 		/**

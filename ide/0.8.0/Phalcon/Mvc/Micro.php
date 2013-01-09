@@ -34,6 +34,12 @@ namespace Phalcon\Mvc {
 
 		protected $_activeHandler;
 
+		protected $_beforeHandlers;
+
+		protected $_afterHandlers;
+
+		protected $_finishHandlers;
+
 		protected $_returnedValue;
 
 		/**
@@ -252,6 +258,33 @@ namespace Phalcon\Mvc {
 		 * @param string $alias
 		 */
 		public function offsetUnset($alias){ }
+
+
+		/**
+		 * Appends a before middleware to be called before execute the route
+		 *
+		 * @param callable $handler
+		 * @return \Phalcon\Mvc\Micro
+		 */
+		public function before($handler){ }
+
+
+		/**
+		 * Appends an 'after' middleware to be called after execute the route
+		 *
+		 * @param callable $handler
+		 * @return \Phalcon\Mvc\Micro
+		 */
+		public function after($handler){ }
+
+
+		/**
+		 * Appends an 'finish' middleware to be called when the request is finished
+		 *
+		 * @param callable $handler
+		 * @return \Phalcon\Mvc\Micro
+		 */
+		public function finish($handler){ }
 
 	}
 }

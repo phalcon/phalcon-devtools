@@ -99,11 +99,5 @@ namespace Phalcon\Cache\Backend {
 		 */
 		public function exists($keyName=null, $lifetime=null){ }
 
-
-		/**
-		 * Destructs the backend closing the memcached connection
-		 */
-		public function __destruct(){ }
-
 	}
 }

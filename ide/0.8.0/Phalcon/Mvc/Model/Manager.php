@@ -370,13 +370,22 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Query all the relationships defined on a model
+		 *
+		 * @param string $modelName
+		 * @return \Phalcon\Mvc\RelationInterface[]
+		 */
+		public function getRelations($modelName){ }
+
+
+		/**
 		 * Query the first relationship defined between two models
 		 *
 		 * @param string $first
 		 * @param string $second
 		 * @return \Phalcon\Mvc\RelationInterface
 		 */
-		public function getRelations($first, $second){ }
+		public function getRelationsBetween($first, $second){ }
 
 
 		/**

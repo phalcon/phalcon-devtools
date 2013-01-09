@@ -50,6 +50,8 @@ namespace Phalcon\Db {
 
 		const BIND_PARAM_STR = 2;
 
+		const BIND_PARAM_BOOL = 5;
+
 		const BIND_PARAM_DECIMAL = 32;
 
 		const BIND_SKIP = 1024;

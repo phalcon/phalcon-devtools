@@ -68,6 +68,8 @@ namespace Phalcon\Mvc\Model {
 
 		protected $_cacheOptions;
 
+		protected $_uniqueRow;
+
 		/**
 		 * \Phalcon\Mvc\Model\Query constructor
 		 *
@@ -90,6 +92,22 @@ namespace Phalcon\Mvc\Model {
 		 * @return \Phalcon\DiInterface
 		 */
 		public function getDI(){ }
+
+
+		/**
+		 * Tells to the query if only the first row in the resultset must be resturned
+		 *
+		 * @param boolean $uniqueRow
+		 */
+		public function setUniqueRow($uniqueRow){ }
+
+
+		/**
+		 * Check if the query is programmed to get only the first row in the resultset
+		 *
+		 * @return boolean
+		 */
+		public function getUniqueRow(){ }
 
 
 		/**

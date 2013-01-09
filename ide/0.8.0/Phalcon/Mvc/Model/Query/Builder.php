@@ -191,8 +191,8 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Sets a ORDER BY condition clause
 		 *
 		 *<code>
-		 *$builder->orderBy('Robots.name');
-		 *$builder->orderBy(array('1', 'Robots.name'));
+		 *	$builder->orderBy('Robots.name');
+		 *	$builder->orderBy(array('1', 'Robots.name'));
 		 *</code>
 		 *
 		 * @param string $orderBy
@@ -202,7 +202,7 @@ namespace Phalcon\Mvc\Model\Query {
 
 
 		/**
-		 * Return the set ORDER BY clause
+		 * Returns the set ORDER BY clause
 		 *
 		 * @return string|array
 		 */
@@ -234,8 +234,8 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Sets a LIMIT clause, optionally a offset clause
 		 *
 		 *<code>
-		 *$builder->limit(100);
-		 *$builder->limit(100, 20);
+		 *	$builder->limit(100);
+		 *	$builder->limit(100, 20);
 		 *</code>
 		 *
 		 * @param int $limit

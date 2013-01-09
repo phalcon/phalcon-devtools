@@ -11,8 +11,19 @@ namespace Phalcon\Mvc {
 	 * action of that controller should receive the request</p>
 	 *
 	 *<code>
+	 *
 	 *	$router = new Phalcon\Mvc\Router();
+	 *
+	 *  $router->add(
+	 *		"/documentation/{chapter}/{name}.{type:[a-z]+}",
+	 *		array(
+	 *			"controller" => "documentation",
+	 *			"action"     => "show"
+	 *		)
+	 *	);
+	 *
 	 *	$router->handle();
+	 *
 	 *	echo $router->getControllerName();
 	 *</code>
 	 *
@@ -125,7 +136,14 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Sets an array of default paths
+		 * Sets an array of default paths. This defaults apply for all the routes
+		 *
+		 *<code>
+		 * $router->setDefaults(array(
+		 *		'module' => 'common',
+		 *		'action' => 'index'
+		 * ));
+		 *</code>
 		 *
 		 * @param array $defaults
 		 */
@@ -135,6 +153,10 @@ namespace Phalcon\Mvc {
 		/**
 		 * Handles routing information received from the rewrite engine
 		 *
+		 *<code>
+		 * $router->handle('/posts/edit/1');
+		 *</code>
+		 *
 		 * @param string $uri
 		 */
 		public function handle($uri=null){ }
@@ -142,6 +164,10 @@ namespace Phalcon\Mvc {
 
 		/**
 		 * Adds a route to the router on any HTTP method
+		 *
+		 *<code>
+		 * $router->add('/about', 'About::index');
+		 *</code>
 		 *
 		 * @param string $pattern
 		 * @param string/array $paths
@@ -222,13 +248,21 @@ namespace Phalcon\Mvc {
 
 
 		/**
+		 * Mounts a group of routes in the router
+		 *
+		 * @param \Phalcon\Mvc\Router\Group $route
+		 */
+		public function mount($group){ }
+
+
+		/**
 		 * Removes all the pre-defined routes
 		 */
 		public function clear(){ }
 
 
 		/**
-		 * Returns processed namespace name
+		 * Returns the processed namespace name
 		 *
 		 * @return string
 		 */
@@ -236,7 +270,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Returns processed module name
+		 * Returns the processed module name
 		 *
 		 * @return string
 		 */
@@ -244,7 +278,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Returns processed controller name
+		 * Returns the processed controller name
 		 *
 		 * @return string
 		 */
@@ -252,7 +286,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Returns processed action name
+		 * Returns the processed action name
 		 *
 		 * @return string
 		 */
@@ -260,7 +294,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Returns processed extra params
+		 * Returns the processed parameters
 		 *
 		 * @return array
 		 */
@@ -276,7 +310,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Return the sub expressions in the regular expression matched
+		 * Returns the sub expressions in the regular expression matched
 		 *
 		 * @return array
 		 */
@@ -284,7 +318,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Check if the router macthes any of the defined routes
+		 * Checks if the router macthes any of the defined routes
 		 *
 		 * @return bool
 		 */
@@ -292,7 +326,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Return all the routes defined in the router
+		 * Returns all the routes defined in the router
 		 *
 		 * @return \Phalcon\Mvc\Router\Route[]
 		 */

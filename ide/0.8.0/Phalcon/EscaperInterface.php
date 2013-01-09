@@ -60,6 +60,15 @@ namespace Phalcon {
 
 
 		/**
+		 * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
+		 *
+		 * @param string $js
+		 * @return string
+		 */
+		public function escapeJs($js);
+
+
+		/**
 		 * Escapes a URL. Internally uses rawurlencode
 		 *
 		 * @param string $url

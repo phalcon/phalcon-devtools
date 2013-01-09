@@ -50,6 +50,8 @@ namespace Phalcon\Mvc {
 
 		protected $_viewParams;
 
+		protected $_layout;
+
 		protected $_layoutsDir;
 
 		protected $_partialsDir;
@@ -109,6 +111,10 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
 		 *
+		 *<code>
+		 * $view->setLayoutsDir('../common/layouts/');
+		 *</code>
+		 *
 		 * @param string $layoutsDir
 		 */
 		public function setLayoutsDir($layoutsDir){ }
@@ -124,6 +130,10 @@ namespace Phalcon\Mvc {
 
 		/**
 		 * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+		 *
+		 **<code>
+		 * $view->setPartialsDir('../common/partials/');
+		 *</code>
 		 *
 		 * @param string $partialsDir
 		 */
@@ -154,8 +164,8 @@ namespace Phalcon\Mvc {
 		 * Sets the render level for the view
 		 *
 		 * <code>
-		 * //Render the view related to the controller only
-		 * $this->view->setRenderLevel(Phalcon\Mvc\View::LEVEL_VIEW);
+		 * 	//Render the view related to the controller only
+		 * 	$this->view->setRenderLevel(Phalcon\Mvc\View::LEVEL_VIEW);
 		 * </code>
 		 *
 		 * @param string $level
@@ -187,6 +197,34 @@ namespace Phalcon\Mvc {
 		 * @param string $viewPath
 		 */
 		public function setMainView($viewPath){ }
+
+
+		/**
+		 * Returns the name of the main view
+		 *
+		 * @return string
+		 */
+		public function getMainView(){ }
+
+
+		/**
+		 * Change the layout to be used instead of using the name of the latest controller name
+		 *
+		 * <code>
+		 * 	$this->view->setLayout('main');
+		 * </code>
+		 *
+		 * @param string $layout
+		 */
+		public function setLayout($layout){ }
+
+
+		/**
+		 * Returns the name of the main view
+		 *
+		 * @return string
+		 */
+		public function getLayout(){ }
 
 
 		/**

@@ -13,7 +13,7 @@ namespace Phalcon\DI\Service {
 		/**
 		 * Resolves a constructor/call parameter
 		 *
-		 * @param \Phalcon\DiService $dependencyInjector
+		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @param int $position
 		 * @param array $argument
 		 * @return mixed
@@ -24,7 +24,7 @@ namespace Phalcon\DI\Service {
 		/**
 		 * Resolves an array of parameters
 		 *
-		 * @param \Phalcon\DiService $dependencyInjector
+		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @param array $arguments
 		 * @return arguments
 		 */
@@ -34,7 +34,7 @@ namespace Phalcon\DI\Service {
 		/**
 		 * Builds a service using a complex service definition
 		 *
-		 * @param \Phalcon\DiService $dependencyInjector
+		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @param array $definition
 		 * @param array $parameters
 		 * @return mixed

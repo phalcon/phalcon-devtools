@@ -38,5 +38,13 @@ namespace Phalcon\Mvc\View {
 		 */
 		public function partial($partialPath){ }
 
+
+		/**
+		 * Returns the view component related to the adapter
+		 *
+		 * @return \Phalcon\Mvc\ViewInterface
+		 */
+		public function getView(){ }
+
 	}
 }
