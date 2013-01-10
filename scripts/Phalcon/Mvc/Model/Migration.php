@@ -166,6 +166,10 @@ class Migration
 				$fieldDefinition[] = "'autoIncrement' => true";
 			}
 
+			if ($field->getSize()) {
+            	$fieldDefinition[] = "'size' => " . $field->getSize();
+        	}
+
 			if ($oldColumn != null) {
 				$fieldDefinition[] = "'after' => '".$oldColumn."'";
 			} else {
