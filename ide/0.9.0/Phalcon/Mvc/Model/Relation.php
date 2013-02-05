@@ -115,5 +115,8 @@ namespace Phalcon\Mvc\Model {
 		 */
 		public function getThrough(){ }
 
+
+		public function isReusable(){ }
+
 	}
 }

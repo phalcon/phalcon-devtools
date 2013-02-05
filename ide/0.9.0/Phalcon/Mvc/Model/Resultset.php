@@ -163,6 +163,7 @@ namespace Phalcon\Mvc\Model {
 		 * Set if the resultset is fresh or an old one cached
 		 *
 		 * @param boolean $isFresh
+		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
 		public function setIsFresh($isFresh){ }
 
@@ -179,6 +180,7 @@ namespace Phalcon\Mvc\Model {
 		 * Sets the hydration mode in the resultset
 		 *
 		 * @param int $hydrateMode
+		 * @return \Phalcon\Mvc\Model\Resultset
 		 */
 		public function setHydrateMode($hydrateMode){ }
 
@@ -202,7 +204,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Returns current row in the resultset
 		 *
-		 * @return object
+		 * @return \Phalcon\Mvc\ModelInterface
 		 */
 		public function current(){ }
 

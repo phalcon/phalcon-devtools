@@ -159,7 +159,7 @@ namespace Phalcon\Acl {
 		/**
 		 * Return an array with every resource registered in the list
 		 *
-		 * @return \Phalcon\Acl\ResourcesInterface[]
+		 * @return \Phalcon\Acl\ResourceInterface[]
 		 */
 		public function getResources();
 

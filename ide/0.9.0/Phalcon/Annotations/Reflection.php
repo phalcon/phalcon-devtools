@@ -69,5 +69,13 @@ namespace Phalcon\Annotations {
 		 */
 		public function getReflectionData(){ }
 
+
+		/**
+		 * Restores the state of a \Phalcon\Annotations\Reflection variable export
+		 *
+		 * @return array $data
+		 */
+		public static function __set_state($data){ }
+
 	}
 }

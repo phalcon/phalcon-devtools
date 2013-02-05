@@ -8,14 +8,14 @@ namespace Phalcon\Mvc\Model {
 	 * Encapsulates validation info generated before save/delete records fails
 	 *
 	 * <code>
-	 * use Phalcon\Mvc\Model\Message as Message;
+	 *  use Phalcon\Mvc\Model\Message as Message;
 	 *
-	 * class Robots extends Phalcon\Mvc\Model
-	 *{
+	 *  class Robots extends Phalcon\Mvc\Model
+	 *  {
 	 *
-	 *   public function beforeSave()
-	 *   {
-	 *     if (this->name == 'Peter') {
+	 *    public function beforeSave()
+	 *    {
+	 *      if (this->name == 'Peter') {
 	 *        $text = "A robot cannot be named Peter";
 	 *        $field = "name";
 	 *        $type = "InvalidValue";
@@ -94,35 +94,35 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		  * Returns field name related to message
-		  *
-		  * @return string
-		  */
+		 * Returns field name related to message
+		 *
+		 * @return string
+		 */
 		public function getField(){ }
 
 
 		/**
-		  * Set the model who generates the message
-		  *
-		  * @param \Phalcon\Mvc\ModelInterface $model
-		  * @return \Phalcon\Mvc\Model\Message
-		  */
+		 * Set the model who generates the message
+		 *
+		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @return \Phalcon\Mvc\Model\Message
+		 */
 		public function setModel($model){ }
 
 
 		/**
-		  * Returns the model that produced the message
-		  *
-		  * @return \Phalcon\Mvc\ModelInterface
-		  */
+		 * Returns the model that produced the message
+		 *
+		 * @return \Phalcon\Mvc\ModelInterface
+		 */
 		public function getModel(){ }
 
 
 		/**
-		  * Magic __toString method returns verbose message
-		  *
-		  * @return string
-		  */
+		 * Magic __toString method returns verbose message
+		 *
+		 * @return string
+		 */
 		public function __toString(){ }
 
 

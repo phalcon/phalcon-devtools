@@ -6,7 +6,7 @@ namespace Phalcon\Mvc\Model {
 	 * Phalcon\Mvc\Model\MetaData
 	 *
 	 * <p>Because Phalcon\Mvc\Model requires meta-data like field names, data types, primary keys, etc.
-	 * this component collect them and store for further querying by Phalcon\Model\Base.
+	 * this component collect them and store for further querying by Phalcon\Mvc\Model.
 	 * Phalcon\Mvc\Model\MetaData can also use adapters to store temporarily or permanently the meta-data.</p>
 	 *
 	 * <p>A standard Phalcon\Mvc\Model\MetaData can be used to query model attributes:</p>
@@ -49,6 +49,10 @@ namespace Phalcon\Mvc\Model {
 
 		const MODELS_REVERSE_COLUMN_MAP = 1;
 
+		protected $_dependencyInjector;
+
+		protected $_strategy;
+
 		protected $_metaData;
 
 		protected $_columnMap;
@@ -65,10 +69,42 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Sets the DependencyInjector container
+		 *
+		 * @param \Phalcon\DiInterface $dependencyInjector
+		 */
+		public function setDI($dependencyInjector){ }
+
+
+		/**
+		 * Returns the DependencyInjector container
+		 *
+		 * @return \Phalcon\DiInterface
+		 */
+		public function getDI(){ }
+
+
+		/**
+		 * Set the meta-data extraction strategy
+		 *
+		 * @param \Phalcon\Mvc\Model\MetaData\Strategy\Introspection $strategy
+		 */
+		public function setStrategy($strategy){ }
+
+
+		/**
+		 * Return the strategy to obtain the meta-data
+		 *
+		 * @return \Phalcon\Mvc\Model\MetaData\Strategy\Introspection
+		 */
+		public function getStrategy(){ }
+
+
+		/**
 		 * Reads the complete meta-data for certain model
 		 *
 		 *<code>
-		 *print_r($metaData->readMetaData(new Robots());
+		 *	print_r($metaData->readMetaData(new Robots());
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -121,7 +157,7 @@ namespace Phalcon\Mvc\Model {
 		 * Reads column-map information for certain model using a MODEL_* constant
 		 *
 		 *<code>
-		 *print_r($metaData->readColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP));
+		 *	print_r($metaData->readColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -134,7 +170,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns table attributes names (fields)
 		 *
 		 *<code>
-		 *print_r($metaData->getAttributes(new Robots()));
+		 *	print_r($metaData->getAttributes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -147,7 +183,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns an array of fields which are part of the primary key
 		 *
 		 *<code>
-		 *print_r($metaData->getPrimaryKeyAttributes(new Robots()));
+		 *	print_r($metaData->getPrimaryKeyAttributes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -160,7 +196,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns an arrau of fields which are not part of the primary key
 		 *
 		 *<code>
-		 *print_r($metaData->getNonPrimaryKeyAttributes(new Robots()));
+		 *	print_r($metaData->getNonPrimaryKeyAttributes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -173,7 +209,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns an array of not null attributes
 		 *
 		 *<code>
-		 *print_r($metaData->getNotNullAttributes(new Robots()));
+		 *	print_r($metaData->getNotNullAttributes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -186,7 +222,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns attributes and their data types
 		 *
 		 *<code>
-		 *print_r($metaData->getDataTypes(new Robots()));
+		 *	print_r($metaData->getDataTypes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -199,7 +235,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns attributes which types are numerical
 		 *
 		 *<code>
-		 *print_r($metaData->getDataTypesNumeric(new Robots()));
+		 *	print_r($metaData->getDataTypesNumeric(new Robots()));
 		 *</code>
 		 *
 		 * @param  \Phalcon\Mvc\ModelInterface $model
@@ -212,7 +248,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns the name of identity field (if one is present)
 		 *
 		 *<code>
-		 *print_r($metaData->getIdentityField(new Robots()));
+		 *	print_r($metaData->getIdentityField(new Robots()));
 		 *</code>
 		 *
 		 * @param  \Phalcon\Mvc\ModelInterface $model
@@ -225,7 +261,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns attributes and their bind data types
 		 *
 		 *<code>
-		 *print_r($metaData->getBindTypes(new Robots()));
+		 *	print_r($metaData->getBindTypes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -238,7 +274,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns attributes that must be ignored from the INSERT SQL generation
 		 *
 		 *<code>
-		 *print_r($metaData->getAutomaticCreateAttributes(new Robots()));
+		 *	print_r($metaData->getAutomaticCreateAttributes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -251,7 +287,7 @@ namespace Phalcon\Mvc\Model {
 		 * Returns attributes that must be ignored from the UPDATE SQL generation
 		 *
 		 *<code>
-		 *print_r($metaData->getAutomaticUpdateAttributes(new Robots()));
+		 *	print_r($metaData->getAutomaticUpdateAttributes(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -264,7 +300,7 @@ namespace Phalcon\Mvc\Model {
 		 * Set the attributes that must be ignored from the INSERT SQL generation
 		 *
 		 *<code>
-		 *$metaData->setAutomaticCreateAttributes(new Robots(), array('created_at' => true));
+		 *	$metaData->setAutomaticCreateAttributes(new Robots(), array('created_at' => true));
 		 *</code>
 		 *
 		 * @param  \Phalcon\Mvc\ModelInterface $model
@@ -277,7 +313,7 @@ namespace Phalcon\Mvc\Model {
 		 * Set the attributes that must be ignored from the UPDATE SQL generation
 		 *
 		 *<code>
-		 *$metaData->setAutomaticUpdateAttributes(new Robots(), array('modified_at' => true));
+		 *	$metaData->setAutomaticUpdateAttributes(new Robots(), array('modified_at' => true));
 		 *</code>
 		 *
 		 * @param  \Phalcon\Mvc\ModelInterface $model
@@ -316,7 +352,7 @@ namespace Phalcon\Mvc\Model {
 		 * Check if a model has certain attribute
 		 *
 		 *<code>
-		 *var_dump($metaData->hasAttribute(new Robots(), 'name'));
+		 *	var_dump($metaData->hasAttribute(new Robots(), 'name'));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model

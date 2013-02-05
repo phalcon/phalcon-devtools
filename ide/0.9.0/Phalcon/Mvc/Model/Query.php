@@ -349,6 +349,16 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Executes the query returning the first result
+		 *
+		 * @param array $bindParams
+		 * @param array $bindTypes
+		 * @return Ṕhalcon\Mvc\ModelInterface
+		 */
+		public function getSingleResult($bindParams=null, $bindTypes=null){ }
+
+
+		/**
 		 * Sets the type of PHQL statement to be executed
 		 *
 		 * @param int $type

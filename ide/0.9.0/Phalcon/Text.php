@@ -124,11 +124,5 @@ namespace Phalcon {
 		 */
 		public static function upper($str){ }
 
-
-		/**
-		 *
-		 */
-		public function x(){ }
-
 	}
 }

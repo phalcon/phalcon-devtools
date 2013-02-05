@@ -93,7 +93,7 @@ namespace Phalcon\Db\Adapter {
 
 		/**
 		 * Sends SQL statements to the database server returning the success state.
-		 * Use this method only when the SQL statement sent to the server don't return any row
+		 * Use this method only when the SQL statement sent to the server doesn't return any row
 		 *
 		 *<code>
 		 *	//Inserting data
@@ -110,7 +110,7 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
+		 * Returns the number of affected rows by the lastest INSERT/UPDATE/DELETE executed in the database system
 		 *
 		 *<code>
 		 *	$connection->query("DELETE FROM robots");
@@ -123,7 +123,8 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Closes active connection returning success. \Phalcon automatically closes and destroys active connections when the request ends
+		 * Closes the active connection returning success. \Phalcon automatically closes and destroys
+		 * active connections when the request ends
 		 *
 		 * @return boolean
 		 */
@@ -172,7 +173,7 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Converts bound params such as :name: or ?1 into PDO bind params ?
+		 * Converts bound parameters such as :name: or ?1 into PDO bind params ?
 		 *
 		 *<code>
 		 * print_r($connection->convertBoundParams('SELECT * FROM robots WHERE name = :name:', array('Bender')));
@@ -186,7 +187,7 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Returns insert id for the auto_increment/serial column inserted in the last SQL statement
+		 * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
 		 *
 		 *<code>
 		 * //Inserting a new robot
@@ -231,7 +232,7 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Checks whether connection is under database transaction
+		 * Checks whether the connection is under a transaction
 		 *
 		 *<code>
 		 * $connection->begin();
@@ -294,7 +295,7 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Return the default identity value to insert in an identity column
+		 * Returns the default identity value to be inserted in an identity column
 		 *
 		 *<code>
 		 * //Inserting a new robot with a valid default value for the column 'id'

@@ -3,12 +3,12 @@
 namespace Phalcon\Mvc\Model\MetaData\Strategy {
 
 	/**
-	 * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection
+	 * Phalcon\Mvc\Model\MetaData\Strategy\Annotations
 	 *
 	 * Queries the table meta-data in order to instrospect the model's metadata
 	 */
 	
-	class Introspection {
+	class Annotations {
 
 		/**
 		 * The meta-data is obtained by reading the column descriptions from the database information schema
@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy {
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @return array
 		 */
-		public function getColumnMaps($model, $dependencyInjector){ }
+		public function getColumnMaps(){ }
 
 	}
 }

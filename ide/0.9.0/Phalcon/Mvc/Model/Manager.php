@@ -53,6 +53,8 @@ namespace Phalcon\Mvc\Model {
 
 		protected $_lastQuery;
 
+		protected $_reusable;
+
 		/**
 		 * Sets the DependencyInjector container
 		 *
@@ -290,6 +292,15 @@ namespace Phalcon\Mvc\Model {
 		public function getRelationRecords($relation, $method, $record, $parameters=null){ }
 
 
+		public function getReusableRecords($modelName, $key){ }
+
+
+		public function setReusableRecords($modelName, $key, $records){ }
+
+
+		public function clearReusableObjects(){ }
+
+
 		/**
 		 * Gets belongsTo related records from a model
 		 *
@@ -373,7 +384,7 @@ namespace Phalcon\Mvc\Model {
 		 * Query all the relationships defined on a model
 		 *
 		 * @param string $modelName
-		 * @return \Phalcon\Mvc\RelationInterface[]
+		 * @return \Phalcon\Mvc\Model\RelationInterface[]
 		 */
 		public function getRelations($modelName){ }
 
@@ -383,7 +394,7 @@ namespace Phalcon\Mvc\Model {
 		 *
 		 * @param string $first
 		 * @param string $second
-		 * @return \Phalcon\Mvc\RelationInterface
+		 * @return \Phalcon\Mvc\Model\RelationInterface
 		 */
 		public function getRelationsBetween($first, $second){ }
 

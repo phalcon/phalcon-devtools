@@ -9,6 +9,22 @@ namespace Phalcon\Mvc\Model {
 	interface MetaDataInterface {
 
 		/**
+		 * Set the meta-data extraction strategy
+		 *
+		 * @param \Phalcon\Mvc\Model\MetaData\Strategy\Introspection $strategy
+		 */
+		public function setStrategy($strategy);
+
+
+		/**
+		 * Return the strategy to obtain the meta-data
+		 *
+		 * @return \Phalcon\Mvc\Model\MetaData\Strategy\Introspection
+		 */
+		public function getStrategy();
+
+
+		/**
 		 * Reads meta-data for certain model
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model

@@ -107,7 +107,7 @@ namespace Phalcon\Mvc\Collection {
 		/**
 		 * Get the latest initialized model
 		 *
-		 * @return \Phalcon\Mvc\ModelInterface
+		 * @return \Phalcon\Mvc\CollectionInterface
 		 */
 		public function getLastInitialized(){ }
 
@@ -115,7 +115,7 @@ namespace Phalcon\Mvc\Collection {
 		/**
 		 * Sets a connection service for a specific model
 		 *
-		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param \Phalcon\Mvc\CollectionInterface $model
 		 * @param string $connectionService
 		 */
 		public function setConnectionService($model, $connectionService){ }
@@ -124,7 +124,7 @@ namespace Phalcon\Mvc\Collection {
 		/**
 		 * Sets if a model must use implicit objects ids
 		 *
-		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param \Phalcon\Mvc\CollectionInterface $model
 		 * @param boolean $useImplicitObjectIds
 		 */
 		public function useImplicitObjectIds($model, $useImplicitObjectIds){ }
@@ -133,7 +133,7 @@ namespace Phalcon\Mvc\Collection {
 		/**
 		 * Checks if a model is using implicit object ids
 		 *
-		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param \Phalcon\Mvc\CollectionInterface $model
 		 * @return boolean
 		 */
 		public function isUsingImplicitObjectIds($model){ }
@@ -142,7 +142,7 @@ namespace Phalcon\Mvc\Collection {
 		/**
 		 * Returns the connection related to a model
 		 *
-		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param \Phalcon\Mvc\CollectionInterface $model
 		 * @return \Phalcon\Db\AdapterInterface
 		 */
 		public function getConnection($model){ }
@@ -153,7 +153,7 @@ namespace Phalcon\Mvc\Collection {
 		 * Notify the behaviors that are listening in the model
 		 *
 		 * @param string $eventName
-		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param \Phalcon\Mvc\CollectionInterface $model
 		 */
 		public function notifyEvent($eventName, $model){ }
 

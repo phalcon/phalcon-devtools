@@ -11,18 +11,18 @@ namespace Phalcon\Http\Request {
 	 *	class PostsController extends \Phalcon\Mvc\Controller
 	 *	{
 	 *
-	 *	public function uploadAction()
-	 *	{
-	 *		//Check if the user has uploaded files
-	 *		if ($this->request->hasFiles() == true) {
-	 *			//Print the real file names and their sizes
-	 *			foreach ($this->request->getUploadedFiles() as $file){
-	 *				echo $file->getName(), " ", $file->getSize(), "\n";
+	 *		public function uploadAction()
+	 *		{
+	 *			//Check if the user has uploaded files
+	 *			if ($this->request->hasFiles() == true) {
+	 *				//Print the real file names and their sizes
+	 *				foreach ($this->request->getUploadedFiles() as $file){
+	 *					echo $file->getName(), " ", $file->getSize(), "\n";
+	 *				}
 	 *			}
 	 *		}
-	 *	}
 	 *
-	 *}
+	 *	}
 	 *</code>
 	 */
 	
@@ -67,7 +67,7 @@ namespace Phalcon\Http\Request {
 
 
 		/**
-		 * Move the temporary file to a destination
+		 * Move the temporary file to a destination whithin the application
 		 *
 		 * @param string $destination
 		 * @return boolean

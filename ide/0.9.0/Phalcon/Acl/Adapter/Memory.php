@@ -263,7 +263,7 @@ namespace Phalcon\Acl\Adapter {
 		/**
 		 * Return an array with every resource registered in the list
 		 *
-		 * @return \Phalcon\Acl\Resources[]
+		 * @return \Phalcon\Acl\Resource[]
 		 */
 		public function getResources(){ }
 

@@ -190,7 +190,7 @@ namespace Phalcon\Mvc\Model {
 		 * Query all the relationships defined on a model
 		 *
 		 * @param string $modelName
-		 * @return \Phalcon\Mvc\RelationInterface[]
+		 * @return \Phalcon\Mvc\Model\RelationInterface[]
 		 */
 		public function getRelations($modelName);
 
