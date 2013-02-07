@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Http {
 
@@ -16,8 +16,8 @@ namespace Phalcon\Http {
 	 *	$response->send();
 	 *</code>
 	 */
-	
-	class Response {
+
+	class Response implements ResponseInterface {
 
 		protected $_sent;
 

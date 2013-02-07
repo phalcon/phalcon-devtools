@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model\Query {
 
@@ -25,8 +25,8 @@ namespace Phalcon\Mvc\Model\Query {
 	 *}
 	 *</code>
 	 */
-	
-	class Status {
+
+	class Status implements StatusInterface {
 
 		protected $_success;
 

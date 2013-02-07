@@ -1,14 +1,15 @@
-<?php 
+<?php
 
 namespace Phalcon\Paginator\Adapter {
+	use Phalcon\Paginator\AdapterInterface;
 
 	/**
 	 * Phalcon\Paginator\Adapter\Model
 	 *
 	 * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as base
 	 */
-	
-	class Model {
+
+	class Model implements AdapterInterface{
 
 		protected $_limitRows;
 

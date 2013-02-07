@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon {
 
@@ -12,8 +12,8 @@ namespace Phalcon {
 	 * $flash->error("Cannot open the file");
 	 *</code>
 	 */
-	
-	class Flash {
+
+	abstract class Flash implements FlashInterface {
 
 		protected $_cssClasses;
 

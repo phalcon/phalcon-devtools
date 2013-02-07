@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Events {
 
@@ -10,8 +10,8 @@ namespace Phalcon\Events {
 	 * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
 	 *
 	 */
-	
-	class Manager {
+
+	class Manager implements ManagerInterface {
 
 		protected $_events;
 

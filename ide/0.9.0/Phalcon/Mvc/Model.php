@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc {
 
@@ -34,8 +34,8 @@ namespace Phalcon\Mvc {
 	 * </code>
 	 *
 	 */
-	
-	class Model {
+
+	class Model implements ModelInterface {
 
 		const OP_NONE = 0;
 

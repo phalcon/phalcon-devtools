@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model\Transaction {
 
@@ -46,8 +46,8 @@ namespace Phalcon\Mvc\Model\Transaction {
 	 *</code>
 	 *
 	 */
-	
-	class Manager {
+
+	class Manager implements ManagerInterface {
 
 		protected $_dependencyInjector;
 

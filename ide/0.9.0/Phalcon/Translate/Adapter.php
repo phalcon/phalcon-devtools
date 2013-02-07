@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Translate {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Translate {
 	 *
 	 * Base class for Phalcon\Translate adapters
 	 */
-	
-	class Adapter {
+
+	abstract class Adapter implements AdapterInterface {
 
 		/**
 		 * Returns the translation string of the given key

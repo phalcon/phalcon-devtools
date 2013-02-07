@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Logger {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Logger {
 	 *
 	 * This is a base class for logger formatters
 	 */
-	
-	class Formatter {
+
+	abstract class Formatter implements FormatterInterface {
 
 		/**
 		 * Returns the string meaning of a logger constant

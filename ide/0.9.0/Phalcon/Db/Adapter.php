@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Db {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Db {
 	 *
 	 * Base class for Phalcon\Db adapters
 	 */
-	
-	class Adapter {
+
+	abstract class Adapter implements AdapterInterface {
 
 		protected $_eventsManager;
 

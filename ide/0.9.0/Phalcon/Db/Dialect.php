@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Db {
 
@@ -8,8 +8,8 @@ namespace Phalcon\Db {
 	 * This is the base class to each database dialect. This implements
 	 * common methods to transform intermediate code into its RDBM related syntax
 	 */
-	
-	class Dialect {
+
+	class Dialect implements DialectInterface {
 
 		protected $_escapeChar;
 

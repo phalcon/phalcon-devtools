@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model {
 
@@ -29,8 +29,8 @@ namespace Phalcon\Mvc\Model {
 	 * </code>
 	 *
 	 */
-	
-	class Resultset {
+
+	abstract class Resultset implements ResultsetInterface {
 
 		const TYPE_RESULT_FULL = 0;
 

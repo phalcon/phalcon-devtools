@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model {
 
@@ -25,8 +25,8 @@ namespace Phalcon\Mvc\Model {
 	 *</code>
 	 *
 	 */
-	
-	class Query {
+
+	class Query implements QueryInterface {
 
 		const TYPE_SELECT = 309;
 
