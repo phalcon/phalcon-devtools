@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Logger {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Logger {
 	 *
 	 * Base class for Phalcon\Logger adapters
 	 */
-	
-	class Adapter {
+
+	abstract class Adapter implements AdapterInterface {
 
 		protected $_transaction;
 

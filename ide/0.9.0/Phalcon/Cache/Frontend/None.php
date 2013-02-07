@@ -1,14 +1,15 @@
-<?php 
+<?php
 
 namespace Phalcon\Cache\Frontend {
+	use Phalcon\Cache\FrontendInterface;
 
-	/**
+    /**
 	 * Phalcon\Cache\Frontend\None
 	 *
 	 * Discards any kind of frontend data input. This frontend does not have expiration time or any other options
 	 *
 	 *<code>
-	 * 
+	 *
 	 * //Create a None Cache
 	 * $frontCache = new Phalcon\Cache\Frontend\None();
 	 *
@@ -38,8 +39,8 @@ namespace Phalcon\Cache\Frontend {
 	 *</code>
 	 *
 	 */
-	
-	class None {
+
+	class None implements FrontendInterface {
 
 		/**
 		 * \Phalcon\Cache\Frontend\None constructor

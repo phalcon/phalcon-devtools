@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc {
 
@@ -25,8 +25,8 @@ namespace Phalcon\Mvc {
 	 *
 	 *</code>
 	 */
-	
-	class Dispatcher extends \Phalcon\Dispatcher {
+
+	class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface {
 
 		const EXCEPTION_NO_DI = 0;
 

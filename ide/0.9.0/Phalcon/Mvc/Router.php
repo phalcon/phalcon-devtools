@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc {
 
@@ -28,8 +28,8 @@ namespace Phalcon\Mvc {
 	 *</code>
 	 *
 	 */
-	
-	class Router {
+
+	class Router implements RouterInterface {
 
 		protected $_dependencyInjector;
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Db {
 
@@ -25,8 +25,8 @@ namespace Phalcon\Db {
 	 *</code>
 	 *
 	 */
-	
-	class Column {
+
+	class Column implements ColumnInterface {
 
 		const TYPE_INTEGER = 0;
 

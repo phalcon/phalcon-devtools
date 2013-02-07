@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model\Query {
 
@@ -17,8 +17,8 @@ namespace Phalcon\Mvc\Model\Query {
 	 *   ->execute();
 	 *</code>
 	 */
-	
-	class Builder {
+
+	class Builder implements BuilderInterface {
 
 		protected $_dependencyInjector;
 

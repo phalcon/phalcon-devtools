@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Db {
 
@@ -9,8 +9,8 @@ namespace Phalcon\Db {
 	 * to enhance database performance. An index allows the database server to find
 	 * and retrieve specific rows much faster than it could do without an index
 	 */
-	
-	class Index {
+
+	class Index implements IndexInterface {
 
 		protected $_indexName;
 

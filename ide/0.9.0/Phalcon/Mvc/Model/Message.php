@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model {
 
@@ -28,8 +28,8 @@ namespace Phalcon\Mvc\Model {
 	 * </code>
 	 *
 	 */
-	
-	class Message {
+
+	class Message implements MessageInterface {
 
 		protected $_type;
 

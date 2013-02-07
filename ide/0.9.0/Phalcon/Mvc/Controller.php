@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc {
 
@@ -43,8 +43,8 @@ namespace Phalcon\Mvc {
 	 *
 	 *</code>
 	 */
-	
-	class Controller extends \Phalcon\DI\Injectable {
+
+	class Controller extends \Phalcon\DI\Injectable implements ControllerInterface {
 
 		/**
 		 * \Phalcon\Mvc\Controller constructor

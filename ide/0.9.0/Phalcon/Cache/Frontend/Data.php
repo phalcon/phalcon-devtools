@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace Phalcon\Cache\Frontend {
+	use Phalcon\Cache\FrontendInterface;
 
-	/**
+    /**
 	 * Phalcon\Cache\Frontend\Data
 	 *
 	 * Allows to cache native PHP data in a serialized form
@@ -40,8 +41,8 @@ namespace Phalcon\Cache\Frontend {
 	 * }
 	 *</code>
 	 */
-	
-	class Data {
+
+	class Data implements FrontendInterface {
 
 		protected $_frontendOptions;
 

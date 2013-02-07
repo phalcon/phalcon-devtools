@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 * This is an optional base class for ORM behaviors
 	 */
-	
-	class Behavior {
+
+	class Behavior implements BehaviorInterface {
 
 		protected $_options;
 

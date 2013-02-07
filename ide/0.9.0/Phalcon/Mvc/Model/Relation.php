@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 * This class represents each relationship between two models
 	 */
-	
-	class Relation {
+
+	class Relation implements RelationInterface {
 
 		const BELONGS_TO = 0;
 
