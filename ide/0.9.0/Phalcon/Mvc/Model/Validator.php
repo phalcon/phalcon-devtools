@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\Model {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 * This is a base class for Phalcon\Mvc\Model validators
 	 */
-	
-	class Validator {
+
+	abstract class Validator implements ValidatorInterface {
 
 		protected $_options;
 

@@ -1,14 +1,13 @@
-<?php 
+<?php
 
 namespace Phalcon\Annotations {
-
-	/**
+    /**
 	 * Phalcon\Annotations\Adapter
 	 *
 	 * This is the base class for Phalcon\Annotations adapters
 	 */
-	
-	class Adapter {
+
+	abstract class Adapter implements AdapterInterface {
 
 		protected $_reader;
 

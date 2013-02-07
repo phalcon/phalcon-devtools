@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Session {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Session {
 	 *
 	 * Base class for Phalcon\Session adapters
 	 */
-	
-	class Adapter {
+
+	class Adapter implements AdapterInterface{
 
 		protected $_uniqueId;
 

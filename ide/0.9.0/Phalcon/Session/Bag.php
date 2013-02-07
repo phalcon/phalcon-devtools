@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Session {
 
@@ -14,8 +14,8 @@ namespace Phalcon\Session {
 	 *	$user->age = 22;
 	 *</code>
 	 */
-	
-	class Bag {
+
+	class Bag implements BagInterface {
 
 		protected $_dependencyInjector;
 

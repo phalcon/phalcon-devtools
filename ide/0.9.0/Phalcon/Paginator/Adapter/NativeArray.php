@@ -1,6 +1,7 @@
-<?php 
+<?php
 
 namespace Phalcon\Paginator\Adapter {
+	use Phalcon\Paginator\AdapterInterface;
 
 	/**
 	 * Phalcon\Paginator\Adapter\NativeArray
@@ -8,8 +9,8 @@ namespace Phalcon\Paginator\Adapter {
 	 * Component of pagination by array data
 	 *
 	 */
-	
-	class NativeArray {
+
+	class NativeArray implements AdapterInterface{
 
 		protected $_limitRows;
 

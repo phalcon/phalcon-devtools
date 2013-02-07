@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Annotations {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Annotations {
 	 *
 	 * Parses docblocks returning an array with the found annotations
 	 */
-	
-	class Reader {
+
+	class Reader implements ReaderInterface {
 
 		/**
 		 * Reads annotations from the class dockblocks, its methods and/or properties

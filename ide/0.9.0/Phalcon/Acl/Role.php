@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Acl {
 
@@ -8,8 +8,8 @@ namespace Phalcon\Acl {
 	 * This class defines role entity and its description
 	 *
 	 */
-	
-	class Role {
+
+	class Role implements RoleInterface {
 
 		protected $_name;
 

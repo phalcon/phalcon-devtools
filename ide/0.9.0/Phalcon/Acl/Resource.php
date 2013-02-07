@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Acl {
 
@@ -9,7 +9,7 @@ namespace Phalcon\Acl {
 	 *
 	 */
 	
-	class Resource {
+	class Resource implements ResourceInterface {
 
 		protected $_name;
 
