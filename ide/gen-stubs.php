@@ -283,11 +283,11 @@ foreach($allClasses as $className){
 				}
 			}
 
+			$modifiers = Reflection::getModifierNames($method->getModifiers());
 			if ($reflector->isInterface()) {
-				$source.= "\t\t".'public function '.$method->name.'(';
-			} else {
-				$source.= "\t\t".implode(' ', Reflection::getModifierNames($method->getModifiers())).' function '.$method->name.'(';
+				$modifiers = array_intersect($modifiers, array('static', 'public'));
 			}
+			$source.= "\t\t".implode(' ', $modifiers).' function '.$method->name.'(';
 
 			$parameters = array();
 			foreach($method->getParameters() as $parameter){
