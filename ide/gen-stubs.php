@@ -138,7 +138,7 @@ foreach($allClasses as $className){
 	$reflector = new ReflectionClass($className);
 
 	$typeClass = '';
-	if ($reflector->isInterface()) {
+	if (!$reflector->isInterface()) {
 		if ($reflector->isAbstract() == true) {
 			$typeClass = 'abstract ';
 		}
@@ -156,6 +156,7 @@ foreach($allClasses as $className){
 		}
 	} else {
 		$implements = $reflector->getInterfaceNames();
+
 		if ($extends) {
 			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
 		} else {
