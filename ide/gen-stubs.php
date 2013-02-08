@@ -155,11 +155,17 @@ foreach($allClasses as $className){
 			$source.="\t".'interface '.$normalClassName.' {'.PHP_EOL;
 		}
 	} else {
+		$implements = $reflector->getInterfaceNames();
 		if ($extends) {
-			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name.' {'.PHP_EOL;
+			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
 		} else {
-			$source.="\t".$typeClass.'class '.$normalClassName.' {'.PHP_EOL;
+			$source.="\t".$typeClass.'class '.$normalClassName;
 		}
+		if ($implements) {
+			$source .= " implements \\" . implode(', \\', $implements);
+		}
+
+		$source .= ' {' . PHP_EOL;
 	}
 
 	if (isset($docs[$simpleClassName])) {
