@@ -138,7 +138,7 @@ foreach($allClasses as $className){
 	$reflector = new ReflectionClass($className);
 
 	$typeClass = '';
-	if ($reflector->isInterface()) {
+	if (!$reflector->isInterface()) {
 		if ($reflector->isAbstract() == true) {
 			$typeClass = 'abstract ';
 		}
@@ -155,11 +155,18 @@ foreach($allClasses as $className){
 			$source.="\t".'interface '.$normalClassName.' {'.PHP_EOL;
 		}
 	} else {
+		$implements = $reflector->getInterfaceNames();
+
 		if ($extends) {
-			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name.' {'.PHP_EOL;
+			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
 		} else {
-			$source.="\t".$typeClass.'class '.$normalClassName.' {'.PHP_EOL;
+			$source.="\t".$typeClass.'class '.$normalClassName;
 		}
+		if ($implements) {
+			$source .= " implements \\" . implode(', \\', $implements);
+		}
+
+		$source .= ' {' . PHP_EOL;
 	}
 
 	if (isset($docs[$simpleClassName])) {
@@ -276,11 +283,11 @@ foreach($allClasses as $className){
 				}
 			}
 
+			$modifiers = Reflection::getModifierNames($method->getModifiers());
 			if ($reflector->isInterface()) {
-				$source.= "\t\t".'public function '.$method->name.'(';
-			} else {
-				$source.= "\t\t".implode(' ', Reflection::getModifierNames($method->getModifiers())).' function '.$method->name.'(';
+				$modifiers = array_intersect($modifiers, array('static', 'public'));
 			}
+			$source.= "\t\t".implode(' ', $modifiers).' function '.$method->name.'(';
 
 			$parameters = array();
 			foreach($method->getParameters() as $parameter){
