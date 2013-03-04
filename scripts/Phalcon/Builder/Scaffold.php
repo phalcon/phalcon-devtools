@@ -260,6 +260,7 @@ class Scaffold extends Component
 		if ($this->request->isPost()) {
 			$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->di, "'.$options['className'].'", $_POST);
 			$this->session->conditions = $query->getConditions();
+                        $this->session->bind = $query->getParams()["bind"];
 		} else {
 			$numberPage = $this->request->getQuery("page", "int");
 			if ($numberPage <= 0) {
@@ -270,6 +271,7 @@ class Scaffold extends Component
 		$parameters = array();
 		if ($this->session->conditions) {
 			$parameters["conditions"] = $this->session->conditions;
+                        $parameters["bind"] = $this->session->bind;
 		}
 		$parameters["order"] = "'.$orderPksString.'";
 
