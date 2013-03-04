@@ -126,7 +126,9 @@ class ScaffoldDBM extends Component
 		));
 
 		$schema = $config->database->name;
-		foreach ($db->listTables($schema) as $name) {
+		$schemaAry = $db->listTables($schema);
+		$metaData = $di->getShared('modelsMetadata');
+		foreach ($schemaAry as $name) {
 
 			$options['name'] = $name;
 			$options['className'] = Text::camelize($options['name']);
@@ -154,8 +156,6 @@ class ScaffoldDBM extends Component
 			}
 
 			$entity = new $modelClass();
-
-			$metaData = $di->getShared('modelsMetadata');
 
 			$attributes = $metaData->getAttributes($entity);
 			$dataTypes = $metaData->getDataTypes($entity);
@@ -202,6 +202,7 @@ class ScaffoldDBM extends Component
 			//View edit.phtml
 			$this->_makeViewEdit($path, $options);
 		}
+		$this->createIndexViewFiles($options['viewsDir'], $schemaAry);
 
 		return true;
 	}
@@ -220,6 +221,54 @@ class ScaffoldDBM extends Component
 				}
 			}
 		}
+	}
+
+	private function createIndexViewFiles($path, $schemaAry)
+	{
+		/* generate data */
+		$code = '<!DOCTYPE html>
+<html>
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Database Management System</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/css/base.css" />
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">DB Management</a>
+                    <div class="nav-collapse">
+                        <ul class="nav pull-left">';
+		foreach ($schemaAry as $name) {
+			$ctrlName = Text::camelize($name);
+			$code .= '<li>
+                                <?php echo Phalcon\Tag::linkTo("'.$ctrlName.'/index", "'.$ctrlName.'") ?>
+                            </li>';
+		}
+
+		$code .= '</ul>
+                </div>
+            </div>
+        </div></div>
+        <div class="container">
+        <?php echo $this->getContent(); ?>
+        </div>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>';
+		
+
+
+		$file = $path.'index.phtml';
+    	file_put_contents($file, $code);
 	}
 
 	/**
@@ -275,7 +324,7 @@ class ScaffoldDBM extends Component
 		if ($this->request->isPost()) {
 			$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->di, "'.$options['className'].'", $_POST);
 			$this->session->conditions = $query->getConditions();
-                        $this->session->bind = $query->getParams()["bind"];
+			$this->session->bind = $query->getParams()["bind"];
 		} else {
 			$numberPage = $this->request->getQuery("page", "int");
 			if ($numberPage <= 0) {
@@ -286,7 +335,7 @@ class ScaffoldDBM extends Component
 		$parameters = array();
 		if ($this->session->conditions) {
 			$parameters["conditions"] = $this->session->conditions;
-                        $parameters["bind"] = $this->session->bind;
+			$parameters["bind"] = $this->session->bind;
 		}
 		$parameters["order"] = "'.$orderPksString.'";
 
@@ -470,19 +519,15 @@ class ScaffoldDBM extends Component
 		if (!file_exists($viewPath)) {
 
 			//View model layout
-			$code = '';
-			if(isset($options['theme'])){
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/base") ?>'.PHP_EOL;
-			}
-
-			if(isset($options['theme'])){
-				$code.='<div class="ui-layout" align="center">'.PHP_EOL;
-			} else {
-				$code.='<div align="center">'.PHP_EOL;
-			}
-			$code.="\t".'<?php echo $this->getContent(); ?>'.PHP_EOL.
-			'</div>';
+			$code = '<div class="tabbable tabs-left">
+  <ul class="nav nav-tabs">
+     <li><?php echo \Phalcon\Tag::linkTo(array("'.$fileName.'/index", "Search")); ?></li>
+     <li><?php echo \Phalcon\Tag::linkTo(array("'.$fileName.'/new", "Create")); ?></li>
+  </ul>
+  <div class="tab-content">
+  <?php echo $this->getContent(); ?>
+  </div>
+</div>';
 			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 
@@ -616,13 +661,9 @@ class ScaffoldDBM extends Component
 		$viewPath = $dirPath.'/index.phtml';
 
 		$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.
-		'<div align="right">'.PHP_EOL.
-		"\t".'<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/new", "Create '.ucfirst($options['single']).'")) ?>'.PHP_EOL.
-		'</div>'.PHP_EOL.PHP_EOL.
-		'<div align="center">'.PHP_EOL.
 		"\t".'<h1>Search '.$plural.'</h1>'.PHP_EOL.
 		"\t".'<?php echo \Phalcon\Tag::form(array("'.$options['name'].'/search")) ?>'.PHP_EOL.
-		"\t".'<table align="center">'.PHP_EOL;
+		"\t".'<table>'.PHP_EOL;
 
 		//make fields by action
 		$code.= self::_makeFields($path, $options, 'index');
@@ -668,22 +709,14 @@ class ScaffoldDBM extends Component
 			$name = $options['name'];
 
 			$code = '<?php echo \Phalcon\Tag::form("'.$options['name'].'/create") ?>'.PHP_EOL.PHP_EOL.
-			'<table width="100%">'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			"\t\t".'<td align="left"><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'", "Go Back")) ?></td>'.PHP_EOL.
-			"\t\t".'<td align="right"><?php echo \Phalcon\Tag::submitButton("Save") ?></td>'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			'</table>'.PHP_EOL.PHP_EOL.
 			'<?php echo $this->getContent(); ?>'.PHP_EOL.PHP_EOL.
-			'<div align="center">'.PHP_EOL.
 			"\t".'<h1>Create '.$options['single'].'</h1>'.PHP_EOL.
-			'</div>'.PHP_EOL.PHP_EOL.
-			"\t".'<table align="center">'.PHP_EOL;
+			"\t".'<table>'.PHP_EOL;
 
 			//make fields by action
 			$code.= self::_makeFields($path, $options, 'new');
 
-			$code.= "\t".'</table>' . PHP_EOL . '<?php echo \Phalcon\Tag::endForm() ?>' . PHP_EOL;
+			$code.= "\t".'</table>' . PHP_EOL .'<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL.PHP_EOL. '<?php echo \Phalcon\Tag::endForm() ?>' . PHP_EOL;
 
 			//index.phtml
 			$code = str_replace("\t", "    ", $code);
@@ -718,15 +751,7 @@ class ScaffoldDBM extends Component
 			$name = $options['name'];
 
 			$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.PHP_EOL;
-			$code.= '<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL.PHP_EOL.
-			'<table width="100%">'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			"\t\t".'<td align="left"><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'", "Back")) ?></td>'.PHP_EOL.
-			"\t\t".'<td align="right"><?php echo \Phalcon\Tag::submitButton(array("Save")) ?></td>'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			'</table>'.PHP_EOL.PHP_EOL.
-			'<div align="center">'.PHP_EOL.
-			"\t".'<h1>Edit '.$options['name'].'</h1>'.PHP_EOL.
+			$code.= '<h1>Edit '.$options['name'].'</h1>'.PHP_EOL.
 			'</div>'.PHP_EOL.PHP_EOL.
 			"\t".'<table align="center">'.PHP_EOL;
 
@@ -734,6 +759,7 @@ class ScaffoldDBM extends Component
 			$code.= self::_makeFields($path, $options, 'new');
 
 			$code.= "\t".'</table>'.PHP_EOL.
+			'<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL.PHP_EOL.
 			"\t".'<?php echo \Phalcon\Tag::endForm() ?>'.PHP_EOL;
 
 			//index.phtml
@@ -758,19 +784,7 @@ class ScaffoldDBM extends Component
 		if (!file_exists($viewPath)) {
 
 			$code = '<?php $this->getContent(); ?>
-
-<table width="100%">
-	<tr>
-		<td align="left">
-			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/index", "Go Back")); ?>
-		</td>
-		<td align="right">
-			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/new", "Create '.$options['single'].'")); ?>
-		</td>
-	<tr>
-</table>
-
-<table class="browse" align="center">'.PHP_EOL.
+<table class="table table-striped">'.PHP_EOL.
 			"\t".'<thead>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL;
 			foreach($options['attributes'] as $attribute){
