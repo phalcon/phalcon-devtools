@@ -71,7 +71,6 @@ class ScaffoldDBM extends Component
 			}
 		}
 
-		$name = $options['name'];
 		$config = $this->_getConfig($path);
 
 		if (!isset($config->database->adapter)) {
@@ -115,78 +114,94 @@ class ScaffoldDBM extends Component
 
 		$options['manager'] = $di->getShared('modelsManager');
 
-		$options['className'] = Text::camelize($options['name']);
-		$options['fileName'] = Text::uncamelize($options['className']);
+		// Set the connection
+		$this->isSupportedAdapter($adapter);
 
-		$modelClass = Text::camelize($name);
-		$modelPath = $config->application->modelsDir.'/'.$modelClass.'.php';
-		if (!file_exists($modelPath)) {
+		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
+		$db = new $adapter(array(
+			'host'     => $config->database->host,
+			'username' => $config->database->username,
+			'password' => $config->database->password,
+			'name'     => $config->database->name,
+		));
 
-			$modelBuilder = new \Phalcon\Builder\Model(array(
-				'name' => $name,
-				'schema' => $options['schema'],
-				'className' => $options['className'],
-				'fileName' => $options['fileName'],
-				'genSettersGetters' => $options['genSettersGetters'],
-				'directory' => $options['directory'],
-				'force' => $options['force']
-			));
+		$schema = $config->database->name;
+		foreach ($db->listTables($schema) as $name) {
 
-			$modelBuilder->build();
+			$options['name'] = $name;
+			$options['className'] = Text::camelize($options['name']);
+			$options['fileName'] = Text::uncamelize($options['className']);
+
+			$modelClass = Text::camelize($name);
+			$modelPath = $config->application->modelsDir.'/'.$modelClass.'.php';
+			if (!file_exists($modelPath)) {
+
+				$modelBuilder = new \Phalcon\Builder\Model(array(
+					'name' => $name,
+					'schema' => $options['schema'],
+					'className' => $options['className'],
+					'fileName' => $options['fileName'],
+					'genSettersGetters' => $options['genSettersGetters'],
+					'directory' => $options['directory'],
+					'force' => $options['force']
+				));
+
+				$modelBuilder->build();
+			}
+
+			if(!class_exists($modelClass)){
+				require $modelPath;
+			}
+
+			$entity = new $modelClass();
+
+			$metaData = $di->getShared('modelsMetadata');
+
+			$attributes = $metaData->getAttributes($entity);
+			$dataTypes = $metaData->getDataTypes($entity);
+			$identityField = $metaData->getIdentityField($entity);
+			$primaryKeys = $metaData->getPrimaryKeyAttributes($entity);
+
+			$setParams = array();
+			$selectDefinition = array();
+
+			$relationField = '';
+
+			$single = $name;
+			$options['name'] 				 = strtolower(Text::camelize($single));
+			$options['plural'] 				 = str_replace('_', ' ', $single);
+			$options['single']				 = str_replace('_', ' ', $single);
+			$options['entity']				 = $entity;
+			$options['theSingle'] 			 = $single;
+			$options['singleVar'] 			 = $single;
+			$options['setParams'] 			 = $setParams;
+			$options['attributes'] 			 = $attributes;
+			$options['dataTypes'] 			 = $dataTypes;
+			$options['primaryKeys']          = $primaryKeys;
+			$options['identityField']		 = $identityField;
+			$options['relationField'] 		 = $relationField;
+			$options['selectDefinition']	 = $selectDefinition;
+			$options['autocompleteFields'] 	 = array();
+			$options['belongsToDefinitions'] = array();
+
+			//Build Controller
+			$this->_makeController($path, $options);
+
+			//View layouts
+			$this->_makeLayouts($path, $options);
+
+			//View index.phtml
+			$this->_makeViewIndex($path, $options);
+
+			//View search.phtml
+			$this->_makeViewSearch($path, $options);
+
+			//View new.phtml
+			$this->_makeViewNew($path, $options);
+
+			//View edit.phtml
+			$this->_makeViewEdit($path, $options);
 		}
-
-		if(!class_exists($modelClass)){
-			require $modelPath;
-		}
-
-		$entity = new $modelClass();
-
-		$metaData = $di->getShared('modelsMetadata');
-
-		$attributes = $metaData->getAttributes($entity);
-		$dataTypes = $metaData->getDataTypes($entity);
-		$identityField = $metaData->getIdentityField($entity);
-		$primaryKeys = $metaData->getPrimaryKeyAttributes($entity);
-
-		$setParams = array();
-		$selectDefinition = array();
-
-		$relationField = '';
-
-		$single = $name;
-		$options['name'] 				 = strtolower(Text::camelize($single));
-		$options['plural'] 				 = str_replace('_', ' ', $single);
-		$options['single']				 = str_replace('_', ' ', $single);
-		$options['entity']				 = $entity;
-		$options['theSingle'] 			 = $single;
-		$options['singleVar'] 			 = $single;
-		$options['setParams'] 			 = $setParams;
-		$options['attributes'] 			 = $attributes;
-		$options['dataTypes'] 			 = $dataTypes;
-		$options['primaryKeys']          = $primaryKeys;
-		$options['identityField']		 = $identityField;
-		$options['relationField'] 		 = $relationField;
-		$options['selectDefinition']	 = $selectDefinition;
-		$options['autocompleteFields'] 	 = array();
-		$options['belongsToDefinitions'] = array();
-
-		//Build Controller
-		$this->_makeController($path, $options);
-
-		//View layouts
-		$this->_makeLayouts($path, $options);
-
-		//View index.phtml
-		$this->_makeViewIndex($path, $options);
-
-		//View search.phtml
-		$this->_makeViewSearch($path, $options);
-
-		//View new.phtml
-		$this->_makeViewNew($path, $options);
-
-		//View edit.phtml
-		$this->_makeViewEdit($path, $options);
 
 		return true;
 	}

@@ -55,7 +55,7 @@ class ScaffoldDBM extends Command implements CommandsInterface
 		$schema = $this->getOption('schema');
 
 		$scaffoldBuilder = new \Phalcon\Builder\ScaffoldDBM(array(
-			'name' => $name,
+			//'name' => $name,
 			'schema' => $schema,
 			'force'	=> $this->isReceivedOption('force'),
 			'genSettersGetters' => $this->isReceivedOption('get-set'),
@@ -111,7 +111,7 @@ class ScaffoldDBM extends Command implements CommandsInterface
 	 */
 	public function getRequiredParams()
 	{
-		return 1;
+		return 0;
 	}
 
 }
