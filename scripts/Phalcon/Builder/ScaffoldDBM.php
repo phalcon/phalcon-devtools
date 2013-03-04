@@ -248,7 +248,7 @@ class ScaffoldDBM extends Component
                     <div class="nav-collapse">
                         <ul class="nav pull-left">';
 		foreach ($schemaAry as $name) {
-			$ctrlName = Text::camelize($name);
+			$ctrlName = Text::uncamelize($name);
 			$code .= '<li>
                                 <?php echo Phalcon\Tag::linkTo("'.$ctrlName.'/index", "'.$ctrlName.'") ?>
                             </li>';
