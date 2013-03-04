@@ -112,6 +112,8 @@ class ScaffoldDBM extends Component
 			throw new BuilderException("The builder is unable to know where is the views directory");
 		}
 
+		$options['viewsDir'] = $path . $config->application->viewsDir;
+
 		$options['manager'] = $di->getShared('modelsManager');
 
 		// Set the connection
@@ -203,6 +205,7 @@ class ScaffoldDBM extends Component
 			$this->_makeViewEdit($path, $options);
 		}
 		$this->createIndexViewFiles($options['viewsDir'], $schemaAry);
+		$this->buildStaticFile($options['viewsDir'].'../../',__DIR__.'/../../../templates');
 
 		return true;
 	}
@@ -221,6 +224,11 @@ class ScaffoldDBM extends Component
 				}
 			}
 		}
+	}
+
+	private function buildStaticFile($path, $templatePath)
+	{
+		file_put_contents($path.'public/css/base.css', file_get_contents($templatePath . '/project/scaffolddbm/css/base.css'));
 	}
 
 	private function createIndexViewFiles($path, $schemaAry)
@@ -244,13 +252,13 @@ class ScaffoldDBM extends Component
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">DB Management</a>
+                    <a class="brand" href="/">DB Management</a>
                     <div class="nav-collapse">
                         <ul class="nav pull-left">';
 		foreach ($schemaAry as $name) {
-			$ctrlName = Text::uncamelize($name);
+			$ctrlName = Text::camelize($name);
 			$code .= '<li>
-                                <?php echo Phalcon\Tag::linkTo("'.$ctrlName.'/index", "'.$ctrlName.'") ?>
+                                <?php echo Phalcon\Tag::linkTo("'.strtolower($ctrlName).'/index", "'.$ctrlName.'") ?>
                             </li>';
 		}
 

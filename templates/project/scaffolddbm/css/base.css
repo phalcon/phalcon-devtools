@@ -1,0 +1,7 @@
+.tabbable {
+    margin-top: 50px;
+}
+.table td {
+    word-wrap: break-word;
+    max-width:200px;
+}
