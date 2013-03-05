@@ -335,7 +335,7 @@ class Model extends Component
 			$initCode = "";
 		}
 
-		$initCode .= "\n\t/** \n\t * set Table Source \n\t */\n\tpublic function getSource()\n\t{\t\t\n\t\t\nreturn '".$table."';\n\t}\n";
+		$initCode .= "\n\t/** \n\t * set Table Source \n\t */\n\tpublic function getSource()\n\t{\t\t\n\t\treturn '".$table."';\n\t}\n";
 
 		$code = "<?php\n\n";
 		if (file_exists('license.txt')) {

@@ -130,6 +130,19 @@ class ScaffoldDBM extends Component
 		$schema = $config->database->name;
 		$schemaAry = $db->listTables($schema);
 		$metaData = $di->getShared('modelsMetadata');
+
+		//Build AllModels
+		$modelBuilder = new \Phalcon\Builder\AllModels(array(
+			'schema' => $options['schema'],
+			'genSettersGetters' => $options['genSettersGetters'],
+			'directory' => $options['directory'],
+			'force' => $options['force'],
+			'defineRelations' => true,
+			'foreignKeys' => true
+		));
+
+		$modelBuilder->build();
+
 		foreach ($schemaAry as $name) {
 
 			$options['name'] = $name;
@@ -138,20 +151,6 @@ class ScaffoldDBM extends Component
 
 			$modelClass = Text::camelize($name);
 			$modelPath = $config->application->modelsDir.'/'.$modelClass.'.php';
-			if (!file_exists($modelPath)) {
-
-				$modelBuilder = new \Phalcon\Builder\Model(array(
-					'name' => $name,
-					'schema' => $options['schema'],
-					'className' => $options['className'],
-					'fileName' => $options['fileName'],
-					'genSettersGetters' => $options['genSettersGetters'],
-					'directory' => $options['directory'],
-					'force' => $options['force']
-				));
-
-				$modelBuilder->build();
-			}
 
 			if(!class_exists($modelClass)){
 				require $modelPath;
