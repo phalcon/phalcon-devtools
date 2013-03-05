@@ -824,7 +824,7 @@ class ScaffoldDBM extends Component
 			//make fields by action
 			$code.= self::_makeFields($path, $options, 'new');
 
-			$code.= "\t".'</table>' . PHP_EOL .'<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL.PHP_EOL. '<?php echo \Phalcon\Tag::endForm() ?>' . PHP_EOL;
+			$code.= "\t".'</table><?php echo \Phalcon\Tag::submitButton("Save") ?>' . PHP_EOL .'<?php echo \Phalcon\Tag::endForm() ?>' . PHP_EOL;
 
 			//index.phtml
 			$code = str_replace("\t", "    ", $code);
@@ -859,15 +859,16 @@ class ScaffoldDBM extends Component
 			$name = $options['name'];
 
 			$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.PHP_EOL;
+			$code.= '<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL;
 			$code.= '<h1>Edit '.$options['name'].'</h1>'.PHP_EOL.
 			'</div>'.PHP_EOL.PHP_EOL.
 			"\t".'<table align="center">'.PHP_EOL;
 
 			//make fields by action
-			$code.= self::_makeFields($path, $options, 'new');
+			$code.= self::_makeFields($path, $options, 'edit');
 
 			$code.= "\t".'</table>'.PHP_EOL.
-			'<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL.PHP_EOL.
+			'<?php echo \Phalcon\Tag::submitButton(array("Save")) ?>'.PHP_EOL.PHP_EOL.
 			"\t".'<?php echo \Phalcon\Tag::endForm() ?>'.PHP_EOL;
 
 			//index.phtml
