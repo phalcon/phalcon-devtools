@@ -127,6 +127,8 @@ The tool is used to build Back-end management for database with Twitter Bootstra
 phalcon project dbmproject
 
 2. set the database in app/config/config.php
+
+```bash
         'database' => array(
                 'adapter'  => 'Mysql',
                 'host'     => 'XXX.XXX.XXX.XXX',
@@ -134,6 +136,7 @@ phalcon project dbmproject
                 'password' => 'IAMPASSWORD',
                 'name'     => 'DATABASENAME',
         ),
+```
 
 3. generate project
 phalcon scaffold-dbm
