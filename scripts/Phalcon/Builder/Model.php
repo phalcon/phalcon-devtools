@@ -219,9 +219,9 @@ class Model extends Component
 					if (is_string($relation['fields'])) {
 						$entityName = $relation['referencedModel'];
 						if (preg_match('/_id$/', $relation['fields'])&&$relation['relationFields']=='id') {
-							$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
+							$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\", array('alias' => '".Utils::camelize($relation['fields'])."'))";
 						} else {
-							$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
+							$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\", array('alias' => '".Utils::camelize($relation['fields'])."'))";
 						}
 					}
 				}

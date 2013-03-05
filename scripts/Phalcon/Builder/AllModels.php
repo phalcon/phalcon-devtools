@@ -122,25 +122,27 @@ class AllModels extends Component
 					$foreignKeys[$name] = array();
 				}
 				foreach ($db->tableOptions($name, $schema) as $field) {
-					if (preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)) {
-						if ($defineRelations) {
-							$hasMany[$matches[1]][] = array(
-								'referencedModel' => Utils::camelize($name),
-								'fields' => 'id',
-								'relationFields' => $field['Field']
-							);
-							$belongsTo[$name][] = array(
-								'camelizedName' => Utils::camelize($matches[1]),
-								'fields' => $field['Field'],
-								'relationFields' => 'id'
-							);
-						}
-						if ($defineForeignKeys) {
-							$foreignKeys[$name][] = array(
-								'fields' => $field['Field'],
-								'entity' => Utils::camelize($matches[1]),
-								'referencedFields' => 'id'
-							);
+					if (isset($field['Field'])) {
+						if (preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)) {
+							if ($defineRelations) {
+								$hasMany[$matches[1]][] = array(
+									'referencedModel' => Utils::camelize($name),
+									'fields' => 'id',
+									'relationFields' => $field['Field']
+								);
+								$belongsTo[$name][] = array(
+									'camelizedName' => Utils::camelize($matches[1]),
+									'fields' => $field['Field'],
+									'relationFields' => 'id'
+								);
+							}
+							if ($defineForeignKeys) {
+								$foreignKeys[$name][] = array(
+									'fields' => $field['Field'],
+									'entity' => Utils::camelize($matches[1]),
+									'referencedFields' => 'id'
+								);
+							}
 						}
 					}
 				}

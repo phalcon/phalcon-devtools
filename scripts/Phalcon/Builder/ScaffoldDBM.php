@@ -138,10 +138,69 @@ class ScaffoldDBM extends Component
 			'directory' => $options['directory'],
 			'force' => $options['force'],
 			'defineRelations' => true,
-			'foreignKeys' => true
+			//'foreignKeys' => true
 		));
-
 		$modelBuilder->build();
+
+		$hasMany = array();
+		$belongsTo = array();
+		$foreignKeys = array();
+		foreach ($schemaAry as $name) {
+			$hasMany[$name] = array();
+			$belongsTo[$name] = array();
+			$foreignKeys[$name] = array();
+
+			foreach ($db->tableOptions($name, $schema) as $field) {
+				if (isset($field['Field'])) {
+					if (preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)) {
+						$hasMany[$matches[1]][] = array(
+							'referencedModel' => Text::camelize($name),
+							'fields' => 'id',
+							'relationFields' => $field['Field']
+						);
+						$belongsTo[$name][] = array(
+							'camelizedName' => Text::camelize($matches[1]),
+							'fields' => $field['Field'],
+							'relationFields' => 'id'
+						);
+						$foreignKeys[$name][] = array(
+							'fields' => $field['Field'],
+							'entity' => Text::camelize($matches[1]),
+							'referencedFields' => 'id'
+						);
+					}
+				}
+			}
+			$camelizedName = Text::camelize($name);
+			foreach ($db->describeReferences($name, $schema) as $reference) {
+				$columns = $reference->getColumns();
+				$referencedColumns = $reference->getReferencedColumns();
+				$referencedModel = Text::camelize($reference->getReferencedTable());
+				if ($reference->getReferencedSchema() == $schema) {
+					if (count($columns) == 1) {
+						$belongsTo[$name][] = array(
+							'referencedModel' => $referencedModel,
+							'fields' => $columns[0],
+							'relationFields' => $referencedColumns[0]
+						);
+						$hasMany[$reference->getReferencedTable()][] = array(
+							'camelizedName' => $camelizedName,
+							'fields' => $referencedColumns[0],
+							'relationFields' => $columns[0]
+						);
+					}
+				}
+				if ($reference->getReferencedSchema() == $schema) {
+					if (count($columns)==1) {
+						$foreignKeys[$name][] = array(
+							'fields' => $columns[0],
+							'entity' => $referencedModel,
+							'referencedFields' => $referencedColumns[0]
+						);
+					}
+				}
+			}
+		}
 
 		foreach ($schemaAry as $name) {
 
@@ -162,6 +221,8 @@ class ScaffoldDBM extends Component
 			$dataTypes = $metaData->getDataTypes($entity);
 			$identityField = $metaData->getIdentityField($entity);
 			$primaryKeys = $metaData->getPrimaryKeyAttributes($entity);
+            $eHasMany = $hasMany[$name];
+            $eBelongsTo = $belongsTo[$name];
 
 			$setParams = array();
 			$selectDefinition = array();
@@ -184,6 +245,8 @@ class ScaffoldDBM extends Component
 			$options['selectDefinition']	 = $selectDefinition;
 			$options['autocompleteFields'] 	 = array();
 			$options['belongsToDefinitions'] = array();
+			$options['hasMany']				 = $eHasMany;
+			$options['belongsTo']			 = $eBelongsTo;
 
 			//Build Controller
 			$this->_makeController($path, $options);
@@ -202,6 +265,9 @@ class ScaffoldDBM extends Component
 
 			//View edit.phtml
 			$this->_makeViewEdit($path, $options);
+
+			//View relation.phtml
+			$this->_makeViewRelation($path, $options);
 		}
 		$this->createIndexViewFiles($options['viewsDir'], $schemaAry);
 		$this->buildStaticFile($options['viewsDir'].'../../',__DIR__.'/../../../templates');
@@ -499,6 +565,41 @@ class ScaffoldDBM extends Component
 		}
 	}'.PHP_EOL.PHP_EOL;
 
+	//Edit
+	$code.="\t".'public function relationAction($column, $'.$orderPksString.')
+	{
+		$paraData = array();
+		$paraData[$column] = $'.$orderPksString.';
+
+		$numberPage = $this->request->getQuery("page", "int");
+		if ($numberPage <= 1) {
+			$numberPage = 1;
+		}
+		$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->di, "'.$options['className'].'", $paraData);
+
+		$parameters = array();
+		
+		$parameters["conditions"] = $query->getConditions();
+		$parameters["bind"] = $query->getParams()["bind"];
+		
+		$parameters["order"] = "id";
+
+		$'.$options['name'].' = '.$options['className'].'::find($parameters);
+		if (count($'.$options['name'].') == 0) {
+			$this->flash->notice("The search did not find any '.$options['plural'].'");
+			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
+		}
+
+		$paginator = new \Phalcon\Paginator\Adapter\Model(array(
+			"data" => $'.$options['name'].',
+			"limit"=> 10,
+			"page" => $numberPage
+		));
+		$page = $paginator->getPaginate();
+
+		$this->view->setVar("page", $page);
+	}'.PHP_EOL;
+
 			$code .= "".'}'.PHP_EOL;
 			$code = str_replace("\t", "    ", $code);
 			file_put_contents($controllerPath, $code);
@@ -788,6 +889,12 @@ class ScaffoldDBM extends Component
 		$dirPath = $options['viewsDir'].$options['name'];
 		$viewPath = $dirPath.'/search.phtml';
 
+		//indexing belogsTo
+		$belongsTo = array();
+		foreach ($options['belongsTo'] as $data) {
+			$belongsTo[$data['fields']] = $data;
+		}
+
 		if (!file_exists($viewPath)) {
 
 			$code = '<?php $this->getContent(); ?>
@@ -796,6 +903,9 @@ class ScaffoldDBM extends Component
 			"\t\t".'<tr>'.PHP_EOL;
 			foreach($options['attributes'] as $attribute){
 				$code.="\t\t\t".'<th>'.$this->_getPossibleLabel($attribute).'</th>'.PHP_EOL;
+			}
+			if (count($options['hasMany']) > 0) {
+				$code.="\t\t\t".'<th>Related Data</th>'.PHP_EOL;
 			}
 			$code.="\t\t".'</tr>'.PHP_EOL.
 			"\t".'</thead>'.PHP_EOL.
@@ -806,7 +916,12 @@ class ScaffoldDBM extends Component
 				"\t\t".'<tr>'.PHP_EOL;
 				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
 				foreach($options['dataTypes'] as $fieldName => $dataType){
-					$code.="\t\t\t".'<td><?php echo ';
+					if (isset($belongsTo[$fieldName])) {
+						$url = strtolower($belongsTo[$fieldName]['referencedModel']).'/relation/'.$belongsTo[$fieldName]['relationFields'].'/';
+						$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$url.'".$'.$options['name'].'->'.$fieldName.', ';
+					} else {
+						$code.="\t\t\t".'<td><?php echo ';
+					}
 					if (!isset($options['allReferences'][$fieldName])) {
 						if (strpos($dataType, 'date')!==false) {
 							$code.='(string) $'.$options['name'].'->'.$fieldName;
@@ -821,12 +936,134 @@ class ScaffoldDBM extends Component
 						$detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
 						$code.='$'.$options['name'].'->get'.$options['allReferences'][$fieldName]['tableName'].'()->get'.$detailField.'()';
 					}
-					$code.=' ?></td>'.PHP_EOL;
+					if (isset($belongsTo[$fieldName])) {
+						$code .= ')); ?></td>'.PHP_EOL;
+					} else {
+						$code.=' ?></td>'.PHP_EOL;
+					}
 				}
 
 				$primaryKeyCode = array();
 				foreach($options['primaryKeys'] as $primaryKey){
 					$primaryKeyCode[] = '$'.$options['name'].'->'.$primaryKey;
+				}
+
+				if (count($options['hasMany'])>0) {
+					$code .= "\t\t\t".'<td>';
+					foreach ($options['hasMany'] as $data) {
+						$tbName = $data['camelizedName'];
+						$url = strtolower($tbName).'/relation/'.$data['relationFields'].'/';
+						$code .= '<?php echo \Phalcon\Tag::linkTo(array("'.$url.'".'.'$'.$options['name'].'->'.$data['fields'].', "'.$tbName.'('.$data['relationFields'].')")); ?><br />';
+					}
+					$code .= "</td>".PHP_EOL;
+				}
+				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit")); ?></td>'.PHP_EOL;
+				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete")); ?></td>'.PHP_EOL;
+
+				$code.="\t\t".'</tr>'.PHP_EOL.
+				"\t".'<?php }
+		} ?>'.PHP_EOL.
+			"\t".'</tbody>'.PHP_EOL.
+			"\t".'<tbody>'.PHP_EOL.
+			"\t\t".'<tr>'.PHP_EOL.
+			"\t\t\t".'<td colspan="'.count($options['attributes']).'" align="right">'.PHP_EOL.
+			"\t\t\t\t".'<table align="center">'.PHP_EOL.
+			"\t\t\t\t\t".'<tr>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search", "First") ?></td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->before, "Previous") ?></td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->next, "Next") ?></td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->last, "Last") ?></td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td><?php echo $page->current, "/", $page->total_pages ?></td>'.PHP_EOL.
+			"\t\t\t\t\t".'</tr>'.PHP_EOL.
+			"\t\t\t\t".'</table>'.PHP_EOL.
+			"\t\t\t".'</td>'.PHP_EOL.
+			"\t\t".'</tr>'.PHP_EOL.
+			"\t".'<tbody>'.PHP_EOL.
+			'</table>';
+			$code = str_replace("\t", "    ", $code);
+			file_put_contents($viewPath, $code);
+		}
+	}
+
+	/**
+	 * make view relation.phtml of model by scaffold
+	 *
+	 * @param array $options
+	 */
+	private function _makeViewRelation($path, $options)
+	{
+
+		//View model layout
+		$dirPath = $options['viewsDir'].$options['name'];
+		$viewPath = $dirPath.'/search.phtml';
+
+		//indexing belogsTo
+		$belongsTo = array();
+		foreach ($options['belongsTo'] as $data) {
+			$belongsTo[$data['fields']] = $data;
+		}
+
+		if (!file_exists($viewPath)) {
+
+			$code = '<?php $this->getContent(); ?>
+<table class="table table-striped">'.PHP_EOL.
+			"\t".'<thead>'.PHP_EOL.
+			"\t\t".'<tr>'.PHP_EOL;
+			foreach($options['attributes'] as $attribute){
+				$code.="\t\t\t".'<th>'.$this->_getPossibleLabel($attribute).'</th>'.PHP_EOL;
+			}
+			if (count($options['hasMany']) > 0) {
+				$code.="\t\t\t".'<th>Related Data</th>'.PHP_EOL;
+			}
+			$code.="\t\t".'</tr>'.PHP_EOL.
+			"\t".'</thead>'.PHP_EOL.
+			"\t".'<tbody>'.PHP_EOL.
+			"\t".'<?php
+		if(isset($page->items)){
+			foreach($page->items as $'.$options['name'].'){ ?>'.PHP_EOL.
+				"\t\t".'<tr>'.PHP_EOL;
+				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
+				foreach($options['dataTypes'] as $fieldName => $dataType){
+					if (isset($belongsTo[$fieldName])) {
+						$url = strtolower($belongsTo[$fieldName]['referencedModel']).'/relation/'.$belongsTo[$fieldName]['relationFields'].'/';
+						$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$url.'".$'.$options['name'].'->'.$fieldName.', ';
+					} else {
+						$code.="\t\t\t".'<td><?php echo ';
+					}
+					if (!isset($options['allReferences'][$fieldName])) {
+						if (strpos($dataType, 'date')!==false) {
+							$code.='(string) $'.$options['name'].'->'.$fieldName;
+						} else {
+							if (strpos($dataType, 'decimal')!==false) {
+								$code.='(string) $'.$options['name'].'->'.$fieldName;
+							} else {
+								$code.='$'.$options['name'].'->'.$fieldName;
+							}
+						}
+					} else {
+						$detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
+						$code.='$'.$options['name'].'->get'.$options['allReferences'][$fieldName]['tableName'].'()->get'.$detailField.'()';
+					}
+					if (isset($belongsTo[$fieldName])) {
+						$code .= ')); ?></td>'.PHP_EOL;
+					} else {
+						$code.=' ?></td>'.PHP_EOL;
+					}
+				}
+
+				$primaryKeyCode = array();
+				foreach($options['primaryKeys'] as $primaryKey){
+					$primaryKeyCode[] = '$'.$options['name'].'->'.$primaryKey;
+				}
+
+				if (count($options['hasMany'])>0) {
+					$code .= "\t\t\t".'<td>';
+					foreach ($options['hasMany'] as $data) {
+						$tbName = $data['camelizedName'];
+						$url = strtolower($tbName).'/relation/'.$data['fields'].'/';
+						$code .= '<?php echo \Phalcon\Tag::linkTo(array("'.$url.'".'.'$'.$options['name'].'->'.$data['fields'].', "'.$tbName.'")); ?>';
+					}
+					$code .= "</td>".PHP_EOL;
 				}
 				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit")); ?></td>'.PHP_EOL;
 				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete")); ?></td>'.PHP_EOL;
