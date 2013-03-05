@@ -123,11 +123,12 @@ Scaffold DBM
 
 The tool is used to build Back-end management for database with Twitter Bootstrape.
 
-1. create project
+create project
+```bash
 phalcon project dbmproject
+```
 
-2. set the database in app/config/config.php
-
+set the database in app/config/config.php
 ```bash
         'database' => array(
                 'adapter'  => 'Mysql',
@@ -138,7 +139,9 @@ phalcon project dbmproject
         ),
 ```
 
-3. generate project
+generate project
+```bash
 phalcon scaffold-dbm
+```
 
 done!
