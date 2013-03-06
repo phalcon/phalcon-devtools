@@ -44,7 +44,7 @@ class ScaffoldDBM extends Command implements CommandsInterface
 		//'schema=s'       => "Name of the schema. [optional]",
 		//'get-set'        => "Attributes will be protected and have setters/getters. [optional]",
 		//'directory=s'    => "Base path on which project was created [optional]",
-		//'force'          => "Forces to rewrite generated code if they already exists. [optional]",
+		'force'          => "Forces to rewrite generated code if they already exists. [optional]",
 		//'trace'          => "Shows the trace of the framework in case of exception. [optional]",
 	);
 
