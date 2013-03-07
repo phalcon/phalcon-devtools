@@ -25,14 +25,14 @@ alter_profile(){
 	export PATH="$PATH:$DIR"
 	PTOOLSVAR="export PTOOLSPATH=$DIR/"
 	PATHVAR="export PATH=\$PATH:$DIR"
-	if [ -e $HOME/.profile ]; then
-		echo "$PTOOLSVAR" >> $HOME/.profile
-		echo "$PATHVAR" >> $HOME/.profile
-		source $HOME/.profile
-	elif [ -e $HOME/.bash_profile ]; then
+	if [ -e $HOME/.bash_profile ]; then
 		echo "$PTOOLSVAR" >> $HOME/.bash_profile
 		echo "$PATHVAR" >> $HOME/.bash_profile
 		source $HOME/.bash_profile
+	elif [ -e $HOME/.profile ]; then
+		echo "$PTOOLSVAR" >> $HOME/.profile
+		echo "$PATHVAR" >> $HOME/.profile
+		source $HOME/.profile
 	elif [ -e $HOME/.bashrc ]; then
 				echo "$PTOOLSVAR" >> $HOME/.bashrc
 		echo "$PATHVAR" >> $HOME/.bashrc
