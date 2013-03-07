@@ -19,10 +19,10 @@
 #
 
 run_profile(){
-	if [ -e $HOME/.profile ]; then
-		. $HOME/.profile
-	elif [ -e $HOME/.bash_profile ]; then
+	if [ -e $HOME/.bash_profile ]; then
 		. $HOME/.bash_profile
+	elif [ -e $HOME/.profile ]; then
+		. $HOME/.profile
 	elif [ -e $HOME/.bashrc ]; then
 		. $HOME/.bashrc
 	elif [ -e $HOME/.zshrc]; then
