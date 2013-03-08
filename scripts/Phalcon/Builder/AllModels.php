@@ -117,11 +117,13 @@ class AllModels extends Component
 				foreach ($db->tableOptions($name, $schema) as $field) {
 					if (preg_match('/([a-z0-9_]+)_id$/', $field['Field'], $matches)) {
 						if ($defineRelations) {
-							$hasMany[$matches[1]][Utils::camelize($name)] = array(
+							$hasMany[$matches[1]][] = array(
+								'referencedModel' => Utils::camelize($name),
 								'fields' => 'id',
 								'relationFields' => $field['Field']
 							);
-							$belongsTo[$name][Utils::camelize($matches[1])] = array(
+							$belongsTo[$name][] = array(
+								'camelizedName' => Utils::camelize($matches[1]),
 								'fields' => $field['Field'],
 								'relationFields' => 'id'
 							);
@@ -143,11 +145,13 @@ class AllModels extends Component
 					if ($defineRelations) {
 						if ($reference->getReferencedSchema() == $schema) {
 							if (count($columns) == 1) {
-								$belongsTo[$name][$referencedModel] = array(
+								$belongsTo[$name][] = array(
+									'referencedModel' => $referencedModel,
 									'fields' => $columns[0],
 									'relationFields' => $referencedColumns[0]
 								);
-								$hasMany[$reference->getReferencedTable()][$camelizedName] = array(
+								$hasMany[$reference->getReferencedTable()][] = array(
+									'camelizedName' => $camelizedName,
 									'fields' => $referencedColumns[0],
 									'relationFields' => $columns[0]
 								);
