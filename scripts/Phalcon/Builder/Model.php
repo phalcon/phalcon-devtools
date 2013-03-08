@@ -193,8 +193,9 @@ class Model extends Component
 
 		if (isset($this->_options['hasMany'])) {
 			if (count($this->_options['hasMany'])) {
-				foreach ($this->_options['hasMany'] as $entityName => $relation) {
+				foreach ($this->_options['hasMany'] as $relation) {
 					if (is_string($relation['fields'])) {
+						$entityName = $relation['camelizedName'];
 						if (preg_match('/_id$/', $relation['relationFields']) && $relation['fields']=='id') {
 							$initialize[] = "\t\t\$this->hasMany(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
 						} else {
@@ -207,8 +208,9 @@ class Model extends Component
 
 		if (isset($this->_options['belongsTo'])) {
 			if (count($this->_options['belongsTo'])) {
-				foreach ($this->_options['belongsTo'] as $entityName => $relation) {
+				foreach ($this->_options['belongsTo'] as $relation) {
 					if (is_string($relation['fields'])) {
+						$entityName = $relation['referencedModel'];
 						if (preg_match('/_id$/', $relation['fields'])&&$relation['relationFields']=='id') {
 							$initialize[] = "\t\t\$this->belongsTo(\"{$relation['fields']}\", \"$entityName\", \"{$relation['relationFields']}\")";
 						} else {
