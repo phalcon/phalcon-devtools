@@ -36,7 +36,7 @@ use Phalcon\Commands\CommandsInterface;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Scaffold extends Command implements CommandsInterface
+class ScaffoldDBM extends Command implements CommandsInterface
 {
 
 	protected $_possibleParameters = array(
