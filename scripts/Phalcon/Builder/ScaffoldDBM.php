@@ -960,8 +960,8 @@ class ScaffoldDBM extends Component
 					}
 					$code .= "</td>".PHP_EOL;
 				}
-				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit") }}</td>'.PHP_EOL;
-				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete") }}</td>'.PHP_EOL;
+				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/edit/"'.join('/', $primaryKeyCode).', "Edit") }}</td>'.PHP_EOL;
+				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/delete/"'.join('/', $primaryKeyCode).', "Delete") }}</td>'.PHP_EOL;
 
 				$code.="\t\t".'</tr>'.PHP_EOL.
 				"\t".'{% endfor %}
@@ -973,9 +973,9 @@ class ScaffoldDBM extends Component
 			"\t\t\t\t".'<table align="center">'.PHP_EOL.
 			"\t\t\t\t\t".'<tr>'.PHP_EOL.
 			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search", "First") }}</td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->before, "Previous") }}</td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->next, "Next") }}</td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->last, "Last") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page="~page.before, "Previous") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page="~page.next, "Next") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page="~page.last, "Last") }}</td>'.PHP_EOL.
 			"\t\t\t\t\t\t".'<td>{{ page.current~"/"~page.total_pages }}</td>'.PHP_EOL.
 			"\t\t\t\t\t".'</tr>'.PHP_EOL.
 			"\t\t\t\t".'</table>'.PHP_EOL.
