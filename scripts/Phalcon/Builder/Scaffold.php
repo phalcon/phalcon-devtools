@@ -200,16 +200,16 @@ class Scaffold extends Component
 		//View layouts
 		$this->_makeLayouts($path, $options);
 
-		//View index.phtml
+		//View index.volt
 		$this->_makeViewIndex($path, $options);
 
-		//View search.phtml
+		//View search.volt
 		$this->_makeViewSearch($path, $options);
 
-		//View new.phtml
+		//View new.volt
 		$this->_makeViewNew($path, $options);
 
-		//View edit.phtml
+		//View edit.volt
 		$this->_makeViewEdit($path, $options);
 
 		return true;
@@ -409,9 +409,9 @@ class Scaffold extends Component
 
 			//View model layout
 			$code = '';
-			if (isset($options['theme'])) {
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/base") ?>'.PHP_EOL;
+			if(isset($options['theme'])){
+				$code.='{{ stylesheet_link("themes/lightness/style") }}'.PHP_EOL;
+				$code.='{{ stylesheet_link("themes/base") }}'.PHP_EOL;
 			}
 
 			if (isset($options['theme'])) {
@@ -419,7 +419,8 @@ class Scaffold extends Component
 			} else {
 				$code .= '<div align="center">' . PHP_EOL;
 			}
-			$code .= "\t" . '<?php echo $this->getContent(); ?>' . PHP_EOL . '</div>';
+			$code.="\t".'{{ content() }}'.PHP_EOL.
+			'</div>';
 			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 
