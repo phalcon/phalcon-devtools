@@ -722,16 +722,16 @@ class ScaffoldDBM extends Component
 					} else {
 						//Decimal field
 						if ($dataType==\Phalcon\Db\Column::TYPE_DECIMAL || $dataType==\Phalcon\Db\Column::TYPE_INTEGER) {
-							$code.=PHP_EOL."\t\t\t".'{{ text_field("'.$attribute.'", "type" => "numeric") }}';
+							$code.=PHP_EOL."\t\t\t".'{{ text_field("'.$attribute.'", "type" : "numeric") }}';
 						} else {
 							//Date field
 							if ($dataType==\Phalcon\Db\Column::TYPE_DATE) {
-								$code.=PHP_EOL."\t\t\t\t".'{{ text_field("'.$attribute.'", "type" => "date") }}';
+								$code.=PHP_EOL."\t\t\t\t".'{{ text_field("'.$attribute.'", "type" : "date") }}';
 							} else {
 								if ($dataType==\Phalcon\Db\Column::TYPE_TEXT) {
 									$code.=PHP_EOL."\t\t\t\t".'{{ text_area("'.$attribute.'", "cols" : "40", "rows" : "5") }}';
 								} else {
-									$code.=PHP_EOL."\t\t\t".'{{ text_field("'.$attribute.'", "size" => 30) }}';
+									$code.=PHP_EOL."\t\t\t".'{{ text_field("'.$attribute.'", "size" : 30) }}';
 								}
 							}
 						}
