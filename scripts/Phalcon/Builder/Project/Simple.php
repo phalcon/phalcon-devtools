@@ -40,7 +40,7 @@ class Simple
 		'app/config',
 		'app/models',
 		'app/controllers',
-		'app/cache'
+		'app/cache',
 		'app/views/index',
 		'app/views/layouts',
 		'app/cache/volt',
@@ -53,6 +53,11 @@ class Simple
 		'public/files',
 		'public/js',
 		'.phalcon'
+	);
+
+	private $_cachedirs = array(
+		'app/cache/volt',
+		'app/cache/views',
 	);
 
 	/**
@@ -125,7 +130,7 @@ class Simple
 	 */
 	private function createConfig($path, $templatePath, $name, $type)
 	{
-		$config_files = ['config', 'loader', 'router', 'services'];
+		$config_files = ['config', 'loader', 'routes', 'services'];
 		foreach ($config_files as $value) {
 			if (file_exists($path.'app/config/'.$value.'.' . $type) == false) {
 				$str = file_get_contents($templatePath . '/project/simple/'.$value.'.' . $type);
@@ -175,6 +180,10 @@ class Simple
 
 		foreach ($this->_dirs as $dir) {
 			@mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir);
+		}
+
+		foreach ($this->_cachedirs as $dir) {
+			@mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir, 777);
 		}
 
 		if (isset($options['useIniConfig'])) {
