@@ -254,19 +254,19 @@ class ScaffoldDBM extends Component
 			//View layouts
 			$this->_makeLayouts($path, $options);
 
-			//View index.phtml
+			//View index.volt
 			$this->_makeViewIndex($path, $options);
 
-			//View search.phtml
+			//View search.volt
 			$this->_makeViewSearch($path, $options);
 
-			//View new.phtml
+			//View new.volt
 			$this->_makeViewNew($path, $options);
 
-			//View edit.phtml
+			//View edit.volt
 			$this->_makeViewEdit($path, $options);
 
-			//View relation.phtml
+			//View relation.volt
 			$this->_makeViewRelation($path, $options);
 		}
 		$this->createIndexViewFiles($options['viewsDir'], $schemaAry);
@@ -305,7 +305,7 @@ class ScaffoldDBM extends Component
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Database Management System</title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="/css/base.css" />
+        {{ stylesheet_link("css/base.css") }}
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     </head>
     <body>
@@ -323,7 +323,7 @@ class ScaffoldDBM extends Component
 		foreach ($schemaAry as $name) {
 			$ctrlName = Text::camelize($name);
 			$code .= '<li>
-                                <?php echo Phalcon\Tag::linkTo("'.strtolower($ctrlName).'/index", "'.$ctrlName.'") ?>
+                                {{ link_to("'.strtolower($ctrlName).'/index", "'.$ctrlName.'") }}
                             </li>';
 		}
 
@@ -332,7 +332,7 @@ class ScaffoldDBM extends Component
             </div>
         </div></div>
         <div class="container">
-        <?php echo $this->getContent(); ?>
+        {{ content() }}
         </div>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     </body>
@@ -340,7 +340,7 @@ class ScaffoldDBM extends Component
 		
 
 
-		$file = $path.'index.phtml';
+		$file = $path.'index.volt';
     	file_put_contents($file, $code);
 	}
 
@@ -397,7 +397,10 @@ class ScaffoldDBM extends Component
 		if ($this->request->isPost()) {
 			$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->di, "'.$options['className'].'", $_POST);
 			$this->session->conditions = $query->getConditions();
-			$this->session->bind = $query->getParams()["bind"];
+			$params = $query->getParams();
+			if (isset($params[\'bind\'])) {
+				$this->session->bind = $params["bind"];
+			}
 		} else {
 			$numberPage = $this->request->getQuery("page", "int");
 			if ($numberPage <= 0) {
@@ -623,17 +626,17 @@ class ScaffoldDBM extends Component
 		}
 
 		$fileName = Text::uncamelize($options['name']);
-		$viewPath = $dirPathLayouts.'/'.$fileName.'.phtml';
+		$viewPath = $dirPathLayouts.'/'.$fileName.'.volt';
 		if (!file_exists($viewPath)) {
 
 			//View model layout
 			$code = '<div class="tabbable tabs-left">
   <ul class="nav nav-tabs">
-     <li><?php echo \Phalcon\Tag::linkTo(array("'.$fileName.'/index", "Search")); ?></li>
-     <li><?php echo \Phalcon\Tag::linkTo(array("'.$fileName.'/new", "Create")); ?></li>
+     <li>{{ link_to("'.$fileName.'/index", "Search") }}</li>
+     <li>{{ link_to("'.$fileName.'/new", "Create") }}</li>
   </ul>
   <div class="tab-content">
-  <?php echo $this->getContent(); ?>
+  {{ content() }}
   </div>
 </div>';
 			$code = str_replace("\t", "    ", $code);
@@ -705,31 +708,30 @@ class ScaffoldDBM extends Component
 			"\t\t\t".'<td align="left">';
 
 			if(isset($relationField[$attribute])){
-				$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::select(array("'.$attribute.'", $'.$selectDefinition[$attribute]['varName'].
-					', "using" => "'.$selectDefinition[$attribute]['primaryKey'].','.$selectDefinition[$attribute]['detail'].'", "useDummy" => true)) ?>';
+				$code.=PHP_EOL."\t\t\t\t".'{{ select("'.$attribute.'", '.$selectDefinition[$attribute]['varName'].', \'using\': [\''.$selectDefinition[$attribute]['primaryKey'].'\', \''.$selectDefinition[$attribute]['detail'].'\',"useDummy" => true]) }}';	
 			} else {
 				//PKs
 				if (($action=='new' || $action=='edit' ) && $attribute == $identityField) {
 					if ($action=='edit'){
-						$code.=PHP_EOL."\t\t\t\t".'<input type="hidden" name="'.$attribute.'" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
+						$code.=PHP_EOL."\t\t\t\t".'<input type="hidden" name="'.$attribute.'" id="'.$attribute.'" value="{{ '.$attribute.' }}" />';
 					}
 				} else {
 					//Char Field
 					if ($dataType==\Phalcon\Db\Column::TYPE_CHAR) {
-						$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'")) ?>';
+						$code.=PHP_EOL."\t\t\t\t".'{{ text_field("'.$attribute.'") }}';
 					} else {
 						//Decimal field
 						if ($dataType==\Phalcon\Db\Column::TYPE_DECIMAL || $dataType==\Phalcon\Db\Column::TYPE_INTEGER) {
-							$code.=PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "numeric")) ?>';
+							$code.=PHP_EOL."\t\t\t".'{{ text_field("'.$attribute.'", "type" => "numeric") }}';
 						} else {
 							//Date field
 							if ($dataType==\Phalcon\Db\Column::TYPE_DATE) {
-								$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
+								$code.=PHP_EOL."\t\t\t\t".'{{ text_field("'.$attribute.'", "type" => "date") }}';
 							} else {
 								if ($dataType==\Phalcon\Db\Column::TYPE_TEXT) {
-									$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textArea(array("'.$attribute.'", "cols" => "40", "rows" => "5")) ?>';
+									$code.=PHP_EOL."\t\t\t\t".'{{ text_area("'.$attribute.'", "cols" : "40", "rows" : "5") }}';
 								} else {
-									$code.=PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "size" => 30)) ?>';
+									$code.=PHP_EOL."\t\t\t".'{{ text_field("'.$attribute.'", "size" => 30) }}';
 								}
 							}
 						}
@@ -766,11 +768,11 @@ class ScaffoldDBM extends Component
 		$plural = $options['plural'];
 		$name = $options['name'];
 
-		$viewPath = $dirPath.'/index.phtml';
+		$viewPath = $dirPath.'/index.volt';
 
-		$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.
+		$code = '{{ content() }}'.PHP_EOL.
 		"\t".'<h1>Search '.$plural.'</h1>'.PHP_EOL.
-		"\t".'<?php echo \Phalcon\Tag::form(array("'.$options['name'].'/search")) ?>'.PHP_EOL.
+		"\t".'{{ form("'.$options['name'].'/search", "method":"post") }}'.PHP_EOL.
 		"\t".'<table>'.PHP_EOL;
 
 		//make fields by action
@@ -778,20 +780,20 @@ class ScaffoldDBM extends Component
 
 		$code.= PHP_EOL.
 		"\t\t".'<tr>'.PHP_EOL.
-		"\t\t\t".'<td></td><td><?php echo \Phalcon\Tag::submitButton(array("Search")) ?></td>'.PHP_EOL.
+		"\t\t\t".'<td></td><td>{{ submit_button("Search") }}</td>'.PHP_EOL.
 		"\t\t".'</tr>'.PHP_EOL;
 
 		$code.= "\t".'</table>'.PHP_EOL.
 		'</form>'.PHP_EOL.
 		'</div>';
 
-		//index.phtml
+		//index.volt
 		$code = str_replace("\t", "    ", $code);
 		file_put_contents($viewPath, $code);
 	}
 
 	/**
-	 * make views index.phtml of model by scaffold
+	 * make views index.volt of model by scaffold
 	 *
 	 * @param array $options
 	 */
@@ -803,7 +805,7 @@ class ScaffoldDBM extends Component
 			mkdir($dirPath);
 		}
 
-		$viewPath = $dirPath.'/new.phtml';
+		$viewPath = $dirPath.'/new.volt';
 		if (!file_exists($viewPath)) {
 
 			$relationField = $options['relationField'];
@@ -816,24 +818,24 @@ class ScaffoldDBM extends Component
 			$plural = $options['plural'];
 			$name = $options['name'];
 
-			$code = '<?php echo \Phalcon\Tag::form("'.$options['name'].'/create") ?>'.PHP_EOL.PHP_EOL.
-			'<?php echo $this->getContent(); ?>'.PHP_EOL.PHP_EOL.
+			$code = '{{ form("'.$options['name'].'/create", "method":"post") }}'.PHP_EOL.PHP_EOL.
+			'{{ content() }}'.PHP_EOL.PHP_EOL.
 			"\t".'<h1>Create '.$options['single'].'</h1>'.PHP_EOL.
 			"\t".'<table>'.PHP_EOL;
 
 			//make fields by action
 			$code.= self::_makeFields($path, $options, 'new');
 
-			$code.= "\t".'</table><?php echo \Phalcon\Tag::submitButton("Save") ?>' . PHP_EOL .'<?php echo \Phalcon\Tag::endForm() ?>' . PHP_EOL;
+			$code.= "\t".'</table>{{ submit_button("Save") }}' . PHP_EOL .'</form>' . PHP_EOL;
 
-			//index.phtml
+			//index.volt
 			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 		}
 	}
 
 	/**
-	 * make views index.phtml of model by scaffold
+	 * make views index.volt of model by scaffold
 	 *
 	 * @param array $options
 	 */
@@ -845,7 +847,7 @@ class ScaffoldDBM extends Component
 			mkdir($dirPath);
 		}
 
-		$viewPath = $dirPath.'/edit.phtml';
+		$viewPath = $dirPath.'/edit.volt';
 		if($viewPath){
 
 			$relationField = $options['relationField'];
@@ -858,8 +860,8 @@ class ScaffoldDBM extends Component
 			$plural = $options['plural'];
 			$name = $options['name'];
 
-			$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.PHP_EOL;
-			$code.= '<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL;
+			$code = '{{ content() }}'.PHP_EOL.PHP_EOL;
+			$code.= '{{ form("'.$options['name'].'/save", "method":"post") }}'.PHP_EOL;
 			$code.= '<h1>Edit '.$options['name'].'</h1>'.PHP_EOL.
 			'</div>'.PHP_EOL.PHP_EOL.
 			"\t".'<table align="center">'.PHP_EOL;
@@ -868,10 +870,10 @@ class ScaffoldDBM extends Component
 			$code.= self::_makeFields($path, $options, 'edit');
 
 			$code.= "\t".'</table>'.PHP_EOL.
-			'<?php echo \Phalcon\Tag::submitButton(array("Save")) ?>'.PHP_EOL.PHP_EOL.
-			"\t".'<?php echo \Phalcon\Tag::endForm() ?>'.PHP_EOL;
+			'{{ submit_button("Save") }}'.PHP_EOL.PHP_EOL.
+			"\t".'</form>'.PHP_EOL;
 
-			//index.phtml
+			//index.volt
 			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 
@@ -879,7 +881,7 @@ class ScaffoldDBM extends Component
 	}
 
 	/**
-	 * make view search.phtml of model by scaffold
+	 * make view search.volt of model by scaffold
 	 *
 	 * @param array $options
 	 */
@@ -888,7 +890,7 @@ class ScaffoldDBM extends Component
 
 		//View model layout
 		$dirPath = $options['viewsDir'].$options['name'];
-		$viewPath = $dirPath.'/search.phtml';
+		$viewPath = $dirPath.'/search.volt';
 
 		//indexing belogsTo
 		$belongsTo = array();
@@ -898,7 +900,7 @@ class ScaffoldDBM extends Component
 
 		if (!file_exists($viewPath)) {
 
-			$code = '<?php $this->getContent(); ?>
+			$code = '{{ content() }}
 <table class="table table-striped">'.PHP_EOL.
 			"\t".'<thead>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL;
@@ -911,42 +913,42 @@ class ScaffoldDBM extends Component
 			$code.="\t\t".'</tr>'.PHP_EOL.
 			"\t".'</thead>'.PHP_EOL.
 			"\t".'<tbody>'.PHP_EOL.
-			"\t".'<?php
-		if(isset($page->items)){
-			foreach($page->items as $'.$options['name'].'){ ?>'.PHP_EOL.
+			"\t".'
+		{% if page.items is defined %}
+			{% for '.$options['name'].' in page.items %}'.PHP_EOL.
 				"\t\t".'<tr>'.PHP_EOL;
 				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
 				foreach($options['dataTypes'] as $fieldName => $dataType){
 					if (isset($belongsTo[$fieldName])) {
 						$url = strtolower($belongsTo[$fieldName]['referencedModel']).'/relation/'.$belongsTo[$fieldName]['relationFields'].'/';
-						$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$url.'".$'.$options['name'].'->'.$fieldName.', ';
+						$code.="\t\t\t".'<td>{{ link_to("'.$url.'"~'.$options['name'].'.'.$fieldName.', ';
 					} else {
-						$code.="\t\t\t".'<td><?php echo ';
+						$code.="\t\t\t".'<td>{{ ';
 					}
 					if (!isset($options['allReferences'][$fieldName])) {
 						if (strpos($dataType, 'date')!==false) {
-							$code.='(string) $'.$options['name'].'->'.$fieldName;
+							$code.= $options['name'].'.'.$fieldName;
 						} else {
 							if (strpos($dataType, 'decimal')!==false) {
-								$code.='(string) $'.$options['name'].'->'.$fieldName;
+								$code.= $options['name'].'.'.$fieldName;
 							} else {
-								$code.='$'.$options['name'].'->'.$fieldName;
+								$code.= $options['name'].'.'.$fieldName;
 							}
 						}
 					} else {
 						$detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
-						$code.='$'.$options['name'].'->get'.$options['allReferences'][$fieldName]['tableName'].'()->get'.$detailField.'()';
+						$code.= $options['name'].'.get'.$options['allReferences'][$fieldName]['tableName'].'().get'.$detailField.'()';
 					}
 					if (isset($belongsTo[$fieldName])) {
-						$code .= ')); ?></td>'.PHP_EOL;
+						$code .= ') }}</td>'.PHP_EOL;
 					} else {
-						$code.=' ?></td>'.PHP_EOL;
+						$code.=' }}</td>'.PHP_EOL;
 					}
 				}
 
 				$primaryKeyCode = array();
 				foreach($options['primaryKeys'] as $primaryKey){
-					$primaryKeyCode[] = '$'.$options['name'].'->'.$primaryKey;
+					$primaryKeyCode[] = '~'.$options['name'].'.'.$primaryKey;
 				}
 
 				if (count($options['hasMany'])>0) {
@@ -954,27 +956,27 @@ class ScaffoldDBM extends Component
 					foreach ($options['hasMany'] as $data) {
 						$tbName = $data['camelizedName'];
 						$url = strtolower($tbName).'/relation/'.$data['relationFields'].'/';
-						$code .= '<?php echo \Phalcon\Tag::linkTo(array("'.$url.'".'.'$'.$options['name'].'->'.$data['fields'].', "'.$tbName.'('.$data['relationFields'].')")); ?><br />';
+						$code .= '{{ link_to("'.$url.'"~'.$options['name'].'.'.$data['fields'].', "'.$tbName.'('.$data['relationFields'].')") }}<br />';
 					}
 					$code .= "</td>".PHP_EOL;
 				}
-				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit")); ?></td>'.PHP_EOL;
-				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete")); ?></td>'.PHP_EOL;
+				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit") }}</td>'.PHP_EOL;
+				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete") }}</td>'.PHP_EOL;
 
 				$code.="\t\t".'</tr>'.PHP_EOL.
-				"\t".'<?php }
-		} ?>'.PHP_EOL.
+				"\t".'{% endfor %}
+		{% endif %}'.PHP_EOL.
 			"\t".'</tbody>'.PHP_EOL.
 			"\t".'<tbody>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL.
 			"\t\t\t".'<td colspan="'.count($options['attributes']).'" align="right">'.PHP_EOL.
 			"\t\t\t\t".'<table align="center">'.PHP_EOL.
 			"\t\t\t\t\t".'<tr>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search", "First") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->before, "Previous") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->next, "Next") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->last, "Last") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo $page->current, "/", $page->total_pages ?></td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search", "First") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->before, "Previous") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->next, "Next") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->last, "Last") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ page.current~"/"~page.total_pages }}</td>'.PHP_EOL.
 			"\t\t\t\t\t".'</tr>'.PHP_EOL.
 			"\t\t\t\t".'</table>'.PHP_EOL.
 			"\t\t\t".'</td>'.PHP_EOL.
@@ -987,7 +989,7 @@ class ScaffoldDBM extends Component
 	}
 
 	/**
-	 * make view relation.phtml of model by scaffold
+	 * make view relation.volt of model by scaffold
 	 *
 	 * @param array $options
 	 */
@@ -996,7 +998,7 @@ class ScaffoldDBM extends Component
 
 		//View model layout
 		$dirPath = $options['viewsDir'].$options['name'];
-		$viewPath = $dirPath.'/search.phtml';
+		$viewPath = $dirPath.'/relation.volt';
 
 		//indexing belogsTo
 		$belongsTo = array();
@@ -1005,8 +1007,7 @@ class ScaffoldDBM extends Component
 		}
 
 		if (!file_exists($viewPath)) {
-
-			$code = '<?php $this->getContent(); ?>
+			$code = '{{ content() }}
 <table class="table table-striped">'.PHP_EOL.
 			"\t".'<thead>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL;
@@ -1019,70 +1020,70 @@ class ScaffoldDBM extends Component
 			$code.="\t\t".'</tr>'.PHP_EOL.
 			"\t".'</thead>'.PHP_EOL.
 			"\t".'<tbody>'.PHP_EOL.
-			"\t".'<?php
-		if(isset($page->items)){
-			foreach($page->items as $'.$options['name'].'){ ?>'.PHP_EOL.
+			"\t".'
+		{% if page.items is defined %}
+			{% for '.$options['name'].' in page.items %}'.PHP_EOL.
 				"\t\t".'<tr>'.PHP_EOL;
 				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
 				foreach($options['dataTypes'] as $fieldName => $dataType){
 					if (isset($belongsTo[$fieldName])) {
 						$url = strtolower($belongsTo[$fieldName]['referencedModel']).'/relation/'.$belongsTo[$fieldName]['relationFields'].'/';
-						$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$url.'".$'.$options['name'].'->'.$fieldName.', ';
+						$code.="\t\t\t".'<td>{{ link_to("'.$url.'"~'.$options['name'].'.'.$fieldName.', ';
 					} else {
-						$code.="\t\t\t".'<td><?php echo ';
+						$code.="\t\t\t".'<td>{{ ';
 					}
 					if (!isset($options['allReferences'][$fieldName])) {
 						if (strpos($dataType, 'date')!==false) {
-							$code.='(string) $'.$options['name'].'->'.$fieldName;
+							$code.= $options['name'].'.'.$fieldName;
 						} else {
 							if (strpos($dataType, 'decimal')!==false) {
-								$code.='(string) $'.$options['name'].'->'.$fieldName;
+								$code.= $options['name'].'.'.$fieldName;
 							} else {
-								$code.='$'.$options['name'].'->'.$fieldName;
+								$code.= $options['name'].'.'.$fieldName;
 							}
 						}
 					} else {
 						$detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
-						$code.='$'.$options['name'].'->get'.$options['allReferences'][$fieldName]['tableName'].'()->get'.$detailField.'()';
+						$code.= $options['name'].'.get'.$options['allReferences'][$fieldName]['tableName'].'().get'.$detailField.'()';
 					}
 					if (isset($belongsTo[$fieldName])) {
-						$code .= ')); ?></td>'.PHP_EOL;
+						$code .= ') }}</td>'.PHP_EOL;
 					} else {
-						$code.=' ?></td>'.PHP_EOL;
+						$code.=' }}</td>'.PHP_EOL;
 					}
 				}
 
 				$primaryKeyCode = array();
 				foreach($options['primaryKeys'] as $primaryKey){
-					$primaryKeyCode[] = '$'.$options['name'].'->'.$primaryKey;
+					$primaryKeyCode[] = '~'.$options['name'].'.'.$primaryKey;
 				}
 
 				if (count($options['hasMany'])>0) {
 					$code .= "\t\t\t".'<td>';
 					foreach ($options['hasMany'] as $data) {
 						$tbName = $data['camelizedName'];
-						$url = strtolower($tbName).'/relation/'.$data['fields'].'/';
-						$code .= '<?php echo \Phalcon\Tag::linkTo(array("'.$url.'".'.'$'.$options['name'].'->'.$data['fields'].', "'.$tbName.'")); ?>';
+						$url = strtolower($tbName).'/relation/'.$data['relationFields'].'/';
+						$code .= '{{ link_to("'.$url.'"~'.$options['name'].'.'.$data['fields'].', "'.$tbName.'('.$data['relationFields'].')") }}<br />';
 					}
 					$code .= "</td>".PHP_EOL;
 				}
-				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit")); ?></td>'.PHP_EOL;
-				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete")); ?></td>'.PHP_EOL;
+				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit") }}</td>'.PHP_EOL;
+				$code.="\t\t\t".'<td>{{ link_to("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete") }}</td>'.PHP_EOL;
 
 				$code.="\t\t".'</tr>'.PHP_EOL.
-				"\t".'<?php }
-		} ?>'.PHP_EOL.
+				"\t".'{% endfor %}
+		{% endif %}'.PHP_EOL.
 			"\t".'</tbody>'.PHP_EOL.
 			"\t".'<tbody>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL.
 			"\t\t\t".'<td colspan="'.count($options['attributes']).'" align="right">'.PHP_EOL.
 			"\t\t\t\t".'<table align="center">'.PHP_EOL.
 			"\t\t\t\t\t".'<tr>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search", "First") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->before, "Previous") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->next, "Next") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->last, "Last") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo $page->current, "/", $page->total_pages ?></td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search", "First") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->before, "Previous") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->next, "Next") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ link_to("'.$options['name'].'/search?page=".$page->last, "Last") }}</td>'.PHP_EOL.
+			"\t\t\t\t\t\t".'<td>{{ page.current~"/"~page.total_pages }}</td>'.PHP_EOL.
 			"\t\t\t\t\t".'</tr>'.PHP_EOL.
 			"\t\t\t\t".'</table>'.PHP_EOL.
 			"\t\t\t".'</td>'.PHP_EOL.
