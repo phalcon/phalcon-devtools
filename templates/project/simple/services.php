@@ -57,6 +57,7 @@ $di->set('db', function() use ($config) {
 		'username' => $config->database->username,
 		'password' => $config->database->password,
 		'dbname' => $config->database->dbname
+		"charset" => "utf8",
 	));
 });
 

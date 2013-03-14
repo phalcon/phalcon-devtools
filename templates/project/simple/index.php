@@ -7,7 +7,8 @@ try {
 	/**
 	 * Read the configuration
 	 */
-	@@config@@
+	//@@config@@
+	$config = include __DIR__ . "/../app/config/config.php";
 
 	/**
 	 * Read auto-loader

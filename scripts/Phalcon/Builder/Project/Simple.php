@@ -40,8 +40,12 @@ class Simple
 		'app/config',
 		'app/models',
 		'app/controllers',
+		'app/cache'
 		'app/views/index',
 		'app/views/layouts',
+		'app/cache/volt',
+		'app/cache/views',
+		'app/logs',
 		'public',
 		'public/img',
 		'public/css',
@@ -99,31 +103,14 @@ class Simple
 	 */
 	private function createIndexViewFiles($path, $templatePath)
 	{
+		$files = ['views/index.volt', 'views/index/index.volt'];
 
-		$file = $path.'app/views/index.volt';
-		if (!file_exists($file)) {
-			$str = file_get_contents($templatePath . '/project/simple/views/index.volt');
-			file_put_contents($file, $str);
-		}
-
-		$file = $path.'app/views/index/index.volt';
-		if (!file_exists($file)) {
-			$str = file_get_contents($templatePath . '/project/simple/views/index/index.volt');
-			file_put_contents($file, $str);
-		}
-
-		return;
-
-		$file = $path.'app/views/index.phtml';
-		if (!file_exists($file)) {
-			$str = file_get_contents($templatePath . '/project/simple/views/index.phtml');
-			file_put_contents($file, $str);
-		}
-
-		$file = $path.'app/views/index/index.phtml';
-		if (!file_exists($file)) {
-			$str = file_get_contents($templatePath . '/project/simple/views/index/index.phtml');
-			file_put_contents($file, $str);
+		foreach ($files as $value) {
+			$file = $path.'app/'.$value;
+			if (!file_exists($file)) {
+				$str = file_get_contents($templatePath . '/project/simple/'.$value);
+				file_put_contents($file, $str);
+			}
 		}
 	}
 
@@ -138,23 +125,13 @@ class Simple
 	 */
 	private function createConfig($path, $templatePath, $name, $type)
 	{
-		$file = $path . 'app/config/config.' . $type;
-		if (file_exists($file) == false) {
-			$str = file_get_contents($templatePath . '/project/simple/config.' . $type);
-			$str = preg_replace('/@@name@@/', $name, $str);
-			file_put_contents($file, $str);
-		}
-
-		$file = $path . 'app/config/loader.php';
-		if (file_exists($file) == false) {
-			$str = file_get_contents($templatePath . '/project/simple/loader.php');
-			file_put_contents($file, $str);
-		}
-
-		$file = $path . 'app/config/services.php';
-		if (file_exists($file) == false) {
-			$str = file_get_contents($templatePath . '/project/simple/services.php');
-			file_put_contents($file, $str);
+		$config_files = ['config', 'loader', 'router', 'services'];
+		foreach ($config_files as $value) {
+			if (file_exists($path.'app/config/'.$value.'.' . $type) == false) {
+				$str = file_get_contents($templatePath . '/project/simple/'.$value.'.' . $type);
+				$str = preg_replace('/@@name@@/', $name, $str);
+				file_put_contents($path.'app/config/'.$value.'.' . $type, $str);
+			}
 		}
 	}
 
