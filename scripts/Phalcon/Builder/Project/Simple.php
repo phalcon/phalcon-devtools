@@ -183,7 +183,7 @@ class Simple
 		}
 
 		foreach ($this->_cachedirs as $dir) {
-			@mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir, 777);
+			@chmod(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir, 777);
 		}
 
 		if (isset($options['useIniConfig'])) {

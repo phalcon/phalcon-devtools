@@ -95,6 +95,7 @@ class Project extends Component
 		$success = $builder->build($name, $path, $templatePath, $this->_options);
 		if ($success===true) {
 			print Color::success('Project "' . $name . '" was successfully created.') . PHP_EOL;
+			print Color::error('The permission of Directory under app/cache/ should be 0777. CHECK BEFORE USE!') . PHP_EOL;
 		}
 
 		return $success;
