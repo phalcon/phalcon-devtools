@@ -363,11 +363,11 @@ class ScaffoldDBM extends Component
 			"\t".'function indexAction()'.PHP_EOL."\t".'{
 		$this->session->conditions = null;'.PHP_EOL;
 
-			if (isset($options['relationFields'])) {
-				if (count($options['relationFields'])) {
+			if (isset($options['belongsTo'])) {
+				if (count($options['belongsTo'])) {
 					$code.=PHP_EOL;
-					foreach ($options['relationFields'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+					foreach ($options['belongsTo'] as $relationField) {
+						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['camelizedName'].'::find());'.PHP_EOL;
 					}
 				}
 			}
@@ -435,10 +435,11 @@ class ScaffoldDBM extends Component
 			$code.="\t".'public function newAction()
 	{'.PHP_EOL.PHP_EOL;
 
-			if (isset($options['relationFields'])) {
-				if (count($options['relationFields'])) {
-					foreach ($options['relationFields'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+			if (isset($options['belongsTo'])) {
+				if (count($options['belongsTo'])) {
+					$code.=PHP_EOL;
+					foreach ($options['belongsTo'] as $relationField) {
+						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['camelizedName'].'::find());'.PHP_EOL;
 					}
 				}
 			}
@@ -468,11 +469,11 @@ class ScaffoldDBM extends Component
 				$code.="\t\t\t".'Tag::displayTo("'.$field.'", $'.$options['name'].'->'.$field.');'.PHP_EOL;
 			}
 
-			if (isset($options['relationFields'])) {
-				if (count($options['relationFields'])) {
+			if (isset($options['belongsTo'])) {
+				if (count($options['belongsTo'])) {
 					$code.=PHP_EOL;
-					foreach ($options['relationFields'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
+					foreach ($options['belongsTo'] as $relationField) {
+						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['camelizedName'].'::find());'.PHP_EOL;
 					}
 				}
 			}
@@ -696,6 +697,12 @@ class ScaffoldDBM extends Component
 		$selectDefinition = $options['selectDefinition'];
 		$identityField = $options['identityField'];
 
+		//indexing belogsTo
+		$belongsTo = array();
+		foreach ($options['belongsTo'] as $data) {
+			$belongsTo[$data['fields']] = $data;
+		}
+
 		foreach ($options['dataTypes'] as $attribute => $dataType) {
 
 			$code.= "\t\t".'<tr>'.PHP_EOL.
@@ -707,8 +714,8 @@ class ScaffoldDBM extends Component
 			$code .= "\t\t\t".'</td>'.PHP_EOL.
 			"\t\t\t".'<td align="left">';
 
-			if(isset($relationField[$attribute])){
-				$code.=PHP_EOL."\t\t\t\t".'{{ select("'.$attribute.'", '.$selectDefinition[$attribute]['varName'].', \'using\': [\''.$selectDefinition[$attribute]['primaryKey'].'\', \''.$selectDefinition[$attribute]['detail'].'\',"useDummy" => true]) }}';	
+			if(isset($belongsTo[$attribute])){
+				$code.=PHP_EOL."\t\t\t\t".'{{ select("'.$attribute.'", '.$selectDefinition[$attribute]['relationFields'].', \'using\': [\''.$selectDefinition[$attribute]['primaryKey'].'\', \''.$selectDefinition[$attribute]['detail'].'\',"useDummy" => true]) }}';	
 			} else {
 				//PKs
 				if (($action=='new' || $action=='edit' ) && $attribute == $identityField) {
