@@ -367,7 +367,7 @@ class ScaffoldDBM extends Component
 				if (count($options['belongsTo'])) {
 					$code.=PHP_EOL;
 					foreach ($options['belongsTo'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['camelizedName'].'::find());'.PHP_EOL;
+						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['referencedModel'].'::find());'.PHP_EOL;
 					}
 				}
 			}
@@ -439,7 +439,7 @@ class ScaffoldDBM extends Component
 				if (count($options['belongsTo'])) {
 					$code.=PHP_EOL;
 					foreach ($options['belongsTo'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['camelizedName'].'::find());'.PHP_EOL;
+						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['referencedModel'].'::find());'.PHP_EOL;
 					}
 				}
 			}
@@ -473,7 +473,7 @@ class ScaffoldDBM extends Component
 				if (count($options['belongsTo'])) {
 					$code.=PHP_EOL;
 					foreach ($options['belongsTo'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['camelizedName'].'::find());'.PHP_EOL;
+						$code.="\t\t".'$this->view->setVar("'.$relationField['fields'].'", '.$relationField['referencedModel'].'::find());'.PHP_EOL;
 					}
 				}
 			}
@@ -715,7 +715,7 @@ class ScaffoldDBM extends Component
 			"\t\t\t".'<td align="left">';
 
 			if(isset($belongsTo[$attribute])){
-				$code.=PHP_EOL."\t\t\t\t".'{{ select("'.$attribute.'", '.$selectDefinition[$attribute]['relationFields'].', \'using\': [\''.$selectDefinition[$attribute]['primaryKey'].'\', \''.$selectDefinition[$attribute]['detail'].'\',"useDummy" => true]) }}';	
+				$code.=PHP_EOL."\t\t\t\t".'{{ select("'.$attribute.'", '.$selectDefinition[$attribute]['varName'].', \'using\': [\''.$selectDefinition[$attribute]['primaryKey'].'\', \''.$selectDefinition[$attribute]['detail'].'\',"useDummy" => true]) }}';	
 			} else {
 				//PKs
 				if (($action=='new' || $action=='edit' ) && $attribute == $identityField) {
