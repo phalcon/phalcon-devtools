@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,11 +20,11 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Text;
-use Phalcon\Builder;
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
+use Phalcon\Text,
+	Phalcon\Builder,
+	Phalcon\Script\Color,
+	Phalcon\Commands\Command,
+	Phalcon\Commands\CommandsInterface;
 
 /**
  * AllModels
@@ -57,13 +57,13 @@ class AllModels extends Command implements CommandsInterface
 
 		$path = '';
 		if ($this->isReceivedOption('directory')) {
-			$path = $this->getOption('directory').'/';
+			$path = $this->getOption('directory') . '/';
 		}
 
 		$config = null;
 		if (!$this->isReceivedOption('models')) {
 
-			$fileType = file_exists($path."app/config/config.ini") ? "ini" : "php";
+			$fileType = file_exists($path . "app/config/config.ini") ? "ini" : "php";
 
 			if ($this->isReceivedOption('config')){
 				$configPath = $path.$this->getOption('config')."/config.".$fileType;

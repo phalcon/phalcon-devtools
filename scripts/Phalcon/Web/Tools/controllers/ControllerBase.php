@@ -36,17 +36,32 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 		if (isset($_SERVER['REMOTE_ADDR']) && ($_SERVER['REMOTE_ADDR']=='127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1')) {
 			return false;
 		} else {
-			throw new Phalcon\Exception('WebTools can only be used on the local machine (Your IP: '.$_SERVER['REMOTE_ADDR'].')');
+			throw new Phalcon\Exception('WebTools can only be used on the local machine (Your IP: ' . $_SERVER['REMOTE_ADDR'] . ')');
 		}
-	}
+	}	
 
-	/**
-	 * Returns connection to DB
-	 */
-	protected function _getConnection(){
-		$connection = Phalcon_Db::factory($this->_settings->database->adapter, $this->_settings->database);
-		//$connection->setFetchMode(Phalcon_Db::DB_NUM);
-		return $connection;
+	protected function _listTables($all=false)
+	{
+		$config = Tools::getConfig();
+		$connection = Tools::getConnection();
+
+		if ($all) {
+			$tables = array('all' => 'All');
+		} else {
+			$tables = array();
+		}
+
+		$dbTables = $connection->listTables();
+		foreach ($dbTables as $dbTable) {
+			$tables[$dbTable] = $dbTable;
+		}		
+
+		$this->view->tables = $tables;		
+		if ($config->database->adapter != 'Sqlite') {
+			$this->view->databaseName = $config->database->dbname;
+		} else {
+			$this->view->databaseName = null;
+		}
 	}
 
 }

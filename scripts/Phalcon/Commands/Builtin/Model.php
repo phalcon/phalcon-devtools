@@ -20,11 +20,11 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Text;
-use Phalcon\Builder;
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
+use Phalcon\Text,
+	Phalcon\Builder,
+	Phalcon\Script\Color,
+	Phalcon\Commands\Command,
+	Phalcon\Commands\CommandsInterface;
 
 /**
  * CreateModel
@@ -112,7 +112,6 @@ class Model extends Command implements CommandsInterface
 		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
 		$this->printParameters($this->_possibleParameters);
-
 	}
 
 	/**

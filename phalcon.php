@@ -21,10 +21,12 @@
 
 error_reporting(E_ALL);
 
-use Phalcon\Script;
-use Phalcon\Version;
-use Phalcon\Script\Color;
-use Phalcon\Commands\CommandsListener;
+use Phalcon\Script,
+	Phalcon\Version,
+	Phalcon\Script\Color,
+	Phalcon\Commands\CommandsListener,
+	Phalcon\Loader,
+	Phalcon\Events\Manager as EventsManager;
 
 try {
 	
@@ -34,14 +36,14 @@ try {
 		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 	}
 
-	$loader = new \Phalcon\Loader();
+	$loader = new Loader();
 
 	$loader->registerDirs(array(
 		__DIR__ . '/scripts/'
 	));
 
 	$loader->registerNamespaces(array(
-		'Phalcon' => __DIR__.'/scripts/'
+		'Phalcon' => __DIR__ . '/scripts/'
 	));
 
 	$loader->register();
@@ -57,7 +59,7 @@ try {
 	$vendor = sprintf('Phalcon DevTools (%s)', Version::get());
 	print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
 
-	$eventsManager = new Phalcon\Events\Manager();
+	$eventsManager = new EventsManager();
 
 	$eventsManager->attach('command', new CommandsListener());
 
@@ -70,7 +72,7 @@ try {
 		'\Phalcon\Commands\Builtin\AllModels',
 		'\Phalcon\Commands\Builtin\Project',
 		'\Phalcon\Commands\Builtin\Scaffold',
-                '\Phalcon\Commands\Builtin\ScaffoldDBM',
+		'\Phalcon\Commands\Builtin\ScaffoldDBM',
 		'\Phalcon\Commands\Builtin\Migration',
 		'\Phalcon\Commands\Builtin\Webtools'
 	);
@@ -79,16 +81,15 @@ try {
 	}
 
 	$script->run();
-}
-catch (\Phalcon\Exception $e) {
+
+} catch (\Phalcon\Exception $e) {
 	if ($extensionLoaded) {
 		print Color::error($e->getMessage()) . PHP_EOL;
 	} else {
 		print 'ERROR: ' . $e->getMessage() . PHP_EOL;
 	}
 
-}
-catch (\Exception $e) {
+} catch (\Exception $e) {
 	if ($extensionLoaded) {
 		print Color::error($e->getMessage()) . PHP_EOL;
 	} else {

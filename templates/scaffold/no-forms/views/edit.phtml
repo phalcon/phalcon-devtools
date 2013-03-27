@@ -1,0 +1,46 @@
+<?php use Phalcon\Tag; ?>
+
+<?php echo $this->getContent(); ?>
+
+<?php echo Tag::form("$plural$/save") ?>
+
+<table width="100%">
+    <tr>
+        <td align="left"><?php echo Tag::linkTo(array("$plural$", "Back")) ?></td>
+        <td align="right"><?php echo Tag::submitButton(array("Save")) ?></td>
+    <tr>
+</table>
+
+<div align="center">
+    <h1>Edit robots</h1>
+</div>
+
+<table align="center">    
+    <tr>
+        <td align="right">
+            <label for="name">Name</label>
+        </td>
+        <td align="left">
+            <?php echo Tag::textField(array("name", "size" => 30)) ?>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <label for="type">Type</label>
+        </td>
+        <td align="left">
+            <?php echo Tag::textField(array("type", "size" => 30)) ?>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <label for="year">Year</label>
+        </td>
+        <td align="left">
+            <?php echo Tag::textField(array("year", "type" => "numeric")) ?>
+        </td>
+    </tr>
+    <?php echo Tag::hiddenField(array("id")) ?>
+</table>
+
+</form>

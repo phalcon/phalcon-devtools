@@ -20,10 +20,10 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder\Component;
-use Phalcon\Builder\BuilderException;
-use Phalcon\Text as Utils;
-use Phalcon\Script\Color;
+use Phalcon\Builder\Component,
+	Phalcon\Builder\BuilderException,
+	Phalcon\Text as Utils,
+	Phalcon\Script\Color;
 
 /**
  * AllModels
@@ -80,13 +80,20 @@ class AllModels extends Component
 		$adapter = $config->database->adapter;
 		$this->isSupportedAdapter($adapter);
 
-		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
-		$db = new $adapter(array(
-			'host'     => $config->database->host,
-			'username' => $config->database->username,
-			'password' => $config->database->password,
-			'name'     => $config->database->name,
-		));
+		if (isset($config->database->adapter)) {
+			$adapter = $config->database->adapter;
+		} else {
+			$adapter = 'Mysql';
+		}
+
+		if (is_object($config->database)) {
+			$configArray = $config->database->toArray();
+		} else {
+			$configArray = $config->database;
+		}				
+
+		$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+		$db = new $adapterName($configArray);		
 
 		$initialize = array();
 		if (isset($this->_options['schema'])) {
@@ -95,7 +102,7 @@ class AllModels extends Component
 			}
 			$schema = $this->_options['schema'];
 		} else {
-			$schema = $config->database->name;
+			$schema = $config->database->dbname;
 		}
 
 		$hasMany = array();
@@ -104,14 +111,14 @@ class AllModels extends Component
 		if ($defineRelations || $defineForeignKeys) {
 			foreach ($db->listTables($schema) as $name) {
 				if ($defineRelations) {
-					if(!isset($hasMany[$name])){
+					if (!isset($hasMany[$name])) {
 						$hasMany[$name] = array();
 					}
-					if(!isset($belongsTo[$name])){
+					if (!isset($belongsTo[$name])) {
 						$belongsTo[$name] = array();
 					}
 				}
-				if($defineForeignKeys){
+				if ($defineForeignKeys) {
 					$foreignKeys[$name] = array();
 				}
 				foreach ($db->tableOptions($name, $schema) as $field) {
@@ -137,6 +144,7 @@ class AllModels extends Component
 						}
 					}
 				}
+				
 				$camelizedName = Utils::camelize($name);
 				foreach ($db->describeReferences($name, $schema) as $reference) {
 					$columns = $reference->getColumns();

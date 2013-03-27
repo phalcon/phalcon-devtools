@@ -20,11 +20,11 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Db\Column;
-use Phalcon\Builder\Component;
-use Phalcon\Builder\BuilderException;
-use Phalcon\Script\Color;
-use Phalcon\Text as Utils;
+use Phalcon\Db\Column,
+	Phalcon\Builder\Component,
+	Phalcon\Builder\BuilderException,
+	Phalcon\Script\Color,
+	Phalcon\Text as Utils;
 
 /**
  * ModelBuilderComponent
@@ -162,13 +162,20 @@ class Model extends Component
 		$adapter = $config->database->adapter;
 		$this->isSupportedAdapter($adapter);
 
-		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
-		$db = new $adapter(array(
-			'host'     => $config->database->host,
-			'username' => $config->database->username,
-			'password' => $config->database->password,
-			'name'     => $config->database->name,
-		));
+		if (isset($config->database->adapter)) {
+			$adapter = $config->database->adapter;
+		} else {
+			$adapter = 'Mysql';
+		}
+
+		if (is_object($config->database)) {
+			$configArray = $config->database->toArray();
+		} else {
+			$configArray = $config->database;
+		}				
+
+		$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+		$db = new $adapterName($configArray);		
 
 		$initialize = array();
 		if (isset($this->_options['schema'])) {
@@ -177,7 +184,7 @@ class Model extends Component
 			}
 			$schema = $this->_options['schema'];
 		} else {
-			$schema = $config->database->name;
+			$schema = $config->database->dbname;
 		}
 
 		if ($this->_options['fileName'] != $this->_options['name']) {
@@ -241,7 +248,9 @@ class Model extends Component
 						$posibleMethods['get'.$methodName] = true;
 					}
 				}
+
 				require $modelPath;
+
 				$linesCode = file($modelPath);
 				$reflection = new \ReflectionClass($this->_options['className']);
 				foreach ($reflection->getMethods() as $method) {
@@ -261,14 +270,13 @@ class Model extends Component
 						}
 					}
 				}
-			}
-			catch(\ReflectionException $e) {
+			} catch (\ReflectionException $e) {
 			}
 		}
 
 		$validations = array();
 		foreach ($fields as $field) {
-			if ($field->getType() === \Phalcon\Db\Column::TYPE_CHAR) {
+			if ($field->getType() === Column::TYPE_CHAR) {
 				$domain = array();
 				if (preg_match('/\((.*)\)/', $field->getType(), $matches)) {
 					foreach (explode(',', $matches[1]) as $item) {
@@ -316,6 +324,7 @@ class Model extends Component
 		} else {
 			$validationsCode = "";
 		}
+
 		if ($alreadyInitialized == false) {
 			if (count($initialize) > 0) {
 				$initCode = "\n\t/**\n\t * Initializer method for model.\n\t */\n\tpublic function initialize()\n\t{\t\t\n".join(";\n", $initialize).";\n\t}\n";
@@ -338,7 +347,7 @@ class Model extends Component
 
 		$code.=$validationsCode.$initCode."\n";
 		foreach ($methodRawCode as $methodCode) {
-			$code.=$methodCode.PHP_EOL;
+			$code .= $methodCode . PHP_EOL;
 		}
 
 		if ($genDocMethods) {

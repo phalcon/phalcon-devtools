@@ -62,18 +62,8 @@ class MigrationsController extends ControllerBase
 
 	public function indexAction()
 	{
-
-		$connection = Tools::getConnection();
 		$this->_prepareVersions();
-
-		$tables = array('all' => 'All');
-
-		$result = $connection->query("SHOW TABLES");
-		$result->setFetchMode(Phalcon\DB::FETCH_NUM);
-		while($table = $result->fetchArray($result)){
-			$tables[$table[0]] = $table[0];
-		}
-		$this->view->setVar('tables', $tables);
+		$this->_listTables();
 	}
 
 	/**
@@ -139,7 +129,7 @@ class MigrationsController extends ControllerBase
 
 				$this->flash->success("The migration was executed successfully");
 			}
-			catch(BuilderException $e){
+			catch (BuilderException $e) {
 				$this->flash->error($e->getMessage());
 			}
 		}

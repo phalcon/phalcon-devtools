@@ -20,11 +20,10 @@
 
 namespace Phalcon\Web;
 
-use Phalcon\Version;
-use Phalcon\Script;
-use Phalcon\Script\Color;
-use Phalcon\Commands\CommandsListener;
-
+use Phalcon\Version,
+	Phalcon\Script,
+	Phalcon\Script\Color,
+	Phalcon\Commands\CommandsListener;
 
 /**
  * Phalcon\Web\Tools
@@ -125,7 +124,7 @@ class Tools
 			} else {
 				echo '<li>';
 			}
-			echo '<a href="'.$uri.'webtools.php?_url=/'.$controllerName.'/'.$action.'">'.$option['caption'].'</a></li>'.PHP_EOL;
+			echo '<a href="' . $uri . 'webtools.php?_url=/' . $controllerName . '/' . $action . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
 		}
 	}
 
@@ -208,7 +207,7 @@ class Tools
 		));
 
 		$loader->registerNamespaces(array(
-			'Phalcon' => $path.'/scripts/'
+			'Phalcon' => $path . '/scripts/'
 		));
 
 		$loader->register();
@@ -248,12 +247,21 @@ class Tools
 			});
 
 			$di->set('db', function() use ($config) {
-				return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
-					"host" => $config->database->host,
-					"username" => $config->database->username,
-					"password" => $config->database->password,
-					"dbname" => $config->database->name
-				));
+
+				if (isset($config->database->adapter)) {
+					$adapter = $config->database->adapter;
+				} else {
+					$adapter = 'Mysql';
+				}
+
+				if (is_object($config->database)) {
+					$configArray = $config->database->toArray();
+				} else {
+					$configArray = $config->database;
+				}				
+
+				$className = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+				return new $className($configArray);
 			});
 
 			self::$_di = $di;
@@ -281,14 +289,14 @@ class Tools
 	public static function install($path)
 	{
 
-		if(!is_dir('public/')){
+		if (!is_dir('public/')) {
 			throw new Exception("Document root cannot be located");
 		}
 
 		TBootstrap::install($path);
 		CodeMirror::install($path);
 
-		copy($path.'webtools.php', 'public/webtools.php');
+		copy($path . 'webtools.php', 'public/webtools.php');
 
 		$webToolsConfigPath = "public/webtools.config.php";
 

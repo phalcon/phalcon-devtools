@@ -20,7 +20,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Db\Column as Column;
+use Phalcon\Db\Column;
 
 /**
  * Phalcon\Mvc\Model\Migration

@@ -20,9 +20,9 @@
 
 namespace Phalcon\Commands;
 
-use Phalcon\Script;
-use Phalcon\Script\Color;
-use Phalcon\Events\Event;
+use Phalcon\Script,
+	Phalcon\Script\Color,
+	Phalcon\Events\Event;
 
 /**
  * Phalcon\Commands\CommandListener
@@ -43,7 +43,7 @@ class CommandsListener
 		}
 
 		$parameters = $command->parseParameters();
-		if (count($parameters) < ($command->getRequiredParams()+1) || $command->isReceivedOption('help') || $command->getOption(1) == 'help') {
+		if (count($parameters) < ($command->getRequiredParams() + 1) || $command->isReceivedOption('help') || $command->getOption(1) == 'help') {
 			$command->getHelp();
 			return false;
 		}

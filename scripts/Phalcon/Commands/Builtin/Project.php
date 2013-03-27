@@ -20,9 +20,10 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
+use Phalcon\Script\Color,
+	Phalcon\Commands\Command,
+	Phalcon\Commands\CommandsInterface,
+	Phalcon\Builder\Project as ProjectBuilder;
 
 /**
  * CreateProject
@@ -65,7 +66,7 @@ class Project extends Command implements CommandsInterface
 		$enableWebtools = $this->getOption(array('enable-webtools', 4), null, false);
 		$useConfigIni = $this->getOption('use-config-ini');
 
-		$builder = new \Phalcon\Builder\Project(array(
+		$builder = new ProjectBuilder(array(
 			'name' => $projectName,
 			'type' => $projectType,
 			'directory' => $projectPath,

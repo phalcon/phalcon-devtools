@@ -18,29 +18,16 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
-use Phalcon\Web\Tools;
-use Phalcon\Builder\BuilderException;
+use Phalcon\Tag,
+	Phalcon\Web\Tools,
+	Phalcon\Builder\BuilderException;
 
 class ModelsController extends ControllerBase
 {
 
 	public function indexAction()
 	{
-
-		$config = Tools::getConfig();
-		$connection = Tools::getConnection();
-
-		$tables = array('all' => 'All');
-		$result = $connection->query("SHOW TABLES");
-		$result->setFetchMode(Phalcon\DB::FETCH_NUM);
-		while($table = $result->fetchArray($result)){
-			$tables[$table[0]] = $table[0];
-		}
-
-		$this->view->setVar('tables', $tables);
-		$this->view->setVar('databaseName', $config->database->name);
-
+		$this->_listTables(true);		
 	}
 
 	/**
@@ -109,6 +96,7 @@ class ModelsController extends ControllerBase
 		$fileName = str_replace('..', '', $fileName);
 
 		$modelsDir = Tools::getConfig()->application->modelsDir;
+		
 		if(!file_exists($modelsDir.'/'.$fileName)){
 			$this->flash->error('Model could not be found');
 			return $this->dispatcher->forward(array(

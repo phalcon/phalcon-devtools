@@ -22,6 +22,11 @@ namespace Phalcon\Web;
 
 use Phalcon\Tag;
 
+/**
+ * Phalcon\Web\CodeMirror
+ *
+ * This class installs code-mirror in the app
+ */
 abstract class CodeMirror
 {
 
@@ -49,29 +54,29 @@ abstract class CodeMirror
 			copy($path.'resources/codemirror/lib/codemirror.js', $jsPath.'/lib/codemirror.js');
 			copy($path.'resources/codemirror/lib/codephalcon.js', $jsPath.'/lib/codephalcon.js');
 
-			mkdir($jsPath.'/mode/php', 0777, true);
-			copy($path.'resources/codemirror/mode/php/php.js', $jsPath.'/mode/php/php.js');
-			file_put_contents($jsPath.'/mode/php/index.html', '');
+			mkdir($jsPath . '/mode/php', 0777, true);
+			copy($path . 'resources/codemirror/mode/php/php.js', $jsPath.'/mode/php/php.js');
+			file_put_contents($jsPath . '/mode/php/index.html', '');
 
-			mkdir($jsPath.'/mode/css', 0777, true);
-			copy($path.'resources/codemirror/mode/css/css.js', $jsPath.'/mode/css/css.js');
-			file_put_contents($jsPath.'/mode/css/index.html', '');
+			mkdir($jsPath . '/mode/css', 0777, true);
+			copy($path . 'resources/codemirror/mode/css/css.js', $jsPath.'/mode/css/css.js');
+			file_put_contents($jsPath . '/mode/css/index.html', '');
 
-			mkdir($jsPath.'/mode/clike', 0777, true);
-			copy($path.'resources/codemirror/mode/clike/clike.js', $jsPath.'/mode/clike/clike.js');
-			file_put_contents($jsPath.'/mode/clike/index.html', '');
+			mkdir($jsPath . '/mode/clike', 0777, true);
+			copy($path . 'resources/codemirror/mode/clike/clike.js', $jsPath.'/mode/clike/clike.js');
+			file_put_contents($jsPath . '/mode/clike/index.html', '');
 
-			mkdir($jsPath.'/mode/xml', 0777, true);
-			copy($path.'resources/codemirror/mode/xml/xml.js', $jsPath.'/mode/xml/xml.js');
-			file_put_contents($jsPath.'/mode/xml/index.html', '');
+			mkdir($jsPath . '/mode/xml', 0777, true);
+			copy($path . 'resources/codemirror/mode/xml/xml.js', $jsPath.'/mode/xml/xml.js');
+			file_put_contents($jsPath . '/mode/xml/index.html', '');
 		}
 
 		$cssPath = 'public/css/codemirror';
 		if (!file_exists($cssPath)) {
 			mkdir($cssPath, 0777, true);
 			file_put_contents($cssPath.'/index.html', '');
-			copy($path.'resources/codemirror/lib/codemirror.css', $cssPath.'/codemirror.css');
-			copy($path.'resources/codemirror/lib/codephalcon.css', $cssPath.'/codephalcon.css');
+			copy($path . 'resources/codemirror/lib/codemirror.css', $cssPath.'/codemirror.css');
+			copy($path . 'resources/codemirror/lib/codephalcon.css', $cssPath.'/codephalcon.css');
 		}
 
 	}

@@ -20,9 +20,10 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
+use Phalcon\Script\Color,
+	Phalcon\Commands\Command,
+	Phalcon\Commands\CommandsInterface,
+	Phalcon\Web\Tools;
 
 /**
  * Phalcon\Commands\Webtools
@@ -48,10 +49,10 @@ class Webtools extends Command implements CommandsInterface
 		}
 
 		if ($action == 'enable') {
-			\Phalcon\Web\Tools::install($directory);
+			Tools::install($directory);
 		} else {
 			if ($action == 'disable') {
-				\Phalcon\Web\Tools::install($directory);
+				Tools::install($directory);
 			} else {
 				throw new \Exception("Invalid action");
 			}

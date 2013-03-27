@@ -18,9 +18,10 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
-use Phalcon\Web\Tools;
-use Phalcon\Builder\BuilderException;
+use Phalcon\Tag,
+	Phalcon\Web\Tools,
+	Phalcon\Builder\BuilderException,
+	Phalcon\Builder\Scaffold;
 
 class ScaffoldController extends ControllerBase
 {
@@ -28,18 +29,7 @@ class ScaffoldController extends ControllerBase
 	public function indexAction()
 	{
 
-		$config = Tools::getConfig();
-		$connection = Tools::getConnection();
-
-		$tables = array();
-		$result = $connection->query("SHOW TABLES");
-		$result->setFetchMode(Phalcon\Db::FETCH_NUM);
-		while($table = $result->fetchArray($result)){
-			$tables[$table[0]] = $table[0];
-		}
-
-		$this->view->setVar('tables', $tables);
-		$this->view->setVar('databaseName', $config->database->name);
+		$this->_listTables();		
 	}
 
 	/**
@@ -58,7 +48,7 @@ class ScaffoldController extends ControllerBase
 
 			try {
 
-				$scaffoldBuilder = new \Phalcon\Builder\Scaffold(array(
+				$scaffoldBuilder = new Scaffold(array(
 					'name' => $tableName,
 					'schema' => $schema,
 					'force'	=> $force,
@@ -71,7 +61,7 @@ class ScaffoldController extends ControllerBase
 				$this->flash->success('Scaffold for table "'.$tableName.'" was generated successfully');
 
 			}
-			catch(BuilderException $e){
+			catch (BuilderException $e) { 
 				$this->flash->error($e->getMessage());
 			}
 

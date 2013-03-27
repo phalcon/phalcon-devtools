@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,9 +20,9 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder;
-use Phalcon\Builder\Component;
-use Phalcon\Script\Color;
+use Phalcon\Builder,
+	Phalcon\Builder\Component,
+	Phalcon\Script\Color;
 
 /**
  * Project
@@ -31,7 +31,7 @@ use Phalcon\Script\Color;
  *
  * @category 	Phalcon
  * @package 	Scripts
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  * @version 	$Id: Application.php,v 7a54c57f039b 2011/10/19 23:41:19 andres $
  */
@@ -56,7 +56,7 @@ class Project extends Component
 		if (isset($this->_options['templatePath'])) {
 			$templatePath = $this->_options['templatePath'];
 		} else {
-			$templatePath = str_replace('scripts/'.str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__).'.php', '', __FILE__).'templates';
+			$templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) . 'templates';
 		}
 
 		if (file_exists($path.'.phalcon')) {
@@ -93,7 +93,7 @@ class Project extends Component
 		$builder = new $builderClass();
 
 		$success = $builder->build($name, $path, $templatePath, $this->_options);
-		if($success===true){
+		if ($success===true) {
 			print Color::success('Project "' . $name . '" was successfully created.') . PHP_EOL;
 		}
 

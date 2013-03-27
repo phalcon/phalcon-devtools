@@ -20,9 +20,9 @@
 
 namespace Phalcon\Commands;
 
-use Phalcon\Script;
-use Phalcon\Script\Color;
-use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Script,
+	Phalcon\Script\Color,
+	Phalcon\Events\Manager as EventsManager;
 
 /**
  * Phalcon\Commands\Command
@@ -73,7 +73,8 @@ abstract class Command
 	 * @param \Phalco\Script $script
 	 * @param \Phalco\Events\Manager $eventsManager
 	 */
-	final public function __construct(Script $script, EventsManager $eventsManager){
+	final public function __construct(Script $script, EventsManager $eventsManager)
+	{
 		$this->_script = $script;
 	}
 

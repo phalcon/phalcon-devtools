@@ -20,10 +20,11 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Builder;
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
+use Phalcon\Builder,
+	Phalcon\Script\Color,
+	Phalcon\Commands\Command,
+	Phalcon\Commands\CommandsInterface,
+	Phalcon\Builder\Controller as ControllerBuilder;
 
 /**
  * CreateController
@@ -55,7 +56,7 @@ class Controller extends Command implements CommandsInterface
 
 		$controllerName = $this->getOption(array('name', 1));
 
-		$controllerBuilder = new \Phalcon\Builder\Controller(array(
+		$controllerBuilder = new ControllerBuilder(array(
 			'name' => $controllerName,
 			'directory' => $this->getOption('directory'),
 			'namespace' => $this->getOption('namespace'),

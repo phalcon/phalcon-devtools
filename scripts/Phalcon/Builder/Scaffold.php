@@ -20,9 +20,11 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Text;
-use Phalcon\Script\Color;
-use Phalcon\Builder\Component;
+use Phalcon\Text,
+	Phalcon\Script\Color,
+	Phalcon\Builder\Component,
+	Phalcon\Builder\Model as ModelBuilder,
+	Phalcon\DI\FactoryDefault;
 
 /**
  * ScaffoldBuilderComponent
@@ -32,7 +34,7 @@ use Phalcon\Builder\Component;
  * @category 	Phalcon
  * @package 	Builder
  * @subpackage  Scaffold
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Scaffold extends Component
@@ -42,8 +44,8 @@ class Scaffold extends Component
 	{
 		$posible = array('name');
 		$attributes = $entity::getAttributes();
-		foreach($attributes as $attribute){
-			if(in_array($attribute, $posible)){
+		foreach ($attributes as $attribute) {
+			if (in_array($attribute, $posible)) {
 				return $attribute;
 			}
 		}
@@ -59,6 +61,22 @@ class Scaffold extends Component
 		return ucwords($fieldName);
 	}
 
+	private function _getPossibleSingular($className)
+	{	
+		if (substr($className, strlen($className) - 1, 1) == 's') {
+			return substr($className, 0, strlen($className) - 1);
+		} else {
+			return $className;
+		}
+	}
+
+	private function _getPossiblePlural($className)
+	{
+		if (substr($className, strlen($className) - 1, 1) == 's') {
+			return $className;
+		}
+	}
+
 	public function build()
 	{
 
@@ -67,7 +85,7 @@ class Scaffold extends Component
 		$path = '';
 		if(isset($this->_options['directory'])){
 			if($this->_options['directory']){
-				$path = $this->_options['directory'].'/';
+				$path = $this->_options['directory'] . '/';
 			}
 		}
 
@@ -82,17 +100,24 @@ class Scaffold extends Component
 
 		$this->isSupportedAdapter($adapter);
 
-		$di = new \Phalcon\DI\FactoryDefault();
+		$di = new FactoryDefault();
 
 		$di->set('db', function() use ($adapter, $config) {
-			$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $adapter;
-			$connection = new $adapter(array(
-				'host'     => $config->database->host,
-				'username' => $config->database->username,
-				'password' => $config->database->password,
-				'dbname'     => $config->database->name,
-			));
-			return $connection;
+						
+			if (isset($config->database->adapter)) {
+				$adapter = $config->database->adapter;
+			} else {
+				$adapter = 'Mysql';
+			}
+
+			if (is_object($config->database)) {
+				$configArray = $config->database->toArray();
+			} else {
+				$configArray = $config->database;
+			}				
+
+			$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+			return new $adapterName($configArray);		
 		});
 
 		if(isset($config->application->modelsDir)){
@@ -122,7 +147,7 @@ class Scaffold extends Component
 		$modelPath = $config->application->modelsDir.'/'.$modelClass.'.php';
 		if (!file_exists($modelPath)) {
 
-			$modelBuilder = new \Phalcon\Builder\Model(array(
+			$modelBuilder = new ModelBuilder(array(
 				'name' => $name,
 				'schema' => $options['schema'],
 				'className' => $options['className'],
@@ -141,7 +166,7 @@ class Scaffold extends Component
 
 		$entity = new $modelClass();
 
-		$metaData = $di->getShared('modelsMetadata');
+		$metaData = $di['modelsMetadata'];
 
 		$attributes = $metaData->getAttributes($entity);
 		$dataTypes = $metaData->getDataTypes($entity);
@@ -154,12 +179,10 @@ class Scaffold extends Component
 		$relationField = '';
 
 		$single = $name;
-		$options['name'] 				 = strtolower(Text::camelize($single));
-		$options['plural'] 				 = str_replace('_', ' ', $single);
-		$options['single']				 = str_replace('_', ' ', $single);
-		$options['entity']				 = $entity;
-		$options['theSingle'] 			 = $single;
-		$options['singleVar'] 			 = $single;
+		$options['name'] 				 = strtolower(Text::camelize($single));		
+		$options['plural'] 				 = $this->_getPossiblePlural($name);
+		$options['singular']			 = $this->_getPossibleSingular($name);
+		$options['entity']				 = $entity;				
 		$options['setParams'] 			 = $setParams;
 		$options['attributes'] 			 = $attributes;
 		$options['dataTypes'] 			 = $dataTypes;
@@ -168,10 +191,12 @@ class Scaffold extends Component
 		$options['relationField'] 		 = $relationField;
 		$options['selectDefinition']	 = $selectDefinition;
 		$options['autocompleteFields'] 	 = array();
-		$options['belongsToDefinitions'] = array();
+		$options['belongsToDefinitions'] = array();		
 
 		//Build Controller
 		$this->_makeController($path, $options);
+
+		return;
 
 		//View layouts
 		$this->_makeLayouts($path, $options);
@@ -191,10 +216,11 @@ class Scaffold extends Component
 		return true;
 	}
 
-	private function _captureFilterInput(&$code, $options)
+	private function _captureFilterInput($var, $fields)
 	{
-		foreach ($options['dataTypes'] as $field => $dataType) {
-			$code .= PHP_EOL."\t\t".'$'.$options['name'].'->'.$field.' = ';
+		$code = '';
+		foreach ($fields as $field => $dataType) {
+			$code .= '$'.$var.'->'.$field.' = ';
 			if (strpos($dataType, 'int') !== false) {
 				$code .= '$this->request->getPost("'.$field.'", "int");';
 			} else {
@@ -204,240 +230,63 @@ class Scaffold extends Component
 					$code .= '$this->request->getPost("'.$field.'");';
 				}
 			}
+			$code .= PHP_EOL."\t\t";
 		}
+		return $code;
+	}
+
+	private function _assignTagDefaults($var, $fields)
+	{
+		$code = '';
+		foreach ($fields as $field => $dataType) {
+			$code .= 'Tag::setDefault("' . $field . '", $' . $var . '->' . $field . ');' . PHP_EOL . "\t\t";
+		}
+		return $code;
 	}
 
 	/**
 	 * Generate controller using scaffold
 	 *
+	 * @param string $path
 	 * @param array $options
 	 */
 	private function _makeController($path, $options)
 	{
 
-		$controllerPath = $options['controllersDir'].ucfirst(strtolower($options['className'])).'Controller.php';
+		$controllerPath = $options['controllersDir'] . ucfirst(strtolower($options['className'])) . 'Controller.php';		
 
-		if (!file_exists($controllerPath)) {
+		//if (file_exists($controllerPath)) {
+		//	return;
+		//}
 
-			$code = '<?php'.PHP_EOL.PHP_EOL.
-			'use \Phalcon\Tag as Tag;'.PHP_EOL.PHP_EOL.
-			'class '.$options['className'].'Controller extends ControllerBase'.PHP_EOL."\t".'{'.PHP_EOL.PHP_EOL.
-			//Index
-			"\t".'function indexAction()'.PHP_EOL."\t".'{
-		$this->session->conditions = null;'.PHP_EOL;
+		$path = $options['templatePath'] . '/scaffold/no-forms/Controller.php';
 
-			if (isset($options['relationFields'])) {
-				if (count($options['relationFields'])) {
-					$code.=PHP_EOL;
-					foreach ($options['relationFields'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
-					}
-				}
-			}
+		$code = file_get_contents($path);
 
-			$code.="\t".'}'.PHP_EOL.PHP_EOL;
+		$code = str_replace('$singularVar$', '$' . $options['singular'], $code);
+		$code = str_replace('$singular$', $options['singular'], $code);
 
-			$primaryKeys = $options['primaryKeys'];
-			$paramsPks = $conditionsPks = $orderPks = array();
-			foreach ($primaryKeys as $primaryKey) {
-				$orderPks[] = $primaryKey;
-				$paramsPks[] = '$'.$primaryKey;
-				$conditionsPks[] =	'\''.$primaryKey.'="\'.$'.$primaryKey.'.\'"\'';
-			}
-			if (count($orderPks)==0) {
-				$orderPks[] = 1;
-			}
-			$paramsPksString = implode(', ',$paramsPks);
-			$conditionsPksString = implode(' AND ',$conditionsPks);
-			$orderPksString	= implode(', ',$orderPks);
-			$autocompleteFields = $options['autocompleteFields'];
+		$code = str_replace('$pluralVar$', '$' . $options['plural'], $code);
+		$code = str_replace('$plural$', $options['plural'], $code);
 
-			//Search
-			$code.=
-			"\t".'public function searchAction()'.PHP_EOL.'{
+		$code = str_replace('$className$', $options['className'], $code);
 
-		$numberPage = 1;
-		if ($this->request->isPost()) {
-			$query = \Phalcon\Mvc\Model\Criteria::fromInput($this->di, "'.$options['className'].'", $_POST);
-			$this->session->conditions = $query->getConditions();
-                        $this->session->bind = $query->getParams()["bind"];
-		} else {
-			$numberPage = $this->request->getQuery("page", "int");
-			if ($numberPage <= 0) {
-				$numberPage = 1;
-			}
-		}
+		$code = str_replace('$assignInputFromRequestCreate$', $this->_captureFilterInput($options['singular'], $options['dataTypes']), $code);
+		$code = str_replace('$assignInputFromRequestUpdate$', $this->_captureFilterInput($options['singular'], $options['dataTypes']), $code);
 
-		$parameters = array();
-		if ($this->session->conditions) {
-			$parameters["conditions"] = $this->session->conditions;
-                        $parameters["bind"] = $this->session->bind;
-		}
-		$parameters["order"] = "'.$orderPksString.'";
+		$code = str_replace('$assignTagDefaults$', $this->_assignTagDefaults($options['singular'], $options['dataTypes']), $code);
 
-		$'.$options['name'].' = '.$options['className'].'::find($parameters);
-		if (count($'.$options['name'].') == 0) {
-			$this->flash->notice("The search did not find any '.$options['plural'].'");
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}
-
-		$paginator = new \Phalcon\Paginator\Adapter\Model(array(
-			"data" => $'.$options['name'].',
-			"limit"=> 10,
-			"page" => $numberPage
-		));
-		$page = $paginator->getPaginate();
-
-		$this->view->setVar("page", $page);
-	}'.PHP_EOL.PHP_EOL;
-
-			//New
-			$code.="\t".'public function newAction()
-	{'.PHP_EOL.PHP_EOL;
-
-			if (isset($options['relationFields'])) {
-				if (count($options['relationFields'])) {
-					foreach ($options['relationFields'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
-					}
-				}
-			}
-
-			$code.="\t".'}'.PHP_EOL.PHP_EOL;
-
-			//Edit
-			$code.="\t".'public function editAction($'.$orderPksString.')
-	{
-
-		$request = $this->request;
-		if (!$request->isPost()) {
-
-			$'.$orderPksString.' = $this->filter->sanitize($'.$orderPksString.', array("int"));
-
-			$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
-			if (!$'.$options['name'].') {
-				$this->flash->error("'.$options['single'].' was not found");
-				return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-			}
-			$this->view->setVar("'.$orderPksString.'", $'.$options['name'].'->'.$orderPksString.');
-		'.PHP_EOL;
-
-			//genSettersGetters
-
-			foreach ($options['attributes'] as $field) {
-				$code.="\t\t\t".'Tag::displayTo("'.$field.'", $'.$options['name'].'->'.$field.');'.PHP_EOL;
-			}
-
-			if (isset($options['relationFields'])) {
-				if (count($options['relationFields'])) {
-					$code.=PHP_EOL;
-					foreach ($options['relationFields'] as $relationField) {
-						$code.="\t\t".'$this->view->setVar("'.$relationField['varName'].'", '.$relationField['modelName'].'::find());'.PHP_EOL;
-					}
-				}
-			}
-
-			$code.="\t\t".'}
-	}'.PHP_EOL;
-
-			$exceptions = array();
-			foreach ($options['attributes'] as $attribute) {
-				if (preg_match('/_at$/', $attribute)) {
-					$exceptions[] = '"'.$attribute.'"';
-				} else {
-					if (preg_match('/_in$/', $attribute)) {
-						$exceptions[] = '"'.$attribute.'"';
-					}
-				}
-			}
-
-			//createAction
-			$code.= PHP_EOL."\t".'public function createAction()
-	{
-
-		if (!$this->request->isPost()) {
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}
-
-		$'.$options['name'].' = new '.$options['className'].'();';
-
-			$entity = $options['entity'];
-
-			self::_captureFilterInput($code, $options);
-
-			$code .= PHP_EOL."\t\t".'if (!$'.$options['name'].'->save()) {
-			foreach ($'.$options['name'].'->getMessages() as $message) {
-				$this->flash->error((string) $message);
-			}
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "new"));
-		} else {
-			$this->flash->success("'.$options['single'].' was created successfully");
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}
-
-	}'.PHP_EOL;
-
-			//saveAction
-			$code.= PHP_EOL."\t".'public function saveAction()
-	{
-
-		if (!$this->request->isPost()) {
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}
-
-		$'.$orderPksString.' = $this->request->getPost("'.$orderPksString.'", "int");
-		$'.$options['name'].' = '.$options['className'].'::findFirst("'.$orderPksString.'=\'$'.$orderPksString.'\'");
-		if (!$'.$options['name'].') {
-			$this->flash->error("'.$options['single'].' does not exist ".$'.$orderPksString.');
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}';
-
-			self::_captureFilterInput($code, $options);
-
-			$code .= PHP_EOL."\t\t".'if (!$'.$options['name'].'->save()) {
-			foreach ($'.$options['name'].'->getMessages() as $message) {
-				$this->flash->error((string) $message);
-			}
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "edit", "params" => array($'.$options['name'].'->'.$orderPksString.')));
-		} else {
-			$this->flash->success("'.$options['single'].' was updated successfully");
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}
-
-	}'.PHP_EOL;
-
-			//Delete
-			$code.= PHP_EOL."\t".'public function deleteAction($'.$orderPksString.'){
-
-		$'.$orderPksString.' = $this->filter->sanitize($'.$orderPksString.', array("int"));
-
-		$'.$options['name'].' = '.$options['className'].'::findFirst(\''.$orderPksString.'="\'.$'.$orderPksString.'.\'"\');
-		if (!$'.$options['name'].') {
-			$this->flash->error("'.$options['single'].' was not found");
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}
-
-		if (!$'.$options['name'].'->delete()) {
-			foreach ($'.$options['name'].'->getMessages() as $message){
-				$this->flash->error((string) $message);
-			}
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "search"));
-		} else {
-			$this->flash->success("'.$options['single'].' was deleted");
-			return $this->dispatcher->forward(array("controller" => "'.$options['name'].'", "action" => "index"));
-		}
-	}'.PHP_EOL.PHP_EOL;
-
-			$code .= "".'}'.PHP_EOL;
-			$code = str_replace("\t", "    ", $code);
-			file_put_contents($controllerPath, $code);
-		}
-
+		$code = str_replace('$pkVar$', '$' . $options['attributes'][0], $code);
+		$code = str_replace('$pk$', $options['attributes'][0], $code);
+			
+		echo $controllerPath, PHP_EOL;
+		file_put_contents($controllerPath, $code);
 	}
 
 	/**
 	 * make layouts of model by scaffold
 	 *
+	 * @param string $path
 	 * @param array $options
 	 */
 	private function _makeLayouts($path, $options)
@@ -477,28 +326,28 @@ class Scaffold extends Component
 	private function _resolveType($type)
 	{
 		switch ($type) {
-			case \Phalcon\Db\Column::TYPE_INTEGER:
+			case Column::TYPE_INTEGER:
 				return 'integer';
 				break;
-			case \Phalcon\Db\Column::TYPE_DECIMAL:
+			case Column::TYPE_DECIMAL:
 				return 'decimal';
 				break;
-			case \Phalcon\Db\Column::TYPE_FLOAT:
+			case Column::TYPE_FLOAT:
 				return 'float';
 				break;
-			case \Phalcon\Db\Column::TYPE_DATE:
+			case Column::TYPE_DATE:
 				return 'date';
 				break;
-			case \Phalcon\Db\Column::TYPE_VARCHAR:
+			case Column::TYPE_VARCHAR:
 				return 'varchar';
 				break;
-			case \Phalcon\Db\Column::TYPE_DATETIME:
+			case Column::TYPE_DATETIME:
 				return 'datetime';
 				break;
-			case \Phalcon\Db\Column::TYPE_CHAR:
+			case Column::TYPE_CHAR:
 				return 'char';
 				break;
-			case \Phalcon\Db\Column::TYPE_TEXT:
+			case Column::TYPE_TEXT:
 				return 'text';
 				break;
 			default:
@@ -510,9 +359,9 @@ class Scaffold extends Component
 	/**
 	 * Build fields for different actions
 	 *
+	 * @param string $path
 	 * @param array $options
 	 * @param string $action
-	 *
 	 * @return string $code
 	 */
 	private function _makeFields($path, $options, $action)
@@ -547,21 +396,21 @@ class Scaffold extends Component
 					}
 				} else {
 					//Char Field
-					if ($dataType==\Phalcon\Db\Column::TYPE_CHAR) {
-						$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'")) ?>';
+					if ($dataType == Column::TYPE_CHAR) {
+						$code .= PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'")) ?>';
 					} else {
 						//Decimal field
-						if ($dataType==\Phalcon\Db\Column::TYPE_DECIMAL || $dataType==\Phalcon\Db\Column::TYPE_INTEGER) {
-							$code.=PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "numeric")) ?>';
+						if ($dataType == Column::TYPE_DECIMAL || $dataType == Column::TYPE_INTEGER) {
+							$code .= PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "numeric")) ?>';
 						} else {
 							//Date field
-							if ($dataType==\Phalcon\Db\Column::TYPE_DATE) {
-								$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
+							if ($dataType == Column::TYPE_DATE) {
+								$code .= PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
 							} else {
-								if ($dataType==\Phalcon\Db\Column::TYPE_TEXT) {
-									$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textArea(array("'.$attribute.'", "cols" => "40", "rows" => "5")) ?>';
+								if ($dataType == Column::TYPE_TEXT) {
+									$code .= PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textArea(array("'.$attribute.'", "cols" => "40", "rows" => "5")) ?>';
 								} else {
-									$code.=PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "size" => 30)) ?>';
+									$code .= PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "size" => 30)) ?>';
 								}
 							}
 						}
@@ -737,8 +586,8 @@ class Scaffold extends Component
 	{
 
 		//View model layout
-		$dirPath = $options['viewsDir'].$options['name'];
-		$viewPath = $dirPath.'/search.phtml';
+		$dirPath = $options['viewsDir'] . $options['name'];
+		$viewPath = $dirPath . '/search.phtml';
 
 		if (!file_exists($viewPath)) {
 
@@ -747,10 +596,10 @@ class Scaffold extends Component
 <table width="100%">
 	<tr>
 		<td align="left">
-			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/index", "Go Back")); ?>
+			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'] . '/index", "Go Back")); ?>
 		</td>
 		<td align="right">
-			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/new", "Create '.$options['single'].'")); ?>
+			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'] . '/new", "Create ' . $options['single'] . '")); ?>
 		</td>
 	<tr>
 </table>
@@ -758,7 +607,7 @@ class Scaffold extends Component
 <table class="browse" align="center">'.PHP_EOL.
 			"\t".'<thead>'.PHP_EOL.
 			"\t\t".'<tr>'.PHP_EOL;
-			foreach($options['attributes'] as $attribute){
+			foreach ($options['attributes'] as $attribute) {
 				$code.="\t\t\t".'<th>'.$this->_getPossibleLabel($attribute).'</th>'.PHP_EOL;
 			}
 			$code.="\t\t".'</tr>'.PHP_EOL.

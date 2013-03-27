@@ -18,9 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
-use Phalcon\Web\Tools;
-use Phalcon\Builder\BuilderException;
+use Phalcon\Tag,
+	Phalcon\Web\Tools,
+	Phalcon\Builder\BuilderException;
 
 class ControllersController extends ControllerBase
 {
@@ -61,8 +61,7 @@ class ControllersController extends ControllerBase
 					'params' => array($fileName)
 				));
 
-			}
-			catch(BuilderException $e){
+			} catch (BuilderException $e) {
 				$this->flash->error($e->getMessage());
 			}
 
@@ -86,7 +85,7 @@ class ControllersController extends ControllerBase
 		$fileName = str_replace('..', '', $fileName);
 
 		$controllersDir = Tools::getConfig()->application->controllersDir;
-		if(!file_exists($controllersDir.'/'.$fileName)){
+		if (!file_exists($controllersDir.'/'.$fileName)) {
 			$this->flash->error('Controller could not be found', 'alert alert-error');
 			return $this->dispatcher->forward(array(
 				'controller' => 'controllers',
@@ -110,7 +109,7 @@ class ControllersController extends ControllerBase
 			$fileName = str_replace('..', '', $fileName);
 
 			$controllersDir = Tools::getConfig()->application->controllersDir;
-			if(!file_exists($controllersDir.'/'.$fileName)){
+			if (!file_exists($controllersDir . '/' . $fileName)) {
 				$this->flash->error('Controller could not be found');
 				return $this->dispatcher->forward(array(
 					'controller' => 'controllers',
@@ -118,7 +117,7 @@ class ControllersController extends ControllerBase
 				));
 			}
 
-			if(!is_writable($controllersDir.'/'.$fileName)){
+			if (!is_writable($controllersDir.'/'.$fileName)) {
 				$this->flash->error('Controller file does not has write access');
 				return $this->dispatcher->forward(array(
 					'controller' => 'controllers',
