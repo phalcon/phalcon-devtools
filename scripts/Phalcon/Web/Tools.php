@@ -23,7 +23,9 @@ namespace Phalcon\Web;
 use Phalcon\Version,
 	Phalcon\Script,
 	Phalcon\Script\Color,
-	Phalcon\Commands\CommandsListener;
+	Phalcon\Commands\CommandsListener,
+	Phalcon\Di\FactoryDefault,
+	Phalcon\Mvc\View;
 
 /**
  * Phalcon\Web\Tools
@@ -222,10 +224,10 @@ class Tools
 
 		try {
 
-			$di = new \Phalcon\Di\FactoryDefault();
+			$di = new FactoryDefault();
 
 			$di->set('view', function() use ($path) {
-				$view = new \Phalcon\Mvc\View();
+				$view = new View();
 				$view->setViewsDir($path . '/scripts/Phalcon/Web/Tools/views/');
 				return $view;
 			});
@@ -258,7 +260,7 @@ class Tools
 					$configArray = $config->database->toArray();
 				} else {
 					$configArray = $config->database;
-				}				
+				}
 
 				$className = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
 				return new $className($configArray);

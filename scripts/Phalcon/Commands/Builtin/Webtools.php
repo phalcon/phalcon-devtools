@@ -45,7 +45,7 @@ class Webtools extends Command implements CommandsInterface
 		$directory = $this->getOption(array('directory'));
 
 		if (!$directory) {
-			$directory = __DIR__.'/../../../../';
+			$directory = __DIR__ . '/../../../../';
 		}
 
 		if ($action == 'enable') {
@@ -57,7 +57,14 @@ class Webtools extends Command implements CommandsInterface
 				throw new \Exception("Invalid action");
 			}
 		}
-		//
+
+		if ($action == 'enable') {
+			print Color::success('Webtools successfully enabled') . PHP_EOL;
+		} else {
+			if ($action == 'disable') {
+				print Color::success('Webtools successfully disabled') . PHP_EOL;
+			}
+		}
 	}
 
 	/**

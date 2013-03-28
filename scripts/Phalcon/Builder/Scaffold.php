@@ -24,7 +24,8 @@ use Phalcon\Text,
 	Phalcon\Script\Color,
 	Phalcon\Builder\Component,
 	Phalcon\Builder\Model as ModelBuilder,
-	Phalcon\DI\FactoryDefault;
+	Phalcon\DI\FactoryDefault,
+	Phalcon\Db\Column;
 
 /**
  * ScaffoldBuilderComponent
@@ -62,7 +63,7 @@ class Scaffold extends Component
 	}
 
 	private function _getPossibleSingular($className)
-	{	
+	{
 		if (substr($className, strlen($className) - 1, 1) == 's') {
 			return substr($className, 0, strlen($className) - 1);
 		} else {
@@ -103,7 +104,7 @@ class Scaffold extends Component
 		$di = new FactoryDefault();
 
 		$di->set('db', function() use ($adapter, $config) {
-						
+
 			if (isset($config->database->adapter)) {
 				$adapter = $config->database->adapter;
 			} else {
@@ -114,10 +115,10 @@ class Scaffold extends Component
 				$configArray = $config->database->toArray();
 			} else {
 				$configArray = $config->database;
-			}				
+			}
 
 			$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
-			return new $adapterName($configArray);		
+			return new $adapterName($configArray);
 		});
 
 		if(isset($config->application->modelsDir)){
@@ -179,10 +180,10 @@ class Scaffold extends Component
 		$relationField = '';
 
 		$single = $name;
-		$options['name'] 				 = strtolower(Text::camelize($single));		
+		$options['name'] 				 = strtolower(Text::camelize($single));
 		$options['plural'] 				 = $this->_getPossiblePlural($name);
 		$options['singular']			 = $this->_getPossibleSingular($name);
-		$options['entity']				 = $entity;				
+		$options['entity']				 = $entity;
 		$options['setParams'] 			 = $setParams;
 		$options['attributes'] 			 = $attributes;
 		$options['dataTypes'] 			 = $dataTypes;
@@ -191,12 +192,10 @@ class Scaffold extends Component
 		$options['relationField'] 		 = $relationField;
 		$options['selectDefinition']	 = $selectDefinition;
 		$options['autocompleteFields'] 	 = array();
-		$options['belongsToDefinitions'] = array();		
+		$options['belongsToDefinitions'] = array();
 
 		//Build Controller
 		$this->_makeController($path, $options);
-
-		return;
 
 		//View layouts
 		$this->_makeLayouts($path, $options);
@@ -253,7 +252,7 @@ class Scaffold extends Component
 	private function _makeController($path, $options)
 	{
 
-		$controllerPath = $options['controllersDir'] . ucfirst(strtolower($options['className'])) . 'Controller.php';		
+		$controllerPath = $options['controllersDir'] . ucfirst(strtolower($options['className'])) . 'Controller.php';
 
 		//if (file_exists($controllerPath)) {
 		//	return;
@@ -278,7 +277,7 @@ class Scaffold extends Component
 
 		$code = str_replace('$pkVar$', '$' . $options['attributes'][0], $code);
 		$code = str_replace('$pk$', $options['attributes'][0], $code);
-			
+
 		echo $controllerPath, PHP_EOL;
 		file_put_contents($controllerPath, $code);
 	}

@@ -172,14 +172,14 @@ class Model extends Component
 			$configArray = $config->database->toArray();
 		} else {
 			$configArray = $config->database;
-		}				
+		}
 
 		$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
-		$db = new $adapterName($configArray);		
+		$db = new $adapterName($configArray);
 
 		$initialize = array();
 		if (isset($this->_options['schema'])) {
-			if ($this->_options['schema'] != $config->database->name) {
+			if ($this->_options['schema'] != $config->database->dbname) {
 				$initialize[] = "\t\t\$this->setSchema(\"{$this->_options['schema']}\");";
 			}
 			$schema = $this->_options['schema'];

@@ -29,7 +29,7 @@ class ScaffoldController extends ControllerBase
 	public function indexAction()
 	{
 
-		$this->_listTables();		
+		$this->_listTables();
 	}
 
 	/**
@@ -53,7 +53,8 @@ class ScaffoldController extends ControllerBase
 					'schema' => $schema,
 					'force'	=> $force,
 					'genSettersGetters' => $genSettersGetters,
-					'directory' => null
+					'directory' => null,
+					'templatePath' => TEMPLATE_PATH
 				));
 
 				$scaffoldBuilder->build();
@@ -61,7 +62,7 @@ class ScaffoldController extends ControllerBase
 				$this->flash->success('Scaffold for table "'.$tableName.'" was generated successfully');
 
 			}
-			catch (BuilderException $e) { 
+			catch (BuilderException $e) {
 				$this->flash->error($e->getMessage());
 			}
 

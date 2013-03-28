@@ -52,7 +52,7 @@ try {
 			"host" => $config->database->host,
 			"username" => $config->database->username,
 			"password" => $config->database->password,
-			"dbname" => $config->database->name
+			"dbname" => $config->database->dbname
 		));
 	});
 
@@ -61,11 +61,10 @@ try {
 	 */
 	$di->set('modelsMetadata', function() use ($config) {
 		if (isset($config->models->metadata)) {
-			$metadataAdapter = 'Phalcon\Mvc\Model\Metadata\\'.$config->models->metadata->adapter;
+			$metadataAdapter = 'Phalcon\Mvc\Model\Metadata\\' . $config->models->metadata->adapter;
 			return new $metadataAdapter();
-		} else {
-			return new \Phalcon\Mvc\Model\Metadata\Memory();
 		}
+		return new \Phalcon\Mvc\Model\Metadata\Memory();
 	});
 
 	/**
