@@ -215,6 +215,38 @@ class Scaffold extends Component
 		return true;
 	}
 
+	private function _resolveType($type)
+	{
+		switch ($type) {
+			case Column::TYPE_INTEGER:
+				return 'integer';
+				break;
+			case Column::TYPE_DECIMAL:
+				return 'decimal';
+				break;
+			case Column::TYPE_FLOAT:
+				return 'float';
+				break;
+			case Column::TYPE_DATE:
+				return 'date';
+				break;
+			case Column::TYPE_VARCHAR:
+				return 'varchar';
+				break;
+			case Column::TYPE_DATETIME:
+				return 'datetime';
+				break;
+			case Column::TYPE_CHAR:
+				return 'char';
+				break;
+			case Column::TYPE_TEXT:
+				return 'text';
+				break;
+			default:
+				throw new BuilderException('Data type could have not been resolved');
+		}
+	}
+
 	private function _captureFilterInput($var, $fields)
 	{
 		$code = '';
@@ -238,7 +270,7 @@ class Scaffold extends Component
 	{
 		$code = '';
 		foreach ($fields as $field => $dataType) {
-			$code .= 'Tag::setDefault("' . $field . '", $' . $var . '->' . $field . ');' . PHP_EOL . "\t\t";
+			$code .= 'Tag::setDefault("' . $field . '", $' . $var . '->' . $field . ');' . PHP_EOL . "\t\t\t";
 		}
 		return $code;
 	}
@@ -278,7 +310,10 @@ class Scaffold extends Component
 		$code = str_replace('$pkVar$', '$' . $options['attributes'][0], $code);
 		$code = str_replace('$pk$', $options['attributes'][0], $code);
 
-		echo $controllerPath, PHP_EOL;
+		if ($this->isConsole()) {
+			echo $controllerPath, PHP_EOL;
+		}
+
 		file_put_contents($controllerPath, $code);
 	}
 
@@ -293,6 +328,7 @@ class Scaffold extends Component
 
 		//Make Layouts dir
 		$dirPathLayouts	= $options['viewsDir'].'/layouts';
+
 		//If not exists dir; we make it
 		if (is_dir($dirPathLayouts) == false) {
 			mkdir($dirPathLayouts);
@@ -319,39 +355,6 @@ class Scaffold extends Component
 			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 
-		}
-	}
-
-	private function _resolveType($type)
-	{
-		switch ($type) {
-			case Column::TYPE_INTEGER:
-				return 'integer';
-				break;
-			case Column::TYPE_DECIMAL:
-				return 'decimal';
-				break;
-			case Column::TYPE_FLOAT:
-				return 'float';
-				break;
-			case Column::TYPE_DATE:
-				return 'date';
-				break;
-			case Column::TYPE_VARCHAR:
-				return 'varchar';
-				break;
-			case Column::TYPE_DATETIME:
-				return 'datetime';
-				break;
-			case Column::TYPE_CHAR:
-				return 'char';
-				break;
-			case Column::TYPE_TEXT:
-				return 'text';
-				break;
-			default:
-				throw new BuilderException('Data type could have not been resolved');
-				break;
 		}
 	}
 
@@ -385,39 +388,39 @@ class Scaffold extends Component
 			"\t\t\t".'<td align="left">';
 
 			if(isset($relationField[$attribute])){
-				$code.=PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::select(array("'.$attribute.'", $'.$selectDefinition[$attribute]['varName'].
-					', "using" => "'.$selectDefinition[$attribute]['primaryKey'].','.$selectDefinition[$attribute]['detail'].'", "useDummy" => true)) ?>';
+				$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::select(array("'.$attribute.'", $'.$selectDefinition[$attribute]['varName'].
+					', "using" => "' . $selectDefinition[$attribute]['primaryKey'].','.$selectDefinition[$attribute]['detail'].'", "useDummy" => true)) ?>';
 			} else {
 				//PKs
 				if (($action=='new' || $action=='edit' ) && $attribute == $identityField) {
 					if ($action=='edit'){
-						$code.=PHP_EOL."\t\t\t\t".'<input type="hidden" name="'.$attribute.'" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
+						$code .= PHP_EOL."\t\t\t\t" . '<input type="hidden" name="' . $attribute . '" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
 					}
 				} else {
 					//Char Field
 					if ($dataType == Column::TYPE_CHAR) {
-						$code .= PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'")) ?>';
+						$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'")) ?>';
 					} else {
 						//Decimal field
 						if ($dataType == Column::TYPE_DECIMAL || $dataType == Column::TYPE_INTEGER) {
-							$code .= PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "numeric")) ?>';
+							$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'", "type" => "numeric")) ?>';
 						} else {
 							//Date field
 							if ($dataType == Column::TYPE_DATE) {
-								$code .= PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "type" => "date")) ?>';
+								$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'", "type" => "date")) ?>';
 							} else {
 								if ($dataType == Column::TYPE_TEXT) {
-									$code .= PHP_EOL."\t\t\t\t".'<?php echo \Phalcon\Tag::textArea(array("'.$attribute.'", "cols" => "40", "rows" => "5")) ?>';
+									$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textArea(array("' . $attribute.'", "cols" => "40", "rows" => "5")) ?>';
 								} else {
-									$code .= PHP_EOL."\t\t\t".'<?php echo \Phalcon\Tag::textField(array("'.$attribute.'", "size" => 30)) ?>';
+									$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'", "size" => 30)) ?>';
 								}
 							}
 						}
 					}
 				}
 			}
-			$code.=PHP_EOL."\t\t\t".'</td>';
-			$code.=PHP_EOL."\t\t".'</tr>'.PHP_EOL;
+			$code .= PHP_EOL . "\t\t\t" . '</td>';
+			$code .= PHP_EOL . "\t\t" . '</tr>' . PHP_EOL;
 		}
 
 		$code = str_replace("\t", "    ", $code);
@@ -448,7 +451,7 @@ class Scaffold extends Component
 
 		$viewPath = $dirPath.'/index.phtml';
 
-		$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.
+		/*$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.
 		'<div align="right">'.PHP_EOL.
 		"\t".'<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/new", "Create '.ucfirst($options['single']).'")) ?>'.PHP_EOL.
 		'</div>'.PHP_EOL.PHP_EOL.
@@ -470,7 +473,11 @@ class Scaffold extends Component
 		'</div>';
 
 		//index.phtml
-		$code = str_replace("\t", "    ", $code);
+		$code = str_replace("\t", "    ", $code);*/
+
+
+		$$captureFields$$
+
 		file_put_contents($viewPath, $code);
 	}
 

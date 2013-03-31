@@ -7,7 +7,7 @@ try {
 	/**
 	 * Read the configuration
 	 */
-	$config = include __DIR__.'/../config/config.php';
+	$config = include __DIR__ . '/../config/config.php';
 
 	$di = new \Phalcon\DI\FactoryDefault();
 
@@ -52,7 +52,7 @@ try {
 	 * Add your routes here
 	 */
 	$app->get('/', function () {
-		require __DIR__."/../views/index.phtml";
+		require __DIR__ . "/../views/index.phtml";
 	});
 
 	/**
@@ -60,7 +60,7 @@ try {
 	 */
 	$app->notFound(function () use ($app) {
 		$app->response->setStatusCode(404, "Not Found")->sendHeaders();
-		require __DIR__."/../views/404.phtml";
+		require __DIR__ . "/../views/404.phtml";
 	});
 
 	/**

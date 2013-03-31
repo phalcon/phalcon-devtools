@@ -35,7 +35,7 @@ class Simple
 
 	private $_dirs = array(
 		'app',
-		'app/logs',
+		'app/cache',
 		'app/views',
 		'app/config',
 		'app/models',
@@ -100,6 +100,20 @@ class Simple
 	private function createIndexViewFiles($path, $templatePath)
 	{
 
+		$file = $path.'app/views/index.volt';
+		if (!file_exists($file)) {
+			$str = file_get_contents($templatePath . '/project/simple/views/index.volt');
+			file_put_contents($file, $str);
+		}
+
+		$file = $path.'app/views/index/index.volt';
+		if (!file_exists($file)) {
+			$str = file_get_contents($templatePath . '/project/simple/views/index/index.volt');
+			file_put_contents($file, $str);
+		}
+
+		return;
+
 		$file = $path.'app/views/index.phtml';
 		if (!file_exists($file)) {
 			$str = file_get_contents($templatePath . '/project/simple/views/index.phtml');
@@ -124,10 +138,23 @@ class Simple
 	 */
 	private function createConfig($path, $templatePath, $name, $type)
 	{
-		if (file_exists($path.'app/config/config.' . $type) == false) {
+		$file = $path . 'app/config/config.' . $type;
+		if (file_exists($file) == false) {
 			$str = file_get_contents($templatePath . '/project/simple/config.' . $type);
 			$str = preg_replace('/@@name@@/', $name, $str);
-			file_put_contents($path.'app/config/config.' . $type, $str);
+			file_put_contents($file, $str);
+		}
+
+		$file = $path . 'app/config/loader.php';
+		if (file_exists($file) == false) {
+			$str = file_get_contents($templatePath . '/project/simple/loader.php');
+			file_put_contents($file, $str);
+		}
+
+		$file = $path . 'app/config/services.php';
+		if (file_exists($file) == false) {
+			$str = file_get_contents($templatePath . '/project/simple/services.php');
+			file_put_contents($file, $str);
 		}
 	}
 
@@ -156,9 +183,9 @@ class Simple
 	private function createBootstrapFile($path, $templatePath, $useIniConfig)
 	{
 		if (file_exists($path . 'public/index.php') == false) {
-			$config = '$config = include(__DIR__."/../app/config/config.php");';
+			$config = '$config = include __DIR__ . "/../app/config/config.php";';
 			if ($useIniConfig) {
-				$config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__."/../app/config/config.ini");';
+				$config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__ . "/../app/config/config.ini");';
 			}
 			$str = file_get_contents($templatePath . '/project/simple/index.php');
 			$str = preg_replace('/@@config@@/', $config, $str);

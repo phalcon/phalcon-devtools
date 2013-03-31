@@ -12,34 +12,11 @@
 </table>
 
 <div align="center">
-    <h1>Edit robots</h1>
+    <h1>Edit $plural$</h1>
 </div>
 
-<table align="center">    
-    <tr>
-        <td align="right">
-            <label for="name">Name</label>
-        </td>
-        <td align="left">
-            <?php echo Tag::textField(array("name", "size" => 30)) ?>
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="type">Type</label>
-        </td>
-        <td align="left">
-            <?php echo Tag::textField(array("type", "size" => 30)) ?>
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="year">Year</label>
-        </td>
-        <td align="left">
-            <?php echo Tag::textField(array("year", "type" => "numeric")) ?>
-        </td>
-    </tr>
+<table align="center">
+    $$captureFields$$
     <?php echo Tag::hiddenField(array("id")) ?>
 </table>
 

@@ -12,7 +12,7 @@ class $className$Controller extends ControllerBase
 	 */
 	public function indexAction()
 	{
-		$this->persistent->conditions = null;
+		$this->persistent->parameters = null;
 	}
 
 	/**
@@ -24,8 +24,7 @@ class $className$Controller extends ControllerBase
 		$numberPage = 1;
 		if ($this->request->isPost()) {
 			$query = Criteria::fromInput($this->di, "$className$", $_POST);
-			$this->persistent->conditions = $query->getConditions();
-			$this->persistent->bind = $query->getParams()["bind"];
+			$this->persistent->parameters = $query->getParams();
 		} else {
 			$numberPage = $this->request->getQuery("page", "int");
 			if ($numberPage <= 0) {
@@ -33,10 +32,9 @@ class $className$Controller extends ControllerBase
 			}
 		}
 
-		$parameters = array();
-		if ($this->persistent->conditions) {
-			$parameters["conditions"] = $this->persistent->conditions;
-			$parameters["bind"] = $this->persistent->bind;
+		$parameters = $this->persistent->parameters;
+		if (!is_array($parameters)) {
+			$parameters = array();
 		}
 		$parameters["order"] = "$pk$";
 
@@ -44,7 +42,7 @@ class $className$Controller extends ControllerBase
 		if (count($pluralVar$) == 0) {
 			$this->flash->notice("The search did not find any $plural$");
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
+				"controller" => "$plural$",
 				"action" => "index"
 			));
 		}
@@ -53,7 +51,7 @@ class $className$Controller extends ControllerBase
 			"data" => $pluralVar$,
 			"limit"=> 10,
 			"page" => $numberPage
-		));        
+		));
 
 		$this->view->page = $paginator->getPaginate();
 	}
@@ -73,21 +71,21 @@ class $className$Controller extends ControllerBase
 	 */
 	public function editAction($pkVar$)
 	{
-		
-		if (!$this->request->isPost()) {            
+
+		if (!$this->request->isPost()) {
 
 			$singularVar$ = $className$::findFirstById($id);
 			if (!$singularVar$) {
 				$this->flash->error("$singular$ was not found");
 				return $this->dispatcher->forward(array(
-					"controller" => "$plural$", 
+					"controller" => "$plural$",
 					"action" => "index"
 				));
 			}
 
 			$this->view->$pk$ = $singularVar$->$pk$;
-		
-			$assignTagDefaults$			
+
+			$assignTagDefaults$
 		}
 	}
 
@@ -99,7 +97,7 @@ class $className$Controller extends ControllerBase
 
 		if (!$this->request->isPost()) {
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
+				"controller" => "$plural$",
 				"action" => "index"
 			));
 		}
@@ -113,45 +111,45 @@ class $className$Controller extends ControllerBase
 				$this->flash->error($message);
 			}
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
+				"controller" => "$plural$",
 				"action" => "new"
 			));
 		}
 
 		$this->flash->success("$singular$ was created successfully");
 		return $this->dispatcher->forward(array(
-			"controller" => "$plural$", 
+			"controller" => "$plural$",
 			"action" => "index"
-		));		
+		));
 
 	}
 
 	/**
 	 * Saves a $singular$ edited
-	 *	 
+	 *
 	 */
 	public function saveAction()
 	{
 
 		if (!$this->request->isPost()) {
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
+				"controller" => "$plural$",
 				"action" => "index"
 			));
 		}
 
 		$pkVar$ = $this->request->getPost("$pk$");
-		
+
 		$singularVar$ = $className$::findFirstBy$pk$($pkVar$);
 		if (!$singularVar$) {
 			$this->flash->error("$singular$ does not exist " . $pkVar$);
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
+				"controller" => "$plural$",
 				"action" => "index"
 			));
 		}
 
-		$assignInputFromRequestUpdate$	
+		$assignInputFromRequestUpdate$
 
 		if (!$singularVar$->save()) {
 
@@ -160,17 +158,17 @@ class $className$Controller extends ControllerBase
 			}
 
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
-				"action" => "edit", 
+				"controller" => "$plural$",
+				"action" => "edit",
 				"params" => array($singularVar$->$pk$)
 			));
 		}
-		
+
 		$this->flash->success("$singular$ was updated successfully");
 		return $this->dispatcher->forward(array(
-			"controller" => "$plural$", 
+			"controller" => "$plural$",
 			"action" => "index"
-		));		
+		));
 
 	}
 
@@ -186,28 +184,28 @@ class $className$Controller extends ControllerBase
 		if (!$singularVar$) {
 			$this->flash->error("$singular$ was not found");
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
+				"controller" => "$plural$",
 				"action" => "index"
 			));
 		}
 
 		if (!$singularVar$->delete()) {
-			
+
 			foreach ($singularVar$->getMessages() as $message){
 				$this->flash->error($message);
 			}
 
 			return $this->dispatcher->forward(array(
-				"controller" => "$plural$", 
+				"controller" => "$plural$",
 				"action" => "search"
 			));
 		}
 
 		$this->flash->success("$singular$ was deleted successfully");
 		return $this->dispatcher->forward(array(
-			"controller" => "$plural$", 
+			"controller" => "$plural$",
 			"action" => "index"
-		));		
+		));
 	}
 
 }

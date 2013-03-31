@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,8 +20,8 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Script\Color;
-use Phalcon\Builder\BuilderException;
+use Phalcon\Script\Color,
+	Phalcon\Builder\BuilderException;
 
 /**
  * \Phalcon\Builder\Component
@@ -31,7 +31,7 @@ use Phalcon\Builder\BuilderException;
  * @category 	Phalcon
  * @package 	Builder
  * @subpackage  Component
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 abstract class Component
@@ -53,11 +53,11 @@ abstract class Component
 	protected function _getConfig($path)
 	{
 		foreach (array('app/config/', 'config/') as $configPath) {
-			if (file_exists($path . $configPath. "config.ini")) {
-				return new \Phalcon\Config\Adapter\Ini($path . $configPath. "/config.ini");
+			if (file_exists($path . $configPath . "config.ini")) {
+				return new \Phalcon\Config\Adapter\Ini($path . $configPath . "/config.ini");
 			} else {
 				if (file_exists($path . $configPath. "/config.php")) {
-					$config = include($path . $configPath. "/config.php");
+					$config = include($path . $configPath . "/config.php");
 					return $config;
 				}
 			}
@@ -67,7 +67,7 @@ abstract class Component
 		$iterator = new \RecursiveIteratorIterator($directory);
 		foreach ($iterator as $f) {
 			if (preg_match('/config\.php$/', $f->getPathName())) {
-				$config = include($f->getPathName());
+				$config = include $f->getPathName();
 				return $config;
 			} else {
 				if (preg_match('/config\.ini$/', $f->getPathName())) {
@@ -98,6 +98,16 @@ abstract class Component
 	}
 
 	/**
+	 * Check if the script is running on Console mode
+	 *
+	 * @return boolean
+	 */
+	public function isConsole()
+	{
+		return !isset($_SERVER['SERVER_SOFTWARE']);
+	}
+
+	/**
 	 * Check if the current adapter is supported by Phalcon
 	 *
 	 * @param string $adapter
@@ -105,11 +115,16 @@ abstract class Component
 	 */
 	public function isSupportedAdapter($adapter)
 	{
-		if (!class_exists('\Phalcon\Db\Adapter\Pdo\\'.$adapter)) {
+		if (!class_exists('\Phalcon\Db\Adapter\Pdo\\' . $adapter)) {
 			throw new BuilderException("Adapter $adapter is not supported");
 		}
 	}
 
+	/**
+	 * Shows a success notification
+	 *
+	 * @param string $message
+	 */
 	protected function _notifySuccess($message)
 	{
 		print Color::success($message);
