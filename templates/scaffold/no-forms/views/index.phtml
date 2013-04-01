@@ -1,0 +1,23 @@
+<?php use Phalcon\Tag; ?>
+
+<?php echo $this->getContent() ?>
+
+<div align="right">
+    <?php echo Tag::linkTo(array("$plural$/new", "Create $plural$")) ?>
+</div>
+
+<?php echo Tag::form(array("$plural$/search", "autocomplete" => "off")) ?>
+
+<div align="center">
+    <h1>Search $plural$</h1>
+</div>
+
+<table>
+$captureFields$
+	<tr>
+		<td></td>
+		<td><?php echo Tag::submitButton("Search") ?></td>
+	</tr>
+</table>
+
+</form>

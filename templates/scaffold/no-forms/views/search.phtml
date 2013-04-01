@@ -1,0 +1,44 @@
+<?php use Phalcon\Tag; ?>
+
+<?php echo $this->getContent(); ?>
+
+<table width="100%">
+    <tr>
+        <td align="left">
+            <?php echo Tag::linkTo(array("$plural$/index", "Go Back")); ?>
+        </td>
+        <td align="right">
+            <?php echo Tag::linkTo(array("$plural$/new", "Create ")); ?>
+        </td>
+    <tr>
+</table>
+
+<table class="browse" align="center">
+    <thead>
+        <tr>
+$headerColumns$         </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($page->items as $singularVar$) { ?>
+        <tr>
+$rowColumns$            <td><?php echo Tag::linkTo(array("$plural$/edit/" . $singularVar$->$pk$, "Edit")); ?></td>
+            <td><?php echo Tag::linkTo(array("$plural$/delete/" . $singularVar$->$pk$, "Delete")); ?></td>
+        </tr>
+    <?php } ?>
+    </tbody>
+    <tbody>
+        <tr>
+            <td colspan="2" align="right">
+                <table align="center">
+                    <tr>
+                        <td><?php echo Tag::linkTo("$plural$/search", "First") ?></td>
+                        <td><?php echo Tag::linkTo("$plural$/search?page=" . $page->before, "Previous") ?></td>
+                        <td><?php echo Tag::linkTo("$plural$/search?page=" . $page->next, "Next") ?></td>
+                        <td><?php echo Tag::linkTo("$plural$/search?page=" . $page->last, "Last") ?></td>
+                        <td><?php echo $page->current, "/", $page->total_pages ?></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    <tbody>
+</table>

@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -275,6 +275,74 @@ class Scaffold extends Component
 		return $code;
 	}
 
+	private function _makeField($attribute, $dataType, $relationField, $selectDefinition)
+	{
+		$code = "\t" . '<tr>' . PHP_EOL .
+				"\t\t" . '<td align="right">' . PHP_EOL .
+				"\t\t\t" . '<label for="' . $attribute . '">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
+				"\t\t" . '</td>' . PHP_EOL .
+				"\t\t" . '<td align="left">';
+
+		if(isset($relationField[$attribute])){
+			$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
+				', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true)) ?>';
+		} else {
+
+			switch ($dataType) {
+				case Column::TYPE_CHAR:
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '")) ?>';
+					break;
+				case Column::TYPE_DECIMAL:
+				case Column::TYPE_INTEGER:
+					$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "type" => "numeric")) ?>';
+					break;
+				case Column::TYPE_DATE:
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
+					break;
+				case Column::TYPE_TEXT:
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
+					break;
+				default:
+					$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "size" => 30)) ?>';
+					break;
+			}
+		}
+
+		$code .= PHP_EOL . "\t\t" . '</td>';
+		$code .= PHP_EOL . "\t" . '</tr>' . PHP_EOL;
+
+		return $code;
+	}
+
+	/**
+	 * Build fields for different actions
+	 *
+	 * @param string $path
+	 * @param array $options
+	 * @param string $action
+	 * @return string $code
+	 */
+	private function _makeFields($path, $options, $action)
+	{
+
+		$entity	= $options['entity'];
+		$relationField = $options['relationField'];
+		$autocompleteFields	= $options['autocompleteFields'];
+		$selectDefinition = $options['selectDefinition'];
+		$identityField = $options['identityField'];
+
+		$code = '';
+		foreach ($options['dataTypes'] as $attribute => $dataType) {
+
+			if (($action == 'new' || $action == 'edit' ) && $attribute == $identityField) {
+				continue;
+			}
+
+			$code .= $this->_makeField($attribute, $dataType, $relationField, $selectDefinition);
+		}
+		return $code;
+	}
+
 	/**
 	 * Generate controller using scaffold
 	 *
@@ -286,9 +354,9 @@ class Scaffold extends Component
 
 		$controllerPath = $options['controllersDir'] . ucfirst(strtolower($options['className'])) . 'Controller.php';
 
-		//if (file_exists($controllerPath)) {
-		//	return;
-		//}
+		if (file_exists($controllerPath)) {
+			return;
+		}
 
 		$path = $options['templatePath'] . '/scaffold/no-forms/Controller.php';
 
@@ -314,6 +382,7 @@ class Scaffold extends Component
 			echo $controllerPath, PHP_EOL;
 		}
 
+		$code = str_replace("\t", "    ", $code);
 		file_put_contents($controllerPath, $code);
 	}
 
@@ -327,7 +396,7 @@ class Scaffold extends Component
 	{
 
 		//Make Layouts dir
-		$dirPathLayouts	= $options['viewsDir'].'/layouts';
+		$dirPathLayouts	= $options['viewsDir'] . '/layouts';
 
 		//If not exists dir; we make it
 		if (is_dir($dirPathLayouts) == false) {
@@ -335,344 +404,148 @@ class Scaffold extends Component
 		}
 
 		$fileName = Text::uncamelize($options['name']);
-		$viewPath = $dirPathLayouts.'/'.$fileName.'.phtml';
+		$viewPath = $dirPathLayouts . '/' . $fileName . '.phtml';
 		if (!file_exists($viewPath)) {
 
 			//View model layout
 			$code = '';
-			if(isset($options['theme'])){
+			if (isset($options['theme'])) {
 				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
 				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/base") ?>'.PHP_EOL;
 			}
 
-			if(isset($options['theme'])){
-				$code.='<div class="ui-layout" align="center">'.PHP_EOL;
+			if (isset($options['theme'])) {
+				$code .= '<div class="ui-layout" align="center">' . PHP_EOL;
 			} else {
-				$code.='<div align="center">'.PHP_EOL;
+				$code .= '<div align="center">' . PHP_EOL;
 			}
-			$code.="\t".'<?php echo $this->getContent(); ?>'.PHP_EOL.
-			'</div>';
+			$code .= "\t" . '<?php echo $this->getContent(); ?>' . PHP_EOL . '</div>';
 			$code = str_replace("\t", "    ", $code);
 			file_put_contents($viewPath, $code);
 
 		}
 	}
 
-	/**
-	 * Build fields for different actions
-	 *
-	 * @param string $path
-	 * @param array $options
-	 * @param string $action
-	 * @return string $code
-	 */
-	private function _makeFields($path, $options, $action)
+	private function makeView($path, $options, $type)
 	{
 
-		$code = '';
-		$entity	= $options['entity'];
-		$relationField = $options['relationField'];
-		$autocompleteFields	= $options['autocompleteFields'];
-		$selectDefinition = $options['selectDefinition'];
-		$identityField = $options['identityField'];
+		$dirPath = $options['viewsDir'] . $options['name'];
+		if (is_dir($dirPath) == false) {
+			mkdir($dirPath);
+		}
 
-		foreach ($options['dataTypes'] as $attribute => $dataType) {
+		$viewPath = $dirPath . '/' .$type. '.phtml';
+		if (file_exists($viewPath)) {
+			return;
+		}
 
-			$code.= "\t\t".'<tr>'.PHP_EOL.
-			"\t\t\t".'<td align="right">'.PHP_EOL;
-			if (($action == 'new' || $action == 'edit' ) && $attribute == $identityField){
-			} else {
-				$code .= "\t\t\t\t".'<label for="'.$attribute.'">'.$this->_getPossibleLabel($attribute).'</label>'.PHP_EOL;
-			}
-			$code .= "\t\t\t".'</td>'.PHP_EOL.
-			"\t\t\t".'<td align="left">';
+		$templatePath = $options['templatePath'] . '/scaffold/no-forms/views/' .$type. '.phtml';
+		if (!file_exists($templatePath)) {
+			throw new BuilderException("Template '" . $templatePath . "' does not exist");
+		}
 
-			if(isset($relationField[$attribute])){
-				$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::select(array("'.$attribute.'", $'.$selectDefinition[$attribute]['varName'].
-					', "using" => "' . $selectDefinition[$attribute]['primaryKey'].','.$selectDefinition[$attribute]['detail'].'", "useDummy" => true)) ?>';
-			} else {
-				//PKs
-				if (($action=='new' || $action=='edit' ) && $attribute == $identityField) {
-					if ($action=='edit'){
-						$code .= PHP_EOL."\t\t\t\t" . '<input type="hidden" name="' . $attribute . '" id="'.$attribute.'" value="<?php echo $'.$attribute.' ?>" />';
-					}
-				} else {
-					//Char Field
-					if ($dataType == Column::TYPE_CHAR) {
-						$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'")) ?>';
-					} else {
-						//Decimal field
-						if ($dataType == Column::TYPE_DECIMAL || $dataType == Column::TYPE_INTEGER) {
-							$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'", "type" => "numeric")) ?>';
-						} else {
-							//Date field
-							if ($dataType == Column::TYPE_DATE) {
-								$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'", "type" => "date")) ?>';
-							} else {
-								if ($dataType == Column::TYPE_TEXT) {
-									$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textArea(array("' . $attribute.'", "cols" => "40", "rows" => "5")) ?>';
-								} else {
-									$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute.'", "size" => 30)) ?>';
-								}
-							}
-						}
-					}
-				}
-			}
-			$code .= PHP_EOL . "\t\t\t" . '</td>';
-			$code .= PHP_EOL . "\t\t" . '</tr>' . PHP_EOL;
+		$code = file_get_contents($templatePath);
+
+		$code = str_replace('$plural$', $options['plural'], $code);
+		$code = str_replace('$captureFields$', self::_makeFields($path, $options, $type), $code);
+
+		if ($this->isConsole()) {
+			echo $viewPath, PHP_EOL;
 		}
 
 		$code = str_replace("\t", "    ", $code);
-		return $code;
+		file_put_contents($viewPath, $code);
 	}
 
 	/**
 	 * Creates main view
 	 *
+	 * @param string $path
 	 * @param array $options
 	 */
 	private function _makeViewIndex($path, $options)
 	{
-
-		$dirPath = $options['viewsDir'].$options['name'];
-		if (is_dir($dirPath)==false) {
-			mkdir($dirPath);
-		}
-
-		$relationField = $options['relationField'];
-		$belongsToDefinitions = $options['belongsToDefinitions'];
-		$selectDefinition = $options['selectDefinition'];
-		$autocompleteFields	= $options['autocompleteFields'];
-
-		$entity = $options['entity'];
-		$plural = $options['plural'];
-		$name = $options['name'];
-
-		$viewPath = $dirPath.'/index.phtml';
-
-		/*$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.
-		'<div align="right">'.PHP_EOL.
-		"\t".'<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/new", "Create '.ucfirst($options['single']).'")) ?>'.PHP_EOL.
-		'</div>'.PHP_EOL.PHP_EOL.
-		'<div align="center">'.PHP_EOL.
-		"\t".'<h1>Search '.$plural.'</h1>'.PHP_EOL.
-		"\t".'<?php echo \Phalcon\Tag::form(array("'.$options['name'].'/search")) ?>'.PHP_EOL.
-		"\t".'<table align="center">'.PHP_EOL;
-
-		//make fields by action
-		$code.= self::_makeFields($path, $options, 'index');
-
-		$code.= PHP_EOL.
-		"\t\t".'<tr>'.PHP_EOL.
-		"\t\t\t".'<td></td><td><?php echo \Phalcon\Tag::submitButton(array("Search")) ?></td>'.PHP_EOL.
-		"\t\t".'</tr>'.PHP_EOL;
-
-		$code.= "\t".'</table>'.PHP_EOL.
-		'</form>'.PHP_EOL.
-		'</div>';
-
-		//index.phtml
-		$code = str_replace("\t", "    ", $code);*/
-
-
-		$$captureFields$$
-
-		file_put_contents($viewPath, $code);
+		$this->makeView($path, $options, 'index');
 	}
 
 	/**
-	 * make views index.phtml of model by scaffold
+	 * Creates the view to create a new item
 	 *
+	 * @param string $path
 	 * @param array $options
 	 */
 	private function _makeViewNew($path, $options)
 	{
-
-		$dirPath = $options['viewsDir'].$options['name'];
-		if (is_dir($dirPath)==false) {
-			mkdir($dirPath);
-		}
-
-		$viewPath = $dirPath.'/new.phtml';
-		if (!file_exists($viewPath)) {
-
-			$relationField = $options['relationField'];
-			$belongsToDefinitions = $options['belongsToDefinitions'];
-			$selectDefinition = $options['selectDefinition'];
-			$autocompleteFields	= $options['autocompleteFields'];
-
-			$entity = $options['entity'];
-
-			$plural = $options['plural'];
-			$name = $options['name'];
-
-			$code = '<?php echo \Phalcon\Tag::form("'.$options['name'].'/create") ?>'.PHP_EOL.PHP_EOL.
-			'<table width="100%">'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			"\t\t".'<td align="left"><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'", "Go Back")) ?></td>'.PHP_EOL.
-			"\t\t".'<td align="right"><?php echo \Phalcon\Tag::submitButton("Save") ?></td>'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			'</table>'.PHP_EOL.PHP_EOL.
-			'<?php echo $this->getContent(); ?>'.PHP_EOL.PHP_EOL.
-			'<div align="center">'.PHP_EOL.
-			"\t".'<h1>Create '.$options['single'].'</h1>'.PHP_EOL.
-			'</div>'.PHP_EOL.PHP_EOL.
-			"\t".'<table align="center">'.PHP_EOL;
-
-			//make fields by action
-			$code.= self::_makeFields($path, $options, 'new');
-
-			$code.= "\t".'</table>' . PHP_EOL . '<?php echo \Phalcon\Tag::endForm() ?>' . PHP_EOL;
-
-			//index.phtml
-			$code = str_replace("\t", "    ", $code);
-			file_put_contents($viewPath, $code);
-		}
+		$this->makeView($path, $options, 'new');
 	}
 
 	/**
-	 * make views index.phtml of model by scaffold
+	 * Make views index.phtml of model by scaffold
 	 *
+	 * @param string $path
 	 * @param array $options
 	 */
 	private function _makeViewEdit($path, $options)
 	{
-
-		$dirPath = $options['viewsDir'].$options['name'];
-		if(is_dir($dirPath)==false){
-			mkdir($dirPath);
-		}
-
-		$viewPath = $dirPath.'/edit.phtml';
-		if($viewPath){
-
-			$relationField = $options['relationField'];
-			$belongsToDefinitions = $options['belongsToDefinitions'];
-			$selectDefinition = $options['selectDefinition'];
-			$autocompleteFields	= $options['autocompleteFields'];
-
-			$entity = $options['entity'];
-
-			$plural = $options['plural'];
-			$name = $options['name'];
-
-			$code = '<?php echo $this->getContent(); ?>'.PHP_EOL.PHP_EOL;
-			$code.= '<?php echo \Phalcon\Tag::form("'.$options['name'].'/save") ?>'.PHP_EOL.PHP_EOL.
-			'<table width="100%">'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			"\t\t".'<td align="left"><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'", "Back")) ?></td>'.PHP_EOL.
-			"\t\t".'<td align="right"><?php echo \Phalcon\Tag::submitButton(array("Save")) ?></td>'.PHP_EOL.
-			"\t".'<tr>'.PHP_EOL.
-			'</table>'.PHP_EOL.PHP_EOL.
-			'<div align="center">'.PHP_EOL.
-			"\t".'<h1>Edit '.$options['name'].'</h1>'.PHP_EOL.
-			'</div>'.PHP_EOL.PHP_EOL.
-			"\t".'<table align="center">'.PHP_EOL;
-
-			//make fields by action
-			$code.= self::_makeFields($path, $options, 'new');
-
-			$code.= "\t".'</table>'.PHP_EOL.
-			"\t".'<?php echo \Phalcon\Tag::endForm() ?>'.PHP_EOL;
-
-			//index.phtml
-			$code = str_replace("\t", "    ", $code);
-			file_put_contents($viewPath, $code);
-
-		}
+		$this->makeView($path, $options, 'edit');
 	}
 
 	/**
-	 * make view search.phtml of model by scaffold
+	 * Make view search.phtml of model by scaffold
 	 *
+	 * @param string $path
 	 * @param array $options
 	 */
 	private function _makeViewSearch($path, $options)
 	{
 
-		//View model layout
 		$dirPath = $options['viewsDir'] . $options['name'];
-		$viewPath = $dirPath . '/search.phtml';
-
-		if (!file_exists($viewPath)) {
-
-			$code = '<?php $this->getContent(); ?>
-
-<table width="100%">
-	<tr>
-		<td align="left">
-			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'] . '/index", "Go Back")); ?>
-		</td>
-		<td align="right">
-			<?php echo \Phalcon\Tag::linkTo(array("'.$options['name'] . '/new", "Create ' . $options['single'] . '")); ?>
-		</td>
-	<tr>
-</table>
-
-<table class="browse" align="center">'.PHP_EOL.
-			"\t".'<thead>'.PHP_EOL.
-			"\t\t".'<tr>'.PHP_EOL;
-			foreach ($options['attributes'] as $attribute) {
-				$code.="\t\t\t".'<th>'.$this->_getPossibleLabel($attribute).'</th>'.PHP_EOL;
-			}
-			$code.="\t\t".'</tr>'.PHP_EOL.
-			"\t".'</thead>'.PHP_EOL.
-			"\t".'<tbody>'.PHP_EOL.
-			"\t".'<?php
-		if(isset($page->items)){
-			foreach($page->items as $'.$options['name'].'){ ?>'.PHP_EOL.
-				"\t\t".'<tr>'.PHP_EOL;
-				$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
-				foreach($options['dataTypes'] as $fieldName => $dataType){
-					$code.="\t\t\t".'<td><?php echo ';
-					if (!isset($options['allReferences'][$fieldName])) {
-						if (strpos($dataType, 'date')!==false) {
-							$code.='(string) $'.$options['name'].'->'.$fieldName;
-						} else {
-							if (strpos($dataType, 'decimal')!==false) {
-								$code.='(string) $'.$options['name'].'->'.$fieldName;
-							} else {
-								$code.='$'.$options['name'].'->'.$fieldName;
-							}
-						}
-					} else {
-						$detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
-						$code.='$'.$options['name'].'->get'.$options['allReferences'][$fieldName]['tableName'].'()->get'.$detailField.'()';
-					}
-					$code.=' ?></td>'.PHP_EOL;
-				}
-
-				$primaryKeyCode = array();
-				foreach($options['primaryKeys'] as $primaryKey){
-					$primaryKeyCode[] = '$'.$options['name'].'->'.$primaryKey;
-				}
-				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/edit/".'.join('/', $primaryKeyCode).', "Edit")); ?></td>'.PHP_EOL;
-				$code.="\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo(array("'.$options['name'].'/delete/".'.join('/', $primaryKeyCode).', "Delete")); ?></td>'.PHP_EOL;
-
-				$code.="\t\t".'</tr>'.PHP_EOL.
-				"\t".'<?php }
-		} ?>'.PHP_EOL.
-			"\t".'</tbody>'.PHP_EOL.
-			"\t".'<tbody>'.PHP_EOL.
-			"\t\t".'<tr>'.PHP_EOL.
-			"\t\t\t".'<td colspan="'.count($options['attributes']).'" align="right">'.PHP_EOL.
-			"\t\t\t\t".'<table align="center">'.PHP_EOL.
-			"\t\t\t\t\t".'<tr>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search", "First") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->before, "Previous") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->next, "Next") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo \Phalcon\Tag::linkTo("'.$options['name'].'/search?page=".$page->last, "Last") ?></td>'.PHP_EOL.
-			"\t\t\t\t\t\t".'<td><?php echo $page->current, "/", $page->total_pages ?></td>'.PHP_EOL.
-			"\t\t\t\t\t".'</tr>'.PHP_EOL.
-			"\t\t\t\t".'</table>'.PHP_EOL.
-			"\t\t\t".'</td>'.PHP_EOL.
-			"\t\t".'</tr>'.PHP_EOL.
-			"\t".'<tbody>'.PHP_EOL.
-			'</table>';
-			$code = str_replace("\t", "    ", $code);
-			file_put_contents($viewPath, $code);
+		if (is_dir($dirPath) == false) {
+			mkdir($dirPath);
 		}
+
+		$viewPath = $dirPath . '/search.phtml';
+		if (file_exists($viewPath)) {
+			return;
+		}
+
+		$templatePath = $options['templatePath'] . '/scaffold/no-forms/views/search.phtml';
+		if (!file_exists($templatePath)) {
+			throw new BuilderException("Template '" . $templatePath . "' does not exist");
+		}
+
+		$headerCode = '';
+		foreach ($options['attributes'] as $attribute) {
+			$headerCode .= "\t\t\t" . '<th>' . $this->_getPossibleLabel($attribute) . '</th>' . PHP_EOL;
+		}
+
+		$rowCode = '';
+		$options['allReferences'] = array_merge($options['autocompleteFields'], $options['selectDefinition']);
+		foreach ($options['dataTypes'] as $fieldName => $dataType) {
+			$rowCode .= "\t\t\t" . '<td><?php echo ';
+			if (!isset($options['allReferences'][$fieldName])) {
+				$rowCode .= '$' . $options['singular'] . '->' . $fieldName;
+			} else {
+				$detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
+				$rowCode .= '$' . $options['singular'] . '->get' . $options['allReferences'][$fieldName]['tableName'] . '()->get' . $detailField . '()';
+			}
+			$rowCode .= ' ?></td>' . PHP_EOL;
+		}
+
+		$code = file_get_contents($templatePath);
+
+		$code = str_replace('$plural$', $options['plural'], $code);
+		$code = str_replace('$headerColumns$', $headerCode, $code);
+		$code = str_replace('$rowColumns$', $rowCode, $code);
+		$code = str_replace('$singularVar$', '$' . $options['singular'], $code);
+		$code = str_replace('$pk$', $options['attributes'][0], $code);
+
+		if ($this->isConsole()) {
+			echo $viewPath, PHP_EOL;
+		}
+
+		$code = str_replace("\t", "    ", $code);
+		file_put_contents($viewPath, $code);
 	}
 }
 

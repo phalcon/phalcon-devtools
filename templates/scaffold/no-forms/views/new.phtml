@@ -1,0 +1,26 @@
+<?php use Phalcon\Tag; ?>
+
+<?php echo Tag::form("$plural$/create") ?>
+
+<table width="100%">
+    <tr>
+        <td align="left"><?php echo Tag::linkTo(array("$plural$", "Go Back")) ?></td>
+        <td align="right"><?php echo Tag::submitButton("Save") ?></td>
+    <tr>
+</table>
+
+<?php echo $this->getContent(); ?>
+
+<div align="center">
+    <h1>Create $plural$</h1>
+</div>
+
+<table>
+$captureFields$
+    <tr>
+        <td></td>
+        <td><?php echo Tag::submitButton("Search") ?></td>
+    </tr>
+</table>
+
+</form>

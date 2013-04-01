@@ -7,7 +7,7 @@
 <table width="100%">
     <tr>
         <td align="left"><?php echo Tag::linkTo(array("$plural$", "Back")) ?></td>
-        <td align="right"><?php echo Tag::submitButton(array("Save")) ?></td>
+        <td align="right"><?php echo Tag::submitButton("Save") ?></td>
     <tr>
 </table>
 
@@ -15,9 +15,12 @@
     <h1>Edit $plural$</h1>
 </div>
 
-<table align="center">
-    $$captureFields$$
-    <?php echo Tag::hiddenField(array("id")) ?>
+<table>
+$captureFields$
+	<tr>
+		<td><?php echo Tag::hiddenField(array("id")) ?></td>
+		<td><?php echo Tag::submitButton("Search") ?></td>
+	</tr>
 </table>
 
 </form>

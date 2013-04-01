@@ -20,6 +20,8 @@
 
 namespace Phalcon\Mvc\Model\Migration;
 
+use Phalcon\Db\Profiler;
+
 /**
  * Phalcon\Mvc\Model\Migration\Profiler
  *
@@ -30,7 +32,7 @@ namespace Phalcon\Mvc\Model\Migration;
  * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Profiler extends \Phalcon\Db\Profiler
+class Profiler extends Profiler
 {
 
 	public function beforeStartProfile($profile)
