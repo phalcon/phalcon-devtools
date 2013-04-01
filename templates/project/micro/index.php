@@ -9,59 +9,30 @@ try {
 	 */
 	$config = include __DIR__ . '/../config/config.php';
 
-	$di = new \Phalcon\DI\FactoryDefault();
+	/**
+	 * Include Services
+	 */
+	include __DIR__ . '/../config/services.php';
 
 	/**
-	 * The URL component is used to generate all kind of urls in the application
+	 * Include Services
 	 */
-	$di->set('url', function() use ($config) {
-		$url = new \Phalcon\Mvc\Url();
-		$url->setBaseUri($config->application->baseUri);
-		return $url;
-	});
-
-	/**
-	 * Database connection is created based in the parameters defined in the configuration file
-	 */
-	$di->set('db', function() use ($config) {
-		return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
-			"host" => $config->database->host,
-			"username" => $config->database->username,
-			"password" => $config->database->password,
-			"dbname" => $config->database->name
-		));
-	});
-
-	/**
-	 * Registering an autoloader
-	 */
-	$loader = new \Phalcon\Loader();
-
-	$loader->registerDirs(
-		array(
-			$config->application->modelsDir
-		)
-	)->register();
+	include __DIR__ . '/../config/loader.php';
 
 	/**
 	 * Starting the application
-	 */
+ 	*/
 	$app = new \Phalcon\Mvc\Micro();
 
 	/**
-	 * Add your routes here
+	 * Assign service locator to the application
 	 */
-	$app->get('/', function () {
-		require __DIR__ . "/../views/index.phtml";
-	});
+	$app->setDi($di);
 
 	/**
-	 * Not found handler
+	 * Incude Application
 	 */
-	$app->notFound(function () use ($app) {
-		$app->response->setStatusCode(404, "Not Found")->sendHeaders();
-		require __DIR__ . "/../views/404.phtml";
-	});
+	include __DIR__ . '/../app.php';
 
 	/**
 	 * Handle the request

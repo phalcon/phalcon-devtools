@@ -11,8 +11,8 @@ class Module
 		$loader = new \Phalcon\Loader();
 
 		$loader->registerNamespaces(array(
-			'@@namespace@@\Frontend\Controllers' => __DIR__.'/controllers/',
-			'@@namespace@@\Frontend\Models' => __DIR__.'/models/',
+			'@@namespace@@\Frontend\Controllers' => __DIR__ . '/controllers/',
+			'@@namespace@@\Frontend\Models' => __DIR__ . '/models/',
 		));
 
 		$loader->register();
@@ -24,14 +24,14 @@ class Module
 		/**
 		 * Read configuration
 		 */
-		$config = include __DIR__."/config/config.php";
+		$config = include __DIR__ . "/config/config.php";
 
 		/**
 		 * Registering a dispatcher
 		 */
 		$di->set('dispatcher', function () {
 			$dispatcher = new \Phalcon\Mvc\Dispatcher();
-			$dispatcher->setDefaultNamespace("@@namespace@@\Frontend\Controllers\\");
+			$dispatcher->setDefaultNamespace("@@namespace@@\Frontend\Controllers");
 			return $dispatcher;
 		});
 
@@ -40,7 +40,7 @@ class Module
 		 */
 		$di->set('view', function() {
 			$view = new \Phalcon\Mvc\View();
-			$view->setViewsDir(__DIR__.'/views/');
+			$view->setViewsDir(__DIR__ . '/views/');
 			return $view;
 		});
 
@@ -54,18 +54,6 @@ class Module
 				"password" => $config->database->password,
 				"dbname" => $config->database->name
 			));
-		});
-
-		/**
-		 * If the configuration specify the use of metadata adapter use it or use memory otherwise
-		 */
-		$di->set('modelsMetadata', function() use ($config) {
-			if (isset($config->models->metadata)) {
-				$metadataAdapter = 'Phalcon\Mvc\Model\Metadata\\'.$config->models->metadata->adapter;
-				return new $metadataAdapter();
-			} else {
-				return new \Phalcon\Mvc\Model\Metadata\Memory();
-			}
 		});
 
 	}

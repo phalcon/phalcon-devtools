@@ -2,20 +2,16 @@
 
 return new \Phalcon\Config(array(
 	'database' => array(
-		'adapter'  => 'Mysql',
-		'host'     => 'localhost',
-		'username' => 'root',
-		'password' => '',
-		'name'     => 'test',
+		'adapter'    => 'Mysql',
+		'host'       => 'localhost',
+		'username'   => 'root',
+		'password'   => '',
+		'dbname'     => 'test',
 	),
 	'application' => array(
 		'modelsDir'      => __DIR__ . '/../models/',
+		'viewsDir'      => __DIR__ . '/../views/',
 		'baseUri'        => '/@@name@@/',
-	),
-	'models' => array(
-		'metadata' => array(
-			'adapter' => 'Memory'
-		)
 	)
 ));
 

@@ -104,10 +104,25 @@ class Micro
 	 */
 	private function createConfig($path, $templatePath, $name, $type)
 	{
-		if (file_exists($path.'config/config.' . $type) == false) {
+		if (file_exists($path . 'config/config.' . $type) == false) {
 			$str = file_get_contents($templatePath . '/project/micro/config.' . $type);
 			$str = preg_replace('/@@name@@/', $name, $str);
-			file_put_contents($path.'config/config.' . $type, $str);
+			file_put_contents($path . 'config/config.' . $type, $str);
+		}
+
+		if (file_exists($path . 'config/services.php') == false) {
+			$str = file_get_contents($templatePath . '/project/micro/services.php');
+			file_put_contents($path . 'config/services.php', $str);
+		}
+
+		if (file_exists($path . 'config/loader.php') == false) {
+			$str = file_get_contents($templatePath . '/project/micro/loader.php');
+			file_put_contents($path . 'config/loader.php', $str);
+		}
+
+		if (file_exists($path . 'app.php') == false) {
+			$str = file_get_contents($templatePath . '/project/micro/app.php');
+			file_put_contents($path . 'app.php', $str);
 		}
 	}
 
@@ -119,9 +134,10 @@ class Micro
 	private function createBootstrapFile($path, $templatePath, $useIniConfig)
 	{
 		if (file_exists($path . 'public/index.php') == false) {
-			$config = '$config = include(__DIR__."/../config/config.php");';
+
+			$config = '$config = include __DIR__ . "/../config/config.php";';
 			if ($useIniConfig) {
-				$config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__."/../config/config.ini");';
+				$config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__ . "/../config/config.ini");';
 			}
 
 			$str = file_get_contents($templatePath . '/project/micro/index.php');
