@@ -284,26 +284,26 @@ class Scaffold extends Component
 				"\t\t" . '<td align="left">';
 
 		if(isset($relationField[$attribute])){
-			$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
+			$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
 				', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true)) ?>';
 		} else {
 
 			switch ($dataType) {
 				case Column::TYPE_CHAR:
-					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '")) ?>';
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '")) ?>';
 					break;
 				case Column::TYPE_DECIMAL:
 				case Column::TYPE_INTEGER:
-					$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "type" => "numeric")) ?>';
+					$code .= PHP_EOL . "\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "numeric")) ?>';
 					break;
 				case Column::TYPE_DATE:
-					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
 					break;
 				case Column::TYPE_TEXT:
-					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
 					break;
 				default:
-					$code .= PHP_EOL . "\t\t\t" . '<?php echo \Phalcon\Tag::textField(array("' . $attribute . '", "size" => 30)) ?>';
+					$code .= PHP_EOL . "\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "size" => 30)) ?>';
 					break;
 			}
 		}

@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,7 +20,10 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Db\Column;
+use Phalcon\Db\Column,
+	Phalcon\Mvc\Model\Migration\Profiler,
+	Phalcon\Mvc\Model\Exception,
+	Phalcon\Events\Manager as EventsManager;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -29,7 +32,7 @@ use Phalcon\Db\Column;
  *
  * @category 	Phalcon
  * @package 	Scripts
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Migration
@@ -41,6 +44,13 @@ class Migration
 	 * @var Phalcon\Db
 	 */
 	private static $_connection;
+
+	/**
+	 * Database configuration
+	 *
+	 * @var Phalcon\Config
+	 */
+	private static $_databaseConfig;
 
 	/**
 	 * Path where to save the migration
@@ -58,16 +68,12 @@ class Migration
 	{
 
 		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $database->adapter;
-		self::$_connection = new $adapter(array(
-			'host'     => $database->host,
-			'username' => $database->username,
-			'password' => $database->password,
-			'dbname'   => $database->name,
-		));
+		self::$_connection = new $adapter($database->toArray());
+		self::$_databaseConfig = $database;
 
-		$profiler = new \Phalcon\Mvc\Model\Migration\Profiler();
+		$profiler = new Profiler();
 
-		$eventsManager = new \Phalcon\Events\Manager();
+		$eventsManager = new EventsManager();
 		$eventsManager->attach('db', function($event, $connection) use ($profiler) {
 			if ($event->getType() == 'beforeQuery') {
 				$profiler->startProfile($connection->getSQLStatement());
@@ -121,12 +127,17 @@ class Migration
 		$allFields = array();
 		$numericFields = array();
 		$tableDefinition = array();
-		//$defaultSchema = self::$_connection->getDefaultSchema();
-		$defaultSchema = null;
+
+		if (isset(self::$_databaseConfig->dbname)) {
+			$defaultSchema = self::$_databaseConfig->dbname;
+		} else {
+			$defaultSchema = null;
+		}
+
 		$description = self::$_connection->describeColumns($table, $defaultSchema);
 		foreach ($description as $field)  {
 			$fieldDefinition = array();
-			switch($field->getType()){
+			switch ($field->getType()) {
 				case Column::TYPE_INTEGER:
 					$fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
 					$numericFields[$field->getName()] = true;
@@ -151,12 +162,12 @@ class Migration
 					$fieldDefinition[] = "'type' => Column::TYPE_TEXT";
 					break;
 				default:
-					throw new \Phalcon\Mvc\Model\Exception('Unrecognized data type '.$field->getType().' at column '.$field->getName());
+					throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
 			}
 
-			if ($field->isPrimary()) {
-				$fieldDefinition[] = "'primary' => true";
-			}
+			//if ($field->isPrimary()) {
+			//	$fieldDefinition[] = "'primary' => true";
+			//}
 
 			if ($field->isNotNull()) {
 				$fieldDefinition[] = "'notNull' => true";
@@ -168,16 +179,18 @@ class Migration
 
 			if ($field->getSize()) {
             	$fieldDefinition[] = "'size' => " . $field->getSize();
+        	} else {
+        		$fieldDefinition[] = "'size' => 1";
         	}
 
 			if ($oldColumn != null) {
-				$fieldDefinition[] = "'after' => '".$oldColumn."'";
+				$fieldDefinition[] = "'after' => '" . $oldColumn . "'";
 			} else {
 				$fieldDefinition[] = "'first' => true";
 			}
 
 			$oldColumn = $field->getName();
-			$tableDefinition[] = "\t\t\t\tnew Column('".$field->getName()."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $fieldDefinition)."\n\t\t\t\t))";
+			$tableDefinition[] = "\t\t\t\tnew Column('" . $field->getName() . "', array(\n\t\t\t\t\t" . join(",\n\t\t\t\t\t", $fieldDefinition) . "\n\t\t\t\t))";
 			$allFields[] = "'".$field->getName()."'";
 		}
 
@@ -186,9 +199,9 @@ class Migration
 		foreach ($indexes as $indexName => $dbIndex) {
 			$indexDefinition = array();
 			foreach ($dbIndex->getColumns() as $indexColumn) {
-				$indexDefinition[] = "'".$indexColumn."'";
+				$indexDefinition[] = "'" . $indexColumn . "'";
 			}
-			$indexesDefinition[] = "\t\t\t\tnew Index('".$indexName."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $indexDefinition)."\n\t\t\t\t))";
+			$indexesDefinition[] = "\t\t\t\tnew Index('".$indexName."', array(\n\t\t\t\t\t" . join(",\n\t\t\t\t\t", $indexDefinition) . "\n\t\t\t\t))";
 		}
 
 		$referencesDefinition = array();
@@ -197,61 +210,65 @@ class Migration
 
 			$columns = array();
 			foreach ($dbReference->getColumns() as $column){
-				$columns[] = "'".$column."'";
+				$columns[] = "'" . $column . "'";
 			}
 
 			$referencedColumns = array();
 			foreach ($dbReference->getReferencedColumns() as $referencedColumn){
-				$referencedColumns[] = "'".$referencedColumn."'";
+				$referencedColumns[] = "'" . $referencedColumn . "'";
 			}
 
 			$referenceDefinition = array();
-			$referenceDefinition[] = "'referencedSchema' => '".$dbReference->getReferencedSchema()."'";
-			$referenceDefinition[] = "'referencedTable' => '".$dbReference->getReferencedTable()."'";
-			$referenceDefinition[] = "'columns' => array(".join(",", $columns).")";
-			$referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns).")";
+			$referenceDefinition[] = "'referencedSchema' => '" . $dbReference->getReferencedSchema() . "'";
+			$referenceDefinition[] = "'referencedTable' => '" . $dbReference->getReferencedTable() . "'";
+			$referenceDefinition[] = "'columns' => array(" . join(",", $columns) . ")";
+			$referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns) . ")";
 
-			$referencesDefinition[] = "\t\t\t\tnew Reference('".$constraintName."', array(\n\t\t\t\t\t".join(",\n\t\t\t\t\t", $referenceDefinition)."\n\t\t\t\t))";
+			$referencesDefinition[] = "\t\t\t\tnew Reference('" . $constraintName."', array(\n\t\t\t\t\t" . join(",\n\t\t\t\t\t", $referenceDefinition) . "\n\t\t\t\t))";
 		}
 
 		$optionsDefinition = array();
 		$tableOptions = self::$_connection->tableOptions($table, $defaultSchema);
-		foreach($tableOptions as $optionName => $optionValue){
-			$optionsDefinition[] = "\t\t\t\t'$optionName' => '".$optionValue."'";
+		foreach ($tableOptions as $optionName => $optionValue) {
+			$optionsDefinition[] = "\t\t\t\t'$optionName' => '" . $optionValue . "'";
 		}
 
 		$classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
-		$className = \Phalcon\Text::camelize($table).'Migration_'.$classVersion;
-		$classData = "use Phalcon\\Db\\Column as Column;
-use Phalcon\\Db\\Index as Index;
-use Phalcon\\Db\\Reference as Reference;
+		$className = \Phalcon\Text::camelize($table) . 'Migration_'.$classVersion;
+		$classData = "use Phalcon\\Db\\Column,
+	Phalcon\\Db\\Index,
+	Phalcon\\Db\\Reference,
+	Phalcon\\Mvc\\Model\\Migration;
 
-class ".$className." extends \\Phalcon\\Mvc\\Model\\Migration {\n\n".
-		"\tpublic function up(){\n\t\t\$this->morphTable('".$table."', array(".
-		"\n\t\t\t'columns' => array(\n".join(",\n", $tableDefinition)."\n\t\t\t),";
+class ".$className." extends Migration\n".
+"{\n\n".
+		"\tpublic function up()\n".
+		"\t{\n\t\t\$this->morphTable('" . $table . "', array(" .
+		"\n\t\t\t'columns' => array(\n" . join(",\n", $tableDefinition) . "\n\t\t\t),";
 		if (count($indexesDefinition)) {
-			$classData.="\n\t\t\t'indexes' => array(\n".join(",\n", $indexesDefinition)."\n\t\t\t),";
+			$classData .= "\n\t\t\t'indexes' => array(\n" . join(",\n", $indexesDefinition) . "\n\t\t\t),";
 		}
 
 		if (count($referencesDefinition)) {
-			$classData.="\n\t\t\t'references' => array(\n".join(",\n", $referencesDefinition)."\n\t\t\t),";
+			$classData .= "\n\t\t\t'references' => array(\n".join(",\n", $referencesDefinition) . "\n\t\t\t),";
 		}
 
 		if (count($optionsDefinition)) {
-			$classData.="\n\t\t\t'options' => array(\n".join(",\n", $optionsDefinition)."\n\t\t\t)\n";
+			$classData .= "\n\t\t\t'options' => array(\n".join(",\n", $optionsDefinition) . "\n\t\t\t)\n";
 		}
 
-		$classData.="\t\t));\n\t}";
+		$classData .= "\t\t));\n\t}";
 		if ($exportData == 'always' || $exportData == 'oncreate') {
-			if ($exportData == 'oncreate') {
-				$classData.="\n\n\tpublic function afterCreateTable(){\n";
-			} else {
-				$classData.="\n\n\tpublic function afterUp(){\n";
-			}
-			$classData.="\t\t\$this->batchInsert('$table', array(\n\t\t\t".join(",\n\t\t\t", $allFields)."\n\t\t));";
 
-			$fileHandler = fopen(self::$_migrationPath.'/'.$table.'.dat', 'w');
-			$cursor = self::$_connection->query('SELECT * FROM '.$table);
+			if ($exportData == 'oncreate') {
+				$classData .= "\n\n\tpublic function afterCreateTable(){\n";
+			} else {
+				$classData .= "\n\n\tpublic function afterUp(){\n";
+			}
+			$classData .= "\t\t\$this->batchInsert('$table', array(\n\t\t\t" . join(",\n\t\t\t", $allFields) . "\n\t\t));";
+
+			$fileHandler = fopen(self::$_migrationPath . '/' . $table . '.dat', 'w');
+			$cursor = self::$_connection->query('SELECT * FROM ' . $table);
 			$cursor->setFetchMode(Phalcon\Db::FETCH_ASSOC);
 			while ($row = $cursor->fetchArray()) {
 				$data = array();
@@ -302,7 +319,7 @@ class ".$className." extends \\Phalcon\\Mvc\\Model\\Migration {\n\n".
 					}
 				}
 			} else {
-				throw new \Phalcon\Mvc\Model\Exception('Migration class cannot be found '.$className.' at '.$filePath);
+				throw new Exception('Migration class cannot be found ' . $className . ' at ' . $filePath);
 			}
 		}
 	}
@@ -316,18 +333,23 @@ class ".$className." extends \\Phalcon\\Mvc\\Model\\Migration {\n\n".
 	public function morphTable($tableName, $definition)
 	{
 
-		$defaultSchema = null;
+		if (isset(self::$_databaseConfig->dbname)) {
+			$defaultSchema = self::$_databaseConfig->dbname;
+		} else {
+			$defaultSchema = null;
+		}
+
 		$tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
 		if (isset($definition['columns'])) {
 
 			if (count($definition['columns']) == 0) {
-				throw new \Phalcon\Mvc\Model\Exception('Table must have at least one column');
+				throw new Exception('Table must have at least one column');
 			}
 
 			$fields = array();
 			foreach ($definition['columns'] as $tableColumn) {
 				if(!is_object($tableColumn)){
-					throw new \Phalcon\Mvc\Model\Exception('Table must have at least one column');
+					throw new Exception('Table must have at least one column');
 				}
 				$fields[$tableColumn->getName()] = $tableColumn;
 			}
