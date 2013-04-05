@@ -1,9 +1,5 @@
 <?php
 
-if(!extension_loaded('phalcon')){
-	die("phalcon extension isn't installed");
-}
-
 /**
  * This scripts generates the stubs to be used on IDEs
  *
@@ -12,7 +8,15 @@ if(!extension_loaded('phalcon')){
  * php ide/gen-stubs.php
  */
 
-define('CPHALCON_DIR', '/Users/gutierrezandresfelipe/cphalcon/');
+if (!extension_loaded('phalcon')) {
+	throw new Exception("phalcon extension isn't installed");
+}
+
+define('CPHALCON_DIR', 'C:\Users\Horacio Carreola\Documents\GitHub\cphalcon\\');
+
+if (!file_exists(CPHALCON_DIR)) {
+	throw new Exception("CPHALCON directory does not exist");
+}
 
 class Stubs_Generator
 {
@@ -49,22 +53,22 @@ class Stubs_Generator
 		$nextLineMethod = false;
 		$comment = '';
 		foreach (file($file) as $line) {
-			if(trim($line)=='/**'){
+			if (trim($line) == '/**') {
 				$openComment = true;
 			}
-			if ($openComment===true){
-				$comment.=$line;
+			if ($openComment === true){
+				$comment .= $line;
 			} else {
-				if ($nextLineMethod===true) {
-					if (preg_match('/^PHP_METHOD\(([a-zA-Z\_]+), (.*)\)/', $line, $matches)) {
+				if ($nextLineMethod === true) {
+					if (preg_match('/^PHP_METHOD\(([a-zA-Z0-9\_]+), (.*)\)/', $line, $matches)) {
 						$this->_docs[$matches[1]][$matches[2]] = trim($comment);
 						$className = $matches[1];
 					} else {
-						if (preg_match('/^PHALCON_DOC_METHOD\(([a-zA-Z\_]+), (.*)\)/', $line, $matches)) {
+						if (preg_match('/^PHALCON_DOC_METHOD\(([a-zA-Z0-9\_]+), (.*)\)/', $line, $matches)) {
 							$this->_docs[$matches[1]][$matches[2]] = trim($comment);
 							$className = $matches[1];
 						} else {
-							if($firstDoc===true){
+							if ($firstDoc===true) {
 								$classDoc = $comment;
 								$firstDoc = false;
 								$comment = '';
@@ -76,20 +80,34 @@ class Stubs_Generator
 					$comment = '';
 				}
 			}
-			if($openComment===true){
-				if(trim($line)=='*/'){
+			if ($openComment === true) {
+				if (trim($line) == '*/') {
 					$openComment = false;
 					$nextLineMethod = true;
 				}
 			}
-		}
-		if (isset($classDoc)) {
-			if (isset($className)) {
-				if(!isset($this->_classDocs[$className])){
-					$this->_classDocs[$className] = $classDoc;
-				}
+			if (preg_match('/^PHALCON_INIT_CLASS\(([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
+				$className = $matches[1];
 			}
 		}
+		if (isset($classDoc)) {
+			if (!isset($className)) {
+				return null;
+			}
+			if (!isset($this->_classDocs[$className])) {
+				$this->_classDocs[$className] = $classDoc;
+			}
+		}
+	}
+
+	protected function _findClassName($classDoc)
+	{
+
+
+		foreach (explode("\n", $classDoc) as $line) {
+			echo $line;
+		}
+		return null;
 	}
 
 	public function getDocs()
@@ -115,7 +133,7 @@ $docs = $api->getDocs();
 
 $allClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 
-foreach($allClasses as $className){
+foreach ($allClasses as $className) {
 
 	if (!preg_match('#^Phalcon#', $className)) {
 		continue;
@@ -131,7 +149,7 @@ foreach($allClasses as $className){
 	$simpleClassName = str_replace("\\", "_", $className);
 	if (isset($classDocs[$simpleClassName])) {
 		foreach (explode("\n", $classDocs[$simpleClassName]) as $commentPiece) {
-			$source.="\t".$commentPiece."\n";
+			$source .= "\t" . $commentPiece . "\n";
 		}
 	}
 
@@ -150,13 +168,13 @@ foreach($allClasses as $className){
 	$extends = $reflector->getParentClass();
 	if ($reflector->isInterface()) {
 		if ($extends) {
-			$source.="\t".'interface '.$normalClassName.' extends \\'.$extends->name.' {'.PHP_EOL;
+			$source .= "\t" . 'interface ' . $normalClassName . ' extends \\'.$extends->name.' {'.PHP_EOL;
 		} else {
-			$source.="\t".'interface '.$normalClassName.' {'.PHP_EOL;
+			$source .= "\t" . 'interface ' . $normalClassName . ' {' . PHP_EOL;
 		}
 	} else {
-		$implements = $reflector->getInterfaceNames();
 
+		$implements = $reflector->getInterfaceNames();
 		if ($extends) {
 			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
 		} else {
@@ -176,14 +194,14 @@ foreach($allClasses as $className){
 	}
 
 	// constants
-	foreach ($reflector->getConstants() as $constant => $value){
-		$source.= PHP_EOL."\t\t".'const '.$constant.' = '.$value.';'.PHP_EOL;
+	foreach ($reflector->getConstants() as $constant => $value) {
+		$source.= PHP_EOL . "\t\t" . 'const '.$constant.' = '.$value.';'.PHP_EOL;
 	}
 
 	// public and protected properties
-	foreach ($reflector->getProperties() as $property){
-		if($property->getDeclaringClass()->name == $className){
-			$source.= PHP_EOL."\t\t".implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
+	foreach ($reflector->getProperties() as $property) {
+		if ($property->getDeclaringClass()->name == $className) {
+			$source.= PHP_EOL . "\t\t" . implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
 		}
 	}
 
@@ -268,6 +286,11 @@ foreach($allClasses as $className){
 		 * @var \Phalcon\Security
 	 	 */
 		public $security;
+
+		/**
+		 * @var \Phalcon\Annotations\Adapter\Memory
+	 	 */
+		public $annotations;
 		';
 	}
 
@@ -290,15 +313,15 @@ foreach($allClasses as $className){
 			$source.= "\t\t".implode(' ', $modifiers).' function '.$method->name.'(';
 
 			$parameters = array();
-			foreach($method->getParameters() as $parameter){
+			foreach ($method->getParameters() as $parameter) {
 				if ($parameter->isOptional()) {
 					if($parameter->isDefaultValueAvailable()){
-						$parameters[] = '$'.$parameter->name.'='.$parameter->getDefaultValue();
+						$parameters[] = '$' . $parameter->name . '=' . $parameter->getDefaultValue();
 					} else {
-						$parameters[] = '$'.$parameter->name.'=null';
+						$parameters[] = '$' . $parameter->name . '=null';
 					}
 				} else {
-					$parameters[] = '$'.$parameter->name;
+					$parameters[] = '$' . $parameter->name;
 				}
 			}
 			if ($reflector->isInterface()) {
@@ -313,10 +336,10 @@ foreach($allClasses as $className){
 
 	$source.='}'.PHP_EOL;
 
-	$path = 'ide/'.$genVersion.'/'.str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
-	if(!is_dir($path)){
+	$path = 'ide/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
+	if (!is_dir($path)) {
 		mkdir($path, 0777, true);
 	}
-	file_put_contents($path.DIRECTORY_SEPARATOR.$normalClassName.'.php', $source);
 
+	file_put_contents($path . DIRECTORY_SEPARATOR . $normalClassName . '.php', $source);
 }

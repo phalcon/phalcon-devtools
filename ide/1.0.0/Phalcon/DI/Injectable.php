@@ -94,6 +94,11 @@ namespace Phalcon\DI {
 		 * @var \Phalcon\Security
 	 	 */
 		public $security;
+
+		/**
+		 * @var \Phalcon\Annotations\Adapter\Memory
+	 	 */
+		public $annotations;
 		
 		/**
 		 * Sets the dependency injector
