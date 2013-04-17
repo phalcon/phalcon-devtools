@@ -2,7 +2,9 @@
 
 namespace @@namespace@@\Frontend\Controllers;
 
-class ControllerBase extends \Phalcon\Mvc\Controller
+use Phalcon\Mvc\Controller;
+
+class ControllerBase extends Controller
 {
 
 }
