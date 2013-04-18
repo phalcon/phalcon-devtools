@@ -263,6 +263,7 @@ class Tools
 				}
 
 				$className = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+				unset($configArray['adapter']);
 				return new $className($configArray);
 			});
 
