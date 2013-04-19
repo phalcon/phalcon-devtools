@@ -143,7 +143,7 @@ abstract class Command
 				if (strlen($parameterParts[0]) == "") {
 					throw new CommandsException("Invalid definition for the parameter '".$parameter."'");
 				}
-				if (!in_array($parameterParts[1], array('s', 'i'))) {
+				if (!in_array($parameterParts[1], array('s', 'i', 'l'))) {
 					throw new CommandsException("Incorrect data type on parameter '".$parameter."'");
 				}
 				$this->_preparedArguments[$parameterParts[0]] = true;
@@ -161,7 +161,7 @@ abstract class Command
 					if (strlen($parameterParts[0]) == "") {
 						throw new CommandsException("Invalid definition for the parameter '$parameter'");
 					}
-					if (!in_array($parameterParts[1], array('s', 'i'))) {
+					if (!in_array($parameterParts[1], array('s', 'i', 'l'))) {
 						throw new CommandsException("Incorrect data type on parameter '$parameter'");
 					}
 					$this->_preparedArguments[$parameterParts[0]] = true;
