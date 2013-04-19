@@ -100,7 +100,7 @@ class Model extends Component
         $getSource = "
     public function getSource()
     {
-        return %s;
+        return '%s';
     }
 ";
         $templateThis     = "        \$this->%s(%s);";
@@ -330,7 +330,8 @@ class %s extends \\Phalcon\\Mvc\\Model
 
 		if ($this->_options['fileName'] != $this->_options['name']) {
 			$initialize[] = sprintf(
-                $templateThis, 'setSource', $this->_options['name']
+                $templateThis, 'setSource',
+                '\'' . $this->_options['name'] . '\''
             );
 		}
 
