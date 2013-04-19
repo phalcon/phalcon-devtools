@@ -221,7 +221,7 @@ class Model extends Component
         $templateCode = "<?php
 %s
 %s
-class %s extends \\Phalcon\\Mvc\\Model
+class %s extends %s
 {
 %s
 }
@@ -258,8 +258,8 @@ class %s extends \\Phalcon\\Mvc\\Model
 		}
 
 		$methodRawCode = array();
-		$className = $this->_options['className'];
-		$modelPath .= $className.'.php';
+		$className     = $this->_options['className'];
+		$modelPath    .= $className.'.php';
 
 		if (file_exists($modelPath)) {
 			if (!$this->_options['force']) {
@@ -461,46 +461,74 @@ class %s extends \\Phalcon\\Mvc\\Model
 			$validations[] = $templateValidationFailed;
 		}
 
-		$attributes = array();
-		$setters = array();
-		$getters = array();
+        /**
+         * Check if there has been an extender class
+         */
+        $extends = '\\Phalcon\\Mvc\\Model';
+        if (isset($this->_options['extends'])) {
+            if (!empty($this->_options['extends'])) {
+                $extends = $this->_options['extends'];
+            }
+        }
+
+        /**
+         * Check if there have been any excluded fields
+         */
+        $exclude = array();
+        if (isset($this->_options['excludeFields'])) {
+            if (!empty($this->_options['excludeFields'])) {
+                $keys = explode(',', $this->_options['excludeFields']);
+                if (count($keys) > 0) {
+                    foreach ($keys as $key) {
+                        $exclude[trim($key)] = '';
+                    }
+                }
+            }
+        }
+
+        $attributes = array();
+		$setters    = array();
+		$getters    = array();
 		foreach ($fields as $field) {
 			$type = $this->getPHPType($field->getType());
 			if ($useSettersGetters) {
-				$attributes[] = sprintf(
-                    $templateAttributes, $type, 'protected', $field->getName()
-                );
-				$setterName   = Utils::camelize($field->getName());
-				$setters[]    = sprintf(
-                    $templateSetter,
-                    $field->getName(),
-                    $type,
-                    $field->getName(),
-                    $setterName,
-                    $field->getName(),
-                    $field->getName(),
-                    $field->getName()
-                );
 
-				if (isset($this->_typeMap[$type])) {
-					$getters[] = sprintf(
-                        $templateGetterMap,
+                if (!array_key_exists(strtolower($field->getName()), $exclude)) {
+                    $attributes[] = sprintf(
+                        $templateAttributes, $type, 'protected', $field->getName()
+                    );
+                    $setterName   = Utils::camelize($field->getName());
+                    $setters[]    = sprintf(
+                        $templateSetter,
                         $field->getName(),
                         $type,
+                        $field->getName(),
                         $setterName,
                         $field->getName(),
-                        $this->_typeMap[$type],
-                        $field->getName()
-                    );
-				} else {
-                    $getters[] = sprintf(
-                        $templateGetter,
                         $field->getName(),
-                        $type,
-                        $setterName,
                         $field->getName()
                     );
-				}
+
+                    if (isset($this->_typeMap[$type])) {
+                        $getters[] = sprintf(
+                            $templateGetterMap,
+                            $field->getName(),
+                            $type,
+                            $setterName,
+                            $field->getName(),
+                            $this->_typeMap[$type],
+                            $field->getName()
+                        );
+                    } else {
+                        $getters[] = sprintf(
+                            $templateGetter,
+                            $field->getName(),
+                            $type,
+                            $setterName,
+                            $field->getName()
+                        );
+                    }
+                }
 			} else {
 				$attributes[] = sprintf(
                     $templateAttributes, $type, 'public', $field->getName()
@@ -559,6 +587,7 @@ class %s extends \\Phalcon\\Mvc\\Model
             $license,
             $namespace,
             $className,
+            $extends,
             $content
         );
 		file_put_contents($modelPath, $code);
