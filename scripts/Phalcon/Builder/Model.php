@@ -127,7 +127,7 @@ class Model extends Component
                     \"required\" => true,
                 )
             )
-        )";
+        );";
 
         $templateValidateEmail = "
         \$this->validate(
@@ -137,7 +137,7 @@ class Model extends Component
                     \"required\" => true,
                 )
             )
-        )";
+        );";
 
         $templateValidationFailed = "
         if (\$this->validationHasFailed() == true) {
