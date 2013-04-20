@@ -104,7 +104,7 @@ class Model extends Component
     }
 ";
         $templateThis     = "        \$this->%s(%s);";
-        $templateRelation = "        \$this->%s(\"%s\", \"%s\", \"%s\")";
+        $templateRelation = "        \$this->%s(\"%s\", \"%s\", \"%s\");";
         $templateSetter   = "
     /**
      * Method to set the value of field %s
@@ -345,9 +345,9 @@ class %s extends %s
 			if (count($this->_options['hasMany'])) {
 				foreach ($this->_options['hasMany'] as $relation) {
 					if (is_string($relation['fields'])) {
-						$entityName = $templateRelation['camelizedName'];
+						$entityName = $relation['camelizedName'];
                         $initialize[] = sprintf(
-                            $relation,
+                            $templateRelation,
                             'hasMany',
                             $relation['fields'],
                             $entityName,
@@ -359,17 +359,16 @@ class %s extends %s
 		}
 
 		if (isset($this->_options['belongsTo'])) {
-			if (count($this->_options['belongsTo'])) {
+			if (count($this->_options['belongsTo'])) {			
 				foreach ($this->_options['belongsTo'] as $relation) {
 					if (is_string($relation['fields'])) {
-						$entityName   = $templateRelation['referencedModel'];
+						$entityName   = $relation['referencedModel'];
                         $initialize[] = sprintf(
-                            $relation,
+                            $templateRelation,
                             'belongsTo',
                             $relation['fields'],
                             $entityName,
-                            $relation['relationFields']
-                        );
+                            $relation['relationFields']);
 					}
 				}
 			}
