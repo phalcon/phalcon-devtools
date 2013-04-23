@@ -42,7 +42,7 @@ class Model extends Command implements CommandsInterface
 {
 
 	protected $_possibleParameters = array(
-		'name=s'          => "Model name",
+		'name=s'          => "Table name",
 		'schema=s'        => "Name of the schema. [optional]",
 		'namespace=s'     => "Model's namespace [optional]",
 		'get-set'         => "Attributes will be protected and have setters/getters. [optional]",
@@ -52,6 +52,7 @@ class Model extends Command implements CommandsInterface
 		'directory=s'     => "Base path on which project will be created [optional]",
 		'force'           => "Rewrite the model. [optional]",
 		'trace'           => "Shows the trace of the framework in case of exception. [optional]",
+        'mapcolumn'       => 'Get some code for map columns. [optional]',
 	);
 
 	public function run($parameters)
@@ -59,7 +60,7 @@ class Model extends Command implements CommandsInterface
 
 		$name = $this->getOption(array('name', 1));
 
-		$className = Text::camelize(isset($parameters[2]) ? $parameters[2] : $name);
+		$className = Text::camelize(isset($parameters[1]) ? $parameters[1] : $name);
 		$fileName = Text::uncamelize($className);
 
 		$schema = $this->getOption('schema');
@@ -76,7 +77,8 @@ class Model extends Command implements CommandsInterface
                 'directory'         => $this->getOption('directory'),
                 'extends'           => $this->getOption('extends'),
                 'excludeFields'     => $this->getOption('excludefields'),
-                'force'             => $this->isReceivedOption('force')
+                'force'             => $this->isReceivedOption('force'),
+                'mapColumn'         => $this->isReceivedOption('mapcolumn'),
 		    )
         );
 
