@@ -5,6 +5,7 @@ use Phalcon\DI\FactoryDefault,
 	Phalcon\Mvc\Url as UrlResolver,
 	Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
 	Phalcon\Mvc\View\Engine\Volt as VoltEngine,
+	Phalcon\Mvc\View\Engine\Php as PhpEngine,
 	Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter,
 	Phalcon\Session\Adapter\Files as SessionAdapter;
 
@@ -42,7 +43,13 @@ $di->set('view', function() use ($config) {
 			));
 
 			return $volt;
-		}
+		},
+		'.phtml' => function($view, $di) {
+
+                    $phtml = new PhpEngine($view, $di);
+                    
+                    return $phtml;
+        }
 	));
 
 	return $view;
