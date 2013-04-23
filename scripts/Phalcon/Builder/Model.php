@@ -100,7 +100,7 @@ class Model extends Component
         $getSource = "
     public function getSource()
     {
-        return %s;
+        return '%s';
     }
 ";
         $templateThis     = "        \$this->%s(%s);";
@@ -146,8 +146,8 @@ class Model extends Component
 
         $templateAttributes = "
     /**
-     * @var %s
      *
+     * @var %s
      */
     %s \$%s;
      ";
@@ -330,7 +330,8 @@ class %s extends %s
 
 		if ($this->_options['fileName'] != $this->_options['name']) {
 			$initialize[] = sprintf(
-                $templateThis, 'setSource', $this->_options['name']
+                $templateThis, 'setSource',
+                '\'' . $this->_options['name'] . '\''
             );
 		}
 
@@ -581,6 +582,10 @@ class %s extends %s
             $content .= sprintf($templateFind, $className, $className);
 		}
 
+        if (isset($this->_options['mapColumn'])) {
+            $content .= $this->_genColumnMapCode($fields);
+        }
+
 		$code = sprintf(
             $templateCode,
             $license,
@@ -596,5 +601,25 @@ class %s extends %s
             '" was successfully created.'
         ) . PHP_EOL;
 	}
+
+    private function  _genColumnMapCode($fields) {
+        $template = '
+    /**
+     * Independent Column Mapping.
+     */
+    public function columnMap() {
+        return array(
+            %s
+        );
+    }
+';
+        $contents = array();
+        foreach ($fields as $field) {
+            $name = $field->getName();
+            $contents[] = sprintf('\'%s\' => \'%s\'', $name, $name);
+        }
+
+        return sprintf($template, join(", \n            ", $contents));
+    }
 
 }
