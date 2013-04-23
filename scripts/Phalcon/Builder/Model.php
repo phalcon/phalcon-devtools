@@ -146,8 +146,8 @@ class Model extends Component
 
         $templateAttributes = "
     /**
-     * @var %s
      *
+     * @var %s
      */
     %s \$%s;
      ";
