@@ -143,7 +143,7 @@ class Stub
 	}
 
 	/**
-	 * @param ReflectionClass $reflectionClass
+	 * @param \ReflectionClass $reflectionClass
 	 * @return string
 	 */
 	protected function _removeNamespace(\ReflectionClass $reflectionClass)
@@ -153,7 +153,7 @@ class Stub
 	}
 
 	/**
-	 * @param ReflectionClass $reflectionClass
+	 * @param \ReflectionClass $reflectionClass
 	 * @return null|string
 	 */
 	protected function _exportClassConstants(\ReflectionClass $reflectionClass)
