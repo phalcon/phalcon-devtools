@@ -100,11 +100,11 @@ class Model extends Component
         $getSource = "
     public function getSource()
     {
-        return %s;
+        return '%s';
     }
 ";
         $templateThis     = "        \$this->%s(%s);";
-        $templateRelation = "        \$this->%s(\"%s\", \"%s\", \"%s\")";
+        $templateRelation = "        \$this->%s(\"%s\", \"%s\", \"%s\");";
         $templateSetter   = "
     /**
      * Method to set the value of field %s
@@ -127,7 +127,7 @@ class Model extends Component
                     \"required\" => true,
                 )
             )
-        )";
+        );";
 
         $templateValidateEmail = "
         \$this->validate(
@@ -146,8 +146,8 @@ class Model extends Component
 
         $templateAttributes = "
     /**
-     * @var %s
      *
+     * @var %s
      */
     %s \$%s;
      ";
@@ -221,7 +221,7 @@ class Model extends Component
         $templateCode = "<?php
 %s
 %s
-class %s extends \\Phalcon\\Mvc\\Model
+class %s extends %s
 {
 %s
 }
@@ -258,8 +258,8 @@ class %s extends \\Phalcon\\Mvc\\Model
 		}
 
 		$methodRawCode = array();
-		$className = $this->_options['className'];
-		$modelPath .= $className.'.php';
+		$className     = $this->_options['className'];
+		$modelPath    .= $className.'.php';
 
 		if (file_exists($modelPath)) {
 			if (!$this->_options['force']) {
@@ -333,7 +333,8 @@ class %s extends \\Phalcon\\Mvc\\Model
 
 		if ($this->_options['fileName'] != $this->_options['name']) {
 			$initialize[] = sprintf(
-                $templateThis, 'setSource', $this->_options['name']
+                $templateThis, 'setSource',
+                '\'' . $this->_options['name'] . '\''
             );
 		}
 
@@ -348,9 +349,9 @@ class %s extends \\Phalcon\\Mvc\\Model
 			if (count($this->_options['hasMany'])) {
 				foreach ($this->_options['hasMany'] as $relation) {
 					if (is_string($relation['fields'])) {
-						$entityName = $templateRelation['camelizedName'];
+						$entityName = $relation['camelizedName'];
                         $initialize[] = sprintf(
-                            $relation,
+                            $templateRelation,
                             'hasMany',
                             $relation['fields'],
                             $entityName,
@@ -362,17 +363,16 @@ class %s extends \\Phalcon\\Mvc\\Model
 		}
 
 		if (isset($this->_options['belongsTo'])) {
-			if (count($this->_options['belongsTo'])) {
+			if (count($this->_options['belongsTo'])) {			
 				foreach ($this->_options['belongsTo'] as $relation) {
 					if (is_string($relation['fields'])) {
-						$entityName   = $templateRelation['referencedModel'];
+						$entityName   = $relation['referencedModel'];
                         $initialize[] = sprintf(
-                            $relation,
+                            $templateRelation,
                             'belongsTo',
                             $relation['fields'],
                             $entityName,
-                            $relation['relationFields']
-                        );
+                            $relation['relationFields']);
 					}
 				}
 			}
@@ -464,46 +464,74 @@ class %s extends \\Phalcon\\Mvc\\Model
 			$validations[] = $templateValidationFailed;
 		}
 
-		$attributes = array();
-		$setters = array();
-		$getters = array();
+        /**
+         * Check if there has been an extender class
+         */
+        $extends = '\\Phalcon\\Mvc\\Model';
+        if (isset($this->_options['extends'])) {
+            if (!empty($this->_options['extends'])) {
+                $extends = $this->_options['extends'];
+            }
+        }
+
+        /**
+         * Check if there have been any excluded fields
+         */
+        $exclude = array();
+        if (isset($this->_options['excludeFields'])) {
+            if (!empty($this->_options['excludeFields'])) {
+                $keys = explode(',', $this->_options['excludeFields']);
+                if (count($keys) > 0) {
+                    foreach ($keys as $key) {
+                        $exclude[trim($key)] = '';
+                    }
+                }
+            }
+        }
+
+        $attributes = array();
+		$setters    = array();
+		$getters    = array();
 		foreach ($fields as $field) {
 			$type = $this->getPHPType($field->getType());
 			if ($useSettersGetters) {
-				$attributes[] = sprintf(
-                    $templateAttributes, $type, 'protected', $field->getName()
-                );
-				$setterName   = Utils::camelize($field->getName());
-				$setters[]    = sprintf(
-                    $templateSetter,
-                    $field->getName(),
-                    $type,
-                    $field->getName(),
-                    $setterName,
-                    $field->getName(),
-                    $field->getName(),
-                    $field->getName()
-                );
 
-				if (isset($this->_typeMap[$type])) {
-					$getters[] = sprintf(
-                        $templateGetterMap,
+                if (!array_key_exists(strtolower($field->getName()), $exclude)) {
+                    $attributes[] = sprintf(
+                        $templateAttributes, $type, 'protected', $field->getName()
+                    );
+                    $setterName   = Utils::camelize($field->getName());
+                    $setters[]    = sprintf(
+                        $templateSetter,
                         $field->getName(),
                         $type,
+                        $field->getName(),
                         $setterName,
                         $field->getName(),
-                        $this->_typeMap[$type],
-                        $field->getName()
-                    );
-				} else {
-                    $getters[] = sprintf(
-                        $templateGetter,
                         $field->getName(),
-                        $type,
-                        $setterName,
                         $field->getName()
                     );
-				}
+
+                    if (isset($this->_typeMap[$type])) {
+                        $getters[] = sprintf(
+                            $templateGetterMap,
+                            $field->getName(),
+                            $type,
+                            $setterName,
+                            $field->getName(),
+                            $this->_typeMap[$type],
+                            $field->getName()
+                        );
+                    } else {
+                        $getters[] = sprintf(
+                            $templateGetter,
+                            $field->getName(),
+                            $type,
+                            $setterName,
+                            $field->getName()
+                        );
+                    }
+                }
 			} else {
 				$attributes[] = sprintf(
                     $templateAttributes, $type, 'public', $field->getName()
@@ -557,11 +585,16 @@ class %s extends \\Phalcon\\Mvc\\Model
             $content .= sprintf($templateFind, $className, $className);
 		}
 
+        if (isset($this->_options['mapColumn'])) {
+            $content .= $this->_genColumnMapCode($fields);
+        }
+
 		$code = sprintf(
             $templateCode,
             $license,
             $namespace,
             $className,
+            $extends,
             $content
         );
 		file_put_contents($modelPath, $code);
@@ -571,5 +604,25 @@ class %s extends \\Phalcon\\Mvc\\Model
             '" was successfully created.'
         ) . PHP_EOL;
 	}
+
+    private function  _genColumnMapCode($fields) {
+        $template = '
+    /**
+     * Independent Column Mapping.
+     */
+    public function columnMap() {
+        return array(
+            %s
+        );
+    }
+';
+        $contents = array();
+        foreach ($fields as $field) {
+            $name = $field->getName();
+            $contents[] = sprintf('\'%s\' => \'%s\'', $name, $name);
+        }
+
+        return sprintf($template, join(", \n            ", $contents));
+    }
 
 }
