@@ -314,6 +314,7 @@ class %s extends %s
 		}
 
 		$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+		unset($configArray['adapter']);
 		$db = new $adapterName($configArray);
 
 		$initialize = array();
@@ -324,7 +325,9 @@ class %s extends %s
                 );
 			}
 			$schema = $this->_options['schema'];
-		} else {
+		} elseif ($adapter == 'Postgresql') {
+                        $schema = 'public';
+                } else {
 			$schema = $config->database->dbname;
 		}
 

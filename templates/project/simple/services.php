@@ -42,7 +42,8 @@ $di->set('view', function() use ($config) {
 			));
 
 			return $volt;
-		}
+		},
+		'.phtml' => 'Phalcon\Mvc\View\Engine\Php' // Generate Template files uses PHP itself as the template engine
 	));
 
 	return $view;
