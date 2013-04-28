@@ -46,6 +46,7 @@ class Scaffold extends Command implements CommandsInterface
 		'get-set'        => "Attributes will be protected and have setters/getters. [optional]",
 		'directory=s'    => "Base path on which project was created [optional]",
 		'template-path'	 => 'Specify a template path [optional]',
+		'template-engine'=> 'Define the template engine, default php (php, volt). [optional]',
 		'force'          => "Forces to rewrite generated code if they already exists. [optional]",
 		'trace'          => "Shows the trace of the framework in case of exception. [optional]",
 	);
@@ -56,6 +57,7 @@ class Scaffold extends Command implements CommandsInterface
 		$name = $this->getOption(array('table-name', 1));
 		$templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);
 		$schema = $this->getOption('schema');
+		$templateEngint = $this->getOption(array('template-engine'), null, "php");
 
 		$scaffoldBuilder = new scaffoldBuilder(array(
 			'name' => $name,
@@ -63,7 +65,8 @@ class Scaffold extends Command implements CommandsInterface
 			'force'	=> $this->isReceivedOption('force'),
 			'genSettersGetters' => $this->isReceivedOption('get-set'),
 			'directory' => $this->getOption('directory'),
-			'templatePath' => $templatePath
+			'templatePath' => $templatePath,
+			'templateEngine'=> $templateEngint,
 		));
 
 		return $scaffoldBuilder->build();
