@@ -50,7 +50,7 @@ namespace Phalcon\Acl\Adapter {
 	 *		}
 	 *	}
 	 *
-	 *	//Grant acess to private area to role Users
+	 *	//Grant access to private area to role Users
 	 *  foreach ($privateResources as $resource => $actions) {
 	 * 		foreach ($actions as $action) {
 	 *			$acl->allow('Users', $resource, $action);

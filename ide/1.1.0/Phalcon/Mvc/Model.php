@@ -20,7 +20,7 @@ namespace Phalcon\Mvc {
 	 * <code>
 	 *
 	 * $robot = new Robots();
-	 * $robot->type = 'mechanical'
+	 * $robot->type = 'mechanical';
 	 * $robot->name = 'Astro Boy';
 	 * $robot->year = 1952;
 	 * if ($robot->save() == false) {
@@ -586,7 +586,7 @@ namespace Phalcon\Mvc {
 		 *
 		 *   public function beforeSave()
 		 *   {
-		 *     if (this->name == 'Peter') {
+		 *     if ($this->name == 'Peter') {
 		 *        $message = new Message("Sorry, but a robot cannot be named Peter");
 		 *        $this->appendMessage($message);
 		 *     }
@@ -761,7 +761,7 @@ namespace Phalcon\Mvc {
 		 *<code>
 		 *	//Creating a new robot
 		 *	$robot = new Robots();
-		 *	$robot->type = 'mechanical'
+		 *	$robot->type = 'mechanical';
 		 *	$robot->name = 'Astro Boy';
 		 *	$robot->year = 1952;
 		 *	$robot->save();
@@ -786,7 +786,7 @@ namespace Phalcon\Mvc {
 		 *<code>
 		 *	//Creating a new robot
 		 *	$robot = new Robots();
-		 *	$robot->type = 'mechanical'
+		 *	$robot->type = 'mechanical';
 		 *	$robot->name = 'Astro Boy';
 		 *	$robot->year = 1952;
 		 *	$robot->create();
@@ -832,7 +832,7 @@ namespace Phalcon\Mvc {
 		 *$robot = Robots::findFirst("id=100");
 		 *$robot->delete();
 		 *
-		 *foreach(Robots::find("type = 'mechanical'") as $robot){
+		 *foreach (Robots::find("type = 'mechanical'") as $robot) {
 		 *   $robot->delete();
 		 *}
 		 * </code>
@@ -1068,12 +1068,12 @@ namespace Phalcon\Mvc {
 		 *
 		 *   public function initialize()
 		 *   {
-		 *		$this->addBehavior(new Timestampable(
+		 *		$this->addBehavior(new Timestampable(array(
 		 *			'onCreate' => array(
 		 *				'field' => 'created_at',
 		 *				'format' => 'Y-m-d'
 		 *			)
-		 *		));
+		 *		)));
 		 *   }
 		 *
 		 *}
@@ -1132,7 +1132,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Check if an specific attribute has changed
+		 * Check if a specific attribute has changed
 		 * This only works if the model is keeping data snapshots
 		 *
 		 * @param boolean $fieldName

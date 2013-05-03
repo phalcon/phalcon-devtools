@@ -12,6 +12,10 @@ namespace Phalcon\Http {
 
 		protected $_readed;
 
+		protected $_restored;
+
+		protected $_useEncryption;
+
 		protected $_dependencyInjector;
 
 		protected $_filter;
@@ -24,7 +28,11 @@ namespace Phalcon\Http {
 
 		protected $_path;
 
+		protected $_domain;
+
 		protected $_secure;
+
+		protected $_httpOnly;
 
 		/**
 		 * \Phalcon\Http\Cookie constructor
@@ -33,8 +41,10 @@ namespace Phalcon\Http {
 		 * @param mixed $value
 		 * @param int $expire
 		 * @param string $path
+		 * @param boolean $secure
+		 * @param boolean $httpOnly
 		 */
-		public function __construct($name, $value=null, $expire=null, $path=null){ }
+		public function __construct($name, $value=null, $expire=null, $path=null, $secure=null, $httpOnly=null){ }
 
 
 		/**
@@ -73,6 +83,48 @@ namespace Phalcon\Http {
 
 
 		/**
+		 * Sends the cookie to the HTTP client
+		 * Stores the cookie definition in session
+		 *
+		 * @return \Phalcon\Http\Cookie
+		 */
+		public function send(){ }
+
+
+		/**
+		 * Reads the cookie-related info from the SESSION to restore the cookie as it was set
+		 * This method is automatically called internally so normally you don't need to call it
+		 *
+		 * @return \Phalcon\Http\Cookie
+		 */
+		public function restore(){ }
+
+
+		/**
+		 * Deletes the cookie by setting an expire time in the past
+		 *
+		 */
+		public function delete(){ }
+
+
+		/**
+		 * Sets if the cookie must be encrypted/decrypted automatically
+		 *
+		 * @param boolean $useEncryption
+		 * @return \Phalcon\Http\Cookie
+		 */
+		public function useEncryption($useEncryption){ }
+
+
+		/**
+		 * Check if the cookie is using implicit encryption
+		 *
+		 * @return boolean
+		 */
+		public function isUsingEncryption(){ }
+
+
+		/**
 		 * Sets the cookie's expiration time
 		 *
 		 * @param int $expire
@@ -107,6 +159,23 @@ namespace Phalcon\Http {
 
 
 		/**
+		 * Sets the domain that the cookie is available to
+		 *
+		 * @param string $domain
+		 * @return \Phalcon\Http\Cookie
+		 */
+		public function setDomain($domain){ }
+
+
+		/**
+		 * Returns the domain that the cookie is available to
+		 *
+		 * @return string
+		 */
+		public function getDomain(){ }
+
+
+		/**
 		 * Sets if the cookie must only be sent when the connection is secure (HTTPS)
 		 *
 		 * @param boolean $secure
@@ -121,6 +190,31 @@ namespace Phalcon\Http {
 		 * @return boolean
 		 */
 		public function getSecure(){ }
+
+
+		/**
+		 * Sets if the cookie is accessible only through the HTTP protocol
+		 *
+		 * @param boolean $httpOnly
+		 * @return \Phalcon\Http\Cookie
+		 */
+		public function setHttpOnly($httpOnly){ }
+
+
+		/**
+		 * Returns if the cookie is accessible only through the HTTP protocol
+		 *
+		 * @return boolean
+		 */
+		public function getHttpOnly(){ }
+
+
+		/**
+		 * Magic __toString method converts the cookie's value to string
+		 *
+		 * @return mixed
+		 */
+		public function __toString(){ }
 
 	}
 }

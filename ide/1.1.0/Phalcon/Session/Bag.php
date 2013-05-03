@@ -9,7 +9,7 @@ namespace Phalcon\Session {
 	 * you can easily create groups of session variables into the application
 	 *
 	 *<code>
-	 *	$user = new \Phalcon\Session\Bag();
+	 *	$user = new \Phalcon\Session\Bag('user');
 	 *	$user->name = "Kimbra Johnson";
 	 *	$user->age = 22;
 	 *</code>
@@ -84,7 +84,7 @@ namespace Phalcon\Session {
 		 * Magic setter to assign values to the session bag
 		 *
 		 *<code>
-		 * $user->name = Kimbra;
+		 * $user->name = "Kimbra";
 		 *</code>
 		 *
 		 * @param string $property
@@ -150,7 +150,7 @@ namespace Phalcon\Session {
 		 * Removes a property from the internal bag
 		 *
 		 *<code>
-		 * $user->remove('name'));
+		 * $user->remove('name');
 		 *</code>
 		 *
 		 * @param string $property

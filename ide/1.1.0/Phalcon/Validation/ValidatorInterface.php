@@ -32,6 +32,7 @@ namespace Phalcon\Validation {
 		 *
 		 * @param \Phalcon\Validator $validator
 		 * @param string $attribute
+		 * @return \Phalcon\Validation\Message\Group
 		 */
 		public function validate($validator, $attribute);
 

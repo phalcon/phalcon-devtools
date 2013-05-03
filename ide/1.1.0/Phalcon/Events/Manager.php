@@ -17,6 +17,8 @@ namespace Phalcon\Events {
 
 		protected $_collect;
 
+		protected $_enablePriorities;
+
 		protected $_responses;
 
 		/**
@@ -27,6 +29,22 @@ namespace Phalcon\Events {
 		 * @param int $priority
 		 */
 		public function attach($eventType, $handler, $priority=null){ }
+
+
+		/**
+		 * Set if priorities are enabled in the EventsManager
+		 *
+		 * @param boolean $enablePriorities
+		 */
+		public function enablePriorities($enablePriorities){ }
+
+
+		/**
+		 * Returns if priorities are enabled
+		 *
+		 * @return boolean
+		 */
+		public function arePrioritiesEnabled(){ }
 
 
 		/**

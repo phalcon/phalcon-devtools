@@ -15,7 +15,7 @@ namespace Phalcon\Config\Adapter {
 	 *host = localhost
 	 *username = scott
 	 *password = cheetah
-	 *name = test_db
+	 *dbname = test_db
 	 *
 	 *[phalcon]
 	 *controllersDir = "../app/controllers/"
