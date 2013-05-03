@@ -20,13 +20,25 @@ namespace Phalcon\Paginator\Adapter {
 
 		/**
 		 * \Phalcon\Paginator\Adapter\QueryBuilder
+		 *
+		 * @param array $config
 		 */
 		public function __construct($config){ }
 
 
+		/**
+		 * Set the current page number
+		 *
+		 * @param int $page
+		 */
 		public function setCurrentPage($currentPage){ }
 
 
+		/**
+		 * Returns a slice of the resultset to show in the pagination
+		 *
+		 * @return stdClass
+		 */
 		public function getPaginate(){ }
 
 	}

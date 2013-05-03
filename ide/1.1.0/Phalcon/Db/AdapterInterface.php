@@ -413,15 +413,6 @@ namespace Phalcon\Db {
 
 
 		/**
-		 * Bind params to a SQL statement
-		 *
-		 * @param string $sqlStatement
-		 * @param array $params
-		 */
-		public function bindParams($sqlStatement, $params);
-
-
-		/**
 		 * Converts bound params like :name: or ?1 into ? bind params
 		 *
 		 * @param string $sqlStatement
@@ -508,6 +499,14 @@ namespace Phalcon\Db {
 		 * @return array
 		 */
 		public function tableOptions($tableName, $schemaName=null);
+
+
+		/**
+		 * Check whether the database system requires an explicit value for identity columns
+		 *
+		 * @return boolean
+		 */
+		public function useExplicitIdValue();
 
 
 		/**

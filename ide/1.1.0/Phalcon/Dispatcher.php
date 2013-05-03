@@ -31,6 +31,10 @@ namespace Phalcon {
 
 		protected $_finished;
 
+		protected $_forwarded;
+
+		protected $_moduleName;
+
 		protected $_namespaceName;
 
 		protected $_handlerName;
@@ -100,7 +104,23 @@ namespace Phalcon {
 
 
 		/**
-		 * Sets a namespace to be prepended to the handler name
+		 * Sets the module where the controller is (only informative)
+		 *
+		 * @param string $moduleName
+		 */
+		public function setModuleName($moduleName){ }
+
+
+		/**
+		 * Gets the module where the controller class is
+		 *
+		 * @return string
+		 */
+		public function getModuleName(){ }
+
+
+		/**
+		 * Sets the namespace where the controller class is
 		 *
 		 * @param string $namespaceName
 		 */
@@ -233,10 +253,23 @@ namespace Phalcon {
 
 		/**
 		 * Forwards the execution flow to another controller/action
+		 * Dispatchers are unique per module. Forwarding between modules is not allowed
+		 *
+		 *<code>
+		 *  $this->dispatcher->forward(array('controller' => 'posts', 'action' => 'index'));
+		 *</code>
 		 *
 		 * @param array $forward
 		 */
 		public function forward($forward){ }
+
+
+		/**
+		 * Check if the current executed action was forwarded by another one
+		 *
+		 * @return boolean
+		 */
+		public function wasForwarded(){ }
 
 	}
 }

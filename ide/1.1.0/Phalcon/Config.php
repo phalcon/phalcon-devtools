@@ -16,7 +16,7 @@ namespace Phalcon {
 	 *			"host" => "localhost",
 	 *			"username" => "scott",
 	 *			"password" => "cheetah",
-	 *			"name" => "test_db"
+	 *			"dbname" => "test_db"
 	 *		),
 	 *		"phalcon" => array(
 	 *			"controllersDir" => "../app/controllers/",

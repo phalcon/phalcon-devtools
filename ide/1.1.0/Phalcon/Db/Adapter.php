@@ -136,7 +136,7 @@ namespace Phalcon\Db {
 		 * //Updating existing robot
 		 * $success = $connection->update(
 		 *     "robots",
-		 *     array("name")
+		 *     array("name"),
 		 *     array("New Astro Boy"),
 		 *     "id = 101"
 		 * );
@@ -380,13 +380,88 @@ namespace Phalcon\Db {
 		 * List all tables on a database
 		 *
 		 *<code>
-		 * 	print_r($connection->listTables("blog");
+		 * 	print_r($connection->listTables("blog"));
 		 *</code>
 		 *
 		 * @param string $schemaName
 		 * @return array
 		 */
 		public function listTables($schemaName=null){ }
+
+
+		/**
+		 * Lists table indexes
+		 *
+		 *<code>
+		 * print_r($connection->describeIndexes('robots_parts'));
+		 *</code>
+		 *
+		 * @param string $table
+		 * @param string $schema
+		 * @return \Phalcon\Db\Index[]
+		 */
+		public function describeIndexes($table, $schema=null){ }
+
+
+		/**
+		 * Lists table references
+		 *
+		 *<code>
+		 * print_r($connection->describeReferences('robots_parts'));
+		 *</code>
+		 *
+		 * @param string $table
+		 * @param string $schema
+		 * @return \Phalcon\Db\Reference[]
+		 */
+		public function describeReferences($table, $schema=null){ }
+
+
+		/**
+		 * Gets creation options from a table
+		 *
+		 *<code>
+		 * print_r($connection->tableOptions('robots'));
+		 *</code>
+		 *
+		 * @param string $tableName
+		 * @param string $schemaName
+		 * @return array
+		 */
+		public function tableOptions($tableName, $schemaName=null){ }
+
+
+		/**
+		 * Returns the default identity value to be inserted in an identity column
+		 *
+		 *<code>
+		 * //Inserting a new robot with a valid default value for the column 'id'
+		 * $success = $connection->insert(
+		 *     "robots",
+		 *     array($connection->getDefaultIdValue(), "Astro Boy", 1952),
+		 *     array("id", "name", "year")
+		 * );
+		 *</code>
+		 *
+		 * @return \Phalcon\Db\RawValue
+		 */
+		public function getDefaultIdValue(){ }
+
+
+		/**
+		 * Check whether the database system requires a sequence to produce auto-numeric values
+		 *
+		 * @return boolean
+		 */
+		public function supportSequences(){ }
+
+
+		/**
+		 * Check whether the database system requires an explicit value for identity columns
+		 *
+		 * @return boolean
+		 */
+		public function useExplicitIdValue(){ }
 
 
 		/**

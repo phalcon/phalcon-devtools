@@ -25,7 +25,7 @@ namespace Phalcon\Session {
 
 
 		/**
-		 * Starts the session (if headers are already sent the session will not started)
+		 * Starts the session (if headers are already sent the session will not be started)
 		 *
 		 * @return boolean
 		 */

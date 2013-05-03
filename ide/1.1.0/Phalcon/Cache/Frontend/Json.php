@@ -3,41 +3,38 @@
 namespace Phalcon\Cache\Frontend {
 
 	/**
-	 * Phalcon\Cache\Frontend\Base64
+	 * Phalcon\Cache\Frontend\Json
 	 *
-	 * Allows to cache data converting/deconverting them to base64.
+	 * Allows to cache data converting/deconverting them to JSON.
 	 *
-	 * This adapters uses the base64_encode/base64_decode PHP's functions
+	 * This adapters uses the json_encode/json_decode PHP's functions
+	 *
+	 * As the data is encoded in JSON other systems accessing the same backend could
+	 * process them
 	 *
 	 *<code>
 	 *
-	 * // Cache the files for 2 days using a Base64 frontend
-	 * $frontCache = new Phalcon\Cache\Frontend\Base64(array(
+	 * // Cache the data for 2 days
+	 * $frontCache = new Phalcon\Cache\Frontend\Json(array(
 	 *    "lifetime" => 172800
 	 * ));
 	 *
-	 * //Create a MongoDB cache
-	 * $cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
-	 *		'server' => "mongodb://localhost",
-	 *      'db' => 'caches',
-	 *		'collection' => 'images'
+	* //Create the Cache setting memcached connection options
+	 * $cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+	 *		'host' => 'localhost',
+	 *		'port' => 11211,
+	 *  	'persistent' => false
 	 * ));
 	 *
-	 * // Try to get cached image
-	 * $cacheKey = 'some-image.jpg.cache';
-	 * $image    = $cache->get($cacheKey);
-	 * if ($image === null) {
+	 * //Cache arbitrary data
+	 * $cache->save('my-data', array(1, 2, 3, 4, 5));
 	 *
-	 *     // Store the image in the cache
-	 *     $cache->save($cacheKey, file_get_contents('tmp-dir/some-image.jpg'));
-	 * }
-	 *
-	 * header('Content-Type: image/jpeg');
-	 * echo $image;
+	 * //Get data
+	 * $data = $cache->get('my-data');
 	 *</code>
 	 */
 	
-	class Base64 implements \Phalcon\Cache\FrontendInterface {
+	class Json implements \Phalcon\Cache\FrontendInterface {
 
 		protected $_frontendOptions;
 

@@ -66,7 +66,7 @@ namespace Phalcon\Annotations {
 
 
 		/**
-		 * Returns an argument in an specific position
+		 * Returns an argument in a specific position
 		 *
 		 * @return mixed
 		 */
@@ -74,7 +74,7 @@ namespace Phalcon\Annotations {
 
 
 		/**
-		 * Returns an argument in an specific position
+		 * Returns an argument in a specific position
 		 *
 		 * @return mixed
 		 */
@@ -83,6 +83,15 @@ namespace Phalcon\Annotations {
 
 		/**
 		 * Returns a named argument
+		 *
+		 * @param string $name
+		 * @return mixed
+		 */
+		public function getNamedArgument($name){ }
+
+
+		/**
+		 * Returns a named argument (deprecated)
 		 *
 		 * @param string $name
 		 * @return mixed
