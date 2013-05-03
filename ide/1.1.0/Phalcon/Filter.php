@@ -23,12 +23,6 @@ namespace Phalcon {
 		protected $_filters;
 
 		/**
-		 * \Phalcon\Filter constructor
-		 */
-		public function __construct(){ }
-
-
-		/**
 		 * Adds a user-defined filter
 		 *
 		 * @param string $name

@@ -23,9 +23,9 @@ namespace Phalcon\Db\Adapter\Pdo {
 	
 	class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Db\AdapterInterface {
 
-		protected $_dialectType;
-
 		protected $_type;
+
+		protected $_dialectType;
 
 		/**
 		 * Escapes a column/table/schema name

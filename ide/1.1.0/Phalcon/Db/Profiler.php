@@ -45,12 +45,6 @@ namespace Phalcon\Db {
 		protected $_totalSeconds;
 
 		/**
-		 * \Phalcon\Db\Profiler constructor
-		 */
-		public function __construct(){ }
-
-
-		/**
 		 * Starts the profile of a SQL sentence
 		 *
 		 * @param string $sqlStatement

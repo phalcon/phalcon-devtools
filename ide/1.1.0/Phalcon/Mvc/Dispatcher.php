@@ -40,11 +40,11 @@ namespace Phalcon\Mvc {
 
 		const EXCEPTION_ACTION_NOT_FOUND = 5;
 
+		protected $_handlerSuffix;
+
 		protected $_defaultHandler;
 
 		protected $_defaultAction;
-
-		protected $_handlerSuffix;
 
 		/**
 		 * Sets the default controller suffix

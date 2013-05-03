@@ -65,7 +65,7 @@ namespace Phalcon\Mvc\Model {
 		 *
 		 * @return string|array
 		 */
-		public function isForeingKey();
+		public function isForeignKey();
 
 
 		/**

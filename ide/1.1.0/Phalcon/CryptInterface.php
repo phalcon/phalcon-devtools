@@ -3,26 +3,18 @@
 namespace Phalcon {
 
 	/**
-	 * Phalcon\Crypt
-	 *
-	 * Provides encryption facilities to phalcon applications
+	 * Phalcon\CryptInterface initializer
 	 */
 	
-	class Crypt implements \Phalcon\CryptInterface {
-
-		protected $_key;
-
-		protected $_mode;
-
-		protected $_cipher;
+	interface CryptInterface {
 
 		/**
 		 * Sets the cipher algorithm
 		 *
 		 * @param string $cipher
-		 * @return \Phalcon\Encrypt
+		 * @return \Phalcon\EncryptInterface
 		 */
-		public function setCipher($cipher){ }
+		public function setCipher($cipher);
 
 
 		/**
@@ -30,16 +22,16 @@ namespace Phalcon {
 		 *
 		 * @return string
 		 */
-		public function getCipher(){ }
+		public function getCipher();
 
 
 		/**
 		 * Sets the encrypt/decrypt mode
 		 *
 		 * @param string $cipher
-		 * @return \Phalcon\Encrypt
+		 * @return \Phalcon\EncryptInterface
 		 */
-		public function setMode($mode){ }
+		public function setMode($mode);
 
 
 		/**
@@ -47,16 +39,16 @@ namespace Phalcon {
 		 *
 		 * @return string
 		 */
-		public function getMode(){ }
+		public function getMode();
 
 
 		/**
 		 * Sets the encryption key
 		 *
 		 * @param string $key
-		 * @return \Phalcon\Encrypt
+		 * @return \Phalcon\EncryptInterface
 		 */
-		public function setKey($key){ }
+		public function setKey($key);
 
 
 		/**
@@ -64,7 +56,7 @@ namespace Phalcon {
 		 *
 		 * @return string
 		 */
-		public function getKey(){ }
+		public function getKey();
 
 
 		/**
@@ -74,7 +66,7 @@ namespace Phalcon {
 		 * @param string $key
 		 * @return string
 		 */
-		public function encrypt($text, $key=null){ }
+		public function encrypt($text, $key=null);
 
 
 		/**
@@ -84,7 +76,7 @@ namespace Phalcon {
 		 * @param string $key
 		 * @return string
 		 */
-		public function decrypt($text, $key=null){ }
+		public function decrypt($text, $key=null);
 
 
 		/**
@@ -94,7 +86,7 @@ namespace Phalcon {
 		 * @param string $key
 		 * @return string
 		 */
-		public function encryptBase64($text, $key=null){ }
+		public function encryptBase64($text, $key=null);
 
 
 		/**
@@ -104,7 +96,7 @@ namespace Phalcon {
 		 * @param string $key
 		 * @return string
 		 */
-		public function decryptBase64($text, $key=null){ }
+		public function decryptBase64($text, $key=null);
 
 
 		/**
@@ -112,7 +104,7 @@ namespace Phalcon {
 		 *
 		 * @return array
 		 */
-		public function getAvailableCiphers(){ }
+		public function getAvailableCiphers();
 
 
 		/**
@@ -120,7 +112,7 @@ namespace Phalcon {
 		 *
 		 * @return array
 		 */
-		public function getAvailableModes(){ }
+		public function getAvailableModes();
 
 	}
 }

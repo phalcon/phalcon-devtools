@@ -103,7 +103,7 @@ namespace Phalcon\DI {
 
 
 		/**
-		 * Returns a parameter in an specific position
+		 * Returns a parameter in a specific position
 		 *
 		 * @param int $position
 		 * @return array

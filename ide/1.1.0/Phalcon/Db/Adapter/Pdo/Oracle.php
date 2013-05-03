@@ -3,24 +3,23 @@
 namespace Phalcon\Db\Adapter\Pdo {
 
 	/**
-	 * Phalcon\Db\Adapter\Pdo\Postgresql
+	 * Phalcon\Db\Adapter\Pdo\Oracle
 	 *
-	 * Specific functions for the Postgresql database system
+	 * Specific functions for the Oracle database system
 	 * <code>
 	 *
 	 * $config = array(
-	 *  "host" => "192.168.0.11",
-	 *  "dbname" => "blog",
-	 *  "username" => "postgres",
-	 *  "password" => ""
+	 *  "dbname" => "//localhost/dbname",
+	 *  "username" => "oracle",
+	 *  "password" => "oracle"
 	 * );
 	 *
-	 * $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($config);
+	 * $connection = new Phalcon\Db\Adapter\Pdo\Oracle($config);
 	 *
 	 * </code>
 	 */
 	
-	class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Db\AdapterInterface {
+	class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Db\AdapterInterface {
 
 		protected $_type;
 
@@ -29,8 +28,6 @@ namespace Phalcon\Db\Adapter\Pdo {
 		/**
 		 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
 		 * Call it when you need to restore a database connection.
-		 *
-		 * Support set search_path after connectted if schema is specified in config.
 		 *
 		 * @param array $descriptor
 		 * @return boolean
@@ -48,6 +45,27 @@ namespace Phalcon\Db\Adapter\Pdo {
 		 * @return \Phalcon\Db\Column[]
 		 */
 		public function describeColumns($table, $schema=null){ }
+
+
+		/**
+		 * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
+		 *
+		 *<code>
+		 * //Inserting a new robot
+		 * $success = $connection->insert(
+		 *     "robots",
+		 *     array("Astro Boy", 1952),
+		 *     array("name", "year")
+		 * );
+		 *
+		 * //Getting the generated id
+		 * $id = $connection->lastInsertId();
+		 *</code>
+		 *
+		 * @param string $sequenceName
+		 * @return int
+		 */
+		public function lastInsertId($sequenceName=null){ }
 
 
 		/**

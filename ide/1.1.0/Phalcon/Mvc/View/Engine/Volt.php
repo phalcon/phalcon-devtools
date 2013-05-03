@@ -75,11 +75,11 @@ namespace Phalcon\Mvc\View\Engine {
 		 * @param string $to
 		 * @return string
 		 */
-		public function converEncoding($text, $from, $to){ }
+		public function convertEncoding($text, $from, $to){ }
 
 
 		/**
-		 * Extracts a slice from an string/array/traversable object value
+		 * Extracts a slice from a string/array/traversable object value
 		 *
 		 * @param mixed $value
 		 */

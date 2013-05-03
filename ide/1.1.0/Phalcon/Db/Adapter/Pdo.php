@@ -7,15 +7,15 @@ namespace Phalcon\Db\Adapter {
 	 *
 	 * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
 	 *
-	 * <code>
-	 * $connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
-	 *  'host' => '192.168.0.11',
-	 *  'username' => 'sigma',
-	 *  'password' => 'secret',
-	 *  'dbname' => 'blog',
-	 *  'port' => '3306',
-	 * ));
-	 * </code>
+	 *<code>
+	 *	$connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+	 *		'host' => '192.168.0.11',
+	 *		'username' => 'sigma',
+	 *		'password' => 'secret',
+	 *		'dbname' => 'blog',
+	 *		'port' => '3306'
+	 *	));
+	 *</code>
 	 */
 	
 	abstract class Pdo extends \Phalcon\Db\Adapter implements \Phalcon\Events\EventsAwareInterface {
@@ -172,21 +172,6 @@ namespace Phalcon\Db\Adapter {
 
 
 		/**
-		 * Manually bind params to a SQL statement. This method requires an active connection to a database system
-		 *
-		 *<code>
-		 *	$sql = $connection->bindParams('SELECT * FROM robots WHERE name = ?0', array('Bender'));
-		 *  echo $sql; // SELECT * FROM robots WHERE name = 'Bender'
-		 *</code>
-		 *
-		 * @param string $sqlStatement
-		 * @param array $params
-		 * @return string
-		 */
-		public function bindParams($sqlStatement, $params){ }
-
-
-		/**
 		 * Converts bound parameters such as :name: or ?1 into PDO bind params ?
 		 *
 		 *<code>
@@ -257,8 +242,8 @@ namespace Phalcon\Db\Adapter {
 		 * Checks whether the connection is under a transaction
 		 *
 		 *<code>
-		 * $connection->begin();
-		 * var_dump($connection->isUnderTransaction()); //true
+		 *	$connection->begin();
+		 *	var_dump($connection->isUnderTransaction()); //true
 		 *</code>
 		 *
 		 * @return boolean
@@ -272,73 +257,6 @@ namespace Phalcon\Db\Adapter {
 		 * @return \PDO
 		 */
 		public function getInternalHandler(){ }
-
-
-		/**
-		 * Lists table indexes
-		 *
-		 *<code>
-		 * print_r($connection->describeIndexes('robots_parts'));
-		 *</code>
-		 *
-		 * @param string $table
-		 * @param string $schema
-		 * @return \Phalcon\Db\Index[]
-		 */
-		public function describeIndexes($table, $schema=null){ }
-
-
-		/**
-		 * Lists table references
-		 *
-		 *<code>
-		 * print_r($connection->describeReferences('robots_parts'));
-		 *</code>
-		 *
-		 * @param string $table
-		 * @param string $schema
-		 * @return \Phalcon\Db\Reference[]
-		 */
-		public function describeReferences($table, $schema=null){ }
-
-
-		/**
-		 * Gets creation options from a table
-		 *
-		 *<code>
-		 * print_r($connection->tableOptions('robots'));
-		 *</code>
-		 *
-		 * @param string $tableName
-		 * @param string $schemaName
-		 * @return array
-		 */
-		public function tableOptions($tableName, $schemaName=null){ }
-
-
-		/**
-		 * Returns the default identity value to be inserted in an identity column
-		 *
-		 *<code>
-		 * //Inserting a new robot with a valid default value for the column 'id'
-		 * $success = $connection->insert(
-		 *     "robots",
-		 *     array($connection->getDefaultIdValue(), "Astro Boy", 1952),
-		 *     array("id", "name", "year")
-		 * );
-		 *</code>
-		 *
-		 * @return \Phalcon\Db\RawValue
-		 */
-		public function getDefaultIdValue(){ }
-
-
-		/**
-		 * Check whether the database system requires a sequence to produce auto-numeric values
-		 *
-		 * @return boolean
-		 */
-		public function supportSequences(){ }
 
 	}
 }
