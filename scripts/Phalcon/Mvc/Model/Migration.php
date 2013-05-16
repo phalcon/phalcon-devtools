@@ -43,7 +43,7 @@ class Migration
 	 *
 	 * @var Phalcon\Db
 	 */
-	private static $_connection;
+	protected static $_connection;
 
 	/**
 	 * Database configuration
