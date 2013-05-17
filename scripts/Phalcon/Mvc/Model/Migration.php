@@ -190,7 +190,7 @@ class Migration
 			}
 
 			$oldColumn = $field->getName();
-			$tableDefinition[] = "\t\t\t\tnew Column('" . $field->getName() . "', array(\n\t\t\t\t\t" . join(",\n\t\t\t\t\t", $fieldDefinition) . "\n\t\t\t\t))";
+			$tableDefinition[] = "\t\t\t\tnew Column(\n\t\t\t\t\t'" . $field->getName() . "',\n\t\t\t\t\tarray(\n\t\t\t\t\t\t" . join(",\n\t\t\t\t\t\t", $fieldDefinition) . "\n\t\t\t\t\t)\n\t\t\t\t)";
 			$allFields[] = "'".$field->getName()."'";
 		}
 
@@ -201,7 +201,7 @@ class Migration
 			foreach ($dbIndex->getColumns() as $indexColumn) {
 				$indexDefinition[] = "'" . $indexColumn . "'";
 			}
-			$indexesDefinition[] = "\t\t\t\tnew Index('".$indexName."', array(\n\t\t\t\t\t" . join(",\n\t\t\t\t\t", $indexDefinition) . "\n\t\t\t\t))";
+			$indexesDefinition[] = "\t\t\t\tnew Index('".$indexName."', array(" . join(", ", $indexDefinition) . "))";
 		}
 
 		$referencesDefinition = array();
@@ -230,20 +230,20 @@ class Migration
 		$optionsDefinition = array();
 		$tableOptions = self::$_connection->tableOptions($table, $defaultSchema);
 		foreach ($tableOptions as $optionName => $optionValue) {
-			$optionsDefinition[] = "\t\t\t\t'$optionName' => '" . $optionValue . "'";
+			$optionsDefinition[] = "\t\t\t\t'" . strtoupper($optionName) . "' => '" . $optionValue . "'";
 		}
 
 		$classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
 		$className = \Phalcon\Text::camelize($table) . 'Migration_'.$classVersion;
-		$classData = "use Phalcon\\Db\\Column,
-	Phalcon\\Db\\Index,
-	Phalcon\\Db\\Reference,
-	Phalcon\\Mvc\\Model\\Migration;
+		$classData = "use Phalcon\\Db\\Column;
+use Phalcon\\Db\\Index;
+use Phalcon\\Db\\Reference;
+use Phalcon\\Mvc\\Model\\Migration;
 
 class ".$className." extends Migration\n".
 "{\n\n".
 		"\tpublic function up()\n".
-		"\t{\n\t\t\$this->morphTable('" . $table . "', array(" .
+		"\t{\n\t\t\$this->morphTable(\n\t\t\t'" . $table . "',\n\t\t\tarray(" .
 		"\n\t\t\t'columns' => array(\n" . join(",\n", $tableDefinition) . "\n\t\t\t),";
 		if (count($indexesDefinition)) {
 			$classData .= "\n\t\t\t'indexes' => array(\n" . join(",\n", $indexesDefinition) . "\n\t\t\t),";
@@ -257,7 +257,7 @@ class ".$className." extends Migration\n".
 			$classData .= "\n\t\t\t'options' => array(\n".join(",\n", $optionsDefinition) . "\n\t\t\t)\n";
 		}
 
-		$classData .= "\t\t));\n\t}";
+		$classData .= "\t\t)\n\t\t);\n\t}";
 		if ($exportData == 'always' || $exportData == 'oncreate') {
 
 			if ($exportData == 'oncreate') {
@@ -292,7 +292,7 @@ class ".$className." extends Migration\n".
 
 			$classData.="\n\t}";
 		}
-		$classData.="\n\n}";
+		$classData.="\n}\n";
 		$classData = str_replace("\t", "    ", $classData);
 		return $classData;
 	}
