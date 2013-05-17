@@ -74,7 +74,7 @@ class $className$Controller extends ControllerBase
 
 		if (!$this->request->isPost()) {
 
-			$singularVar$ = $className$::findFirstById($id);
+			$singularVar$ = $className$::findFirstById($pkVar$);
 			if (!$singularVar$) {
 				$this->flash->error("$singular$ was not found");
 				return $this->dispatcher->forward(array(
