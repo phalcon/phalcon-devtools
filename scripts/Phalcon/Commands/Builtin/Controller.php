@@ -102,7 +102,7 @@ class Controller extends Command implements CommandsInterface
 		print Color::colorize('  ?', Color::FG_GREEN);
 		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		$this->printParameters($this->_posibleParameters);
+		$this->printParameters($this->_possibleParameters);
 	}
 
 	/**
