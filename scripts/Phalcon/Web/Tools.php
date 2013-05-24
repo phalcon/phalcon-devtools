@@ -294,8 +294,10 @@ class Tools
 		$path = rtrim(realpath($path), '/') . '/';
 		$tools = realpath(__DIR__ . '/../../../');
 
-		if (PHP_OS == 'WINNT')
+		if (PHP_OS == 'WINNT') {
 			$path = str_replace("\\", '/', $path);
+			$tools = str_replace("\\", '/', $tools);
+		}
 
 		if ( ! is_dir($path . 'public/')) {
 			throw new \Exception('Document root cannot be located');
