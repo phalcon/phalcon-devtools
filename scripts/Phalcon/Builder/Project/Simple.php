@@ -219,8 +219,7 @@ class Simple
 		$this->createControllerFile($path, $templatePath);
 
 		if ($options['enableWebTools']) {
-			// TODO implement
-			// Phalcon_WebTools::install($path);
+			\Phalcon\Web\Tools::install($path);
 		}
 
 		return true;

@@ -223,8 +223,7 @@ class Modules
 		$this->createControllerFile($path, $name);
 
 		if ($options['enableWebTools']) {
-			// TODO implement
-			// Phalcon_WebTools::install($path);
+			\Phalcon\Web\Tools::install($path);
 		}
 
 		return true;

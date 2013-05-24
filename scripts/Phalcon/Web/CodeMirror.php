@@ -44,40 +44,43 @@ abstract class CodeMirror
 
 	public static function install($path)
 	{
+		// Set paths
+		$codemirror = realpath(__DIR__ . '/../../../') . '/resources/codemirror';
+		$js = $path . 'public/js/codemirror';
+		$css = $path . 'public/css/codemirror';
 
-		//Install bootstrap
-		$jsPath = 'public/js/codemirror';
-		if (!file_exists($jsPath)) {
-			mkdir($jsPath, 0777, true);
-			mkdir($jsPath.'/lib', 0777, true);
-			file_put_contents($jsPath.'/index.html', '');
-			copy($path.'resources/codemirror/lib/codemirror.js', $jsPath.'/lib/codemirror.js');
-			copy($path.'resources/codemirror/lib/codephalcon.js', $jsPath.'/lib/codephalcon.js');
+		// Install bootstrap
+		if ( ! file_exists($js)) {
+			mkdir($js . '/lib', 0777, true);
+			mkdir($js . '/mode/php', 0777, true);
+			mkdir($js . '/mode/css', 0777);
+			mkdir($js . '/mode/clike', 0777);
+			mkdir($js . '/mode/xml', 0777);
 
-			mkdir($jsPath . '/mode/php', 0777, true);
-			copy($path . 'resources/codemirror/mode/php/php.js', $jsPath.'/mode/php/php.js');
-			file_put_contents($jsPath . '/mode/php/index.html', '');
+			file_put_contents($js . '/index.html', "");
+			file_put_contents($js . '/lib/index.html', "");
+			file_put_contents($js . '/mode/index.html', "");
 
-			mkdir($jsPath . '/mode/css', 0777, true);
-			copy($path . 'resources/codemirror/mode/css/css.js', $jsPath.'/mode/css/css.js');
-			file_put_contents($jsPath . '/mode/css/index.html', '');
+			$libs = array('codemirror', 'codephalcon');
+			$modes = array('php', 'css', 'clike', 'xml');
 
-			mkdir($jsPath . '/mode/clike', 0777, true);
-			copy($path . 'resources/codemirror/mode/clike/clike.js', $jsPath.'/mode/clike/clike.js');
-			file_put_contents($jsPath . '/mode/clike/index.html', '');
+			foreach ($libs as $lib) {
+				copy($codemirror . '/lib/' . $lib . '.js', $js . '/lib/' . $lib . '.js');
+			}
 
-			mkdir($jsPath . '/mode/xml', 0777, true);
-			copy($path . 'resources/codemirror/mode/xml/xml.js', $jsPath.'/mode/xml/xml.js');
-			file_put_contents($jsPath . '/mode/xml/index.html', '');
+			foreach ($modes as $mode) {
+				copy($codemirror . '/mode/' . $mode . '/' . $mode . '.js', $js . '/mode/' . $mode . '/' . $mode . '.js');
+
+				if ( ! file_exists($js . '/mode/' . $mode . '/index.html'))
+					file_put_contents($js . '/mode/' . $mode . '/index.html', "");
+			}
 		}
 
-		$cssPath = 'public/css/codemirror';
-		if (!file_exists($cssPath)) {
-			mkdir($cssPath, 0777, true);
-			file_put_contents($cssPath.'/index.html', '');
-			copy($path . 'resources/codemirror/lib/codemirror.css', $cssPath.'/codemirror.css');
-			copy($path . 'resources/codemirror/lib/codephalcon.css', $cssPath.'/codephalcon.css');
+		if ( ! file_exists($css)) {
+			mkdir($css, 0777, true);
+			file_put_contents($css . '/index.html', "");
+			copy($codemirror . '/lib/codemirror.css', $css . '/codemirror.css');
+			copy($codemirror . '/lib/codephalcon.css', $css . '/codephalcon.css');
 		}
-
 	}
 }
