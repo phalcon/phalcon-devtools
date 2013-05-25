@@ -25,29 +25,29 @@ abstract class TBootstrap
 
 	public static function install($path)
 	{
+		// Set paths
+		$bootstrap = realpath(__DIR__ . '/../../../') . '/resources/bootstrap';
+		$js = $path . 'public/js/bootstrap';
+		$css = $path . 'public/css/bootstrap';
+		$img = $path . 'public/img/bootstrap';
 
 		//Install bootstrap
-		$jsPath = 'public/js/bootstrap';
-		if(!file_exists($jsPath)){
-			mkdir($jsPath, 0777, true);
-			file_put_contents($jsPath.'/index.html', '');
-			copy($path.'resources/bootstrap/js/bootstrap.min.js', $jsPath.'/bootstrap.min.js');
+		if ( ! file_exists($js)) {
+			mkdir($js, 0777, true);
+			file_put_contents($js . '/index.html', "");
+			copy($bootstrap . '/js/bootstrap.min.js', $js . '/bootstrap.min.js');
 		}
 
-		$cssPath = 'public/css/bootstrap';
-		if(!file_exists($cssPath)){
-			mkdir($cssPath, 0777, true);
-			file_put_contents($cssPath.'/index.html', '');
-			copy($path.'resources/bootstrap/css/bootstrap.min.css', $cssPath.'/bootstrap.min.css');
+		if ( ! file_exists($css)) {
+			mkdir($css, 0777, true);
+			file_put_contents($css . '/index.html', "");
+			copy($bootstrap . '/css/bootstrap.min.css', $css . '/bootstrap.min.css');
 		}
 
-
-		$imgPath = 'public/img/bootstrap';
-		if(!file_exists($imgPath)){
-			mkdir($imgPath, 0777, true);
-			file_put_contents($imgPath.'/index.html', '');
-			copy($path.'resources/bootstrap/img/glyphicons-halflings.png', $imgPath.'/glyphicons-halflings.png');
+		if ( ! file_exists($img)) {
+			mkdir($img, 0777, true);
+			file_put_contents($img . '/index.html', "");
+			copy($bootstrap . '/img/glyphicons-halflings.png', $img . '/glyphicons-halflings.png');
 		}
-
 	}
 }
