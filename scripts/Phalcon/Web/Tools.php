@@ -291,27 +291,26 @@ class Tools
 	 */
 	public static function install($path)
 	{
+		$path = rtrim(realpath($path), '/') . '/';
+		$tools = realpath(__DIR__ . '/../../../');
 
-		if (!is_dir('public/')) {
-			throw new Exception("Document root cannot be located");
+		if (PHP_OS == 'WINNT') {
+			$path = str_replace("\\", '/', $path);
+			$tools = str_replace("\\", '/', $tools);
+		}
+
+		if ( ! is_dir($path . 'public/')) {
+			throw new \Exception('Document root cannot be located');
 		}
 
 		TBootstrap::install($path);
 		CodeMirror::install($path);
 
-		copy($path . 'webtools.php', 'public/webtools.php');
+		copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
-		$webToolsConfigPath = "public/webtools.config.php";
-
-		if (PHP_OS == "WINNT") {
-			$pToolsPath = str_replace("\\", "/", $path);
-		} else {
-			$pToolsPath = $path;
-		}
-
-		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".realpath($pToolsPath)."\");\n\n";
-		if(!file_exists($webToolsConfigPath)){
-			file_put_contents($webToolsConfigPath, $code);
+		if ( ! file_exists($configPath = $path . 'public/webtools.config.php')) {
+			$code = "<?php\ndefine('PTOOLSPATH', '{$tools}');\n\n";
+			file_put_contents($configPath, $code);
 		}
 	}
 
