@@ -214,6 +214,7 @@ class AllModels extends Component
 				$modelBuilder = new \Phalcon\Builder\Model(array(
 					'name' => $name,
 					'schema' => $schema,
+                    'namespace' => $this->_options['namespace'],
 					'force' => $forceProcess,
 					'hasMany' => $hasManyModel,
 					'belongsTo' => $belongsToModel,
