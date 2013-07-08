@@ -67,7 +67,14 @@ class Migration
 	public static function setup($database)
 	{
 
+		if ( ! isset($database->adapter))
+			throw new \Phalcon\Exception('Unspecified database Adapter in your configuration!');
+
 		$adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $database->adapter;
+
+		if ( ! class_exists($adapter))
+			throw new \Phalcon\Exception('Invalid database Adapter!');
+
 		self::$_connection = new $adapter($database->toArray());
 		self::$_databaseConfig = $database;
 
