@@ -19,13 +19,6 @@
 */
 
 require 'webtools.config.php';
-
-if(PHP_OS=="WINNT"){
-	$path = str_replace("\\", "/", getcwd())."/..";
-} else {
-	$path = getcwd().'/..';
-}
-
 require PTOOLSPATH.'/scripts/Phalcon/Web/Tools.php';
 
 Phalcon\Web\Tools::main(PTOOLSPATH);
