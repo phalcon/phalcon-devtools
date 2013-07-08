@@ -59,8 +59,8 @@ class ModelsController extends ControllerBase
 					'directory' 			=> null,
 					'foreignKeys' 			=> $foreignKeys,
 					'defineRelations' 		=> $defineRelations,
-					'genSettersGetters' 	=> $genSettersGetters
-
+					'genSettersGetters' 	=> $genSettersGetters,
+					'namespace' 			=> null,
 				));
 
 				$modelBuilder->build();
