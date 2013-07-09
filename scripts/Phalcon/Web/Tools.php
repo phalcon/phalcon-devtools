@@ -189,17 +189,35 @@ class Tools
 		}
 
 		//Read configuration
-		$configPath = "app/config/config.ini";
-		if (file_exists($configPath)) {
-			$config = new \Phalcon\Config\Adapter\Ini($configPath);
-		} else {
-			$configPath = "app/config/config.php";
-			if (file_exists($configPath)) {
-				$config = require $configPath;
+		$configPaths = array(
+			'app/config',
+			'apps/frontend/config'
+		);
+
+		$readed = false;
+
+		foreach ($configPaths as $configPath) {
+			$cpath = $configPath . '/config.ini';
+
+			if (file_exists($cpath)) {
+				$config = new \Phalcon\Config\Adapter\Ini($cpath);
+				$readed = true;
+
+				break;
 			} else {
-				throw new \Phalcon\Exception('Configuration file could not be loaded');
+				$cpath = $configPath . '/config.php';
+
+				if (file_exists($cpath)) {
+					$config = require $cpath;
+					$readed = true;
+
+					break;
+				}
 			}
 		}
+
+		if ($readed === false)
+			throw new \Phalcon\Exception('Configuration file could not be loaded');
 
 		$loader = new \Phalcon\Loader();
 
