@@ -118,7 +118,7 @@ namespace Phalcon\Http {
 
 
 		/**
-		 * Checks whether $_SERVER superglobal has certain index
+		 * Checks whether $_REQUEST superglobal has certain index
 		 *
 		 * @param string $name
 		 * @return boolean
@@ -136,7 +136,7 @@ namespace Phalcon\Http {
 
 
 		/**
-		 * Checks whether $_SERVER superglobal has certain index
+		 * Checks whether $_GET superglobal has certain index
 		 *
 		 * @param string $name
 		 * @return boolean
@@ -343,7 +343,9 @@ namespace Phalcon\Http {
 
 
 		/**
-		 * Returns the headers in the
+		 * Returns the available headers in the request
+		 *
+		 * @return array
 		 */
 		public function getHeaders(){ }
 

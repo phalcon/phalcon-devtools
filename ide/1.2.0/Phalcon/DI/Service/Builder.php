@@ -26,7 +26,7 @@ namespace Phalcon\DI\Service {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @param array $arguments
-		 * @return arguments
+		 * @return array
 		 */
 		protected function _buildParameters(){ }
 

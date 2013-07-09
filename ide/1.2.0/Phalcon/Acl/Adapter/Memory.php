@@ -66,18 +66,19 @@ namespace Phalcon\Acl\Adapter {
 
 		protected $_roles;
 
+		protected $_resourcesNames;
+
 		protected $_resources;
 
 		protected $_access;
 
 		protected $_roleInherits;
 
-		protected $_resourcesNames;
-
 		protected $_accessList;
 
 		/**
 		 * \Phalcon\Acl\Adapter\Memory constructor
+		 *
 		 */
 		public function __construct(){ }
 
@@ -266,13 +267,6 @@ namespace Phalcon\Acl\Adapter {
 		 * @return \Phalcon\Acl\Resource[]
 		 */
 		public function getResources(){ }
-
-
-		/**
-		 * Rebuild the list of access from the inherit lists
-		 *
-		 */
-		protected function _rebuildAccessList(){ }
 
 	}
 }

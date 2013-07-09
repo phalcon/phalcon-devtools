@@ -124,13 +124,14 @@ namespace Phalcon\Forms {
 
 
 		/**
-		 * Returns an array of attributes for  prepared attributes for \Phalcon\Tag helpers
+		 * Returns an array of prepared attributes for \Phalcon\Tag helpers
 		 * according to the element's parameters
 		 *
 		 * @param array $attributes
+		 * @param boolean $useChecked
 		 * @return array
 		 */
-		public function prepareAttributes($attributes=null){ }
+		public function prepareAttributes($attributes=null, $useChecked=null){ }
 
 
 		/**
@@ -268,8 +269,7 @@ namespace Phalcon\Forms {
 
 
 		/**
-		 * Returns the messages that belongs to the element
-		 * The element needs to be attached to a form
+		 * Checks whether there are messages attached to the element
 		 *
 		 * @return boolean
 		 */
@@ -292,6 +292,14 @@ namespace Phalcon\Forms {
 		 * @return \Phalcon\Forms\ElementInterface
 		 */
 		public function appendMessage($message){ }
+
+
+		/**
+		 * Clears every element in the form to its default value
+		 *
+		 * @return \Phalcon\Forms\Element
+		 */
+		public function clear(){ }
 
 
 		/**

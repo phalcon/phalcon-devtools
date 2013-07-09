@@ -104,6 +104,7 @@ namespace Phalcon\Cache\Frontend {
 		 * Prepare data to be stored
 		 *
 		 * @param mixed $data
+		 * @return mixed
 		 */
 		public function beforeStore($data){ }
 
@@ -112,6 +113,7 @@ namespace Phalcon\Cache\Frontend {
 		 * Prepares data to be retrieved to user
 		 *
 		 * @param mixed $data
+		 * @return mixed
 		 */
 		public function afterRetrieve($data){ }
 

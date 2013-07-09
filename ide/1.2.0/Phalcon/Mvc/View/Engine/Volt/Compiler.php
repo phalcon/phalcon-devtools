@@ -54,6 +54,8 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 		protected $_filters;
 
+		protected $_macros;
+
 		protected $_prefix;
 
 		protected $_currentPath;
@@ -339,6 +341,16 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 
 		/**
+		 * Compiles a 'return' statement returning PHP code
+		 *
+		 * @param array $statement
+		 * @param boolean $extendsMode
+		 * @return string
+		 */
+		public function compileReturn($statement){ }
+
+
+		/**
 		 * Compiles a 'autoescape' statement returning PHP code
 		 *
 		 * @param array $statement
@@ -346,6 +358,26 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 		 * @return string
 		 */
 		public function compileAutoEscape($statement, $extendsMode){ }
+
+
+		/**
+		 * Compiles macros
+		 *
+		 * @param array $statement
+		 * @param boolean $extendsMode
+		 * @return string
+		 */
+		public function compileMacro($statement, $extendsMode){ }
+
+
+		/**
+		 * Compiles calls to macros
+		 *
+		 * @param array $statement
+		 * @param boolean $extendsMode
+		 * @return string
+		 */
+		public function compileCall(){ }
 
 
 		/**
@@ -413,7 +445,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 
 		/**
-		 * Returns the path that is currently beign compiled
+		 * Returns the path that is currently being compiled
 		 *
 		 * @return string
 		 */

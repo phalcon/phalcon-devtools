@@ -37,7 +37,7 @@ namespace Phalcon\Cache\Backend {
 
 
 		/**
-		 * Stores cached content into the APC backend and stops the frontend
+		 * Stores cached content into the backend and stops the frontend
 		 *
 		 * @param string $keyName
 		 * @param string $content

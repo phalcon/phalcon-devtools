@@ -33,12 +33,6 @@ namespace Phalcon\Mvc {
 	 *   return $this->dispatcher->forward(array('controller' => 'people', 'action' => 'index'));
 	 *  }
 	 *
-	 *  //This action will be executed when a non existent action is requested
-	 *  public function notFoundAction()
-	 *  {
-	 *
-	 *  }
-	 *
 	 *}
 	 *
 	 *</code>

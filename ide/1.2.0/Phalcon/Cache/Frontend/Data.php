@@ -90,17 +90,19 @@ namespace Phalcon\Cache\Frontend {
 
 
 		/**
-		 * Serializes data before storing it
+		 * Serializes data before storing them
 		 *
 		 * @param mixed $data
+		 * @return string
 		 */
 		public function beforeStore($data){ }
 
 
 		/**
-		 * Unserializes data after retrieving it
+		 * Unserializes data after retrieval
 		 *
 		 * @param mixed $data
+		 * @return mixed
 		 */
 		public function afterRetrieve($data){ }
 

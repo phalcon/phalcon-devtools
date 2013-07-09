@@ -5,7 +5,13 @@ namespace Phalcon\Mvc\View {
 	/**
 	 * Phalcon\Mvc\View\Simple
 	 *
-	 * This component provides a simpler view component
+	 * This component allows to render views without hicherquical levels
+	 *
+	 *<code>
+	 * $view = new Phalcon\Mvc\View\Simple();
+	 * echo $view->render('templates/my-view', array('content' => $html));
+	 *</code>
+	 *
 	 */
 	
 	class Simple extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface {
@@ -25,6 +31,10 @@ namespace Phalcon\Mvc\View {
 		protected $_activeRenderPath;
 
 		protected $_content;
+
+		protected $_cache;
+
+		protected $_cacheOptions;
 
 		/**
 		 * \Phalcon\Mvc\View constructor
@@ -75,6 +85,15 @@ namespace Phalcon\Mvc\View {
 
 
 		/**
+		 * Tries to render the view with every engine registered in the component
+		 *
+		 * @param string $path
+		 * @param array $params
+		 */
+		protected function _internalRender(){ }
+
+
+		/**
 		 * Renders a view
 		 *
 		 * @param string $path
@@ -94,13 +113,59 @@ namespace Phalcon\Mvc\View {
 		 *
 		 * <code>
 		 * 	//Show a partial inside another view with parameters
-		 * 	$this->partial('shared/footer', array('conent' => $html));
+		 * 	$this->partial('shared/footer', array('content' => $html));
 		 * </code>
 		 *
 		 * @param string $partialPath
 		 * @param array $params
 		 */
 		public function partial($partialPath, $params=null){ }
+
+
+		/**
+		 * Sets the cache options
+		 *
+		 * @param array $options
+		 * @return \Phalcon\Mvc\View\Simple
+		 */
+		public function setCacheOptions($options){ }
+
+
+		/**
+		 * Returns the cache options
+		 *
+		 * @return array
+		 */
+		public function getCacheOptions(){ }
+
+
+		/**
+		 * Create a \Phalcon\Cache based on the internal cache options
+		 *
+		 * @return \Phalcon\Cache\BackendInterface
+		 */
+		protected function _createCache(){ }
+
+
+		/**
+		 * Returns the cache instance used to cache
+		 *
+		 * @return \Phalcon\Cache\BackendInterface
+		 */
+		public function getCache(){ }
+
+
+		/**
+		 * Cache the actual view render to certain level
+		 *
+		 *<code>
+		 *  $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
+		 *</code>
+		 *
+		 * @param boolean|array $options
+		 * @return \Phalcon\Mvc\View\Simple
+		 */
+		public function cache($options=null){ }
 
 
 		/**
@@ -112,6 +177,7 @@ namespace Phalcon\Mvc\View {
 		 *
 		 * @param string $key
 		 * @param mixed $value
+		 * @return \Phalcon\Mvc\View\Simple
 		 */
 		public function setParamToView($key, $value){ }
 
@@ -125,6 +191,7 @@ namespace Phalcon\Mvc\View {
 		 *
 		 * @param array $params
 		 * @param boolean $merge
+		 * @return \Phalcon\Mvc\View\Simple
 		 */
 		public function setVars($params, $merge=null){ }
 
@@ -138,6 +205,7 @@ namespace Phalcon\Mvc\View {
 		 *
 		 * @param string $key
 		 * @param mixed $value
+		 * @return \Phalcon\Mvc\View\Simple
 		 */
 		public function setVar($key, $value){ }
 
@@ -167,6 +235,7 @@ namespace Phalcon\Mvc\View {
 		 *</code>
 		 *
 		 * @param string $content
+		 * @return \Phalcon\Mvc\View\Simple
 		 */
 		public function setContent($content){ }
 

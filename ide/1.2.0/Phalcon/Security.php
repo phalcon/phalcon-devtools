@@ -7,6 +7,17 @@ namespace Phalcon {
 	 *
 	 * This component provides a set of functions to improve the security in Phalcon applications
 	 *
+	 *<code>
+	 *	$login = $this->request->getPost('login');
+	 *	$password = $this->request->getPost('password');
+	 *
+	 *	$user = Users::findFirstByLogin($login);
+	 *	if ($user) {
+	 *		if ($this->security->checkHash($password, $user->password)) {
+	 *			//The password is valid
+	 *		}
+	 *	}
+	 *</code>
 	 */
 	
 	class Security implements \Phalcon\DI\InjectionAwareInterface {
@@ -96,7 +107,7 @@ namespace Phalcon {
 
 
 		/**
-		 * Checks a plain text password and its hash version to check if the password matches
+		 * Checks if a password hash is a valid bcrypt's hash
 		 *
 		 * @param string $password
 		 * @param string $passwordHash

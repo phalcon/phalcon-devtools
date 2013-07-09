@@ -5,7 +5,7 @@ namespace Phalcon\Forms {
 	/**
 	 * Phalcon\Forms\Form
 	 *
-	 * This component allows to build forms
+	 * This component allows to build forms using an object-oriented interface
 	 */
 	
 	class Form extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Countable, \Iterator, \Traversable {
@@ -57,7 +57,7 @@ namespace Phalcon\Forms {
 		 *
 		 * @param string $option
 		 * @param mixed $value
-		 * @return \Phalcon\Forms\ElementInterface
+		 * @return \Phalcon\Forms\Form
 		 */
 		public function setUserOption($option, $value){ }
 
@@ -198,7 +198,7 @@ namespace Phalcon\Forms {
 
 
 		/**
-		 * Returns the label
+		 * Returns a label for an element
 		 *
 		 * @param string $name
 		 * @return string
@@ -207,7 +207,7 @@ namespace Phalcon\Forms {
 
 
 		/**
-		 * Gets a value from the the internal related entity or from the default value
+		 * Gets a value from the internal related entity or from the default value
 		 *
 		 * @param string $name
 		 * @return mixed
@@ -231,6 +231,15 @@ namespace Phalcon\Forms {
 		 * @return boolean
 		 */
 		public function remove($name){ }
+
+
+		/**
+		 * Clears every element in the form to its default value
+		 *
+		 * @param array $fields
+		 * @return \Phalcon\Forms\Form
+		 */
+		public function clear($fields=null){ }
 
 
 		/**

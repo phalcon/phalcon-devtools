@@ -489,6 +489,17 @@ namespace Phalcon\Mvc {
 
 
 		/**
+		 * Allows to perform a summatory group for a column in the collection
+		 *
+		 * @param string $field
+		 * @param array $conditions
+		 * @param string $finalize
+		 * @return array
+		 */
+		public static function summatory($field, $conditions=null, $finalize=null){ }
+
+
+		/**
 		 * Deletes a model instance. Returning true on success or false otherwise.
 		 *
 		 * <code>

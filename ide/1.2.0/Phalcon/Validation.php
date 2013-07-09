@@ -35,6 +35,7 @@ namespace Phalcon {
 		 *
 		 * @param array|object $data
 		 * @param object $entity
+		 * @return \Phalcon\Validation\Message\Group
 		 */
 		public function validate($data=null, $entity=null){ }
 
@@ -44,7 +45,7 @@ namespace Phalcon {
 		 *
 		 * @param string $attribute
 		 * @param \Phalcon\Validation\ValidatorInterface
-		 * @return \Phalcon\Validator
+		 * @return \Phalcon\Validation
 		 */
 		public function add($attribute, $validator){ }
 
@@ -54,7 +55,7 @@ namespace Phalcon {
 		 *
 		 * @param string $attribute
 		 * @param array|string $attribute
-		 * @return \Phalcon\Validator
+		 * @return \Phalcon\Validation
 		 */
 		public function setFilters($attribute, $filters){ }
 
@@ -96,6 +97,7 @@ namespace Phalcon {
 		 * Appends a message to the messages list
 		 *
 		 * @param \Phalcon\Validation\MessageInterface $message
+		 * @return \Phalcon\Validation
 		 */
 		public function appendMessage($message){ }
 
@@ -106,7 +108,7 @@ namespace Phalcon {
 		 *
 		 * @param string $entity
 		 * @param string $data
-		 * @return \Phalcon\Validator
+		 * @return \Phalcon\Validation
 		 */
 		public function bind($entity, $data){ }
 

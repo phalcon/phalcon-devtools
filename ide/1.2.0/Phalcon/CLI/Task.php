@@ -34,7 +34,7 @@ namespace Phalcon\CLI {
 	class Task extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		/**
-		 * \Phalcon\CLI\Task constructor
+		 * \Phalcon_CLI_Task constructor
 		 */
 		final public function __construct(){ }
 

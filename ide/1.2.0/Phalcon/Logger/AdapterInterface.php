@@ -12,6 +12,7 @@ namespace Phalcon\Logger {
 		 * Sets the message formatter
 		 *
 		 * @param \Phalcon\Logger\FormatterInterface $formatter
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function setFormatter($formatter);
 
@@ -28,6 +29,7 @@ namespace Phalcon\Logger {
 		 * Filters the logs sent to the handlers to be greater or equals than a specific level
 		 *
 		 * @param int $level
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function setLogLevel($level);
 
@@ -45,6 +47,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param int $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function log($message, $type=null);
 
@@ -52,6 +55,7 @@ namespace Phalcon\Logger {
 		/**
 		 * Starts a transaction
 		 *
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function begin();
 
@@ -59,6 +63,7 @@ namespace Phalcon\Logger {
 		/**
 		 * Commits the internal transaction
 		 *
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function commit();
 
@@ -66,6 +71,7 @@ namespace Phalcon\Logger {
 		/**
 		 * Rollbacks the internal transaction
 		 *
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function rollback();
 
@@ -83,6 +89,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param ing $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function debug($message);
 
@@ -92,6 +99,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param ing $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function error($message);
 
@@ -101,6 +109,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param ing $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function info($message);
 
@@ -110,6 +119,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param ing $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function notice($message);
 
@@ -119,6 +129,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param ing $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function warning($message);
 
@@ -128,6 +139,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param ing $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function alert($message);
 

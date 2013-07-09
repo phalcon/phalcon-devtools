@@ -23,6 +23,8 @@ namespace Phalcon\Annotations {
 		 * Parses a raw doc block returning the annotations found
 		 *
 		 * @param string $docBlock
+		 * @param string $file
+		 * @param int $line
 		 * @return array
 		 */
 		public static function parseDocBlock($docBlock, $file=null, $line=null){ }

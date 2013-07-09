@@ -55,6 +55,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param string $baseUri
+		 * @return \Phalcon\Mvc\Url
 		 */
 		public function setBaseUri($baseUri){ }
 
@@ -67,6 +68,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param string $staticBaseUri
+		 * @return \Phalcon\Mvc\Url
 		 */
 		public function setStaticBaseUri($staticBaseUri){ }
 
@@ -87,6 +89,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param string $basePath
+		 * @return \Phalcon\Mvc\Url
 		 */
 		public function setBasePath($basePath){ }
 
@@ -101,6 +104,16 @@ namespace Phalcon\Mvc {
 
 		/**
 		 * Generates a URL
+		 *
+		 *<code>
+		 *
+		 * //Generate a URL appending the URI to the base URI
+		 * echo $url->get('products/edit/1');
+		 *
+		 * //Generate a URL for a predefined route
+		 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
+		 *
+		 *</code>
 		 *
 		 * @param string|array $uri
 		 * @return string

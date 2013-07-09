@@ -448,7 +448,7 @@ namespace Phalcon\Db {
 		 * Lists table indexes
 		 *
 		 *<code>
-		 * print_r($connection->describeIndexes('robots_parts'));
+		 *	print_r($connection->describeIndexes('robots_parts'));
 		 *</code>
 		 *
 		 * @param string $table

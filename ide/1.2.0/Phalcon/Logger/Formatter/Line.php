@@ -5,7 +5,7 @@ namespace Phalcon\Logger\Formatter {
 	/**
 	 * Phalcon\Logger\Formatter\Line
 	 *
-	 * Formats messages using a one-line string
+	 * Formats messages using an one-line string
 	 */
 	
 	class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface {
@@ -61,6 +61,7 @@ namespace Phalcon\Logger\Formatter {
 		 * @param string $message
 		 * @param int $type
 		 * @param int $timestamp
+		 * @return string
 		 */
 		public function format($message, $type, $timestamp){ }
 

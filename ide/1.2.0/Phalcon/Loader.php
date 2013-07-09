@@ -69,7 +69,7 @@ namespace Phalcon {
 
 
 		/**
-		 * Sets an array of extensions that the Loader must check together with the path
+		 * Sets an array of extensions that the loader must try in each attempt to locate the file
 		 *
 		 * @param array $extensions
 		 * @param boolean $merge

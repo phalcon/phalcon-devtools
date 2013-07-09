@@ -34,6 +34,14 @@ namespace Phalcon\Assets {
 
 
 		/**
+		 * Returns the manager's options
+		 *
+		 * @return array
+		 */
+		public function getOptions(){ }
+
+
+		/**
 		 * Sets if the HTML generated must be directly printed or returned
 		 *
 		 * @param boolean $implicitOutput
@@ -44,6 +52,11 @@ namespace Phalcon\Assets {
 
 		/**
 		 * Adds a Css resource to the 'css' collection
+		 *
+		 *<code>
+		 *	$assets->addCss('css/bootstrap.css');
+		 *	$assets->addCss('http://bootstrap.my-cdn.com/style.css', false);
+		 *</code>
 		 *
 		 * @param string $path
 		 * @param boolean $local
@@ -56,6 +69,11 @@ namespace Phalcon\Assets {
 
 		/**
 		 * Adds a javascript resource to the 'js' collection
+		 *
+		 *<code>
+		 *	$assets->addJs('scripts/jquery.js');
+		 *	$assets->addJs('http://jquery.my-cdn.com/jquery.js', true);
+		 *</code>
 		 *
 		 * @param string $path
 		 * @param boolean $local
@@ -146,6 +164,15 @@ namespace Phalcon\Assets {
 
 
 		/**
+		 * Traverses a collection calling the callback to generate its HTML
+		 *
+		 * @param \Phalcon\Assets\Collection $collection
+		 * @param callback $callback
+		 */
+		public function output($collection, $callback){ }
+
+
+		/**
 		 * Prints the HTML for CSS resources
 		 *
 		 * @param string $collectionName
@@ -159,24 +186,6 @@ namespace Phalcon\Assets {
 		 * @param string $collectionName
 		 */
 		public function outputJs($collectionName=null){ }
-
-
-		/**
-		 * Filters
-		 *
-		 * @param array $resources
-		 * @param array $filters
-		 */
-		public function filter(){ }
-
-
-		/**
-		 * Checks if a group of resources
-		 */
-		public function hasChanged($resources){ }
-
-
-		public function getResourceContent($resource){ }
 
 	}
 }

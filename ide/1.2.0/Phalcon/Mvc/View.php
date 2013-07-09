@@ -96,6 +96,7 @@ namespace Phalcon\Mvc {
 		 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
 		 *
 		 * @param string $viewsDir
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setViewsDir($viewsDir){ }
 
@@ -116,6 +117,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param string $layoutsDir
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setLayoutsDir($layoutsDir){ }
 
@@ -136,6 +138,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param string $partialsDir
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setPartialsDir($partialsDir){ }
 
@@ -156,6 +159,7 @@ namespace Phalcon\Mvc {
 		 * </code>
 		 *
 		 * @param string $basePath
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setBasePath($basePath){ }
 
@@ -169,6 +173,7 @@ namespace Phalcon\Mvc {
 		 * </code>
 		 *
 		 * @param string $level
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setRenderLevel($level){ }
 
@@ -182,6 +187,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param int|array $level
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function disableLevel($level){ }
 
@@ -190,11 +196,12 @@ namespace Phalcon\Mvc {
 		 * Sets default view name. Must be a file without extension in the views directory
 		 *
 		 * <code>
-		 * 	//Renders as main view views-dir/inicio.phtml
-		 * 	$this->view->setMainView('inicio');
+		 * 	//Renders as main view views-dir/base.phtml
+		 * 	$this->view->setMainView('base');
 		 * </code>
 		 *
 		 * @param string $viewPath
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setMainView($viewPath){ }
 
@@ -215,6 +222,7 @@ namespace Phalcon\Mvc {
 		 * </code>
 		 *
 		 * @param string $layout
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setLayout($layout){ }
 
@@ -231,6 +239,7 @@ namespace Phalcon\Mvc {
 		 * Appends template before controller layout
 		 *
 		 * @param string|array $templateBefore
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setTemplateBefore($templateBefore){ }
 
@@ -238,6 +247,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Resets any template before layouts
 		 *
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function cleanTemplateBefore(){ }
 
@@ -246,6 +256,7 @@ namespace Phalcon\Mvc {
 		 * Appends template after controller layout
 		 *
 		 * @param string|array $templateAfter
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setTemplateAfter($templateAfter){ }
 
@@ -253,6 +264,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Resets any template before layouts
 		 *
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function cleanTemplateAfter(){ }
 
@@ -266,6 +278,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $key
 		 * @param mixed $value
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setParamToView($key, $value){ }
 
@@ -279,6 +292,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param array $params
 		 * @param boolean $merge
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setVars($params, $merge=null){ }
 
@@ -292,6 +306,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $key
 		 * @param mixed $value
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setVar($key, $value){ }
 
@@ -339,6 +354,8 @@ namespace Phalcon\Mvc {
 
 		/**
 		 * Starts rendering process enabling the output buffering
+		 *
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function start(){ }
 
@@ -375,6 +392,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $engines
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function registerEngines($engines){ }
 
@@ -383,15 +401,14 @@ namespace Phalcon\Mvc {
 		 * Executes render process from dispatching data
 		 *
 		 *<code>
-		 * $view->start();
 		 * //Shows recent posts view (app/views/posts/recent.phtml)
-		 * $view->render('posts', 'recent');
-		 * $view->finish();
+		 * $view->start()->render('posts', 'recent')->finish();
 		 *</code>
 		 *
 		 * @param string $controllerName
 		 * @param string $actionName
 		 * @param array $params
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function render($controllerName, $actionName, $params=null){ }
 
@@ -415,6 +432,7 @@ namespace Phalcon\Mvc {
 		 * </code>
 		 *
 		 * @param string|array $renderView
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function pick($renderView){ }
 
@@ -429,7 +447,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * <code>
 		 * 	//Show a partial inside another view with parameters
-		 * 	$this->partial('shared/footer', array('conent' => $html));
+		 * 	$this->partial('shared/footer', array('content' => $html));
 		 * </code>
 		 *
 		 * @param string $partialPath
@@ -456,6 +474,8 @@ namespace Phalcon\Mvc {
 
 		/**
 		 * Finishes the render process by stopping the output buffering
+		 *
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function finish(){ }
 
@@ -487,7 +507,12 @@ namespace Phalcon\Mvc {
 		/**
 		 * Cache the actual view render to certain level
 		 *
+		 *<code>
+		 *  $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
+		 *</code>
+		 *
 		 * @param boolean|array $options
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function cache($options=null){ }
 
@@ -500,6 +525,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param string $content
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function setContent($content){ }
 
@@ -523,6 +549,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Disables the auto-rendering process
 		 *
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function disable(){ }
 
@@ -530,6 +557,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Enables the auto-rendering process
 		 *
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function enable(){ }
 
@@ -537,6 +565,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Resets the view component to its factory default values
 		 *
+		 * @return \Phalcon\Mvc\View
 		 */
 		public function reset(){ }
 

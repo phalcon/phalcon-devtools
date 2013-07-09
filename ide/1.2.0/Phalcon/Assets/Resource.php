@@ -6,6 +6,11 @@ namespace Phalcon\Assets {
 	 * Phalcon\Assets\Resource
 	 *
 	 * Represents an asset resource
+	 *
+	 *<code>
+	 * $resource = new Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
+	 *</code>
+	 *
 	 */
 	
 	class Resource {
@@ -19,6 +24,12 @@ namespace Phalcon\Assets {
 		protected $_filter;
 
 		protected $_attributes;
+
+		protected $_sourcePath;
+
+		protected $_targetPath;
+
+		protected $_targetUri;
 
 		/**
 		 * \Phalcon\Assets\Resource constructor
@@ -118,13 +129,82 @@ namespace Phalcon\Assets {
 
 
 		/**
-		 * Returns the content of the resource as an string
-		 * Optionally a path where the resource is located can be set
+		 * Sets a target uri for the generated HTML
 		 *
-		 * @param string $path
+		 * @param string $targetUri
+		 * @return \Phalcon\Assets\Resource
+		 */
+		public function setTargetUri($targetUri){ }
+
+
+		/**
+		 * Returns the target uri for the generated HTML
+		 *
 		 * @return string
 		 */
-		public function getContent(){ }
+		public function getTargetUri(){ }
+
+
+		/**
+		 * Sets the resource's source path
+		 *
+		 * @param string $sourcePath
+		 * @return \Phalcon\Assets\Resource
+		 */
+		public function setSourcePath($sourcePath){ }
+
+
+		/**
+		 * Returns the resource's target path
+		 *
+		 * @return string
+		 */
+		public function getSourcePath(){ }
+
+
+		/**
+		 * Sets the resource's target path
+		 *
+		 * @param string $targetPath
+		 * @return \Phalcon\Assets\Resource
+		 */
+		public function setTargetPath($targetPath){ }
+
+
+		/**
+		 * Returns the resource's target path
+		 *
+		 * @return string
+		 */
+		public function getTargetPath(){ }
+
+
+		/**
+		 * Returns the content of the resource as an string
+		 * Optionally a base path where the resource is located can be set
+		 *
+		 * @param string $basePath
+		 * @return string
+		 */
+		public function getContent($basePath=null){ }
+
+
+		/**
+		 * Returns the complete location where the resource is located
+		 *
+		 * @param string $basePath
+		 * @return string
+		 */
+		public function getRealSourcePath($basePath=null){ }
+
+
+		/**
+		 * Returns the complete location where the resource must be written
+		 *
+		 * @param string $basePath
+		 * @return string
+		 */
+		public function getRealTargetPath($basePath=null){ }
 
 	}
 }

@@ -70,6 +70,7 @@ namespace Phalcon\Http\Request {
 
 		/**
 		 * Returns the mime type reported by the browser
+		 * This mime type is not completely secure, use getRealType() instead
 		 *
 		 * @return string
 		 */
@@ -77,7 +78,15 @@ namespace Phalcon\Http\Request {
 
 
 		/**
-		 * Move the temporary file to a destination within the application
+		 * Gets the real mime type of the upload file using finfo
+		 *
+		 * @return string
+		 */
+		public function getRealType(){ }
+
+
+		/**
+		 * Moves the temporary file to a destination within the application
 		 *
 		 * @param string $destination
 		 * @return boolean

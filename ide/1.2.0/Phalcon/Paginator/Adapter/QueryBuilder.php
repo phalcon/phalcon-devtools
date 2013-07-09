@@ -5,7 +5,20 @@ namespace Phalcon\Paginator\Adapter {
 	/**
 	 * Phalcon\Paginator\Adapter\QueryBuilder
 	 *
-	 * Component of pagination by array data
+	 * Pagination using a PHQL query builder as source of data
+	 *
+	 *<code>
+	 *  $builder = $this->modelsManager->createBuilder()
+	 *                   ->columns('id, name')
+	 *                   ->from('Robots')
+	 *                   ->orderBy('name');
+	 *
+	 *  $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+	 *      "builder" => $builder,
+	 *      "limit"=> 20,
+	 *      "page" => 1
+	 *  ));
+	 *</code>
 	 */
 	
 	class QueryBuilder implements \Phalcon\Paginator\AdapterInterface {

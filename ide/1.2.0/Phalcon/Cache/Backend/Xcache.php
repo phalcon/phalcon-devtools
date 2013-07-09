@@ -3,9 +3,9 @@
 namespace Phalcon\Cache\Backend {
 
 	/**
-	 * Phalcon\Cache\Backend\Apc
+	 * Phalcon\Cache\Backend\Xcache
 	 *
-	 * Allows to cache output fragments, PHP data and raw data using an APC backend
+	 * Allows to cache output fragments, PHP data and raw data using an XCache backend
 	 *
 	 *<code>
 	 *	//Cache data for 2 days
@@ -13,7 +13,7 @@ namespace Phalcon\Cache\Backend {
 	 *		'lifetime' => 172800
 	 *	));
 	 *
-	 *  $cache = new Phalcon\Cache\Backend\Apc($frontCache, array(
+	 *  $cache = new Phalcon\Cache\Backend\Xcache($frontCache, array(
 	 *      'prefix' => 'app-data'
 	 *  ));
 	 *
@@ -26,20 +26,29 @@ namespace Phalcon\Cache\Backend {
 	 *</code>
 	 */
 	
-	class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface {
+	class Xcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface {
 
 		/**
-		 * Returns a cached content
+		 * \Phalcon\Cache\Backend\Xcache constructor
 		 *
-		 * @param 	string $keyName
-		 * @param   long $lifetime
-		 * @return  mixed
+		 * @param \Phalcon\Cache\FrontendInterface $frontend
+		 * @param array $options
+		 */
+		public function __construct($frontend, $options=null){ }
+
+
+		/**
+		 * Returns cached content
+		 *
+		 * @param string $keyName
+		 * @param long $lifetime
+		 * @return mixed
 		 */
 		public function get($keyName, $lifetime=null){ }
 
 
 		/**
-		 * Stores cached content into the APC backend and stops the frontend
+		 * Stores cached content into the XCache backend and stops the frontend
 		 *
 		 * @param string $keyName
 		 * @param string $content
@@ -68,10 +77,10 @@ namespace Phalcon\Cache\Backend {
 
 
 		/**
-		 * Checks if cache exists and it hasn't expired
+		 * Checks if the cache entry exists and has not expired
 		 *
-		 * @param  string $keyName
-		 * @param  long $lifetime
+		 * @param string $keyName
+		 * @param long $lifetime
 		 * @return boolean
 		 */
 		public function exists($keyName=null, $lifetime=null){ }

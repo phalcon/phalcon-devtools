@@ -79,8 +79,9 @@ namespace Phalcon\Mvc\Model {
 		 * \Phalcon\Mvc\Model\Query constructor
 		 *
 		 * @param string $phql
+		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function __construct($phql=null){ }
+		public function __construct($phql=null, $dependencyInjector=null){ }
 
 
 		/**
@@ -219,7 +220,7 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Resolves all the JOINS in a SELECT statement
+		 * Processes the JOINs in the query returning an internal representation for the database dialect
 		 *
 		 * @param array $select
 		 * @return array
@@ -281,8 +282,6 @@ namespace Phalcon\Mvc\Model {
 		 * Parses the intermediate code produced by \Phalcon\Mvc\Model\Query\Lang generating another
 		 * intermediate representation that could be executed by \Phalcon\Mvc\Model\Query
 		 *
-		 * @param \Phalcon\Mvc\Model\ManagerInterface $manager
-		 * @param \Phalcon\Mvc\Model\MetaDataInterface $metaData
 		 * @return array
 		 */
 		public function parse(){ }

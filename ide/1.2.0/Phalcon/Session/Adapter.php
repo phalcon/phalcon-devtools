@@ -85,6 +85,7 @@ namespace Phalcon\Session {
 		 *</code>
 		 *
 		 * @param string $index
+		 * @return boolean
 		 */
 		public function has($index){ }
 

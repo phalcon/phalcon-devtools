@@ -210,25 +210,28 @@ namespace Phalcon\Db\Adapter {
 		/**
 		 * Starts a transaction in the connection
 		 *
+		 * @param boolean $nesting
 		 * @return boolean
 		 */
-		public function begin(){ }
+		public function begin($nesting=null){ }
 
 
 		/**
 		 * Rollbacks the active transaction in the connection
 		 *
+		 * @param boolean $nesting
 		 * @return boolean
 		 */
-		public function rollback(){ }
+		public function rollback($nesting=null){ }
 
 
 		/**
 		 * Commits the active transaction in the connection
 		 *
+		 * @param boolean $nesting
 		 * @return boolean
 		 */
-		public function commit(){ }
+		public function commit($nesting=null){ }
 
 
 		/**

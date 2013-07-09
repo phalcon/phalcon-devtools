@@ -5,7 +5,7 @@ namespace Phalcon\Annotations\Adapter {
 	/**
 	 * Phalcon\Annotations\Adapter\Files
 	 *
-	 * Stores the parsed annotations in diles. This adapter is the suitable for production
+	 * Stores the parsed annotations in diles. This adapter is suitable for production
 	 *
 	 *<code>
 	 * $annotations = new \Phalcon\Annotations\Adapter\Files(array(
@@ -30,7 +30,7 @@ namespace Phalcon\Annotations\Adapter {
 		 * Reads parsed annotations from files
 		 *
 		 * @param string $key
-		 * @return array
+		 * @return \Phalcon\Annotations\Reflection
 		 */
 		public function read($key){ }
 
@@ -39,7 +39,7 @@ namespace Phalcon\Annotations\Adapter {
 		 * Writes parsed annotations to files
 		 *
 		 * @param string $key
-		 * @param array $data
+		 * @param \Phalcon\Annotations\Reflection $data
 		 */
 		public function write($key, $data){ }
 

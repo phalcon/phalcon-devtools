@@ -264,6 +264,16 @@ namespace Phalcon\Db\Dialect {
 
 
 		/**
+		 * Transform an intermediate representation for a schema/table into a database system valid expression
+		 *
+		 * @param array $table
+		 * @param string $escapeChar
+		 * @return string
+		 */
+		public function getSqlTable($table, $escapeChar=null){ }
+
+
+		/**
 		 * Generates the SQL for LIMIT clause
 		 *
 		 *<code>

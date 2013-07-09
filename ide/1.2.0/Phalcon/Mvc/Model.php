@@ -1074,6 +1074,7 @@ namespace Phalcon\Mvc {
 		 * @param string $intermediateFields
 		 * @param string $intermediateReferencedFields
 		 * @param string $referencedModel
+		 * @param   string $referencedFields
 		 * @param   array $options
 		 * @return  \Phalcon\Mvc\Model\Relation
 		 */
@@ -1261,7 +1262,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Serializes the object ignoring connections or static properties
+		 * Serializes the object ignoring connections, services, related objects or static properties
 		 *
 		 * @return string
 		 */

@@ -45,6 +45,14 @@ namespace Phalcon\Mvc {
 		protected $_returnedValue;
 
 		/**
+		 * \Phalcon\Mvc\Micro constructor
+		 *
+		 * @param \Phalcon\DiInterface $dependencyInjector
+		 */
+		public function __construct($dependencyInjector=null){ }
+
+
+		/**
 		 * Sets the DependencyInjector container
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector

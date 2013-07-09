@@ -173,6 +173,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $defaults
+		 * @return \Phalcon\Mvc\Router
 		 */
 		public function setDefaults($defaults){ }
 

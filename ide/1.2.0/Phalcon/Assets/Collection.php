@@ -10,8 +10,6 @@ namespace Phalcon\Assets {
 	
 	class Collection implements \Countable, \Iterator, \Traversable {
 
-		protected $_name;
-
 		protected $_prefix;
 
 		protected $_local;
@@ -25,6 +23,12 @@ namespace Phalcon\Assets {
 		protected $_attributes;
 
 		protected $_join;
+
+		protected $_targetUri;
+
+		protected $_targetPath;
+
+		protected $_sourcePath;
 
 		/**
 		 * Adds a resource to the collection
@@ -113,12 +117,54 @@ namespace Phalcon\Assets {
 
 
 		/**
-		 * Sets the name of the file for the filtered/join output
+		 * Sets the target path of the file for the filtered/join output
 		 *
-		 * @param string $name
+		 * @param string $targetPath
 		 * @return \Phalcon\Assets\Collection
 		 */
-		public function setName($name){ }
+		public function setTargetPath($targetPath){ }
+
+
+		/**
+		 * Returns the target path of the file for the filtered/join output
+		 *
+		 * @return string
+		 */
+		public function getTargetPath(){ }
+
+
+		/**
+		 * Sets a base source path for all the resources in this collection
+		 *
+		 * @param string $sourcePath
+		 * @return \Phalcon\Assets\Resource
+		 */
+		public function setSourcePath($sourcePath){ }
+
+
+		/**
+		 * Returns the base source path for all the resources in this collection
+		 *
+		 * @return string
+		 */
+		public function getSourcePath(){ }
+
+
+		/**
+		 * Sets a target uri for the generated HTML
+		 *
+		 * @param string $targetUri
+		 * @return \Phalcon\Assets\Resource
+		 */
+		public function setTargetUri($targetUri){ }
+
+
+		/**
+		 * Returns the target uri for the generated HTML
+		 *
+		 * @return string
+		 */
+		public function getTargetUri(){ }
 
 
 		/**
@@ -205,6 +251,23 @@ namespace Phalcon\Assets {
 		 * @return \Phalcon\Assets\Collection
 		 */
 		public function join($join){ }
+
+
+		/**
+		 * Returns if all the filtered resources must be joined
+		 *
+		 * @return boolean
+		 */
+		public function getJoin(){ }
+
+
+		/**
+		 * Returns the complete location where the joined/filtered collection must be written
+		 *
+		 * @param string $basePath
+		 * @return string
+		 */
+		public function getRealTargetPath($basePath=null){ }
 
 	}
 }

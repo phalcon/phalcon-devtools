@@ -19,15 +19,18 @@ namespace Phalcon\Logger {
 		protected $_logLevel;
 
 		/**
-		 * Filters the logs sent to the handlers to be less or equals than a specific level
+		 * Filters the logs sent to the handlers that are less or equal than a specific level
 		 *
 		 * @param int $level
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function setLogLevel($level){ }
 
 
 		/**
 		 * Returns the current log level
+		 *
+		 * @return int
 		 */
 		public function getLogLevel(){ }
 
@@ -36,6 +39,7 @@ namespace Phalcon\Logger {
 		 * Sets the message formatter
 		 *
 		 * @param \Phalcon\Logger\FormatterInterface $formatter
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function setFormatter($formatter){ }
 
@@ -43,6 +47,7 @@ namespace Phalcon\Logger {
 		/**
 		 * Starts a transaction
 		 *
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function begin(){ }
 
@@ -50,6 +55,7 @@ namespace Phalcon\Logger {
 		/**
 		 * Commits the internal transaction
 		 *
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function commit(){ }
 
@@ -57,6 +63,7 @@ namespace Phalcon\Logger {
 		/**
 		 * Rollbacks the internal transaction
 		 *
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function rollback(){ }
 
@@ -65,6 +72,7 @@ namespace Phalcon\Logger {
 		 * Sends/Writes an emergence message to the log
 		 *
 		 * @param string $message
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function emergence($message){ }
 
@@ -74,6 +82,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param ing $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function debug($message){ }
 
@@ -82,6 +91,7 @@ namespace Phalcon\Logger {
 		 * Sends/Writes an error message to the log
 		 *
 		 * @param string $message
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function error($message){ }
 
@@ -90,6 +100,7 @@ namespace Phalcon\Logger {
 		 * Sends/Writes an info message to the log
 		 *
 		 * @param string $message
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function info($message){ }
 
@@ -98,6 +109,7 @@ namespace Phalcon\Logger {
 		 * Sends/Writes a notice message to the log
 		 *
 		 * @param string $message
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function notice($message){ }
 
@@ -106,6 +118,7 @@ namespace Phalcon\Logger {
 		 * Sends/Writes a warning message to the log
 		 *
 		 * @param string $message
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function warning($message){ }
 
@@ -114,6 +127,7 @@ namespace Phalcon\Logger {
 		 * Sends/Writes an alert message to the log
 		 *
 		 * @param string $message
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function alert($message){ }
 
@@ -123,6 +137,7 @@ namespace Phalcon\Logger {
 		 *
 		 * @param string $message
 		 * @param int $type
+		 * @return \Phalcon\Logger\Adapter
 		 */
 		public function log($message, $type=null){ }
 

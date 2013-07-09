@@ -85,5 +85,14 @@ namespace Phalcon\Mvc\View\Engine {
 		 */
 		public function slice($value, $start, $end=null){ }
 
+
+		/**
+		 * Sorts an array
+		 *
+		 * @param array $value
+		 * @return array
+		 */
+		public function sort($value){ }
+
 	}
 }

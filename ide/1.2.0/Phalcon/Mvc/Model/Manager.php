@@ -69,6 +69,8 @@ namespace Phalcon\Mvc\Model {
 
 		protected $_dynamicUpdate;
 
+		protected $_namespaceAliases;
+
 		/**
 		 * Sets the DependencyInjector container
 		 *
@@ -406,6 +408,16 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Checks whether a model has a hasManyToMany relation with another model
+		 *
+		 * @param 	string $modelName
+		 * @param 	string $modelRelation
+		 * @return 	boolean
+		 */
+		public function existsHasManyToMany($modelName, $modelRelation){ }
+
+
+		/**
 		 * Returns a relation by its alias
 		 *
 		 * @param string $modelName
@@ -526,6 +538,15 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Gets hasManyToMany relations defined on a model
+		 *
+		 * @param  \Phalcon\Mvc\ModelInterface $model
+		 * @return \Phalcon\Mvc\Model\RelationInterface[]
+		 */
+		public function getHasManyToMany($model){ }
+
+
+		/**
 		 * Gets hasOne relations defined on a model
 		 *
 		 * @param  \Phalcon\Mvc\ModelInterface $model
@@ -587,6 +608,32 @@ namespace Phalcon\Mvc\Model {
 		 * @return \Phalcon\Mvc\Model\QueryInterface
 		 */
 		public function getLastQuery(){ }
+
+
+		/**
+		 * Registers shorter aliases for namespaces in PHQL statements
+		 *
+		 * @param string $alias
+		 * @param string $namespace
+		 */
+		public function registerNamespaceAlias($alias, $namespace){ }
+
+
+		/**
+		 * Returns a real namespace from its alias
+		 *
+		 * @param string $alias
+		 * @return string
+		 */
+		public function getNamespaceAlias($alias){ }
+
+
+		/**
+		 * Returns all the registered namespace aliases
+		 *
+		 * @return array
+		 */
+		public function getNamespaceAliases(){ }
 
 
 		/**
