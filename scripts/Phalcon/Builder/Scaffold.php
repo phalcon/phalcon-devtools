@@ -199,6 +199,7 @@ class Scaffold extends Component
 		$this->_makeController($path, $options);
 
 		if ($options['templateEngine'] == 'volt') {
+			
 			//View layouts
 			$this->_makeLayoutsVolt($path, $options);
 
@@ -288,7 +289,7 @@ class Scaffold extends Component
 	{
 		$code = '';
 		foreach ($fields as $field => $dataType) {
-			$code .= 'Tag::setDefault("' . $field . '", $' . $var . '->' . $field . ');' . PHP_EOL . "\t\t\t";
+			$code .= '$this->tag->setDefault("' . $field . '", $' . $var . '->' . $field . ');' . PHP_EOL . "\t\t\t";
 		}
 		return $code;
 	}
@@ -302,26 +303,26 @@ class Scaffold extends Component
 				"\t\t" . '<td align="left">';
 
 		if(isset($relationField[$attribute])){
-			$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
+			$code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
 				', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true)) ?>';
 		} else {
 
 			switch ($dataType) {
 				case Column::TYPE_CHAR:
-					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '")) ?>';
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '")) ?>';
 					break;
 				case Column::TYPE_DECIMAL:
 				case Column::TYPE_INTEGER:
-					$code .= PHP_EOL . "\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "numeric")) ?>';
+					$code .= PHP_EOL . "\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "numeric")) ?>';
 					break;
 				case Column::TYPE_DATE:
-					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date")) ?>';
 					break;
 				case Column::TYPE_TEXT:
-					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date")) ?>';
 					break;
 				default:
-					$code .= PHP_EOL . "\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "size" => 30)) ?>';
+					$code .= PHP_EOL . "\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "size" => 30)) ?>';
 					break;
 			}
 		}
@@ -488,8 +489,8 @@ class Scaffold extends Component
 			//View model layout
 			$code = '';
 			if (isset($options['theme'])) {
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/base") ?>'.PHP_EOL;
+				$code.='<?php $this->tag->stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
+				$code.='<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
 			}
 
 			if (isset($options['theme'])) {

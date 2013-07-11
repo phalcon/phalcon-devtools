@@ -5,10 +5,10 @@
 <table width="100%">
     <tr>
         <td align="left">
-            <?php echo Tag::linkTo(array("$plural$/index", "Go Back")); ?>
+            <?php echo $this->tag->linkTo(array("$plural$/index", "Go Back")); ?>
         </td>
         <td align="right">
-            <?php echo Tag::linkTo(array("$plural$/new", "Create ")); ?>
+            <?php echo $this->tag->linkTo(array("$plural$/new", "Create ")); ?>
         </td>
     <tr>
 </table>
@@ -21,8 +21,8 @@ $headerColumns$         </tr>
     <tbody>
     <?php foreach ($page->items as $singularVar$) { ?>
         <tr>
-$rowColumns$            <td><?php echo Tag::linkTo(array("$plural$/edit/" . $singularVar$->$pk$, "Edit")); ?></td>
-            <td><?php echo Tag::linkTo(array("$plural$/delete/" . $singularVar$->$pk$, "Delete")); ?></td>
+$rowColumns$            <td><?php echo $this->tag->linkTo(array("$plural$/edit/" . $singularVar$->$pk$, "Edit")); ?></td>
+            <td><?php echo $this->tag->linkTo(array("$plural$/delete/" . $singularVar$->$pk$, "Delete")); ?></td>
         </tr>
     <?php } ?>
     </tbody>
@@ -31,10 +31,10 @@ $rowColumns$            <td><?php echo Tag::linkTo(array("$plural$/edit/" . $sin
             <td colspan="2" align="right">
                 <table align="center">
                     <tr>
-                        <td><?php echo Tag::linkTo("$plural$/search", "First") ?></td>
-                        <td><?php echo Tag::linkTo("$plural$/search?page=" . $page->before, "Previous") ?></td>
-                        <td><?php echo Tag::linkTo("$plural$/search?page=" . $page->next, "Next") ?></td>
-                        <td><?php echo Tag::linkTo("$plural$/search?page=" . $page->last, "Last") ?></td>
+                        <td><?php echo $this->tag->linkTo("$plural$/search", "First") ?></td>
+                        <td><?php echo $this->tag->linkTo("$plural$/search?page=" . $page->before, "Previous") ?></td>
+                        <td><?php echo $this->tag->linkTo("$plural$/search?page=" . $page->next, "Next") ?></td>
+                        <td><?php echo $this->tag->linkTo("$plural$/search?page=" . $page->last, "Last") ?></td>
                         <td><?php echo $page->current, "/", $page->total_pages ?></td>
                     </tr>
                 </table>

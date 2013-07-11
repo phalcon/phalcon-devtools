@@ -20,9 +20,9 @@
 
 namespace Phalcon;
 
-use Phalcon\Commands\Command;
-use Phalcon\Script\ScriptException;
-use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Commands\Command,
+	Phalcon\Script\ScriptException,
+	Phalcon\Events\Manager as EventsManager;
 
 /**
  * \Phalcon\Script
@@ -155,11 +155,39 @@ class Script
 		//Show exception with/without alternatives
 		$soundex = soundex($input);
 		if (isset($available[$soundex])) {
-			throw new ScriptException('"'. $input . '" is not a recognized command. Did you mean: '.join(' or ', $available[$soundex]).'?');
+			throw new ScriptException('"'. $input . '" is not a recognized command. Did you mean: ' . join(' or ', $available[$soundex]) . '?');
 		} else {
 			throw new ScriptException('"'. $input . '" is not a recognized command');
 		}
 
+	}
+
+	public function loadUserScripts()
+	{
+		if (file_exists('.phalcon/project.ini')) {
+			$config = parse_ini_file('.phalcon/project.ini');
+			if (isset($config['scripts'])) {
+				foreach (explode(',', $config['scripts']) as $directory) {
+					if (!is_dir($directory)) {
+						throw new ScriptException("Cannot load user scripts in directory '" . $directory . "'");
+					}
+					$iterator = new \DirectoryIterator($directory);
+					foreach ($iterator as $item) {
+						if (!$item->isDir()) {
+
+							require $item->getPathName();
+
+							$className = preg_replace('/\.php$/', '', $item->getBaseName());
+							if (!class_exists($className)) {
+								throw new ScriptException("Expecting class '" . $className . "' to be located at '" . $item->getPathName() . '"');
+							}
+
+							$this->attach(new $className($this, $this->_eventsManager));
+						}
+					}
+				}
+			}
+		}
 	}
 
 }
