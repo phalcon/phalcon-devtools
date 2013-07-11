@@ -312,7 +312,7 @@ class Scaffold extends Component
 					break;
 				case Column::TYPE_DECIMAL:
 				case Column::TYPE_INTEGER:
-					$code .= PHP_EOL . "\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "numeric")) ?>';
+					$code .= PHP_EOL . "\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "number")) ?>';
 					break;
 				case Column::TYPE_DATE:
 					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '", "type" => "date")) ?>';
@@ -351,7 +351,7 @@ class Scaffold extends Component
 					break;
 				case Column::TYPE_DECIMAL:
 				case Column::TYPE_INTEGER:
-					$code .= PHP_EOL . "\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "numeric") }}';
+					$code .= PHP_EOL . "\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "number") }}';
 					break;
 				case Column::TYPE_DATE:
 					$code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "date") }}';
