@@ -474,7 +474,7 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $parameters
-		 * @return array
+		 * @return int
 		 */
 		public static function count($parameters=null){ }
 
