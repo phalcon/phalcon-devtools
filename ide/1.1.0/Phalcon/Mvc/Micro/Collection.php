@@ -5,11 +5,12 @@ namespace Phalcon\Mvc\Micro {
 	/**
 	 * Phalcon\Mvc\Micro\Collection
 	 *
-	 * Groups handlers as controllers
+	 * Groups Micro-Mvc handlers as controllers
 	 *
 	 *<code>
 	 *
 	 * $app = new Phalcon\Mvc\Micro();
+	 *
 	 * $collection = new Phalcon\Mvc\Micro\Collection();
 	 *
 	 * $collection->setHandler(new PostsController());
@@ -24,11 +25,39 @@ namespace Phalcon\Mvc\Micro {
 	
 	class Collection {
 
+		protected $_prefix;
+
+		protected $_lazy;
+
 		protected $_handler;
 
 		protected $_handlers;
 
+		/**
+		 * Internal function to add a handler to the group
+		 *
+		 * @param string|array $method
+		 * @param string $routePattern
+		 * @param mixed $handler
+		 */
 		protected function _addMap(){ }
+
+
+		/**
+		 * Sets a prefix for all routes added to the collection
+		 *
+		 * @param string $prefix
+		 * @return \Phalcon\Mvc\Micro\Collection
+		 */
+		public function setPrefix($prefix){ }
+
+
+		/**
+		 * Returns the collection prefix if any
+		 *
+		 * @return string
+		 */
+		public function getPrefix(){ }
 
 
 		/**
@@ -43,8 +72,27 @@ namespace Phalcon\Mvc\Micro {
 		 * Sets the main handler
 		 *
 		 * @param mixed $handler
+		 * @param boolean $lazy
+		 * @return \Phalcon\Mvc\Micro\Collection
 		 */
-		public function setHandler($handler){ }
+		public function setHandler($handler, $lazy=null){ }
+
+
+		/**
+		 * Sets if the main handler must be lazy loaded
+		 *
+		 * @param boolean $lazy
+		 * @return \Phalcon\Mvc\Micro\Collection
+		 */
+		public function setLazy($lazy){ }
+
+
+		/**
+		 * Returns if the main handler must be lazy loaded
+		 *
+		 * @return boolean
+		 */
+		public function isLazy(){ }
 
 
 		/**

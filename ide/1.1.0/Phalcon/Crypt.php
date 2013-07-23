@@ -8,7 +8,7 @@ namespace Phalcon {
 	 * Provides encryption facilities to phalcon applications
 	 */
 	
-	class Crypt {
+	class Crypt implements \Phalcon\CryptInterface {
 
 		protected $_key;
 
@@ -107,7 +107,20 @@ namespace Phalcon {
 		public function decryptBase64($text, $key=null){ }
 
 
+		/**
+		 * Returns a list of available cyphers
+		 *
+		 * @return array
+		 */
 		public function getAvailableCiphers(){ }
+
+
+		/**
+		 * Returns a list of available modes
+		 *
+		 * @return array
+		 */
+		public function getAvailableModes(){ }
 
 	}
 }

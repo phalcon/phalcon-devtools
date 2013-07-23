@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -129,8 +129,20 @@ abstract class Command
 	public function parseParameters($parameters = array(), $possibleAlias = array())
 	{
 
-		if (count($parameters)==0) {
-			$parameters = $this->_possibleParameters;
+		if (count($parameters) == 0) {
+			if (isset($this->_possibleParameters)) {
+				$parameters = $this->_possibleParameters;
+			} else {
+				if (method_exists($this, 'getPossibleParams')) {
+					$parameters = $this->getPossibleParams();
+				} else {
+					throw new CommandsException("Cannot load possible parameters for script: " . get_class($this));
+				}
+			}
+		}
+
+		if (!is_array($parameters)) {
+			throw new CommandsException("Cannot load possible parameters for script: " . get_class($this));
 		}
 
 		$arguments = array();
@@ -141,10 +153,10 @@ abstract class Command
 					throw new CommandsException("Invalid definition for the parameter '$parameter'");
 				}
 				if (strlen($parameterParts[0]) == "") {
-					throw new CommandsException("Invalid definition for the parameter '".$parameter."'");
+					throw new CommandsException("Invalid definition for the parameter '" . $parameter . "'");
 				}
 				if (!in_array($parameterParts[1], array('s', 'i', 'l'))) {
-					throw new CommandsException("Incorrect data type on parameter '".$parameter."'");
+					throw new CommandsException("Incorrect data type on parameter '" . $parameter . "'");
 				}
 				$this->_preparedArguments[$parameterParts[0]] = true;
 				$arguments[$parameterParts[0]] = array(
@@ -194,7 +206,7 @@ abstract class Command
 			$argv = $_SERVER['argv'][$i];
 			if (preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)(=(.*)){0,1}$#', $argv, $matches)) {
 
-				if (strlen($matches[1])==1){
+				if (strlen($matches[1]) == 1){
 					$param = substr($matches[2], 1);
 					$paramName = substr($matches[2], 0, 1);
 				} else {
@@ -229,9 +241,9 @@ abstract class Command
 
 			} else {
 				$param = $argv;
-				if ($paramName!='') {
+				if ($paramName != '') {
 					if (isset($arguments[$paramName])) {
-						if ($param==''){
+						if ($param == ''){
 							if ($arguments[$paramName]['have-option'] == true){
 								throw new CommandsException("The parameter '$paramName' requires an option");
 							}
@@ -241,7 +253,7 @@ abstract class Command
 					$param = '';
 					$paramName = '';
 				} else {
-					$receivedParams[$i-1] = $param;
+					$receivedParams[$i - 1] = $param;
 					$param = '';
 				}
 			}
@@ -273,6 +285,7 @@ abstract class Command
 	public function setEncoding($encoding)
 	{
 		$this->_encoding = $encoding;
+		return $this;
 	}
 
 	/**
@@ -461,6 +474,24 @@ abstract class Command
 	public function getParameters()
 	{
 		return $this->_parameters;
+	}
+
+	/**
+	 * By default all commands must be external
+	 *
+	 * @return boolean
+	 */
+	public function canBeExternal()
+	{
+		return false;
+	}
+
+	/**
+	 * Return required parameters
+	 */
+	public function getRequiredParams()
+	{
+
 	}
 
 }

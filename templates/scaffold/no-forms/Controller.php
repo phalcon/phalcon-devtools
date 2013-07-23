@@ -1,7 +1,6 @@
 <?php
 
-use Phalcon\Tag,
-	Phalcon\Mvc\Model\Criteria,
+use Phalcon\Mvc\Model\Criteria,
 	Phalcon\Paginator\Adapter\Model as Paginator;
 
 class $className$Controller extends ControllerBase
@@ -26,10 +25,7 @@ class $className$Controller extends ControllerBase
 			$query = Criteria::fromInput($this->di, "$className$", $_POST);
 			$this->persistent->parameters = $query->getParams();
 		} else {
-			$numberPage = $this->request->getQuery("page", "int");
-			if ($numberPage <= 0) {
-				$numberPage = 1;
-			}
+			$numberPage = $this->request->getQuery("page", "int");			
 		}
 
 		$parameters = $this->persistent->parameters;
@@ -74,7 +70,7 @@ class $className$Controller extends ControllerBase
 
 		if (!$this->request->isPost()) {
 
-			$singularVar$ = $className$::findFirstById($id);
+			$singularVar$ = $className$::findFirstById($pkVar$);
 			if (!$singularVar$) {
 				$this->flash->error("$singular$ was not found");
 				return $this->dispatcher->forward(array(

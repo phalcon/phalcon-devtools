@@ -33,7 +33,7 @@ try {
 	$extensionLoaded = true;
 	if (!extension_loaded('phalcon')) {
 		$extensionLoaded = false;
-		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
+		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://docs.phalconphp.com/en/latest/reference/install.html');
 	}
 
 	$loader = new Loader();
@@ -72,7 +72,6 @@ try {
 		'\Phalcon\Commands\Builtin\AllModels',
 		'\Phalcon\Commands\Builtin\Project',
 		'\Phalcon\Commands\Builtin\Scaffold',
-		'\Phalcon\Commands\Builtin\ScaffoldDBM',
 		'\Phalcon\Commands\Builtin\Migration',
 		'\Phalcon\Commands\Builtin\Webtools'
 	);

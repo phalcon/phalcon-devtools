@@ -43,7 +43,7 @@ $di->set('view', function() use ($config) {
 
 			return $volt;
 		},
-		'.phtml' => 'Phalcon\Mvc\View\Engine\Php' // Generate Template files uses PHP itself as the template engine
+		'.phtml' => 'Phalcon\Mvc\View\Engine\Php'
 	));
 
 	return $view;
@@ -64,7 +64,7 @@ $di->set('db', function() use ($config) {
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
-$di->set('modelsMetadata', function() use ($config) {
+$di->set('modelsMetadata', function() {
 	return new MetaDataAdapter();
 });
 

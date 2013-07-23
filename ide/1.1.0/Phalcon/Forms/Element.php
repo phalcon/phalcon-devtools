@@ -166,7 +166,7 @@ namespace Phalcon\Forms {
 		 * @param mixed $value
 		 * @return \Phalcon\Forms\ElementInterface
 		 */
-		public function setOption($option, $value){ }
+		public function setUserOption($option, $value){ }
 
 
 		/**
@@ -176,7 +176,7 @@ namespace Phalcon\Forms {
 		 * @param mixed $defaultValue
 		 * @return mixed
 		 */
-		public function getOption($option, $defaultValue=null){ }
+		public function getUserOption($option, $defaultValue=null){ }
 
 
 		/**
@@ -185,7 +185,7 @@ namespace Phalcon\Forms {
 		 * @param array $options
 		 * @return \Phalcon\Forms\ElementInterface
 		 */
-		public function setOptions($options){ }
+		public function setUserOptions($options){ }
 
 
 		/**
@@ -193,7 +193,7 @@ namespace Phalcon\Forms {
 		 *
 		 * @return array
 		 */
-		public function getOptions(){ }
+		public function getUserOptions(){ }
 
 
 		/**
@@ -211,6 +211,14 @@ namespace Phalcon\Forms {
 		 * @return string
 		 */
 		public function getLabel(){ }
+
+
+		/**
+		 * Generate the HTML to label the element
+		 *
+		 * @return string
+		 */
+		public function label(){ }
 
 
 		/**
@@ -237,6 +245,24 @@ namespace Phalcon\Forms {
 		 * @return mixed
 		 */
 		public function getValue(){ }
+
+
+		/**
+		 * Returns the messages that belongs to the element
+		 * The element needs to be attached to a form
+		 *
+		 * @return \Phalcon\Validation\Message\Group
+		 */
+		public function getMessages(){ }
+
+
+		/**
+		 * Returns the messages that belongs to the element
+		 * The element needs to be attached to a form
+		 *
+		 * @return boolean
+		 */
+		public function hasMessages(){ }
 
 
 		/**

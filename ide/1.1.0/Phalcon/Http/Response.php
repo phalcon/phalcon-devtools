@@ -27,6 +27,8 @@ namespace Phalcon\Http {
 
 		protected $_cookies;
 
+		protected $_file;
+
 		protected $_dependencyInjector;
 
 		/**
@@ -175,6 +177,18 @@ namespace Phalcon\Http {
 
 
 		/**
+		 * Set a custom ETag
+		 *
+		 *<code>
+		 *	$response->setEtag(md5(time()));
+		 *</code>
+		 *
+		 * @param string $etag
+		 */
+		public function setEtag($etag){ }
+
+
+		/**
 		 * Redirect by HTTP to another action or URL
 		 *
 		 *<code>
@@ -203,6 +217,19 @@ namespace Phalcon\Http {
 		 * @return \Phalcon\Http\ResponseInterface
 		 */
 		public function setContent($content){ }
+
+
+		/**
+		 * Sets HTTP response body. The parameter is automatically converted to JSON
+		 *
+		 *<code>
+		 *	$response->setJsonContent(array("status" => "OK"));
+		 *</code>
+		 *
+		 * @param string $content
+		 * @return \Phalcon\Http\ResponseInterface
+		 */
+		public function setJsonContent($content){ }
 
 
 		/**
@@ -239,11 +266,22 @@ namespace Phalcon\Http {
 
 
 		/**
+		 * Sends cookies to the client
+		 *
+		 * @return \Phalcon\Http\ResponseInterface
+		 */
+		public function sendCookies(){ }
+
+
+		/**
 		 * Prints out HTTP response to the client
 		 *
 		 * @return \Phalcon\Http\ResponseInterface
 		 */
 		public function send(){ }
+
+
+		public function setFileToSend($filePath, $attachmentName=null){ }
 
 	}
 }

@@ -189,17 +189,35 @@ class Tools
 		}
 
 		//Read configuration
-		$configPath = "app/config/config.ini";
-		if (file_exists($configPath)) {
-			$config = new \Phalcon\Config\Adapter\Ini($configPath);
-		} else {
-			$configPath = "app/config/config.php";
-			if (file_exists($configPath)) {
-				$config = require $configPath;
+		$configPaths = array(
+			'app/config',
+			'apps/frontend/config'
+		);
+
+		$readed = false;
+
+		foreach ($configPaths as $configPath) {
+			$cpath = $configPath . '/config.ini';
+
+			if (file_exists($cpath)) {
+				$config = new \Phalcon\Config\Adapter\Ini($cpath);
+				$readed = true;
+
+				break;
 			} else {
-				throw new \Phalcon\Exception('Configuration file could not be loaded');
+				$cpath = $configPath . '/config.php';
+
+				if (file_exists($cpath)) {
+					$config = require $cpath;
+					$readed = true;
+
+					break;
+				}
 			}
 		}
+
+		if ($readed === false)
+			throw new \Phalcon\Exception('Configuration file could not be loaded');
 
 		$loader = new \Phalcon\Loader();
 
@@ -291,27 +309,26 @@ class Tools
 	 */
 	public static function install($path)
 	{
+		$path = rtrim(realpath($path), '/') . '/';
+		$tools = realpath(__DIR__ . '/../../../');
 
-		if (!is_dir('public/')) {
-			throw new Exception("Document root cannot be located");
+		if (PHP_OS == 'WINNT') {
+			$path = str_replace("\\", '/', $path);
+			$tools = str_replace("\\", '/', $tools);
+		}
+
+		if ( ! is_dir($path . 'public/')) {
+			throw new \Exception('Document root cannot be located');
 		}
 
 		TBootstrap::install($path);
 		CodeMirror::install($path);
 
-		copy($path . 'webtools.php', 'public/webtools.php');
+		copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
-		$webToolsConfigPath = "public/webtools.config.php";
-
-		if (PHP_OS == "WINNT") {
-			$pToolsPath = str_replace("\\", "/", $path);
-		} else {
-			$pToolsPath = $path;
-		}
-
-		$code = "<?php\n\ndefine(\"PTOOLSPATH\", \"".realpath($pToolsPath)."\");\n\n";
-		if(!file_exists($webToolsConfigPath)){
-			file_put_contents($webToolsConfigPath, $code);
+		if ( ! file_exists($configPath = $path . 'public/webtools.config.php')) {
+			$code = "<?php\ndefine('PTOOLSPATH', '{$tools}');\n\n";
+			file_put_contents($configPath, $code);
 		}
 	}
 

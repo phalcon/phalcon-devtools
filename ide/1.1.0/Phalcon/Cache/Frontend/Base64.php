@@ -29,7 +29,7 @@ namespace Phalcon\Cache\Frontend {
 	 * if ($image === null) {
 	 *
 	 *     // Store the image in the cache
-	 *     $cache->save($cacheKey, file_put_contents('tmp-dir/some-image.jpg'));
+	 *     $cache->save($cacheKey, file_get_contents('tmp-dir/some-image.jpg'));
 	 * }
 	 *
 	 * header('Content-Type: image/jpeg');

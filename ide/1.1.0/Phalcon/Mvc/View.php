@@ -131,7 +131,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
 		 *
-		 **<code>
+		 *<code>
 		 * $view->setPartialsDir('../common/partials/');
 		 *</code>
 		 *
@@ -174,7 +174,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Disables an specific level of rendering
+		 * Disables a specific level of rendering
 		 *
 		 *<code>
 		 * //Render all levels except ACTION level
@@ -443,9 +443,10 @@ namespace Phalcon\Mvc {
 		 * @param string $controllerName
 		 * @param string $actionName
 		 * @param array $params
+		 * @param mixed $configCallback
 		 * @return string
 		 */
-		public function getRender($controllerName, $actionName, $params=null){ }
+		public function getRender($controllerName, $actionName, $params=null, $configCallback=null){ }
 
 
 		/**

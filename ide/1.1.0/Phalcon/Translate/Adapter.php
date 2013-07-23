@@ -49,10 +49,10 @@ namespace Phalcon\Translate {
 		/**
 		 * Returns the translation related to the given key
 		 *
-		 * @param string $traslateKey
+		 * @param string $translateKey
 		 * @return string
 		 */
-		public function offsetGet($traslateKey){ }
+		public function offsetGet($translateKey){ }
 
 	}
 }

@@ -189,7 +189,7 @@ namespace Phalcon {
 		 * Builds a HTML input[type="text"] tag
 		 *
 		 * <code>
-		 *	echo \Phalcon\Tag::textField(array("name", "size" => 30))
+		 *	echo \Phalcon\Tag::textField(array("name", "size" => 30));
 		 * </code>
 		 *
 		 * @param array $parameters
@@ -199,10 +199,36 @@ namespace Phalcon {
 
 
 		/**
+		 * Builds a HTML input[type="number"] tag
+		 *
+		 * <code>
+		 *	echo \Phalcon\Tag::numericField(array("price", "min" => "1", "max" => "5"));
+		 * </code>
+		 *
+		 * @param array $parameters
+		 * @return string
+		 */
+		public static function numericField($parameters){ }
+
+
+		/**
+		 * Builds a HTML input[type="date"] tag
+		 *
+		 * <code>
+		 *	echo \Phalcon\Tag::dateField(array("born", "value" => "14-12-1980"))
+		 * </code>
+		 *
+		 * @param array $parameters
+		 * @return string
+		 */
+		public static function dateField($parameters){ }
+
+
+		/**
 		 * Builds a HTML input[type="password"] tag
 		 *
 		 *<code>
-		 * echo \Phalcon\Tag::passwordField(array("name", "size" => 30))
+		 * echo \Phalcon\Tag::passwordField(array("name", "size" => 30));
 		 *</code>
 		 *
 		 * @param array $parameters
@@ -215,7 +241,7 @@ namespace Phalcon {
 		 * Builds a HTML input[type="hidden"] tag
 		 *
 		 *<code>
-		 * echo \Phalcon\Tag::hiddenField(array("name", "value" => "mike"))
+		 * echo \Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
 		 *</code>
 		 *
 		 * @param array $parameters
@@ -228,7 +254,7 @@ namespace Phalcon {
 		 * Builds a HTML input[type="file"] tag
 		 *
 		 *<code>
-		 * echo \Phalcon\Tag::fileField("file")
+		 * echo \Phalcon\Tag::fileField("file");
 		 *</code>
 		 *
 		 * @param array $parameters
@@ -241,7 +267,7 @@ namespace Phalcon {
 		 * Builds a HTML input[type="check"] tag
 		 *
 		 *<code>
-		 * echo \Phalcon\Tag::checkField(array("name"))
+		 * echo \Phalcon\Tag::checkField(array("name"));
 		 *</code>
 		 *
 		 * @param array $parameters
@@ -255,6 +281,11 @@ namespace Phalcon {
 		 *
 		 *<code>
 		 * echo \Phalcon\Tag::radioField(array("name"))
+		 *</code>
+		 *
+		 * Volt syntax:
+		 *<code>
+		 * {{ radio_field('Save') }}
 		 *</code>
 		 *
 		 * @param array $parameters
@@ -434,6 +465,12 @@ namespace Phalcon {
 		 * 	echo \Phalcon\Tag::stylesheetLink("css/style.css");
 		 * </code>
 		 *
+		 * Volt Syntax:
+		 *<code>
+		 * 	{{ stylesheet_link("http://fonts.googleapis.com/css?family=Rosario", false) }}
+		 * 	{{ stylesheet_link("css/style.css") }}
+		 *</code>
+		 *
 		 * @param array $parameters
 		 * @param   boolean $local
 		 * @return string
@@ -465,6 +502,17 @@ namespace Phalcon {
 		/**
 		 * Builds HTML IMG tags
 		 *
+		 * <code>
+		 * 	echo \Phalcon\Tag::image("img/bg.png");
+		 * 	echo \Phalcon\Tag::image(array("img/photo.jpg", "alt" => "Some Photo"));
+		 * </code>
+		 *
+		 * Volt Syntax:
+		 * <code>
+		 * 	{{ image("img/bg.png") }}
+		 * 	{{ image("img/photo.jpg", "alt": "Some Photo") }}
+		 * </code>
+		 *
 		 * @param  array $parameters
 		 * @return string
 		 */
@@ -473,6 +521,10 @@ namespace Phalcon {
 
 		/**
 		 * Converts texts into URL-friendly titles
+		 *
+		 *<code>
+		 * echo \Phalcon\Tag::friendlyTitle('Thiese are big important news', '-')
+		 *</code>
 		 *
 		 * @param string $text
 		 * @param string $separator
@@ -496,6 +548,37 @@ namespace Phalcon {
 		 * @return string
 		 */
 		public static function getDocType(){ }
+
+
+		/**
+		 * Builds a HTML tag
+		 *
+		 *<code>
+		 *	echo \Phalcon\Tag::tagHtml($name, $parameters, $selfClose, $onlyStart, $eol);
+		 *</code>
+		 *
+		 * @param string $tagName
+		 * @param array $parameters
+		 * @param boolean $selfClose
+		 * @param boolean $onlyStart
+		 * @param boolean $useEol
+		 * @return string
+		 */
+		public static function tagHtml($tagName, $parameters=null, $selfClose=null, $onlyStart=null, $useEol=null){ }
+
+
+		/**
+		 * Builds a HTML tag closing tag
+		 *
+		 *<code>
+		 *	echo \Phalcon\Tag::tagHtmlClose('script', true)
+		 *</code>
+		 *
+		 * @param string $tagName
+		 * @param boolean $useEol
+		 * @return string
+		 */
+		public static function tagHtmlClose($tagName, $useEol=null){ }
 
 	}
 }
