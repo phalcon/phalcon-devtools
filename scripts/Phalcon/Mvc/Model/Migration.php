@@ -137,11 +137,17 @@ class Migration
 		$numericFields = array();
 		$tableDefinition = array();
 
-		if (isset(self::$_databaseConfig->dbname)) {
-			$defaultSchema = self::$_databaseConfig->dbname;
-		} else {
-			$defaultSchema = null;
-		}
+                if (isset(self::$_databaseConfig->schema)) {
+                        $defaultSchema = self::$_databaseConfig->schema;
+                }
+                else if (isset(self::$_databaseConfig->adapter) && self::$_databaseConfig->adapter == 'Postgresql') {
+                        $defaultSchema =  'public';
+                }
+                else if (isset(self::$_databaseConfig->dbname)) {
+                        $defaultSchema = self::$_databaseConfig->dbname;
+                } else {
+                        $defaultSchema = null;
+                }
 
 		$description = self::$_connection->describeColumns($table, $defaultSchema);
 		foreach ($description as $field)  {
@@ -164,12 +170,16 @@ class Migration
 					$fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
 					break;
 				case Column::TYPE_DECIMAL:
-    				$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
+    					$fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
 					$numericFields[$field->getName()] = true;
 					break;
 				case Column::TYPE_TEXT:
 					$fieldDefinition[] = "'type' => Column::TYPE_TEXT";
 					break;
+				case Column::TYPE_BOOLEAN:
+                                        $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
+                                        break;
+
 				default:
 					throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
 			}
