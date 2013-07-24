@@ -75,7 +75,9 @@ class Migration
 		if ( ! class_exists($adapter))
 			throw new \Phalcon\Exception('Invalid database Adapter!');
 
-		self::$_connection = new $adapter($database->toArray());
+		$configArray = $database->toArray();
+		unset($configArray['adapter']);
+		self::$_connection = new $adapter($configArray);
 		self::$_databaseConfig = $database;
 
 		$profiler = new Profiler();
