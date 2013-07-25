@@ -197,10 +197,14 @@ class Migration
 			}
 
 			if ($field->getSize()) {
-            	$fieldDefinition[] = "'size' => " . $field->getSize();
-        	} else {
-        		$fieldDefinition[] = "'size' => 1";
-        	}
+            			$fieldDefinition[] = "'size' => " . $field->getSize();
+        		} else {
+        			$fieldDefinition[] = "'size' => 1";
+        		}
+
+                        if ($field->getScale()) {
+                                $fieldDefinition[] = "'scale' => " . $field->getScale();
+                        }
 
 			if ($oldColumn != null) {
 				$fieldDefinition[] = "'after' => '" . $oldColumn . "'";
