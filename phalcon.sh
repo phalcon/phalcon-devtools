@@ -34,11 +34,11 @@ alter_profile(){
 		echo "$PATHVAR" >> $HOME/.profile
 		source $HOME/.profile
 	elif [ -e $HOME/.bashrc ]; then
-				echo "$PTOOLSVAR" >> $HOME/.bashrc
+		echo "$PTOOLSVAR" >> $HOME/.bashrc
 		echo "$PATHVAR" >> $HOME/.bashrc
 		source $HOME/.bashrc
 	else
-		echo "No bash profile detected. Environment vars might dissapear at console restart!"
+		echo "No bash profile detected. Environment vars might disappear on console restart!"
 	fi
 
 	if [ -e $HOME/.cshrc ]; then
