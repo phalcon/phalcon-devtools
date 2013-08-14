@@ -126,7 +126,8 @@ class Script
 	{
 
 		if (!isset($_SERVER['argv'][1])) {
-			throw new ScriptException('Incorrect usage');
+
+            $_SERVER['argv']["1"] = 'commands';
 		}
 
 		$input = $_SERVER['argv'][1];
