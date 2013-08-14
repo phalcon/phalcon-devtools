@@ -42,6 +42,7 @@ class Project extends Component
 		'micro' => '\Phalcon\Builder\Project\Micro',
 		'simple' => '\Phalcon\Builder\Project\Simple',
 		'modules' => '\Phalcon\Builder\Project\Modules',
+		'cli' => '\Phalcon\Builder\Project\Cli',
 	);
 
 	public function build()
@@ -73,7 +74,7 @@ class Project extends Component
             if (!isset($this->_types[$type])) {
                 $keys = array_keys($this->_types);
                 $keys = implode(" , ",$keys);
-                throw new BuilderException('Type "' . $type . '" is not a valid type. Chose among [$keys] ');
+                throw new BuilderException('Type "' . $type . '" is not a valid type. Chose among [' . $keys . '] ');
             }
         } else {
             $type = 'simple';
