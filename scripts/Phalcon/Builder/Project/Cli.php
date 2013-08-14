@@ -19,6 +19,7 @@
 */
 
 namespace Phalcon\Builder\Project;
+use Phalcon\Script\Color;
 
 /**
  * Cli
@@ -106,12 +107,28 @@ class Cli extends ProjectBuilder
         }
     }
 
+    /**
+     * create a launcher file to launch the application simple with ./project/projectname
+     *
+     * @param $name string name of the applciation
+     * @param $path string path to the project root
+     *
+     * @return void
+     */
+    private function createLauncher($name,$path,$templatePath){
+        if (file_exists($path . $name) == false) {
+            $str = file_get_contents($templatePath . '/project/cli/launcher');
+            file_put_contents($path . $name , $str);
+            chmod($path . $name , 0755);
+        }
+    }
+
 	public function build($name, $path, $templatePath, $options)
 	{
 
         $this->buildDirectories($this->_dirs,$path);
 
-//Disable ini config
+        //Disable ini config
 //        if (isset($options['useConfigIni']))
 //            $useIniConfig = $options['useConfigIni'];
 //        else
@@ -128,6 +145,10 @@ class Cli extends ProjectBuilder
 
         $this->createDefaultTasks($path, $templatePath);
 
+        $this->createLauncher($name,$path,$templatePath);
+
+        $pathSymLink = realpath( $path . $name );
+        print Color::success("You can create a symlink to $pathSymLink to invoke the application") . PHP_EOL;
 
 		return true;
 	}
