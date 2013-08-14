@@ -23,31 +23,44 @@ namespace Phalcon\Web;
 abstract class TBootstrap
 {
 
-	public static function install($path)
-	{
-		// Set paths
-		$bootstrap = realpath(__DIR__ . '/../../../') . '/resources/bootstrap';
-		$js = $path . 'public/js/bootstrap';
-		$css = $path . 'public/css/bootstrap';
-		$img = $path . 'public/img/bootstrap';
+    public static function install($path)
+    {
+        // Set paths
+        $bootstrapRoot = realpath(__DIR__ . '/../../../') . '/resources/bootstrap';
+        $jqueryRoot    = realpath(__DIR__ . '/../../../') . '/resources/jquery';
 
-		//Install bootstrap
-		if ( ! file_exists($js)) {
-			mkdir($js, 0777, true);
-			file_put_contents($js . '/index.html', "");
-			copy($bootstrap . '/js/bootstrap.min.js', $js . '/bootstrap.min.js');
-		}
+        $jsBootstrapDir = $path . 'public/js/bootstrap';
+        $jsJqueryDir    = $path . 'public/js/jquery';
 
-		if ( ! file_exists($css)) {
-			mkdir($css, 0777, true);
-			file_put_contents($css . '/index.html', "");
-			copy($bootstrap . '/css/bootstrap.min.css', $css . '/bootstrap.min.css');
-		}
+        $css = $path . 'public/css/bootstrap';
+        $img = $path . 'public/img/bootstrap';
 
-		if ( ! file_exists($img)) {
-			mkdir($img, 0777, true);
-			file_put_contents($img . '/index.html', "");
-			copy($bootstrap . '/img/glyphicons-halflings.png', $img . '/glyphicons-halflings.png');
-		}
-	}
+        //Install bootstrap
+        if ( !is_dir($jsBootstrapDir) ) {
+            mkdir($jsBootstrapDir , 0777 , true);
+            touch($jsBootstrapDir . '/index.html');
+            copy($bootstrapRoot . '/js/bootstrap.min.js' , $jsBootstrapDir . '/bootstrap.min.js');
+            copy($bootstrapRoot . '/js/bootstrap.min.js' , $jsBootstrapDir . '/bootstrap.min.js');
+        }
+
+        if ( !is_dir($css) ) {
+            mkdir($css , 0777 , true);
+            touch($css . '/index.html');
+            copy($bootstrapRoot . '/css/bootstrap.min.css' , $css . '/bootstrap.min.css');
+            copy($bootstrapRoot . '/css/bootstrap-responsive.min.css' , $css . '/bootstrap-responsive.min.css');
+        }
+
+        if ( !is_dir($img) ) {
+            mkdir($img , 0777 , true);
+            touch($img . '/index.html');
+            copy($bootstrapRoot . '/img/glyphicons-halflings.png' , $img . '/glyphicons-halflings.png');
+        }
+
+        //Install jquery
+        if ( !is_dir($jsJqueryDir) ) {
+            mkdir($jsJqueryDir , 0777 , true);
+            touch($jsJqueryDir . '/index.html');
+            copy($jqueryRoot . '/jquery.min.js' , $jsJqueryDir . '/jquery.min.js');
+        }
+    }
 }
