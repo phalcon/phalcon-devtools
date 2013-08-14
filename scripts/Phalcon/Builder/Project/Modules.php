@@ -30,7 +30,7 @@ namespace Phalcon\Builder\Project;
  * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class Modules
+class Modules extends ProjectBuilder
 {
 
 	private $_dirs = array(
@@ -199,9 +199,7 @@ class Modules
 	public function build($name, $path, $templatePath, $options)
 	{
 
-		foreach ($this->_dirs as $dir) {
-			@mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir);
-		}
+		$this->buildDirectories($this->_dirs,$path);
 
 		if (isset($options['useIniConfig'])) {
 			$useIniConfig = $options['useIniConfig'];
