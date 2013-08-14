@@ -21,4 +21,4 @@
 require 'webtools.config.php';
 require PTOOLSPATH.'/scripts/Phalcon/Web/Tools.php';
 
-Phalcon\Web\Tools::main(PTOOLSPATH);
+Phalcon\Web\Tools::main(PTOOLSPATH,ADMINIP);

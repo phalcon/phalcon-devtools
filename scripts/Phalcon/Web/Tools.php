@@ -44,6 +44,8 @@ class Tools
 
 	private static $_path = '..';
 
+    private static $_admin_ip;
+
 	private static $_options = array(
 		'index' => array(
 			'caption' => 'Home',
@@ -179,8 +181,10 @@ class Tools
 	 *
 	 * @param string $path
 	 */
-	public static function main($path)
+	public static function main($path,$admin_ip='')
 	{
+
+        self::$_admin_ip=$admin_ip;
 
 		chdir('..');
 
@@ -327,9 +331,19 @@ class Tools
 		copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
 		if ( ! file_exists($configPath = $path . 'public/webtools.config.php')) {
-			$code = "<?php\ndefine('PTOOLSPATH', '{$tools}');\n\n";
+			$code = "<?php\ndefine('PTOOLSPATH', '{$tools}');\n/* you can set ADMINIP as IP 192.168.0.1 or SUBNET 192. or 10.0.2. or 86.84.124. */\ndefine('ADMINIP', '192.168.');\n";
 			file_put_contents($configPath, $code);
 		}
 	}
+
+    /**
+     * Returns ADMINIP config object from the webtools.config.php
+     *
+     * @return string $_admin_ip
+     */
+    public static function getAdminIP()
+    {
+            return self::$_admin_ip;
+    }
 
 }
