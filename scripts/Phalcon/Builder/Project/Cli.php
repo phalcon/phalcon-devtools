@@ -111,9 +111,10 @@ class Cli extends ProjectBuilder
 
         $this->buildDirectories($this->_dirs,$path);
 
-        if (isset($options['useIniConfig']))
-            $useIniConfig = $options['useIniConfig'];
-        else
+//Disable ini config
+//        if (isset($options['useConfigIni']))
+//            $useIniConfig = $options['useConfigIni'];
+//        else
             $useIniConfig = false;
 
 
