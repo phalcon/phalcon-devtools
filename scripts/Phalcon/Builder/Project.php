@@ -46,6 +46,10 @@ class Project extends Component
 
 	public function build()
 	{
+
+
+
+
 		$path = '';
 		if (isset($this->_options['directory'])) {
 			if ($this->_options['directory']) {
@@ -63,6 +67,18 @@ class Project extends Component
 			throw new BuilderException("Projects cannot be created inside Phalcon projects");
 		}
 
+
+        if (isset($this->_options['type'])) {
+            $type = $this->_options['type'];
+            if (!isset($this->_types[$type])) {
+                $keys = array_keys($this->_types);
+                $keys = implode(" , ",$keys);
+                throw new BuilderException('Type "' . $type . '" is not a valid type. Chose among [$keys] ');
+            }
+        } else {
+            $type = 'simple';
+        }
+
 		$name = null;
 		if (isset($this->_options['name'])) {
 			if ($this->_options['name']) {
@@ -77,15 +93,6 @@ class Project extends Component
 
 		if (!is_writable($path)) {
 			throw new BuilderException("Directory " . $path . " is not writable");
-		}
-
-		if (isset($this->_options['type'])) {
-			$type = $this->_options['type'];
-			if (!isset($this->_types[$type])) {
-				throw new BuilderException('Type "' . $type . '" is not supported yet');
-			}
-		} else {
-			$type = 'simple';
 		}
 
 		$builderClass = $this->_types[$type];
