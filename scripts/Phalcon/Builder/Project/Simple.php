@@ -198,8 +198,8 @@ class Simple extends ProjectBuilder
 
         $this->buildDirectories($this->_dirs,$path);
 
-		if (isset($options['useIniConfig'])) {
-			$useIniConfig = $options['useIniConfig'];
+		if (isset($options['useConfigIni'])) {
+			$useIniConfig = $options['useConfigIni'];
 		} else {
 			$useIniConfig = false;
 		}
