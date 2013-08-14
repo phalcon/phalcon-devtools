@@ -74,7 +74,7 @@ class Project extends Component
             if (!isset($this->_types[$type])) {
                 $keys = array_keys($this->_types);
                 $keys = implode(" , ",$keys);
-                throw new BuilderException('Type "' . $type . '" is not a valid type. Chose among [' . $keys . '] ');
+                throw new BuilderException('Type "' . $type . '" is not a valid type. Choose among [' . $keys . '] ');
             }
         } else {
             $type = 'simple';
