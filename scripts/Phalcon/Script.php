@@ -37,7 +37,7 @@ use Phalcon\Commands\Command,
 class Script
 {
 
-	const COMPATIBLE_VERSION = '1000000';
+	const COMPATIBLE_VERSION = '1020000';
 
 	/**
 	 * Events Manager

@@ -34,7 +34,7 @@ use Phalcon\Builder,
  * @category 	Phalcon
  * @package 	Command
  * @subpackage  Controller
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Controller extends Command implements CommandsInterface
