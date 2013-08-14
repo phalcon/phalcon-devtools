@@ -13,11 +13,11 @@
 			</tr>
 			<tr>
 				<td><b>New Version</b></td>
-				<td><?php echo Phalcon\Tag::textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
+				<td><?php echo $this->tag->textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
 			</tr>
 			<tr>
 				<td><b>Table name</b></td>
-				<td><?php echo Phalcon\Tag::selectStatic('table-name', $tables) ?></td>
+				<td><?php echo $this->tag->selectStatic('table-name', $tables) ?></td>
 			</tr>
 			<tr>
 				<td><b>Force</b></td>

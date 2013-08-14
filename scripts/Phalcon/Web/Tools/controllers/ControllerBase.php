@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -38,7 +38,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 		} else {
 			throw new Phalcon\Exception('WebTools can only be used on the local machine (Your IP: ' . $_SERVER['REMOTE_ADDR'] . ')');
 		}
-	}	
+	}
 
 	protected function _listTables($all=false)
 	{
@@ -54,9 +54,9 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 		$dbTables = $connection->listTables();
 		foreach ($dbTables as $dbTable) {
 			$tables[$dbTable] = $dbTable;
-		}		
+		}
 
-		$this->view->tables = $tables;		
+		$this->view->tables = $tables;
 		if ($config->database->adapter != 'Sqlite') {
 			$this->view->databaseName = $config->database->dbname;
 		} else {

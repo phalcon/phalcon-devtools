@@ -198,7 +198,7 @@ class Scaffold extends Component
 		//Build Controller
 		$this->_makeController($path, $options);
 
-		if ($options['templateEngine'] == 'volt') {
+		if (isset($options['templateEngine']) && $options['templateEngine'] == 'volt') {
 			//View layouts
 			$this->_makeLayoutsVolt($path, $options);
 
@@ -308,7 +308,7 @@ class Scaffold extends Component
 
 			switch ($dataType) {
 				case Column::TYPE_CHAR:
-					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo Tag::textField(array("' . $attribute . '")) ?>';
+					$code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '")) ?>';
 					break;
 				case Column::TYPE_DECIMAL:
 				case Column::TYPE_INTEGER:
@@ -488,8 +488,8 @@ class Scaffold extends Component
 			//View model layout
 			$code = '';
 			if (isset($options['theme'])) {
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
-				$code.='<?php \Phalcon\Tag::stylesheetLink("themes/base") ?>'.PHP_EOL;
+				$code.='<?php $this->tag->stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
+				$code.='<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
 			}
 
 			if (isset($options['theme'])) {
