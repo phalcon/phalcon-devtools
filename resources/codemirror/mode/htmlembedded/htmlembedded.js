@@ -34,9 +34,9 @@ CodeMirror.defineMode("htmlembedded", function(config, parserConfig) {
       htmlMixedMode = htmlMixedMode || CodeMirror.getMode(config, "htmlmixed");
       return { 
           token :  parserConfig.startOpen ? scriptingDispatch : htmlDispatch,
-          htmlState : htmlMixedMode.startState(),
-          scriptState : scriptingMode.startState()
-          }
+          htmlState : CodeMirror.startState(htmlMixedMode),
+          scriptState : CodeMirror.startState(scriptingMode)
+      };
     },
 
     token: function(stream, state) {
@@ -46,7 +46,7 @@ CodeMirror.defineMode("htmlembedded", function(config, parserConfig) {
     indent: function(state, textAfter) {
       if (state.token == htmlDispatch)
         return htmlMixedMode.indent(state.htmlState, textAfter);
-      else
+      else if (scriptingMode.indent)
         return scriptingMode.indent(state.scriptState, textAfter);
     },
     
@@ -55,14 +55,19 @@ CodeMirror.defineMode("htmlembedded", function(config, parserConfig) {
        token : state.token,
        htmlState : CodeMirror.copyState(htmlMixedMode, state.htmlState),
        scriptState : CodeMirror.copyState(scriptingMode, state.scriptState)
-       }
+      };
     },
     
+    electricChars: "/{}:",
 
-    electricChars: "/{}:"
-  }
+    innerMode: function(state) {
+      if (state.token == scriptingDispatch) return {state: state.scriptState, mode: scriptingMode};
+      else return {state: state.htmlState, mode: htmlMixedMode};
+    }
+  };
 }, "htmlmixed");
 
 CodeMirror.defineMIME("application/x-ejs", { name: "htmlembedded", scriptingModeSpec:"javascript"});
 CodeMirror.defineMIME("application/x-aspx", { name: "htmlembedded", scriptingModeSpec:"text/x-csharp"});
 CodeMirror.defineMIME("application/x-jsp", { name: "htmlembedded", scriptingModeSpec:"text/x-java"});
+CodeMirror.defineMIME("application/x-erb", { name: "htmlembedded", scriptingModeSpec:"ruby"});
