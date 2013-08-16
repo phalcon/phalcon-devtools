@@ -37,7 +37,7 @@ use Phalcon\Commands\Command,
 class Script
 {
 
-	const COMPATIBLE_VERSION = '1000000';
+	const COMPATIBLE_VERSION = '1020000';
 
 	/**
 	 * Events Manager
@@ -126,7 +126,8 @@ class Script
 	{
 
 		if (!isset($_SERVER['argv'][1])) {
-			throw new ScriptException('Incorrect usage');
+
+            $_SERVER['argv']["1"] = 'commands';
 		}
 
 		$input = $_SERVER['argv'][1];
