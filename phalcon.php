@@ -29,7 +29,7 @@ use Phalcon\Script,
 	Phalcon\Events\Manager as EventsManager;
 
 try {
-	
+
 	$extensionLoaded = true;
 	if (!extension_loaded('phalcon')) {
 		$extensionLoaded = false;
