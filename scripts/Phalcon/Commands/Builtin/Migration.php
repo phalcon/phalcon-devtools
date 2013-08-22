@@ -51,6 +51,58 @@ class Migration extends Command implements CommandsInterface
 	);
 
 	/**
+	 * Determines correct adapter by file name 
+	 * and load config
+	 *
+	 * @return Phalcon\Config | false
+	 */
+	protected static function _loadConfig($fileName)
+	{
+		$pathInfo = pathinfo($fileName);
+
+		if (isset($pathInfo['extension'])) {
+			$extension = $pathInfo['extension'];
+			if ($extension === 'php') {
+
+				return include($fileName);
+			} elseif ($extension === 'ini') {
+
+				return new \Phalcon\Config\Adapter\Ini($fileName);
+			}
+		}
+
+		return false;
+	}
+
+	protected static function _getConfig($path)
+	{
+		foreach (array('app/config/', 'config/') as $configPath) {
+			if (file_exists($path . $configPath. "config.ini")) {
+				return new \Phalcon\Config\Adapter\Ini($path . $configPath. "/config.ini");
+			} else {
+				if (file_exists($path . $configPath. "/config.php")) {
+					$config = include($path . $configPath. "/config.php");
+					return $config;
+				}
+			}
+		}
+
+		$directory = new \RecursiveDirectoryIterator('.');
+		$iterator = new \RecursiveIteratorIterator($directory);
+		foreach ($iterator as $f) {
+			if (preg_match('/config\.php$/', $f->getPathName())) {
+				$config = include($f->getPathName());
+				return $config;
+			} else {
+				if (preg_match('/config\.ini$/', $f->getPathName())) {
+					return new \Phalcon\Config\Adapter\Ini($f->getPathName());
+				}
+			}
+		}
+		throw new BuilderException('Builder can\'t locate the configuration file');
+	}
+
+	/**
 	 * Run the command
 	 */
 	public function run($parameters)
@@ -75,6 +127,13 @@ class Migration extends Command implements CommandsInterface
 
 		$exportData = $this->getOption('data');
 		$originalVersion = $this->getOption('version');
+		
+		if($this->isReceivedOption('config')){
+			$configPath = $path . $this->getOption('config');
+			$config = $this->_loadConfig($configPath);
+		} else {
+			$config = $this->_getConfig($path);
+		}
 
 		$action = $this->getOption(array('action', 1));
 
@@ -85,14 +144,16 @@ class Migration extends Command implements CommandsInterface
 				'exportData' => $exportData,
 				'migrationsDir' => $migrationsDir,
 				'originalVersion' => $originalVersion,
-				'force' => $this->isReceivedOption('force')
+				'force' => $this->isReceivedOption('force'),
+				'config' => $config
 			));
 		} else {
 			if ($action == 'run') {
 				Migrations::run(array(
 					'directory' => $path,
 					'migrationsDir' => $migrationsDir,
-					'force' => $this->isReceivedOption('force')
+					'force' => $this->isReceivedOption('force'),
+					'config' => $config
 				));
 			}
 		}
