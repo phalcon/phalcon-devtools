@@ -27,34 +27,6 @@ use \Phalcon\Mvc\Model\Migration as ModelMigration;
 class Migrations
 {
 
-	protected static function _getConfig($path)
-	{
-		foreach (array('app/config/', 'config/') as $configPath) {
-			if (file_exists($path . $configPath. "config.ini")) {
-				return new \Phalcon\Config\Adapter\Ini($path . $configPath. "/config.ini");
-			} else {
-				if (file_exists($path . $configPath. "/config.php")) {
-					$config = include($path . $configPath. "/config.php");
-					return $config;
-				}
-			}
-		}
-
-		$directory = new \RecursiveDirectoryIterator('.');
-		$iterator = new \RecursiveIteratorIterator($directory);
-		foreach ($iterator as $f) {
-			if (preg_match('/config\.php$/', $f->getPathName())) {
-				$config = include($f->getPathName());
-				return $config;
-			} else {
-				if (preg_match('/config\.ini$/', $f->getPathName())) {
-					return new \Phalcon\Config\Adapter\Ini($f->getPathName());
-				}
-			}
-		}
-		throw new BuilderException('Builder can\'t locate the configuration file');
-	}
-
 	public static function generate($options)
 	{
 
@@ -64,8 +36,7 @@ class Migrations
 		$migrationsDir = $options['migrationsDir'];
 		$originalVersion = $options['originalVersion'];
 		$force = $options['force'];
-
-		$config = self::_getConfig($path);
+		$config = $options['config'];
 
 		if ($migrationsDir && !file_exists($migrationsDir)) {
 			mkdir($migrationsDir);
@@ -136,6 +107,7 @@ class Migrations
 
 		$path = $options['directory'];
 		$migrationsDir = $options['migrationsDir'];
+		$config = $options['config'];
 
 		if(isset($options['tableName'])){
 			$tableName = $options['tableName'];
@@ -174,8 +146,6 @@ class Migrations
 		} else {
 			$fromVersion = (string) $version;
 		}
-
-		$config = self::_getConfig($path);
 
 		if (isset($config->database)) {
 			ModelMigration::setup($config->database);
