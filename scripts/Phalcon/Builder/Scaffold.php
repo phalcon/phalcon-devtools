@@ -194,6 +194,7 @@ class Scaffold extends Component
 		$options['selectDefinition']	 = $selectDefinition;
 		$options['autocompleteFields'] 	 = array();
 		$options['belongsToDefinitions'] = array();
+        $options['templateEngine']       = '';
 
 		//Build Controller
 		$this->_makeController($path, $options);
