@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phalcon\Mvc\View {
 
@@ -13,10 +13,7 @@ namespace Phalcon\Mvc\View {
 	 *</code>
 	 *
 	 */
-	
-	/**
-	 * @property \Phalcon\Tag $tag
-	 */
+
 	class Simple extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_options;

@@ -104,7 +104,7 @@ namespace Phalcon\Mvc\Model {
 		 * Reads the complete meta-data for certain model
 		 *
 		 *<code>
-		 *	print_r($metaData->readMetaData(new Robots());
+		 *	print_r($metaData->readMetaData(new Robots()));
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
@@ -138,7 +138,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param int $index
 		 * @param mixed $data
 		 */
-		public function writeMetaDataIndex($model, $index, $data){ }
+		public function writeMetaDataIndex($model, $index, $data, $replace){ }
 
 
 		/**
@@ -307,7 +307,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param  \Phalcon\Mvc\ModelInterface $model
 		 * @param  array $attributes
 		 */
-		public function setAutomaticCreateAttributes($model, $attributes){ }
+		public function setAutomaticCreateAttributes($model, $attributes, $replace){ }
 
 
 		/**
@@ -320,7 +320,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param  \Phalcon\Mvc\ModelInterface $model
 		 * @param  array $attributes
 		 */
-		public function setAutomaticUpdateAttributes($model, $attributes){ }
+		public function setAutomaticUpdateAttributes($model, $attributes, $replace){ }
 
 
 		/**

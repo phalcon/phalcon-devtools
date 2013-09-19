@@ -18,7 +18,7 @@ namespace Phalcon {
 		 * B - Med version (two digits)
 		 * C - Min version (two digits)
 		 * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
-		 * E - Special release version i.e. RC1, Beta2 etc.
+		 * E - Special release version i.e. RC1, Beta2 etc. 
 		 */
 		protected static function _getVersion(){ }
 
