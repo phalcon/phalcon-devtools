@@ -105,7 +105,6 @@ class AllModels extends Component
         } else if ($adapter == 'Postgresql') {
             $schema = 'public';
         } else {
-            die('shit');
             $schema = isset($config->database->schema)?$config->database->schema:$config->database->dbname;
         }
 
