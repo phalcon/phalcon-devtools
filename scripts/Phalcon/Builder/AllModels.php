@@ -105,7 +105,7 @@ class AllModels extends Component
         } else if ($adapter == 'Postgresql') {
             $schema = 'public';
         } else {
-            $schema = $config->database->dbname;
+            $schema = $config->database->schema?$config->database->schema:$config->database->dbname;
         }
 
         $hasMany = array();
