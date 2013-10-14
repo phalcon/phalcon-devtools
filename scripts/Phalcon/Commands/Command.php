@@ -218,7 +218,7 @@ abstract class Command
 
 				if(!isset($this->_preparedArguments[$paramName])) {
 					if(!isset($possibleAlias[$paramName])){
-						throw new CommandsException("Unknow parameter '$paramName'");
+						throw new CommandsException("Unknown parameter '$paramName'");
 					} else {
 						$paramName = $possibleAlias[$paramName];
 					}
