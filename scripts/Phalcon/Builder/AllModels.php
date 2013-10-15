@@ -96,11 +96,7 @@ class AllModels extends Component
         unset($configArray['adapter']);
         $db = new $adapterName($configArray);
 
-        $initialize = array();
         if (isset($this->_options['schema'])) {
-            if ($adapter !== 'Oracle' && $this->_options['schema'] != $db->getDatabaseName()) {
-                $initialize[] = "\t\t\$this->setSchema(\"{$this->_options['schema']}\");\n";
-            }
             $schema = $this->_options['schema'];
         } else if ($adapter == 'Postgresql') {
             $schema = 'public';
