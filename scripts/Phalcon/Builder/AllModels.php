@@ -138,23 +138,13 @@ class AllModels extends Component
                                 $belongsTo[$name][] = array(
                                     'referencedModel' => $referencedModel,
                                     'fields' => $columns[0],
-                                    'relationFields' => $referencedColumns[0]
+                                    'relationFields' => $referencedColumns[0],
+                                    'options' => $defineForeignKeys ? array('foreignKey'=>true) : NULL
                                 );
                                 $hasMany[$reference->getReferencedTable()][] = array(
                                     'camelizedName' => $camelizedName,
                                     'fields' => $referencedColumns[0],
                                     'relationFields' => $columns[0]
-                                );
-                            }
-                        }
-                    }
-                    if ($defineForeignKeys) {
-                        if ($reference->getReferencedSchema() == $refSchema) {
-                            if (count($columns) == 1) {
-                                $foreignKeys[$name][] = array(
-                                    'fields' => $columns[0],
-                                    'entity' => $referencedModel,
-                                    'referencedFields' => $referencedColumns[0]
                                 );
                             }
                         }

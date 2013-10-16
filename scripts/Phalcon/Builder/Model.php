@@ -103,7 +103,7 @@ class Model extends Component
     }
 ";
         $templateThis = "\t\t\$this->%s(%s);\n";
-        $templateRelation = "\t\t\$this->%s(\"%s\", \"%s\", \"%s\");\n";
+        $templateRelation = "\t\t\$this->%s(\"%s\", \"%s\", \"%s\", %s);\n";
         $templateSetter = "
     /**
      * Method to set the value of field %s
@@ -358,7 +358,8 @@ class %s extends %s
                             'hasMany',
                             $relation['fields'],
                             $entityName,
-                            $relation['relationFields']
+                            $relation['relationFields'],
+                            $this->_buildRelationOptions( isset($relation['options']) ? $relation["options"] : NULL)
                         );
                     }
                 }
@@ -375,24 +376,10 @@ class %s extends %s
                             'belongsTo',
                             $relation['fields'],
                             $entityName,
-                            $relation['relationFields']);
+                            $relation['relationFields'],
+                            $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : NULL)
+                        );
                     }
-                }
-            }
-        }
-
-        if (isset($this->_options['foreignKeys'])) {
-            if (count($this->_options['foreignKeys']) &&
-                is_array($this->_options['foreignKeys'])
-            ) {
-                foreach ($this->_options['foreignKeys'] as $foreignKey) {
-                    $initialize[] = sprintf(
-                        $templateRelation,
-                        'addForeignKey',
-                        $foreignKey['fields'],
-                        $foreignKey['entity'],
-                        $foreignKey['referencedFields']
-                    );
                 }
             }
         }
@@ -607,6 +594,36 @@ class %s extends %s
                 'Model "' . $this->_options['name'] .
                 '" was successfully created.'
             ) . PHP_EOL;
+    }
+
+    /**
+     * Builds a PHP syntax with all the options in the array
+     * @param array $options
+     * @return string PHP syntax
+     */
+    private function _buildRelationOptions($options)
+    {
+        if (empty($options)) {
+            return 'NULL';
+        }
+
+        $values = array();
+        foreach ($options as $name=>$val)
+        {
+            if (is_bool($val)) {
+                $val = $val ? 'true':'false';
+            }
+            else if (!is_numeric($val)) {
+                $val = '"$val"';
+            }
+
+            $values[] = sprintf('"%s"=>%s', $name, $val);
+        }
+
+
+        $syntax = 'array('. implode(',', $values). ')';
+
+        return $syntax;
     }
 
     private function  _genColumnMapCode($fields)
