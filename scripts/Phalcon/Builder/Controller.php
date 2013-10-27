@@ -91,7 +91,7 @@ class Controller extends Component
 		}
 
 		if ($this->isAbsolutePath($controllersDir) == false) {
-			$controllerPath = $path . "public/" . $controllersDir;
+			$controllerPath = $path . "app/controllers/";
 		} else {
 			$controllerPath = $controllersDir;
 		}
