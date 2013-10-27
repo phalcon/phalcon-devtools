@@ -80,14 +80,14 @@ class Controller extends Component
 			$baseClass = '\Phalcon\Mvc\Controller';
 		}
 
-		if (!isset($this->_options['directory'])) {
+		if (!isset($this->_options['controllersDir'])) {
 			$config = $this->_getConfig($path);
 			if(!isset($config->application->controllersDir)){
 				throw new BuilderException("Please specify a controller directory");
 			}
 			$controllersDir = $config->application->controllersDir;
 		} else {
-			$controllersDir = $this->_options['directory'];
+			$controllersDir = $this->_options['controllersDir'];
 		}
 
 		if ($this->isAbsolutePath($controllersDir) == false) {
