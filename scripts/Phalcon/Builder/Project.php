@@ -90,7 +90,7 @@ class Project extends Component
 				}
 
 				if(!@mkdir($path)) {
-                    throw new BuilderException("Unable to write to '$path''");
+                    throw new BuilderException("Unable to write to '$path'");
                 }
 			}
 		}
@@ -106,7 +106,7 @@ class Project extends Component
 		$success = $builder->build($name, $path, $templatePath, $this->_options);
 
 		if ($success===true) {
-			print Color::success('Project "' . $name . '" was successfully created.') . PHP_EOL;
+			print Color::success("Project '$name' was successfully created.") . PHP_EOL;
 		}
 
 		return $success;
