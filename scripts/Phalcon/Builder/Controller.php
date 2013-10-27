@@ -87,14 +87,10 @@ class Controller extends Component
 			}
 			$controllersDir = $config->application->controllersDir;
 		} else {
-			$controllersDir = $this->_options['directory'];
+			$controllersDir = $this->_options['directory'].'app/controllers/';
 		}
 
-		if ($this->isAbsolutePath($controllersDir) == false) {
-			$controllerPath = $path . "app/controllers/";
-		} else {
-			$controllerPath = $controllersDir;
-		}
+		$controllerPath = $controllersDir;
 
 		$name = $this->_options['name'];
 		if (!$name) {
