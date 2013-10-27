@@ -89,10 +89,9 @@ class Project extends Component
 					throw new BuilderException("Directory " . $path . " already exists");
 				}
 
-                if (!is_writable($path)) {
-                    throw new BuilderException("Directory " . $path . " is not writable");
+				if(!@mkdir($path)) {
+                    throw new BuilderException("Unable to write to '$path''");
                 }
-				mkdir($path);
 			}
 		}
 
@@ -105,6 +104,7 @@ class Project extends Component
 		$builder = new $builderClass();
 
 		$success = $builder->build($name, $path, $templatePath, $this->_options);
+
 		if ($success===true) {
 			print Color::success('Project "' . $name . '" was successfully created.') . PHP_EOL;
 		}
