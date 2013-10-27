@@ -88,6 +88,10 @@ class Project extends Component
 				if (file_exists($path)){
 					throw new BuilderException("Directory " . $path . " already exists");
 				}
+
+                if (!is_writable($path)) {
+                    throw new BuilderException("Directory " . $path . " is not writable");
+                }
 				mkdir($path);
 			}
 		}
