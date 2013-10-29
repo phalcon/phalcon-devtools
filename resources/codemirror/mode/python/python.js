@@ -160,7 +160,7 @@ CodeMirror.defineMode("python", function(conf, parserConf) {
         var singleline = delimiter.length == 1;
         var OUTCLASS = 'string';
         
-        return function tokenString(stream, state) {
+        function tokenString(stream, state) {
             while (!stream.eol()) {
                 stream.eatWhile(/[^'"\\]/);
                 if (stream.eat('\\')) {
@@ -183,7 +183,9 @@ CodeMirror.defineMode("python", function(conf, parserConf) {
                 }
             }
             return OUTCLASS;
-        };
+        }
+        tokenString.isString = true;
+        return tokenString;
     }
     
     function indent(stream, state, type) {
@@ -227,7 +229,7 @@ CodeMirror.defineMode("python", function(conf, parserConf) {
             while (state.scopes[0].offset !== _indent) {
                 state.scopes.shift();
             }
-            return false
+            return false;
         } else {
             if (type === 'py') {
                 state.scopes[0].offset = stream.indentation();
@@ -249,26 +251,23 @@ CodeMirror.defineMode("python", function(conf, parserConf) {
 
         // Handle '.' connected identifiers
         if (current === '.') {
-            style = state.tokenize(stream, state);
-            current = stream.current();
-            if (style === 'variable' || style === 'builtin') {
-                return 'variable';
-            } else {
-                return ERRORCLASS;
+            style = stream.match(identifiers, false) ? null : ERRORCLASS;
+            if (style === null && state.lastToken === 'meta') {
+                // Apply 'meta' style to '.' connected identifiers when
+                // appropriate.
+                style = 'meta';
             }
+            return style;
         }
         
         // Handle decorators
         if (current === '@') {
-            style = state.tokenize(stream, state);
-            current = stream.current();
-            if (style === 'variable'
-                || current === '@staticmethod'
-                || current === '@classmethod') {
-                return 'meta';
-            } else {
-                return ERRORCLASS;
-            }
+            return stream.match(identifiers, false) ? 'meta' : ERRORCLASS;
+        }
+
+        if ((style === 'variable' || style === 'builtin')
+            && state.lastToken === 'meta') {
+            style = 'meta';
         }
         
         // Handle scope changes.
@@ -317,7 +316,7 @@ CodeMirror.defineMode("python", function(conf, parserConf) {
         token: function(stream, state) {
             var style = tokenLexer(stream, state);
             
-            state.lastToken = {style:style, content: stream.current()};
+            state.lastToken = style;
             
             if (stream.eol() && stream.lambda) {
                 state.lambda = false;
@@ -328,7 +327,7 @@ CodeMirror.defineMode("python", function(conf, parserConf) {
         
         indent: function(state, textAfter) {
             if (state.tokenize != tokenBase) {
-                return 0;
+                return state.tokenize.isString ? CodeMirror.Pass : 0;
             }
             
             return state.scopes[0].offset;

@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Phalcon // Web DevTools</title>
-		<?php echo Phalcon\Tag::stylesheetLink('css/bootstrap/bootstrap.min.css') ?>
+		<?php echo $this->tag->stylesheetLink('css/bootstrap/bootstrap.min.css') ?>
+        <?php echo $this->tag->stylesheetLink('css/bootstrap/bootstrap-responsive.min.css') ?>
 	</head>
 	<body>
 		<div class="navbar">
@@ -14,7 +15,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					<a href="#" class="brand">Phalcon Web Tools</a>
+					<a href="webtools.php" class="brand">Phalcon Web Tools</a>
 					<div class="nav-collapse">
 						<ul class="nav"><?php echo Phalcon\Web\Tools::getNavMenu($this->view->getControllerName()) ?></ul>
 					</div>
@@ -35,6 +36,7 @@
 				</div>
 			</div>
 	    </div>
-	    <?php echo Phalcon\Tag::javascriptInclude('js/bootstrap/bootstrap.min.js') ?>
+        <?php echo $this->tag->javascriptInclude('js/jquery/jquery.min.js') ?>
+	    <?php echo $this->tag->javascriptInclude('js/bootstrap/bootstrap.min.js') ?>
 	</body>
 </html>

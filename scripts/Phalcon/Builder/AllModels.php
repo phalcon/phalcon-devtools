@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -32,7 +32,7 @@ use Phalcon\Builder\Component,
  *
  * @category    Phalcon
  * @package    Scripts
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license    New BSD License
  */
 class AllModels extends Component
@@ -96,16 +96,12 @@ class AllModels extends Component
         unset($configArray['adapter']);
         $db = new $adapterName($configArray);
 
-        $initialize = array();
         if (isset($this->_options['schema'])) {
-            if ($this->_options['schema'] != $db->getDatabaseName()) {
-                $initialize[] = "\t\t\$this->setSchema(\"{$this->_options['schema']}\");\n";
-            }
             $schema = $this->_options['schema'];
         } else if ($adapter == 'Postgresql') {
             $schema = 'public';
         } else {
-            $schema = $config->database->dbname;
+            $schema = isset($config->database->schema)?$config->database->schema:$config->database->dbname;
         }
 
         $hasMany = array();
@@ -138,23 +134,13 @@ class AllModels extends Component
                                 $belongsTo[$name][] = array(
                                     'referencedModel' => $referencedModel,
                                     'fields' => $columns[0],
-                                    'relationFields' => $referencedColumns[0]
+                                    'relationFields' => $referencedColumns[0],
+                                    'options' => $defineForeignKeys ? array('foreignKey'=>true) : NULL
                                 );
                                 $hasMany[$reference->getReferencedTable()][] = array(
                                     'camelizedName' => $camelizedName,
                                     'fields' => $referencedColumns[0],
                                     'relationFields' => $columns[0]
-                                );
-                            }
-                        }
-                    }
-                    if ($defineForeignKeys) {
-                        if ($reference->getReferencedSchema() == $refSchema) {
-                            if (count($columns) == 1) {
-                                $foreignKeys[$name][] = array(
-                                    'fields' => $columns[0],
-                                    'entity' => $referencedModel,
-                                    'referencedFields' => $referencedColumns[0]
                                 );
                             }
                         }

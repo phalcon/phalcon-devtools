@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -50,16 +50,16 @@ abstract class CodeMirror
 		$css = $path . 'public/css/codemirror';
 
 		// Install bootstrap
-		if ( ! file_exists($js)) {
+		if ( ! is_dir($js)) {
 			mkdir($js . '/lib', 0777, true);
 			mkdir($js . '/mode/php', 0777, true);
 			mkdir($js . '/mode/css', 0777);
 			mkdir($js . '/mode/clike', 0777);
 			mkdir($js . '/mode/xml', 0777);
 
-			file_put_contents($js . '/index.html', "");
-			file_put_contents($js . '/lib/index.html', "");
-			file_put_contents($js . '/mode/index.html', "");
+			touch($js . '/index.html');
+            touch($js . '/lib/index.html');
+            touch($js . '/mode/index.html');
 
 			$libs = array('codemirror', 'codephalcon');
 			$modes = array('php', 'css', 'clike', 'xml');
@@ -72,13 +72,13 @@ abstract class CodeMirror
 				copy($codemirror . '/mode/' . $mode . '/' . $mode . '.js', $js . '/mode/' . $mode . '/' . $mode . '.js');
 
 				if ( ! file_exists($js . '/mode/' . $mode . '/index.html'))
-					file_put_contents($js . '/mode/' . $mode . '/index.html', "");
+                    touch($js . '/mode/' . $mode . '/index.html');
 			}
 		}
 
 		if ( ! file_exists($css)) {
 			mkdir($css, 0777, true);
-			file_put_contents($css . '/index.html', "");
+            touch($css . '/index.html');
 			copy($codemirror . '/lib/codemirror.css', $css . '/codemirror.css');
 			copy($codemirror . '/lib/codephalcon.css', $css . '/codephalcon.css');
 		}

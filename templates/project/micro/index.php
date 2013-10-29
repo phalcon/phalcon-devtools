@@ -15,7 +15,7 @@ try {
 	include __DIR__ . '/../config/services.php';
 
 	/**
-	 * Include Services
+	 * Include Autoloader
 	 */
 	include __DIR__ . '/../config/loader.php';
 

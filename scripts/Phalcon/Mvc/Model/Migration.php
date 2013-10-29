@@ -179,6 +179,9 @@ class Migration
 				case Column::TYPE_BOOLEAN:
                                         $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
                                         break;
+                                case Column::TYPE_FLOAT:
+                                        $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
+                                        break;
 
 				default:
 					throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());

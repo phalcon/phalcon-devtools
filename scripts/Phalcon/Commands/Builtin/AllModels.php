@@ -34,7 +34,7 @@ use Phalcon\Text,
  * @category 	Phalcon
  * @package 	Commands
  * @subpackage  Builtin
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class AllModels extends Command implements CommandsInterface
@@ -43,6 +43,7 @@ class AllModels extends Command implements CommandsInterface
 	protected $_possibleParameters = array(
 		'config=s' 			=> "Configuration file  ",
 		'models=s' 			=> "Models directory ",
+		'schema=s'        	=> "Name of the schema. [optional]",
         'namespace=s'       => "Model's namespace [optional]",
 		'force'				=> "Force script to rewrite all the models.  ",
 		'get-set' 			=> "Attributes will be protected and have setters/getters.  ",

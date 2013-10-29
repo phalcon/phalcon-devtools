@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -30,7 +30,7 @@ use Phalcon\Builder\Component,
  *
  * @category 	Phalcon
  * @package 	Builder
- * @copyright   Copyright (c) 2011-2012 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Controller extends Component
@@ -47,7 +47,7 @@ class Controller extends Component
 	public function __construct($options)
 	{
 		if (!isset($options['name'])) {
-			throw new BuilderException("Please, specify the controller name");
+			throw new BuilderException("Please specify the controller name");
 		}
 		if(!isset($options['force'])){
 			$options['force'] = false;
@@ -64,10 +64,8 @@ class Controller extends Component
 	public function build()
 	{
 		$path = '';
-		if (isset($this->_options['directory'])) {
-			if($this->_options['directory']){
-				$path = $this->_options['directory'] . '/';
-			}
+		if (isset($this->_options['directory']) && $this->_options['directory']){
+			$path = $this->_options['directory'] . '/';
 		}
 
 		if (isset($this->_options['namespace'])) {
@@ -85,7 +83,7 @@ class Controller extends Component
 		if (!isset($this->_options['controllersDir'])) {
 			$config = $this->_getConfig($path);
 			if(!isset($config->application->controllersDir)){
-				throw new BuilderException("Builder doesn't knows where is the controllers directory");
+				throw new BuilderException("Please specify a controller directory");
 			}
 			$controllersDir = $config->application->controllersDir;
 		} else {
@@ -111,7 +109,9 @@ class Controller extends Component
 		$code = str_replace("\t", "    ", $code);
 
 		if (!file_exists($controllerPath) || $this->_options['force'] == true) {
-			file_put_contents($controllerPath, $code);
+			if(!@file_put_contents($controllerPath, $code)) {
+				throw new BuilderException("Unable to write to '$controllerPath'");
+			};
 		} else {
 	 		throw new BuilderException("The Controller '$name' already exists");
 		}
