@@ -119,6 +119,7 @@ class Scaffold extends Component
 			}
 
 			$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+			unset($configArray['adapter']);
 			return new $adapterName($configArray);
 		});
 
@@ -194,7 +195,6 @@ class Scaffold extends Component
 		$options['selectDefinition']	 = $selectDefinition;
 		$options['autocompleteFields'] 	 = array();
 		$options['belongsToDefinitions'] = array();
-        $options['templateEngine']       = '';
 
 		//Build Controller
 		$this->_makeController($path, $options);
