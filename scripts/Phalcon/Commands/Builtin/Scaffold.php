@@ -45,8 +45,8 @@ class Scaffold extends Command implements CommandsInterface
 		'schema=s'       => "Name of the schema. [optional]",
 		'get-set'        => "Attributes will be protected and have setters/getters. [optional]",
 		'directory=s'    => "Base path on which project was created [optional]",
-		'template-path'	 => 'Specify a template path [optional]',
-		'template-engine'=> 'Define the template engine, default php (php, volt). [optional]',
+		'template-path=s'	 => 'Specify a template path [optional]',
+		'template-engine=s'=> 'Define the template engine, default php (php, volt). [optional]',
 		'force'          => "Forces to rewrite generated code if they already exists. [optional]",
 		'trace'          => "Shows the trace of the framework in case of exception. [optional]",
 	);

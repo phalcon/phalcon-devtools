@@ -119,6 +119,7 @@ class Scaffold extends Component
 			}
 
 			$adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+			unset($configArray['adapter']);
 			return new $adapterName($configArray);
 		});
 
