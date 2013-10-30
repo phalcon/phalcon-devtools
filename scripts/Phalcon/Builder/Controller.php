@@ -90,12 +90,6 @@ class Controller extends Component
 			$controllersDir = $this->_options['controllersDir'];
 		}
 
-		if ($this->isAbsolutePath($controllersDir) == false) {
-			$controllerPath = $path . "public/" . $controllersDir;
-		} else {
-			$controllerPath = $controllersDir;
-		}
-
 		$name = $this->_options['name'];
 		if (!$name) {
 			throw new BuilderException("The controller name is required");
