@@ -30,6 +30,12 @@ class ScaffoldController extends ControllerBase
 	{
 
 		$this->_listTables();
+
+        $this->view->templateEngines = array(
+            'volt' => 'volt',
+            'php' => 'php'
+        );
+
 	}
 
 	/**
@@ -43,6 +49,7 @@ class ScaffoldController extends ControllerBase
 			$schema = $this->request->getPost('schema', 'string');
 			$tableName = $this->request->getPost('tableName', 'string');
 			$version = $this->request->getPost('version', 'string');
+			$templateEngine = $this->request->getPost('templateEngine');
 			$force = $this->request->getPost('force', 'int');
 			$genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
 
@@ -54,7 +61,8 @@ class ScaffoldController extends ControllerBase
 					'force'	=> $force,
 					'genSettersGetters' => $genSettersGetters,
 					'directory' => null,
-					'templatePath' => TEMPLATE_PATH
+					'templatePath' => TEMPLATE_PATH,
+					'templateEngine' => $templateEngine
 				));
 
 				$scaffoldBuilder->build();
