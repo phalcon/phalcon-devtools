@@ -431,7 +431,7 @@ class Scaffold extends Component
 	private function _makeController($path, $options)
 	{
 
-		$controllerPath = $options['controllersDir'] . ucfirst(strtolower($options['className'])) . 'Controller.php';
+		$controllerPath = $options['controllersDir'] . $options['className'] . 'Controller.php';
 
 		if (file_exists($controllerPath)) {
 			return;
@@ -482,7 +482,7 @@ class Scaffold extends Component
 			mkdir($dirPathLayouts);
 		}
 
-		$fileName = Text::uncamelize($options['name']);
+		$fileName = $options['fileName'];
 		$viewPath = $dirPathLayouts . '/' . $fileName . '.phtml';
 		if (!file_exists($viewPath)) {
 
@@ -516,7 +516,7 @@ class Scaffold extends Component
 			mkdir($dirPathLayouts);
 		}
 
-		$fileName = Text::uncamelize($options['name']);
+		$fileName = Text::uncamelize($options['fileName']);
 		$viewPath = $dirPathLayouts . '/' . $fileName . '.volt';
 		if (!file_exists($viewPath)) {
 
@@ -542,7 +542,7 @@ class Scaffold extends Component
 	private function makeView($path, $options, $type)
 	{
 
-		$dirPath = $options['viewsDir'] . $options['name'];
+		$dirPath = $options['viewsDir'] . $options['fileName'];
 		if (is_dir($dirPath) == false) {
 			mkdir($dirPath);
 		}
@@ -573,7 +573,7 @@ class Scaffold extends Component
 	private function makeViewVolt($path, $options, $type)
 	{
 
-		$dirPath = $options['viewsDir'] . $options['name'];
+		$dirPath = $options['viewsDir'] . $options['fileName'];
 		if (is_dir($dirPath) == false) {
 			mkdir($dirPath);
 		}
@@ -658,7 +658,7 @@ class Scaffold extends Component
 	private function _makeViewSearch($path, $options)
 	{
 
-		$dirPath = $options['viewsDir'] . $options['name'];
+		$dirPath = $options['viewsDir'] . $options['fileName'];
 		if (is_dir($dirPath) == false) {
 			mkdir($dirPath);
 		}
@@ -710,7 +710,7 @@ class Scaffold extends Component
 	private function _makeViewSearchVolt($path, $options)
 	{
 
-		$dirPath = $options['viewsDir'] . $options['name'];
+		$dirPath = $options['viewsDir'] . $options['fileName'];
 		if (is_dir($dirPath) == false) {
 			mkdir($dirPath);
 		}

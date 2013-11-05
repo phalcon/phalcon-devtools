@@ -25,7 +25,7 @@ class $className$Controller extends ControllerBase
 			$query = Criteria::fromInput($this->di, "$className$", $_POST);
 			$this->persistent->parameters = $query->getParams();
 		} else {
-			$numberPage = $this->request->getQuery("page", "int");			
+			$numberPage = $this->request->getQuery("page", "int");
 		}
 
 		$parameters = $this->persistent->parameters;
@@ -70,7 +70,7 @@ class $className$Controller extends ControllerBase
 
 		if (!$this->request->isPost()) {
 
-			$singularVar$ = $className$::findFirstById($pkVar$);
+			$singularVar$ = $className$::findFirstBy$pk$($pkVar$);
 			if (!$singularVar$) {
 				$this->flash->error("$singular$ was not found");
 				return $this->dispatcher->forward(array(
