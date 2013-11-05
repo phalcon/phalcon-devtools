@@ -68,6 +68,9 @@ class Migration extends Command implements CommandsInterface
 			} elseif ($extension === 'ini') {
 
 				return new \Phalcon\Config\Adapter\Ini($fileName);
+			} elseif ($extension === 'json') {
+
+				return new \Phalcon\Config\Adapter\Json($fileName);
 			}
 		}
 
@@ -79,11 +82,11 @@ class Migration extends Command implements CommandsInterface
 		foreach (array('app/config/', 'config/') as $configPath) {
 			if (file_exists($path . $configPath. "config.ini")) {
 				return new \Phalcon\Config\Adapter\Ini($path . $configPath. "/config.ini");
-			} else {
-				if (file_exists($path . $configPath. "/config.php")) {
-					$config = include($path . $configPath. "/config.php");
-					return $config;
-				}
+			} elseif (file_exists($path . $configPath. "/config.php")) {
+				$config = include($path . $configPath. "/config.php");
+				return $config;
+			} elseif (file_exists($path . $configPath. "/config.json")) {
+				return new \Phalcon\Config\Adapter\Json($path . $configPath. "/config.json");
 			}
 		}
 
@@ -93,10 +96,10 @@ class Migration extends Command implements CommandsInterface
 			if (preg_match('/config\.php$/', $f->getPathName())) {
 				$config = include($f->getPathName());
 				return $config;
-			} else {
-				if (preg_match('/config\.ini$/', $f->getPathName())) {
-					return new \Phalcon\Config\Adapter\Ini($f->getPathName());
-				}
+			} elseif (preg_match('/config\.ini$/', $f->getPathName())) {
+				return new \Phalcon\Config\Adapter\Ini($f->getPathName());
+			} elseif (preg_match('/config\.json$/', $f->getPathName())) {
+				return new \Phalcon\Config\Adapter\Json($f->getPathName());
 			}
 		}
 		throw new BuilderException('Builder can\'t locate the configuration file');
