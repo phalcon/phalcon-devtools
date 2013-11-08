@@ -266,30 +266,45 @@ class Scaffold extends Component
 		}
 	}
 
-	private function _captureFilterInput($var, $fields)
+	private function _captureFilterInput($var, $fields, $useGetSetters)
 	{
 		$code = '';
 		foreach ($fields as $field => $dataType) {
-			$code .= '$'.$var.'->'.$field.' = ';
+
 			if (strpos($dataType, 'int') !== false) {
-				$code .= '$this->request->getPost("'.$field.'", "int");';
+				$fieldCode = '$this->request->getPost("'.$field.'", "int")';
 			} else {
 				if ($field == 'email') {
-					$code .= '$this->request->getPost("'.$field.'", "email");';
+					$fieldCode = '$this->request->getPost("'.$field.'", "email")';
 				} else {
-					$code .= '$this->request->getPost("'.$field.'");';
+					$fieldCode = '$this->request->getPost("'.$field.'")';
 				}
 			}
-			$code .= PHP_EOL."\t\t";
+
+			$code .= '$'.$var.'->';
+			if($useGetSetters) {
+				$code .= 'set' . Text::camelize($field) . '(' . $fieldCode . ')';
+			} else {
+				$code .= $field . ' = ' . $fieldCode;
+			}
+
+			$code .= ';' . PHP_EOL . "\t\t";
 		}
 		return $code;
 	}
 
-	private function _assignTagDefaults($var, $fields)
+	private function _assignTagDefaults($var, $fields, $useGetSetters)
 	{
 		$code = '';
 		foreach ($fields as $field => $dataType) {
-			$code .= '$this->tag->setDefault("' . $field . '", $' . $var . '->' . $field . ');' . PHP_EOL . "\t\t\t";
+
+			if($useGetSetters) {
+				$accessor = 'get' . Text::camelize($field) . '()';
+			} else {
+				$accessor = $field;
+			}
+
+			$code .= '$this->tag->setDefault("' . $field . '", $' . $var . '->' . $accessor . ');' . PHP_EOL . "\t\t\t";
 		}
 		return $code;
 	}
@@ -449,10 +464,10 @@ class Scaffold extends Component
 
 		$code = str_replace('$className$', $options['className'], $code);
 
-		$code = str_replace('$assignInputFromRequestCreate$', $this->_captureFilterInput($options['singular'], $options['dataTypes']), $code);
-		$code = str_replace('$assignInputFromRequestUpdate$', $this->_captureFilterInput($options['singular'], $options['dataTypes']), $code);
+		$code = str_replace('$assignInputFromRequestCreate$', $this->_captureFilterInput($options['singular'], $options['dataTypes'], $options['genSettersGetters']), $code);
+		$code = str_replace('$assignInputFromRequestUpdate$', $this->_captureFilterInput($options['singular'], $options['dataTypes'], $options['genSettersGetters']), $code);
 
-		$code = str_replace('$assignTagDefaults$', $this->_assignTagDefaults($options['singular'], $options['dataTypes']), $code);
+		$code = str_replace('$assignTagDefaults$', $this->_assignTagDefaults($options['singular'], $options['dataTypes'], $options['genSettersGetters']), $code);
 
 		$code = str_replace('$pkVar$', '$' . $options['attributes'][0], $code);
 		$code = str_replace('$pk$', $options['attributes'][0], $code);
