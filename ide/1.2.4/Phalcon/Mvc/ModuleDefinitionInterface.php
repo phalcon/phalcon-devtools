@@ -11,8 +11,9 @@ namespace Phalcon\Mvc {
 		/**
 		 * Registers an autoloader related to the module
 		 *
+		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function registerAutoloaders();
+		public function registerAutoloaders($dependencyInjector);
 
 
 		/**
