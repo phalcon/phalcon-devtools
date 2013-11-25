@@ -84,6 +84,7 @@ class MigrationsController extends ControllerBase
 			try {
 
 				\Phalcon\Migrations::generate(array(
+					'config' => Tools::getConfig(),
 					'directory' => null,
 					'tableName' => $tableName,
 					'exportData' => $exportData,
@@ -121,6 +122,7 @@ class MigrationsController extends ControllerBase
 				$migrationsDir = $this->_getMigrationsDir();
 
 				\Phalcon\Migrations::run(array(
+					'config' => Tools::getConfig(),
 					'directory' => null,
 					'tableName' => 'all',
 					'migrationsDir' => $migrationsDir,
