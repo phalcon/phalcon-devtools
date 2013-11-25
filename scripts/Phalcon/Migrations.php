@@ -130,7 +130,7 @@ class Migrations
 		}
 
 		if (count($versions) == 0) {
-			throw new \Phalcon\Mvc\Model\Exception('Migrations were not found at '.$migrationPath);
+			throw new \Phalcon\Mvc\Model\Exception('Migrations were not found at '.$migrationsDir);
 		} else {
 			$version = VersionItem::maximum($versions);
 		}
