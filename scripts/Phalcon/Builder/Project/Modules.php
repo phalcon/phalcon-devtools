@@ -61,7 +61,7 @@ class Modules extends ProjectBuilder
 	{
 		$modelBuilder = new \Phalcon\Builder\Controller(array(
 			'name' => 'index',
-			'controllersDir' => '../' . $path . 'apps/frontend/controllers/',
+			'controllersDir' => $path . 'apps/frontend/controllers/',
 			'namespace' => ucfirst($name) . '\Frontend\Controllers',
 			'baseClass' => 'ControllerBase'
 		));
