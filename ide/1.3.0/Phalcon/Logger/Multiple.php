@@ -55,6 +55,14 @@ namespace Phalcon\Logger {
 		public function log($message, $type=null){ }
 
 
+		/**
+		 * Sends/Writes an emergency message to the log
+		 *
+		 * @param string $message
+		 */
+		public function emergency($message){ }
+
+
 		public function emergence($message){ }
 
 

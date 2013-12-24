@@ -11,6 +11,12 @@ namespace Phalcon\Translate {
 	abstract class Adapter implements \ArrayAccess {
 
 		/**
+		 * Class constructore
+		 */
+		public function __construct(){ }
+
+
+		/**
 		 * Returns the translation string of the given key
 		 *
 		 * @param string $translateKey

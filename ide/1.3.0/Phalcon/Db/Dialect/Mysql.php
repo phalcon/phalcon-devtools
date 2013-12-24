@@ -28,6 +28,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param string $schemaName
 		 * @param \Phalcon\Db\ColumnInterface $column
 		 * @return string
+		 * @see http://dev.mysql.com/doc/refman/5.5/en/example-auto-increment.html
 		 */
 		public function addColumn($tableName, $schemaName, $column){ }
 

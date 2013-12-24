@@ -53,6 +53,8 @@ namespace Phalcon\Mvc\Router {
 
 		protected $_beforeMatch;
 
+		protected $_converters;
+
 		/**
 		 * \Phalcon\Mvc\Router\Group constructor
 		 *
@@ -237,6 +239,24 @@ namespace Phalcon\Mvc\Router {
 		 * Removes all the pre-defined routes
 		 */
 		public function clear(){ }
+
+
+		/**
+		 * Adds a converter to perform an additional transformation for certain parameter
+		 *
+		 * @param string $name
+		 * @param callable $converter
+		 * @return \Phalcon\Mvc\Router\Group
+		 */
+		public function convert($name, $converter){ }
+
+
+		/**
+		 * Returns the router converter
+		 *
+		 * @return array|null
+		 */
+		public function getConverters(){ }
 
 	}
 }

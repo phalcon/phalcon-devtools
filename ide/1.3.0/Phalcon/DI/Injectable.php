@@ -104,6 +104,7 @@ namespace Phalcon\DI {
 		 * Sets the dependency injector
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
+		 * @throw \Phalcon\Di\Exception if !($dependencyInjector instanceof \Phalcon\DiInterface)
 		 */
 		public function setDI($dependencyInjector){ }
 

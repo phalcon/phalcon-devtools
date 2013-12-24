@@ -1296,9 +1296,10 @@ namespace Phalcon\Mvc {
 		 * print_r($robot->toArray());
 		 *</code>
 		 *
+		 * @param array $columns
 		 * @return array
 		 */
-		public function toArray(){ }
+		public function toArray($columns=null){ }
 
 
 		/**

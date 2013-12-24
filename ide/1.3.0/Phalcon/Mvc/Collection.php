@@ -544,5 +544,22 @@ namespace Phalcon\Mvc {
 		 */
 		public function unserialize($data){ }
 
+
+		/**
+		 * Runs JavaScript code on the database server.
+		 *
+		 * <code>
+		 *
+		 * $ret = Robots::execute("function() { return 'Hello, world!';}");
+		 * echo $ret['retval'], "\n";
+		 *
+		 * </code>
+		 *
+		 * @param mixed $code
+		 * @param array $args
+		 * @return array
+		 */
+		public static function execute($code, $args=null){ }
+
 	}
 }

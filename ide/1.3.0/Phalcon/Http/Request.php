@@ -29,6 +29,8 @@ namespace Phalcon\Http {
 
 		protected $_rawBody;
 
+		protected $_put;
+
 		/**
 		 * Sets the dependency injector
 		 *
@@ -90,6 +92,25 @@ namespace Phalcon\Http {
 
 
 		/**
+		 * Gets a variable from put request
+		 *
+		 *<code>
+		 *	$userEmail = $request->getPut("user_email");
+		 *
+		 *	$userEmail = $request->getPut("user_email", "email");
+		 *</code>
+		 *
+		 * @param string $name
+		 * @param string|array $filters
+		 * @param mixed $defaultValue
+		 * @param boolean $notAllowEmpty
+		 * @param boolean $noRecursive
+		 * @return mixed
+		 */
+		public function getPut($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null){ }
+
+
+		/**
 		 * Gets variable from $_GET superglobal applying filters if needed
 		 * If no parameters are given the $_GET superglobal is returned
 		 *
@@ -139,6 +160,15 @@ namespace Phalcon\Http {
 		 * @return boolean
 		 */
 		public function hasPost($name){ }
+
+
+		/**
+		 * Checks whether put has certain index
+		 *
+		 * @param string $name
+		 * @return boolean
+		 */
+		public function hasPut($name){ }
 
 
 		/**

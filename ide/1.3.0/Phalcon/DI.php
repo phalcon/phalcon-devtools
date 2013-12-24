@@ -37,12 +37,6 @@ namespace Phalcon {
 	
 	class DI implements \Phalcon\DiInterface {
 
-		protected $_services;
-
-		protected $_sharedInstances;
-
-		protected $_freshInstance;
-
 		protected static $_default;
 
 		/**
@@ -244,6 +238,9 @@ namespace Phalcon {
 		 * Resets the internal default DI
 		 */
 		public static function reset(){ }
+
+
+		public function __clone(){ }
 
 	}
 }

@@ -28,6 +28,8 @@ namespace Phalcon\Mvc\Router {
 
 		protected $_beforeMatch;
 
+		protected $_group;
+
 		protected static $_uniqueId;
 
 		/**
@@ -195,6 +197,23 @@ namespace Phalcon\Mvc\Router {
 		 * @return string
 		 */
 		public function getHostname(){ }
+
+
+		/**
+		 * Sets the group associated with the route
+		 *
+		 * @param \Phalcon\Mvc\Router\Group $group
+		 * @return \Phalcon\Mvc\RouteInterface
+		 */
+		public function setGroup($group){ }
+
+
+		/**
+		 * Returns the group associated with the route
+		 *
+		 * @return \Phalcon\Mvc\Router\Group|null
+		 */
+		public function getGroup(){ }
 
 
 		/**

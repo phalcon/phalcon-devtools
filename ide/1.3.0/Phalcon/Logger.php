@@ -38,5 +38,7 @@ namespace Phalcon {
 		const CRITICAL = 1;
 
 		const EMERGENCE = 0;
+
+		const EMERGENCY = 0;
 	}
 }

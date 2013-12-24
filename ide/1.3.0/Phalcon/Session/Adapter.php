@@ -24,6 +24,9 @@ namespace Phalcon\Session {
 		public function __construct($options=null){ }
 
 
+		public function __destruct(){ }
+
+
 		/**
 		 * Starts the session (if headers are already sent the session will not be started)
 		 *

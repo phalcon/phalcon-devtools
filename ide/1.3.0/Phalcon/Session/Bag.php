@@ -23,7 +23,7 @@ namespace Phalcon\Session {
 
 		protected $_data;
 
-		protected $_initalized;
+		protected $_initialized;
 
 		protected $_session;
 

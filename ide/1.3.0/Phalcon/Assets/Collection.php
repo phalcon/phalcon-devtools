@@ -30,6 +30,8 @@ namespace Phalcon\Assets {
 
 		protected $_sourcePath;
 
+		protected $_targetLocal;
+
 		/**
 		 * Adds a resource to the collection
 		 *
@@ -268,6 +270,23 @@ namespace Phalcon\Assets {
 		 * @return string
 		 */
 		public function getRealTargetPath($basePath=null){ }
+
+
+		/**
+		 * Sets the target local
+		 *
+		 * @param boolean $targetLocal
+		 * @return \Phalcon\Assets\Collection
+		 */
+		public function setTargetLocal($targetLocal){ }
+
+
+		/**
+		 * Returns the target local
+		 *
+		 * @return boolean
+		 */
+		public function getTargetLocal(){ }
 
 	}
 }

@@ -288,7 +288,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Resets any template before layouts
+		 * Resets any template after layouts
 		 *
 		 * @return \Phalcon\Mvc\View
 		 */
@@ -421,6 +421,17 @@ namespace Phalcon\Mvc {
 		 * @return \Phalcon\Mvc\View
 		 */
 		public function registerEngines($engines){ }
+
+
+		/**
+		 * Returns the registered templating engines
+		 *
+		 * @brief array \Phalcon\Mvc\View::getRegisteredEngines()
+		 */
+		public function getRegisteredEngines(){ }
+
+
+		public function exists($view){ }
 
 
 		/**
