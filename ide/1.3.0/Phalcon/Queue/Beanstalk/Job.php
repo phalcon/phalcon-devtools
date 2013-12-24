@@ -21,7 +21,7 @@ namespace Phalcon\Queue\Beanstalk {
 		 *
 		 * @param \Phalcon\Queue\Beanstalk $queue
 		 * @param string $id
-		 * @param string $body
+		 * @param mixed $body
 		 */
 		public function __construct($queue, $id, $body){ }
 
@@ -37,7 +37,7 @@ namespace Phalcon\Queue\Beanstalk {
 		/**
 		 * Returns the job body
 		 *
-		 * @return string
+		 * @return mixed
 		 */
 		public function getBody(){ }
 
@@ -45,10 +45,50 @@ namespace Phalcon\Queue\Beanstalk {
 		/**
 		 * Removes a job from the server entirely
 		 *
-		 * @param integer $id
 		 * @return boolean
 		 */
 		public function delete(){ }
+
+
+		/**
+		 * The release command puts a reserved job back into the ready queue (and marks
+		 * its state as "ready") to be run by any client. It is normally used when the job
+		 * fails because of a transitory error.
+		 *
+		 * @return boolean
+		 */
+		public function release(){ }
+
+
+		/**
+		 * The bury command puts a job into the "buried" state. Buried jobs are put into
+		 * a FIFO linked list and will not be touched by the server again until a client
+		 * kicks them with the "kick" command.
+		 *
+		 * @return boolean
+		 */
+		public function bury(){ }
+
+
+		/**
+		 * The bury command puts a job into the "buried" state. Buried jobs are put into
+		 * a FIFO linked list and will not be touched by the server again until a client
+		 * kicks them with the "kick" command.
+		 *
+		 * @return boolean
+		 */
+		public function touch(){ }
+
+
+		/**
+		 * Move the job to the ready queue if it is delayed or buried.
+		 *
+		 * @return boolean
+		 */
+		public function kick(){ }
+
+
+		public function __wakeup(){ }
 
 	}
 }

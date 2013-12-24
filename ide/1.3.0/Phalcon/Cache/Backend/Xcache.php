@@ -85,5 +85,33 @@ namespace Phalcon\Cache\Backend {
 		 */
 		public function exists($keyName=null, $lifetime=null){ }
 
+
+		/**
+		 * Atomic increment of a given key, by number $value
+		 *
+		 * @param  string $keyName
+		 * @param  long $value
+		 * @return mixed
+		 */
+		public function increment($key_name=null, $value=null){ }
+
+
+		/**
+		 * Atomic decrement of a given key, by number $value
+		 *
+		 * @param  string $keyName
+		 * @param  long $value
+		 * @return mixed
+		 */
+		public function decrement($key_name=null, $value=null){ }
+
+
+		/**
+		 * Immediately invalidates all existing items.
+		 * 
+		 * @return boolean
+		 */
+		public function flush(){ }
+
 	}
 }

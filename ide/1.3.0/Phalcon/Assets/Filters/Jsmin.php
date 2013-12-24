@@ -10,7 +10,7 @@ namespace Phalcon\Assets\Filters {
 	 * Most spaces and linefeeds will be removed.
 	 */
 	
-	class Jsmin {
+	class Jsmin implements \Phalcon\Assets\FilterInterface {
 
 		/**
 		 * Filters the content using JSMIN

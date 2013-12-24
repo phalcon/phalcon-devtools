@@ -72,6 +72,22 @@ namespace Phalcon\Queue {
 
 
 		/**
+		 * Return the delayed job with the shortest delay left
+		 *
+		 * @return boolean|Phalcon\Queue\Beanstalk\Job
+		 */
+		public function peekDelayed(){ }
+
+
+		/**
+		 * Return the next job in the list of buried jobs
+		 *
+		 * @return boolean|Phalcon\Queue\Beanstalk\Job
+		 */
+		public function peekBuried(){ }
+
+
+		/**
 		 * Reads the latest status from the Beanstalkd server
 		 *
 		 * @return array
@@ -104,6 +120,12 @@ namespace Phalcon\Queue {
 		 * @return boolean
 		 */
 		public function disconnect(){ }
+
+
+		public function __sleep(){ }
+
+
+		public function __wakeup(){ }
 
 	}
 }

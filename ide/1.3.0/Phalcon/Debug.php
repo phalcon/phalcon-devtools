@@ -246,5 +246,8 @@ namespace Phalcon {
 		 */
 		public function setLinesAfterContext($lines){ }
 
+
+		protected function getFileLink($file, $line, $format){ }
+
 	}
 }

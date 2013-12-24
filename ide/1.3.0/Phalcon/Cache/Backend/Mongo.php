@@ -102,5 +102,33 @@ namespace Phalcon\Cache\Backend {
 
 		public function gc(){ }
 
+
+		/**
+		 * Increment of a given key by $value
+		 *
+		 * @param int|string $keyName
+		 * @param   long $value
+		 * @return  mixed
+		 */
+		public function increment($keyName=null, $value=null){ }
+
+
+		/**
+		 * Decrement of a given key by $value
+		 *
+		 * @param int|string $keyName
+		 * @param   long $value
+		 * @return  mixed
+		 */
+		public function decrement($keyName=null, $value=null){ }
+
+
+		/**
+		 * Immediately invalidates all existing items.
+		 * 
+		 * @return bool
+		 */
+		public function flush($keyName=null, $value=null){ }
+
 	}
 }

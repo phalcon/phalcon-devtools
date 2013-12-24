@@ -57,6 +57,10 @@ namespace Phalcon {
 
 		protected $_actionSuffix;
 
+		protected $_previousHandlerName;
+
+		protected $_previousActionName;
+
 		/**
 		 * \Phalcon\Dispatcher constructor
 		 */

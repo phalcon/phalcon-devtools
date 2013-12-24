@@ -168,7 +168,7 @@ namespace Phalcon\Forms {
 		 * @param bool $type If $type is TRUE, the element wile add before $postion, else is after
 		 * @return \Phalcon\Forms\Form
 		 */
-		public function add($element){ }
+		public function add($element, $postion=null, $type=null){ }
 
 
 		/**

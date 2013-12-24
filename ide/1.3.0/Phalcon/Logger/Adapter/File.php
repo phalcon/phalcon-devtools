@@ -60,6 +60,13 @@ namespace Phalcon\Logger\Adapter {
 
 
 		/**
+		 * Returns the file path
+		 *
+		 */
+		public function getPath(){ }
+
+
+		/**
 		 * Opens the internal file handler after unserialization
 		 *
 		 */

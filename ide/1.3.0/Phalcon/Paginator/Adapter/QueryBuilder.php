@@ -23,8 +23,6 @@ namespace Phalcon\Paginator\Adapter {
 	
 	class QueryBuilder implements \Phalcon\Paginator\AdapterInterface {
 
-		protected $_config;
-
 		protected $_builder;
 
 		protected $_limitRows;

@@ -10,7 +10,7 @@ namespace Phalcon\Assets\Filters {
 	 * removes last semicolon from last property
 	 */
 	
-	class Cssmin {
+	class Cssmin implements \Phalcon\Assets\FilterInterface {
 
 		/**
 		 * Filters the content using CSSMIN
