@@ -53,16 +53,27 @@ class Scaffold extends Component
 		return $attributes[0];
 	}
 
-	private function _getPossibleLabel($fieldName)
+    /**
+     * @param $fieldName
+     *
+     * @return string
+     */
+    private function _getPossibleLabel($fieldName)
 	{
 		$fieldName = preg_replace('/_id$/', '', $fieldName);
 		$fieldName = preg_replace('/_at$/', '', $fieldName);
 		$fieldName = preg_replace('/_in$/', '', $fieldName);
 		$fieldName = str_replace('_', ' of ', $fieldName);
+
 		return ucwords($fieldName);
 	}
 
-	private function _getPossibleSingular($className)
+    /**
+     * @param $className
+     *
+     * @return string
+     */
+    private function _getPossibleSingular($className)
 	{
 		if (substr($className, strlen($className) - 1, 1) == 's') {
 			return substr($className, 0, strlen($className) - 1);
@@ -71,7 +82,12 @@ class Scaffold extends Component
 		}
 	}
 
-	private function _getPossiblePlural($className)
+    /**
+     * @param $className
+     *
+     * @return mixed
+     */
+    private function _getPossiblePlural($className)
 	{
 		if (substr($className, strlen($className) - 1, 1) == 's') {
 			return $className;
@@ -79,7 +95,11 @@ class Scaffold extends Component
 		return $className;
 	}
 
-	public function build()
+    /**
+     * @return bool
+     * @throws BuilderException
+     */
+    public function build()
 	{
 
 		$options = $this->_options;
@@ -234,7 +254,13 @@ class Scaffold extends Component
 		return true;
 	}
 
-	private function _resolveType($type)
+    /**
+     * @param $type
+     *
+     * @return string
+     * @throws BuilderException
+     */
+    private function _resolveType($type)
 	{
 		switch ($type) {
 			case Column::TYPE_INTEGER:
@@ -266,7 +292,14 @@ class Scaffold extends Component
 		}
 	}
 
-	private function _captureFilterInput($var, $fields, $useGetSetters)
+    /**
+     * @param $var
+     * @param $fields
+     * @param $useGetSetters
+     *
+     * @return string
+     */
+    private function _captureFilterInput($var, $fields, $useGetSetters)
 	{
 		$code = '';
 		foreach ($fields as $field => $dataType) {
@@ -293,7 +326,14 @@ class Scaffold extends Component
 		return $code;
 	}
 
-	private function _assignTagDefaults($var, $fields, $useGetSetters)
+    /**
+     * @param $var
+     * @param $fields
+     * @param $useGetSetters
+     *
+     * @return string
+     */
+    private function _assignTagDefaults($var, $fields, $useGetSetters)
 	{
 		$code = '';
 		foreach ($fields as $field => $dataType) {
@@ -309,7 +349,15 @@ class Scaffold extends Component
 		return $code;
 	}
 
-	private function _makeField($attribute, $dataType, $relationField, $selectDefinition)
+    /**
+     * @param $attribute
+     * @param $dataType
+     * @param $relationField
+     * @param $selectDefinition
+     *
+     * @return string
+     */
+    private function _makeField($attribute, $dataType, $relationField, $selectDefinition)
 	{
 		$code = "\t" . '<tr>' . PHP_EOL .
 				"\t\t" . '<td align="right">' . PHP_EOL .
@@ -348,7 +396,15 @@ class Scaffold extends Component
 		return $code;
 	}
 
-	private function _makeFieldVolt($attribute, $dataType, $relationField, $selectDefinition)
+    /**
+     * @param $attribute
+     * @param $dataType
+     * @param $relationField
+     * @param $selectDefinition
+     *
+     * @return string
+     */
+    private function _makeFieldVolt($attribute, $dataType, $relationField, $selectDefinition)
 	{
 		$code = "\t" . '<tr>' . PHP_EOL .
 				"\t\t" . '<td align="right">' . PHP_EOL .
@@ -416,7 +472,14 @@ class Scaffold extends Component
 		return $code;
 	}
 
-	private function _makeFieldsVolt($path, $options, $action)
+    /**
+     * @param $path
+     * @param $options
+     * @param $action
+     *
+     * @return string
+     */
+    private function _makeFieldsVolt($path, $options, $action)
 	{
 
 		$entity	= $options['entity'];
@@ -520,7 +583,11 @@ class Scaffold extends Component
 		}
 	}
 
-	private function _makeLayoutsVolt($path, $options)
+    /**
+     * @param $path
+     * @param $options
+     */
+    private function _makeLayoutsVolt($path, $options)
 	{
 
 		//Make Layouts dir
@@ -554,7 +621,14 @@ class Scaffold extends Component
 		}
 	}
 
-	private function makeView($path, $options, $type)
+    /**
+     * @param $path
+     * @param $options
+     * @param $type
+     *
+     * @throws BuilderException
+     */
+    private function makeView($path, $options, $type)
 	{
 
 		$dirPath = $options['viewsDir'] . $options['fileName'];
@@ -585,7 +659,14 @@ class Scaffold extends Component
 		file_put_contents($viewPath, $code);
 	}
 
-	private function makeViewVolt($path, $options, $type)
+    /**
+     * @param $path
+     * @param $options
+     * @param $type
+     *
+     * @throws BuilderException
+     */
+    private function makeViewVolt($path, $options, $type)
 	{
 
 		$dirPath = $options['viewsDir'] . $options['fileName'];
@@ -627,7 +708,11 @@ class Scaffold extends Component
 		$this->makeView($path, $options, 'index');
 	}
 
-	private function _makeViewIndexVolt($path, $options)
+    /**
+     * @param $path
+     * @param $options
+     */
+    private function _makeViewIndexVolt($path, $options)
 	{
 		$this->makeViewVolt($path, $options, 'index');
 	}
@@ -643,7 +728,11 @@ class Scaffold extends Component
 		$this->makeView($path, $options, 'new');
 	}
 
-	private function _makeViewNewVolt($path, $options)
+    /**
+     * @param $path
+     * @param $options
+     */
+    private function _makeViewNewVolt($path, $options)
 	{
 		$this->makeViewVolt($path, $options, 'new');
 	}
@@ -664,13 +753,15 @@ class Scaffold extends Component
 		$this->makeViewVolt($path, $options, 'edit');
 	}
 
-	/**
-	 * Make view search.phtml of model by scaffold
-	 *
-	 * @param string $path
-	 * @param array $options
-	 */
-	private function _makeViewSearch($path, $options)
+    /**
+     * Make view search.phtml of model by scaffold
+     *
+     * @param $path
+     * @param $options
+     *
+     * @throws BuilderException
+     */
+    private function _makeViewSearch($path, $options)
 	{
 
 		$dirPath = $options['viewsDir'] . $options['fileName'];
@@ -722,7 +813,13 @@ class Scaffold extends Component
 		file_put_contents($viewPath, $code);
 	}
 
-	private function _makeViewSearchVolt($path, $options)
+    /**
+     * @param $path
+     * @param $options
+     *
+     * @throws BuilderException
+     */
+    private function _makeViewSearchVolt($path, $options)
 	{
 
 		$dirPath = $options['viewsDir'] . $options['fileName'];

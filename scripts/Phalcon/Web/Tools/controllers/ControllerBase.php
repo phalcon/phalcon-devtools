@@ -23,7 +23,10 @@ use Phalcon\Web\Tools;
 class ControllerBase extends \Phalcon\Mvc\Controller
 {
 
-	public function initialize()
+    /**
+     *
+     */
+    public function initialize()
 	{
 		$this->_checkAccess();
 	}

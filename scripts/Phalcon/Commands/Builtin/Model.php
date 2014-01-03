@@ -55,7 +55,10 @@ class Model extends Command implements CommandsInterface
         'mapcolumn'       => 'Get some code for map columns. [optional]',
 	);
 
-	public function run($parameters)
+    /**
+     * @param $parameters
+     */
+    public function run($parameters)
 	{
 
 		$name = $this->getOption(array('name', 1));

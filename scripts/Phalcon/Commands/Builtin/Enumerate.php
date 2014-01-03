@@ -34,7 +34,10 @@ class Enumerate extends Command implements CommandsInterface
 
 	protected $_possibleParameters = array();
 
-	public function run($parameters)
+    /**
+     * @param $parameters
+     */
+    public function run($parameters)
 	{
 		print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
 		foreach ($this->getScript()->getCommands() as $commands) {
@@ -74,7 +77,7 @@ class Enumerate extends Command implements CommandsInterface
 	public function getHelp()
 	{
 		print Color::head('Help:') . PHP_EOL;
-		print Color::colorize('  Lists the commands availables in Phalcon devtools') . PHP_EOL . PHP_EOL;
+		print Color::colorize('  Lists the commands available in Phalcon devtools') . PHP_EOL . PHP_EOL;
 
 		$this->run(array());
 	}

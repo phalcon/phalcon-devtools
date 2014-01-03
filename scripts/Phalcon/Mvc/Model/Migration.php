@@ -41,14 +41,14 @@ class Migration
 	/**
 	 * Migration database connection
 	 *
-	 * @var Phalcon\Db
+	 * @var \Phalcon\Db
 	 */
 	protected static $_connection;
 
 	/**
 	 * Database configuration
 	 *
-	 * @var Phalcon\Config
+	 * @var \Phalcon\Config
 	 */
 	private static $_databaseConfig;
 
@@ -59,12 +59,14 @@ class Migration
 	 */
 	private static $_migrationPath = null;
 
-	/**
-	 * Prepares component
-	 *
-	 * @param stdClass $database
-	 */
-	public static function setup($database)
+    /**
+     * Prepares component
+     *
+     * @param $database
+     *
+     * @throws \Phalcon\Exception
+     */
+    public static function setup($database)
 	{
 
 		if ( ! isset($database->adapter))
@@ -80,19 +82,21 @@ class Migration
 		self::$_connection = new $adapter($configArray);
 		self::$_databaseConfig = $database;
 
-		$profiler = new Profiler();
+        if( \Phalcon\Migrations::isConsole() ){
+            $profiler = new Profiler();
 
-		$eventsManager = new EventsManager();
-		$eventsManager->attach('db', function($event, $connection) use ($profiler) {
-			if ($event->getType() == 'beforeQuery') {
-				$profiler->startProfile($connection->getSQLStatement());
-			}
-			if ($event->getType() == 'afterQuery') {
-				$profiler->stopProfile();
-			}
-		});
+            $eventsManager = new EventsManager();
+            $eventsManager->attach('db', function($event, $connection) use ($profiler) {
+                if ($event->getType() == 'beforeQuery') {
+                    $profiler->startProfile($connection->getSQLStatement());
+                }
+                if ($event->getType() == 'afterQuery') {
+                    $profiler->stopProfile();
+                }
+            });
 
-		self::$_connection->setEventsManager($eventsManager);
+            self::$_connection->setEventsManager($eventsManager);
+        }
 	}
 
 	/**
@@ -110,7 +114,7 @@ class Migration
 	 *
 	 * @param	string $version
 	 * @param	string $exportData
-	 * @return	string
+	 * @return	array
 	 */
 	public static function generateAll($version, $exportData=null)
 	{
@@ -121,15 +125,17 @@ class Migration
 		return $classDefinition;
 	}
 
-	/**
-	 * Generate specified table migration
-	 *
-	 * @param	string $version
-	 * @param	string $table
-	 * @param 	string $exportData
-	 * @return	string
-	 */
-	public static function generate($version, $table, $exportData=null)
+    /**
+     * Generate specified table migration
+     *
+     * @param      $version
+     * @param      $table
+     * @param null $exportData
+     *
+     * @return string
+     * @throws Exception
+     */
+    public static function generate($version, $table, $exportData=null)
 	{
 
 		$oldColumn = null;
@@ -295,7 +301,7 @@ class ".$className." extends Migration\n".
 
 			$fileHandler = fopen(self::$_migrationPath . '/' . $table . '.dat', 'w');
 			$cursor = self::$_connection->query('SELECT * FROM ' . $table);
-			$cursor->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+			$cursor->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
 			while ($row = $cursor->fetchArray()) {
 				$data = array();
 				foreach ($row as $key => $value) {
@@ -323,13 +329,15 @@ class ".$className." extends Migration\n".
 		return $classData;
 	}
 
-	/**
-	 * Migrate single file
-	 *
-	 * @param string $version
-	 * @param string $filePath
-	 */
-	public static function migrateFile($version, $filePath)
+    /**
+     * Migrate single file
+     *
+     * @param $version
+     * @param $filePath
+     *
+     * @throws Exception
+     */
+    public static function migrateFile($version, $filePath)
 	{
 		if (file_exists($filePath)) {
 			$fileName = basename($filePath);
@@ -350,13 +358,15 @@ class ".$className." extends Migration\n".
 		}
 	}
 
-	/**
-	 * Look for table definition modifications and apply to real table
-	 *
-	 * @param string $tableName
-	 * @param array $tableColumns
-	 */
-	public function morphTable($tableName, $definition)
+    /**
+     * Look for table definition modifications and apply to real table
+     *
+     * @param $tableName
+     * @param $definition
+     *
+     * @throws Exception
+     */
+    public function morphTable($tableName, $definition)
 	{
 
 		if (isset(self::$_databaseConfig->dbname)) {

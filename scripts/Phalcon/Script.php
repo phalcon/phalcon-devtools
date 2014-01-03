@@ -87,7 +87,7 @@ class Script
 	/**
 	 * Adds commands to the Script
 	 *
-	 * @param Phalcon\Commands\Command $command
+	 * @param \Phalcon\Commands\Command $command
 	 */
 	public function attach(Command $command)
 	{
@@ -97,7 +97,7 @@ class Script
 	/**
 	 * Returns the commands registered in the script
 	 *
-	 * @return Phalcon\Commands\Command[]
+	 * @return \Phalcon\Commands\Command[]
 	 */
 	public function getCommands()
 	{

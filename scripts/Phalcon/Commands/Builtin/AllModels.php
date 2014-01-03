@@ -55,7 +55,10 @@ class AllModels extends Command implements CommandsInterface
 		'directory=s' 		=> "Base path on which project will be created",
 	);
 
-	public function run($parameters)
+    /**
+     * @param $parameters
+     */
+    public function run($parameters)
 	{
 
 		$path = '';

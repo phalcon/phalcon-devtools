@@ -21,7 +21,6 @@
 namespace Phalcon\Commands;
 
 use Phalcon\Script,
-	Phalcon\Script\Color,
 	Phalcon\Events\Event;
 
 /**

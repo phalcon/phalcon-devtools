@@ -50,13 +50,15 @@ class Migration extends Command implements CommandsInterface
 		'force' 		=> "Forces to overwrite existing migrations.",
 	);
 
-	/**
-	 * Determines correct adapter by file name 
-	 * and load config
-	 *
-	 * @return Phalcon\Config | false
-	 */
-	protected static function _loadConfig($fileName)
+    /**
+     * Determines correct adapter by file name
+     * and load config
+     *
+     * @param $fileName
+     *
+     * @return bool|mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
+     */
+    protected static function _loadConfig($fileName)
 	{
 		$pathInfo = pathinfo($fileName);
 
@@ -77,7 +79,13 @@ class Migration extends Command implements CommandsInterface
 		return false;
 	}
 
-	protected static function _getConfig($path)
+    /**
+     * @param $path
+     *
+     * @return mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
+     * @throws BuilderException
+     */
+    protected static function _getConfig($path)
 	{
 		foreach (array('app/config/', 'config/') as $configPath) {
 			if (file_exists($path . $configPath. "config.ini")) {
@@ -130,7 +138,7 @@ class Migration extends Command implements CommandsInterface
 
 		$exportData = $this->getOption('data');
 		$originalVersion = $this->getOption('version');
-		
+
 		if($this->isReceivedOption('config')){
 			$configPath = $path . $this->getOption('config');
 			$config = $this->_loadConfig($configPath);

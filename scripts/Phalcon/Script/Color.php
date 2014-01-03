@@ -236,4 +236,20 @@ final class Color
 		return $out;
 	}
 
+    /**
+     * Color style for info messages.
+     *
+     * @static
+     * @param $msg
+     * @return string
+     */
+    public static function info($msg)
+    {
+        $msg = 'Info: ' . $msg;
+        $space = strlen($msg) + 4;
+        $out  = static::colorize(str_pad(' ', $space), Color::FG_WHITE, Color::AT_BOLD, Color::BG_BLUE) . PHP_EOL;
+        $out .= static::colorize('  ' . $msg . '  ', Color::FG_WHITE, Color::AT_BOLD, Color::BG_BLUE) . PHP_EOL;
+        $out .= static::colorize(str_pad(' ', $space), Color::FG_WHITE, Color::AT_BOLD, Color::BG_BLUE) . PHP_EOL;
+        return $out;
+    }
 }

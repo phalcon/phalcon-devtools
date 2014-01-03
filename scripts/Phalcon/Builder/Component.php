@@ -39,18 +39,23 @@ abstract class Component
 
 	protected $_options = array();
 
-	public function __construct($options)
+    /**
+     * @param $options
+     */
+    public function __construct($options)
 	{
 		$this->_options = $options;
 	}
 
-	/**
-	 * Tries to find the current configuration in the application
-	 *
-	 * @param string $path
-	 * @return Phalcon\Config
-	 */
-	protected function _getConfig($path)
+    /**
+     * Tries to find the current configuration in the application
+     *
+     * @param $path
+     *
+     * @return mixed|\Phalcon\Config\Adapter\Ini
+     * @throws BuilderException
+     */
+    protected function _getConfig($path)
 	{
 		foreach (array('app/config/', 'config/') as $configPath) {
 			if (file_exists($path . $configPath . "config.ini")) {
@@ -78,12 +83,14 @@ abstract class Component
 		throw new BuilderException('Builder can\'t locate the configuration file');
 	}
 
-	/**
-	 * Check if a path is absolute
-	 *
-	 * @return boolean
-	 */
-	public function isAbsolutePath($path)
+    /**
+     * Check if a path is absolute
+     *
+     * @param $path
+     *
+     * @return bool
+     */
+    public function isAbsolutePath($path)
 	{
 		if (PHP_OS == "WINNT") {
 			if (preg_match('/^[A-Z]:\\\\/', $path)) {

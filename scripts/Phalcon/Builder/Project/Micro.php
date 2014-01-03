@@ -93,16 +93,15 @@ class Micro extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Creates the configuration
-	 *
-	 * @param $path
-	 * @param $name
-	 * @param $type
-	 *
-	 * @return void
-	 */
-	private function createConfig($path, $templatePath, $name, $type)
+    /**
+     * Creates the configuration
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $name
+     * @param $type
+     */
+    private function createConfig($path, $templatePath, $name, $type)
 	{
 		if (file_exists($path . 'config/config.' . $type) == false) {
 			$str = file_get_contents($templatePath . '/project/micro/config.' . $type);
@@ -126,12 +125,14 @@ class Micro extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Create Bootstrap file by default of application
-	 *
-	 * @return void
-	 */
-	private function createBootstrapFile($path, $templatePath, $useIniConfig)
+    /**
+     * Create Bootstrap file by default of application
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $useIniConfig
+     */
+    private function createBootstrapFile($path, $templatePath, $useIniConfig)
 	{
 		if (file_exists($path . 'public/index.php') == false) {
 
@@ -146,7 +147,17 @@ class Micro extends ProjectBuilder
 		}
 	}
 
-	public function build($name, $path, $templatePath, $options)
+    /**
+     * Build project
+     *
+     * @param $name
+     * @param $path
+     * @param $templatePath
+     * @param $options
+     *
+     * @return bool
+     */
+    public function build($name, $path, $templatePath, $options)
 	{
 
         $this->buildDirectories($this->_dirs,$path);

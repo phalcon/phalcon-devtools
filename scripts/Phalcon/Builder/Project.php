@@ -45,11 +45,14 @@ class Project extends Component
 		'cli' => '\Phalcon\Builder\Project\Cli',
 	);
 
-	public function build()
+    /**
+     * Project build
+     *
+     * @return mixed
+     * @throws BuilderException
+     */
+    public function build()
 	{
-
-
-
 
 		$path = '';
 		if (isset($this->_options['directory'])) {
@@ -106,7 +109,7 @@ class Project extends Component
 		$success = $builder->build($name, $path, $templatePath, $this->_options);
 
 		if ($success===true) {
-			print Color::success("Project '$name' was successfully created.") . PHP_EOL;
+            $this->_notifySuccess("Project '$name' was successfully created.");
 		}
 
 		return $success;

@@ -590,10 +590,9 @@ class %s extends %s
         );
         file_put_contents($modelPath, $code);
 
-        print Color::success(
-                'Model "' . $this->_options['name'] .
-                '" was successfully created.'
-            ) . PHP_EOL;
+        if ($this->isConsole()) {
+            $this->_notifySuccess('Model "' . $this->_options['name'] .'" was successfully created.');
+        }
     }
 
     /**

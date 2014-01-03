@@ -51,12 +51,12 @@ class Simple extends ProjectBuilder
 		'.phalcon'
 	);
 
-	/**
-	 * Create indexController file
-	 *
-	 * @return void
-	 */
-	private function createControllerFile($path)
+    /**
+     * Create indexController file
+     *
+     * @param $path
+     */
+    private function createControllerFile($path)
 	{
 		$modelBuilder = new \Phalcon\Builder\Controller(array(
 			'name' => 'index',
@@ -127,16 +127,15 @@ class Simple extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Creates the configuration
-	 *
-	 * @param $path
-	 * @param $name
-	 * @param $type
-	 *
-	 * @return void
-	 */
-	private function createConfig($path, $templatePath, $name, $type)
+    /**
+     * Creates the configuration
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $name
+     * @param $type
+     */
+    private function createConfig($path, $templatePath, $name, $type)
 	{
 		$file = $path . 'app/config/config.' . $type;
 		if (file_exists($file) == false) {
@@ -158,15 +157,14 @@ class Simple extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Create ControllerBase
-	 *
-	 * @param $path
-	 * @param $name
-	 *
-	 * @return void
-	 */
-	private function createControllerBase($path, $templatePath, $name)
+    /**
+     * Create ControllerBase
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $name
+     */
+    private function createControllerBase($path, $templatePath, $name)
 	{
 		if (file_exists($path . 'app/controllers/ControllerBase.php') == false) {
 			$str = file_get_contents($templatePath . '/project/simple/ControllerBase.php');
@@ -175,12 +173,14 @@ class Simple extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Create Bootstrap file by default of application
-	 *
-	 * @return void
-	 */
-	private function createBootstrapFile($path, $templatePath, $useIniConfig)
+    /**
+     * Create Bootstrap file by default of application
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $useIniConfig
+     */
+    private function createBootstrapFile($path, $templatePath, $useIniConfig)
 	{
 		if (file_exists($path . 'public/index.php') == false) {
 			$config = '$config = include __DIR__ . "/../app/config/config.php";';
@@ -193,7 +193,17 @@ class Simple extends ProjectBuilder
 		}
 	}
 
-	public function build($name, $path, $templatePath, $options)
+    /**
+     * Build project
+     *
+     * @param $name
+     * @param $path
+     * @param $templatePath
+     * @param $options
+     *
+     * @return bool
+     */
+    public function build($name, $path, $templatePath, $options)
 	{
 
         $this->buildDirectories($this->_dirs,$path);

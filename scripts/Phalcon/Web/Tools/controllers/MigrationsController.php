@@ -25,7 +25,10 @@ use Phalcon\Builder\BuilderException;
 class MigrationsController extends ControllerBase
 {
 
-	protected function _getMigrationsDir()
+    /**
+     * @return string
+     */
+    protected function _getMigrationsDir()
 	{
 		$migrationsDir = 'app/migrations';
 		if(!file_exists($migrationsDir)){
@@ -108,6 +111,9 @@ class MigrationsController extends ControllerBase
 
 	}
 
+    /*
+     *
+     */
 	public function runAction()
 	{
 

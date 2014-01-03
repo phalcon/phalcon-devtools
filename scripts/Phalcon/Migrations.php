@@ -27,7 +27,14 @@ use \Phalcon\Mvc\Model\Migration as ModelMigration;
 class Migrations
 {
 
-	public static function generate($options)
+    /**
+     * Generate migrations
+     *
+     * @param $options
+     *
+     * @throws \Exception
+     */
+    public static function generate($options)
 	{
 
 		$path = $options['directory'];
@@ -59,9 +66,9 @@ class Migrations
 
 			$versions = array();
 			$iterator = new \DirectoryIterator($migrationsDir);
-		    foreach ($iterator as $fileinfo) {
-		        if ($fileinfo->isDir()) {
-		        	if (preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileinfo->getFilename(), $matches)) {
+		    foreach ($iterator as $fileInfo) {
+		        if ($fileInfo->isDir()) {
+		        	if (preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileInfo->getFilename(), $matches)) {
 		            	$versions[] = new VersionItem($matches[0], 3);
 		        	}
 		        }
@@ -96,8 +103,21 @@ class Migrations
 			file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
 		}
 
-		print Color::success('Version '.$version.' was successfully generated').PHP_EOL;
+        if( self::isConsole() ){
+
+		    print Color::success('Version '.$version.' was successfully generated').PHP_EOL;
+        }
 	}
+
+    /**
+     * Check if the script is running on Console mode
+     *
+     * @return boolean
+     */
+    public static function isConsole()
+    {
+        return !isset($_SERVER['SERVER_SOFTWARE']);
+    }
 
 	/**
 	 * Run migrations

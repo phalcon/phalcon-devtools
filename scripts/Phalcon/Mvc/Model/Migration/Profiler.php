@@ -27,22 +27,28 @@ use Phalcon\Db\Profiler as DbProfiler;
  *
  * Displays transactions made on the database and the times them taken to execute
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @category    Phalcon
+ * @package    Scripts
  * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license    New BSD License
  */
 class Profiler extends DbProfiler
 {
 
-	public function beforeStartProfile($profile)
-	{
-		echo $profile->getInitialTime(), ': ', str_replace(array("\n", "\t"), " ", $profile->getSQLStatement());
-	}
+    /**
+     * @param $profile DbProfiler
+     */
+    public function beforeStartProfile($profile)
+    {
+        echo $profile->getInitialTime() , ': ' , str_replace(array( "\n" , "\t" ) , " " , $profile->getSQLStatement());
+    }
 
-	public function afterEndProfile($profile)
-	{
-		echo '  => ', $profile->getFinalTime(), ' (', ($profile->getTotalElapsedSeconds()), ')', PHP_EOL;
-	}
+    /**
+     * @param $profile DbProfiler
+     */
+    public function afterEndProfile($profile)
+    {
+        echo '  => ' , $profile->getFinalTime() , ' (' , ($profile->getTotalElapsedSeconds()) , ')' , PHP_EOL;
+    }
 
 }
