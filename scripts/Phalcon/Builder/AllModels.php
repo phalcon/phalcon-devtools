@@ -182,6 +182,7 @@ class AllModels extends Component
                 $modelBuilder = new \Phalcon\Builder\Model(array(
                     'name' => $name,
                     'schema' => $schema,
+                    'extends' => isset($this->_options['extends']) ? $this->_options['extends'] : null,
                     'namespace' => $this->_options['namespace'],
                     'force' => $forceProcess,
                     'hasMany' => $hasManyModel,
