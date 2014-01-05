@@ -1,7 +1,5 @@
-
 {{ content() }}
-
-{{ submit_button("Save") }}
+{{ form("$plural$/save", "method":"post") }}
 
 <table width="100%">
     <tr>
@@ -18,7 +16,7 @@
 $captureFields$
 	<tr>
 		<td>{{ hidden_field("id") }}</td>
-		<td>{{ submit_button("Search") }}</td>
+		<td>{{ submit_button("Save") }}</td>
 	</tr>
 </table>
 
