@@ -41,7 +41,7 @@ class Controller extends Component
 	 * Controller constructor
 	 *
      * @param $options
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     public function __construct($options)
 	{
@@ -56,7 +56,7 @@ class Controller extends Component
 
     /**
      * @return string
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     public function build()
 	{

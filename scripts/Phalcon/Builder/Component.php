@@ -53,7 +53,7 @@ abstract class Component
      * @param $path
      *
      * @return mixed|\Phalcon\Config\Adapter\Ini
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     protected function _getConfig($path)
 	{
@@ -118,7 +118,7 @@ abstract class Component
 	 * Check if the current adapter is supported by Phalcon
 	 *
 	 * @param string $adapter
-	 * @throws BuilderException
+	 * @throws \Phalcon\Builder\BuilderException
 	 */
 	public function isSupportedAdapter($adapter)
 	{

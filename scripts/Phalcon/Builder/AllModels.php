@@ -202,7 +202,7 @@ class AllModels extends Component
             } else {
                 if( $this->isConsole() ){
 
-                    print Color::info("Skip model \"$name\" because it already exist");
+                    print Color::info("Skipping model \"$name\" because it already exist");
                 }else{
                     $this->exist[] = $name;
                 }

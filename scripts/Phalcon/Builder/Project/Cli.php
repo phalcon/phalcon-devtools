@@ -109,7 +109,7 @@ class Cli extends ProjectBuilder
     }
 
     /**
-     * Create a launcher file to launch the application simple with ./project/application
+     * Create a launcher file to launch the application simply with ./project/application
      *
      * @param $name string name of the application
      * @param $path string path to the project root

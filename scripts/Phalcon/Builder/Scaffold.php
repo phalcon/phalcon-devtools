@@ -97,7 +97,7 @@ class Scaffold extends Component
 
     /**
      * @return bool
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     public function build()
 	{
@@ -258,7 +258,7 @@ class Scaffold extends Component
      * @param $type
      *
      * @return string
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     private function _resolveType($type)
 	{
@@ -626,7 +626,7 @@ class Scaffold extends Component
      * @param $options
      * @param $type
      *
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     private function makeView($path, $options, $type)
 	{
@@ -664,7 +664,7 @@ class Scaffold extends Component
      * @param $options
      * @param $type
      *
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     private function makeViewVolt($path, $options, $type)
 	{
@@ -759,7 +759,7 @@ class Scaffold extends Component
      * @param $path
      * @param $options
      *
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     private function _makeViewSearch($path, $options)
 	{
@@ -817,7 +817,7 @@ class Scaffold extends Component
      * @param $path
      * @param $options
      *
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     private function _makeViewSearchVolt($path, $options)
 	{

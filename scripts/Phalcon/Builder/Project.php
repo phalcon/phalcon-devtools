@@ -49,7 +49,7 @@ class Project extends Component
      * Project build
      *
      * @return mixed
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     public function build()
 	{

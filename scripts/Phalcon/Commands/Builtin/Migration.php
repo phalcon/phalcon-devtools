@@ -83,7 +83,7 @@ class Migration extends Command implements CommandsInterface
      * @param $path
      *
      * @return mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
-     * @throws BuilderException
+     * @throws \Phalcon\Builder\BuilderException
      */
     protected static function _getConfig($path)
 	{
