@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,7 +34,7 @@ use Phalcon\Builder,
  * @category 	Phalcon
  * @package 	Command
  * @subpackage  Controller
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Migration extends Command implements CommandsInterface
@@ -50,13 +50,15 @@ class Migration extends Command implements CommandsInterface
 		'force' 		=> "Forces to overwrite existing migrations.",
 	);
 
-	/**
-	 * Determines correct adapter by file name 
-	 * and load config
-	 *
-	 * @return Phalcon\Config | false
-	 */
-	protected static function _loadConfig($fileName)
+    /**
+     * Determines correct adapter by file name
+     * and load config
+     *
+     * @param $fileName
+     *
+     * @return bool|mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
+     */
+    protected static function _loadConfig($fileName)
 	{
 		$pathInfo = pathinfo($fileName);
 
@@ -77,7 +79,13 @@ class Migration extends Command implements CommandsInterface
 		return false;
 	}
 
-	protected static function _getConfig($path)
+    /**
+     * @param $path
+     *
+     * @return mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
+     * @throws \Phalcon\Builder\BuilderException
+     */
+    protected static function _getConfig($path)
 	{
 		foreach (array('app/config/', 'config/') as $configPath) {
 			if (file_exists($path . $configPath. "config.ini")) {
@@ -130,7 +138,7 @@ class Migration extends Command implements CommandsInterface
 
 		$exportData = $this->getOption('data');
 		$originalVersion = $this->getOption('version');
-		
+
 		if($this->isReceivedOption('config')){
 			$configPath = $path . $this->getOption('config');
 			$config = $this->_loadConfig($configPath);

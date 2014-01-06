@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -65,6 +65,11 @@ class ModelsController extends ControllerBase
 
 				$modelBuilder->build();
 
+                if( count($modelBuilder->exist) ){
+
+                    $this->flash->notice('Models '.implode(', ',$modelBuilder->exist).': because it already exist');
+                }
+
 				if ($tableName == 'all') {
 					$this->flash->success('Models were created successfully');
 				} else {
@@ -105,8 +110,8 @@ class ModelsController extends ControllerBase
 			));
 		}
 
-		Tag::setDefault('code', file_get_contents($modelsDir.'/'.$fileName));
-		Tag::setDefault('name', $fileName);
+        $this->tag->setDefault('code', file_get_contents($modelsDir.'/'.$fileName));
+        $this->tag->setDefault('name', $fileName);
 		$this->view->setVar('name', $fileName);
 
 	}
@@ -140,7 +145,6 @@ class ModelsController extends ControllerBase
 			file_put_contents($modelsDir.'/'.$fileName, $this->request->getPost('code'));
 
 			$this->flash->success('The model "'.$fileName.'" was saved successfully');
-
 		}
 
 		return $this->dispatcher->forward(array(

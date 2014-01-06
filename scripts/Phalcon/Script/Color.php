@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -28,7 +28,7 @@ namespace Phalcon\Script;
  * @category 	Phalcon
  * @package 	Script
  * @subpackage  Color
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 final class Color
@@ -236,4 +236,20 @@ final class Color
 		return $out;
 	}
 
+    /**
+     * Color style for info messages.
+     *
+     * @static
+     * @param $msg
+     * @return string
+     */
+    public static function info($msg)
+    {
+        $msg = 'Info: ' . $msg;
+        $space = strlen($msg) + 4;
+        $out  = static::colorize(str_pad(' ', $space), Color::FG_WHITE, Color::AT_BOLD, Color::BG_BLUE) . PHP_EOL;
+        $out .= static::colorize('  ' . $msg . '  ', Color::FG_WHITE, Color::AT_BOLD, Color::BG_BLUE) . PHP_EOL;
+        $out .= static::colorize(str_pad(' ', $space), Color::FG_WHITE, Color::AT_BOLD, Color::BG_BLUE) . PHP_EOL;
+        return $out;
+    }
 }

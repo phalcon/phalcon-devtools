@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,19 +27,32 @@ namespace Phalcon\Version;
  *
  * @category 	Phalcon
  * @package 	Scripts
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Item
 {
 
-	private $_version;
+    /**
+     * @var string
+     */
+    private $_version;
 
-	private $_versionStamp = 0;
+    /**
+     * @var int|string
+     */
+    private $_versionStamp = 0;
 
-	private $_parts = array();
+    /**
+     * @var array
+     */
+    private $_parts = array();
 
-	public function __construct($version, $numberParts=3)
+    /**
+     * @param     $version
+     * @param int $numberParts
+     */
+    public function __construct($version, $numberParts=3)
 	{
 		$n = 9;
 		$versionStamp = 0;
@@ -72,7 +85,12 @@ class Item
 		$this->_version = $version;
 	}
 
-	public static function sortAsc($versions)
+    /**
+     * @param $versions Item[]
+     *
+     * @return array  Item[]
+     */
+    public static function sortAsc($versions)
 	{
 		$sortData = array();
 		foreach ($versions as $version) {
@@ -82,7 +100,12 @@ class Item
 		return array_values($sortData);
 	}
 
-	public static function sortDesc($versions)
+    /**
+     * @param $versions Item[]
+     *
+     * @return array
+     */
+    public static function sortDesc($versions)
 	{
 		$sortData = array();
 		foreach ($versions as $version) {
@@ -92,7 +115,12 @@ class Item
 		return array_values($sortData);
 	}
 
-	public static function maximum($versions)
+    /**
+     * @param $versions Item[]
+     *
+     * @return \Phalcon\Version\Item
+     */
+    public static function maximum($versions)
 	{
 		if (count($versions) == 0) {
 			return null;
@@ -107,7 +135,7 @@ class Item
 	 *
 	 * @param	string $initialVersion
 	 * @param	string $finalVersion
-	 * @param	array $versions
+	 * @param	array $versions Item[]
 	 * @return	boolean
 	 */
 	public static function between($initialVersion, $finalVersion, $versions)
@@ -123,19 +151,30 @@ class Item
 		}
 		$betweenVersions = array();
 		foreach ($versions as $version){
-			if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+            /**
+             * @var $version Item
+             */
+            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
 				$betweenVersions[] = $version;
 			}
 		}
 		return self::sortAsc($betweenVersions);
 	}
 
-	public function getStamp()
+    /**
+     * @return int|string
+     */
+    public function getStamp()
 	{
 		return $this->_versionStamp;
 	}
 
-	public function addMinor($number)
+    /**
+     * @param $number
+     *
+     * @return string
+     */
+    public function addMinor($number)
 	{
 		$parts = array_reverse($this->_parts);
 		if (isset($parts[0])) {
@@ -148,7 +187,10 @@ class Item
 		return join('.', array_reverse($parts));
 	}
 
-	public function __toString()
+    /**
+     * @return string
+     */
+    public function __toString()
 	{
 		return $this->_version;
 	}

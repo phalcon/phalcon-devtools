@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,13 +34,16 @@ use Phalcon\Version,
  *
  * @category 	Phalcon
  * @package 	Scripts
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Tools
 {
 
-	private static $_di;
+    /**
+     * @var \Phalcon\DI
+     */
+    private static $_di;
 
 	private static $_path = '..';
 
@@ -95,18 +98,13 @@ class Tools
 					'caption' => 'Run'
 				)
 			)
-		),
-		/*'config' => array(
-			'caption' => 'Configuration',
-			'options' => array(
-				'index' => array(
-					'caption' => 'Edit'
-				)
-			)
-		),*/
+		)
 	);
 
-	public static function getNavMenu($controllerName)
+    /**
+     * @param $controllerName
+     */
+    public static function getNavMenu($controllerName)
 	{
 		$uri = self::getUrl()->get();
 		foreach (self::$_options as $controller => $option) {
@@ -119,7 +117,11 @@ class Tools
 		}
 	}
 
-	public static function getMenu($controllerName, $actionName)
+    /**
+     * @param $controllerName
+     * @param $actionName
+     */
+    public static function getMenu($controllerName, $actionName)
 	{
 		$uri = self::getUrl()->get();
 		foreach (self::$_options[$controllerName]['options'] as $action => $option) {
@@ -135,7 +137,7 @@ class Tools
 	/**
 	 * Returns the config object in the services container
 	 *
-	 * @return Phalcon\Config
+	 * @return \Phalcon\Config
 	 */
 	public static function getConfig()
 	{
@@ -145,7 +147,7 @@ class Tools
 	/**
 	 * Returns the config object in the services container
 	 *
-	 * @return Phalcon\Mvc\Url
+	 * @return \Phalcon\Mvc\Url
 	 */
 	public static function getUrl()
 	{
@@ -155,19 +157,21 @@ class Tools
 	/**
 	 * Returns the config object in the services container
 	 *
-	 * @return Phalcon\Mvc\Url
+	 * @return \Phalcon\Mvc\Url
 	 */
 	public static function getConnection()
 	{
 		return self::$_di->getShared('db');
 	}
 
-	/**
-	 * Returns a local path
-	 *
-	 * @return string
-	 */
-	public static function getPath($path='')
+    /**
+     * Returns a local path
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function getPath($path='')
 	{
 		if ($path) {
 			return self::$_path.'/'.$path;
@@ -176,12 +180,16 @@ class Tools
 		}
 	}
 
-	/**
-	 * Executes the web tool application
-	 *
-	 * @param string $path
-	 */
-	public static function main($path,$admin_ip='')
+    /**
+     * Executes the web tool application
+     *
+     * @param        $path
+     * @param string $admin_ip
+     *
+     * @throws \Phalcon\Exception
+     * @throws \Exception
+     */
+    public static function main($path,$admin_ip='')
 	{
 
         self::$_admin_ip=$admin_ip;
@@ -237,7 +245,7 @@ class Tools
 		$loader->register();
 
 		if (Version::getId() < Script::COMPATIBLE_VERSION) {
-			throw new Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
+			throw new \Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
 		}
 
 		if (!defined('TEMPLATE_PATH')) {

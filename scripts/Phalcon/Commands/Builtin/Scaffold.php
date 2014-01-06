@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,7 +34,7 @@ use Phalcon\Builder,
  * @category 	Phalcon
  * @package 	Command
  * @subpackage  Scaffold
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Scaffold extends Command implements CommandsInterface
@@ -51,13 +51,18 @@ class Scaffold extends Command implements CommandsInterface
 		'trace'          => "Shows the trace of the framework in case of exception. [optional]",
 	);
 
-	public function run($parameters)
+    /**
+     * @param $parameters
+     *
+     * @return bool
+     */
+    public function run($parameters)
 	{
 
 		$name = $this->getOption(array('table-name', 1));
 		$templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);
 		$schema = $this->getOption('schema');
-		$templateEngint = $this->getOption(array('template-engine'), null, "php");
+		$templateEngine = $this->getOption(array('template-engine'), null, "php");
 
 		$scaffoldBuilder = new scaffoldBuilder(array(
 			'name' => $name,
@@ -66,7 +71,7 @@ class Scaffold extends Command implements CommandsInterface
 			'genSettersGetters' => $this->isReceivedOption('get-set'),
 			'directory' => $this->getOption('directory'),
 			'templatePath' => $templatePath,
-			'templateEngine'=> $templateEngint,
+			'templateEngine'=> $templateEngine,
 		));
 
 		return $scaffoldBuilder->build();

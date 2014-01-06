@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -74,12 +74,20 @@ class ControllersController extends ControllerBase
 
 	}
 
-	public function listAction()
+    /**
+     *
+     */
+    public function listAction()
 	{
 		$this->view->setVar('controllersDir', Tools::getConfig()->application->controllersDir);
 	}
 
-	public function editAction($fileName)
+    /**
+     * @param $fileName
+     *
+     * @return mixed
+     */
+    public function editAction($fileName)
 	{
 
 		$fileName = str_replace('..', '', $fileName);
@@ -93,13 +101,16 @@ class ControllersController extends ControllerBase
 			));
 		}
 
-		Tag::setDefault('code', file_get_contents($controllersDir.'/'.$fileName));
-		Tag::setDefault('name', $fileName);
+		$this->tag->setDefault('code', file_get_contents($controllersDir.'/'.$fileName));
+        $this->tag->setDefault('name', $fileName);
 		$this->view->setVar('name', $fileName);
 
 	}
 
-	public function saveAction()
+    /**
+     * @return mixed
+     */
+    public function saveAction()
 	{
 
 		if ($this->request->isPost()) {
@@ -136,6 +147,4 @@ class ControllersController extends ControllerBase
 		));
 
 	}
-
-
 }
