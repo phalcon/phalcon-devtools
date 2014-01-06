@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,7 +34,7 @@ use Phalcon\Db\Column,
  * @category    Phalcon
  * @package    Builder
  * @subpackage  Model
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license    New BSD License
  */
 class Model extends Component
@@ -590,10 +590,9 @@ class %s extends %s
         );
         file_put_contents($modelPath, $code);
 
-        print Color::success(
-                'Model "' . $this->_options['name'] .
-                '" was successfully created.'
-            ) . PHP_EOL;
+        if ($this->isConsole()) {
+            $this->_notifySuccess('Model "' . $this->_options['name'] .'" was successfully created.');
+        }
     }
 
     /**

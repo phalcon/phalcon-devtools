@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -32,11 +32,13 @@ use Phalcon\Builder\Component,
  *
  * @category    Phalcon
  * @package    Scripts
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license    New BSD License
  */
 class AllModels extends Component
 {
+
+    public $exist = array();
 
     public function __construct($options)
     {
@@ -94,6 +96,10 @@ class AllModels extends Component
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
+
+        /**
+         * @var $db \Phalcon\Db\Adapter\Pdo
+         */
         $db = new $adapterName($configArray);
 
         if (isset($this->_options['schema'])) {
@@ -121,7 +127,7 @@ class AllModels extends Component
                     $foreignKeys[$name] = array();
                 }
 
-                $camelizedName = Utils::camelize($name);
+                $camelCaseName = Utils::camelize($name);
                 $refSchema = ($adapter != 'Postgresql') ? $schema : $config->database->dbname;
 
                 foreach ($db->describeReferences($name, $schema) as $reference) {
@@ -138,7 +144,7 @@ class AllModels extends Component
                                     'options' => $defineForeignKeys ? array('foreignKey'=>true) : NULL
                                 );
                                 $hasMany[$reference->getReferencedTable()][] = array(
-                                    'camelizedName' => $camelizedName,
+                                    'camelizedName' => $camelCaseName,
                                     'fields' => $referencedColumns[0],
                                     'relationFields' => $columns[0]
                                 );
@@ -194,7 +200,12 @@ class AllModels extends Component
 
                 $modelBuilder->build();
             } else {
-                echo "INFO: Skip model \"$name\" because it already exist\n";
+                if( $this->isConsole() ){
+
+                    print Color::info("Skipping model \"$name\" because it already exist");
+                }else{
+                    $this->exist[] = $name;
+                }
             }
         }
 

@@ -1,24 +1,28 @@
-<div class="span9">
+<?php
 
-	<?php echo $this->getContent() ?>
+/**
+ * Local variables
+ * @var \Phalcon\Mvc\View\Engine $this
+ */
 
-	<p><h1>Create Controller</h1></p>
+?>
+<?php echo $this->getContent() ?>
 
-	<form method="post" autocomplete="off" class="forma-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/controllers/create") ?>">
-		<fieldset>
-			<div class="control-group">
-				<label class="control-label" for="name">Controller name</label>
-				<div class="controls">
-					<?php echo $this->tag->textField(array('name', 'placeholder' => 'Name ...')) ?>
-				</div>
-			</div>
-			<label class="checkbox">
-				<input type="checkbox" name="force" value="1"/>Force
-			</label>
-			<div align="right">
-				<input type="submit" class="btn btn-primary" value="Generate"/>
-			</div>
-		</fieldset>
-	</form>
+<h1>Create Controller</h1>
 
-</div>
+<form method="post" autocomplete="off" class="form-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/controllers/create") ?>">
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="name">Controller name</label>
+            <div class="controls">
+                <?php echo $this->tag->textField(array('name', 'placeholder' => 'Name ...')) ?>
+            </div>
+        </div>
+        <label class="checkbox">
+            <input type="checkbox" name="force" value="1"/>Force
+        </label>
+        <div align="right">
+            <input type="submit" class="btn btn-primary" value="Generate"/>
+        </div>
+    </fieldset>
+</form>

@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -28,7 +28,7 @@ use Phalcon\Script\Color;
  *
  * @category 	Phalcon
  * @package 	Scripts
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Cli extends ProjectBuilder
@@ -43,16 +43,14 @@ class Cli extends ProjectBuilder
 
 
 
-	/**
-	 * Creates the configuration
-	 *
-	 * @param $path
-	 * @param $name
-	 * @param $type
-	 *
-	 * @return void
-	 */
-	private function createConfig($path, $templatePath, $type)
+    /**
+     * Creates the configuration
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $type
+     */
+    private function createConfig($path, $templatePath, $type)
 	{
 		if (file_exists($path . 'app/config/config.' . $type) == false) {
 			$str = file_get_contents($templatePath . '/project/cli/config.' . $type);
@@ -73,7 +71,9 @@ class Cli extends ProjectBuilder
     /**
      * Create Bootstrap file by default of application
      *
-     * @return void
+     * @param $path
+     * @param $templatePath
+     * @param $useIniConfig
      */
     private function createBootstrapFiles($path, $templatePath, $useIniConfig)
     {
@@ -92,7 +92,8 @@ class Cli extends ProjectBuilder
     /**
      * Create Default Tasks
      *
-     * @return void
+     * @param $path
+     * @param $templatePath
      */
     private function createDefaultTasks($path, $templatePath)
     {
@@ -108,12 +109,11 @@ class Cli extends ProjectBuilder
     }
 
     /**
-     * create a launcher file to launch the application simple with ./project/projectname
+     * Create a launcher file to launch the application simply with ./project/application
      *
-     * @param $name string name of the applciation
+     * @param $name string name of the application
      * @param $path string path to the project root
-     *
-     * @return void
+     * @param $templatePath
      */
     private function createLauncher($name,$path,$templatePath){
         if (file_exists($path . $name) == false) {
@@ -123,7 +123,17 @@ class Cli extends ProjectBuilder
         }
     }
 
-	public function build($name, $path, $templatePath, $options)
+    /**
+     * Build project
+     *
+     * @param $name
+     * @param $path
+     * @param $templatePath
+     * @param $options
+     *
+     * @return bool
+     */
+    public function build($name, $path, $templatePath, $options)
 	{
 
         $this->buildDirectories($this->_dirs,$path);
@@ -148,6 +158,7 @@ class Cli extends ProjectBuilder
         $this->createLauncher($name,$path,$templatePath);
 
         $pathSymLink = realpath( $path . $name );
+
         print Color::success("You can create a symlink to $pathSymLink to invoke the application") . PHP_EOL;
 
 		return true;

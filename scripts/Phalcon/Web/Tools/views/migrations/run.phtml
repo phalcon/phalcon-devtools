@@ -1,25 +1,29 @@
-<div class="span9">
+<?php
 
-	<?php echo $this->getContent() ?>
+/**
+ * Local variables
+ * @var \Phalcon\Mvc\View\Engine $this
+ */
 
-	<p><h1>Run Migration</h1></p>
+?>
+<?php echo $this->getContent() ?>
 
-	<form method="post" class="forma-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/migrations/run") ?>">
+<h1>Run Migration</h1>
 
-		<table class="table table-striped table-bordered table-condensed">
-			<tr>
-				<td><b>Current Version</b></td>
-				<td><i><?php echo $version ?></i></td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div align="right">
-						<input type="submit" class="btn btn-primary" value="Run"/>
-					</div>
-				</td>
-			</tr>
-		</table>
+<form method="post" class="form-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/migrations/run") ?>">
 
-	</form>
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <td><b>Current Version</b></td>
+            <td><i><?php echo $version ?></i></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div align="right">
+                    <input type="submit" class="btn btn-primary" value="Run"/>
+                </div>
+            </td>
+        </tr>
+    </table>
 
-</div>
+</form>

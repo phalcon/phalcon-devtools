@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,7 +21,8 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Builder\Component,
-	Phalcon\Text as Utils;
+	Phalcon\Text as Utils,
+    Phalcon\Builder\BuilderException;
 
 /**
  * \Phalcon\Builder\Controller
@@ -30,7 +31,7 @@ use Phalcon\Builder\Component,
  *
  * @category 	Phalcon
  * @package 	Builder
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Controller extends Component
@@ -39,12 +40,10 @@ class Controller extends Component
 	/**
 	 * Controller constructor
 	 *
-	 * @param $options
-	 *
-	 * @return \Phalcon\Builder\Controller
-	 * @throws \Phalcon\Builder\Exception
-	 */
-	public function __construct($options)
+     * @param $options
+     * @throws \Phalcon\Builder\BuilderException
+     */
+    public function __construct($options)
 	{
 		if (!isset($options['name'])) {
 			throw new BuilderException("Please specify the controller name");
@@ -55,13 +54,11 @@ class Controller extends Component
 		$this->_options = $options;
 	}
 
-	/**
-	 * Builds a controller
-	 *
-	 * @return string
-	 * @throws \Phalcon\Builder\Exception
-	 */
-	public function build()
+    /**
+     * @return string
+     * @throws \Phalcon\Builder\BuilderException
+     */
+    public function build()
 	{
 		$path = '';
 		if (isset($this->_options['directory']) && $this->_options['directory']){
@@ -91,9 +88,13 @@ class Controller extends Component
 		}
 
 		$name = $this->_options['name'];
+        $name = trim($name);
+
 		if (!$name) {
 			throw new BuilderException("The controller name is required");
 		}
+
+        $name = str_replace(' ','_',$name);
 
 		$className = Utils::camelize($name);
 
@@ -110,7 +111,9 @@ class Controller extends Component
 	 		throw new BuilderException("The Controller '$name' already exists");
 		}
 
-		$this->_notifySuccess('Controller "' . $name . '" was successfully created.');
+        if ($this->isConsole()) {
+		    $this->_notifySuccess('Controller "' . $name . '" was successfully created.');
+        }
 
 		return $className . 'Controller.php';
 

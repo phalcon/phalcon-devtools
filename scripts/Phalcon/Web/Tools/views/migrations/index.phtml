@@ -1,37 +1,41 @@
-<div class="span9">
+<?php
 
-	<?php echo $this->getContent() ?>
+/**
+ * Local variables
+ * @var \Phalcon\Mvc\View\Engine $this
+ */
 
-	<p><h1>Generate  Migration</h1></p>
+?>
+<?php echo $this->getContent() ?>
 
-	<form method="POST" class="forma-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/migrations/generate") ?>">
+<h1>Generate  Migration</h1>
 
-		<table class="table table-striped table-bordered table-condensed">
-			<tr>
-				<td><b>Current Version</b></td>
-				<td><i><?php echo $version ?></i></td>
-			</tr>
-			<tr>
-				<td><b>New Version</b></td>
-				<td><?php echo $this->tag->textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
-			</tr>
-			<tr>
-				<td><b>Table name</b></td>
-				<td><?php echo $this->tag->selectStatic('table-name', $tables) ?></td>
-			</tr>
-			<tr>
-				<td><b>Force</b></td>
-				<td><input type="checkbox" name="force" value="1"/></td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div align="right">
-						<input type="submit" class="btn btn-primary" value="Generate"/>
-					</div>
-				</td>
-			</tr>
-		</table>
+<form method="POST" class="form-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/migrations/generate") ?>">
 
-	</form>
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <td><b>Current Version</b></td>
+            <td><i><?php echo $version ?></i></td>
+        </tr>
+        <tr>
+            <td><b>New Version</b></td>
+            <td><?php echo $this->tag->textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
+        </tr>
+        <tr>
+            <td><b>Table name</b></td>
+            <td><?php echo $this->tag->selectStatic('table-name', $tables) ?></td>
+        </tr>
+        <tr>
+            <td><b>Force</b></td>
+            <td><input type="checkbox" name="force" value="1"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div align="right">
+                    <input type="submit" class="btn btn-primary" value="Generate"/>
+                </div>
+            </td>
+        </tr>
+    </table>
 
-</div>
+</form>

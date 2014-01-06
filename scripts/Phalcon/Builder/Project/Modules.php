@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,7 +27,7 @@ namespace Phalcon\Builder\Project;
  *
  * @category 	Phalcon
  * @package 	Scripts
- * @copyright   Copyright (c) 2011-2013 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
 class Modules extends ProjectBuilder
@@ -52,12 +52,13 @@ class Modules extends ProjectBuilder
 		'.phalcon'
 	);
 
-	/**
-	 * Create indexController file
-	 *
-	 * @return void
-	 */
-	private function createControllerFile($path, $name)
+    /**
+     * Create indexController file
+     *
+     * @param $path
+     * @param $name
+     */
+    private function createControllerFile($path, $name)
 	{
 		$modelBuilder = new \Phalcon\Builder\Controller(array(
 			'name' => 'index',
@@ -115,16 +116,15 @@ class Modules extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Creates the configuration
-	 *
-	 * @param $path
-	 * @param $name
-	 * @param $type
-	 *
-	 * @return void
-	 */
-	private function createConfig($path, $templatePath, $name, $type)
+    /**
+     * Creates the configuration
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $name
+     * @param $type
+     */
+    private function createConfig($path, $templatePath, $name, $type)
 	{
 		if (file_exists($path . 'apps/frontend/config/config.' . $type) == false) {
 			$str = file_get_contents($templatePath . '/project/modules/config.' . $type);
@@ -133,15 +133,14 @@ class Modules extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Create ControllerBase
-	 *
-	 * @param $path
-	 * @param $name
-	 *
-	 * @return void
-	 */
-	private function createControllerBase($path, $templatePath, $name)
+    /**
+     * Create ControllerBase
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $name
+     */
+    private function createControllerBase($path, $templatePath, $name)
 	{
 		if (file_exists($path . 'apps/frontend/controllers/ControllerBase.php') == false) {
 			$str = file_get_contents($templatePath . '/project/modules/ControllerBase.php');
@@ -150,15 +149,14 @@ class Modules extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Create ControllerBase
-	 *
-	 * @param $path
-	 * @param $name
-	 *
-	 * @return void
-	 */
-	private function createModule($path, $templatePath, $name)
+    /**
+     * Create ControllerBase
+     *
+     * @param $path
+     * @param $templatePath
+     * @param $name
+     */
+    private function createModule($path, $templatePath, $name)
 	{
 		if (file_exists($path . 'apps/frontend/Module.php') == false) {
 			$str = file_get_contents($templatePath . '/project/modules/Module.php');
@@ -167,12 +165,14 @@ class Modules extends ProjectBuilder
 		}
 	}
 
-	/**
-	 * Create Bootstrap file by default of application
-	 *
-	 * @return void
-	 */
-	private function createBootstrapFile($name, $path, $templatePath)
+    /**
+     * Create Bootstrap file by default of application
+     *
+     * @param $name
+     * @param $path
+     * @param $templatePath
+     */
+    private function createBootstrapFile($name, $path, $templatePath)
 	{
 		if (file_exists($path . 'public/index.php') == false) {
 			$str = file_get_contents($templatePath . '/project/modules/index.php');
@@ -196,7 +196,17 @@ class Modules extends ProjectBuilder
 		}
 	}
 
-	public function build($name, $path, $templatePath, $options)
+    /**
+     * Build project
+     *
+     * @param $name
+     * @param $path
+     * @param $templatePath
+     * @param $options
+     *
+     * @return bool
+     */
+    public function build($name, $path, $templatePath, $options)
 	{
 
 		$this->buildDirectories($this->_dirs,$path);

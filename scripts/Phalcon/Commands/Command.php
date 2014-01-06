@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -22,7 +22,8 @@ namespace Phalcon\Commands;
 
 use Phalcon\Script,
 	Phalcon\Script\Color,
-	Phalcon\Events\Manager as EventsManager;
+	Phalcon\Events\Manager as EventsManager,
+    Phalcon\Filter;
 
 /**
  * Phalcon\Commands\Command
@@ -70,8 +71,8 @@ abstract class Command
 	/**
 	 * Phalcon\Commands\Command
 	 *
-	 * @param \Phalco\Script $script
-	 * @param \Phalco\Events\Manager $eventsManager
+	 * @param \Phalcon\Script $script
+	 * @param \Phalcon\Events\Manager $eventsManager
 	 */
 	final public function __construct(Script $script, EventsManager $eventsManager)
 	{
@@ -124,7 +125,7 @@ abstract class Command
 	 * @param	array $parameters
 	 * @param	array $possibleAlias
 	 * @return	array
-	 * @throws	\Phalcon\Script\Exception
+	 * @throws	CommandsException
 	 */
 	public function parseParameters($parameters = array(), $possibleAlias = array())
 	{
@@ -263,12 +264,14 @@ abstract class Command
 		return $receivedParams;
 	}
 
-	/**
-	 * Check that a set of parameters has been received.
-	 *
-	 * @param array $required
-	 */
-	public function checkRequired($required)
+    /**
+     * Check that a set of parameters has been received.
+     *
+     * @param $required
+     *
+     * @throws CommandsException
+     */
+    public function checkRequired($required)
 	{
 		foreach ($required as $fieldRequired) {
 			if (!isset($this->_parameters[$fieldRequired])) {
@@ -277,12 +280,13 @@ abstract class Command
 		}
 	}
 
-	/**
-	 * Sets the output encoding of the script.
-	 *
-	 * @param string $encoding
-	 */
-	public function setEncoding($encoding)
+    /**
+     *  Sets the output encoding of the script.
+     * @param $encoding
+     *
+     * @return $this
+     */
+    public function setEncoding($encoding)
 	{
 		$this->_encoding = $encoding;
 		return $this;
@@ -291,28 +295,31 @@ abstract class Command
 	/**
 	 * Displays help for the script.
 	 *
-	 * @param array $posibleParameters
+	 * @param array $possibleParameters
 	 */
-	public function showHelp($posibleParameters)
+	public function showHelp($possibleParameters)
 	{
 		echo get_class($this).' - Usage:'.PHP_EOL.PHP_EOL;
-		foreach ($posibleParameters as $parameter => $description) {
+		foreach ($possibleParameters as $parameter => $description) {
 			echo html_entity_decode($description, ENT_COMPAT, $this->_encoding).PHP_EOL;
 		}
 	}
 
-	/**
-	 * Returns the value of an option received. If more parameters are taken as filters.
-	 *
-	 * @param string $option
-	 */
-	public function getOption($option, $filters=null, $defaultValue=null)
+    /**
+     * Returns the value of an option received. If more parameters are taken as filters.
+     * @param      $option
+     * @param null $filters
+     * @param null $defaultValue
+     *
+     * @return mixed|null
+     */
+    public function getOption($option, $filters=null, $defaultValue=null)
 	{
 		if (is_array($option)) {
 			foreach ($option as $optionItem) {
 				if (isset($this->_parameters[$optionItem])) {
 					if ($filters !== null) {
-						$filter = new \Phalcon\Filter();
+						$filter = new Filter();
 						return $filter->sanitize($this->_parameters[$optionItem], $filters);
 					}
 					return $this->_parameters[$optionItem];
@@ -322,7 +329,7 @@ abstract class Command
 		} else {
 			if (isset($this->_parameters[$option])) {
 				if ($filters !== null) {
-					$filter = new \Phalcon\Filter();
+					$filter = new Filter();
 					return $filter->sanitize($this->_parameters[$option], $filters);
 				}
 				return $this->_parameters[$option];
@@ -343,15 +350,17 @@ abstract class Command
 		return isset($this->_parameters[$option]);
 	}
 
-	/**
-	 * Filters a value
-	 *
-	 * @param	string $paramValue
-	 * @return	mixed
-	 */
-	protected function filter($paramValue, $filters)
+    /**
+     * Filters a value
+     *
+     * @param $paramValue
+     * @param $filters
+     *
+     * @return mixed
+     */
+    protected function filter($paramValue, $filters)
 	{
-		$filter = new \Phalcon\Filter();
+		$filter = new Filter();
 		return $filter->sanitize($paramValue, $filters);
 	}
 
@@ -370,76 +379,16 @@ abstract class Command
 		return false;
 	}
 
-	/**
-	 * Checks if exists a certain unnamed parameter
-	 *
-	 * @param int $number
-	 */
-	public function isSetUnNamedParam($number)
+    /**
+     * Checks if exists a certain unnamed parameter
+     *
+     * @param $number
+     *
+     * @return bool
+     */
+    public function isSetUnNamedParam($number)
 	{
 		return isset($this->_parameters[$number]);
-	}
-
-	/**
-	 * Displays a message in the text console.
-	 *
-	 * @param Exception $exception
-	 */
-	public static function showConsoleException($exception)
-	{
-
-		$isXTermColor = false;
-		if(isset($_ENV['TERM'])){
-			foreach(array('256color') as $term){
-				if(preg_match('/'.$term.'/', $_ENV['TERM'])){
-					$isXTermColor = true;
-				}
-			}
-		}
-
-		$isSupportedShell = false;
-		if ($isXTermColor) {
-			if (isset($_ENV['SHELL'])) {
-				foreach (array('bash', 'tcl') as $shell) {
-					if (preg_match('/'.$shell.'/', $_ENV['SHELL'])) {
-						$isSupportedShell = true;
-					}
-				}
-			}
-		}
-
-		ScriptColor::setFlags($isSupportedShell && $isSupportedShell);
-
-		$output   = "";
-		$output  .= ScriptColor::colorize(get_class($exception) . ': ', ScriptColor::RED, ScriptColor::BOLD);
-		$message  = str_replace("\"", "\\\"", $exception->getMessage());
-		$message .= ' (' . $exception->getCode() . ')';
-		$output  .= ScriptColor::colorize($message, ScriptColor::WHITE, ScriptColor::BOLD);
-		$output  .='\\n';
-
-		$output.= Highlight::getString(file_get_contents($exception->getFile()), 'console', array(
-			'firstLine' => ($exception->getLine() - 3 < 0 ? $exception->getLine() : $exception->getLine() - 3),
-			'lastLine' => $exception->getLine() + 3
-		));
-
-		$i = 1;
-		$getcwd = getcwd();
-		foreach ($exception->getTrace() as $trace) {
-			$output.= ScriptColor::colorize('#'.$i, ScriptColor::WHITE, ScriptColor::UNDERLINE);
-			$output.= ' ';
-			if (isset($trace['file'])) {
-				$file = str_replace($getcwd, '', $trace['file']);
-				$output.= ScriptColor::colorize($file.'\\n', ScriptColor::NORMAL);
-			}
-			$i++;
-		}
-
-		if($isSupportedShell){
-			system('echo -e "' . $output . '"');
-		} else {
-			echo $output;
-		}
-
 	}
 
 	/**
@@ -466,12 +415,12 @@ abstract class Command
 		}
 	}
 
-	/**
-	 * Returns the proccesed parameters
-	 *
-	 * @param array
-	 */
-	public function getParameters()
+    /**
+     * Returns the processed parameters
+     *
+     * @return string
+     */
+    public function getParameters()
 	{
 		return $this->_parameters;
 	}
