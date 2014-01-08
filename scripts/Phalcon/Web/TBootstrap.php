@@ -72,4 +72,53 @@ class TBootstrap
             copy($jqueryRoot . '/jquery.min.js' , $jsJqueryDir . '/jquery.min.js');
         }
     }
+
+    /**
+     * Remove Twitter Bootstrap resources
+     *
+     * @param  string $path
+     * @return void
+     */
+    public static function uninstall($path)
+    {
+        $js  = $path . 'public/js';
+        $css = $path . 'public/css';
+        $img = $path . 'public/img';
+
+        $installed = array(
+
+            // Files:
+            $js . '/bootstrap/bootstrap.min.js',
+            $js . '/bootstrap/index.html',
+            $js . '/jquery/jquery.min.js',
+            $js . '/jquery/index.html',
+            $css . '/bootstrap/bootstrap.min.css',
+            $css . '/bootstrap/bootstrap-responsive.min.css',
+            $css . '/bootstrap/index.html',
+            $img . '/bootstrap/glyphicons-halflings.png',
+            $img . '/bootstrap/index.html',
+
+            // Sub-directories:
+            $js . '/bootstrap',
+            $js . '/jquery',
+            $css . '/bootstrap',
+            $img . '/bootstrap',
+
+            // Directories:
+            $js,
+            $css,
+            $img
+        );
+
+        foreach ($installed as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            } elseif (is_dir($file)) {
+                // Check if other files were not added
+                if (count(glob($file . '/*')) === 0) {
+                    rmdir($file);
+                }
+            }
+        }
+    }
 }
