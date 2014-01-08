@@ -68,7 +68,7 @@ class Model extends Component
     /**
      * Returns the associated PHP type
      *
-     * @param string $type
+     * @param  string $type
      * @return string
      */
     public function getPHPType($type)
@@ -114,6 +114,7 @@ class Model extends Component
     public function set%s(\$%s)
     {
         \$this->%s = \$%s;
+
         return \$this;
     }
 ";
@@ -218,9 +219,14 @@ class Model extends Component
     }
 ";
 
+        $templateUse = 'use %s;';
+        $templateUseAs = 'use %s as %s;';
+
         $templateCode = "<?php
 %s
 %s
+%s
+
 class %s extends %s
 {
 %s
@@ -312,6 +318,9 @@ class %s extends %s
         } else {
             $configArray = $config->database;
         }
+
+        // An array for use statements
+        $uses = array();
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
@@ -449,6 +458,11 @@ class %s extends %s
                 $validations[] = sprintf(
                     $templateValidateEmail, $field->getName()
                 );
+                $uses[] = sprintf(
+                    $templateUseAs,
+                    'Phalcon\Mvc\Model\Validator\Email',
+                    'Email'
+                );
             }
         }
         if (count($validations)) {
@@ -580,10 +594,13 @@ class %s extends %s
             $content .= $this->_genColumnMapCode($fields);
         }
 
+        $str_use = implode("\n", $uses);
+
         $code = sprintf(
             $templateCode,
             $license,
             $namespace,
+            $str_use,
             $className,
             $extends,
             $content
@@ -597,7 +614,7 @@ class %s extends %s
 
     /**
      * Builds a PHP syntax with all the options in the array
-     * @param array $options
+     * @param  array  $options
      * @return string PHP syntax
      */
     private function _buildRelationOptions($options)
@@ -607,31 +624,29 @@ class %s extends %s
         }
 
         $values = array();
-        foreach ($options as $name=>$val)
-        {
+        foreach ($options as $name=>$val) {
             if (is_bool($val)) {
                 $val = $val ? 'true':'false';
-            }
-            else if (!is_numeric($val)) {
+            } elseif (!is_numeric($val)) {
                 $val = '"$val"';
             }
 
             $values[] = sprintf('"%s"=>%s', $name, $val);
         }
 
-
         $syntax = 'array('. implode(',', $values). ')';
 
         return $syntax;
     }
 
-    private function  _genColumnMapCode($fields)
+    private function _genColumnMapCode($fields)
     {
         $template = '
     /**
      * Independent Column Mapping.
      */
-    public function columnMap() {
+    public function columnMap()
+    {
         return array(
             %s
         );

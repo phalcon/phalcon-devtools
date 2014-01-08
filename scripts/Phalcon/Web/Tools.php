@@ -20,12 +20,10 @@
 
 namespace Phalcon\Web;
 
-use Phalcon\Version,
-	Phalcon\Script,
-	Phalcon\Script\Color,
-	Phalcon\Commands\CommandsListener,
-	Phalcon\Di\FactoryDefault,
-	Phalcon\Mvc\View;
+use Phalcon\Version;
+use Phalcon\Script;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\View;
 
 /**
  * Phalcon\Web\Tools
@@ -39,319 +37,358 @@ use Phalcon\Version,
  */
 class Tools
 {
-
     /**
      * @var \Phalcon\DI
      */
-    private static $_di;
-
-	private static $_path = '..';
-
-    private static $_admin_ip;
-
-	private static $_options = array(
-		'index' => array(
-			'caption' => 'Home',
-			'options' => array(
-				'index' => array(
-					'caption' => 'Welcome'
-				)
-			)
-		),
-		'controllers' => array(
-			'caption' => 'Controllers',
-			'options' => array(
-				'index' => array(
-					'caption' => 'Generate',
-				),
-				'list' => array(
-					'caption' => 'List',
-				)
-			)
-		),
-		'models' => array(
-			'caption' => 'Models',
-			'options' => array(
-				'index' => array(
-					'caption' => 'Generate'
-				),
-				'list' => array(
-					'caption' => 'List',
-				)
-			)
-		),
-		'scaffold' => array(
-			'caption' => 'Scaffold',
-			'options' => array(
-				'index' => array(
-					'caption' => 'Generate'
-				)
-			)
-		),
-		'migrations' => array(
-			'caption' => 'Migrations',
-			'options' => array(
-				'index' => array(
-					'caption' => 'Generate'
-				),
-				'run' => array(
-					'caption' => 'Run'
-				)
-			)
-		)
-	);
+    private static $di;
 
     /**
-     * @param $controllerName
+     * Optional IP address for securing Phalcon Developers Tools area
+     *
+     * @var string
+     */
+    private static $ip = null;
+
+    /**
+     * Navigation
+     *
+     * @var array
+     */
+    private static $options = array(
+        'index' => array(
+            'caption' => 'Home',
+            'options' => array(
+                'index' => array(
+                    'caption' => 'Welcome'
+                )
+            )
+        ),
+        'controllers' => array(
+            'caption' => 'Controllers',
+            'options' => array(
+                'index' => array(
+                    'caption' => 'Generate',
+                ),
+                'list' => array(
+                    'caption' => 'List',
+                )
+            )
+        ),
+        'models' => array(
+            'caption' => 'Models',
+            'options' => array(
+                'index' => array(
+                    'caption' => 'Generate'
+                ),
+                'list' => array(
+                    'caption' => 'List',
+                )
+            )
+        ),
+        'scaffold' => array(
+            'caption' => 'Scaffold',
+            'options' => array(
+                'index' => array(
+                    'caption' => 'Generate'
+                )
+            )
+        ),
+        'migrations' => array(
+            'caption' => 'Migrations',
+            'options' => array(
+                'index' => array(
+                    'caption' => 'Generate'
+                ),
+                'run' => array(
+                    'caption' => 'Run'
+                )
+            )
+        )
+    );
+
+    /**
+     * Print navigation menu of the given controller
+     *
+     * @param  string $controllerName
+     * @return void
      */
     public static function getNavMenu($controllerName)
-	{
-		$uri = self::getUrl()->get();
-		foreach (self::$_options as $controller => $option) {
-			if ($controllerName == $controller) {
-				echo '<li class="active">';
-			} else {
-				echo '<li>';
-			}
-			echo '<a href="'.$uri.'webtools.php?_url=/'.$controller.'">'.$option['caption'].'</a></li>'.PHP_EOL;
-		}
-	}
+    {
+        $uri = self::getUrl()->get();
+
+        foreach (self::$options as $controller => $option) {
+            if ($controllerName == $controller) {
+                echo '<li class="active">';
+            } else {
+                echo '<li>';
+            }
+
+            $ref = $uri . 'webtools.php?_url=/' . $controller;
+            echo '<a href="' . $ref . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
+        }
+    }
 
     /**
-     * @param $controllerName
-     * @param $actionName
+     * Print menu of the given controller action
+     *
+     * @param  string $controllerName
+     * @param  string $actionName
+     * @return void
      */
     public static function getMenu($controllerName, $actionName)
-	{
-		$uri = self::getUrl()->get();
-		foreach (self::$_options[$controllerName]['options'] as $action => $option) {
-			if ($actionName == $action) {
-				echo '<li class="active">';
-			} else {
-				echo '<li>';
-			}
-			echo '<a href="' . $uri . 'webtools.php?_url=/' . $controllerName . '/' . $action . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
-		}
-	}
+    {
+        $uri = self::getUrl()->get();
 
-	/**
-	 * Returns the config object in the services container
-	 *
-	 * @return \Phalcon\Config
-	 */
-	public static function getConfig()
-	{
-		return self::$_di->getShared('config');
-	}
+        foreach (self::$options[$controllerName]['options'] as $action => $option) {
+            if ($actionName == $action) {
+                echo '<li class="active">';
+            } else {
+                echo '<li>';
+            }
 
-	/**
-	 * Returns the config object in the services container
-	 *
-	 * @return \Phalcon\Mvc\Url
-	 */
-	public static function getUrl()
-	{
-		return self::$_di->getShared('url');
-	}
-
-	/**
-	 * Returns the config object in the services container
-	 *
-	 * @return \Phalcon\Mvc\Url
-	 */
-	public static function getConnection()
-	{
-		return self::$_di->getShared('db');
-	}
+            $ref = $uri . 'webtools.php?_url=/' . $controllerName . '/' . $action;
+            echo '<a href="' . $ref . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
+        }
+    }
 
     /**
-     * Returns a local path
+     * Return the config object in the services container
      *
-     * @param string $path
+     * @return \Phalcon\Config
+     */
+    public static function getConfig()
+    {
+        return self::$di->getShared('config');
+    }
+
+    /**
+     * Return the config object in the services container
+     *
+     * @return \Phalcon\Mvc\Url
+     */
+    public static function getUrl()
+    {
+        return self::$di->getShared('url');
+    }
+
+    /**
+     * Return the config object in the services container
+     *
+     * @return \Phalcon\Mvc\Url
+     */
+    public static function getConnection()
+    {
+        return self::$di->getShared('db');
+    }
+
+    /**
+     * Return an optional IP address for securing Phalcon Developers Tools area
      *
      * @return string
      */
-    public static function getPath($path='')
-	{
-		if ($path) {
-			return self::$_path.'/'.$path;
-		} else {
-			return self::$_path;
-		}
-	}
-
-    /**
-     * Executes the web tool application
-     *
-     * @param        $path
-     * @param string $admin_ip
-     *
-     * @throws \Phalcon\Exception
-     * @throws \Exception
-     */
-    public static function main($path,$admin_ip='')
-	{
-
-        self::$_admin_ip=$admin_ip;
-
-		chdir('..');
-
-		if (!extension_loaded('phalcon')) {
-			throw new \Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
-		}
-
-		//Read configuration
-		$configPaths = array(
-			'app/config',
-			'apps/frontend/config'
-		);
-
-		$readed = false;
-
-		foreach ($configPaths as $configPath) {
-			$cpath = $configPath . '/config.ini';
-
-			if (file_exists($cpath)) {
-				$config = new \Phalcon\Config\Adapter\Ini($cpath);
-				$readed = true;
-
-				break;
-			} else {
-				$cpath = $configPath . '/config.php';
-
-				if (file_exists($cpath)) {
-					$config = require $cpath;
-					$readed = true;
-
-					break;
-				}
-			}
-		}
-
-		if ($readed === false)
-			throw new \Phalcon\Exception('Configuration file could not be loaded');
-
-		$loader = new \Phalcon\Loader();
-
-		$loader->registerDirs(array(
-			$path . '/scripts/',
-			$path . '/scripts/Phalcon/Web/Tools/controllers/'
-		));
-
-		$loader->registerNamespaces(array(
-			'Phalcon' => $path . '/scripts/'
-		));
-
-		$loader->register();
-
-		if (Version::getId() < Script::COMPATIBLE_VERSION) {
-			throw new \Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
-		}
-
-		if (!defined('TEMPLATE_PATH')) {
-			define('TEMPLATE_PATH', $path . '/templates');
-		}
-
-		try {
-
-			$di = new FactoryDefault();
-
-			$di->set('view', function() use ($path) {
-				$view = new View();
-				$view->setViewsDir($path . '/scripts/Phalcon/Web/Tools/views/');
-				return $view;
-			});
-
-			$di->set('config', $config);
-
-			$di->set('url', function() use ($config) {
-				$url = new \Phalcon\Mvc\Url();
-				$url->setBaseUri($config->application->baseUri);
-				return $url;
-			});
-
-			$di->set('flash', function(){
-				return new \Phalcon\Flash\Direct(array(
-					'error' => 'alert alert-error',
-					'success' => 'alert alert-success',
-					'notice' => 'alert alert-info',
-				));
-			});
-
-			$di->set('db', function() use ($config) {
-
-				if (isset($config->database->adapter)) {
-					$adapter = $config->database->adapter;
-				} else {
-					$adapter = 'Mysql';
-				}
-
-				if (is_object($config->database)) {
-					$configArray = $config->database->toArray();
-				} else {
-					$configArray = $config->database;
-				}
-
-				$className = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
-				unset($configArray['adapter']);
-				return new $className($configArray);
-			});
-
-			self::$_di = $di;
-
-			$app = new \Phalcon\Mvc\Application();
-
-			$app->setDi($di);
-
-			echo $app->handle()->getContent();
-		}
-		catch(\Phalcon\Exception $e){
-			echo get_class($e), ': ', $e->getMessage(), "<br>";
-			echo nl2br($e->getTraceAsString());
-		}
-		catch(\PDOException $e){
-			echo get_class($e), ': ', $e->getMessage(), "<br>";
-			echo nl2br($e->getTraceAsString());
-		}
-	}
-
-	/**
-	 * Installs webtools
-	 *
-	 */
-	public static function install($path)
-	{
-		$path = rtrim(realpath($path), '/') . '/';
-		$tools = realpath(__DIR__ . '/../../../');
-
-		if (PHP_OS == 'WINNT') {
-			$path = str_replace("\\", '/', $path);
-			$tools = str_replace("\\", '/', $tools);
-		}
-
-		if ( ! is_dir($path . 'public/')) {
-			throw new \Exception('Document root cannot be located');
-		}
-
-		TBootstrap::install($path);
-		CodeMirror::install($path);
-
-		copy($tools . '/webtools.php', $path . 'public/webtools.php');
-
-		if ( ! file_exists($configPath = $path . 'public/webtools.config.php')) {
-			$code = "<?php\ndefine('PTOOLSPATH', '{$tools}');\n/* you can set ADMINIP as IP 192.168.0.1 or SUBNET 192. or 10.0.2. or 86.84.124. */\ndefine('ADMINIP', '192.168.');\n";
-			file_put_contents($configPath, $code);
-		}
-	}
-
-    /**
-     * Returns ADMINIP config object from the webtools.config.php
-     *
-     * @return string $_admin_ip
-     */
-    public static function getAdminIP()
+    public static function getToolsIp()
     {
-            return self::$_admin_ip;
+        return self::$ip;
     }
 
+    /**
+     * Execute Phalcon Developer Tools
+     *
+     * @param  string             $path The path to the Phalcon Developer Tools
+     * @param  string             $ip   Optional IP address for securing Developer Tools
+     * @return void
+     * @throws \Exception         if Phalcon extension is not installed
+     * @throws \Exception         if Phalcon version is not compatible Developer Tools
+     * @throws \Phalcon\Exception if Application config could not be loaded
+     */
+    public static function main($path, $ip = null)
+    {
+        if ( ! extension_loaded('phalcon'))
+            throw new \Exception('Phalcon extension is not installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
+
+        if ($ip !== null) {
+            self::$ip = $ip;
+        }
+
+        if ( ! defined('TEMPLATE_PATH')) {
+            define('TEMPLATE_PATH', $path . '/templates');
+        }
+
+        chdir('..');
+
+        // Read configuration
+        $configPaths = array(
+            'config',
+            'app/config',
+            'apps/frontend/config'
+        );
+
+        $readed = false;
+
+        foreach ($configPaths as $configPath) {
+            $cpath = $configPath . '/config.ini';
+
+            if (file_exists($cpath)) {
+                $config = new \Phalcon\Config\Adapter\Ini($cpath);
+                $readed = true;
+
+                break;
+            } else {
+                $cpath = $configPath . '/config.php';
+
+                if (file_exists($cpath)) {
+                    $config = require $cpath;
+                    $readed = true;
+
+                    break;
+                }
+            }
+        }
+
+        if ($readed === false)
+            throw new \Phalcon\Exception('Configuration file could not be loaded!');
+
+        $loader = new \Phalcon\Loader();
+
+        $loader->registerDirs(array(
+            $path . '/scripts/',
+            $path . '/scripts/Phalcon/Web/Tools/controllers/'
+        ));
+
+        $loader->registerNamespaces(array(
+            'Phalcon' => $path . '/scripts/'
+        ));
+
+        $loader->register();
+
+        if (Version::getId() < Script::COMPATIBLE_VERSION) {
+            throw new \Exception('Your Phalcon version is not compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
+        }
+
+        try {
+
+            $di = new FactoryDefault();
+
+            $di->set('view', function () use ($path) {
+                $view = new View();
+                $view->setViewsDir($path . '/scripts/Phalcon/Web/Tools/views/');
+
+                return $view;
+            });
+
+            $di->set('config', $config);
+
+            $di->set('url', function () use ($config) {
+                $url = new \Phalcon\Mvc\Url();
+                $url->setBaseUri($config->application->baseUri);
+
+                return $url;
+            });
+
+            $di->set('flash', function () {
+                return new \Phalcon\Flash\Direct(array(
+                    'error' => 'alert alert-error',
+                    'success' => 'alert alert-success',
+                    'notice' => 'alert alert-info',
+                ));
+            });
+
+            $di->set('db', function () use ($config) {
+
+                if (isset($config->database->adapter)) {
+                    $adapter = $config->database->adapter;
+                } else {
+                    $adapter = 'Mysql';
+                }
+
+                if (is_object($config->database)) {
+                    $configArray = $config->database->toArray();
+                } else {
+                    $configArray = $config->database;
+                }
+
+                $className = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+                unset($configArray['adapter']);
+
+                return new $className($configArray);
+            });
+
+            self::$di = $di;
+
+            $app = new \Phalcon\Mvc\Application();
+
+            $app->setDi($di);
+
+            echo $app->handle()->getContent();
+        } catch (\Phalcon\Exception $e) {
+            echo get_class($e), ': ', $e->getMessage(), "<br>";
+            echo nl2br($e->getTraceAsString());
+        } catch (\PDOException $e) {
+            echo get_class($e), ': ', $e->getMessage(), "<br>";
+            echo nl2br($e->getTraceAsString());
+        }
+    }
+
+    /**
+     * Install webtools
+     *
+     * @param  string     $path
+     * @return void
+     * @throws \Exception if document root cannot be located
+     */
+    public static function install($path)
+    {
+        $path = rtrim(realpath($path), '/') . '/';
+        $tools = realpath(__DIR__ . '/../../../');
+
+        if (PHP_OS == 'WINNT') {
+            $path = str_replace("\\", '/', $path);
+            $tools = str_replace("\\", '/', $tools);
+        }
+
+        if ( ! is_dir($path . 'public/')) {
+            throw new \Exception('Document root cannot be located');
+        }
+
+        TBootstrap::install($path);
+        CodeMirror::install($path);
+
+        copy($tools . '/webtools.php', $path . 'public/webtools.php');
+
+        if ( ! file_exists($configPath = $path . 'public/webtools.config.php')) {
+            $template = file_get_contents(TEMPLATE_PATH . '/webtools.config.php');
+            $code = str_replace('@@PATH@@', $tools, $template);
+
+            file_put_contents($configPath, $code);
+        }
+    }
+
+    /**
+     * Uninstall webtools
+     *
+     * @param  string $path
+     * @return void
+     */
+    public static function uninstall($path)
+    {
+        $path = rtrim(realpath($path), '/') . '/';
+        if (PHP_OS == 'WINNT') {
+            $path = str_replace("\\", '/', $path);
+        }
+
+        if ( ! is_dir($path . 'public/')) {
+            throw new \Exception('Document root cannot be located');
+        }
+
+        TBootstrap::uninstall($path);
+        CodeMirror::uninstall($path);
+
+        if (is_file($path . 'public/webtools.config.php')) {
+            unlink($path . 'public/webtools.config.php');
+        }
+
+        if (is_file($path . 'public/webtools.php')) {
+            unlink($path . 'public/webtools.php');
+        }
+    }
 }

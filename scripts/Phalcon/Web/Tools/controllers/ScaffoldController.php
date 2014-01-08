@@ -18,68 +18,67 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag,
-	Phalcon\Web\Tools,
-	Phalcon\Builder\BuilderException,
-	Phalcon\Builder\Scaffold;
+use Phalcon\Tag;
+use Phalcon\Web\Tools;
+use Phalcon\Builder\BuilderException;
+use Phalcon\Builder\Scaffold;
 
 class ScaffoldController extends ControllerBase
 {
 
-	public function indexAction()
-	{
+    public function indexAction()
+    {
 
-		$this->_listTables();
+        $this->listTables();
 
         $this->view->templateEngines = array(
             'volt' => 'volt',
             'php' => 'php'
         );
 
-	}
+    }
 
-	/**
-	 * Generate Scaffold
-	 */
-	public function generateAction()
-	{
+    /**
+     * Generate Scaffold
+     */
+    public function generateAction()
+    {
 
-		if ($this->request->isPost()) {
+        if ($this->request->isPost()) {
 
-			$schema = $this->request->getPost('schema', 'string');
-			$tableName = $this->request->getPost('tableName', 'string');
-			$version = $this->request->getPost('version', 'string');
-			$templateEngine = $this->request->getPost('templateEngine');
-			$force = $this->request->getPost('force', 'int');
-			$genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
+            $schema = $this->request->getPost('schema', 'string');
+            $tableName = $this->request->getPost('tableName', 'string');
+            $version = $this->request->getPost('version', 'string');
+            $templateEngine = $this->request->getPost('templateEngine');
+            $force = $this->request->getPost('force', 'int');
+            $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
 
-			try {
+            try {
 
-				$scaffoldBuilder = new Scaffold(array(
-					'name' => $tableName,
-					'schema' => $schema,
-					'force'	=> $force,
-					'genSettersGetters' => $genSettersGetters,
-					'directory' => null,
-					'templatePath' => TEMPLATE_PATH,
-					'templateEngine' => $templateEngine
-				));
+                $scaffoldBuilder = new Scaffold(array(
+                    'name' => $tableName,
+                    'schema' => $schema,
+                    'force'	=> $force,
+                    'genSettersGetters' => $genSettersGetters,
+                    'directory' => null,
+                    'templatePath' => TEMPLATE_PATH,
+                    'templateEngine' => $templateEngine
+                ));
 
-				$scaffoldBuilder->build();
+                $scaffoldBuilder->build();
 
-				$this->flash->success('Scaffold for table "'.$tableName.'" was generated successfully');
+                $this->flash->success('Scaffold for table "'.$tableName.'" was generated successfully');
 
-			}
-			catch (BuilderException $e) {
-				$this->flash->error($e->getMessage());
-			}
+            } catch (BuilderException $e) {
+                $this->flash->error($e->getMessage());
+            }
 
-		}
+        }
 
-		return $this->dispatcher->forward(array(
-			'controller' => 'scaffold',
-			'action' => 'index'
-		));
-	}
+        return $this->dispatcher->forward(array(
+            'controller' => 'scaffold',
+            'action' => 'index'
+        ));
+    }
 
 }
