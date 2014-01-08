@@ -218,6 +218,7 @@ class Tools
 
         // Read configuration
         $configPaths = array(
+            'config',
             'app/config',
             'apps/frontend/config'
         );
