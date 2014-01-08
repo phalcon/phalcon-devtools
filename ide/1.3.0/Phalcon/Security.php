@@ -160,5 +160,25 @@ namespace Phalcon {
 		 */
 		public static function computeHmac($data, $key, $algo, $raw=null){ }
 
+
+		/**
+		 * Derives a key from the given password (PBKDF2).
+		 *
+		 * @param string $password Source password
+		 * @param string $salt The salt to use for the derivation; this value should be generated randomly.
+		 * @param string $hash Hash function (SHA-512 by default)
+		 * @param int $iterations The number of internal iterations to perform for the derivation, by default 5000
+		 * @param int $size The length of the output string. If 0 is passed (the default), the entire output of the supplied hash algorithm is used
+		 * @return string The derived key
+		 */
+		public static function deriveKey($password, $salt, $hash=null, $iterations=null, $size=null){ }
+
+
+		/**
+		 * @internal
+		 * @brief This method is used only for internal tests, use \Phalcon\Security::deriveKey() instead
+		 */
+		public static function pbkdf2($password, $salt, $hash=null, $iterations=null, $size=null){ }
+
 	}
 }

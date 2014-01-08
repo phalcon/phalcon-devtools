@@ -80,7 +80,7 @@ namespace Phalcon\Validation\Message {
 		 * $messages->appendMessage(new \Phalcon\Validation\Message('This is a message'));
 		 *</code>
 		 *
-		 * @param \Phalcon\Validation\MessageInterface $message
+		 * @param \Phalcon\Validation\Message $message
 		 */
 		public function appendMessage($message){ }
 

@@ -9,6 +9,6 @@ namespace Phalcon\Http\Request {
 	 *
 	 */
 	
-	class Exception extends \Phalcon\DI\Exception {
+	class Exception extends \Phalcon\Exception {
 	}
 }

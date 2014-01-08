@@ -9,6 +9,6 @@ namespace Phalcon\Loader {
 	 *
 	 */
 	
-	class Exception extends \Phalcon\DI\Exception {
+	class Exception extends \Phalcon\Exception {
 	}
 }
