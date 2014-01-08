@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-require 'webtools.config.php';
-require PTOOLSPATH.'/scripts/Phalcon/Web/Tools.php';
+use Phalcon\Web\Tools;
 
-Phalcon\Web\Tools::main(PTOOLSPATH,ADMINIP);
+require 'webtools.config.php';
+require PTOOLSPATH . '/scripts/Phalcon/Web/Tools.php';
+
+Tools::main(PTOOLSPATH, PTOOLS_IP);

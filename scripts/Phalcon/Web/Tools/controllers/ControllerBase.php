@@ -19,52 +19,75 @@
 */
 
 use Phalcon\Web\Tools;
+use Phalcon\Mvc\Controller;
 
-class ControllerBase extends \Phalcon\Mvc\Controller
+class ControllerBase extends Controller
 {
-
     /**
+     * Initialize controller
      *
+     * @return void
      */
     public function initialize()
-	{
-		$this->_checkAccess();
-	}
+    {
+        $this->checkAccess();
+    }
 
-	/**
-	 * Checks remote address ip to disable remote activity
-	 */
-	protected function _checkAccess()
-	{
-        if (isset($_SERVER['REMOTE_ADDR']) && ($_SERVER['REMOTE_ADDR']=='127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1' || ( (strpos($_SERVER['REMOTE_ADDR'],Tools::getAdminIP())) === 0) ) ) {
+    /**
+     * Check remote IP address to disable remote activity
+     *
+     * @return void
+     * @throws \Phalcon\Exception if connected remotely
+     */
+    protected function checkAccess()
+    {
+        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : false;
+
+        if ($ip && ($ip == '127.0.0.1' || $ip == '::1' || $this->checkToolsIp($ip)))
             return false;
+
+        throw new \Phalcon\Exception('WebTools can only be used on the local machine (Your IP: ' . $ip . ') or you can make changes in webtools.config.php file to allow IP or NET');
+    }
+
+    /**
+     * List database tables
+     *
+     * @param  bool $all
+     * @return void
+     */
+    protected function listTables($all = false)
+    {
+        $config = Tools::getConfig();
+        $connection = Tools::getConnection();
+
+        if ($all) {
+            $tables = array('all' => 'All');
         } else {
-            throw new Phalcon\Exception('WebTools can only be used on the local machine (Your IP: ' . $_SERVER['REMOTE_ADDR'] . ') or you can make changes in webtools.config.php file to allow IP or NET');
-		}
-	}
+            $tables = array();
+        }
 
-	protected function _listTables($all=false)
-	{
-		$config = Tools::getConfig();
-		$connection = Tools::getConnection();
+        $dbTables = $connection->listTables();
+        foreach ($dbTables as $dbTable) {
+            $tables[$dbTable] = $dbTable;
+        }
 
-		if ($all) {
-			$tables = array('all' => 'All');
-		} else {
-			$tables = array();
-		}
+        $this->view->tables = $tables;
+        if ($config->database->adapter != 'Sqlite') {
+            $this->view->databaseName = $config->database->dbname;
+        } else {
+            $this->view->databaseName = null;
+        }
+    }
 
-		$dbTables = $connection->listTables();
-		foreach ($dbTables as $dbTable) {
-			$tables[$dbTable] = $dbTable;
-		}
-
-		$this->view->tables = $tables;
-		if ($config->database->adapter != 'Sqlite') {
-			$this->view->databaseName = $config->database->dbname;
-		} else {
-			$this->view->databaseName = null;
-		}
-	}
-
+    /**
+     * Check if IP address for securing Phalcon Developers Tools area matches
+     * the given
+     *
+     * @param  string $ip
+     * @return bool
+     */
+    private function checkToolsIp($ip)
+    {
+        return strpos($ip, Tools::getToolsIp()) === 0;
+    }
 }

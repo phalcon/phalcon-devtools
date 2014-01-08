@@ -20,10 +20,10 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color,
-	Phalcon\Commands\Command,
-	Phalcon\Commands\CommandsInterface,
-	Phalcon\Web\Tools;
+use Phalcon\Script\Color;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsInterface;
+use Phalcon\Web\Tools;
 
 /**
  * Phalcon\Commands\Webtools
@@ -32,86 +32,102 @@ use Phalcon\Script\Color,
  */
 class Webtools extends Command implements CommandsInterface
 {
+    /**
+     * Possible command parameters
+     *
+     * @var array
+     */
+    protected $params = array(
+        'action=s' => 'Enables/Disables webtools in a project'
+    );
 
-	protected $_possibleParameters = array(
-		'action'		=> "Enables/Disables webtools in a project",
-		'directory=s' 	=> "Base path on which project will be created",
-	);
+    /**
+     * Return an array of possible command parameters
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return $this->params;
+    }
 
-	public function run($parameters)
-	{
+    /**
+     * Run the command
+     *
+     * @param  array $parameters
+     * @return void
+     */
+    public function run($parameters)
+    {
+        $action = $this->getOption(array('action', 1));
+        $directory = './';
 
-		$action = $this->getOption(array('action', 1));
-		$directory = $this->getOption(array('directory'));
+        if ($action == 'enable') {
+            if (file_exists($directory . 'public/webtools.php'))
+                throw new \Exception('Webtools are already enabled!');
 
-		if (!$directory) {
-			$directory = __DIR__ . '/../../../../';
-		}
+            Tools::install($directory);
 
-		if ($action == 'enable') {
-			Tools::install($directory);
-		} else {
-			if ($action == 'disable') {
-				Tools::install($directory);
-			} else {
-				throw new \Exception("Invalid action");
-			}
-		}
+            echo Color::success('Webtools successfully enabled!');
+        } elseif ($action == 'disable') {
+            if ( ! file_exists($directory . 'public/webtools.php'))
+                throw new \Exception('Webtools are already disabled!');
 
-		if ($action == 'enable') {
-			print Color::success('Webtools successfully enabled') . PHP_EOL;
-		} else {
-			if ($action == 'disable') {
-				print Color::success('Webtools successfully disabled') . PHP_EOL;
-			}
-		}
-	}
+            Tools::uninstall($directory);
 
-	/**
-	 * Returns the commands provided by the command
-	 *
-	 * @return string|array
-	 */
-	public function getCommands()
-	{
-		return array('webtools');
-	}
+            echo Color::success('Webtools successfully disabled!');
+        } else {
+            throw new \Exception('Invalid action!');
+        }
+    }
 
-	/**
-	 * Checks whether the command can be executed outside a Phalcon project
-	 */
-	public function canBeExternal()
-	{
-		return false;
-	}
+    /**
+     * Return the commands provided by the command
+     *
+     * @return array
+     */
+    public function getCommands()
+    {
+        return array('webtools');
+    }
 
-	/**
-	 * Prints help on the usage of the command
-	 *
-	 */
-	public function getHelp()
-	{
-		print Color::head('Help:') . PHP_EOL;
-		print Color::colorize('  Enables/disables webtools in a project') . PHP_EOL . PHP_EOL;
+    /**
+     * Check whether the command can be executed outside a Phalcon project
+     *
+     * @return bool
+     */
+    public function canBeExternal()
+    {
+        return false;
+    }
 
-		print Color::head('Usage:') . PHP_EOL;
-		print Color::colorize('  webtools [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+    /**
+     * Print the help on the usage of the command
+     *
+     * @return void
+     */
+    public function getHelp()
+    {
+        echo Color::head('Help:') . PHP_EOL;
+        echo Color::colorize('  Enables/disables webtools in a project') . PHP_EOL . PHP_EOL;
 
-		print Color::head('Arguments:') . PHP_EOL;
-		print Color::colorize('  ?', Color::FG_GREEN);
-	  	print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
+        echo Color::head('Usage:') . PHP_EOL;
+        echo Color::colorize('  webtools [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
-		$this->printParameters($this->_possibleParameters);
-	}
+        echo Color::head('Arguments:') . PHP_EOL;
+        echo Color::colorize('  ?', Color::FG_GREEN);
+        echo Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-	/**
-	 * Returns number of required parameters for this command
-	 *
-	 * @return int
-	 */
-	public function getRequiredParams()
-	{
-		return 1;
-	}
+        $this->echoParameters($this->params);
+    }
 
+    /**
+     * Return the number of required parameters for this command
+     *
+     * @return int
+     */
+    public function getRequiredParams()
+    {
+        return 1;
+    }
 }
