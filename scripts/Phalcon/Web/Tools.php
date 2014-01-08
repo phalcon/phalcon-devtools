@@ -20,12 +20,10 @@
 
 namespace Phalcon\Web;
 
-use Phalcon\Version,
-    Phalcon\Script,
-    Phalcon\Script\Color,
-    Phalcon\Commands\CommandsListener,
-    Phalcon\Di\FactoryDefault,
-    Phalcon\Mvc\View;
+use Phalcon\Version;
+use Phalcon\Script;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\View;
 
 /**
  * Phalcon\Web\Tools
@@ -39,17 +37,24 @@ use Phalcon\Version,
  */
 class Tools
 {
-
     /**
      * @var \Phalcon\DI
      */
-    private static $_di;
+    private static $di;
 
-    private static $_path = '..';
+    /**
+     * Optional IP address for securing Phalcon Developers Tools area
+     *
+     * @var string
+     */
+    private static $ip = null;
 
-    private static $_admin_ip;
-
-    private static $_options = array(
+    /**
+     * Navigation
+     *
+     * @var array
+     */
+    private static $options = array(
         'index' => array(
             'caption' => 'Home',
             'options' => array(
@@ -102,105 +107,116 @@ class Tools
     );
 
     /**
-     * @param $controllerName
+     * Print navigation menu of the given controller
+     *
+     * @param  string $controllerName
+     * @return void
      */
     public static function getNavMenu($controllerName)
     {
         $uri = self::getUrl()->get();
-        foreach (self::$_options as $controller => $option) {
+
+        foreach (self::$options as $controller => $option) {
             if ($controllerName == $controller) {
                 echo '<li class="active">';
             } else {
                 echo '<li>';
             }
-            echo '<a href="'.$uri.'webtools.php?_url=/'.$controller.'">'.$option['caption'].'</a></li>'.PHP_EOL;
+
+            $ref = $uri . 'webtools.php?_url=/' . $controller;
+            echo '<a href="' . $ref . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
         }
     }
 
     /**
-     * @param $controllerName
-     * @param $actionName
+     * Print menu of the given controller action
+     *
+     * @param  string $controllerName
+     * @param  string $actionName
+     * @return void
      */
     public static function getMenu($controllerName, $actionName)
     {
         $uri = self::getUrl()->get();
-        foreach (self::$_options[$controllerName]['options'] as $action => $option) {
+
+        foreach (self::$options[$controllerName]['options'] as $action => $option) {
             if ($actionName == $action) {
                 echo '<li class="active">';
             } else {
                 echo '<li>';
             }
-            echo '<a href="' . $uri . 'webtools.php?_url=/' . $controllerName . '/' . $action . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
+
+            $ref = $uri . 'webtools.php?_url=/' . $controllerName . '/' . $action;
+            echo '<a href="' . $ref . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
         }
     }
 
     /**
-     * Returns the config object in the services container
+     * Return the config object in the services container
      *
      * @return \Phalcon\Config
      */
     public static function getConfig()
     {
-        return self::$_di->getShared('config');
+        return self::$di->getShared('config');
     }
 
     /**
-     * Returns the config object in the services container
+     * Return the config object in the services container
      *
      * @return \Phalcon\Mvc\Url
      */
     public static function getUrl()
     {
-        return self::$_di->getShared('url');
+        return self::$di->getShared('url');
     }
 
     /**
-     * Returns the config object in the services container
+     * Return the config object in the services container
      *
      * @return \Phalcon\Mvc\Url
      */
     public static function getConnection()
     {
-        return self::$_di->getShared('db');
+        return self::$di->getShared('db');
     }
 
     /**
-     * Returns a local path
-     *
-     * @param string $path
+     * Return an optional IP address for securing Phalcon Developers Tools area
      *
      * @return string
      */
-    public static function getPath($path='')
+    public static function getToolsIp()
     {
-        if ($path) {
-            return self::$_path.'/'.$path;
-        } else {
-            return self::$_path;
-        }
+        return self::$ip;
     }
 
     /**
-     * Executes the web tool application
+     * Execute Phalcon Developer Tools
      *
-     * @param        $path
-     * @param string $admin_ip
-     *
-     * @throws \Phalcon\Exception
-     * @throws \Exception
+     * @param  string             $path The path to the Phalcon Developer Tools
+     * @param  string             $ip   Optional IP address for securing Developer Tools
+     * @return void
+     * @throws \Exception         if Phalcon extension is not installed
+     * @throws \Exception         if Phalcon version is not compatible Developer Tools
+     * @throws \Phalcon\Exception if Application config could not be loaded
      */
-    public static function main($path,$admin_ip='')
+    public static function main($path, $ip = null)
     {
+        if ( ! extension_loaded('phalcon'))
+            throw new \Exception('Phalcon extension is not installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
 
-        self::$_admin_ip=$admin_ip;
+        if ($ip !== null) {
+            self::$ip = $ip;
+        }
+
+        if ( ! defined('TEMPLATE_PATH')) {
+            define('TEMPLATE_PATH', $path . '/templates');
+        }
 
         chdir('..');
 
-        if (!extension_loaded('phalcon')) {
-            throw new \Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
-        }
-
-        //Read configuration
+        // Read configuration
         $configPaths = array(
             'app/config',
             'apps/frontend/config'
@@ -229,7 +245,7 @@ class Tools
         }
 
         if ($readed === false)
-            throw new \Phalcon\Exception('Configuration file could not be loaded');
+            throw new \Phalcon\Exception('Configuration file could not be loaded!');
 
         $loader = new \Phalcon\Loader();
 
@@ -245,11 +261,7 @@ class Tools
         $loader->register();
 
         if (Version::getId() < Script::COMPATIBLE_VERSION) {
-            throw new \Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
-        }
-
-        if (!defined('TEMPLATE_PATH')) {
-            define('TEMPLATE_PATH', $path . '/templates');
+            throw new \Exception('Your Phalcon version is not compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
         }
 
         try {
@@ -300,7 +312,7 @@ class Tools
                 return new $className($configArray);
             });
 
-            self::$_di = $di;
+            self::$di = $di;
 
             $app = new \Phalcon\Mvc\Application();
 
@@ -319,8 +331,9 @@ class Tools
     /**
      * Install webtools
      *
-     * @param  string $path
+     * @param  string     $path
      * @return void
+     * @throws \Exception if document root cannot be located
      */
     public static function install($path)
     {
@@ -342,7 +355,9 @@ class Tools
         copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
         if ( ! file_exists($configPath = $path . 'public/webtools.config.php')) {
-            $code = "<?php\ndefine('PTOOLSPATH', '{$tools}');\n/* you can set ADMINIP as IP 192.168.0.1 or SUBNET 192. or 10.0.2. or 86.84.124. */\ndefine('ADMINIP', '192.168.');\n";
+            $template = file_get_contents(TEMPLATE_PATH . '/webtools.config.php');
+            $code = str_replace('@@PATH@@', $tools, $template);
+
             file_put_contents($configPath, $code);
         }
     }
@@ -375,15 +390,4 @@ class Tools
             unlink($path . 'public/webtools.php');
         }
     }
-
-    /**
-     * Returns ADMINIP config object from the webtools.config.php
-     *
-     * @return string $_admin_ip
-     */
-    public static function getAdminIP()
-    {
-            return self::$_admin_ip;
-    }
-
 }
