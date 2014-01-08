@@ -2,7 +2,7 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
   | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
@@ -20,9 +20,9 @@
 
 namespace Phalcon;
 
-use \Phalcon\Script\Color;
-use \Phalcon\Version\Item as VersionItem;
-use \Phalcon\Mvc\Model\Migration as ModelMigration;
+use Phalcon\Script\Color;
+use Phalcon\Version\Item as VersionItem;
+use Phalcon\Mvc\Model\Migration as ModelMigration;
 
 class Migrations
 {
