@@ -20,9 +20,19 @@
 
 namespace Phalcon\Web;
 
-abstract class TBootstrap
+/**
+ * Phalcon\Web\TBootstrap
+ *
+ * Install/Uninstall Twitter Bootstrap resources
+ */
+class TBootstrap
 {
-
+    /**
+     * Install Twitter Bootstrap resources
+     *
+     * @param  string $path
+     * @return void
+     */
     public static function install($path)
     {
         // Set paths
@@ -35,29 +45,28 @@ abstract class TBootstrap
         $css = $path . 'public/css/bootstrap';
         $img = $path . 'public/img/bootstrap';
 
-        //Install bootstrap
-        if ( !is_dir($jsBootstrapDir) ) {
+        // Install bootstrap
+        if ( ! is_dir($jsBootstrapDir) ) {
             mkdir($jsBootstrapDir , 0777 , true);
             touch($jsBootstrapDir . '/index.html');
             copy($bootstrapRoot . '/js/bootstrap.min.js' , $jsBootstrapDir . '/bootstrap.min.js');
-            copy($bootstrapRoot . '/js/bootstrap.min.js' , $jsBootstrapDir . '/bootstrap.min.js');
         }
 
-        if ( !is_dir($css) ) {
+        if ( ! is_dir($css) ) {
             mkdir($css , 0777 , true);
             touch($css . '/index.html');
             copy($bootstrapRoot . '/css/bootstrap.min.css' , $css . '/bootstrap.min.css');
             copy($bootstrapRoot . '/css/bootstrap-responsive.min.css' , $css . '/bootstrap-responsive.min.css');
         }
 
-        if ( !is_dir($img) ) {
+        if ( ! is_dir($img) ) {
             mkdir($img , 0777 , true);
             touch($img . '/index.html');
             copy($bootstrapRoot . '/img/glyphicons-halflings.png' , $img . '/glyphicons-halflings.png');
         }
 
-        //Install jquery
-        if ( !is_dir($jsJqueryDir) ) {
+        // Install jQuery
+        if ( ! is_dir($jsJqueryDir) ) {
             mkdir($jsJqueryDir , 0777 , true);
             touch($jsJqueryDir . '/index.html');
             copy($jqueryRoot . '/jquery.min.js' , $jsJqueryDir . '/jquery.min.js');
