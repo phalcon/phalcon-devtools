@@ -55,6 +55,8 @@ namespace Phalcon\Mvc\Router {
 
 		protected $_converters;
 
+		protected $_name;
+
 		/**
 		 * \Phalcon\Mvc\Router\Group constructor
 		 *
@@ -257,6 +259,23 @@ namespace Phalcon\Mvc\Router {
 		 * @return array|null
 		 */
 		public function getConverters(){ }
+
+
+		/**
+		 * Set the name of the group
+		 *
+		 * @param string $hostname
+		 * @return \Phalcon\Mvc\Router\Group
+		 */
+		public function setName($name){ }
+
+
+		/**
+		 * Returns the name of this group
+		 *
+		 * @return string
+		 */
+		public function getName(){ }
 
 	}
 }
