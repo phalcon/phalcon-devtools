@@ -18,7 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
 use Phalcon\Web\Tools;
 use Phalcon\Builder\BuilderException;
 
@@ -29,121 +28,120 @@ class MigrationsController extends ControllerBase
      * @return string
      */
     protected function _getMigrationsDir()
-	{
-		$migrationsDir = 'app/migrations';
-		if(!file_exists($migrationsDir)){
-			mkdir($migrationsDir);
-		}
-		return $migrationsDir;
-	}
+    {
+        $migrationsDir = 'app/migrations';
+        if (!file_exists($migrationsDir)) {
+            mkdir($migrationsDir);
+        }
 
-	protected function _prepareVersions()
-	{
+        return $migrationsDir;
+    }
 
-		$migrationsDir = $this->_getMigrationsDir();
+    protected function _prepareVersions()
+    {
 
-		$folders = array();
+        $migrationsDir = $this->_getMigrationsDir();
 
-		$iterator = new DirectoryIterator($migrationsDir);
-		foreach($iterator as $fileinfo){
-			if(!$fileinfo->isDot()){
-				$folders[$fileinfo->getFileName()] = $fileinfo->getFileName();
-			}
-		}
+        $folders = array();
 
-		natsort($folders);
-		$folders = array_reverse($folders);
-		$foldersKeys = array_keys($folders);
+        $iterator = new DirectoryIterator($migrationsDir);
+        foreach ($iterator as $fileinfo) {
+            if (!$fileinfo->isDot()) {
+                $folders[$fileinfo->getFileName()] = $fileinfo->getFileName();
+            }
+        }
 
-		if(isset($foldersKeys[0])){
-			$this->view->setVar('version', $foldersKeys[0]);
-		} else {
-			$this->view->setVar('version', 'None');
-		}
+        natsort($folders);
+        $folders = array_reverse($folders);
+        $foldersKeys = array_keys($folders);
 
-	}
+        if (isset($foldersKeys[0])) {
+            $this->view->setVar('version', $foldersKeys[0]);
+        } else {
+            $this->view->setVar('version', 'None');
+        }
 
-	public function indexAction()
-	{
-		$this->_prepareVersions();
-		$this->_listTables();
-	}
+    }
 
-	/**
-	 * Generates migrations
-	 */
-	public function generateAction()
-	{
+    public function indexAction()
+    {
+        $this->_prepareVersions();
+        $this->listTables();
+    }
 
-		 if ($this->request->isPost()) {
+    /**
+     * Generates migrations
+     */
+    public function generateAction()
+    {
 
-			$exportData = '';
-			$tableName = $this->request->getPost('table-name', 'string');
-			$version = $this->request->getPost('version', 'string');
-			$force = $this->request->getPost('force', 'int');
+         if ($this->request->isPost()) {
 
-			$migrationsDir = $this->_getMigrationsDir();
+            $exportData = '';
+            $tableName = $this->request->getPost('table-name', 'string');
+            $version = $this->request->getPost('version', 'string');
+            $force = $this->request->getPost('force', 'int');
 
-			try {
+            $migrationsDir = $this->_getMigrationsDir();
 
-				\Phalcon\Migrations::generate(array(
-					'config' => Tools::getConfig(),
-					'directory' => null,
-					'tableName' => $tableName,
-					'exportData' => $exportData,
-					'migrationsDir' => $migrationsDir,
-					'originalVersion' => $version,
-					'force' => $force
-				));
+            try {
 
-				$this->flash->success("The migration was generated successfully");
-			}
-			catch(BuilderException $e){
-				$this->flash->error($e->getMessage());
-			}
+                \Phalcon\Migrations::generate(array(
+                    'config' => Tools::getConfig(),
+                    'directory' => null,
+                    'tableName' => $tableName,
+                    'exportData' => $exportData,
+                    'migrationsDir' => $migrationsDir,
+                    'originalVersion' => $version,
+                    'force' => $force
+                ));
 
-		}
+                $this->flash->success("The migration was generated successfully");
+            } catch (BuilderException $e) {
+                $this->flash->error($e->getMessage());
+            }
 
-		return $this->dispatcher->forward(array(
-			'controller' => 'migrations',
-			'action' => 'index'
-		));
+        }
 
-	}
+        return $this->dispatcher->forward(array(
+            'controller' => 'migrations',
+            'action' => 'index'
+        ));
+
+    }
 
     /*
      *
      */
-	public function runAction()
-	{
+    public function runAction()
+    {
 
-		if ($this->request->isPost()) {
+        if ($this->request->isPost()) {
 
-			$version = '';
-			$exportData = '';
-			$force = $this->request->getPost('force', 'int');
+            $version = '';
+            $exportData = '';
+            $force = $this->request->getPost('force', 'int');
 
-			try {
+            try {
 
-				$migrationsDir = $this->_getMigrationsDir();
+                $migrationsDir = $this->_getMigrationsDir();
 
-				\Phalcon\Migrations::run(array(
-					'config' => Tools::getConfig(),
-					'directory' => null,
-					'tableName' => 'all',
-					'migrationsDir' => $migrationsDir,
-					'force' => $force
-				));
+                \Phalcon\Migrations::run(array(
+                    'config' => Tools::getConfig(),
+                    'directory' => null,
+                    'tableName' => 'all',
+                    'migrationsDir' => $migrationsDir,
+                    'force' => $force
+                ));
 
-				$this->flash->success("The migration was executed successfully");
-			}
-			catch (BuilderException $e) {
-				$this->flash->error($e->getMessage());
-			}
-		}
+                $this->flash->success("The migration was executed successfully");
+            } catch (BuilderException $e) {
+                $this->flash->error($e->getMessage());
+            }
+        }
 
-		$this->_prepareVersions();
+        $this->_prepareVersions();
 
-	}
+    }
 
 }
