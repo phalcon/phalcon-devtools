@@ -104,7 +104,7 @@ class AllModels extends Component
 
         if (isset($this->_options['schema'])) {
             $schema = $this->_options['schema'];
-        } else if ($adapter == 'Postgresql') {
+        } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
         } else {
             $schema = isset($config->database->schema)?$config->database->schema:$config->database->dbname;
@@ -200,10 +200,10 @@ class AllModels extends Component
 
                 $modelBuilder->build();
             } else {
-                if( $this->isConsole() ){
+                if ( $this->isConsole() ) {
 
                     print Color::info("Skipping model \"$name\" because it already exist");
-                }else{
+                } else {
                     $this->exist[] = $name;
                 }
             }
@@ -211,4 +211,3 @@ class AllModels extends Component
 
     }
 }
-

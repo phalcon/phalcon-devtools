@@ -21,8 +21,8 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Script\Color,
-	Phalcon\Commands\Command,
-	Phalcon\Commands\CommandsInterface;
+    Phalcon\Commands\Command,
+    Phalcon\Commands\CommandsInterface;
 
 /**
  * Phalcon\Commands\Enumerate
@@ -32,64 +32,64 @@ use Phalcon\Script\Color,
 class Enumerate extends Command implements CommandsInterface
 {
 
-	protected $_possibleParameters = array();
+    protected $_possibleParameters = array();
 
     /**
      * @param $parameters
      */
     public function run($parameters)
-	{
-		print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
-		foreach ($this->getScript()->getCommands() as $commands) {
-			$providedCommands = $commands->getCommands();
-			print '  ' . Color::colorize($providedCommands[0], Color::FG_GREEN);
-			unset($providedCommands[0]);
-			if (count($providedCommands)) {
-				print ' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
-			}
-			print PHP_EOL;
-		}
-		print PHP_EOL;
-	}
+    {
+        print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
+        foreach ($this->getScript()->getCommands() as $commands) {
+            $providedCommands = $commands->getCommands();
+            print '  ' . Color::colorize($providedCommands[0], Color::FG_GREEN);
+            unset($providedCommands[0]);
+            if (count($providedCommands)) {
+                print ' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
+            }
+            print PHP_EOL;
+        }
+        print PHP_EOL;
+    }
 
-	/**
-	 * Returns the commands provided by the command
-	 *
-	 * @return string|array
-	 */
-	public function getCommands()
-	{
-		return array('commands', 'list', 'enumerate');
-	}
+    /**
+     * Returns the commands provided by the command
+     *
+     * @return string|array
+     */
+    public function getCommands()
+    {
+        return array('commands', 'list', 'enumerate');
+    }
 
-	/**
-	 * Checks whether the command can be executed outside a Phalcon project
-	 */
-	public function canBeExternal()
-	{
-		return true;
-	}
+    /**
+     * Checks whether the command can be executed outside a Phalcon project
+     */
+    public function canBeExternal()
+    {
+        return true;
+    }
 
-	/**
-	 * Prints help on the usage of the command
-	 *
-	 */
-	public function getHelp()
-	{
-		print Color::head('Help:') . PHP_EOL;
-		print Color::colorize('  Lists the commands available in Phalcon devtools') . PHP_EOL . PHP_EOL;
+    /**
+     * Prints help on the usage of the command
+     *
+     */
+    public function getHelp()
+    {
+        print Color::head('Help:') . PHP_EOL;
+        print Color::colorize('  Lists the commands available in Phalcon devtools') . PHP_EOL . PHP_EOL;
 
-		$this->run(array());
-	}
+        $this->run(array());
+    }
 
-	/**
-	 * Returns number of required parameters for this command
-	 *
-	 * @return int
-	 */
-	public function getRequiredParams()
-	{
-		return 0;
-	}
+    /**
+     * Returns number of required parameters for this command
+     *
+     * @return int
+     */
+    public function getRequiredParams()
+    {
+        return 0;
+    }
 
 }

@@ -3,10 +3,10 @@
 class VersionTask extends \Phalcon\CLI\Task
 {
 
-    public function mainAction() {
+    public function mainAction()
+    {
         $config = $this->getDI()->get("config");
         echo $config["version"];
     }
 
 }
-

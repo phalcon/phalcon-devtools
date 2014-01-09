@@ -30,7 +30,6 @@ namespace Phalcon\Builder;
  * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-class BuilderException extends \Phalcon\Exception {
-
+class BuilderException extends \Phalcon\Exception
+{
 }
-
