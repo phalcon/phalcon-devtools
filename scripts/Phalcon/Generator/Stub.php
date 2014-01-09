@@ -22,298 +22,299 @@ namespace Phalcon\Generator;
 
 class Stub
 {
-	/**
-	 * @var \ReflectionExtension
-	 */
-	protected $_extension;
+    /**
+     * @var \ReflectionExtension
+     */
+    protected $_extension;
 
-	/**
-	 * @var string
-	 */
-	protected $_targetDir;
+    /**
+     * @var string
+     */
+    protected $_targetDir;
 
-	/**
-	 * @param string $extension
-	 * @param string $targetDir
-	 *
-	 * @return \Phalcon\Generator\Stub
-	 * @throws \Exception
-	 */
-	public function __construct($extension, $targetDir)
-	{
-		if (!extension_loaded($extension)) {
-			throw new \Exception("Extension '{$extension}' was not loaded");
-		}
+    /**
+     * @param string $extension
+     * @param string $targetDir
+     *
+     * @return \Phalcon\Generator\Stub
+     * @throws \Exception
+     */
+    public function __construct($extension, $targetDir)
+    {
+        if (!extension_loaded($extension)) {
+            throw new \Exception("Extension '{$extension}' was not loaded");
+        }
 
-		$this->_extension = new \ReflectionExtension($extension);
-		$this->_targetDir = rtrim($targetDir, DIRECTORY_SEPARATOR);
+        $this->_extension = new \ReflectionExtension($extension);
+        $this->_targetDir = rtrim($targetDir, DIRECTORY_SEPARATOR);
 
-		if (is_dir($this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion())) {
-			$this->_cleanup($this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion());
-		}
-	}
+        if (is_dir($this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion())) {
+            $this->_cleanup($this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion());
+        }
+    }
 
-	/**
-	 * @return void
-	 */
-	public function generate()
-	{
-		$this->_generateFileStructure();
-	}
+    /**
+     * @return void
+     */
+    public function generate()
+    {
+        $this->_generateFileStructure();
+    }
 
-	/**
-	 * @return void
-	 */
-	protected function _generateFileStructure()
-	{
-		$classes = $this->_extension->getClassNames();
+    /**
+     * @return void
+     */
+    protected function _generateFileStructure()
+    {
+        $classes = $this->_extension->getClassNames();
 
-		foreach ($classes as $class) {
-			$reflectionClass = new \ReflectionClass($class);
+        foreach ($classes as $class) {
+            $reflectionClass = new \ReflectionClass($class);
 
-			$output = "<?php\n\n";
-			$output .= $this->_exportNamespace($reflectionClass);
-			$output .= $this->_exportDefinition($reflectionClass);
-			$output .= "\n{\n\n";
-			$output .= $this->_exportClassConstants($reflectionClass);
-			$output .= $this->_exportClassProperties($reflectionClass);
-			$output .= $this->_exportClassMethods($reflectionClass);
-			$output .= "}";
+            $output = "<?php\n\n";
+            $output .= $this->_exportNamespace($reflectionClass);
+            $output .= $this->_exportDefinition($reflectionClass);
+            $output .= "\n{\n\n";
+            $output .= $this->_exportClassConstants($reflectionClass);
+            $output .= $this->_exportClassProperties($reflectionClass);
+            $output .= $this->_exportClassMethods($reflectionClass);
+            $output .= "}";
 
-			$dir_class = str_replace('\\', DIRECTORY_SEPARATOR, $reflectionClass->getNamespaceName());
-			$dir = $this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion() . DIRECTORY_SEPARATOR . $dir_class;
+            $dir_class = str_replace('\\', DIRECTORY_SEPARATOR, $reflectionClass->getNamespaceName());
+            $dir = $this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion() . DIRECTORY_SEPARATOR . $dir_class;
 
-			if (!is_dir($dir)) {
-				mkdir($dir, 0777, true);
-			}
+            if (!is_dir($dir)) {
+                mkdir($dir, 0777, true);
+            }
 
-			$file = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-			$path = $this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion() . DIRECTORY_SEPARATOR . $file;
+            $file = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+            $path = $this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion() . DIRECTORY_SEPARATOR . $file;
 
-			$fp = fopen($path, 'w+');
-			fputs($fp, $output);
-			fclose($fp);
-		}
-	}
+            $fp = fopen($path, 'w+');
+            fputs($fp, $output);
+            fclose($fp);
+        }
+    }
 
-	/**
-	 * @param \ReflectionClass $reflectionClass
-	 * @return string
-	 */
-	protected function _exportNamespace(\ReflectionClass $reflectionClass)
-	{
-		return 'namespace ' . $reflectionClass->getNamespaceName() . ";\n\n";
-	}
+    /**
+     * @param  \ReflectionClass $reflectionClass
+     * @return string
+     */
+    protected function _exportNamespace(\ReflectionClass $reflectionClass)
+    {
+        return 'namespace ' . $reflectionClass->getNamespaceName() . ";\n\n";
+    }
 
-	/**
-	 * @param \ReflectionClass $reflectionClass
-	 * @return string
-	 */
-	protected function _exportDefinition(\ReflectionClass $reflectionClass)
-	{
-		$definition = array($this->_removeNamespace($reflectionClass));
+    /**
+     * @param  \ReflectionClass $reflectionClass
+     * @return string
+     */
+    protected function _exportDefinition(\ReflectionClass $reflectionClass)
+    {
+        $definition = array($this->_removeNamespace($reflectionClass));
 
-		if ($reflectionClass->isInterface()) {
-			array_unshift($definition, 'interface');
-		} else {
-			array_unshift($definition, 'class');
+        if ($reflectionClass->isInterface()) {
+            array_unshift($definition, 'interface');
+        } else {
+            array_unshift($definition, 'class');
 
-			if ($reflectionClass->isFinal()) {
-				array_unshift($definition, 'final');
-			}
+            if ($reflectionClass->isFinal()) {
+                array_unshift($definition, 'final');
+            }
 
-			if ($reflectionClass->isAbstract()) {
-				array_unshift($definition, 'abstract');
-			}
-		}
+            if ($reflectionClass->isAbstract()) {
+                array_unshift($definition, 'abstract');
+            }
+        }
 
-		$parent = $reflectionClass->getParentClass();
-		if (method_exists('getName', $parent)) {
-			array_push($definition, 'extends');
-			array_push($definition, $parent->getName());
-		}
+        $parent = $reflectionClass->getParentClass();
+        if (method_exists('getName', $parent)) {
+            array_push($definition, 'extends');
+            array_push($definition, $parent->getName());
+        }
 
-		$interfaces = $reflectionClass->getInterfaceNames();
-		if (is_array($interfaces) && count($interfaces) > 0) {
-			array_push($definition, 'implements');
-			array_push($definition, implode(', ', $interfaces));
-		}
+        $interfaces = $reflectionClass->getInterfaceNames();
+        if (is_array($interfaces) && count($interfaces) > 0) {
+            array_push($definition, 'implements');
+            array_push($definition, implode(', ', $interfaces));
+        }
 
-		return trim(implode(' ', $definition));
-	}
+        return trim(implode(' ', $definition));
+    }
 
-	/**
-	 * @param \ReflectionClass $reflectionClass
-	 * @return string
-	 */
-	protected function _removeNamespace(\ReflectionClass $reflectionClass)
-	{
-		$class = str_replace($reflectionClass->getNamespaceName(), '', $reflectionClass->getName());
-		return ltrim($class, '\\');
-	}
+    /**
+     * @param  \ReflectionClass $reflectionClass
+     * @return string
+     */
+    protected function _removeNamespace(\ReflectionClass $reflectionClass)
+    {
+        $class = str_replace($reflectionClass->getNamespaceName(), '', $reflectionClass->getName());
 
-	/**
-	 * @param \ReflectionClass $reflectionClass
-	 * @return null|string
-	 */
-	protected function _exportClassConstants(\ReflectionClass $reflectionClass)
-	{
-		$constants = $reflectionClass->getConstants();
-		$all = array();
+        return ltrim($class, '\\');
+    }
 
-		if (!empty($constants)) {
-			foreach ($constants as $name => $value) {
-				array_push($all, sprintf("\tconst %s = %s;", $name, $value));
-			}
-		}
+    /**
+     * @param  \ReflectionClass $reflectionClass
+     * @return null|string
+     */
+    protected function _exportClassConstants(\ReflectionClass $reflectionClass)
+    {
+        $constants = $reflectionClass->getConstants();
+        $all = array();
 
-		if (!empty($all)) {
-			return implode("\n", $all);
-		}
+        if (!empty($constants)) {
+            foreach ($constants as $name => $value) {
+                array_push($all, sprintf("\tconst %s = %s;", $name, $value));
+            }
+        }
 
-		return null;
-	}
+        if (!empty($all)) {
+            return implode("\n", $all);
+        }
 
-	/**
-	 * @param \ReflectionClass $reflectionClass
-	 * @return null|string
-	 */
-	protected function _exportClassProperties(\ReflectionClass $reflectionClass)
-	{
-		$properties = $reflectionClass->getProperties();
+        return null;
+    }
 
-		if (empty($properties)) {
-			return null;
-		}
+    /**
+     * @param  \ReflectionClass $reflectionClass
+     * @return null|string
+     */
+    protected function _exportClassProperties(\ReflectionClass $reflectionClass)
+    {
+        $properties = $reflectionClass->getProperties();
 
-		$output = '';
+        if (empty($properties)) {
+            return null;
+        }
 
-		foreach ($properties as $property) {
-			$doc = array("\t/**");
-			if ($property->isStatic()) {
-				$doc[] = sprintf("\t * @static");
-			}
-			$doc[] = sprintf("\t * @var $%s", $property->getName());
-			$doc[] = "\t */\n";
-			$output .= implode("\n", $doc);
+        $output = '';
 
-			$var = array();
-			if ($property->isPrivate()) {
-				$var[] = 'private';
-			} else if ($property->isProtected()) {
-				$var[] = 'protected';
-			} else if ($property->isPublic()) {
-				$var[] = 'public';
-			}
+        foreach ($properties as $property) {
+            $doc = array("\t/**");
+            if ($property->isStatic()) {
+                $doc[] = sprintf("\t * @static");
+            }
+            $doc[] = sprintf("\t * @var $%s", $property->getName());
+            $doc[] = "\t */\n";
+            $output .= implode("\n", $doc);
 
-			if ($property->isStatic()) {
-				$var[] = 'static';
-			}
+            $var = array();
+            if ($property->isPrivate()) {
+                $var[] = 'private';
+            } elseif ($property->isProtected()) {
+                $var[] = 'protected';
+            } elseif ($property->isPublic()) {
+                $var[] = 'public';
+            }
 
-			$var[] = sprintf('$%s;', $property->getName());
-			$output .= "\t" . implode(' ', $var) . "\n\n";
-		}
+            if ($property->isStatic()) {
+                $var[] = 'static';
+            }
 
-		return $output;
-	}
+            $var[] = sprintf('$%s;', $property->getName());
+            $output .= "\t" . implode(' ', $var) . "\n\n";
+        }
 
-	/**
-	 * @param \ReflectionClass $reflectionClass
-	 * @return null|string
-	 */
-	protected function _exportClassMethods(\ReflectionClass $reflectionClass)
-	{
-		$methods = $reflectionClass->getMethods();
+        return $output;
+    }
 
-		if (empty($methods)) {
-			return null;
-		}
+    /**
+     * @param  \ReflectionClass $reflectionClass
+     * @return null|string
+     */
+    protected function _exportClassMethods(\ReflectionClass $reflectionClass)
+    {
+        $methods = $reflectionClass->getMethods();
 
-		$output = '';
+        if (empty($methods)) {
+            return null;
+        }
 
-		foreach ($methods as $method) {
-			$doc = array("\t/**");
-			$func = array();
+        $output = '';
 
-			if ($method->isFinal()) {
-				$doc[] = sprintf("\t * @final");
-				$func[] = 'final';
-			}
+        foreach ($methods as $method) {
+            $doc = array("\t/**");
+            $func = array();
 
-			if ($method->isPrivate()) {
-				$func[] = 'private';
-			} else if ($method->isProtected()) {
-				$func[] = 'protected';
-			} else if($method->isPublic()) {
-				$func[] = 'public';
-			}
+            if ($method->isFinal()) {
+                $doc[] = sprintf("\t * @final");
+                $func[] = 'final';
+            }
 
-			if ($method->isStatic()) {
-				$doc[] = sprintf("\t * @static");
-				$func[] = 'static';
-			}
+            if ($method->isPrivate()) {
+                $func[] = 'private';
+            } elseif ($method->isProtected()) {
+                $func[] = 'protected';
+            } elseif ($method->isPublic()) {
+                $func[] = 'public';
+            }
 
-			$func[] = 'function';
+            if ($method->isStatic()) {
+                $doc[] = sprintf("\t * @static");
+                $func[] = 'static';
+            }
 
-			$params = array();
+            $func[] = 'function';
 
-			if ($method->getNumberOfParameters() > 0) {
-				foreach ($method->getParameters() as $parameter) {
-					$name = $parameter->getName();
-					$_doc = '';
-					$param = '$' . $name;
+            $params = array();
 
-					if ($parameter->isOptional() && $parameter->isDefaultValueAvailable()) {
-						if ($parameter->isArray()) {
-							$param .= ' = ' . print_r($parameter->getDefaultValue(), true);
-							$_doc .= 'array ';
-						} else {
-							if (gettype($method->getDefaultValue()) == 'string') {
-								$param .= " = '" . $method->getDefaultValue() . "'";
-							} else {
-								$param .= " = " . $method->getDefaultValue();
-							}
+            if ($method->getNumberOfParameters() > 0) {
+                foreach ($method->getParameters() as $parameter) {
+                    $name = $parameter->getName();
+                    $_doc = '';
+                    $param = '$' . $name;
 
-							$_doc .= gettype($method->getDefaultValue()) . ' ';
-						}
-					} else if ($parameter->isDefaultValueAvailable()) {
-						$param = '&' . $param;
-					}
+                    if ($parameter->isOptional() && $parameter->isDefaultValueAvailable()) {
+                        if ($parameter->isArray()) {
+                            $param .= ' = ' . print_r($parameter->getDefaultValue(), true);
+                            $_doc .= 'array ';
+                        } else {
+                            if (gettype($method->getDefaultValue()) == 'string') {
+                                $param .= " = '" . $method->getDefaultValue() . "'";
+                            } else {
+                                $param .= " = " . $method->getDefaultValue();
+                            }
 
-					$_doc .= '$';
-					$doc[] = sprintf("\t * @param %s", $_doc . $name);
-					$params[] = $param;
-				}
-			}
+                            $_doc .= gettype($method->getDefaultValue()) . ' ';
+                        }
+                    } elseif ($parameter->isDefaultValueAvailable()) {
+                        $param = '&' . $param;
+                    }
 
-			$func[] = $method->getName() . '(' . implode(', ', $params) . ')';
+                    $_doc .= '$';
+                    $doc[] = sprintf("\t * @param %s", $_doc . $name);
+                    $params[] = $param;
+                }
+            }
 
-			$doc[] = "\t */\n";
-			$func[] = "\n\t{}\n";
-			$output .= implode("\n", $doc);
-			$output .= "\t" . implode(' ', $func) . "\n";
-		}
+            $func[] = $method->getName() . '(' . implode(', ', $params) . ')';
 
-		return $output;
-	}
+            $doc[] = "\t */\n";
+            $func[] = "\n\t{}\n";
+            $output .= implode("\n", $doc);
+            $output .= "\t" . implode(' ', $func) . "\n";
+        }
 
-	/**
-	 * @param string $dir
-	 */
-	protected function _cleanup($dir)
-	{
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir), \RecursiveIteratorIterator::CHILD_FIRST);
+        return $output;
+    }
 
-		foreach ($iterator as $path) {
-			if ($path->isDir() && !in_array($path->getFileName(), array('.', '..'))) {
-				rmdir($path->getPathName());
-			} else if ($path->isFile() && !in_array($path->getFileName(), array('.', '..'))) {
-				unlink($path->getPathName());
-			}
-		}
+    /**
+     * @param string $dir
+     */
+    protected function _cleanup($dir)
+    {
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir), \RecursiveIteratorIterator::CHILD_FIRST);
 
-		rmdir($dir);
-	}
+        foreach ($iterator as $path) {
+            if ($path->isDir() && !in_array($path->getFileName(), array('.', '..'))) {
+                rmdir($path->getPathName());
+            } elseif ($path->isFile() && !in_array($path->getFileName(), array('.', '..'))) {
+                unlink($path->getPathName());
+            }
+        }
+
+        rmdir($dir);
+    }
 }
 
 $s = new Stub('phalcon', __DIR__ . '/../../../ide/phpstorm');

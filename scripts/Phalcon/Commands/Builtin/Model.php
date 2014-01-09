@@ -21,11 +21,11 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Text,
-	Phalcon\Builder,
-	Phalcon\Script\Color,
-	Phalcon\Commands\Command,
-	Phalcon\Commands\CommandsInterface,
-	Phalcon\Builder\Model as ModelBuilder;
+    Phalcon\Builder,
+    Phalcon\Script\Color,
+    Phalcon\Commands\Command,
+    Phalcon\Commands\CommandsInterface,
+    Phalcon\Builder\Model as ModelBuilder;
 
 /**
  * CreateModel
@@ -41,34 +41,34 @@ use Phalcon\Text,
 class Model extends Command implements CommandsInterface
 {
 
-	protected $_possibleParameters = array(
-		'name=s'          => "Table name",
-		'schema=s'        => "Name of the schema. [optional]",
-		'namespace=s'     => "Model's namespace [optional]",
-		'get-set'         => "Attributes will be protected and have setters/getters. [optional]",
+    protected $_possibleParameters = array(
+        'name=s'          => "Table name",
+        'schema=s'        => "Name of the schema. [optional]",
+        'namespace=s'     => "Model's namespace [optional]",
+        'get-set'         => "Attributes will be protected and have setters/getters. [optional]",
         'extends=s'       => 'Model extends the class name supplied [optional]',
         'excludefields=l' => 'Excludes fields defined in a comma separated list [optional]',
-		'doc'             => "Helps to improve code completion on IDEs [optional]",
-		'directory=s'     => "Base path on which project will be created [optional]",
-		'force'           => "Rewrite the model. [optional]",
-		'trace'           => "Shows the trace of the framework in case of exception. [optional]",
+        'doc'             => "Helps to improve code completion on IDEs [optional]",
+        'directory=s'     => "Base path on which project will be created [optional]",
+        'force'           => "Rewrite the model. [optional]",
+        'trace'           => "Shows the trace of the framework in case of exception. [optional]",
         'mapcolumn'       => 'Get some code for map columns. [optional]',
-	);
+    );
 
     /**
      * @param $parameters
      */
     public function run($parameters)
-	{
+    {
 
-		$name = $this->getOption(array('name', 1));
+        $name = $this->getOption(array('name', 1));
 
-		$className = Text::camelize(isset($parameters[1]) ? $parameters[1] : $name);
-		$fileName = Text::uncamelize($className);
+        $className = Text::camelize(isset($parameters[1]) ? $parameters[1] : $name);
+        $fileName = Text::uncamelize($className);
 
-		$schema = $this->getOption('schema');
+        $schema = $this->getOption('schema');
 
-		$modelBuilder = new ModelBuilder(
+        $modelBuilder = new ModelBuilder(
             array(
                 'name'              => $name,
                 'schema'            => $schema,
@@ -82,57 +82,57 @@ class Model extends Command implements CommandsInterface
                 'excludeFields'     => $this->getOption('excludefields'),
                 'force'             => $this->isReceivedOption('force'),
                 'mapColumn'         => $this->isReceivedOption('mapcolumn'),
-		    )
+            )
         );
 
-		$modelBuilder->build();
-	}
+        $modelBuilder->build();
+    }
 
-	/**
-	 * Returns the commands provided by the command
-	 *
-	 * @return array
-	 */
-	public function getCommands()
-	{
-		return array('model', 'create-model');
-	}
+    /**
+     * Returns the commands provided by the command
+     *
+     * @return array
+     */
+    public function getCommands()
+    {
+        return array('model', 'create-model');
+    }
 
-	/**
-	 * Checks whether the command can be executed outside a Phalcon project
-	 */
-	public function canBeExternal()
-	{
-		return false;
-	}
+    /**
+     * Checks whether the command can be executed outside a Phalcon project
+     */
+    public function canBeExternal()
+    {
+        return false;
+    }
 
-	/**
-	 * Prints the help for current command.
-	 *
-	 * @return void
-	 */
-	public function getHelp()
-	{
-		print Color::head('Help:') . PHP_EOL;
-		print Color::colorize('  Creates a model') . PHP_EOL . PHP_EOL;
+    /**
+     * Prints the help for current command.
+     *
+     * @return void
+     */
+    public function getHelp()
+    {
+        print Color::head('Help:') . PHP_EOL;
+        print Color::colorize('  Creates a model') . PHP_EOL . PHP_EOL;
 
-		print Color::head('Usage:') . PHP_EOL;
-		print Color::colorize('  model [table-name] [options]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::head('Usage:') . PHP_EOL;
+        print Color::colorize('  model [table-name] [options]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
-		print Color::head('Arguments:') . PHP_EOL;
-		print Color::colorize('  ?', Color::FG_GREEN);
-		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
+        print Color::head('Arguments:') . PHP_EOL;
+        print Color::colorize('  ?', Color::FG_GREEN);
+        print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		$this->printParameters($this->_possibleParameters);
-	}
+        $this->printParameters($this->_possibleParameters);
+    }
 
-	/**
-	 * Returns number of required parameters for this command
-	 *
-	 * @return int
-	 */
-	public function getRequiredParams()
-	{
-		return 1;
-	}
+    /**
+     * Returns number of required parameters for this command
+     *
+     * @return int
+     */
+    public function getRequiredParams()
+    {
+        return 1;
+    }
 }

@@ -3,20 +3,15 @@
 use Phalcon\DI\FactoryDefault\CLI as CliDI,
     Phalcon\CLI\Console as ConsoleApp;
 
-
 /**
  * Read auto-loader
  */
 include __DIR__ . '/config/loader.php';
 
-
-
 /**
  * Read the configuration
  */
 $config = include __DIR__ . '/config/config.php';
-
-
 
 /**
  * Read the services
@@ -24,15 +19,11 @@ $config = include __DIR__ . '/config/config.php';
 $di = new CliDI();
 include __DIR__ . '/config/services.php';
 
-
-
 /**
  * Create a console application
  */
 $console = new ConsoleApp();
 $console->setDI($di);
-
-
 
 /**
  * Process the console arguments
@@ -40,12 +31,12 @@ $console->setDI($di);
 $arguments = array();
 $params = array();
 
-foreach($argv as $k => $arg) {
-    if($k == 1) {
+foreach ($argv as $k => $arg) {
+    if ($k == 1) {
         $arguments['task'] = $arg;
-    } elseif($k == 2) {
+    } elseif ($k == 2) {
         $arguments['action'] = $arg;
-    } elseif($k >= 3) {
+    } elseif ($k >= 3) {
         $arguments['params'][] = $arg;
     }
 }
@@ -55,7 +46,6 @@ try {
      * Handle
      */
     $console->handle($arguments);
-
 
     /**
      * If configs is set to true, then we print a new line at the end of each execution
@@ -68,8 +58,7 @@ try {
      */
     if(isset($config["printNewLine"]) && $config["printNewLine"] )
         echo PHP_EOL;
-}
-catch (\Phalcon\Exception $e) {
+} catch (\Phalcon\Exception $e) {
     echo $e->getMessage();
     exit(255);
 }

@@ -1,5 +1,5 @@
 <?php
 
-$di->set("config",function() use ($config){
+$di->set("config",function () use ($config) {
     return $config;
 });

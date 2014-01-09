@@ -21,10 +21,10 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder,
-	Phalcon\Script\Color,
-	Phalcon\Commands\Command,
-	Phalcon\Commands\CommandsInterface,
-	Phalcon\Builder\Controller as ControllerBuilder;
+    Phalcon\Script\Color,
+    Phalcon\Commands\Command,
+    Phalcon\Commands\CommandsInterface,
+    Phalcon\Builder\Controller as ControllerBuilder;
 
 /**
  * CreateController
@@ -40,79 +40,79 @@ use Phalcon\Builder,
 class Controller extends Command implements CommandsInterface
 {
 
-	protected $_possibleParameters = array(
-		'name=s' 		=> "Model name",
-		'namespace=s'	=> "Model's namespace [option]",
-		'directory=s'   => "Directory where the controller should be created [optional]",
-		'base-class=s'	=> "Base class to be inherited by the controller [optional]",
-		'force'			=> "Force to rewrite controller [optional]",
-	);
+    protected $_possibleParameters = array(
+        'name=s' 		=> "Model name",
+        'namespace=s'	=> "Model's namespace [option]",
+        'directory=s'   => "Directory where the controller should be created [optional]",
+        'base-class=s'	=> "Base class to be inherited by the controller [optional]",
+        'force'			=> "Force to rewrite controller [optional]",
+    );
 
-	/**
-	 * Run the command
-	 */
-	public function run($parameters)
-	{
+    /**
+     * Run the command
+     */
+    public function run($parameters)
+    {
 
-		$controllerName = $this->getOption(array('name', 1));
+        $controllerName = $this->getOption(array('name', 1));
 
-		$controllerBuilder = new ControllerBuilder(array(
-			'name' => $controllerName,
-			'directory' => $this->getOption('directory'),
-			'namespace' => $this->getOption('namespace'),
-			'baseClass' => $this->getOption('base-class'),
-			'force' => $this->isReceivedOption('force')
-		));
+        $controllerBuilder = new ControllerBuilder(array(
+            'name' => $controllerName,
+            'directory' => $this->getOption('directory'),
+            'namespace' => $this->getOption('namespace'),
+            'baseClass' => $this->getOption('base-class'),
+            'force' => $this->isReceivedOption('force')
+        ));
 
-		return $controllerBuilder->build();
-	}
+        return $controllerBuilder->build();
+    }
 
-	/**
-	 * Returns the command identifier
-	 *
-	 * @return string
-	 */
-	public function getCommands()
-	{
-		return array('controller', 'create-controller');
-	}
+    /**
+     * Returns the command identifier
+     *
+     * @return string
+     */
+    public function getCommands()
+    {
+        return array('controller', 'create-controller');
+    }
 
-	/**
-	 * Checks whether the command can be executed outside a Phalcon project
-	 */
-	public function canBeExternal()
-	{
-		return false;
-	}
+    /**
+     * Checks whether the command can be executed outside a Phalcon project
+     */
+    public function canBeExternal()
+    {
+        return false;
+    }
 
-	/**
-	 * Prints the help for current command.
-	 *
-	 * @return void
-	 */
-	public function getHelp()
-	{
-		print Color::head('Help:') . PHP_EOL;
-		print Color::colorize('  Creates a controller') . PHP_EOL . PHP_EOL;
+    /**
+     * Prints the help for current command.
+     *
+     * @return void
+     */
+    public function getHelp()
+    {
+        print Color::head('Help:') . PHP_EOL;
+        print Color::colorize('  Creates a controller') . PHP_EOL . PHP_EOL;
 
-		print Color::head('Usage:') . PHP_EOL;
-		print Color::colorize('  controller [name] [directory]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::head('Usage:') . PHP_EOL;
+        print Color::colorize('  controller [name] [directory]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
-		print Color::head('Arguments:') . PHP_EOL;
-		print Color::colorize('  ?', Color::FG_GREEN);
-		print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
+        print Color::head('Arguments:') . PHP_EOL;
+        print Color::colorize('  ?', Color::FG_GREEN);
+        print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-		$this->printParameters($this->_possibleParameters);
-	}
+        $this->printParameters($this->_possibleParameters);
+    }
 
-	/**
-	 * Returns number of required parameters for this command
-	 *
-	 * @return int
-	 */
-	public function getRequiredParams()
-	{
-		return 1;
-	}
+    /**
+     * Returns number of required parameters for this command
+     *
+     * @return int
+     */
+    public function getRequiredParams()
+    {
+        return 1;
+    }
 
 }

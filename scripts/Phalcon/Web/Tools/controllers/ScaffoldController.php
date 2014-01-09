@@ -18,7 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
 use Phalcon\Web\Tools;
 use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold;

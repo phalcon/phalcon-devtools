@@ -32,14 +32,14 @@ interface CommandsInterface
    * Executes the command
    *
    */
-	public function run($parameters);
+    public function run($parameters);
 
   /**
    * Returns the command identifier
    *
    * @return string
    */
-	public function getCommands();
+    public function getCommands();
 
   /**
    * Checks whether the command can be executed outside a Phalcon project
@@ -52,6 +52,6 @@ interface CommandsInterface
    * Prints help on the usage of the command
    *
    */
-	public function getHelp();
+    public function getHelp();
 
 }
