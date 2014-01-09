@@ -21,7 +21,7 @@
 namespace Phalcon\Commands;
 
 use Phalcon\Script,
-	Phalcon\Events\Event;
+    Phalcon\Events\Event;
 
 /**
  * Phalcon\Commands\CommandListener
@@ -31,21 +31,22 @@ use Phalcon\Script,
 class CommandsListener
 {
 
-	public function beforeCommand(Event $event, Command $command)
-	{
+    public function beforeCommand(Event $event, Command $command)
+    {
 
-		if ($command->canBeExternal() == false) {
-			$path = $command->getOption('directory');
-			if (!file_exists($path . '.phalcon')) {
-				throw new CommandsException("This command should be invoked inside a Phalcon project directory");
-			}
-		}
+        if ($command->canBeExternal() == false) {
+            $path = $command->getOption('directory');
+            if (!file_exists($path . '.phalcon')) {
+                throw new CommandsException("This command should be invoked inside a Phalcon project directory");
+            }
+        }
 
-		$parameters = $command->parseParameters();
-		if (count($parameters) < ($command->getRequiredParams() + 1) || $command->isReceivedOption('help') || $command->getOption(1) == 'help') {
-			$command->getHelp();
-			return false;
-		}
-	}
+        $parameters = $command->parseParameters();
+        if (count($parameters) < ($command->getRequiredParams() + 1) || $command->isReceivedOption('help') || $command->getOption(1) == 'help') {
+            $command->getHelp();
+
+            return false;
+        }
+    }
 
 }

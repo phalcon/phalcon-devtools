@@ -21,8 +21,8 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Builder,
-	Phalcon\Builder\Component,
-	Phalcon\Script\Color;
+    Phalcon\Builder\Component,
+    Phalcon\Script\Color;
 
 /**
  * Project
@@ -38,12 +38,12 @@ use Phalcon\Builder,
 class Project extends Component
 {
 
-	private $_types = array(
-		'micro' => '\Phalcon\Builder\Project\Micro',
-		'simple' => '\Phalcon\Builder\Project\Simple',
-		'modules' => '\Phalcon\Builder\Project\Modules',
-		'cli' => '\Phalcon\Builder\Project\Cli',
-	);
+    private $_types = array(
+        'micro' => '\Phalcon\Builder\Project\Micro',
+        'simple' => '\Phalcon\Builder\Project\Simple',
+        'modules' => '\Phalcon\Builder\Project\Modules',
+        'cli' => '\Phalcon\Builder\Project\Cli',
+    );
 
     /**
      * Project build
@@ -52,25 +52,24 @@ class Project extends Component
      * @throws \Phalcon\Builder\BuilderException
      */
     public function build()
-	{
+    {
 
-		$path = '';
-		if (isset($this->_options['directory'])) {
-			if ($this->_options['directory']) {
-				$path = $this->_options['directory'] . '/';
-			}
-		}
+        $path = '';
+        if (isset($this->_options['directory'])) {
+            if ($this->_options['directory']) {
+                $path = $this->_options['directory'] . '/';
+            }
+        }
 
-		if (isset($this->_options['templatePath'])) {
-			$templatePath = $this->_options['templatePath'];
-		} else {
-			$templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) . 'templates';
-		}
+        if (isset($this->_options['templatePath'])) {
+            $templatePath = $this->_options['templatePath'];
+        } else {
+            $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) . 'templates';
+        }
 
-		if (file_exists($path.'.phalcon')) {
-			throw new BuilderException("Projects cannot be created inside Phalcon projects");
-		}
-
+        if (file_exists($path.'.phalcon')) {
+            throw new BuilderException("Projects cannot be created inside Phalcon projects");
+        }
 
         if (isset($this->_options['type'])) {
             $type = $this->_options['type'];
@@ -83,37 +82,36 @@ class Project extends Component
             $type = 'simple';
         }
 
-		$name = null;
-		if (isset($this->_options['name'])) {
-			if ($this->_options['name']) {
-				$name = $this->_options['name'];
-				$path .= $this->_options['name'] . '/';
-				if (file_exists($path)){
-					throw new BuilderException("Directory " . $path . " already exists");
-				}
+        $name = null;
+        if (isset($this->_options['name'])) {
+            if ($this->_options['name']) {
+                $name = $this->_options['name'];
+                $path .= $this->_options['name'] . '/';
+                if (file_exists($path)) {
+                    throw new BuilderException("Directory " . $path . " already exists");
+                }
 
-				if(!@mkdir($path)) {
+                if (!@mkdir($path)) {
                     throw new BuilderException("Unable to write to '$path'");
                 }
-			}
-		}
+            }
+        }
 
-		if (!is_writable($path)) {
-			throw new BuilderException("Directory " . $path . " is not writable");
-		}
+        if (!is_writable($path)) {
+            throw new BuilderException("Directory " . $path . " is not writable");
+        }
 
-		$builderClass = $this->_types[$type];
+        $builderClass = $this->_types[$type];
 
-		$builder = new $builderClass();
+        $builder = new $builderClass();
 
-		$success = $builder->build($name, $path, $templatePath, $this->_options);
+        $success = $builder->build($name, $path, $templatePath, $this->_options);
 
-		if ($success===true) {
+        if ($success===true) {
             $this->_notifySuccess("Project '$name' was successfully created.");
-		}
+        }
 
-		return $success;
-	}
-
+        return $success;
+    }
 
 }

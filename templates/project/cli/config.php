@@ -4,7 +4,6 @@ return new \Phalcon\Config(array(
 
     'version' => '1.0',
 
-
     /**
      * if true, then we print a new line at the end of each execution
      *

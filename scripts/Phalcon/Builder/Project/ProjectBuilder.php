@@ -30,10 +30,12 @@ namespace Phalcon\Builder\Project;
  * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
  * @license 	New BSD License
  */
-abstract class ProjectBuilder {
-    public abstract function build($name, $path, $templatePath, $options);
+abstract class ProjectBuilder
+{
+    abstract public function build($name, $path, $templatePath, $options);
 
-    public function buildDirectories(array $directoryList,$path){
+    public function buildDirectories(array $directoryList,$path)
+    {
         foreach ($directoryList as $dir) {
             @mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir);
         }

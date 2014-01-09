@@ -34,14 +34,12 @@ use Phalcon\Script\Color;
 class Cli extends ProjectBuilder
 {
 
-	private $_dirs = array(
-		'app',
-		'app/config',
-		'app/tasks',
+    private $_dirs = array(
+        'app',
+        'app/config',
+        'app/tasks',
         '.phalcon',
-	);
-
-
+    );
 
     /**
      * Creates the configuration
@@ -51,22 +49,22 @@ class Cli extends ProjectBuilder
      * @param $type
      */
     private function createConfig($path, $templatePath, $type)
-	{
-		if (file_exists($path . 'app/config/config.' . $type) == false) {
-			$str = file_get_contents($templatePath . '/project/cli/config.' . $type);
-			file_put_contents($path . 'app/config/config.' . $type, $str);
-		}
+    {
+        if (file_exists($path . 'app/config/config.' . $type) == false) {
+            $str = file_get_contents($templatePath . '/project/cli/config.' . $type);
+            file_put_contents($path . 'app/config/config.' . $type, $str);
+        }
 
-		if (file_exists($path . 'app/config/services.php') == false) {
-			$str = file_get_contents($templatePath . '/project/cli/services.php');
-			file_put_contents($path . 'app/config/services.php', $str);
-		}
+        if (file_exists($path . 'app/config/services.php') == false) {
+            $str = file_get_contents($templatePath . '/project/cli/services.php');
+            file_put_contents($path . 'app/config/services.php', $str);
+        }
 
-		if (file_exists($path . 'app/config/loader.php') == false) {
-			$str = file_get_contents($templatePath . '/project/cli/loader.php');
-			file_put_contents($path . 'app/config/loader.php', $str);
-		}
-	}
+        if (file_exists($path . 'app/config/loader.php') == false) {
+            $str = file_get_contents($templatePath . '/project/cli/loader.php');
+            file_put_contents($path . 'app/config/loader.php', $str);
+        }
+    }
 
     /**
      * Create Bootstrap file by default of application
@@ -115,7 +113,8 @@ class Cli extends ProjectBuilder
      * @param $path string path to the project root
      * @param $templatePath
      */
-    private function createLauncher($name,$path,$templatePath){
+    private function createLauncher($name,$path,$templatePath)
+    {
         if (file_exists($path . $name) == false) {
             $str = file_get_contents($templatePath . '/project/cli/launcher');
             file_put_contents($path . $name , $str);
@@ -134,7 +133,7 @@ class Cli extends ProjectBuilder
      * @return bool
      */
     public function build($name, $path, $templatePath, $options)
-	{
+    {
 
         $this->buildDirectories($this->_dirs,$path);
 
@@ -144,12 +143,10 @@ class Cli extends ProjectBuilder
 //        else
             $useIniConfig = false;
 
-
         if ($useIniConfig)
             $this->createConfig($path, $templatePath, 'ini');
         else
             $this->createConfig($path, $templatePath, 'php');
-
 
         $this->createBootstrapFiles($path, $templatePath,$useIniConfig);
 
@@ -161,7 +158,7 @@ class Cli extends ProjectBuilder
 
         print Color::success("You can create a symlink to $pathSymLink to invoke the application") . PHP_EOL;
 
-		return true;
-	}
+        return true;
+    }
 
 }
