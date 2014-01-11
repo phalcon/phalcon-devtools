@@ -20,8 +20,8 @@
 
 namespace Phalcon\Commands;
 
-use Phalcon\Script,
-    Phalcon\Events\Event;
+use Phalcon\Script;
+use Phalcon\Events\Event;
 
 /**
  * Phalcon\Commands\CommandListener

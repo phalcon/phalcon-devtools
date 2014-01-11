@@ -1,9 +1,9 @@
 <?php
 
-use Phalcon\Mvc\View,
-    Phalcon\Mvc\Url as UrlResolver,
-    Phalcon\DI\FactoryDefault,
-    Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\DI\FactoryDefault;
+use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 
 $di = new FactoryDefault();
 

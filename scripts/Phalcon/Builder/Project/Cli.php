@@ -19,6 +19,7 @@
 */
 
 namespace Phalcon\Builder\Project;
+
 use Phalcon\Script\Color;
 
 /**

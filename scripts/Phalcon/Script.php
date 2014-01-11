@@ -20,9 +20,9 @@
 
 namespace Phalcon;
 
-use Phalcon\Commands\Command,
-    Phalcon\Script\ScriptException,
-    Phalcon\Events\Manager as EventsManager;
+use Phalcon\Commands\Command;
+use Phalcon\Script\ScriptException;
+use Phalcon\Events\Manager as EventsManager;
 
 /**
  * \Phalcon\Script

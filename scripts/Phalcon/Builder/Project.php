@@ -20,9 +20,9 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder,
-    Phalcon\Builder\Component,
-    Phalcon\Script\Color;
+use Phalcon\Builder;
+use Phalcon\Builder\Component;
+use Phalcon\Script\Color;
 
 /**
  * Project
