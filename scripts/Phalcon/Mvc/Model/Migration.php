@@ -20,10 +20,10 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Db\Column,
-    Phalcon\Mvc\Model\Migration\Profiler,
-    Phalcon\Mvc\Model\Exception,
-    Phalcon\Events\Manager as EventsManager;
+use Phalcon\Db\Column;
+use Phalcon\Mvc\Model\Migration\Profiler;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Events\Manager as EventsManager;
 
 /**
  * Phalcon\Mvc\Model\Migration

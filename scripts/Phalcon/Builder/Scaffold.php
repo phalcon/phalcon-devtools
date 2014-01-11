@@ -20,12 +20,12 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Text,
-    Phalcon\Script\Color,
-    Phalcon\Builder\Component,
-    Phalcon\Builder\Model as ModelBuilder,
-    Phalcon\DI\FactoryDefault,
-    Phalcon\Db\Column;
+use Phalcon\Text;
+use Phalcon\Script\Color;
+use Phalcon\Builder\Component;
+use Phalcon\Builder\Model as ModelBuilder;
+use Phalcon\DI\FactoryDefault;
+use Phalcon\Db\Column;
 
 /**
  * ScaffoldBuilderComponent

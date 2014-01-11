@@ -20,9 +20,9 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder\Component,
-    Phalcon\Text as Utils,
-    Phalcon\Builder\BuilderException;
+use Phalcon\Builder\Component;
+use Phalcon\Text as Utils;
+use Phalcon\Builder\BuilderException;
 
 /**
  * \Phalcon\Builder\Controller

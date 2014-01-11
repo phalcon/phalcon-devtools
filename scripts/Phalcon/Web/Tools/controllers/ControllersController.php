@@ -18,9 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag,
-    Phalcon\Web\Tools,
-    Phalcon\Builder\BuilderException;
+use Phalcon\Tag;
+use Phalcon\Web\Tools;
+use Phalcon\Builder\BuilderException;
 
 class ControllersController extends ControllerBase
 {

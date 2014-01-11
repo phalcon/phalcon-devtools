@@ -20,11 +20,11 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Text,
-    Phalcon\Builder,
-    Phalcon\Script\Color,
-    Phalcon\Commands\Command,
-    Phalcon\Commands\CommandsInterface;
+use Phalcon\Text;
+use Phalcon\Builder;
+use Phalcon\Script\Color;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsInterface;
 
 /**
  * AllModels

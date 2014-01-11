@@ -20,10 +20,10 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color,
-    Phalcon\Commands\Command,
-    Phalcon\Commands\CommandsInterface,
-    Phalcon\Builder\Project as ProjectBuilder;
+use Phalcon\Script\Color;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsInterface;
+use Phalcon\Builder\Project as ProjectBuilder;
 
 /**
  * CreateProject

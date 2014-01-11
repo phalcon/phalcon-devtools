@@ -20,8 +20,8 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Script\Color,
-    Phalcon\Builder\BuilderException;
+use Phalcon\Script\Color;
+use Phalcon\Builder\BuilderException;
 
 /**
  * \Phalcon\Builder\Component
