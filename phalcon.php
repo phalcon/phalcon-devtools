@@ -21,12 +21,13 @@
 
 error_reporting(E_ALL);
 
-use Phalcon\Script,
-    Phalcon\Version,
-    Phalcon\Script\Color,
-    Phalcon\Commands\CommandsListener,
-    Phalcon\Loader,
-    Phalcon\Events\Manager as EventsManager;
+use Phalcon\Script;
+use Phalcon\Version;
+use Phalcon\Script\Color;
+use Phalcon\Commands\CommandsListener;
+use Phalcon\Loader;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Exception as PhalconException;
 
 try {
 
@@ -49,7 +50,7 @@ try {
     $loader->register();
 
     if (Version::getId() < Script::COMPATIBLE_VERSION) {
-        throw new Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
+        throw new PhalconException('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
     }
 
     if (!defined('TEMPLATE_PATH')) {
@@ -81,14 +82,14 @@ try {
 
     $script->run();
 
-} catch (\Phalcon\Exception $e) {
+} catch (PhalconException $e) {
     if ($extensionLoaded) {
         print Color::error($e->getMessage()) . PHP_EOL;
     } else {
         print 'ERROR: ' . $e->getMessage() . PHP_EOL;
     }
 
-} catch (\Exception $e) {
+} catch (Exception $e) {
     if ($extensionLoaded) {
         print Color::error($e->getMessage()) . PHP_EOL;
     } else {

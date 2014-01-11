@@ -20,10 +20,10 @@
 
 namespace Phalcon\Commands;
 
-use Phalcon\Script,
-    Phalcon\Script\Color,
-    Phalcon\Events\Manager as EventsManager,
-    Phalcon\Filter;
+use Phalcon\Script;
+use Phalcon\Script\Color;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Filter;
 
 /**
  * Phalcon\Commands\Command

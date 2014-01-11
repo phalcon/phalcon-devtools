@@ -20,11 +20,11 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Db\Column,
-    Phalcon\Builder\Component,
-    Phalcon\Builder\BuilderException,
-    Phalcon\Script\Color,
-    Phalcon\Text as Utils;
+use Phalcon\Db\Column;
+use Phalcon\Builder\Component;
+use Phalcon\Builder\BuilderException;
+use Phalcon\Script\Color;
+use Phalcon\Text as Utils;
 
 /**
  * ModelBuilderComponent

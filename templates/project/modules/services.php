@@ -4,10 +4,10 @@
  * Services are globally registered in this file
  */
 
-use Phalcon\Mvc\Router,
-    Phalcon\Mvc\Url as UrlResolver,
-    Phalcon\DI\FactoryDefault,
-    Phalcon\Session\Adapter\Files as SessionAdapter;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\DI\FactoryDefault;
+use Phalcon\Session\Adapter\Files as SessionAdapter;
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework

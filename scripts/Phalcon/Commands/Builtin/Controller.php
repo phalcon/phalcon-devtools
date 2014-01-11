@@ -20,11 +20,11 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Builder,
-    Phalcon\Script\Color,
-    Phalcon\Commands\Command,
-    Phalcon\Commands\CommandsInterface,
-    Phalcon\Builder\Controller as ControllerBuilder;
+use Phalcon\Builder;
+use Phalcon\Script\Color;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsInterface;
+use Phalcon\Builder\Controller as ControllerBuilder;
 
 /**
  * CreateController
