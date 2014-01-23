@@ -56,14 +56,5 @@ namespace Phalcon\Http\Response {
 		 */
 		public function toArray();
 
-
-		/**
-		 * Restore a \Phalcon\Http\Response\Headers object
-		 *
-		 * @param array $data
-		 * @return \Phalcon\Http\Response\HeadersInterface
-		 */
-		public static function __set_state($data);
-
 	}
 }

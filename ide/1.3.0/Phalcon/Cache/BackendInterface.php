@@ -124,26 +124,6 @@ namespace Phalcon\Cache {
 
 
 		/**
-		 * Increment $key by $value
-		 *
-		 * @param $key
-		 * @param $value
-		 * @return mixed
-		 */
-		public function increment($key_name=null, $value=null);
-
-
-		/**
-		 * Decrement $key by $value
-		 *
-		 * @param $key
-		 * @param $value
-		 * @return mixed
-		 */
-		public function decrement($key_name=null, $value=null);
-
-
-		/**
 		 * Immediately invalidates all existing items.
 		 * 
 		 * @return boolean

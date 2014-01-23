@@ -28,7 +28,7 @@ namespace Phalcon\Events {
 		 * @param object|callable $handler
 		 * @param int $priority
 		 */
-		public function attach($eventType, $handler, $priority=null){ }
+		public function attach($eventType, $handler){ }
 
 
 		/**
@@ -102,7 +102,7 @@ namespace Phalcon\Events {
 		 * @param int $cancelable
 		 * @return mixed
 		 */
-		public function fire($eventType, $source, $data=null, $cancelable=null){ }
+		public function fire($eventType, $source, $data=null){ }
 
 
 		/**

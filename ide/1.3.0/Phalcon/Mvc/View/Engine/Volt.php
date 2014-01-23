@@ -8,7 +8,7 @@ namespace Phalcon\Mvc\View\Engine {
 	 * Designer friendly and fast template engine for PHP written in C
 	 */
 	
-	class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface, \Phalcon\Mvc\View\EngineInterface {
+	class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface {
 
 		protected $_options;
 
@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\View\Engine {
 		 * @param array $params
 		 * @param boolean $mustClean
 		 */
-		public function render($templatePath, $params, $mustClean=null){ }
+		public function render($path, $params, $mustClean=null){ }
 
 
 		/**

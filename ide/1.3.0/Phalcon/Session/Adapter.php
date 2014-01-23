@@ -8,7 +8,7 @@ namespace Phalcon\Session {
 	 * Base class for Phalcon\Session adapters
 	 */
 	
-	abstract class Adapter {
+	abstract class Adapter implements \Phalcon\Session\AdapterInterface {
 
 		protected $_uniqueId;
 
@@ -65,7 +65,7 @@ namespace Phalcon\Session {
 		 * @param bool $remove
 		 * @return mixed
 		 */
-		public function get($index, $defaultValue=null, $remove=null){ }
+		public function get($index, $defaultValue=null){ }
 
 
 		/**
@@ -139,7 +139,7 @@ namespace Phalcon\Session {
 		 *
 		 * @return boolean
 		 */
-		public function destroy(){ }
+		public function destroy($session_id=null){ }
 
 	}
 }

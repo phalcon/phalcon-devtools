@@ -8,7 +8,7 @@ namespace Phalcon\Db {
 	 * Base class for Phalcon\Db adapters
 	 */
 	
-	abstract class Adapter implements \Phalcon\Events\EventsAwareInterface {
+	abstract class Adapter implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Db\AdapterInterface {
 
 		protected $_eventsManager;
 
@@ -93,7 +93,7 @@ namespace Phalcon\Db {
 		 * @param array $bindTypes
 		 * @return array
 		 */
-		public function fetchOne($sqlQuery, $fetchMode=null, $bindParams=null, $bindTypes=null){ }
+		public function fetchOne($sqlQuery, $fetchMode=null, $placeholders=null){ }
 
 
 		/**
@@ -122,7 +122,7 @@ namespace Phalcon\Db {
 		 * @param array $bindTypes
 		 * @return array
 		 */
-		public function fetchAll($sqlQuery, $fetchMode=null, $bindParams=null, $bindTypes=null){ }
+		public function fetchAll($sqlQuery, $fetchMode=null, $placeholders=null){ }
 
 
 		/**

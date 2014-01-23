@@ -14,8 +14,9 @@ namespace Phalcon\Logger {
 		 * @param string $message
 		 * @param int $type
 		 * @param int $timestamp
+		 * @param array $context
 		 */
-		public function format($message, $type, $timestamp);
+		public function format($message, $type, $timestamp, $context);
 
 	}
 }

@@ -120,14 +120,5 @@ namespace Phalcon\Db {
 		 */
 		public function getBindType();
 
-
-		/**
-		 * Restores the internal state of a \Phalcon\Db\Column object
-		 *
-		 * @param array $data
-		 * @return \Phalcon\Db\ColumnInterface
-		 */
-		public static function __set_state($data);
-
 	}
 }

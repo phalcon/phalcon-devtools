@@ -45,6 +45,38 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Sets the columns to be queried
+		 *
+		 *<code>
+		 *	$criteria->columns(array('id', 'name'));
+		 *</code>
+		 *
+		 * @param string|array $columns
+		 * @return \Phalcon\Mvc\Model\CriteriaInterface
+		 */
+		public function columns($columns);
+
+
+		/**
+		 * Adds a join to the query
+		 *
+		 *<code>
+		 *	$criteria->join('Robots');
+		 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id');
+		 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+		 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+		 *</code>
+		 *
+		 * @param string $model
+		 * @param string $conditions
+		 * @param string $alias
+		 * @param string $type
+		 * @return \Phalcon\Mvc\Model\CriteriaInterface
+		 */
+		public function join($model, $conditions=null, $alias=null, $type=null);
+
+
+		/**
 		 * Adds the conditions parameter to the criteria
 		 *
 		 * @param string $conditions
@@ -125,7 +157,7 @@ namespace Phalcon\Mvc\Model {
 		 * Appends a BETWEEN condition to the current conditions
 		 *
 		 *<code>
-		 *	$builder->betweenWhere('price', 100.25, 200.50);
+		 *	$criteria->betweenWhere('price', 100.25, 200.50);
 		 *</code>
 		 *
 		 * @param string $expr
@@ -140,7 +172,7 @@ namespace Phalcon\Mvc\Model {
 		 * Appends a NOT BETWEEN condition to the current conditions
 		 *
 		 *<code>
-		 *	$builder->notBetweenWhere('price', 100.25, 200.50);
+		 *	$criteria->notBetweenWhere('price', 100.25, 200.50);
 		 *</code>
 		 *
 		 * @param string $expr
@@ -155,7 +187,7 @@ namespace Phalcon\Mvc\Model {
 		 * Appends an IN condition to the current conditions
 		 *
 		 *<code>
-		 *	$builder->inWhere('id', [1, 2, 3]);
+		 *	$criteria->inWhere('id', [1, 2, 3]);
 		 *</code>
 		 *
 		 * @param string $expr
@@ -169,7 +201,7 @@ namespace Phalcon\Mvc\Model {
 		 * Appends a NOT IN condition to the current conditions
 		 *
 		 *<code>
-		 *	$builder->notInWhere('id', [1, 2, 3]);
+		 *	$criteria->notInWhere('id', [1, 2, 3]);
 		 *</code>
 		 *
 		 * @param string $expr

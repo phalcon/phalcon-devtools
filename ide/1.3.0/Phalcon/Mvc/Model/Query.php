@@ -81,7 +81,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $phql
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function __construct($phql=null, $dependencyInjector=null){ }
+		public function __construct($phql){ }
 
 
 		/**

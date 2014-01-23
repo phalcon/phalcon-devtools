@@ -66,7 +66,7 @@ namespace Phalcon\Http {
 		 * @param boolean $noRecursive
 		 * @return mixed
 		 */
-		public function get($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null){ }
+		public function get($name=null, $filters=null, $defaultValue=null){ }
 
 
 		/**
@@ -88,7 +88,7 @@ namespace Phalcon\Http {
 		 * @param boolean $noRecursive
 		 * @return mixed
 		 */
-		public function getPost($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null){ }
+		public function getPost($name=null, $filters=null, $defaultValue=null){ }
 
 
 		/**
@@ -107,7 +107,7 @@ namespace Phalcon\Http {
 		 * @param boolean $noRecursive
 		 * @return mixed
 		 */
-		public function getPut($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null){ }
+		public function getPut($name=null, $filters=null, $defaultValue=null){ }
 
 
 		/**
@@ -132,7 +132,7 @@ namespace Phalcon\Http {
 		 * @param boolean $noRecursive
 		 * @return mixed
 		 */
-		public function getQuery($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null){ }
+		public function getQuery($name=null, $filters=null, $defaultValue=null){ }
 
 
 		/**

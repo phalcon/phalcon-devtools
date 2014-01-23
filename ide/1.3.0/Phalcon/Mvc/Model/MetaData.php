@@ -19,7 +19,7 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 */
 	
-	abstract class MetaData implements \Phalcon\DI\InjectionAwareInterface {
+	abstract class MetaData implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface {
 
 		const MODELS_ATTRIBUTES = 0;
 

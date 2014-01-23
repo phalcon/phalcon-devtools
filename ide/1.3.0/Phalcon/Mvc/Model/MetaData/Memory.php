@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 	 *
 	 */
 	
-	class Memory extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface {
+	class Memory extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		const MODELS_ATTRIBUTES = 0;
 
@@ -62,7 +62,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 		 * @param string $key
 		 * @param array $metaData
 		 */
-		public function write($key, $metaData){ }
+		public function write($key, $data){ }
 
 	}
 }

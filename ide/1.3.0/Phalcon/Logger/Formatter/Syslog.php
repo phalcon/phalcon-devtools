@@ -18,7 +18,7 @@ namespace Phalcon\Logger\Formatter {
 		 * @param int $timestamp
 		 * @return array
 		 */
-		public function format($message, $type, $timestamp){ }
+		public function format($message, $type, $timestamp, $context){ }
 
 	}
 }

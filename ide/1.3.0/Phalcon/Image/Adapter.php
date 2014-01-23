@@ -8,7 +8,7 @@ namespace Phalcon\Image {
 	 * Base class for Phalcon\Image adapters
 	 */
 	
-	abstract class Adapter {
+	abstract class Adapter implements \Phalcon\Image\AdapterInterface {
 
 		protected $_image;
 
@@ -83,7 +83,7 @@ namespace Phalcon\Image {
 		 * @param int $master  master dimension, if $master is TENSILE, the width and height must be specified
 		 * @return \Phalcon\Image\Adapter
 		 */
-		public function resize($width=null, $height=null, $master=null){ }
+		public function resize($width=null, $height=null){ }
 
 
 		/**
@@ -236,7 +236,7 @@ namespace Phalcon\Image {
 		 * @param int $quality quality of image: 1-100
 		 * @return \Phalcon\Image\Adapter
 		 */
-		public function render($ext=null, $quality=null){ }
+		public function render($type=null, $quality=null){ }
 
 	}
 }

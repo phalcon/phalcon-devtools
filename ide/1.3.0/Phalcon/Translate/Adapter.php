@@ -8,13 +8,7 @@ namespace Phalcon\Translate {
 	 * Base class for Phalcon\Translate adapters
 	 */
 	
-	abstract class Adapter implements \ArrayAccess {
-
-		/**
-		 * Class constructore
-		 */
-		public function __construct(){ }
-
+	abstract class Adapter implements \ArrayAccess, \Phalcon\Translate\AdapterInterface {
 
 		/**
 		 * Returns the translation string of the given key

@@ -70,14 +70,5 @@ namespace Phalcon\DI {
 		 */
 		public function resolve($parameters=null, $dependencyInjector=null);
 
-
-		/**
-		 * Restore the interal state of a service
-		 *
-		 * @param array $attributes
-		 * @return \Phalcon\DI\ServiceInterface
-		 */
-		public static function __set_state($attributes);
-
 	}
 }

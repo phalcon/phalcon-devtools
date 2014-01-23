@@ -32,14 +32,5 @@ namespace Phalcon\Db {
 		 */
 		public function getColumns();
 
-
-		/**
-		 * Restore a \Phalcon\Db\Index object from export
-		 *
-		 * @param array $data
-		 * @return \Phalcon\Db\IndexInterface
-		 */
-		public static function __set_state($data);
-
 	}
 }

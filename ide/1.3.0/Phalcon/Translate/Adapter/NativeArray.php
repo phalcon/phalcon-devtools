@@ -9,7 +9,7 @@ namespace Phalcon\Translate\Adapter {
 	 *
 	 */
 	
-	class NativeArray extends \Phalcon\Translate\Adapter implements \ArrayAccess, \Phalcon\Translate\AdapterInterface {
+	class NativeArray extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\AdapterInterface, \ArrayAccess {
 
 		protected $_translate;
 
@@ -34,7 +34,7 @@ namespace Phalcon\Translate\Adapter {
 		/**
 		 * Check whether is defined a translation key in the internal array
 		 *
-		 * @param 	string $index
+		 * @param string $index
 		 * @return bool
 		 */
 		public function exists($index){ }

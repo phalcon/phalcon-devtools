@@ -47,7 +47,7 @@ namespace Phalcon\Http\Request {
 		 *
 		 * @param array $file
 		 */
-		public function __construct($file, $key=null){ }
+		public function __construct($file){ }
 
 
 		/**
@@ -119,7 +119,7 @@ namespace Phalcon\Http\Request {
 		public function moveTo($destination){ }
 
 
-		public static function __set_state($file, $key=null){ }
+		public static function __set_state($params){ }
 
 	}
 }

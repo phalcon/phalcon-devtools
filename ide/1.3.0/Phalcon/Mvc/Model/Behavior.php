@@ -8,7 +8,7 @@ namespace Phalcon\Mvc\Model {
 	 * This is an optional base class for ORM behaviors
 	 */
 	
-	abstract class Behavior {
+	abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface {
 
 		protected $_options;
 

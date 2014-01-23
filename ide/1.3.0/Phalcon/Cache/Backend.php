@@ -8,7 +8,7 @@ namespace Phalcon\Cache {
 	 * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
 	 */
 	
-	abstract class Backend {
+	abstract class Backend implements \Phalcon\Cache\BackendInterface {
 
 		protected $_frontend;
 

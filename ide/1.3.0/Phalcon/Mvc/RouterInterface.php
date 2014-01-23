@@ -110,6 +110,16 @@ namespace Phalcon\Mvc {
 
 
 		/**
+		 * Add a route to the router that only match if the HTTP method is PATCH
+		 *
+		 * @param string $pattern
+		 * @param string/array $paths
+		 * @return \Phalcon\Mvc\Router\RouteInterface
+		 */
+		public function addPatch($pattern, $paths=null);
+
+
+		/**
 		 * Adds a route to the router that only match if the HTTP method is HEAD
 		 *
 		 * @param string $pattern

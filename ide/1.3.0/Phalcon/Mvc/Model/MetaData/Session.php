@@ -17,7 +17,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 	 *</code>
 	 */
 	
-	class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface {
+	class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		const MODELS_ATTRIBUTES = 0;
 

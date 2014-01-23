@@ -22,7 +22,7 @@ namespace Phalcon\Events {
 		 *
 		 * @param string $type
 		 */
-		public function dettachAll($type=null);
+		public function detachAll($type=null);
 
 
 		/**

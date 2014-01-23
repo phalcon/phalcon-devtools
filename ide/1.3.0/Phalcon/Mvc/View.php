@@ -187,7 +187,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * <code>
 		 * 	//Render the view related to the controller only
-		 * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
+		 * 	$this->view->setRenderLevel(View::LEVEL_LAYOUT);
 		 * </code>
 		 *
 		 * @param string $level
@@ -490,7 +490,7 @@ namespace Phalcon\Mvc {
 		 * @param string $partialPath
 		 * @param array $params
 		 */
-		public function partial($partialPath, $params=null){ }
+		public function partial($partialPath){ }
 
 
 		/**

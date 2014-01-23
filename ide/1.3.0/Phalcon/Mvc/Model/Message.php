@@ -50,7 +50,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param string $type
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 */
-		public function __construct($message, $field=null, $type=null, $model=null, $code=null){ }
+		public function __construct($message, $field=null, $type=null){ }
 
 
 		/**

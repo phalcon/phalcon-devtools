@@ -238,7 +238,7 @@ namespace Phalcon\Http {
 		 * @param int $jsonOptions bitmask consisting on http://www.php.net/manual/en/json.constants.php
 		 * @return \Phalcon\Http\ResponseInterface
 		 */
-		public function setJsonContent($content, $jsonOptions=null){ }
+		public function setJsonContent($content){ }
 
 
 		/**
@@ -296,7 +296,7 @@ namespace Phalcon\Http {
 		 * @param string $filePath
 		 * @param string $attachmentName
 		 */
-		public function setFileToSend($filePath, $attachmentName=null, $attachment=null){ }
+		public function setFileToSend($filePath, $attachmentName=null){ }
 
 	}
 }

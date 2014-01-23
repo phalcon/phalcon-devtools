@@ -154,7 +154,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param  boolean $newInstance
 		 * @return \Phalcon\Mvc\ModelInterface
 		 */
-		public function load($modelName, $newInstance=null){ }
+		public function load($modelName, $newInstance){ }
 
 
 		/**
@@ -590,7 +590,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $placeholders
 		 * @return \Phalcon\Mvc\Model\QueryInterface
 		 */
-		public function executeQuery($phql, $placeholders=null, $types=null){ }
+		public function executeQuery($phql, $placeholders=null){ }
 
 
 		/**

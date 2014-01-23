@@ -60,7 +60,7 @@ namespace Phalcon\Acl\Adapter {
 	 *</code>
 	 */
 	
-	class Memory extends \Phalcon\Acl\Adapter implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Acl\AdapterInterface {
+	class Memory extends \Phalcon\Acl\Adapter implements \Phalcon\Acl\AdapterInterface, \Phalcon\Events\EventsAwareInterface {
 
 		protected $_rolesNames;
 

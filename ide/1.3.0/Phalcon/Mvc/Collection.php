@@ -43,7 +43,7 @@ namespace Phalcon\Mvc {
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @param \Phalcon\Mvc\Collection\ManagerInterface $modelsManager
 		 */
-		final public function __construct($dependencyInjector=null, $modelsManager=null){ }
+		final public function __construct($dependencyInjector=null){ }
 
 
 		/**

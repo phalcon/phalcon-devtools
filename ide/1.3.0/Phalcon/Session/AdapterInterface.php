@@ -97,7 +97,7 @@ namespace Phalcon\Session {
 		 *
 		 * @return boolean
 		 */
-		public function destroy();
+		public function destroy($session_id=null);
 
 	}
 }

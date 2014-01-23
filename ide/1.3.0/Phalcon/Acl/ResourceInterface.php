@@ -32,13 +32,5 @@ namespace Phalcon\Acl {
 		 */
 		public function getDescription();
 
-
-		/**
-		 * Magic method __toString
-		 *
-		 * @return string
-		 */
-		public function __toString();
-
 	}
 }

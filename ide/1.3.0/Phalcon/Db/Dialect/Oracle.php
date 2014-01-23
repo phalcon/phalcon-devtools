@@ -5,7 +5,7 @@ namespace Phalcon\Db\Dialect {
 	/**
 	 * Phalcon\Db\Dialect\Oracle
 	 *
-	 * Generates database specific SQL for the Oracle RBDM
+	 * Generates database specific SQL for the Oracle RBDMS
 	 */
 	
 	class Oracle extends \Phalcon\Db\Dialect implements \Phalcon\Db\DialectInterface {
@@ -147,7 +147,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param  boolean $ifExists
 		 * @return boolean
 		 */
-		public function dropTable($tableName, $schemaName, $ifExists=null){ }
+		public function dropTable($tableName, $schemaName){ }
 
 
 		/**

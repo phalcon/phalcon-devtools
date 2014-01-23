@@ -17,6 +17,8 @@ namespace Phalcon\Logger {
 
 		protected $_time;
 
+		protected $_context;
+
 		/**
 		 * \Phalcon\Logger\Item constructor
 		 *
@@ -49,6 +51,9 @@ namespace Phalcon\Logger {
 		 * @return integer
 		 */
 		public function getTime(){ }
+
+
+		public function getContext(){ }
 
 	}
 }

@@ -49,7 +49,7 @@ namespace Phalcon\Logger {
 		 * @param int $type
 		 * @return \Phalcon\Logger\Adapter
 		 */
-		public function log($message, $type=null);
+		public function log($type, $message, $context=null);
 
 
 		/**
@@ -91,7 +91,7 @@ namespace Phalcon\Logger {
 		 * @param ing $type
 		 * @return \Phalcon\Logger\Adapter
 		 */
-		public function debug($message);
+		public function debug($message, $context=null);
 
 
 		/**
@@ -101,7 +101,7 @@ namespace Phalcon\Logger {
 		 * @param ing $type
 		 * @return \Phalcon\Logger\Adapter
 		 */
-		public function error($message);
+		public function error($message, $context=null);
 
 
 		/**
@@ -111,7 +111,7 @@ namespace Phalcon\Logger {
 		 * @param ing $type
 		 * @return \Phalcon\Logger\Adapter
 		 */
-		public function info($message);
+		public function info($message, $context=null);
 
 
 		/**
@@ -121,7 +121,7 @@ namespace Phalcon\Logger {
 		 * @param ing $type
 		 * @return \Phalcon\Logger\Adapter
 		 */
-		public function notice($message);
+		public function notice($message, $context=null);
 
 
 		/**
@@ -131,7 +131,7 @@ namespace Phalcon\Logger {
 		 * @param ing $type
 		 * @return \Phalcon\Logger\Adapter
 		 */
-		public function warning($message);
+		public function warning($message, $context=null);
 
 
 		/**
@@ -141,7 +141,10 @@ namespace Phalcon\Logger {
 		 * @param ing $type
 		 * @return \Phalcon\Logger\Adapter
 		 */
-		public function alert($message);
+		public function alert($message, $context=null);
+
+
+		public function emergency($message, $context=null);
 
 	}
 }

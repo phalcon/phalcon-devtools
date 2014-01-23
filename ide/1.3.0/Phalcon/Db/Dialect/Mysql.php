@@ -5,7 +5,7 @@ namespace Phalcon\Db\Dialect {
 	/**
 	 * Phalcon\Db\Dialect\Mysql
 	 *
-	 * Generates database specific SQL for the MySQL RBDM
+	 * Generates database specific SQL for the MySQL RBDMS
 	 */
 	
 	class Mysql extends \Phalcon\Db\Dialect implements \Phalcon\Db\DialectInterface {
@@ -148,7 +148,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param  boolean $ifExists
 		 * @return string
 		 */
-		public function dropTable($tableName, $schemaName, $ifExists=null){ }
+		public function dropTable($tableName, $schemaName){ }
 
 
 		/**

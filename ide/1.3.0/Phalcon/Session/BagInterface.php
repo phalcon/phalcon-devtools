@@ -47,32 +47,5 @@ namespace Phalcon\Session {
 		 */
 		public function has($property);
 
-
-		/**
-		 * Setter of values
-		 *
-		 * @param string $property
-		 * @param string $value
-		 */
-		public function __set($property, $value);
-
-
-		/**
-		 * Getter of values
-		 *
-		 * @param string $property
-		 * @return mixed
-		 */
-		public function __get($property);
-
-
-		/**
-		 * Isset property
-		 *
-		 * @param string $property
-		 * @return boolean
-		 */
-		public function __isset($property);
-
 	}
 }

@@ -12,6 +12,8 @@ namespace Phalcon\Logger\Formatter {
 
 		protected $_showBacktrace;
 
+		protected $_enableLabels;
+
 		/**
 		 * Returns the string meaning of a logger constant
 		 *
@@ -27,6 +29,12 @@ namespace Phalcon\Logger\Formatter {
 		public function setShowBacktrace($show=null){ }
 
 
+		public function enableLabels($enable=null){ }
+
+
+		public function labelsEnabled(){ }
+
+
 		/**
 		 * Applies a format to a message before sending it to the log
 		 *
@@ -35,7 +43,7 @@ namespace Phalcon\Logger\Formatter {
 		 * @param int $timestamp
 		 * @return string
 		 */
-		public function format($message, $type, $timestamp){ }
+		public function format($message, $type, $timestamp, $context){ }
 
 	}
 }

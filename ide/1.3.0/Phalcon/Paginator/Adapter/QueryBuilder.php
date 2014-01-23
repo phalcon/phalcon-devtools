@@ -38,19 +38,63 @@ namespace Phalcon\Paginator\Adapter {
 
 
 		/**
-		 * Set the current page number
-		 *
-		 * @param int $page
-		 */
-		public function setCurrentPage($currentPage){ }
-
-
-		/**
 		 * Returns a slice of the resultset to show in the pagination
 		 *
 		 * @return stdClass
 		 */
 		public function getPaginate(){ }
+
+
+		/**
+		 * Set current rows limit
+		 *
+		 * @param int $limit
+		 *
+		 * @return \Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+		 */
+		public function setLimit(){ }
+
+
+		/**
+		 * Get current rows limit
+		 *
+		 * @return int $limit
+		 */
+		public function getLimit(){ }
+
+
+		/**
+		 * Set current page number
+		 *
+		 * @param int $page
+		 */
+		public function setCurrentPage($page){ }
+
+
+		/**
+		 * Get current page number
+		 *
+		 * @param int $page
+		 */
+		public function getCurrentPage(){ }
+
+
+		/**
+		 * Set query builder object
+		 *
+		 * @param \Phalcon\Mvc\Model\Query\BuilderInterface $builder
+		 *
+		 * @return \Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+		 */
+		public function setQueryBuilder($queryBuilder){ }
+
+
+		/**
+		 * Get query builder object
+		 *
+		 * @return \Phalcon\Mvc\Model\Query\BuilderInterface $builder
+		 */
+		public function getQueryBuilder(){ }
 
 	}
 }

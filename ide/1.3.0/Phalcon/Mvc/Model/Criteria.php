@@ -93,7 +93,7 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Adds a INNER join to the query
+		 * Adds a join to the query
 		 *
 		 *<code>
 		 *	$criteria->join('Robots');
@@ -167,7 +167,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $bindTypes
 		 * @return \Phalcon\Mvc\Model\CriteriaInterface
 		 */
-		public function where($conditions, $bindParams=null, $bindTypes=null){ }
+		public function where($conditions){ }
 
 
 		/**

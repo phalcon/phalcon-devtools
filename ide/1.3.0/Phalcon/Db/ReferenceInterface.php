@@ -64,14 +64,5 @@ namespace Phalcon\Db {
 		 */
 		public function getReferencedColumns();
 
-
-		/**
-		 * Restore a \Phalcon\Db\Reference object from export
-		 *
-		 * @param array $data
-		 * @return \Phalcon\Db\ReferenceInterface
-		 */
-		public static function __set_state($data);
-
 	}
 }

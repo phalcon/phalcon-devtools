@@ -30,6 +30,9 @@ namespace Phalcon\Http {
 		public function getPost($name=null, $filters=null, $defaultValue=null);
 
 
+		public function getPut($name=null, $filters=null, $defaultValue=null);
+
+
 		/**
 		 * Gets variable from $_GET superglobal applying filters if needed
 		 *
@@ -66,6 +69,9 @@ namespace Phalcon\Http {
 		 * @return boolean
 		 */
 		public function hasPost($name);
+
+
+		public function hasPut($name);
 
 
 		/**

@@ -67,14 +67,6 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Magic __toString method returns verbose message
-		 *
-		 * @return string
-		 */
-		public function __toString();
-
-
-		/**
 		 * Magic __set_state helps to recover messsages from serialization
 		 *
 		 * @param array $message

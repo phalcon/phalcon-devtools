@@ -163,10 +163,10 @@ namespace Phalcon\Db {
 		/**
 		 * Generates SQL to create a table
 		 *
-		 * @param 	string $tableName
+		 * @param string $tableName
 		 * @param string $schemaName
 		 * @param array $definition
-		 * @return 	string
+		 * @return string
 		 */
 		public function createTable($tableName, $schemaName, $definition);
 
@@ -182,6 +182,27 @@ namespace Phalcon\Db {
 
 
 		/**
+		 * Generates SQL to create a view
+		 *
+		 * @param string $viewName
+		 * @param string $schemaName
+		 * @param array $definition
+		 * @return string
+		 */
+		public function createView($viewName, $definition, $schemaName);
+
+
+		/**
+		 * Generates SQL to drop a view
+		 *
+		 * @param string $viewName
+		 * @param string $schemaName
+		 * @return string
+		 */
+		public function dropView($viewName, $schemaName, $ifExists=null);
+
+
+		/**
 		 * Generates SQL checking for the existence of a schema.table
 		 *
 		 * @param string $tableName
@@ -189,6 +210,16 @@ namespace Phalcon\Db {
 		 * @return string
 		 */
 		public function tableExists($tableName, $schemaName=null);
+
+
+		/**
+		 * Generates SQL checking for the existence of a schema.view
+		 *
+		 * @param string $viewName
+		 * @param string $schemaName
+		 * @return string
+		 */
+		public function viewExists($viewName, $schemaName=null);
 
 
 		/**
@@ -204,10 +235,19 @@ namespace Phalcon\Db {
 		/**
 		 * List all tables on database
 		 *
-		 * @param       string $schemaName
-		 * @return      array
+		 * @param string $schemaName
+		 * @return array
 		 */
 		public function listTables($schemaName=null);
+
+
+		/**
+		 * List all views on database
+		 *
+		 * @param string $schemaName
+		 * @return array
+		 */
+		public function listViews($schemaName=null);
 
 
 		/**

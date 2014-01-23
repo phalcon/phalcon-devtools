@@ -80,7 +80,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * @param array $params
 		 * @param \Phalcon\DI $dependencyInjector
 		 */
-		public function __construct($params=null, $dependencyInjector=null){ }
+		public function __construct($params=null){ }
 
 
 		/**
@@ -190,7 +190,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * @param string $type
 		 * @return \Phalcon\Mvc\Model\Query\Builder
 		 */
-		public function join($model, $conditions=null, $alias=null, $type=null){ }
+		public function join($model, $conditions=null, $alias=null){ }
 
 
 		/**

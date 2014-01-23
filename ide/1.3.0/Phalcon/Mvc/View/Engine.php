@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\View {
 	 * basic interfacing between the engine and the Phalcon\Mvc\View component.
 	 */
 	
-	abstract class Engine extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface {
+	abstract class Engine extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\View\EngineInterface {
 
 		protected $_view;
 
@@ -37,7 +37,7 @@ namespace Phalcon\Mvc\View {
 		 * @param array $params
 		 * @return string
 		 */
-		public function partial($partialPath, $params=null){ }
+		public function partial($partialPath){ }
 
 
 		/**

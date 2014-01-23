@@ -21,7 +21,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy {
 
 
 		/**
-		 * Read the model's column map, this can't be infered
+		 * Read the model's column map, this can't be inferred
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 * @param \Phalcon\DiInterface $dependencyInjector

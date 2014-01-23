@@ -8,7 +8,7 @@ namespace Phalcon\Validation {
 	 * This is a base class for validators
 	 */
 	
-	abstract class Validator {
+	abstract class Validator implements \Phalcon\Validation\ValidatorInterface {
 
 		protected $_options;
 

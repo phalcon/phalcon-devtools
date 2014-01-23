@@ -5,7 +5,7 @@ namespace Phalcon\Db\Dialect {
 	/**
 	 * Phalcon\Db\Dialect\Postgresql
 	 *
-	 * Generates database specific SQL for the PostgreSQL RBDM
+	 * Generates database specific SQL for the PostgreSQL RBDMS
 	 */
 	
 	class Postgresql extends \Phalcon\Db\Dialect implements \Phalcon\Db\DialectInterface {
@@ -147,7 +147,7 @@ namespace Phalcon\Db\Dialect {
 		 * @param  boolean $ifExists
 		 * @return boolean
 		 */
-		public function dropTable($tableName, $schemaName, $ifExists=null){ }
+		public function dropTable($tableName, $schemaName){ }
 
 
 		/**

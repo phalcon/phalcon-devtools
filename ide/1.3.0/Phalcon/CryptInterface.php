@@ -86,7 +86,7 @@ namespace Phalcon {
 		 * @param string $key
 		 * @return string
 		 */
-		public function encryptBase64($text, $key=null);
+		public function encryptBase64($text, $key=null, $safe=null);
 
 
 		/**
@@ -96,7 +96,7 @@ namespace Phalcon {
 		 * @param string $key
 		 * @return string
 		 */
-		public function decryptBase64($text, $key=null);
+		public function decryptBase64($text, $key=null, $safe=null);
 
 
 		/**

@@ -45,8 +45,9 @@ namespace Phalcon\Logger\Adapter {
 		 * @param string $message
 		 * @param int $type
 		 * @param int $time
+		 * @param array $context
 		 */
-		public function logInternal($message, $type, $time){ }
+		protected function logInternal($message, $type, $time, $context){ }
 
 
 		/**

@@ -3,12 +3,10 @@
 namespace Phalcon\Acl {
 
 	/**
-	 * Phalcon\Acl\Adapter
-	 *
-	 * Adapter for Phalcon\Acl adapters
+	 * Phalcon\Acl\Adapter initializer
 	 */
 	
-	abstract class Adapter implements \Phalcon\Events\EventsAwareInterface {
+	abstract class Adapter implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Acl\AdapterInterface {
 
 		protected $_eventsManager;
 

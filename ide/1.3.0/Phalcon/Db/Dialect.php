@@ -9,7 +9,7 @@ namespace Phalcon\Db {
 	 * common methods to transform intermediate code into its RDBM related syntax
 	 */
 	
-	abstract class Dialect {
+	abstract class Dialect implements \Phalcon\Db\DialectInterface {
 
 		protected $_escapeChar;
 

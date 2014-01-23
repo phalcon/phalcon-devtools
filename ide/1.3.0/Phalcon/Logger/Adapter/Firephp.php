@@ -35,9 +35,10 @@ namespace Phalcon\Logger\Adapter {
 		 * @param string $message
 		 * @param int $type
 		 * @param int $time
+		 * @param array $context
 		 * @see http://www.firephp.org/Wiki/Reference/Protocol
 		 */
-		public function logInternal($message, $type, $time){ }
+		protected function logInternal($message, $type, $time, $context){ }
 
 
 		/**

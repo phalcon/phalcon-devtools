@@ -28,6 +28,15 @@ namespace Phalcon\Validation {
 
 
 		/**
+		 * Sets the validator's option
+		 *
+		 * @param string $key
+		 * @param mixed $value
+		 */
+		public function setOption($key, $value);
+
+
+		/**
 		 * Executes the validation
 		 *
 		 * @param \Phalcon\Validator $validator

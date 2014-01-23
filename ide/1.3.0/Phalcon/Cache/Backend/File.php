@@ -101,7 +101,7 @@ namespace Phalcon\Cache\Backend {
 		 * @param  long $value
 		 * @return mixed
 		 */
-		public function increment($keyName=null, $value=null){ }
+		public function increment($key_name=null, $value=null){ }
 
 
 		/**
@@ -111,7 +111,7 @@ namespace Phalcon\Cache\Backend {
 		 * @param  long $value
 		 * @return mixed
 		 */
-		public function decrement($keyName=null, $value=null){ }
+		public function decrement($key_name=null, $value=null){ }
 
 
 		/**
