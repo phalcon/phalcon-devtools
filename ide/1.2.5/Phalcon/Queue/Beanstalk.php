@@ -33,6 +33,7 @@ namespace Phalcon\Queue {
 		 *
 		 * @param string $data
 		 * @param array $options
+		 * @return string|boolean
 		 */
 		public function put($data, $options=null){ }
 
