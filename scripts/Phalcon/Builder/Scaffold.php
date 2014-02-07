@@ -519,7 +519,9 @@ class Scaffold extends Component
         $controllerPath = $options['controllersDir'] . $options['className'] . 'Controller.php';
 
         if (file_exists($controllerPath)) {
-            return;
+            if (!$options['force']) {
+                return;
+            }
         }
 
         $path = $options['templatePath'] . '/scaffold/no-forms/Controller.php';
@@ -569,7 +571,7 @@ class Scaffold extends Component
 
         $fileName = $options['fileName'];
         $viewPath = $dirPathLayouts . '/' . $fileName . '.phtml';
-        if (!file_exists($viewPath)) {
+        if (!file_exists($viewPath) || $options['force']) {
 
             //View model layout
             $code = '';
@@ -584,6 +586,11 @@ class Scaffold extends Component
                 $code .= '<div align="center">' . PHP_EOL;
             }
             $code .= "\t" . '<?php echo $this->getContent(); ?>' . PHP_EOL . '</div>';
+
+            if ($this->isConsole()) {
+                echo $viewPath, PHP_EOL;
+            }
+
             $code = str_replace("\t", "    ", $code);
             file_put_contents($viewPath, $code);
 
@@ -607,7 +614,7 @@ class Scaffold extends Component
 
         $fileName = Text::uncamelize($options['fileName']);
         $viewPath = $dirPathLayouts . '/' . $fileName . '.volt';
-        if (!file_exists($viewPath)) {
+        if (!file_exists($viewPath || $options['force'])) {
 
             //View model layout
             $code = '';
@@ -622,6 +629,11 @@ class Scaffold extends Component
                 $code .= '<div align="center">' . PHP_EOL;
             }
             $code .= "\t" . '{{ content() }}' . PHP_EOL . '</div>';
+
+            if ($this->isConsole()) {
+                echo $viewPath, PHP_EOL;
+            }
+
             $code = str_replace("\t", "    ", $code);
             file_put_contents($viewPath, $code);
 
@@ -645,7 +657,9 @@ class Scaffold extends Component
 
         $viewPath = $dirPath . '/' .$type. '.phtml';
         if (file_exists($viewPath)) {
-            return;
+            if (!$options['force']) {
+                return;
+            }
         }
 
         $templatePath = $options['templatePath'] . '/scaffold/no-forms/views/' .$type. '.phtml';
@@ -683,7 +697,9 @@ class Scaffold extends Component
 
         $viewPath = $dirPath . '/' .$type. '.volt';
         if (file_exists($viewPath)) {
-            return;
+            if (!$options['force']) {
+                return;
+            }
         }
 
         $templatePath = $options['templatePath'] . '/scaffold/no-forms/views/' .$type. '.volt';
@@ -778,7 +794,9 @@ class Scaffold extends Component
 
         $viewPath = $dirPath . '/search.phtml';
         if (file_exists($viewPath)) {
-            return;
+            if (!$options['force']) {
+                return;
+            }
         }
 
         $templatePath = $options['templatePath'] . '/scaffold/no-forms/views/search.phtml';
@@ -836,7 +854,9 @@ class Scaffold extends Component
 
         $viewPath = $dirPath . '/search.volt';
         if (file_exists($viewPath)) {
-            return;
+            if (!$options['force']) {
+                return;
+            }
         }
 
         $templatePath = $options['templatePath'] . '/scaffold/no-forms/views/search.volt';
