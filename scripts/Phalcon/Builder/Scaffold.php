@@ -814,12 +814,22 @@ class Scaffold extends Component
         foreach ($options['dataTypes'] as $fieldName => $dataType) {
             $rowCode .= "\t\t\t" . '<td><?php echo ';
             if (!isset($options['allReferences'][$fieldName])) {
-                $rowCode .= '$' . $options['singular'] . '->' . $fieldName;
+                if($options['genSettersGetters']) {
+                    $rowCode .= '$' . $options['singular'] . '->get' . Text::camelize($fieldName) . '()';
+                } else {
+                    $rowCode .= '$' . $options['singular'] . '->' . $fieldName;
+                }
             } else {
                 $detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
                 $rowCode .= '$' . $options['singular'] . '->get' . $options['allReferences'][$fieldName]['tableName'] . '()->get' . $detailField . '()';
             }
             $rowCode .= ' ?></td>' . PHP_EOL;
+        }
+
+        if($options['genSettersGetters']) {
+            $idField = 'get' . Text::camelize($options['attributes'][0]) . '()';
+        } else {
+            $idField =  $options['attributes'][0];
         }
 
         $code = file_get_contents($templatePath);
@@ -828,7 +838,7 @@ class Scaffold extends Component
         $code = str_replace('$headerColumns$', $headerCode, $code);
         $code = str_replace('$rowColumns$', $rowCode, $code);
         $code = str_replace('$singularVar$', '$' . $options['singular'], $code);
-        $code = str_replace('$pk$', $options['attributes'][0], $code);
+        $code = str_replace('$pk$', $idField, $code);
 
         if ($this->isConsole()) {
             echo $viewPath, PHP_EOL;
@@ -874,12 +884,22 @@ class Scaffold extends Component
         foreach ($options['dataTypes'] as $fieldName => $dataType) {
             $rowCode .= "\t\t\t" . '<td>{{ ';
             if (!isset($options['allReferences'][$fieldName])) {
-                $rowCode .= $options['singular'] . '.' . $fieldName;
+                if($options['genSettersGetters']) {
+                    $rowCode .= $options['singular'] . '.get' . Text::camelize($fieldName) . '()';
+                } else {
+                    $rowCode .= $options['singular'] . '.' . $fieldName;
+                }
             } else {
                 $detailField = ucfirst($options['allReferences'][$fieldName]['detail']);
                 $rowCode .= $options['singular'] . '.get' . $options['allReferences'][$fieldName]['tableName'] . '().get' . $detailField . '()';
             }
             $rowCode .= ' }}</td>' . PHP_EOL;
+        }
+
+        if($options['genSettersGetters']) {
+            $idField = 'get' . Text::camelize($options['attributes'][0]) . '()';
+        } else {
+            $idField =  $options['attributes'][0];
         }
 
         $code = file_get_contents($templatePath);
@@ -888,7 +908,7 @@ class Scaffold extends Component
         $code = str_replace('$headerColumns$', $headerCode, $code);
         $code = str_replace('$rowColumns$', $rowCode, $code);
         $code = str_replace('$singularVar$', $options['singular'], $code);
-        $code = str_replace('$pk$', $options['attributes'][0], $code);
+        $code = str_replace('$pk$', $idField, $code);
 
         if ($this->isConsole()) {
             echo $viewPath, PHP_EOL;
