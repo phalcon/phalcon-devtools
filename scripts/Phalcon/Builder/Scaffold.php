@@ -302,10 +302,14 @@ class Scaffold extends Component
      *
      * @return string
      */
-    private function _captureFilterInput($var, $fields, $useGetSetters)
+    private function _captureFilterInput($var, $fields, $useGetSetters, $identityField)
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
+
+            if ($field == $identityField) {
+                continue;
+            }
 
             if (strpos($dataType, 'int') !== false) {
                 $fieldCode = '$this->request->getPost("'.$field.'", "int")';
@@ -536,8 +540,8 @@ class Scaffold extends Component
 
         $code = str_replace('$className$', $options['className'], $code);
 
-        $code = str_replace('$assignInputFromRequestCreate$', $this->_captureFilterInput($options['singular'], $options['dataTypes'], $options['genSettersGetters']), $code);
-        $code = str_replace('$assignInputFromRequestUpdate$', $this->_captureFilterInput($options['singular'], $options['dataTypes'], $options['genSettersGetters']), $code);
+        $code = str_replace('$assignInputFromRequestCreate$', $this->_captureFilterInput($options['singular'], $options['dataTypes'], $options['genSettersGetters'], $options['identityField']), $code);
+        $code = str_replace('$assignInputFromRequestUpdate$', $this->_captureFilterInput($options['singular'], $options['dataTypes'], $options['genSettersGetters'], $options['identityField']), $code);
 
         $code = str_replace('$assignTagDefaults$', $this->_assignTagDefaults($options['singular'], $options['dataTypes'], $options['genSettersGetters']), $code);
 
