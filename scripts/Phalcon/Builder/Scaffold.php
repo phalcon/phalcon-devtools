@@ -117,7 +117,7 @@ class Scaffold extends Component
         $config = $this->_getConfig($path);
 
         if (!isset($config->database->adapter)) {
-            throw new BuilderException("Adapter was not found in the config. Please specify a config varaible [database][adapter]");
+            throw new BuilderException("Adapter was not found in the config. Please specify a config variable [database][adapter]");
         }
 
         $adapter = ucfirst($config->database->adapter);
@@ -149,19 +149,19 @@ class Scaffold extends Component
         if (isset($config->application->modelsDir)) {
             $options['modelsDir'] = $path . $config->application->modelsDir;
         } else {
-            throw new BuilderException("The builder is unable to know where is the views directory");
+            throw new BuilderException("The builder is unable to find the views directory");
         }
 
         if (isset($config->application->controllersDir)) {
             $options['controllersDir'] = $path . $config->application->controllersDir;
         } else {
-            throw new BuilderException("The builder is unable to know where is the controllers directory");
+            throw new BuilderException("The builder is unable to find the controllers directory");
         }
 
         if (isset($config->application->viewsDir)) {
             $options['viewsDir'] = $path . $config->application->viewsDir;
         } else {
-            throw new BuilderException("The builder is unable to know where is the views directory");
+            throw new BuilderException("The builder is unable to find the views directory");
         }
 
         $options['manager'] = $di->getShared('modelsManager');
@@ -291,7 +291,7 @@ class Scaffold extends Component
                 return 'text';
                 break;
             default:
-                throw new BuilderException('Data type could have not been resolved');
+                throw new BuilderException('Data type could not be resolved');
         }
     }
 
@@ -299,6 +299,7 @@ class Scaffold extends Component
      * @param $var
      * @param $fields
      * @param $useGetSetters
+     * @param $identityField
      *
      * @return string
      */
@@ -557,7 +558,7 @@ class Scaffold extends Component
     }
 
     /**
-     * make layouts of model by scaffold
+     * Make layouts of model using scaffold
      *
      * @param string $path
      * @param array  $options
@@ -568,7 +569,7 @@ class Scaffold extends Component
         //Make Layouts dir
         $dirPathLayouts	= $options['viewsDir'] . '/layouts';
 
-        //If not exists dir; we make it
+        //If dir doesn't exist we make it
         if (is_dir($dirPathLayouts) == false) {
             mkdir($dirPathLayouts);
         }
@@ -765,7 +766,7 @@ class Scaffold extends Component
     }
 
     /**
-     * Make views index.phtml of model by scaffold
+     * Creates the view to edit an item
      *
      * @param string $path
      * @param array  $options
@@ -781,7 +782,7 @@ class Scaffold extends Component
     }
 
     /**
-     * Make view search.phtml of model by scaffold
+     * Creates the view to display search results
      *
      * @param $path
      * @param $options
@@ -818,7 +819,7 @@ class Scaffold extends Component
         foreach ($options['dataTypes'] as $fieldName => $dataType) {
             $rowCode .= "\t\t\t" . '<td><?php echo ';
             if (!isset($options['allReferences'][$fieldName])) {
-                if($options['genSettersGetters']) {
+                if ($options['genSettersGetters']) {
                     $rowCode .= '$' . $options['singular'] . '->get' . Text::camelize($fieldName) . '()';
                 } else {
                     $rowCode .= '$' . $options['singular'] . '->' . $fieldName;
@@ -830,7 +831,7 @@ class Scaffold extends Component
             $rowCode .= ' ?></td>' . PHP_EOL;
         }
 
-        if($options['genSettersGetters']) {
+        if ($options['genSettersGetters']) {
             $idField = 'get' . Text::camelize($options['attributes'][0]) . '()';
         } else {
             $idField =  $options['attributes'][0];
@@ -888,7 +889,7 @@ class Scaffold extends Component
         foreach ($options['dataTypes'] as $fieldName => $dataType) {
             $rowCode .= "\t\t\t" . '<td>{{ ';
             if (!isset($options['allReferences'][$fieldName])) {
-                if($options['genSettersGetters']) {
+                if ($options['genSettersGetters']) {
                     $rowCode .= $options['singular'] . '.get' . Text::camelize($fieldName) . '()';
                 } else {
                     $rowCode .= $options['singular'] . '.' . $fieldName;
@@ -900,7 +901,7 @@ class Scaffold extends Component
             $rowCode .= ' }}</td>' . PHP_EOL;
         }
 
-        if($options['genSettersGetters']) {
+        if ($options['genSettersGetters']) {
             $idField = 'get' . Text::camelize($options['attributes'][0]) . '()';
         } else {
             $idField =  $options['attributes'][0];
