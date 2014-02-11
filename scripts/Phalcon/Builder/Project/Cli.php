@@ -27,10 +27,10 @@ use Phalcon\Script\Color;
  *
  * Builder to create cli application skeletons
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @category    Phalcon
+ * @package     Scripts
  * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
 class Cli extends ProjectBuilder
 {
@@ -49,22 +49,19 @@ class Cli extends ProjectBuilder
      * @param $templatePath
      * @param $type
      */
-    private function createConfig($path, $templatePath, $type)
+    private function createConfig($path, $templatePath)
     {
-        if (file_exists($path . 'app/config/config.' . $type) == false) {
-            $str = file_get_contents($templatePath . '/project/cli/config.' . $type);
-            file_put_contents($path . 'app/config/config.' . $type, $str);
-        }
+        $getFile = $templatePath . '/project/cli/config.php';
+        $putFile = $path . 'app/config/config.php';
+        $this->generateFile($getFile, $putFile);
 
-        if (file_exists($path . 'app/config/services.php') == false) {
-            $str = file_get_contents($templatePath . '/project/cli/services.php');
-            file_put_contents($path . 'app/config/services.php', $str);
-        }
+        $getFile = $templatePath . '/project/cli/services.php';
+        $putFile = $path . 'app/config/services.php';
+        $this->generateFile($getFile, $putFile);
 
-        if (file_exists($path . 'app/config/loader.php') == false) {
-            $str = file_get_contents($templatePath . '/project/cli/loader.php');
-            file_put_contents($path . 'app/config/loader.php', $str);
-        }
+        $getFile = $templatePath . '/project/cli/loader.php';
+        $putFile = $path . 'app/config/loader.php';
+        $this->generateFile($getFile, $putFile);
     }
 
     /**
@@ -74,18 +71,11 @@ class Cli extends ProjectBuilder
      * @param $templatePath
      * @param $useIniConfig
      */
-    private function createBootstrapFiles($path, $templatePath, $useIniConfig)
+    private function createBootstrapFiles($path, $templatePath)
     {
-        if (file_exists($path . 'app/cli.php') == false) {
-
-            if ($useIniConfig)
-                $config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__ . "/config/config.ini");';
-            else
-                $config = '$config = include __DIR__ . "/config/config.php";';
-
-            $str = file_get_contents($templatePath . '/project/cli/cli.php');
-            file_put_contents($path . 'app/cli.php', $str);
-        }
+        $getFile = $templatePath . '/project/cli/cli.php';
+        $putFile = $path . 'app/cli.php';
+        $this->generateFile($getFile, $putFile);
     }
 
     /**
@@ -96,15 +86,13 @@ class Cli extends ProjectBuilder
      */
     private function createDefaultTasks($path, $templatePath)
     {
-        if (file_exists($path . 'app/tasks/MainTask.php') == false) {
-            $str = file_get_contents($templatePath . '/project/cli/MainTask.php');
-            file_put_contents($path . 'app/tasks/MainTask.php', $str);
-        }
+        $getFile = $templatePath . '/project/cli/MainTask.php';
+        $putFile = $path . 'app/tasks/MainTask.php';
+        $this->generateFile($getFile, $putFile);
 
-        if (file_exists($path . 'app/tasks/VersionTask.php') == false) {
-            $str = file_get_contents($templatePath . '/project/cli/VersionTask.php');
-            file_put_contents($path . 'app/tasks/VersionTask.php', $str);
-        }
+        $getFile = $templatePath . '/project/cli/VersionTask.php';
+        $putFile = $path . 'app/tasks/VersionTask.php';
+        $this->generateFile($getFile, $putFile);
     }
 
     /**
@@ -116,11 +104,10 @@ class Cli extends ProjectBuilder
      */
     private function createLauncher($name,$path,$templatePath)
     {
-        if (file_exists($path . $name) == false) {
-            $str = file_get_contents($templatePath . '/project/cli/launcher');
-            file_put_contents($path . $name , $str);
-            chmod($path . $name , 0755);
-        }
+        $getFile = $templatePath . '/project/cli/launcher';
+        $putFile = $path . $name;
+        $this->generateFile($getFile, $putFile);
+        chmod($putFile , 0755);
     }
 
     /**
@@ -138,18 +125,17 @@ class Cli extends ProjectBuilder
 
         $this->buildDirectories($this->_dirs,$path);
 
-        //Disable ini config
-//        if (isset($options['useConfigIni']))
-//            $useIniConfig = $options['useConfigIni'];
-//        else
-            $useIniConfig = false;
+        $this->getVariableValues($options);
 
-        if ($useIniConfig)
+        $this->createConfig($path, $templatePath);
+
+        /*if (isset($options['useConfigIni']) && $options['useConfigIni']) {
             $this->createConfig($path, $templatePath, 'ini');
-        else
+        } else {
             $this->createConfig($path, $templatePath, 'php');
+        }*/
 
-        $this->createBootstrapFiles($path, $templatePath,$useIniConfig);
+        $this->createBootstrapFiles($path, $templatePath);
 
         $this->createDefaultTasks($path, $templatePath);
 

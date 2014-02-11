@@ -6,6 +6,7 @@ use Phalcon\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+@@iniConfigImport@@
 
 class Module implements ModuleDefinitionInterface
 {
@@ -37,7 +38,7 @@ class Module implements ModuleDefinitionInterface
         /**
          * Read configuration
          */
-        $config = include __DIR__ . "/config/config.php";
+        $config = @@configLoader@@;
 
         /**
          * Setting up the view component
