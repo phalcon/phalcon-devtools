@@ -9,16 +9,6 @@ namespace Phalcon\Mvc\Router {
 	interface RouteInterface {
 
 		/**
-		 * \Phalcon\Mvc\Router\Route constructor
-		 *
-		 * @param string $pattern
-		 * @param array $paths
-		 * @param array|string $httpMethods
-		 */
-		public function __construct($pattern, $paths=null, $httpMethods=null);
-
-
-		/**
 		 * Replaces placeholders from pattern returning a valid PCRE regular expression
 		 *
 		 * @param string $pattern

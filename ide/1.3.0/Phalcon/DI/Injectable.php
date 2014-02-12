@@ -168,7 +168,7 @@ namespace Phalcon\DI {
 		 *
 		 * @param string $propertyName
 		 */
-		public function __get($propertyName){ }
+		public function __get($property){ }
 
 	}
 }

@@ -46,7 +46,7 @@ namespace Phalcon\Forms {
 		 *
 		 * @param string $name
 		 * @param \Phalcon\Forms\Form $form
-		 * @return \Phalcon\Forms\Form
+		 * @return \Phalcon\Forms\Manager
 		 */
 		public function set($name, $form){ }
 

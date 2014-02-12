@@ -9,15 +9,6 @@ namespace Phalcon\Db {
 	interface ReferenceInterface {
 
 		/**
-		 * \Phalcon\Db\ReferenceInterface constructor
-		 *
-		 * @param string $referenceName
-		 * @param array $definition
-		 */
-		public function __construct($referenceName, $definition);
-
-
-		/**
 		 * Gets the index name
 		 *
 		 * @return string

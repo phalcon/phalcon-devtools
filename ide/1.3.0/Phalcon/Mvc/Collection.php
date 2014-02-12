@@ -83,7 +83,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param \Phalcon\Events\ManagerInterface $eventsManager
 		 */
-		protected function setEventsManager(){ }
+		protected function setEventsManager($eventsManager){ }
 
 
 		/**
@@ -542,7 +542,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $data
 		 */
-		public function unserialize($data){ }
+		public function unserialize($serialized=null){ }
 
 
 		/**

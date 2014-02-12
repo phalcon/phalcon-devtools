@@ -9,14 +9,6 @@ namespace Phalcon\Mvc {
 	interface CollectionInterface {
 
 		/**
-		 * \Phalcon\Mvc\Collection
-		 *
-		 * @param \Phalcon\DiInterface $dependencyInjector
-		 */
-		public function __construct($dependencyInjector=null);
-
-
-		/**
 		 * Sets a value for the _id propery, creates a MongoId object if needed
 		 *
 		 * @param mixed $id

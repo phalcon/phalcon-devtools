@@ -47,5 +47,13 @@ namespace Phalcon\Session {
 		 */
 		public function has($property);
 
+
+		/**
+		 * Unset property
+		 *
+		 * @param string $property
+		 */
+		public function remove($property);
+
 	}
 }

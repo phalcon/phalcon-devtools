@@ -9,18 +9,6 @@ namespace Phalcon\Mvc\Model {
 	interface RelationInterface {
 
 		/**
-		 * \Phalcon\Mvc\Model\Relation constructor
-		 *
-		 * @param int $type
-		 * @param string $referencedModel
-		 * @param string|array $fields
-		 * @param string|array $referencedFields
-		 * @param array $options
-		 */
-		public function __construct($type, $referencedModel, $fields, $referencedFields, $options=null);
-
-
-		/**
 		 * Sets the intermediate model dat for has-*-through relations
 		 *
 		 * @param string|array $intermediateFields

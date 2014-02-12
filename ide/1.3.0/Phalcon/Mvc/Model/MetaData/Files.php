@@ -71,5 +71,8 @@ namespace Phalcon\Mvc\Model\MetaData {
 		 */
 		public function write($key, $data){ }
 
+
+		public function reset(){ }
+
 	}
 }

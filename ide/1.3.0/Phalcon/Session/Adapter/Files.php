@@ -20,6 +20,6 @@ namespace Phalcon\Session\Adapter {
 	 *</code>
 	 */
 	
-	class Files extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface {
+	class Files extends \Phalcon\Session\Adapter implements \ArrayAccess, \Traversable, \IteratorAggregate, \Countable, \Phalcon\Session\AdapterInterface {
 	}
 }

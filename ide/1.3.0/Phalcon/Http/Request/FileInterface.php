@@ -9,14 +9,6 @@ namespace Phalcon\Http\Request {
 	interface FileInterface {
 
 		/**
-		 * \Phalcon\Http\Request\FileInterface constructor
-		 *
-		 * @param array $file
-		 */
-		public function __construct($file);
-
-
-		/**
 		 * Returns the file size of the uploaded file
 		 *
 		 * @return int

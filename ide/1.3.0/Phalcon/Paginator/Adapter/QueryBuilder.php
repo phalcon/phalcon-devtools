@@ -52,7 +52,7 @@ namespace Phalcon\Paginator\Adapter {
 		 *
 		 * @return \Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
 		 */
-		public function setLimit(){ }
+		public function setLimit($limit){ }
 
 
 		/**

@@ -9,16 +9,6 @@ namespace Phalcon\Mvc\Model {
 	interface MessageInterface {
 
 		/**
-		 * \Phalcon\Mvc\Model\Message constructor
-		 *
-		 * @param string $message
-		 * @param string $field
-		 * @param string $type
-		 */
-		public function __construct($message, $field=null, $type=null);
-
-
-		/**
 		 * Sets message type
 		 *
 		 * @param string $type
@@ -64,15 +54,6 @@ namespace Phalcon\Mvc\Model {
 		 * @return string
 		 */
 		public function getField();
-
-
-		/**
-		 * Magic __set_state helps to recover messsages from serialization
-		 *
-		 * @param array $message
-		 * @return \Phalcon\Mvc\Model\MessageInterface
-		 */
-		public static function __set_state($message);
 
 	}
 }

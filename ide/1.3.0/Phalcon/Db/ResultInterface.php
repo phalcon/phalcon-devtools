@@ -9,18 +9,6 @@ namespace Phalcon\Db {
 	interface ResultInterface {
 
 		/**
-		 * \Phalcon\Db\Result\Pdo constructor
-		 *
-		 * @param \Phalcon\Db\AdapterInterface $connection
-		 * @param string $sqlStatement
-		 * @param array $bindParams
-		 * @param array $bindTypes
-		 * @param \PDOStatement $result
-		 */
-		public function __construct($connection, $result, $sqlStatement=null, $bindParams=null, $bindTypes=null);
-
-
-		/**
 		 * Allows to executes the statement again. Some database systems don't support scrollable cursors,
 		 * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
 		 *

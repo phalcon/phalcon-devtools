@@ -94,7 +94,7 @@ namespace Phalcon\Db {
 		 * @param array $data
 		 * @return \Phalcon\Db\Reference
 		 */
-		public static function __set_state($data){ }
+		public static function __set_state($properties=null){ }
 
 	}
 }

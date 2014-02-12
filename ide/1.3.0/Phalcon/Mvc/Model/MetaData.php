@@ -175,7 +175,7 @@ namespace Phalcon\Mvc\Model {
 		 *</code>
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
-		 * @return 	array
+		 * @return array
 		 */
 		public function getAttributes($model){ }
 

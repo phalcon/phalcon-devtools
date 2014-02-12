@@ -11,6 +11,12 @@ namespace Phalcon\Translate {
 	abstract class Adapter implements \ArrayAccess, \Phalcon\Translate\AdapterInterface {
 
 		/**
+		 * Class constructore
+		 */
+		public function __construct(){ }
+
+
+		/**
 		 * Returns the translation string of the given key
 		 *
 		 * @param string $translateKey
@@ -26,7 +32,7 @@ namespace Phalcon\Translate {
 		 * @param 	string $offset
 		 * @param 	string $value
 		 */
-		public function offsetSet($offset, $value){ }
+		public function offsetSet($property, $value){ }
 
 
 		/**
@@ -35,7 +41,7 @@ namespace Phalcon\Translate {
 		 * @param string $translateKey
 		 * @return boolean
 		 */
-		public function offsetExists($translateKey){ }
+		public function offsetExists($property){ }
 
 
 		/**
@@ -43,7 +49,7 @@ namespace Phalcon\Translate {
 		 *
 		 * @param string $offset
 		 */
-		public function offsetUnset($offset){ }
+		public function offsetUnset($property){ }
 
 
 		/**
@@ -52,7 +58,7 @@ namespace Phalcon\Translate {
 		 * @param string $translateKey
 		 * @return string
 		 */
-		public function offsetGet($translateKey){ }
+		public function offsetGet($property){ }
 
 	}
 }

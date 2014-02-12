@@ -152,7 +152,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $message
 		 * @return \Phalcon\Mvc\Model\Message
 		 */
-		public static function __set_state($message){ }
+		public static function __set_state($properties=null){ }
 
 	}
 }

@@ -144,7 +144,7 @@ namespace Phalcon\Mvc\Router {
 		/**
 		 * Adds a route applying the common attributes
 		 *
-		 * @param string $patten
+		 * @param string $pattern
 		 * @param array $paths
 		 * @param array $httpMethods
 		 * @return \Phalcon\Mvc\Router\Route

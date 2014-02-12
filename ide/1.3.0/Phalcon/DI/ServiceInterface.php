@@ -9,16 +9,6 @@ namespace Phalcon\DI {
 	interface ServiceInterface {
 
 		/**
-		 * \Phalcon\DI\ServiceInterface
-		 *
-		 * @param string $name
-		 * @param mixed $definition
-		 * @param boolean $shared
-		 */
-		public function __construct($name, $definition, $shared=null);
-
-
-		/**
 		 * Returns the service's name
 		 *
 		 * @param string

@@ -51,6 +51,8 @@ namespace Phalcon\Mvc {
 
 		protected $_routes;
 
+		protected $_routesNameLookup;
+
 		protected $_matchedRoute;
 
 		protected $_matches;
@@ -110,7 +112,7 @@ namespace Phalcon\Mvc {
 		 *	$router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
 		 *</code>
 		 *
-		 * @param string $uriSource
+		 * @param int $uriSource
 		 * @return \Phalcon\Mvc\Router
 		 */
 		public function setUriSource($uriSource){ }
@@ -211,7 +213,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Returns an array of default paths
+		 * Returns an array of default parameters
 		 *
 		 * @return array
 		 */
@@ -331,7 +333,7 @@ namespace Phalcon\Mvc {
 		/**
 		 * Set a group of paths to be returned when none of the defined routes are matched
 		 *
-		 * @param array $paths
+		 * @param array|string $paths
 		 * @return \Phalcon\Mvc\Router
 		 */
 		public function notFound($paths){ }
@@ -419,7 +421,7 @@ namespace Phalcon\Mvc {
 		 * Returns a route object by its id
 		 *
 		 * @param string $id
-		 * @return \Phalcon\Mvc\Router\Route
+		 * @return \Phalcon\Mvc\Router\Route | false
 		 */
 		public function getRouteById($id){ }
 

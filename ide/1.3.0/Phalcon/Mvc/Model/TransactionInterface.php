@@ -9,16 +9,6 @@ namespace Phalcon\Mvc\Model {
 	interface TransactionInterface {
 
 		/**
-		 * \Phalcon\Mvc\Model\Transaction constructor
-		 *
-		 * @param \Phalcon\DiInterface $dependencyInjector
-		 * @param boolean $autoBegin
-		 * @param string $service
-		 */
-		public function __construct($dependencyInjector, $autoBegin=null, $service=null);
-
-
-		/**
 		 * Sets transaction manager related to the transaction
 		 *
 		 * @param \Phalcon\Mvc\Model\Transaction\ManagerInterface $manager

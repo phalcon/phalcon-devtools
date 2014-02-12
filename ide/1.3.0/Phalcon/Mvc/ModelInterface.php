@@ -9,15 +9,6 @@ namespace Phalcon\Mvc {
 	interface ModelInterface {
 
 		/**
-		 * \Phalcon\Mvc\Model constructor
-		 *
-		 * @param \Phalcon\DiInterface $dependencyInjector
-		 * @param \Phalcon\Mvc\Model\ManagerInterface $modelsManager
-		 */
-		public function __construct($dependencyInjector=null, $modelsManager=null);
-
-
-		/**
 		 * Sets a transaction related to the Model instance
 		 *
 		 * @param \Phalcon\Mvc\Model\TransactionInterface $transaction

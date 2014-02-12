@@ -272,7 +272,7 @@ namespace Phalcon\Mvc {
 		 * Alias for \Phalcon\Mvc\Micro::getService()
 		 *
 		 *<code>
-		 *	var_dump($di['request']);
+		 *	var_dump($app['request']);
 		 *</code>
 		 *
 		 * @param string $alias
