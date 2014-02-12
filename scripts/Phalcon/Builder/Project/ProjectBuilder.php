@@ -40,7 +40,7 @@ abstract class ProjectBuilder
     public function buildDirectories(array $directoryList,$path)
     {
         foreach ($directoryList as $dir) {
-            mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir);
+            @mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir);
         }
     }
 
