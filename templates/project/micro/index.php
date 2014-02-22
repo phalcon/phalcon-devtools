@@ -7,7 +7,7 @@ try {
     /**
      * Read the configuration
      */
-    $config = include __DIR__ . '/../config/config.php';
+    $config = @@configLoader@@;
 
     /**
      * Include Services

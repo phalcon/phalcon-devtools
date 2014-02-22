@@ -25,10 +25,10 @@ namespace Phalcon\Builder\Project;
  *
  * Builder to create micro application skeletons
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @category  Phalcon
+ * @package   Scripts
  * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license   New BSD License
  */
 class Micro extends ProjectBuilder
 {
@@ -79,18 +79,13 @@ class Micro extends ProjectBuilder
      */
     private function createIndexViewFiles($path, $templatePath)
     {
+        $getFile = $templatePath . '/project/micro/views/index.phtml';
+        $putFile = $path.'views/index.phtml';
+        $this->generateFile($getFile, $putFile);
 
-        $file = $path.'views/index.phtml';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/micro/views/index.phtml');
-            file_put_contents($file, $str);
-        }
-
-        $file = $path.'views/404.phtml';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/micro/views/404.phtml');
-            file_put_contents($file, $str);
-        }
+        $getFile = $templatePath . '/project/micro/views/404.phtml';
+        $putFile = $path.'views/404.phtml';
+        $this->generateFile($getFile, $putFile);
     }
 
     /**
@@ -103,26 +98,21 @@ class Micro extends ProjectBuilder
      */
     private function createConfig($path, $templatePath, $name, $type)
     {
-        if (file_exists($path . 'config/config.' . $type) == false) {
-            $str = file_get_contents($templatePath . '/project/micro/config.' . $type);
-            $str = preg_replace('/@@name@@/', $name, $str);
-            file_put_contents($path . 'config/config.' . $type, $str);
-        }
+        $getFile = $templatePath . '/project/micro/config.' . $type;
+        $putFile = $path . 'config/config.' . $type;
+        $this->generateFile($getFile, $putFile, $name);
 
-        if (file_exists($path . 'config/services.php') == false) {
-            $str = file_get_contents($templatePath . '/project/micro/services.php');
-            file_put_contents($path . 'config/services.php', $str);
-        }
+        $getFile = $templatePath . '/project/micro/services.php';
+        $putFile = $path . 'config/services.php';
+        $this->generateFile($getFile, $putFile, $name);
 
-        if (file_exists($path . 'config/loader.php') == false) {
-            $str = file_get_contents($templatePath . '/project/micro/loader.php');
-            file_put_contents($path . 'config/loader.php', $str);
-        }
+        $getFile = $templatePath . '/project/micro/loader.php';
+        $putFile = $path . 'config/loader.php';
+        $this->generateFile($getFile, $putFile, $name);
 
-        if (file_exists($path . 'app.php') == false) {
-            $str = file_get_contents($templatePath . '/project/micro/app.php');
-            file_put_contents($path . 'app.php', $str);
-        }
+        $getFile = $templatePath . '/project/micro/app.php';
+        $putFile = $path . 'app.php';
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -132,19 +122,11 @@ class Micro extends ProjectBuilder
      * @param $templatePath
      * @param $useIniConfig
      */
-    private function createBootstrapFile($path, $templatePath, $useIniConfig)
+    private function createBootstrapFile($path, $templatePath)
     {
-        if (file_exists($path . 'public/index.php') == false) {
-
-            $config = '$config = include __DIR__ . "/../config/config.php";';
-            if ($useIniConfig) {
-                $config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__ . "/../config/config.ini");';
-            }
-
-            $str = file_get_contents($templatePath . '/project/micro/index.php');
-            $str = preg_replace('/@@config@@/', $config, $str);
-            file_put_contents($path . 'public/index.php', $str);
-        }
+        $getFile = $templatePath . '/project/micro/index.php';
+        $putFile = $path . 'public/index.php';
+        $this->generateFile($getFile, $putFile);
     }
 
     /**
@@ -162,19 +144,15 @@ class Micro extends ProjectBuilder
 
         $this->buildDirectories($this->_dirs,$path);
 
-        if (isset($options['useConfigIni'])) {
-            $useIniConfig = $options['useConfigIni'];
-        } else {
-            $useIniConfig = false;
-        }
+        $this->getVariableValues($options);
 
-        if ($useIniConfig) {
+        if (isset($options['useConfigIni']) && $options['useConfigIni']) {
             $this->createConfig($path, $templatePath, $name, 'ini');
         } else {
             $this->createConfig($path, $templatePath, $name, 'php');
         }
 
-        $this->createBootstrapFile($path, $templatePath, $useIniConfig);
+        $this->createBootstrapFile($path, $templatePath);
         $this->createHtaccessFiles($path, $templatePath);
         $this->createIndexViewFiles($path, $templatePath);
 

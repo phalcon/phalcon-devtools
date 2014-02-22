@@ -1,0 +1,10 @@
+{
+    "useConfigIni": {
+        "true": {
+            "configLoader": "new \\Phalcon\\Config\\Adapter\\Ini(__DIR__ . \"/../app/config/config.ini\")"
+        },
+        "false": {
+            "configLoader": "include __DIR__ . \"/../app/config/config.php\""
+        }
+    }
+}

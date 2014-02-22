@@ -196,6 +196,10 @@ class Migration
             //	$fieldDefinition[] = "'primary' => true";
             //}
 
+            if ($field->isUnsigned()) {
+                $fieldDefinition[] = "'unsigned' => true";
+            }
+
             if ($field->isNotNull()) {
                 $fieldDefinition[] = "'notNull' => true";
             }

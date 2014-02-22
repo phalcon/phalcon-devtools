@@ -362,11 +362,17 @@ class %s extends %s
                 foreach ($this->_options['hasMany'] as $relation) {
                     if (is_string($relation['fields'])) {
                         $entityName = $relation['camelizedName'];
+                        if (isset($this->_options['namespace'])) {
+                            $entityNamespace = "{$this->_options['namespace']}\\";
+                            $relation['options']['alias'] = $entityName;
+                        } else {
+                            $entityNamespace = '';
+                        }
                         $initialize[] = sprintf(
                             $templateRelation,
                             'hasMany',
                             $relation['fields'],
-                            $entityName,
+                            $entityNamespace . $entityName,
                             $relation['relationFields'],
                             $this->_buildRelationOptions( isset($relation['options']) ? $relation["options"] : NULL)
                         );
@@ -380,11 +386,17 @@ class %s extends %s
                 foreach ($this->_options['belongsTo'] as $relation) {
                     if (is_string($relation['fields'])) {
                         $entityName = $relation['referencedModel'];
+                        if (isset($this->_options['namespace'])) {
+                            $entityNamespace = "{$this->_options['namespace']}\\";
+                            $relation['options']['alias'] = $entityName;
+                        } else {
+                            $entityNamespace = '';
+                        }
                         $initialize[] = sprintf(
                             $templateRelation,
                             'belongsTo',
                             $relation['fields'],
-                            $entityName,
+                            $entityNamespace . $entityName,
                             $relation['relationFields'],
                             $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : NULL)
                         );
@@ -628,7 +640,7 @@ class %s extends %s
             if (is_bool($val)) {
                 $val = $val ? 'true':'false';
             } elseif (!is_numeric($val)) {
-                $val = '"$val"';
+                $val = "'{$val}'";
             }
 
             $values[] = sprintf('"%s"=>%s', $name, $val);

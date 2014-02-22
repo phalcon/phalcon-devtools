@@ -7,7 +7,7 @@ try {
     /**
      * Read the configuration
      */
-    @@config@@
+    $config = @@configLoader@@;
 
     /**
      * Read auto-loader
