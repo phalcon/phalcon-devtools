@@ -25,10 +25,10 @@ namespace Phalcon\Builder\Project;
  *
  * Builder to create simple application skeletons
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @category  Phalcon
+ * @package   Scripts
  * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license   New BSD License
  */
 class Simple extends ProjectBuilder
 {
@@ -99,18 +99,13 @@ class Simple extends ProjectBuilder
      */
     private function createIndexViewFiles($path, $templatePath)
     {
+        $getFile = $templatePath . '/project/simple/views/index.volt';
+        $putFile = $path.'app/views/index.volt';
+        $this->generateFile($getFile, $putFile);
 
-        $file = $path.'app/views/index.volt';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/simple/views/index.volt');
-            file_put_contents($file, $str);
-        }
-
-        $file = $path.'app/views/index/index.volt';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/simple/views/index/index.volt');
-            file_put_contents($file, $str);
-        }
+        $getFile = $templatePath . '/project/simple/views/index/index.volt';
+        $putFile = $path.'app/views/index/index.volt';
+        $this->generateFile($getFile, $putFile);
 
         return;
 
@@ -137,24 +132,17 @@ class Simple extends ProjectBuilder
      */
     private function createConfig($path, $templatePath, $name, $type)
     {
-        $file = $path . 'app/config/config.' . $type;
-        if (file_exists($file) == false) {
-            $str = file_get_contents($templatePath . '/project/simple/config.' . $type);
-            $str = preg_replace('/@@name@@/', $name, $str);
-            file_put_contents($file, $str);
-        }
+        $getFile = $templatePath . '/project/simple/config.' . $type;
+        $putFile = $path . 'app/config/config.' . $type;
+        $this->generateFile($getFile, $putFile, $name);
 
-        $file = $path . 'app/config/loader.php';
-        if (file_exists($file) == false) {
-            $str = file_get_contents($templatePath . '/project/simple/loader.php');
-            file_put_contents($file, $str);
-        }
+        $getFile = $templatePath . '/project/simple/loader.php';
+        $putFile = $path . 'app/config/loader.php';
+        $this->generateFile($getFile, $putFile, $name);
 
-        $file = $path . 'app/config/services.php';
-        if (file_exists($file) == false) {
-            $str = file_get_contents($templatePath . '/project/simple/services.php');
-            file_put_contents($file, $str);
-        }
+        $getFile = $templatePath . '/project/simple/services.php';
+        $putFile = $path . 'app/config/services.php';
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -166,11 +154,9 @@ class Simple extends ProjectBuilder
      */
     private function createControllerBase($path, $templatePath, $name)
     {
-        if (file_exists($path . 'app/controllers/ControllerBase.php') == false) {
-            $str = file_get_contents($templatePath . '/project/simple/ControllerBase.php');
-            $str = preg_replace('/@@name@@/', $name, $str);
-            file_put_contents($path . 'app/controllers/ControllerBase.php', $str);
-        }
+        $getFile = $templatePath . '/project/simple/ControllerBase.php';
+        $putFile = $path . 'app/controllers/ControllerBase.php';
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -180,17 +166,11 @@ class Simple extends ProjectBuilder
      * @param $templatePath
      * @param $useIniConfig
      */
-    private function createBootstrapFile($path, $templatePath, $useIniConfig)
+    private function createBootstrapFile($path, $templatePath)
     {
-        if (file_exists($path . 'public/index.php') == false) {
-            $config = '$config = include __DIR__ . "/../app/config/config.php";';
-            if ($useIniConfig) {
-                $config = '$config = new \Phalcon\Config\Adapter\Ini(__DIR__ . "/../app/config/config.ini");';
-            }
-            $str = file_get_contents($templatePath . '/project/simple/index.php');
-            $str = preg_replace('/@@config@@/', $config, $str);
-            file_put_contents($path . 'public/index.php', $str);
-        }
+        $getFile = $templatePath . '/project/simple/index.php';
+        $putFile = $path . 'public/index.php';
+        $this->generateFile($getFile, $putFile);
     }
 
     /**
@@ -205,22 +185,18 @@ class Simple extends ProjectBuilder
      */
     public function build($name, $path, $templatePath, $options)
     {
-
+        
         $this->buildDirectories($this->_dirs,$path);
 
-        if (isset($options['useConfigIni'])) {
-            $useIniConfig = $options['useConfigIni'];
-        } else {
-            $useIniConfig = false;
-        }
-
-        if ($useIniConfig) {
+        $this->getVariableValues($options);
+        
+        if (isset($options['useConfigIni']) && $options['useConfigIni']) {
             $this->createConfig($path, $templatePath, $name, 'ini');
         } else {
             $this->createConfig($path, $templatePath, $name, 'php');
         }
 
-        $this->createBootstrapFile($path, $templatePath, $useIniConfig);
+        $this->createBootstrapFile($path, $templatePath);
         $this->createHtaccessFiles($path, $templatePath);
         $this->createControllerBase($path, $templatePath, $name);
         $this->createIndexViewFiles($path, $templatePath);
