@@ -161,6 +161,7 @@ class Migration extends Command implements CommandsInterface
             if ($action == 'run') {
                 Migrations::run(array(
                     'directory' => $path,
+                    'tableName' => $tableName,
                     'migrationsDir' => $migrationsDir,
                     'force' => $this->isReceivedOption('force'),
                     'config' => $config
