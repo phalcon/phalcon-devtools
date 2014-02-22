@@ -9,7 +9,7 @@ namespace Phalcon {
 	interface DiInterface extends \ArrayAccess {
 
 		/**
-		 * Registers a service in the services container
+		 * Registers a service in the service container
 		 *
 		 * @param string $name
 		 * @param mixed $definition
@@ -20,17 +20,7 @@ namespace Phalcon {
 
 
 		/**
-		 * Registers an "always shared" service in the services container
-		 *
-		 * @param string $name
-		 * @param mixed $definition
-		 * @return \Phalcon\DI\ServiceInterface
-		 */
-		public function setShared($name, $definition);
-
-
-		/**
-		 * Removes a service in the services container
+		 * Removes a service from the service container
 		 *
 		 * @param string $name
 		 */
@@ -38,34 +28,21 @@ namespace Phalcon {
 
 
 		/**
-		 * Attempts to register a service in the services container
-		 * Only is successful if a service hasn't been registered previously
-		 * with the same name
-		 *
-		 * @param string $name
-		 * @param mixed $definition
-		 * @param boolean $shared
-		 * @return \Phalcon\DI\ServiceInterface
-		 */
-		public function attempt($name, $definition, $shared=null);
-
-
-		/**
 		 * Resolves the service based on its configuration
 		 *
 		 * @param string $name
 		 * @param array $parameters
-		 * @return mixed
+		 * @return object
 		 */
 		public function get($name, $parameters=null);
 
 
 		/**
-		 * Returns a shared service based on their configuration
+		 * Resolves a shared service based on their configuration
 		 *
 		 * @param string $name
 		 * @param array $parameters
-		 * @return mixed
+		 * @return object
 		 */
 		public function getShared($name, $parameters=null);
 
@@ -77,16 +54,7 @@ namespace Phalcon {
 		 * @param \Phalcon\DI\ServiceInterface $rawDefinition
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
-		public function setRaw($name, $rawDefinition);
-
-
-		/**
-		 * Returns a service definition without resolving
-		 *
-		 * @param string $name
-		 * @return mixed
-		 */
-		public function getRaw($name);
+		public function setService($rawDefinition);
 
 
 		/**
@@ -124,7 +92,7 @@ namespace Phalcon {
 
 
 		/**
-		 * Set a default dependency injection container to be obtained into static methods
+		 * Set the default dependency injection container to be obtained into static methods
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */

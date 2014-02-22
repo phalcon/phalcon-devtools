@@ -16,16 +16,6 @@ namespace Phalcon\DI {
 	
 	class Service implements \Phalcon\DI\ServiceInterface {
 
-		protected $_name;
-
-		protected $_definition;
-
-		protected $_shared;
-
-		protected $_sharedInstance;
-
-		protected $_resolved;
-
 		/**
 		 * \Phalcon\DI\Service
 		 *
@@ -89,7 +79,7 @@ namespace Phalcon\DI {
 		 *
 		 * @param array $parameters
 		 * @param \Phalcon\DiInterface $dependencyInjector
-		 * @return mixed
+		 * @return object
 		 */
 		public function resolve($parameters=null, $dependencyInjector=null){ }
 
@@ -127,7 +117,7 @@ namespace Phalcon\DI {
 		 * @param array $attributes
 		 * @return \Phalcon\DI\Service
 		 */
-		public static function __set_state($attributes){ }
+		public static function __set_state($properties=null){ }
 
 	}
 }

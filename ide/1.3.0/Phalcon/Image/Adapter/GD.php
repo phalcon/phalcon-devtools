@@ -40,7 +40,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $width
 		 * @param int $height
 		 */
-		protected function _resize($width=null, $height=null){ }
+		protected function _resize($width, $height){ }
 
 
 		/**
@@ -52,7 +52,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
 		 * @return \Phalcon\Image\Adapter
 		 */
-		protected function _liquidRescale($width, $height, $delta_x=null, $rigidity=null){ }
+		protected function _liquidRescale($width, $height, $delta_x, $regidity){ }
 
 
 		/**
@@ -63,7 +63,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $offset_x
 		 * @param int $offset_y
 		 */
-		protected function _crop($width, $height, $offset_x=null, $offset_y=null){ }
+		protected function _crop($width, $height, $offset_x, $offset_y){ }
 
 
 		/**
@@ -97,7 +97,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $opacity
 		 * @param boolean $fade_in
 		 */
-		protected function _reflection($height=null, $opacity=null, $fade_in=null){ }
+		protected function _reflection($height, $opacity, $fade_in){ }
 
 
 		/**
@@ -108,7 +108,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $offset_y
 		 * @param int $opacity
 		 */
-		protected function _watermark($watermark, $offset_x=null, $offset_y=null, $opacity=null){ }
+		protected function _watermark($watermark, $offset_x, $offset_y, $opacity){ }
 
 
 		/**
@@ -124,7 +124,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $size
 		 * @param string $fontfile
 		 */
-		protected function _text($text, $offset_x=null, $offset_y=null, $opacity=null, $color=null, $size=null, $fontfile=null){ }
+		protected function _text($text, $offset_x, $offset_y, $opacity, $r, $g, $b, $size, $fontfile){ }
 
 
 		/**
@@ -144,7 +144,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $b
 		 * @param int $opacity
 		 */
-		protected function _background($color, $quality=null){ }
+		protected function _background($r, $g, $b, $opacity){ }
 
 
 		/**
@@ -152,7 +152,7 @@ namespace Phalcon\Image\Adapter {
 		 *
 		 * @param int $radius Blur radius
 		 */
-		protected function _blur($radius=null){ }
+		protected function _blur($radius){ }
 
 
 		/**
@@ -160,7 +160,7 @@ namespace Phalcon\Image\Adapter {
 		 *
 		 * @param int $amount amount to pixelate
 		 */
-		protected function _pixelate($amount=null){ }
+		protected function _pixelate($amount){ }
 
 
 		/**
@@ -170,7 +170,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $quality
 		 * @return boolean
 		 */
-		protected function _save($file=null, $quality=null){ }
+		protected function _save($file, $quality){ }
 
 
 		/**
@@ -180,7 +180,7 @@ namespace Phalcon\Image\Adapter {
 		 * @param int $quality
 		 * @return string
 		 */
-		protected function _render($type=null, $quality=null){ }
+		protected function _render($type, $quality){ }
 
 
 		/**

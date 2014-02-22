@@ -73,6 +73,8 @@ namespace Phalcon\Mvc {
 
 		protected $_notFoundPaths;
 
+		protected $_isExactControllerName;
+
 		/**
 		 * \Phalcon\Mvc\Router constructor
 		 *
@@ -433,6 +435,12 @@ namespace Phalcon\Mvc {
 		 * @return \Phalcon\Mvc\Router\Route
 		 */
 		public function getRouteByName($name){ }
+
+
+		/**
+		 * Returns whether controller name should not be mangled
+		 */
+		public function isExactControllerName(){ }
 
 	}
 }

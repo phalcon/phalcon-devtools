@@ -1,11 +1,11 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\View {
 
 	/**
 	 * Phalcon\Mvc\View\EngineInterface initializer
 	 */
-
+	
 	interface EngineInterface {
 
 		/**

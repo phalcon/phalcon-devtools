@@ -44,7 +44,7 @@ namespace Phalcon {
 	 * Phalcon\Registry is a final class and cannot be inherited from.
 	 *
 	 * Though Phalcon\Registry exposes methods like __get(), offsetGet(), count() etc,
-	 * it is not recommended to invoke them manually (these method exists mainly to
+	 * it is not recommended to invoke them manually (these methods exist mainly to
 	 * match the interfaces the registry implements): $registry->__get('property')
 	 * is several times slower than $registry->property.
 	 *

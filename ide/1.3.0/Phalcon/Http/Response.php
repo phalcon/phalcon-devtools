@@ -205,7 +205,7 @@ namespace Phalcon\Http {
 		 *	));
 		 *</code>
 		 *
-		 * @param string $location
+		 * @param string|array $location
 		 * @param boolean $externalRedirect
 		 * @param int $statusCode
 		 * @return \Phalcon\Http\ResponseInterface

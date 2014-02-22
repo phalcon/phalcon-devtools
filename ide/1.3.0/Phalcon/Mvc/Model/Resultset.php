@@ -106,7 +106,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param int $index
 		 * @return boolean
 		 */
-		public function offsetExists($index){ }
+		public function offsetExists($property){ }
 
 
 		/**
@@ -115,7 +115,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param int $index
 		 * @return \Phalcon\Mvc\ModelInterface
 		 */
-		public function offsetGet($index){ }
+		public function offsetGet($property){ }
 
 
 		/**
@@ -124,7 +124,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param int $index
 		 * @param \Phalcon\Mvc\ModelInterface $value
 		 */
-		public function offsetSet($index, $value){ }
+		public function offsetSet($property, $value){ }
 
 
 		/**
@@ -132,7 +132,7 @@ namespace Phalcon\Mvc\Model {
 		 *
 		 * @param int $offset
 		 */
-		public function offsetUnset($offset){ }
+		public function offsetUnset($property){ }
 
 
 		/**

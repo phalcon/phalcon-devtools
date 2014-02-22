@@ -22,6 +22,24 @@ namespace Phalcon {
 	
 	class Security implements \Phalcon\DI\InjectionAwareInterface {
 
+		const CRYPT_DEFAULT = 0;
+
+		const CRYPT_STD_DES = 1;
+
+		const CRYPT_EXT_DES = 2;
+
+		const CRYPT_MD5 = 3;
+
+		const CRYPT_BLOWFISH = 4;
+
+		const CRYPT_BLOWFISH_X = 5;
+
+		const CRYPT_BLOWFISH_Y = 6;
+
+		const CRYPT_SHA256 = 7;
+
+		const CRYPT_SHA512 = 8;
+
 		protected $_dependencyInjector;
 
 		protected $_workFactor;
@@ -29,6 +47,8 @@ namespace Phalcon {
 		protected $_numberBytes;
 
 		protected $_csrf;
+
+		protected $_defaultHash;
 
 		/**
 		 * Sets the dependency injector
@@ -179,6 +199,18 @@ namespace Phalcon {
 		 * @brief This method is used only for internal tests, use \Phalcon\Security::deriveKey() instead
 		 */
 		public static function pbkdf2($password, $salt, $hash=null, $iterations=null, $size=null){ }
+
+
+		/**
+		 * Returns the default hash
+		 */
+		public function getDefaultHash(){ }
+
+
+		/**
+		 * Sets the default hash
+		 */
+		public function setDefaultHash($hash){ }
 
 	}
 }

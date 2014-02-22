@@ -12,7 +12,7 @@ namespace Phalcon {
 		 * Sets the cipher algorithm
 		 *
 		 * @param string $cipher
-		 * @return \Phalcon\EncryptInterface
+		 * @return \Phalcon\CryptInterface
 		 */
 		public function setCipher($cipher);
 
@@ -29,7 +29,7 @@ namespace Phalcon {
 		 * Sets the encrypt/decrypt mode
 		 *
 		 * @param string $cipher
-		 * @return \Phalcon\EncryptInterface
+		 * @return \Phalcon\CryptInterface
 		 */
 		public function setMode($mode);
 
@@ -46,7 +46,7 @@ namespace Phalcon {
 		 * Sets the encryption key
 		 *
 		 * @param string $key
-		 * @return \Phalcon\EncryptInterface
+		 * @return \Phalcon\CryptInterface
 		 */
 		public function setKey($key);
 
@@ -84,6 +84,7 @@ namespace Phalcon {
 		 *
 		 * @param string $text
 		 * @param string $key
+		 * @param bool $url_safe
 		 * @return string
 		 */
 		public function encryptBase64($text, $key=null, $safe=null);
@@ -94,6 +95,7 @@ namespace Phalcon {
 		 *
 		 * @param string $text
 		 * @param string $key
+		 * @param bool $url_safe
 		 * @return string
 		 */
 		public function decryptBase64($text, $key=null, $safe=null);

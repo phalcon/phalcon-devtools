@@ -13,6 +13,9 @@ namespace Phalcon\Forms {
 
 		protected $_forms;
 
+		public function __construct(){ }
+
+
 		/**
 		 * Creates a form registering it in the forms manager
 		 *

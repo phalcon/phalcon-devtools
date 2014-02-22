@@ -57,6 +57,8 @@ namespace Phalcon {
 
 		protected $_actionSuffix;
 
+		protected $_isExactHandler;
+
 		protected $_previousHandlerName;
 
 		protected $_previousActionName;

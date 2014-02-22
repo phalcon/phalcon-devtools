@@ -58,44 +58,11 @@ namespace Phalcon {
 
 
 		/**
-		 * Registers an "always shared" service in the services container
-		 *
-		 * @param string $name
-		 * @param mixed $definition
-		 * @return \Phalcon\DI\ServiceInterface
-		 */
-		public function setShared($name, $definition){ }
-
-
-		/**
 		 * Removes a service in the services container
 		 *
 		 * @param string $name
 		 */
 		public function remove($name){ }
-
-
-		/**
-		 * Attempts to register a service in the services container
-		 * Only is successful if a service hasn't been registered previously
-		 * with the same name
-		 *
-		 * @param string $name
-		 * @param mixed $definition
-		 * @param boolean $shared
-		 * @return \Phalcon\DI\ServiceInterface
-		 */
-		public function attempt($name, $definition, $shared=null){ }
-
-
-		/**
-		 * Sets a service using a raw \Phalcon\DI\Service definition
-		 *
-		 * @param string $name
-		 * @param \Phalcon\DI\ServiceInterface $rawDefinition
-		 * @return \Phalcon\DI\ServiceInterface
-		 */
-		public function setRaw($name, $rawDefinition){ }
 
 
 		/**
@@ -114,6 +81,16 @@ namespace Phalcon {
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
 		public function getService($name){ }
+
+
+		/**
+		 * Sets a service using a raw \Phalcon\DI\Service definition
+		 *
+		 * @param string|Phalcon\DI\ServiceInterface $raw_definition_or_name
+		 * @param \Phalcon\DI\ServiceInterface $rawDefinition
+		 * @return \Phalcon\DI\ServiceInterface
+		 */
+		public function setService($rawDefinition){ }
 
 
 		/**
@@ -162,63 +139,6 @@ namespace Phalcon {
 
 
 		/**
-		 * Check if a service is registered using the array syntax.
-		 * Alias for \Phalcon\Di::has()
-		 *
-		 * @param string $name
-		 * @return boolean
-		 */
-		public function offsetExists($name){ }
-
-
-		/**
-		 * Allows to register a shared service using the array syntax.
-		 * Alias for \Phalcon\Di::setShared()
-		 *
-		 *<code>
-		 *	$di['request'] = new \Phalcon\Http\Request();
-		 *</code>
-		 *
-		 * @param string $name
-		 * @param mixed $definition
-		 */
-		public function offsetSet($name, $definition){ }
-
-
-		/**
-		 * Allows to obtain a shared service using the array syntax.
-		 * Alias for \Phalcon\Di::getShared()
-		 *
-		 *<code>
-		 *	var_dump($di['request']);
-		 *</code>
-		 *
-		 * @param string $name
-		 * @return mixed
-		 */
-		public function offsetGet($name, $parameters=null){ }
-
-
-		/**
-		 * Removes a service from the services container using the array syntax.
-		 * Alias for \Phalcon\Di::remove()
-		 *
-		 * @param string $name
-		 */
-		public function offsetUnset($name){ }
-
-
-		/**
-		 * Magic method to get or set services using setters/getters
-		 *
-		 * @param string $method
-		 * @param array $arguments
-		 * @return mixed
-		 */
-		public function __call($method, $arguments=null){ }
-
-
-		/**
 		 * Set a default dependency injection container to be obtained into static methods
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
@@ -238,6 +158,89 @@ namespace Phalcon {
 		 * Resets the internal default DI
 		 */
 		public static function reset(){ }
+
+
+		/**
+		 * Attempts to register a service in the services container
+		 * Only is successful if a service hasn't been registered previously
+		 * with the same name
+		 *
+		 * @param string $name
+		 * @param mixed $definition
+		 * @param boolean $shared
+		 * @return \Phalcon\DI\ServiceInterface
+		 */
+		public function attempt($name, $definition, $shared=null){ }
+
+
+		/**
+		 * Registers an "always shared" service in the services container
+		 *
+		 * @param string $name
+		 * @param mixed $definition
+		 * @return \Phalcon\DI\ServiceInterface
+		 */
+		public function setShared($name, $definition){ }
+
+
+		public function setRaw($rawDefinition){ }
+
+
+		/**
+		 * Check if a service is registered using the array syntax.
+		 * Alias for \Phalcon\Di::has()
+		 *
+		 * @param string $name
+		 * @return boolean
+		 */
+		public function offsetExists($property){ }
+
+
+		/**
+		 * Allows to register a shared service using the array syntax.
+		 * Alias for \Phalcon\Di::setShared()
+		 *
+		 *<code>
+		 *	$di['request'] = new \Phalcon\Http\Request();
+		 *</code>
+		 *
+		 * @param string $name
+		 * @param mixed $definition
+		 */
+		public function offsetSet($property, $value){ }
+
+
+		/**
+		 * Allows to obtain a shared service using the array syntax.
+		 * Alias for \Phalcon\Di::getShared()
+		 *
+		 *<code>
+		 *	var_dump($di['request']);
+		 *</code>
+		 *
+		 * @param string $name
+		 * @return mixed
+		 */
+		public function offsetGet($property){ }
+
+
+		/**
+		 * Removes a service from the services container using the array syntax.
+		 * Alias for \Phalcon\Di::remove()
+		 *
+		 * @param string $name
+		 */
+		public function offsetUnset($property){ }
+
+
+		/**
+		 * Magic method to get or set services using setters/getters
+		 *
+		 * @param string $method
+		 * @param array $arguments
+		 * @return mixed
+		 */
+		public function __call($method, $arguments=null){ }
 
 
 		public function __clone(){ }

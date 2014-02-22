@@ -83,7 +83,7 @@ namespace Phalcon\Image {
 		 * @param int $master  master dimension, if $master is TENSILE, the width and height must be specified
 		 * @return \Phalcon\Image\Adapter
 		 */
-		public function resize($width=null, $height=null){ }
+		public function resize($width=null, $height=null, $master=null){ }
 
 
 		/**
@@ -159,7 +159,7 @@ namespace Phalcon\Image {
 		 * @param int $offset_x offset from the left, If less than 0 offset from the right, If true right the x offset
 		 * @param int $offset_y offset from the top, If less than 0 offset from the bottom, If true bottom the Y offset
 		 * @param int $opacity opacity of watermark: 1-100
-		 * @return \Phalcon\Image\Adapter
+		 * @return \Phalcon\Image\AdapterInterface
 		 */
 		public function watermark($watermark, $offset_x=null, $offset_y=null, $opacity=null){ }
 
@@ -237,6 +237,51 @@ namespace Phalcon\Image {
 		 * @return \Phalcon\Image\Adapter
 		 */
 		public function render($type=null, $quality=null){ }
+
+
+		abstract protected function _resize($width, $height){ }
+
+
+		abstract protected function _liquidRescale($width, $height, $delta_x, $regidity){ }
+
+
+		abstract protected function _crop($width, $height, $offset_x, $offset_y){ }
+
+
+		abstract protected function _rotate($degrees){ }
+
+
+		abstract protected function _flip($direction){ }
+
+
+		abstract protected function _sharpen($amount){ }
+
+
+		abstract protected function _reflection($height, $opacity, $fade_in){ }
+
+
+		abstract protected function _watermark($watermark, $offset_x, $offset_y, $opacity){ }
+
+
+		abstract protected function _text($text, $offset_x, $offset_y, $opacity, $r, $g, $b, $size, $fontfile){ }
+
+
+		abstract protected function _mask($mask){ }
+
+
+		abstract protected function _background($r, $g, $b, $opacity){ }
+
+
+		abstract protected function _blur($radius){ }
+
+
+		abstract protected function _pixelate($amount){ }
+
+
+		abstract protected function _save($file, $quality){ }
+
+
+		abstract protected function _render($type, $quality){ }
 
 	}
 }

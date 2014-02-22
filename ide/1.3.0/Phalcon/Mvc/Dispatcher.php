@@ -67,7 +67,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param string $controllerName
 		 */
-		public function setControllerName($controllerName){ }
+		public function setControllerName($controllerName, $isExact=null){ }
 
 
 		/**

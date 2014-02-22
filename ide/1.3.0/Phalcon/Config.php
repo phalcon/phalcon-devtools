@@ -48,7 +48,7 @@ namespace Phalcon {
 		 * @param string $index
 		 * @return boolean
 		 */
-		public function offsetExists($index){ }
+		public function offsetExists($property){ }
 
 
 		/**
@@ -76,7 +76,7 @@ namespace Phalcon {
 		 * @param string $index
 		 * @return string
 		 */
-		public function offsetGet($index){ }
+		public function offsetGet($property){ }
 
 
 		/**
@@ -89,7 +89,7 @@ namespace Phalcon {
 		 * @param string $index
 		 * @param mixed $value
 		 */
-		public function offsetSet($index, $value){ }
+		public function offsetSet($property, $value){ }
 
 
 		/**
@@ -101,7 +101,7 @@ namespace Phalcon {
 		 *
 		 * @param string $index
 		 */
-		public function offsetUnset($index){ }
+		public function offsetUnset($property){ }
 
 
 		/**
@@ -145,16 +145,19 @@ namespace Phalcon {
 		 * @param array $data
 		 * @return \Phalcon\Config
 		 */
-		public static function __set_state($data){ }
+		public static function __set_state($properties=null){ }
 
 
-		public function __get($index){ }
+		public function __get($property){ }
 
 
-		public function __set($index, $value){ }
+		public function __set($property, $value){ }
 
 
-		public function __isset($index){ }
+		public function __isset($property){ }
+
+
+		public function __unset($property){ }
 
 	}
 }

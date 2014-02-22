@@ -625,7 +625,7 @@ namespace Phalcon\Mvc {
 		 * @param string $key
 		 * @param mixed $value
 		 */
-		public function __set($key, $value){ }
+		public function __set($property, $value){ }
 
 
 		/**
@@ -638,7 +638,7 @@ namespace Phalcon\Mvc {
 		 * @param string $key
 		 * @return mixed
 		 */
-		public function __get($key){ }
+		public function __get($property){ }
 
 
 		/**
@@ -651,7 +651,7 @@ namespace Phalcon\Mvc {
 		 * @param string $key
 		 * @return mixed
 		 */
-		public function __isset($key){ }
+		public function __isset($property){ }
 
 	}
 }

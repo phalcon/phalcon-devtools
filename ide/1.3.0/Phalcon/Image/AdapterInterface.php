@@ -17,7 +17,10 @@ namespace Phalcon\Image {
 		 * @param int $master  master dimension
 		 * @return \Phalcon\Image\Adapter
 		 */
-		public function resize($width=null, $height=null);
+		public function resize($width=null, $height=null, $master=null);
+
+
+		public function liquidRescale($width, $height, $delta_x=null, $rigidity=null);
 
 
 		/**
@@ -86,6 +89,12 @@ namespace Phalcon\Image {
 		public function watermark($watermark, $offset_x=null, $offset_y=null, $opacity=null);
 
 
+		public function text($text, $offset_x=null, $offset_y=null, $opacity=null, $color=null, $size=null, $fontfile=null);
+
+
+		public function mask($mask);
+
+
 		/**
 		 * Set the background color of an image. This is only useful for images
 		 * with alpha transparency.
@@ -95,6 +104,12 @@ namespace Phalcon\Image {
 		 * @return \Phalcon\Image\Adapter
 		 */
 		public function background($color, $quality=null);
+
+
+		public function blur($radius=null);
+
+
+		public function pixelate($amount=null);
 
 
 		/**
