@@ -18,5 +18,6 @@
         "psr-0" : {
             "Phalcon" : "scripts/"
         }
-    }
+    },
+    "bin": ["phalcon.php"]
 }

@@ -25,10 +25,10 @@ namespace Phalcon\Builder\Project;
  *
  * Builder to create multi-module application skeletons
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @category    Phalcon
+ * @package     Scripts
  * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
 class Modules extends ProjectBuilder
 {
@@ -102,18 +102,13 @@ class Modules extends ProjectBuilder
      */
     private function createIndexViewFiles($path, $templatePath)
     {
+        $getFile = $templatePath . '/project/modules/views/index.phtml';
+        $putFile = $path . 'apps/frontend/views/index.phtml';
+        $this->generateFile($getFile, $putFile);
 
-        $file = $path . 'apps/frontend/views/index.phtml';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/modules/views/index.phtml');
-            file_put_contents($file, $str);
-        }
-
-        $file = $path . 'apps/frontend/views/index/index.phtml';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/modules/views/index/index.phtml');
-            file_put_contents($file, $str);
-        }
+        $getFile = $templatePath . '/project/modules/views/index/index.phtml';
+        $putFile = $path . 'apps/frontend/views/index/index.phtml';
+        $this->generateFile($getFile, $putFile);
     }
 
     /**
@@ -126,11 +121,9 @@ class Modules extends ProjectBuilder
      */
     private function createConfig($path, $templatePath, $name, $type)
     {
-        if (file_exists($path . 'apps/frontend/config/config.' . $type) == false) {
-            $str = file_get_contents($templatePath . '/project/modules/config.' . $type);
-            $str = preg_replace('/@@name@@/', $name, $str);
-            file_put_contents($path . 'apps/frontend/config/config.' . $type, $str);
-        }
+        $getFile = $templatePath . '/project/modules/config.' . $type;
+        $putFile = $path . 'apps/frontend/config/config.' . $type;
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -142,11 +135,9 @@ class Modules extends ProjectBuilder
      */
     private function createControllerBase($path, $templatePath, $name)
     {
-        if (file_exists($path . 'apps/frontend/controllers/ControllerBase.php') == false) {
-            $str = file_get_contents($templatePath . '/project/modules/ControllerBase.php');
-            $str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
-            file_put_contents($path . 'apps/frontend/controllers/ControllerBase.php', $str);
-        }
+        $getFile = $templatePath . '/project/modules/ControllerBase.php';
+        $putFile = $path . 'apps/frontend/controllers/ControllerBase.php';
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -158,11 +149,9 @@ class Modules extends ProjectBuilder
      */
     private function createModule($path, $templatePath, $name)
     {
-        if (file_exists($path . 'apps/frontend/Module.php') == false) {
-            $str = file_get_contents($templatePath . '/project/modules/Module.php');
-            $str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
-            file_put_contents($path . 'apps/frontend/Module.php', $str);
-        }
+        $getFile = $templatePath . '/project/modules/Module.php';
+        $putFile = $path . 'apps/frontend/Module.php';
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -174,26 +163,17 @@ class Modules extends ProjectBuilder
      */
     private function createBootstrapFile($name, $path, $templatePath)
     {
-        if (file_exists($path . 'public/index.php') == false) {
-            $str = file_get_contents($templatePath . '/project/modules/index.php');
-            $str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
-            $str = preg_replace('/@@name@@/', $name, $str);
-            file_put_contents($path . 'public/index.php', $str);
-        }
+        $getFile = $templatePath . '/project/modules/index.php';
+        $putFile = $path . 'public/index.php';
+        $this->generateFile($getFile, $putFile, $name);
 
-        if (file_exists($path . 'config/services.php') == false) {
-            $str = file_get_contents($templatePath . '/project/modules/services.php');
-            $str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
-            $str = preg_replace('/@@name@@/', $name, $str);
-            file_put_contents($path . 'config/services.php', $str);
-        }
+        $getFile = $templatePath . '/project/modules/services.php';
+        $putFile = $path . 'config/services.php';
+        $this->generateFile($getFile, $putFile, $name);
 
-        if (file_exists($path . 'config/modules.php') == false) {
-            $str = file_get_contents($templatePath . '/project/modules/modules.php');
-            $str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
-            $str = preg_replace('/@@name@@/', $name, $str);
-            file_put_contents($path . 'config/modules.php', $str);
-        }
+        $getFile = $templatePath . '/project/modules/modules.php';
+        $putFile = $path . 'config/modules.php';
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -211,19 +191,15 @@ class Modules extends ProjectBuilder
 
         $this->buildDirectories($this->_dirs,$path);
 
-        if (isset($options['useConfigIni'])) {
-            $useIniConfig = $options['useConfigIni'];
-        } else {
-            $useIniConfig = false;
-        }
+        $this->getVariableValues($options);
 
-        if ($useIniConfig) {
+        if (isset($options['useConfigIni']) && $options['useConfigIni']) {
             $this->createConfig($path, $templatePath, $name, 'ini');
         } else {
             $this->createConfig($path, $templatePath, $name, 'php');
         }
 
-        $this->createBootstrapFile($name, $path, $templatePath, $useIniConfig);
+        $this->createBootstrapFile($name, $path, $templatePath);
         $this->createHtaccessFiles($path, $templatePath);
         $this->createControllerBase($path, $templatePath, $name);
         $this->createModule($path, $templatePath, $name);
