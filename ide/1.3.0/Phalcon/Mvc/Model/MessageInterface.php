@@ -2,58 +2,58 @@
 
 namespace Phalcon\Mvc\Model {
 
-	/**
-	 * Phalcon\Mvc\Model\MessageInterface initializer
-	 */
-	
-	interface MessageInterface {
+    /**
+     * Phalcon\Mvc\Model\MessageInterface initializer
+     */
+    interface MessageInterface
+        {
 
-		/**
-		 * Sets message type
-		 *
-		 * @param string $type
-		 */
-		public function setType($type);
-
-
-		/**
-		 * Returns message type
-		 *
-		 * @return string
-		 */
-		public function getType();
+        /**
+         * Sets message type
+         *
+         * @param string $type
+         */
+        public function setType($type);
 
 
-		/**
-		 * Sets verbose message
-		 *
-		 * @param string $message
-		 */
-		public function setMessage($message);
+        /**
+         * Returns message type
+         *
+         * @return string
+         */
+        public function getType();
 
 
-		/**
-		 * Returns verbose message
-		 *
-		 * @return string
-		 */
-		public function getMessage();
+        /**
+         * Sets verbose message
+         *
+         * @param string $message
+         */
+        public function setMessage($message);
 
 
-		/**
-		 * Sets field name related to message
-		 *
-		 * @param string $field
-		 */
-		public function setField($field);
+        /**
+         * Returns verbose message
+         *
+         * @return string
+         */
+        public function getMessage();
 
 
-		/**
-		 * Returns field name related to message
-		 *
-		 * @return string
-		 */
-		public function getField();
+        /**
+         * Sets field name related to message
+         *
+         * @param string $field
+         */
+        public function setField($field);
 
-	}
+
+        /**
+         * Returns field name related to message
+         *
+         * @return string
+         */
+        public function getField();
+
+    }
 }

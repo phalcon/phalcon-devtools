@@ -2,150 +2,150 @@
 
 namespace Phalcon\Mvc\Micro {
 
-	/**
-	 * Phalcon\Mvc\Micro\CollectionInterface initializer
-	 */
-	
-	interface CollectionInterface {
+    /**
+     * Phalcon\Mvc\Micro\CollectionInterface initializer
+     */
+    interface CollectionInterface
+        {
 
-		/**
-		 * Sets a prefix for all routes added to the collection
-		 *
-		 * @param string $prefix
-		 * @return \Phalcon\Mvc\Micro\Collection
-		 */
-		public function setPrefix($prefix);
-
-
-		/**
-		 * Returns the collection prefix if any
-		 *
-		 * @return string
-		 */
-		public function getPrefix();
+        /**
+         * Sets a prefix for all routes added to the collection
+         *
+         * @param string $prefix
+         * @return \Phalcon\Mvc\Micro\Collection
+         */
+        public function setPrefix($prefix);
 
 
-		/**
-		 * Returns the registered handlers
-		 *
-		 * @return array
-		 */
-		public function getHandlers();
+        /**
+         * Returns the collection prefix if any
+         *
+         * @return string
+         */
+        public function getPrefix();
 
 
-		/**
-		 * Sets the main handler
-		 *
-		 * @param mixed $handler
-		 * @param boolean $lazy
-		 * @return \Phalcon\Mvc\Micro\Collection
-		 */
-		public function setHandler($handler, $lazy=null);
+        /**
+         * Returns the registered handlers
+         *
+         * @return array
+         */
+        public function getHandlers();
 
 
-		/**
-		 * Sets if the main handler must be lazy loaded
-		 *
-		 * @param boolean $lazy
-		 * @return \Phalcon\Mvc\Micro\Collection
-		 */
-		public function setLazy($lazy);
+        /**
+         * Sets the main handler
+         *
+         * @param mixed $handler
+         * @param boolean $lazy
+         * @return \Phalcon\Mvc\Micro\Collection
+         */
+        public function setHandler($handler, $lazy=null);
 
 
-		/**
-		 * Returns if the main handler must be lazy loaded
-		 *
-		 * @return boolean
-		 */
-		public function isLazy();
+        /**
+         * Sets if the main handler must be lazy loaded
+         *
+         * @param boolean $lazy
+         * @return \Phalcon\Mvc\Micro\Collection
+         */
+        public function setLazy($lazy);
 
 
-		/**
-		 * Returns the main handler
-		 *
-		 * @return mixed
-		 */
-		public function getHandler();
+        /**
+         * Returns if the main handler must be lazy loaded
+         *
+         * @return boolean
+         */
+        public function isLazy();
 
 
-		/**
-		 * Maps a route to a handler
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function map($routePattern, $handler);
+        /**
+         * Returns the main handler
+         *
+         * @return mixed
+         */
+        public function getHandler();
 
 
-		/**
-		 * Maps a route to a handler that only matches if the HTTP method is GET
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function get($routePattern, $handler);
+        /**
+         * Maps a route to a handler
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function map($routePattern, $handler);
 
 
-		/**
-		 * Maps a route to a handler that only matches if the HTTP method is POST
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function post($routePattern, $handler);
+        /**
+         * Maps a route to a handler that only matches if the HTTP method is GET
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function get($routePattern, $handler);
 
 
-		/**
-		 * Maps a route to a handler that only matches if the HTTP method is PUT
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function put($routePattern, $handler);
+        /**
+         * Maps a route to a handler that only matches if the HTTP method is POST
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function post($routePattern, $handler);
 
 
-		/**
-		 * Maps a route to a handler that only matches if the HTTP method is PATCH
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function patch($routePattern, $handler);
+        /**
+         * Maps a route to a handler that only matches if the HTTP method is PUT
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function put($routePattern, $handler);
 
 
-		/**
-		 * Maps a route to a handler that only matches if the HTTP method is HEAD
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function head($routePattern, $handler);
+        /**
+         * Maps a route to a handler that only matches if the HTTP method is PATCH
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function patch($routePattern, $handler);
 
 
-		/**
-		 * Maps a route to a handler that only matches if the HTTP method is DELETE
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function delete($routePattern, $handler);
+        /**
+         * Maps a route to a handler that only matches if the HTTP method is HEAD
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function head($routePattern, $handler);
 
 
-		/**
-		 * Maps a route to a handler that only matches if the HTTP method is OPTIONS
-		 *
-		 * @param string $routePattern
-		 * @param callable $handler
-		 * @return \Phalcon\Mvc\Router\RouteInterface
-		 */
-		public function options($routePattern, $handler);
+        /**
+         * Maps a route to a handler that only matches if the HTTP method is DELETE
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function delete($routePattern, $handler);
 
-	}
+
+        /**
+         * Maps a route to a handler that only matches if the HTTP method is OPTIONS
+         *
+         * @param string $routePattern
+         * @param callable $handler
+         * @return \Phalcon\Mvc\Router\RouteInterface
+         */
+        public function options($routePattern, $handler);
+
+    }
 }

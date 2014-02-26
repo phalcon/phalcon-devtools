@@ -2,99 +2,99 @@
 
 namespace Phalcon\Mvc\Collection {
 
-	/**
-	 * Phalcon\Mvc\Collection\ManagerInterface initializer
-	 */
-	
-	interface ManagerInterface {
+    /**
+     * Phalcon\Mvc\Collection\ManagerInterface initializer
+     */
+    interface ManagerInterface
+        {
 
-		/**
-		 * Sets a custom events manager for a specific model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @param \Phalcon\Events\ManagerInterface $eventsManager
-		 */
-		public function setCustomEventsManager($model, $eventsManager);
-
-
-		/**
-		 * Returns a custom events manager related to a model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @return \Phalcon\Events\ManagerInterface
-		 */
-		public function getCustomEventsManager($model);
+        /**
+         * Sets a custom events manager for a specific model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @param \Phalcon\Events\ManagerInterface $eventsManager
+         */
+        public function setCustomEventsManager($model, $eventsManager);
 
 
-		/**
-		 * Initializes a model in the models manager
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 */
-		public function initialize($model);
+        /**
+         * Returns a custom events manager related to a model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @return \Phalcon\Events\ManagerInterface
+         */
+        public function getCustomEventsManager($model);
 
 
-		/**
-		 * Check whether a model is already initialized
-		 *
-		 * @param string $modelName
-		 * @return bool
-		 */
-		public function isInitialized($modelName);
+        /**
+         * Initializes a model in the models manager
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         */
+        public function initialize($model);
 
 
-		/**
-		 * Get the latest initialized model
-		 *
-		 * @return \Phalcon\Mvc\CollectionInterface
-		 */
-		public function getLastInitialized();
+        /**
+         * Check whether a model is already initialized
+         *
+         * @param string $modelName
+         * @return bool
+         */
+        public function isInitialized($modelName);
 
 
-		/**
-		 * Sets a connection service for a specific model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @param string $connectionService
-		 */
-		public function setConnectionService($model, $connectionService);
+        /**
+         * Get the latest initialized model
+         *
+         * @return \Phalcon\Mvc\CollectionInterface
+         */
+        public function getLastInitialized();
 
 
-		/**
-		 * Sets if a model must use implicit objects ids
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @param boolean $useImplicitObjectIds
-		 */
-		public function useImplicitObjectIds($model, $useImplicitObjectIds);
+        /**
+         * Sets a connection service for a specific model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @param string $connectionService
+         */
+        public function setConnectionService($model, $connectionService);
 
 
-		/**
-		 * Checks if a model is using implicit object ids
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @return boolean
-		 */
-		public function isUsingImplicitObjectIds($model);
+        /**
+         * Sets if a model must use implicit objects ids
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @param boolean $useImplicitObjectIds
+         */
+        public function useImplicitObjectIds($model, $useImplicitObjectIds);
 
 
-		/**
-		 * Returns the connection related to a model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @return \Phalcon\Db\AdapterInterface
-		 */
-		public function getConnection($model);
+        /**
+         * Checks if a model is using implicit object ids
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @return boolean
+         */
+        public function isUsingImplicitObjectIds($model);
 
 
-		/**
-		 * Receives events generated in the models and dispatches them to a events-manager if available
-		 * Notify the behaviors that are listening in the model
-		 *
-		 * @param string $eventName
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 */
-		public function notifyEvent($eventName, $model);
+        /**
+         * Returns the connection related to a model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @return \Phalcon\Db\AdapterInterface
+         */
+        public function getConnection($model);
 
-	}
+
+        /**
+         * Receives events generated in the models and dispatches them to a events-manager if available
+         * Notify the behaviors that are listening in the model
+         *
+         * @param string $eventName
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         */
+        public function notifyEvent($eventName, $model);
+
+    }
 }

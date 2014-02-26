@@ -2,101 +2,121 @@
 
 namespace Phalcon\Events {
 
-	/**
-	 * Phalcon\Events\Event
-	 *
-	 * This class offers contextual information of a fired event in the EventsManager
-	 */
-	
-	class Event {
+    /**
+     * Phalcon\Events\Event
+     *
+     * This class offers contextual information of a fired event in the EventsManager
+     */
+    class Event
+    {
 
-		protected $_type;
+        protected $_type;
 
-		protected $_source;
+        protected $_source;
 
-		protected $_data;
+        protected $_data;
 
-		protected $_stopped;
+        protected $_stopped;
 
-		protected $_cancelable;
+        protected $_cancelable;
 
-		/**
-		 * \Phalcon\Events\Event constructor
-		 *
-		 * @param string $type
-		 * @param object $source
-		 * @param mixed $data
-		 * @param boolean $cancelable
-		 */
-		public function __construct($type, $source, $data=null, $cancelable=null){ }
-
-
-		/**
-		 * Set the event's type
-		 *
-		 * @param string $eventType
-		 */
-		public function setType($eventType){ }
+        /**
+         * \Phalcon\Events\Event constructor
+         *
+         * @param string $type
+         * @param object $source
+         * @param mixed $data
+         * @param boolean $cancelable
+         */
+        public function __construct($type, $source, $data=null, $cancelable=null)
+        {
+        }
 
 
-		/**
-		 * Returns the event's type
-		 *
-		 * @return string
-		 */
-		public function getType(){ }
+        /**
+         * Set the event's type
+         *
+         * @param string $eventType
+         */
+        public function setType($eventType)
+        {
+        }
 
 
-		/**
-		 * Returns the event's source
-		 *
-		 * @return object
-		 */
-		public function getSource(){ }
+        /**
+         * Returns the event's type
+         *
+         * @return string
+         */
+        public function getType()
+        {
+        }
 
 
-		/**
-		 * Set the event's data
-		 *
-		 * @param string $data
-		 */
-		public function setData($data){ }
+        /**
+         * Returns the event's source
+         *
+         * @return object
+         */
+        public function getSource()
+        {
+        }
 
 
-		/**
-		 * Returns the event's data
-		 *
-		 * @return mixed
-		 */
-		public function getData(){ }
+        /**
+         * Set the event's data
+         *
+         * @param string $data
+         */
+        public function setData($data)
+        {
+        }
 
 
-		/**
-		 * Sets if the event is cancelable
-		 *
-		 * @param boolean $cancelable
-		 */
-		public function setCancelable($cancelable){ }
+        /**
+         * Returns the event's data
+         *
+         * @return mixed
+         */
+        public function getData()
+        {
+        }
 
 
-		/**
-		 * Check whether the event is cancelable
-		 *
-		 * @return boolean
-		 */
-		public function getCancelable(){ }
+        /**
+         * Sets if the event is cancelable
+         *
+         * @param boolean $cancelable
+         */
+        public function setCancelable($cancelable)
+        {
+        }
 
 
-		/**
-		 * Stops the event preventing propagation
-		 */
-		public function stop(){ }
+        /**
+         * Check whether the event is cancelable
+         *
+         * @return boolean
+         */
+        public function getCancelable()
+        {
+        }
 
 
-		/**
-		 * Check whether the event is currently stopped
-		 */
-		public function isStopped(){ }
+        /**
+         * Stops the event preventing propagation
+         */
+        public function stop()
+        {
+        }
 
-	}
+
+        /**
+         * Check whether the event is currently stopped
+         */
+        public function isStopped()
+        {
+        }
+
+    }
 }

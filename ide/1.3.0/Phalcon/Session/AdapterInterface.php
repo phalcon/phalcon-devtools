@@ -2,94 +2,94 @@
 
 namespace Phalcon\Session {
 
-	/**
-	 * Phalcon\Session\AdapterInterface initializer
-	 */
-	
-	interface AdapterInterface {
+    /**
+     * Phalcon\Session\AdapterInterface initializer
+     */
+    interface AdapterInterface
+        {
 
-		/**
-		 * Starts session, optionally using an adapter
-		 *
-		 * @param array $options
-		 */
-		public function start();
-
-
-		/**
-		 * Sets session options
-		 *
-		 * @param array $options
-		 */
-		public function setOptions($options);
+        /**
+         * Starts session, optionally using an adapter
+         *
+         * @param array $options
+         */
+        public function start();
 
 
-		/**
-		 * Get internal options
-		 *
-		 * @return array
-		 */
-		public function getOptions();
+        /**
+         * Sets session options
+         *
+         * @param array $options
+         */
+        public function setOptions($options);
 
 
-		/**
-		 * Gets a session variable from an application context
-		 *
-		 * @param string $index
-		 * @param mixed $defaultValue
-		 * @return mixed
-		 */
-		public function get($index, $defaultValue=null);
+        /**
+         * Get internal options
+         *
+         * @return array
+         */
+        public function getOptions();
 
 
-		/**
-		 * Sets a session variable in an application context
-		 *
-		 * @param string $index
-		 * @param string $value
-		 */
-		public function set($index, $value);
+        /**
+         * Gets a session variable from an application context
+         *
+         * @param string $index
+         * @param mixed $defaultValue
+         * @return mixed
+         */
+        public function get($index, $defaultValue=null);
 
 
-		/**
-		 * Check whether a session variable is set in an application context
-		 *
-		 * @param string $index
-		 * @return boolean
-		 */
-		public function has($index);
+        /**
+         * Sets a session variable in an application context
+         *
+         * @param string $index
+         * @param string $value
+         */
+        public function set($index, $value);
 
 
-		/**
-		 * Removes a session variable from an application context
-		 *
-		 * @param string $index
-		 */
-		public function remove($index);
+        /**
+         * Check whether a session variable is set in an application context
+         *
+         * @param string $index
+         * @return boolean
+         */
+        public function has($index);
 
 
-		/**
-		 * Returns active session id
-		 *
-		 * @return string
-		 */
-		public function getId();
+        /**
+         * Removes a session variable from an application context
+         *
+         * @param string $index
+         */
+        public function remove($index);
 
 
-		/**
-		 * Check whether the session has been started
-		 *
-		 * @return boolean
-		 */
-		public function isStarted();
+        /**
+         * Returns active session id
+         *
+         * @return string
+         */
+        public function getId();
 
 
-		/**
-		 * Destroys the active session
-		 *
-		 * @return boolean
-		 */
-		public function destroy($session_id=null);
+        /**
+         * Check whether the session has been started
+         *
+         * @return boolean
+         */
+        public function isStarted();
 
-	}
+
+        /**
+         * Destroys the active session
+         *
+         * @return boolean
+         */
+        public function destroy($session_id=null);
+
+    }
 }

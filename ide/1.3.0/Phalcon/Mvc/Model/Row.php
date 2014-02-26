@@ -2,70 +2,86 @@
 
 namespace Phalcon\Mvc\Model {
 
-	/**
-	 * Phalcon\Mvc\Model\Row
-	 *
-	 * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
-	 * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
-	 */
-	
-	class Row implements \ArrayAccess, \Countable, \Phalcon\Mvc\Model\ResultInterface {
+    /**
+     * Phalcon\Mvc\Model\Row
+     *
+     * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
+     * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
+     */
+    class Row implements \ArrayAccess, \Countable, \Phalcon\Mvc\Model\ResultInterface
+    {
 
-		/**
-		 * Set the current object's state
-		 *
-		 * @param int $dirtyState
-		 */
-		public function setDirtyState($dirtyState){ }
-
-
-		/**
-		 * Checks whether offset exists in the row
-		 *
-		 * @param int $index
-		 * @return boolean
-		 */
-		public function offsetExists($index){ }
+        /**
+         * Set the current object's state
+         *
+         * @param int $dirtyState
+         */
+        public function setDirtyState($dirtyState)
+        {
+        }
 
 
-		/**
-		 * Gets a record in a specific position of the row
-		 *
-		 * @param int $index
-		 * @return string|\Phalcon\Mvc\ModelInterface
-		 */
-		public function offsetGet($index){ }
+        /**
+         * Checks whether offset exists in the row
+         *
+         * @param int $index
+         * @return boolean
+         */
+        public function offsetExists($index)
+        {
+        }
 
 
-		/**
-		 * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
-		 *
-		 * @param int $index
-		 * @param \Phalcon\Mvc\ModelInterface $value
-		 */
-		public function offsetSet($index, $value){ }
+        /**
+         * Gets a record in a specific position of the row
+         *
+         * @param int $index
+         * @return string|\Phalcon\Mvc\ModelInterface
+         */
+        public function offsetGet($index)
+        {
+        }
 
 
-		/**
-		 * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
-		 *
-		 * @param int $offset
-		 */
-		public function offsetUnset($offset){ }
+        /**
+         * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+         *
+         * @param int $index
+         * @param \Phalcon\Mvc\ModelInterface $value
+         */
+        public function offsetSet($index, $value)
+        {
+        }
 
 
-		/**
-		 * Returns the instance as an array representation
-		 *
-		 * @return array
-		 */
-		public function toArray(){ }
+        /**
+         * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+         *
+         * @param int $offset
+         */
+        public function offsetUnset($offset)
+        {
+        }
 
 
-		public function count(){ }
+        /**
+         * Returns the instance as an array representation
+         *
+         * @return array
+         */
+        public function toArray()
+        {
+        }
 
 
-		public function __wakeup(){ }
+        public function count()
+        {
+        }
 
-	}
+
+        public function __wakeup()
+        {
+        }
+
+    }
 }

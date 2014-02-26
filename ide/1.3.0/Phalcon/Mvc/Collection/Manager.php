@@ -2,160 +2,188 @@
 
 namespace Phalcon\Mvc\Collection {
 
-	/**
-	 * Phalcon\Mvc\Collection\Manager
-	 *
-	 * This components controls the initialization of models, keeping record of relations
-	 * between the different models of the application.
-	 *
-	 * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
-	 *
-	 * <code>
-	 * $di = new Phalcon\DI();
-	 *
-	 * $di->set('collectionManager', function(){
-	 *      return new Phalcon\Mvc\Collection\Manager();
-	 * });
-	 *
-	 * $robot = new Robots($di);
-	 * </code>
-	 */
-	
-	class Manager implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface, \Phalcon\Mvc\Collection\ManagerInterface {
+    /**
+     * Phalcon\Mvc\Collection\Manager
+     *
+     * This components controls the initialization of models, keeping record of relations
+     * between the different models of the application.
+     *
+     * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
+     *
+     * <code>
+     * $di = new Phalcon\DI();
+     *
+     * $di->set('collectionManager', function(){
+     *      return new Phalcon\Mvc\Collection\Manager();
+     * });
+     *
+     * $robot = new Robots($di);
+     * </code>
+     */
+    class Manager implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface, \Phalcon\Mvc\Collection\ManagerInterface
+    {
 
-		protected $_dependencyInjector;
+        protected $_dependencyInjector;
 
-		protected $_initialized;
+        protected $_initialized;
 
-		protected $_lastInitialized;
+        protected $_lastInitialized;
 
-		protected $_eventsManager;
+        protected $_eventsManager;
 
-		protected $_customEventsManager;
+        protected $_customEventsManager;
 
-		protected $_connectionServices;
+        protected $_connectionServices;
 
-		protected $_implicitObjectsIds;
+        protected $_implicitObjectsIds;
 
-		/**
-		 * Sets the DependencyInjector container
-		 *
-		 * @param \Phalcon\DiInterface $dependencyInjector
-		 */
-		public function setDI($dependencyInjector){ }
-
-
-		/**
-		 * Returns the DependencyInjector container
-		 *
-		 * @return \Phalcon\DiInterface
-		 */
-		public function getDI(){ }
+        /**
+         * Sets the DependencyInjector container
+         *
+         * @param \Phalcon\DiInterface $dependencyInjector
+         */
+        public function setDI($dependencyInjector)
+        {
+        }
 
 
-		/**
-		 * Sets the event manager
-		 *
-		 * @param \Phalcon\Events\ManagerInterface $eventsManager
-		 */
-		public function setEventsManager($eventsManager){ }
+        /**
+         * Returns the DependencyInjector container
+         *
+         * @return \Phalcon\DiInterface
+         */
+        public function getDI()
+        {
+        }
 
 
-		/**
-		 * Returns the internal event manager
-		 *
-		 * @return \Phalcon\Events\ManagerInterface
-		 */
-		public function getEventsManager(){ }
+        /**
+         * Sets the event manager
+         *
+         * @param \Phalcon\Events\ManagerInterface $eventsManager
+         */
+        public function setEventsManager($eventsManager)
+        {
+        }
 
 
-		/**
-		 * Sets a custom events manager for a specific model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @param \Phalcon\Events\ManagerInterface $eventsManager
-		 */
-		public function setCustomEventsManager($model, $eventsManager){ }
+        /**
+         * Returns the internal event manager
+         *
+         * @return \Phalcon\Events\ManagerInterface
+         */
+        public function getEventsManager()
+        {
+        }
 
 
-		/**
-		 * Returns a custom events manager related to a model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @return \Phalcon\Events\ManagerInterface
-		 */
-		public function getCustomEventsManager($model){ }
+        /**
+         * Sets a custom events manager for a specific model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @param \Phalcon\Events\ManagerInterface $eventsManager
+         */
+        public function setCustomEventsManager($model, $eventsManager)
+        {
+        }
 
 
-		/**
-		 * Initializes a model in the models manager
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 */
-		public function initialize($model){ }
+        /**
+         * Returns a custom events manager related to a model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @return \Phalcon\Events\ManagerInterface
+         */
+        public function getCustomEventsManager($model)
+        {
+        }
 
 
-		/**
-		 * Check whether a model is already initialized
-		 *
-		 * @param string $modelName
-		 * @return bool
-		 */
-		public function isInitialized($modelName){ }
+        /**
+         * Initializes a model in the models manager
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         */
+        public function initialize($model)
+        {
+        }
 
 
-		/**
-		 * Get the latest initialized model
-		 *
-		 * @return \Phalcon\Mvc\CollectionInterface
-		 */
-		public function getLastInitialized(){ }
+        /**
+         * Check whether a model is already initialized
+         *
+         * @param string $modelName
+         * @return bool
+         */
+        public function isInitialized($modelName)
+        {
+        }
 
 
-		/**
-		 * Sets a connection service for a specific model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @param string $connectionService
-		 */
-		public function setConnectionService($model, $connectionService){ }
+        /**
+         * Get the latest initialized model
+         *
+         * @return \Phalcon\Mvc\CollectionInterface
+         */
+        public function getLastInitialized()
+        {
+        }
 
 
-		/**
-		 * Sets if a model must use implicit objects ids
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @param boolean $useImplicitObjectIds
-		 */
-		public function useImplicitObjectIds($model, $useImplicitObjectIds){ }
+        /**
+         * Sets a connection service for a specific model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @param string $connectionService
+         */
+        public function setConnectionService($model, $connectionService)
+        {
+        }
 
 
-		/**
-		 * Checks if a model is using implicit object ids
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @return boolean
-		 */
-		public function isUsingImplicitObjectIds($model){ }
+        /**
+         * Sets if a model must use implicit objects ids
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @param boolean $useImplicitObjectIds
+         */
+        public function useImplicitObjectIds($model, $useImplicitObjectIds)
+        {
+        }
 
 
-		/**
-		 * Returns the connection related to a model
-		 *
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 * @return \Phalcon\Db\AdapterInterface(?) MongoDB
-		 */
-		public function getConnection($model){ }
+        /**
+         * Checks if a model is using implicit object ids
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @return boolean
+         */
+        public function isUsingImplicitObjectIds($model)
+        {
+        }
 
 
-		/**
-		 * Receives events generated in the models and dispatches them to a events-manager if available
-		 * Notify the behaviors that are listening in the model
-		 *
-		 * @param string $eventName
-		 * @param \Phalcon\Mvc\CollectionInterface $model
-		 */
-		public function notifyEvent($eventName, $model){ }
+        /**
+         * Returns the connection related to a model
+         *
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         * @return \Phalcon\Db\AdapterInterface(?) MongoDB
+         */
+        public function getConnection($model)
+        {
+        }
 
-	}
+
+        /**
+         * Receives events generated in the models and dispatches them to a events-manager if available
+         * Notify the behaviors that are listening in the model
+         *
+         * @param string $eventName
+         * @param \Phalcon\Mvc\CollectionInterface $model
+         */
+        public function notifyEvent($eventName, $model)
+        {
+        }
+
+    }
 }

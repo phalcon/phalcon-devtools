@@ -97,7 +97,6 @@ class Stubs_Generator
 	protected function _findClassName($classDoc)
 	{
 
-
 		foreach (explode("\n", $classDoc) as $line) {
 			echo $line;
 		}
@@ -143,9 +142,12 @@ foreach ($allClasses as $className) {
 	$simpleClassName = str_replace("\\", "_", $className);
 	if (isset($classDocs[$simpleClassName])) {
 		foreach (explode("\n", $classDocs[$simpleClassName]) as $commentPiece) {
-			$source .= "\t" . $commentPiece . "\n";
+			$source .= "    " . $commentPiece . "\n";
 		}
 	}
+
+    $source = rtrim($source,"\n");
+    $source = rtrim($source,' ');
 
 	$reflector = new ReflectionClass($className);
 
@@ -162,23 +164,23 @@ foreach ($allClasses as $className) {
 	$extends = $reflector->getParentClass();
 	if ($reflector->isInterface()) {
 		if ($extends) {
-			$source .= "\t" . 'interface ' . $normalClassName . ' extends \\'.$extends->name.' {'.PHP_EOL;
+			$source .= "    " . 'interface ' . $normalClassName . ' extends \\'.$extends->name."\n        {\n";
 		} else {
-			$source .= "\t" . 'interface ' . $normalClassName . ' {' . PHP_EOL;
+			$source .= "    " . 'interface ' . $normalClassName ."\n        {\n";
 		}
 	} else {
 
 		$implements = $reflector->getInterfaceNames();
 		if ($extends) {
-			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
+			$source.="    ".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
 		} else {
-			$source.="\t".$typeClass.'class '.$normalClassName;
+			$source.="    ".$typeClass.'class '.$normalClassName;
 		}
 		if ($implements) {
 			$source .= " implements \\" . implode(', \\', $implements);
 		}
 
-		$source .= ' {' . PHP_EOL;
+		$source .= "\n    {\n";
 	}
 
 	if (isset($docs[$simpleClassName])) {
@@ -189,13 +191,13 @@ foreach ($allClasses as $className) {
 
 	// constants
 	foreach ($reflector->getConstants() as $constant => $value) {
-		$source.= PHP_EOL . "\t\t" . 'const '.$constant.' = '.$value.';'.PHP_EOL;
+		$source.= "\n        " . 'const '.$constant.' = '.$value.';'.PHP_EOL;
 	}
 
 	// public and protected properties
 	foreach ($reflector->getProperties() as $property) {
 		if ($property->getDeclaringClass()->name == $className) {
-			$source.= PHP_EOL . "\t\t" . implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
+			$source.=  "\n        " . implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
 		}
 	}
 
@@ -326,7 +328,7 @@ foreach ($allClasses as $className) {
 			if (isset($docMethods[$method->name])) {
 				$docMethods[$method->name] = str_replace(' Phalcon', ' \Phalcon', $docMethods[$method->name]);
 				foreach (explode("\n", $docMethods[$method->name]) as $commentPiece) {
-					$source.="\t\t".$commentPiece."\n";
+					$source.="        ".$commentPiece."\n";
 				}
 			}
 
@@ -334,7 +336,7 @@ foreach ($allClasses as $className) {
 			if ($reflector->isInterface()) {
 				$modifiers = array_intersect($modifiers, array('static', 'public'));
 			}
-			$source.= "\t\t".implode(' ', $modifiers).' function '.$method->name.'(';
+			$source.= "        ".implode(' ', $modifiers).' function '.$method->name.'(';
 
 			$parameters = array();
 			foreach ($method->getParameters() as $parameter) {
@@ -351,12 +353,12 @@ foreach ($allClasses as $className) {
 			if ($reflector->isInterface()) {
 				$source.=join(', ', $parameters).');'.PHP_EOL.PHP_EOL;
 			} else {
-				$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
+				$source.=join(', ', $parameters).")\n        {\n        }".PHP_EOL.PHP_EOL;
 			}
 		}
 	}
 
-	$source.="\t".'}'.PHP_EOL;
+	$source.="    ".'}'.PHP_EOL;
 
 	$source.='}'.PHP_EOL;
 

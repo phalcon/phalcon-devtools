@@ -2,174 +2,218 @@
 
 namespace Phalcon\Session {
 
-	/**
-	 * Phalcon\Session\Adapter
-	 *
-	 * Base class for Phalcon\Session adapters
-	 */
-	
-	abstract class Adapter implements \Phalcon\Session\AdapterInterface, \Countable, \IteratorAggregate, \Traversable, \ArrayAccess {
+    /**
+     * Phalcon\Session\Adapter
+     *
+     * Base class for Phalcon\Session adapters
+     */
+    abstract class Adapter implements \Phalcon\Session\AdapterInterface, \Countable, \IteratorAggregate, \Traversable, \ArrayAccess
+    {
 
-		protected $_uniqueId;
+        protected $_uniqueId;
 
-		protected $_started;
+        protected $_started;
 
-		protected $_options;
+        protected $_options;
 
-		/**
-		 * \Phalcon\Session\Adapter constructor
-		 *
-		 * @param array $options
-		 */
-		public function __construct($options=null){ }
-
-
-		public function __destruct(){ }
-
-
-		/**
-		 * Starts the session (if headers are already sent the session will not be started)
-		 *
-		 * @return boolean
-		 */
-		public function start(){ }
+        /**
+         * \Phalcon\Session\Adapter constructor
+         *
+         * @param array $options
+         */
+        public function __construct($options=null)
+        {
+        }
 
 
-		/**
-		 * Sets session's options
-		 *
-		 *<code>
-		 *	$session->setOptions(array(
-		 *		'uniqueId' => 'my-private-app'
-		 *	));
-		 *</code>
-		 *
-		 * @param array $options
-		 */
-		public function setOptions($options){ }
+        public function __destruct()
+        {
+        }
 
 
-		/**
-		 * Get internal options
-		 *
-		 * @return array
-		 */
-		public function getOptions(){ }
+        /**
+         * Starts the session (if headers are already sent the session will not be started)
+         *
+         * @return boolean
+         */
+        public function start()
+        {
+        }
 
 
-		/**
-		 * Gets a session variable from an application context
-		 *
-		 * @param string $index
-		 * @param mixed $defaultValue
-		 * @param bool $remove
-		 * @return mixed
-		 */
-		public function get($index, $defaultValue=null){ }
+        /**
+         * Sets session's options
+         *
+         *<code>
+         *	$session->setOptions(array(
+         *		'uniqueId' => 'my-private-app'
+         *	));
+         *</code>
+         *
+         * @param array $options
+         */
+        public function setOptions($options)
+        {
+        }
 
 
-		/**
-		 * Sets a session variable in an application context
-		 *
-		 *<code>
-		 *	$session->set('auth', 'yes');
-		 *</code>
-		 *
-		 * @param string $index
-		 * @param string $value
-		 */
-		public function set($index, $value){ }
+        /**
+         * Get internal options
+         *
+         * @return array
+         */
+        public function getOptions()
+        {
+        }
 
 
-		/**
-		 * Check whether a session variable is set in an application context
-		 *
-		 *<code>
-		 *	var_dump($session->has('auth'));
-		 *</code>
-		 *
-		 * @param string $index
-		 * @return boolean
-		 */
-		public function has($index){ }
+        /**
+         * Gets a session variable from an application context
+         *
+         * @param string $index
+         * @param mixed $defaultValue
+         * @param bool $remove
+         * @return mixed
+         */
+        public function get($index, $defaultValue=null)
+        {
+        }
 
 
-		/**
-		 * Removes a session variable from an application context
-		 *
-		 *<code>
-		 *	$session->remove('auth');
-		 *</code>
-		 *
-		 * @param string $index
-		 */
-		public function remove($index){ }
+        /**
+         * Sets a session variable in an application context
+         *
+         *<code>
+         *	$session->set('auth', 'yes');
+         *</code>
+         *
+         * @param string $index
+         * @param string $value
+         */
+        public function set($index, $value)
+        {
+        }
 
 
-		/**
-		 * Returns active session id
-		 *
-		 *<code>
-		 *	echo $session->getId();
-		 *</code>
-		 *
-		 * @return string
-		 */
-		public function getId(){ }
+        /**
+         * Check whether a session variable is set in an application context
+         *
+         *<code>
+         *	var_dump($session->has('auth'));
+         *</code>
+         *
+         * @param string $index
+         * @return boolean
+         */
+        public function has($index)
+        {
+        }
 
 
-		/**
-		 * Check whether the session has been started
-		 *
-		 *<code>
-		 *	var_dump($session->isStarted());
-		 *</code>
-		 *
-		 * @return boolean
-		 */
-		public function isStarted(){ }
+        /**
+         * Removes a session variable from an application context
+         *
+         *<code>
+         *	$session->remove('auth');
+         *</code>
+         *
+         * @param string $index
+         */
+        public function remove($index)
+        {
+        }
 
 
-		/**
-		 * Destroys the active session
-		 *
-		 *<code>
-		 *	var_dump($session->destroy());
-		 *</code>
-		 *
-		 * @return boolean
-		 */
-		public function destroy($session_id=null){ }
+        /**
+         * Returns active session id
+         *
+         *<code>
+         *	echo $session->getId();
+         *</code>
+         *
+         * @return string
+         */
+        public function getId()
+        {
+        }
 
 
-		public function __get($property){ }
+        /**
+         * Check whether the session has been started
+         *
+         *<code>
+         *	var_dump($session->isStarted());
+         *</code>
+         *
+         * @return boolean
+         */
+        public function isStarted()
+        {
+        }
 
 
-		public function __set($property, $value){ }
+        /**
+         * Destroys the active session
+         *
+         *<code>
+         *	var_dump($session->destroy());
+         *</code>
+         *
+         * @return boolean
+         */
+        public function destroy($session_id=null)
+        {
+        }
 
 
-		public function __isset($property){ }
+        public function __get($property)
+        {
+        }
 
 
-		public function __unset($property){ }
+        public function __set($property, $value)
+        {
+        }
 
 
-		public function offsetGet($property){ }
+        public function __isset($property)
+        {
+        }
 
 
-		public function offsetSet($property, $value){ }
+        public function __unset($property)
+        {
+        }
 
 
-		public function offsetExists($property){ }
+        public function offsetGet($property)
+        {
+        }
 
 
-		public function offsetUnset($property){ }
+        public function offsetSet($property, $value)
+        {
+        }
 
 
-		public function count(){ }
+        public function offsetExists($property)
+        {
+        }
 
 
-		public function getIterator(){ }
+        public function offsetUnset($property)
+        {
+        }
 
-	}
+
+        public function count()
+        {
+        }
+
+
+        public function getIterator()
+        {
+        }
+
+    }
 }

@@ -2,97 +2,115 @@
 
 namespace Phalcon\Mvc\View\Engine {
 
-	/**
-	 * Phalcon\Mvc\View\Engine\Volt
-	 *
-	 * Designer friendly and fast template engine for PHP written in C
-	 */
-	
-	class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface {
+    /**
+     * Phalcon\Mvc\View\Engine\Volt
+     *
+     * Designer friendly and fast template engine for PHP written in C
+     */
+    class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
+    {
 
-		protected $_options;
+        protected $_options;
 
-		protected $_compiler;
+        protected $_compiler;
 
-		/**
-		 * Set Volt's options
-		 *
-		 * @param array $options
-		 */
-		public function setOptions($options){ }
-
-
-		/**
-		 * Return Volt's options
-		 *
-		 * @return array
-		 */
-		public function getOptions(){ }
+        /**
+         * Set Volt's options
+         *
+         * @param array $options
+         */
+        public function setOptions($options)
+        {
+        }
 
 
-		/**
-		 * Returns the Volt's compiler
-		 *
-		 * @return \Phalcon\Mvc\View\Engine\Volt\Compiler
-		 */
-		public function getCompiler(){ }
+        /**
+         * Return Volt's options
+         *
+         * @return array
+         */
+        public function getOptions()
+        {
+        }
 
 
-		/**
-		 * Renders a view using the template engine
-		 *
-		 * @param string $templatePath
-		 * @param array $params
-		 * @param boolean $mustClean
-		 */
-		public function render($path, $params, $mustClean=null){ }
+        /**
+         * Returns the Volt's compiler
+         *
+         * @return \Phalcon\Mvc\View\Engine\Volt\Compiler
+         */
+        public function getCompiler()
+        {
+        }
 
 
-		/**
-		 * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
-		 *
-		 * @param mixed $item
-		 * @return int
-		 */
-		public function length($item){ }
+        /**
+         * Renders a view using the template engine
+         *
+         * @param string $templatePath
+         * @param array $params
+         * @param boolean $mustClean
+         */
+        public function render($path, $params, $mustClean=null)
+        {
+        }
 
 
-		/**
-		 * Checks if the needle is included in the haystack
-		 *
-		 * @param mixed $needle
-		 * @param mixed $haystack
-		 * @return boolean
-		 */
-		public function isIncluded($needle, $haystack){ }
+        /**
+         * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
+         *
+         * @param mixed $item
+         * @return int
+         */
+        public function length($item)
+        {
+        }
 
 
-		/**
-		 * Performs a string conversion
-		 *
-		 * @param string $text
-		 * @param string $from
-		 * @param string $to
-		 * @return string
-		 */
-		public function convertEncoding($text, $from, $to){ }
+        /**
+         * Checks if the needle is included in the haystack
+         *
+         * @param mixed $needle
+         * @param mixed $haystack
+         * @return boolean
+         */
+        public function isIncluded($needle, $haystack)
+        {
+        }
 
 
-		/**
-		 * Extracts a slice from a string/array/traversable object value
-		 *
-		 * @param mixed $value
-		 */
-		public function slice($value, $start, $end=null){ }
+        /**
+         * Performs a string conversion
+         *
+         * @param string $text
+         * @param string $from
+         * @param string $to
+         * @return string
+         */
+        public function convertEncoding($text, $from, $to)
+        {
+        }
 
 
-		/**
-		 * Sorts an array
-		 *
-		 * @param array $value
-		 * @return array
-		 */
-		public function sort($value){ }
+        /**
+         * Extracts a slice from a string/array/traversable object value
+         *
+         * @param mixed $value
+         */
+        public function slice($value, $start, $end=null)
+        {
+        }
 
-	}
+
+        /**
+         * Sorts an array
+         *
+         * @param array $value
+         * @return array
+         */
+        public function sort($value)
+        {
+        }
+
+    }
 }

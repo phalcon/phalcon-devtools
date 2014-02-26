@@ -2,252 +2,302 @@
 
 namespace Phalcon {
 
-	/**
-	 * Phalcon\Debug
-	 *
-	 * Provides debug capabilities to Phalcon applications
-	 */
-	
-	class Debug {
+    /**
+     * Phalcon\Debug
+     *
+     * Provides debug capabilities to Phalcon applications
+     */
+    class Debug
+    {
 
-		public $_uri;
+        public $_uri;
 
-		public $_theme;
+        public $_theme;
 
-		protected $_hideDocumentRoot;
+        protected $_hideDocumentRoot;
 
-		protected $_showBackTrace;
+        protected $_showBackTrace;
 
-		protected $_showFiles;
+        protected $_showFiles;
 
-		protected $_showFileFragment;
+        protected $_showFileFragment;
 
-		protected $_data;
+        protected $_data;
 
-		protected static $_isActive;
+        protected static $_isActive;
 
-		protected static $_charset;
+        protected static $_charset;
 
-		protected $_beforeContext;
+        protected $_beforeContext;
 
-		protected $_afterContext;
+        protected $_afterContext;
 
-		/**
-		 * Change the base URI for static resources
-		 *
-		 * @param string $uri
-		 * @return \Phalcon\Debug
-		 */
-		public function setUri($uri){ }
-
-
-		/**
-		 * Sets if files the exception's backtrace must be showed
-		 *
-		 * @param boolean $showBackTrace
-		 * @return \Phalcon\Debug
-		 */
-		public function setShowBackTrace($showBackTrace){ }
+        /**
+         * Change the base URI for static resources
+         *
+         * @param string $uri
+         * @return \Phalcon\Debug
+         */
+        public function setUri($uri)
+        {
+        }
 
 
-		/**
-		 * Set if files part of the backtrace must be shown in the output
-		 *
-		 * @param boolean $showFiles
-		 * @return \Phalcon\Debug
-		 */
-		public function setShowFiles($showFiles){ }
+        /**
+         * Sets if files the exception's backtrace must be showed
+         *
+         * @param boolean $showBackTrace
+         * @return \Phalcon\Debug
+         */
+        public function setShowBackTrace($showBackTrace)
+        {
+        }
 
 
-		/**
-		 * Sets if files must be completely opened and showed in the output
-		 * or just the fragment related to the exception
-		 *
-		 * @param boolean $showFileFragment
-		 * @return \Phalcon\Debug
-		 */
-		public function setShowFileFragment($showFileFragment){ }
+        /**
+         * Set if files part of the backtrace must be shown in the output
+         *
+         * @param boolean $showFiles
+         * @return \Phalcon\Debug
+         */
+        public function setShowFiles($showFiles)
+        {
+        }
 
 
-		/**
-		 * Listen for uncaught exceptions and unsilent notices or warnings
-		 *
-		 * @param boolean $exceptions
-		 * @param boolean $lowSeverity
-		 * @return \Phalcon\Debug
-		 */
-		public function listen($exceptions=null, $lowSeverity=null){ }
+        /**
+         * Sets if files must be completely opened and showed in the output
+         * or just the fragment related to the exception
+         *
+         * @param boolean $showFileFragment
+         * @return \Phalcon\Debug
+         */
+        public function setShowFileFragment($showFileFragment)
+        {
+        }
 
 
-		/**
-		 * Listen for uncaught exceptions
-		 *
-		 * @return \Phalcon\Debug
-		 */
-		public function listenExceptions(){ }
+        /**
+         * Listen for uncaught exceptions and unsilent notices or warnings
+         *
+         * @param boolean $exceptions
+         * @param boolean $lowSeverity
+         * @return \Phalcon\Debug
+         */
+        public function listen($exceptions=null, $lowSeverity=null)
+        {
+        }
 
 
-		/**
-		 * Listen for unsilent notices or warnings
-		 *
-		 * @return \Phalcon\Debug
-		 */
-		public function listenLowSeverity(){ }
+        /**
+         * Listen for uncaught exceptions
+         *
+         * @return \Phalcon\Debug
+         */
+        public function listenExceptions()
+        {
+        }
 
 
-		/**
-		 * Adds a variable to the debug output
-		 *
-		 * @param mixed $var
-		 * @param string $key
-		 * @return \Phalcon\Debug
-		 */
-		public function debugVar($var, $key=null){ }
+        /**
+         * Listen for unsilent notices or warnings
+         *
+         * @return \Phalcon\Debug
+         */
+        public function listenLowSeverity()
+        {
+        }
 
 
-		/**
-		 * Clears are variables added previously
-		 *
-		 * @return \Phalcon\Debug
-		 */
-		public function clearVars(){ }
+        /**
+         * Adds a variable to the debug output
+         *
+         * @param mixed $var
+         * @param string $key
+         * @return \Phalcon\Debug
+         */
+        public function debugVar($var, $key=null)
+        {
+        }
 
 
-		/**
-		 * Escapes a string with htmlentities
-		 *
-		 * @param string $value
-		 * @return string
-		 */
-		protected function _escapeString(){ }
+        /**
+         * Clears are variables added previously
+         *
+         * @return \Phalcon\Debug
+         */
+        public function clearVars()
+        {
+        }
 
 
-		/**
-		 * Produces a recursive representation of an array
-		 *
-		 * @param array $argument
-		 * @return string
-		 */
-		protected function _getArrayDump(){ }
+        /**
+         * Escapes a string with htmlentities
+         *
+         * @param string $value
+         * @return string
+         */
+        protected function _escapeString()
+        {
+        }
 
 
-		/**
-		 * Produces an string representation of a variable
-		 *
-		 * @param mixed $variable
-		 * @return string
-		 */
-		protected function _getVarDump(){ }
+        /**
+         * Produces a recursive representation of an array
+         *
+         * @param array $argument
+         * @return string
+         */
+        protected function _getArrayDump()
+        {
+        }
 
 
-		/**
-		 * Returns the major framework's version
-		 *
-		 * @return string
-		 */
-		public function getMajorVersion(){ }
+        /**
+         * Produces an string representation of a variable
+         *
+         * @param mixed $variable
+         * @return string
+         */
+        protected function _getVarDump()
+        {
+        }
 
 
-		/**
-		 * Generates a link to the current version documentation
-		 *
-		 * @return string
-		 */
-		public function getVersion(){ }
+        /**
+         * Returns the major framework's version
+         *
+         * @return string
+         */
+        public function getMajorVersion()
+        {
+        }
 
 
-		/**
-		 * Returns the css sources
-		 *
-		 * @return string
-		 */
-		public function getCssSources(){ }
+        /**
+         * Generates a link to the current version documentation
+         *
+         * @return string
+         */
+        public function getVersion()
+        {
+        }
 
 
-		/**
-		 * Returns the javascript sources
-		 *
-		 * @return string
-		 */
-		public function getJsSources(){ }
+        /**
+         * Returns the css sources
+         *
+         * @return string
+         */
+        public function getCssSources()
+        {
+        }
 
 
-		/**
-		 * Shows a backtrace item
-		 *
-		 * @param int $n
-		 * @param array $trace
-		 */
-		protected function showTraceItem(){ }
+        /**
+         * Returns the javascript sources
+         *
+         * @return string
+         */
+        public function getJsSources()
+        {
+        }
 
 
-		/**
-		 * Handles uncaught exceptions
-		 *
-		 * @param \Exception $exception
-		 * @return boolean
-		 */
-		public function onUncaughtException($exception){ }
+        /**
+         * Shows a backtrace item
+         *
+         * @param int $n
+         * @param array $trace
+         */
+        protected function showTraceItem()
+        {
+        }
 
 
-		/**
-		 * Returns the character set used to display the HTML
-		 *
-		 * @brief string \Phalcon\Debug::getCharset(void)
-		 * @return string
-		 */
-		public function getCharset(){ }
+        /**
+         * Handles uncaught exceptions
+         *
+         * @param \Exception $exception
+         * @return boolean
+         */
+        public function onUncaughtException($exception)
+        {
+        }
 
 
-		/**
-		 * Sets the character set used to display the HTML
-		 *
-		 * @brief \Phalcon\Debug \Phalcon\Debug::setCharset(string $charset)
-		 * @param string $charset
-		 * @return \Phalcon\Debug
-		 */
-		public function setCharset($charset){ }
+        /**
+         * Returns the character set used to display the HTML
+         *
+         * @brief string \Phalcon\Debug::getCharset(void)
+         * @return string
+         */
+        public function getCharset()
+        {
+        }
 
 
-		/**
-		 * Returns the number of lines deplayed before the error line
-		 *
-		 * @brief int \Phalcon\Debug::getLinesBeforeContext(void)
-		 * @return int
-		 */
-		public function getLinesBeforeContext(){ }
+        /**
+         * Sets the character set used to display the HTML
+         *
+         * @brief \Phalcon\Debug \Phalcon\Debug::setCharset(string $charset)
+         * @param string $charset
+         * @return \Phalcon\Debug
+         */
+        public function setCharset($charset)
+        {
+        }
 
 
-		/**
-		 * Sets the number of lines deplayed before the error line
-		 *
-		 * @brief \Phalcon\Debug \Phalcon\Debug::setLinesBeforeContext(int $lines)
-		 * @param int $lines
-		 * @return \Phalcon\Debug
-		 */
-		public function setLinesBeforeContext($lines){ }
+        /**
+         * Returns the number of lines deplayed before the error line
+         *
+         * @brief int \Phalcon\Debug::getLinesBeforeContext(void)
+         * @return int
+         */
+        public function getLinesBeforeContext()
+        {
+        }
 
 
-		/**
-		 * Returns the number of lines deplayed after the error line
-		 *
-		 * @brief int \Phalcon\Debug::getLinesAfterContext(void)
-		 * @return int
-		 */
-		public function getLinesAfterContext(){ }
+        /**
+         * Sets the number of lines deplayed before the error line
+         *
+         * @brief \Phalcon\Debug \Phalcon\Debug::setLinesBeforeContext(int $lines)
+         * @param int $lines
+         * @return \Phalcon\Debug
+         */
+        public function setLinesBeforeContext($lines)
+        {
+        }
 
 
-		/**
-		 * Sets the number of lines deplayed after the error line
-		 *
-		 * @brief \Phalcon\Debug \Phalcon\Debug::setLinesAfterContext(int $lines)
-		 * @param int $lines
-		 * @return \Phalcon\Debug
-		 */
-		public function setLinesAfterContext($lines){ }
+        /**
+         * Returns the number of lines deplayed after the error line
+         *
+         * @brief int \Phalcon\Debug::getLinesAfterContext(void)
+         * @return int
+         */
+        public function getLinesAfterContext()
+        {
+        }
 
 
-		protected function getFileLink($file, $line, $format){ }
+        /**
+         * Sets the number of lines deplayed after the error line
+         *
+         * @brief \Phalcon\Debug \Phalcon\Debug::setLinesAfterContext(int $lines)
+         * @param int $lines
+         * @return \Phalcon\Debug
+         */
+        public function setLinesAfterContext($lines)
+        {
+        }
 
-	}
+
+        protected function getFileLink($file, $line, $format)
+        {
+        }
+
+    }
 }

@@ -2,100 +2,100 @@
 
 namespace Phalcon\Mvc\Model {
 
-	/**
-	 * Phalcon\Mvc\Model\TransactionInterface initializer
-	 */
-	
-	interface TransactionInterface {
+    /**
+     * Phalcon\Mvc\Model\TransactionInterface initializer
+     */
+    interface TransactionInterface
+        {
 
-		/**
-		 * Sets transaction manager related to the transaction
-		 *
-		 * @param \Phalcon\Mvc\Model\Transaction\ManagerInterface $manager
-		 */
-		public function setTransactionManager($manager);
-
-
-		/**
-		 * Starts the transaction
-		 *
-		 * @return boolean
-		 */
-		public function begin();
+        /**
+         * Sets transaction manager related to the transaction
+         *
+         * @param \Phalcon\Mvc\Model\Transaction\ManagerInterface $manager
+         */
+        public function setTransactionManager($manager);
 
 
-		/**
-		 * Commits the transaction
-		 *
-		 * @return boolean
-		 */
-		public function commit();
+        /**
+         * Starts the transaction
+         *
+         * @return boolean
+         */
+        public function begin();
 
 
-		/**
-		 * Rollbacks the transaction
-		 *
-		 * @param  string $rollbackMessage
-		 * @param  \Phalcon\Mvc\ModelInterface $rollbackRecord
-		 * @return boolean
-		 */
-		public function rollback($rollbackMessage=null, $rollbackRecord=null);
+        /**
+         * Commits the transaction
+         *
+         * @return boolean
+         */
+        public function commit();
 
 
-		/**
-		 * Returns connection related to transaction
-		 *
-		 * @return string
-		 */
-		public function getConnection();
+        /**
+         * Rollbacks the transaction
+         *
+         * @param  string $rollbackMessage
+         * @param  \Phalcon\Mvc\ModelInterface $rollbackRecord
+         * @return boolean
+         */
+        public function rollback($rollbackMessage=null, $rollbackRecord=null);
 
 
-		/**
-		 * Sets if is a reused transaction or new once
-		 *
-		 * @param boolean $isNew
-		 */
-		public function setIsNewTransaction($isNew);
+        /**
+         * Returns connection related to transaction
+         *
+         * @return string
+         */
+        public function getConnection();
 
 
-		/**
-		 * Sets flag to rollback on abort the HTTP connection
-		 *
-		 * @param boolean $rollbackOnAbort
-		 */
-		public function setRollbackOnAbort($rollbackOnAbort);
+        /**
+         * Sets if is a reused transaction or new once
+         *
+         * @param boolean $isNew
+         */
+        public function setIsNewTransaction($isNew);
 
 
-		/**
-		 * Checks whether transaction is managed by a transaction manager
-		 *
-		 * @return boolean
-		 */
-		public function isManaged();
+        /**
+         * Sets flag to rollback on abort the HTTP connection
+         *
+         * @param boolean $rollbackOnAbort
+         */
+        public function setRollbackOnAbort($rollbackOnAbort);
 
 
-		/**
-		 * Returns validations messages from last save try
-		 *
-		 * @return array
-		 */
-		public function getMessages();
+        /**
+         * Checks whether transaction is managed by a transaction manager
+         *
+         * @return boolean
+         */
+        public function isManaged();
 
 
-		/**
-		 * Checks whether internal connection is under an active transaction
-		 *
-		 * @return boolean
-		 */
-		public function isValid();
+        /**
+         * Returns validations messages from last save try
+         *
+         * @return array
+         */
+        public function getMessages();
 
 
-		/**
-		 * Sets object which generates rollback action
-		 *
-		 * @param \Phalcon\Mvc\ModelInterface $record
-		 */
-		public function setRollbackedRecord($record);
+        /**
+         * Checks whether internal connection is under an active transaction
+         *
+         * @return boolean
+         */
+        public function isValid();
 
-	}
+
+        /**
+         * Sets object which generates rollback action
+         *
+         * @param \Phalcon\Mvc\ModelInterface $record
+         */
+        public function setRollbackedRecord($record);
+
+    }
 }

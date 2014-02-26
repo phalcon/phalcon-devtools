@@ -2,58 +2,58 @@
 
 namespace Phalcon\Session {
 
-	/**
-	 * Phalcon\Session\BagInterface initializer
-	 */
-	
-	interface BagInterface {
+    /**
+     * Phalcon\Session\BagInterface initializer
+     */
+    interface BagInterface
+        {
 
-		/**
-		 * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
-		 */
-		public function initialize();
-
-
-		/**
-		 * Destroyes the session bag
-		 */
-		public function destroy();
+        /**
+         * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
+         */
+        public function initialize();
 
 
-		/**
-		 * Setter of values
-		 *
-		 * @param string $property
-		 * @param string $value
-		 */
-		public function set($property, $value);
+        /**
+         * Destroyes the session bag
+         */
+        public function destroy();
 
 
-		/**
-		 * Getter of values
-		 *
-		 * @param string $property
-		 * @param mixed $defaultValue
-		 * @return mixed
-		 */
-		public function get($property, $defaultValue=null);
+        /**
+         * Setter of values
+         *
+         * @param string $property
+         * @param string $value
+         */
+        public function set($property, $value);
 
 
-		/**
-		 * Isset property
-		 *
-		 * @param string $property
-		 * @return boolean
-		 */
-		public function has($property);
+        /**
+         * Getter of values
+         *
+         * @param string $property
+         * @param mixed $defaultValue
+         * @return mixed
+         */
+        public function get($property, $defaultValue=null);
 
 
-		/**
-		 * Unset property
-		 *
-		 * @param string $property
-		 */
-		public function remove($property);
+        /**
+         * Isset property
+         *
+         * @param string $property
+         * @return boolean
+         */
+        public function has($property);
 
-	}
+
+        /**
+         * Unset property
+         *
+         * @param string $property
+         */
+        public function remove($property);
+
+    }
 }
