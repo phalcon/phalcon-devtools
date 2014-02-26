@@ -127,5 +127,11 @@ namespace Phalcon\Cache\Backend {
 		 */
 		public function flush(){ }
 
+
+		public function getTrackingKey(){ }
+
+
+		public function setTrackingKey($key){ }
+
 	}
 }
