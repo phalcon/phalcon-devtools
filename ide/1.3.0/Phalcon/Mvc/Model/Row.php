@@ -74,12 +74,12 @@ namespace Phalcon\Mvc\Model {
         }
 
 
+        /**
+         * Counts how many properties were added to the row
+         *
+         * @return int
+         */
         public function count()
-        {
-        }
-
-
-        public function __wakeup()
         {
         }
 

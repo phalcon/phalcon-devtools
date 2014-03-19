@@ -13,6 +13,10 @@ namespace Phalcon\Db\Profiler {
 
         protected $_sqlStatement;
 
+        protected $_sqlVariables;
+
+        protected $_sqlBindTypes;
+
         protected $_initialTime;
 
         protected $_finalTime;
@@ -33,6 +37,46 @@ namespace Phalcon\Db\Profiler {
          * @return string
          */
         public function getSQLStatement()
+        {
+        }
+
+
+        /**
+         * Sets the SQL variables related to the profile
+         *
+         * @param array $sqlParams
+         */
+        public function setSQLVariables($sqlVariables)
+        {
+        }
+
+
+        /**
+         * Returns the SQL variables related to the profile
+         *
+         * @return array
+         */
+        public function getSQLVariables()
+        {
+        }
+
+
+        /**
+         * Sets the SQL bind types related to the profile
+         *
+         * @param array $sqlParams
+         */
+        public function setSQLBindTypes($sqlBindTypes)
+        {
+        }
+
+
+        /**
+         * Returns the SQL bind types related to the profile
+         *
+         * @return array
+         */
+        public function getSQLBindTypes()
         {
         }
 

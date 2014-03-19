@@ -163,7 +163,7 @@ namespace Phalcon\Assets {
          * Sets a base source path for all the resources in this collection
          *
          * @param string $sourcePath
-         * @return \Phalcon\Assets\Resource
+         * @return \Phalcon\Assets\Collection
          */
         public function setSourcePath($sourcePath)
         {
@@ -184,7 +184,7 @@ namespace Phalcon\Assets {
          * Sets a target uri for the generated HTML
          *
          * @param string $targetUri
-         * @return \Phalcon\Assets\Resource
+         * @return \Phalcon\Assets\Collection
          */
         public function setTargetUri($targetUri)
         {

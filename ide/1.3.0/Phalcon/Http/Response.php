@@ -169,7 +169,7 @@ namespace Phalcon\Http {
          *	$this->response->setExpires(new DateTime());
          *</code>
          *
-         * @param DateTime $datetime
+         * @param \DateTime $datetime
          * @return \Phalcon\Http\ResponseInterface
          */
         public function setExpires($datetime)

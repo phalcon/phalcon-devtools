@@ -123,6 +123,11 @@ namespace Phalcon\Http\Request {
         }
 
 
+        /**
+         * Checks whether the file has been uploaded via Post.
+         *
+         * @return boolean
+         */
         public function isUploadedFile()
         {
         }

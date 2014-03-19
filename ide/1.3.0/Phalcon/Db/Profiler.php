@@ -48,9 +48,11 @@ namespace Phalcon\Db {
          * Starts the profile of a SQL sentence
          *
          * @param string $sqlStatement
+         * @param $sqlVariables
+         * @param $sqlBindTypes
          * @return \Phalcon\Db\Profiler
          */
-        public function startProfile($sqlStatement)
+        public function startProfile($sqlStatement, $sqlVariables=null, $sqlBindTypes=null)
         {
         }
 

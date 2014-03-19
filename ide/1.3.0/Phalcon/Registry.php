@@ -75,6 +75,11 @@ namespace Phalcon {
         }
 
 
+        public function __call($method, $arguments=null)
+        {
+        }
+
+
         public function count()
         {
         }

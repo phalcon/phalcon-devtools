@@ -99,7 +99,7 @@ namespace Phalcon\Mvc\Model {
 
 
         /**
-         * Rollbacks the transaction
+         * Rolls back the transaction
          *
          * @param  string $rollbackMessage
          * @param  \Phalcon\Mvc\ModelInterface $rollbackRecord
