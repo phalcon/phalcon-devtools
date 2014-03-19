@@ -56,6 +56,7 @@ class Item
     {
         $n = 9;
         $versionStamp = 0;
+        $version = trim($version);
         $this->_parts = explode('.', $version);
         $nParts = count($this->_parts);
         if ($nParts < $numberParts) {
