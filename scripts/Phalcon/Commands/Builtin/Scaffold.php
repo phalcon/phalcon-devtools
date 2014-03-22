@@ -49,6 +49,8 @@ class Scaffold extends Command implements CommandsInterface
         'template-engine=s'=> 'Define the template engine, default php (php, volt). [optional]',
         'force'          => "Forces to rewrite generated code if they already exists. [optional]",
         'trace'          => "Shows the trace of the framework in case of exception. [optional]",
+        'ns-models=s'     => "Model's namespace [optional]",
+        'ns-controllers=s'     => "Controller's namespace [optional]",
     );
 
     /**
@@ -72,6 +74,8 @@ class Scaffold extends Command implements CommandsInterface
             'directory' => $this->getOption('directory'),
             'templatePath' => $templatePath,
             'templateEngine'=> $templateEngine,
+            'modelsNamespace' => $this->getOption('ns-models'),
+            'controllersNamespace' => $this->getOption('ns-controllers'),
         ));
 
         return $scaffoldBuilder->build();

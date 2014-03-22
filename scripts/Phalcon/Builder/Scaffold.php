@@ -169,8 +169,15 @@ class Scaffold extends Component
         $options['className'] = Text::camelize($options['name']);
         $options['fileName'] = Text::uncamelize($options['className']);
 
-        $modelClass = Text::camelize($name);
-        $modelPath = $config->application->modelsDir.'/'.$modelClass.'.php';
+
+        $modelsNamespace = $options['modelsNamespace'];
+        if (isset($modelsNamespace) && substr($modelsNamespace, -1) !== '\\') {
+            $modelsNamespace .= "\\";
+        }
+
+        $modelName = Text::camelize($name);
+        $modelClass = $modelsNamespace . $modelName;
+        $modelPath = $config->application->modelsDir.'/'.$modelName.'.php';
         if (!file_exists($modelPath)) {
 
             $modelBuilder = new ModelBuilder(array(
@@ -532,6 +539,12 @@ class Scaffold extends Component
         $path = $options['templatePath'] . '/scaffold/no-forms/Controller.php';
 
         $code = file_get_contents($path);
+
+        if (isset($options['controllersNamespace']) === true) {
+            $code = str_replace('$namespace$', 'namespace '.$options['controllersNamespace'].';'.PHP_EOL, $code);
+        } else {
+            $code = str_replace('$namespace$', ' ', $code);
+        }
 
         $code = str_replace('$singularVar$', '$' . $options['singular'], $code);
         $code = str_replace('$singular$', $options['singular'], $code);
