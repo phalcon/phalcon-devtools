@@ -27,6 +27,8 @@ run_profile(){
 		. $HOME/.bashrc
 	elif [ -e $HOME/.zshrc]; then
 		. $HOME/.zshrc
+	elif [ -e $HOME/.config/fish/config.fish]; then
+		. $HOME/.config/fish/config.fish
 	fi
 }
 
@@ -37,5 +39,14 @@ fi
 if [ ! -z "$PTOOLSPATH" ]; then
 	php "$PTOOLSPATH/phalcon.php" $*
 else
-	echo "Error: Add environment variable PTOOLSPATH to your .profile"
+	if [ -n "$ZSH_VERSION" ]; then
+		echo "Error: Add environment variable PTOOLSPATH to your $HOME/.zsh"
+	elif [ -n "$BASH_VERSION" ]; then
+		echo "Error: Add environment variable PTOOLSPATH to your $HOME/.profile"
+	elif [ -n "$FISH_VERSION" ]; then
+		echo "Error: Add environment variable PTOOLSPATH, to your $HOME/.config/fish/config.fish"
+	else
+		echo "Error: Add environment variable PTOOLSPATH, unknown shell type"
+	fi
+	
 fi
