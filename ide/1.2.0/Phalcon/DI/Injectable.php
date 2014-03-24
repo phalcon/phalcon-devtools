@@ -101,10 +101,10 @@ namespace Phalcon\DI {
 		public $annotations;
 
 
-        /**
-        * @var \Phalcon\Assets\Manager
-        */
-        public $assets;
+	        /**
+	        * @var \Phalcon\Assets\Manager
+	        */
+	        public $assets;
 
 
 		/**
