@@ -239,49 +239,49 @@ namespace Phalcon\Image {
 		public function render($type=null, $quality=null){ }
 
 
-		abstract protected function _resize($width, $height){ }
+		abstract protected function _resize($width, $height);
 
 
-		abstract protected function _liquidRescale($width, $height, $delta_x, $regidity){ }
+		abstract protected function _liquidRescale($width, $height, $delta_x, $regidity);
 
 
-		abstract protected function _crop($width, $height, $offset_x, $offset_y){ }
+		abstract protected function _crop($width, $height, $offset_x, $offset_y);
 
 
-		abstract protected function _rotate($degrees){ }
+		abstract protected function _rotate($degrees);
 
 
-		abstract protected function _flip($direction){ }
+		abstract protected function _flip($direction);
 
 
-		abstract protected function _sharpen($amount){ }
+		abstract protected function _sharpen($amount);
 
 
-		abstract protected function _reflection($height, $opacity, $fade_in){ }
+		abstract protected function _reflection($height, $opacity, $fade_in);
 
 
-		abstract protected function _watermark($watermark, $offset_x, $offset_y, $opacity){ }
+		abstract protected function _watermark($watermark, $offset_x, $offset_y, $opacity);
 
 
-		abstract protected function _text($text, $offset_x, $offset_y, $opacity, $r, $g, $b, $size, $fontfile){ }
+		abstract protected function _text($text, $offset_x, $offset_y, $opacity, $r, $g, $b, $size, $fontfile);
 
 
-		abstract protected function _mask($mask){ }
+		abstract protected function _mask($mask);
 
 
-		abstract protected function _background($r, $g, $b, $opacity){ }
+		abstract protected function _background($r, $g, $b, $opacity);
 
 
-		abstract protected function _blur($radius){ }
+		abstract protected function _blur($radius);
 
 
-		abstract protected function _pixelate($amount){ }
+		abstract protected function _pixelate($amount);
 
 
-		abstract protected function _save($file, $quality){ }
+		abstract protected function _save($file, $quality);
 
 
-		abstract protected function _render($type, $quality){ }
+		abstract protected function _render($type, $quality);
 
 	}
 }
