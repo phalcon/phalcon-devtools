@@ -151,7 +151,7 @@ class Model extends Component
      * @var %s
      */
     %s \$%s;
-     ";
+";
 
         $templateGetterMap = "
     /**
