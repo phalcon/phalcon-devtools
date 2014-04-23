@@ -61,6 +61,7 @@ class Simple extends ProjectBuilder
         $modelBuilder = new \Phalcon\Builder\Controller(array(
             'name' => 'index',
             'directory' => $path,
+            'controllersDir' => $path . 'app/controllers',
             'baseClass' => 'ControllerBase'
         ));
         $modelBuilder->build();
