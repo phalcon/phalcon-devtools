@@ -239,6 +239,8 @@ class Model extends Component
             if ($this->_options['directory']) {
                 $path = $this->_options['directory'] . '/';
             }
+        } else {
+            $path = '.';
         }
 
         $config = $this->_getConfig($path);
@@ -252,13 +254,15 @@ class Model extends Component
             $modelsDir = $config->application->modelsDir;
         } else {
             $modelsDir = $this->_options['modelsDir'];
-        }
-
+        }            
+        
+        $modelsDir = rtrim(rtrim($modelsDir, '/'), '\\') . DIRECTORY_SEPARATOR;             
+        
         if ($this->isAbsolutePath($modelsDir) == false) {
-            $modelPath = $path . "public" . DIRECTORY_SEPARATOR . $modelsDir;
+            $modelPath = $path . DIRECTORY_SEPARATOR . $modelsDir;
         } else {
             $modelPath = $modelsDir;
-        }
+        }                                 
 
         $methodRawCode = array();
         $className = $this->_options['className'];
