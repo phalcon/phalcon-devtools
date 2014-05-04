@@ -21,6 +21,7 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
+use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Commands\CommandsInterface;
@@ -99,7 +100,7 @@ class Migration extends Command implements CommandsInterface
         $directory = new \RecursiveDirectoryIterator('.');
         $iterator = new \RecursiveIteratorIterator($directory);
         foreach ($iterator as $f) {
-            if (preg_match('/config\.php$/', $f->getPathName())) {
+            if (preg_match('/config\.php$/i', $f->getPathName())) {
                 $config = include($f->getPathName());
 
                 return $config;
