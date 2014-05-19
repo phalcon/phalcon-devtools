@@ -9,7 +9,7 @@
         <td align="right">
             {{ link_to("$plural$/new", "Create ") }}
         </td>
-    <tr>
+    </tr>
 </table>
 
 <table class="browse" align="center">
