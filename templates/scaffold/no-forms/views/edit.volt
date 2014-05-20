@@ -5,7 +5,7 @@
     <tr>
         <td align="left">{{ link_to("$plural$", "Go Back") }}</td>
         <td align="right">{{ submit_button("Save") }}</td>
-    <tr>
+    </tr>
 </table>
 
 <div align="center">
