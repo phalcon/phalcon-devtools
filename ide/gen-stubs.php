@@ -368,7 +368,7 @@ foreach ($allClasses as $className) {
 
 	$source.='}'.PHP_EOL;
 
-	$path = 'ide/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
+	$path = __DIR__ . '/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
 	if (!is_dir($path)) {
 		mkdir($path, 0777, true);
 	}
