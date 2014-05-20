@@ -72,12 +72,12 @@ abstract class Component
         $directory = new \RecursiveDirectoryIterator('.');
         $iterator = new \RecursiveIteratorIterator($directory);
         foreach ($iterator as $f) {
-            if (preg_match('/config\.php$/', $f->getPathName())) {
+            if (preg_match('/config\.php$/i', $f->getPathName())) {
                 $config = include $f->getPathName();
 
                 return $config;
             } else {
-                if (preg_match('/config\.ini$/', $f->getPathName())) {
+                if (preg_match('/config\.ini$/i', $f->getPathName())) {
                     return new \Phalcon\Config\Adapter\Ini($f->getPathName());
                 }
             }
