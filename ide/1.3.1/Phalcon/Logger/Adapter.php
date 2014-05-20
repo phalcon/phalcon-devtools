@@ -170,7 +170,7 @@ namespace Phalcon\Logger {
 		public function emergency($message, $context=null){ }
 
 
-		abstract protected function logInternal($message, $type, $time, $context){ }
+		abstract protected function logInternal($message, $type, $time, $context);
 
 	}
 }
