@@ -99,7 +99,14 @@ namespace Phalcon\DI {
 		 * @var \Phalcon\Annotations\Adapter\Memory
 	 	 */
 		public $annotations;
-		
+
+
+	        /**
+	        * @var \Phalcon\Assets\Manager
+	        */
+	        public $assets;
+
+
 		/**
 		 * Sets the dependency injector
 		 *
