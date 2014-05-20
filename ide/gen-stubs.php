@@ -356,7 +356,7 @@ foreach ($allClasses as $className) {
 					$parameters[] = '$' . $parameter->name;
 				}
 			}
-			if ($reflector->isInterface()) {
+			if ($reflector->isInterface() || $method->isAbstract()) {
 				$source.=join(', ', $parameters).');'.PHP_EOL.PHP_EOL;
 			} else {
 				$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
