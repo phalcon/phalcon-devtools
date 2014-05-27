@@ -18,7 +18,7 @@
 $captureFields$
     <tr>
         <td></td>
-        <td>{{ submit_button("Search") }}</td>
+        <td>{{ submit_button("Save") }}</td>
     </tr>
 </table>
 
