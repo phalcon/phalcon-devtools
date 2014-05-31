@@ -14,7 +14,7 @@ namespace Phalcon\Assets\Filters {
 		 * Returns the content without touching
 		 *
 		 * @param string $content
-		 * @return $content
+		 * @return string
 		 */
 		public function filter($content){ }
 
