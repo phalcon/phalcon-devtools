@@ -16,7 +16,7 @@ namespace Phalcon\Assets\Filters {
 		 * Filters the content using JSMIN
 		 *
 		 * @param string $content
-		 * @return $content
+		 * @return string
 		 */
 		public function filter($content){ }
 
