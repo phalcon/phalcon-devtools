@@ -16,7 +16,7 @@ namespace Phalcon\Assets\Filters {
 		 * Filters the content using CSSMIN
 		 *
 		 * @param string $content
-		 * @return $content
+		 * @return string
 		 */
 		public function filter($content){ }
 
