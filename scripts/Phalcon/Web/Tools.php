@@ -280,7 +280,7 @@ class Tools
 
             $di->set('url', function () use ($config) {
                 $url = new \Phalcon\Mvc\Url();
-                $url->setBaseUri($config->application->baseUri);
+                $url->setBaseUri(defined("PTOOLS_BASEURI") ? PTOOLS_BASEURI : $config->application->baseUri);
 
                 return $url;
             });
