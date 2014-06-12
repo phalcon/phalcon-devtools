@@ -48,6 +48,7 @@ class Migration extends Command implements CommandsInterface
         'table=s' 		=> "Table to migrate. Default: all.",
         'version=s' 	=> "Version to migrate.",
         'force' 		=> "Forces to overwrite existing migrations.",
+        'ignoreSchema' => "Does not save the schema name in migration files",
     );
 
     /**
@@ -155,6 +156,7 @@ class Migration extends Command implements CommandsInterface
                 'migrationsDir' => $migrationsDir,
                 'originalVersion' => $originalVersion,
                 'force' => $this->isReceivedOption('force'),
+                'ignoreSchema' => $this->isReceivedOption('ignoreSchema'),
                 'config' => $config
             ));
         } else {

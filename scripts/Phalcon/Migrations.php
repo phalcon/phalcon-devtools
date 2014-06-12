@@ -42,6 +42,7 @@ class Migrations
         $exportData = $options['exportData'];
         $migrationsDir = $options['migrationsDir'];
         $originalVersion = $options['originalVersion'];
+        $ignoreSchema = $options['ignoreSchema'];
         $force = $options['force'];
         $config = $options['config'];
 
@@ -94,12 +95,12 @@ class Migrations
 
         ModelMigration::setMigrationPath($migrationsDir.'/'.$version);
         if ($tableName == 'all') {
-            $migrations = ModelMigration::generateAll($version, $exportData);
+            $migrations = ModelMigration::generateAll($version, $exportData, $ignoreSchema);
             foreach ($migrations as $tableName => $migration) {
                 file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
             }
         } else {
-            $migration = ModelMigration::generate($version, $tableName, $exportData);
+            $migration = ModelMigration::generate($version, $tableName, $exportData, $ignoreSchema);
             file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
         }
 

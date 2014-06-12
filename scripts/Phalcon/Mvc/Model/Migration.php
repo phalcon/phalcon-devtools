@@ -116,11 +116,11 @@ class Migration
      * @param  string $exportData
      * @return array
      */
-    public static function generateAll($version, $exportData=null)
+    public static function generateAll($version, $exportData=null, $ignoreSchema=false)
     {
         $classDefinition = array();
         foreach (self::$_connection->listTables() as $table) {
-            $classDefinition[$table] = self::generate($version, $table, $exportData);
+            $classDefinition[$table] = self::generate($version, $table, $exportData, $ignoreSchema);
         }
 
         return $classDefinition;
@@ -136,7 +136,7 @@ class Migration
      * @return string
      * @throws Exception
      */
-    public static function generate($version, $table, $exportData=null)
+    public static function generate($version, $table, $exportData=null, $ignoreSchema=false)
     {
 
         $oldColumn = null;
@@ -256,7 +256,8 @@ class Migration
             }
 
             $referenceDefinition = array();
-            $referenceDefinition[] = "'referencedSchema' => '" . $dbReference->getReferencedSchema() . "'";
+            $schema = $ignoreSchema ? "false" : "'" . $dbReference->getReferencedSchema() . "'";
+            $referenceDefinition[] = "'referencedSchema' => " . $schema;
             $referenceDefinition[] = "'referencedTable' => '" . $dbReference->getReferencedTable() . "'";
             $referenceDefinition[] = "'columns' => array(" . join(",", $columns) . ")";
             $referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns) . ")";
@@ -457,8 +458,14 @@ class ".$className." extends Migration\n".
                 }
 
                 foreach ($definition['references'] as $tableReference) {
+
+                    $schemaName = $tableReference->getSchemaName();
+                    if ($schemaName == false) {
+                        $schemaName = $defaultSchema;
+                    }
+
                     if (!isset($localReferences[$tableReference->getName()])) {
-                        self::$_connection->addForeignKey($tableName, $tableReference->getSchemaName(), $tableReference);
+                        self::$_connection->addForeignKey($tableName, $schemaName, $tableReference);
                     } else {
 
                         $changed = false;
@@ -495,8 +502,8 @@ class ".$className." extends Migration\n".
                         }
 
                         if ($changed == true) {
-                            self::$_connection->dropForeignKey($tableName, $tableReference->getSchemaName(), $tableReference->getName());
-                            self::$_connection->addForeignKey($tableName, $tableReference->getSchemaName(), $tableReference);
+                            self::$_connection->dropForeignKey($tableName, $schemaName, $tableReference->getName());
+                            self::$_connection->addForeignKey($tableName, $schemaName, $tableReference);
                         }
                     }
                 }
