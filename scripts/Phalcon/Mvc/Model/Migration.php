@@ -349,7 +349,7 @@ class ".$className." extends Migration\n".
             $fileName = basename($filePath);
             $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
             $className = \Phalcon\Text::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
-            require $filePath;
+            require_once $filePath;
             if (class_exists($className)) {
                 $migration = new $className();
                 if (method_exists($migration, 'up')) {
