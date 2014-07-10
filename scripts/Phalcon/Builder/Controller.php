@@ -106,7 +106,7 @@ class Controller extends Component
         if (!file_exists($controllerPath) || $this->_options['force'] == true) {
             if (!@file_put_contents($controllerPath, $code)) {
                 throw new BuilderException("Unable to write to '$controllerPath'");
-            };
+            }
         } else {
             throw new BuilderException("The Controller '$name' already exists");
         }

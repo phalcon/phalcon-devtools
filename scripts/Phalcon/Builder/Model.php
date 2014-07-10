@@ -621,7 +621,10 @@ class Model extends Component
             $extends,
             $content
         );
-        file_put_contents($modelPath, $code);
+
+        if (!@file_put_contents($modelPath, $code)) {
+                throw new BuilderException("Unable to write to '$modelPath'");
+        }
 
         if ($this->isConsole()) {
             $this->_notifySuccess('Model "' . $this->_options['name'] .'" was successfully created.');
