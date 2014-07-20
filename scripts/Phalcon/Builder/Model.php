@@ -422,9 +422,13 @@ class Model extends Component
                 require $modelPath;
 
                 $linesCode = file($modelPath);
-                $reflection = new \ReflectionClass($this->_options['className']);
+                $fullClassName = $this->_options['className'];
+                if (isset($this->_options['namespace'])) {
+                    $fullClassName = $this->_options['namespace'].'\\'.$fullClassName;
+                }
+                $reflection = new \ReflectionClass($fullClassName);
                 foreach ($reflection->getMethods() as $method) {
-                    if ($method->getDeclaringClass()->getName() == $this->_options['className']) {
+                    if ($method->getDeclaringClass()->getName() == $fullClassName) {
                         $methodName = $method->getName();
                         if (!isset($possibleMethods[$methodName])) {
                             $methodRawCode[$methodName] = join(
