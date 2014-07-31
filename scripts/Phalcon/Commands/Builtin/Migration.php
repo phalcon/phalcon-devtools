@@ -148,6 +148,11 @@ class Migration extends Command implements CommandsInterface
 
         $action = $this->getOption(array('action', 1));
 
+        $version = $this->getOption('version');
+        
+        
+
+
         if ($action == 'generate') {
             Migrations::generate(array(
                 'directory' => $path,
@@ -165,7 +170,8 @@ class Migration extends Command implements CommandsInterface
                     'tableName' => $tableName,
                     'migrationsDir' => $migrationsDir,
                     'force' => $this->isReceivedOption('force'),
-                    'config' => $config
+                    'config' => $config ,
+                    'version' => $version ,
                 ));
             }
         }

@@ -144,6 +144,8 @@ class Item
      */
     public static function between($initialVersion, $finalVersion, $versions)
     {
+        $versions = self::sortAsc($versions);
+
         if (!is_object($initialVersion)) {
             $initialVersion = new self($initialVersion);
         }
@@ -151,6 +153,7 @@ class Item
             $finalVersion = new self($finalVersion);
         }
         if ($initialVersion->getStamp() > $finalVersion->getStamp()) {
+            $versions = self::sortDesc($versions);
             list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
         }
         $betweenVersions = array();
@@ -158,12 +161,11 @@ class Item
             /**
              * @var $version Item
              */
-            if (($version->getStamp() > $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
                 $betweenVersions[] = $version;
             }
         }
-
-        return self::sortAsc($betweenVersions);
+        return $betweenVersions ;
     }
 
     /**
