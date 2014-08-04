@@ -13,7 +13,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function registerAutoloaders();
+		public function registerAutoloaders(\Phalcon\DiInterface $dependencyInjector)
 
 
 		/**
@@ -21,7 +21,7 @@ namespace Phalcon\Mvc {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function registerServices($dependencyInjector);
+		public function registerServices(\Phalcon\DiInterface $dependencyInjector);
 
 	}
 }
