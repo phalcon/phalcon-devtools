@@ -24,6 +24,8 @@ use Phalcon\Script\Color;
 use Phalcon\Version\Item as VersionItem;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 
+
+
 class Migrations
 {
 
@@ -128,6 +130,14 @@ class Migrations
         $path = $options['directory'];
         $migrationsDir = $options['migrationsDir'];
         $config = $options['config'];
+        $version = null ;
+
+
+
+        if ( isset($options['version']) && $options['version'] !== null){
+            $version = new VersionItem($options['version']);
+        } 
+
 
         if (isset($options['tableName'])) {
             $tableName = $options['tableName'];
@@ -149,11 +159,16 @@ class Migrations
             }
         }
 
-        if (count($versions) == 0) {
+
+        if ( count($versions) == 0) {
             throw new \Phalcon\Mvc\Model\Exception('Migrations were not found at '.$migrationsDir);
         } else {
-            $version = VersionItem::maximum($versions);
+
+            if ($version === null){
+                $version = VersionItem::maximum($versions);
+            }
         }
+
 
         if (is_file($path.'.phalcon')) {
             unlink($path.'.phalcon');
@@ -173,13 +188,16 @@ class Migrations
             throw new \Exception("Cannot load database configuration");
         }
 
-        ModelMigration::setMigrationPath($migrationsDir.'/'.$version);
+        ModelMigration::setMigrationPath($migrationsDir.'/'.$version . '/') ;
         $versionsBetween = VersionItem::between($fromVersion, $version, $versions);
+
         foreach ($versionsBetween as $version) {
             if ($tableName == 'all') {
-                $iterator = new \DirectoryIterator($migrationsDir.'/'.$version);
+                 $iterator = new \DirectoryIterator($migrationsDir.'/'.$version);
                 foreach ($iterator as $fileinfo) {
                     if ($fileinfo->isFile()) {
+                 
+
                         if (preg_match('/\.php$/', $fileinfo->getFilename())) {
                             \Phalcon\Mvc\Model\Migration::migrateFile((string) $version, $migrationsDir.'/'.$version.'/'.$fileinfo->getFilename());
                         }
@@ -198,5 +216,7 @@ class Migrations
 
         file_put_contents($migrationFid, (string) $version);
     }
+
+
 
 }
