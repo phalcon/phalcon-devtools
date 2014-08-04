@@ -19,7 +19,7 @@ namespace Phalcon\Paginator {
 		/**
 		 * Returns a slice of the resultset to show in the pagination
 		 *
-		 * @return stdClass
+		 * @return \stdClass
 		 */
 		public function getPaginate();
 

@@ -40,7 +40,7 @@ namespace Phalcon\Paginator\Adapter {
 		/**
 		 * Returns a slice of the resultset to show in the pagination
 		 *
-		 * @return stdClass
+		 * @return \stdClass
 		 */
 		public function getPaginate(){ }
 
