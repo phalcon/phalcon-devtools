@@ -41,5 +41,5 @@ $rowColumns$            <td>{{ link_to("$plural$/edit/"~$singularVar$.$pk$, "Edi
                 </table>
             </td>
         </tr>
-    <tbody>
+    </tbody>
 </table>
