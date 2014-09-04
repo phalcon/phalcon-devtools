@@ -98,8 +98,8 @@ namespace Phalcon\Db\Adapter {
 		 *</code>
 		 *
 		 * @param  string $sqlStatement
-		 * @param  array $bindParams
-		 * @param  array $bindTypes
+		 * @param  array $placeholders
+		 * @param  array $dataTypes
 		 * @return \Phalcon\Db\ResultInterface
 		 */
 		public function query($sqlStatement, $placeholders=null, $dataTypes=null){ }
@@ -116,8 +116,8 @@ namespace Phalcon\Db\Adapter {
 		 *</code>
 		 *
 		 * @param  string $sqlStatement
-		 * @param  array $bindParams
-		 * @param  array $bindTypes
+		 * @param  array $placeholders
+		 * @param  array $dataTypes
 		 * @return boolean
 		 */
 		public function execute($sqlStatement, $placeholders=null, $dataTypes=null){ }
