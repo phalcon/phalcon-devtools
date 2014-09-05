@@ -418,6 +418,7 @@ class Model extends Component
                         $possibleMethods['get' . $methodName] = true;
                     }
                 }
+                $possibleMethods['getSource'] = true;
 
                 require $modelPath;
 
