@@ -230,7 +230,7 @@ class Model extends Component
 }
 ";
 
-        $propertyLineTemplate = "* @property \%s %s";
+        $propertyLineTemplate = "* @property %s %s";
         $propertiesTemplate = "/**
  * Class %s
  %s
@@ -394,7 +394,7 @@ class Model extends Component
                             $this->_buildRelationOptions( isset($relation['options']) ? $relation["options"] : NULL)
                         );
 
-                        $propertyLines[] = sprintf($propertyLineTemplate, $entityNamespace . $entityName, $entityName);
+                        $propertyLines[] = sprintf($propertyLineTemplate, '\\Phalcon\\Mvc\\Model\\Resultset\\Simple', $entityName);
                     }
                 }
             }
@@ -423,7 +423,7 @@ class Model extends Component
                             $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : NULL)
                         );
 
-                        $propertyLines[] = sprintf($propertyLineTemplate, $entityNamespace . $entityName, $entityName);
+                        $propertyLines[] = sprintf($propertyLineTemplate,  $entityName, $entityName);
                     }
                 }
             }
