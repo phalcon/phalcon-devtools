@@ -224,10 +224,18 @@ class Model extends Component
 
         $templateCode = "<?php
 
-%s%s%sclass %s extends %s
+%s%s%s%sclass %s extends %s
 {
 %s
 }
+";
+
+        $propertyLineTemplate = "* @property \%s %s";
+        $propertiesTemplate = "/**
+ * Class %s
+ %s
+ *%s
+ */
 ";
 
         if (!$this->_options['name']) {
@@ -291,10 +299,12 @@ class Model extends Component
         }
 
         if (isset($this->_options['namespace'])) {
+            $package = '* @package ' . $this->_options['namespace'];
             $namespace = 'namespace ' . $this->_options['namespace'] . ';'
                 . PHP_EOL . PHP_EOL;
             $methodRawCode[] = sprintf($getSource, $this->_options['name']);
         } else {
+            $package = '';
             $namespace = '';
         }
 
@@ -358,12 +368,18 @@ class Model extends Component
             throw new BuilderException('Table "' . $table . '" does not exists');
         }
 
+
+        $propertyLines = [];
+
         if (isset($this->_options['hasMany'])) {
             if (count($this->_options['hasMany'])) {
                 foreach ($this->_options['hasMany'] as $relation) {
                     if (is_string($relation['fields'])) {
                         $entityName = $relation['camelizedName'];
-                        if (isset($this->_options['namespace'])) {
+                        if (isset($this->_options['derivedNamespace'])) {
+                            $entityNamespace = "{$this->_options['derivedNamespace']}\\";
+                            $relation['options']['alias'] = $entityName;
+                        } else if (isset($this->_options['namespace'])) {
                             $entityNamespace = "{$this->_options['namespace']}\\";
                             $relation['options']['alias'] = $entityName;
                         } else {
@@ -377,6 +393,8 @@ class Model extends Component
                             $relation['relationFields'],
                             $this->_buildRelationOptions( isset($relation['options']) ? $relation["options"] : NULL)
                         );
+
+                        $propertyLines[] = sprintf($propertyLineTemplate, $entityNamespace . $entityName, $entityName);
                     }
                 }
             }
@@ -387,7 +405,10 @@ class Model extends Component
                 foreach ($this->_options['belongsTo'] as $relation) {
                     if (is_string($relation['fields'])) {
                         $entityName = $relation['referencedModel'];
-                        if (isset($this->_options['namespace'])) {
+                        if (isset($this->_options['derivedNamespace'])) {
+                            $entityNamespace = "{$this->_options['derivedNamespace']}\\";
+                            $relation['options']['alias'] = $entityName;
+                        } else if (isset($this->_options['namespace'])) {
                             $entityNamespace = "{$this->_options['namespace']}\\";
                             $relation['options']['alias'] = $entityName;
                         } else {
@@ -401,9 +422,18 @@ class Model extends Component
                             $relation['relationFields'],
                             $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : NULL)
                         );
+
+                        $propertyLines[] = sprintf($propertyLineTemplate, $entityNamespace . $entityName, $entityName);
                     }
                 }
             }
+        }
+
+        if(count($propertyLines)){
+            $propertyLines = "\n " . rtrim(implode("\n ", $propertyLines));
+            $properties = sprintf($propertiesTemplate, $className, $package, $propertyLines);
+        } else {
+            $properties = '';
         }
 
         $alreadyInitialized = false;
@@ -418,7 +448,7 @@ class Model extends Component
                         $possibleMethods['get' . $methodName] = true;
                     }
                 }
-                
+
                 $possibleMethods['getSource'] = true;
                 $possibleMethods['initialize'] = true;
 
@@ -619,11 +649,14 @@ class Model extends Component
             $str_use = implode(PHP_EOL, $uses) . PHP_EOL . PHP_EOL;
         }
 
+        echo "\n".$extends."\n";
+
         $code = sprintf(
             $templateCode,
             $license,
             $namespace,
             $str_use,
+            $properties,
             $className,
             $extends,
             $content
