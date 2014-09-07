@@ -12,7 +12,7 @@ if (!extension_loaded('phalcon')) {
 	throw new Exception("phalcon extension isn't installed");
 }
 
-define('CPHALCON_DIR' , '/Users/micate/Code/cphalcon/ext/');
+define('CPHALCON_DIR' , realpath(__DIR__ . '/../../cphalcon/ext/phalcon/'));
 
 if (!file_exists(CPHALCON_DIR)) {
 	throw new Exception("CPHALCON directory does not exist");
@@ -23,8 +23,6 @@ class Stubs_Generator
 
 	protected $_docs = array();
 
-    protected $_classDocs = array();
-
 	public function __construct($directory)
 	{
 		$this->_scanSources($directory);
@@ -32,7 +30,6 @@ class Stubs_Generator
 
     protected function _scanSources($directory)
     {
-        /** @var RecursiveDirectoryIterator[] $iterator */
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory , FilesystemIterator::SKIP_DOTS));
         foreach ( $iterator as $item ) {
             if ( $item->getExtension() == 'c' ) {
@@ -45,6 +42,7 @@ class Stubs_Generator
 
 	protected function _getDocs($file)
 	{
+		echo "Get content : " . $file . "\n";
 		$firstDoc = true;
 		$openComment = false;
 		$nextLineMethod = false;
@@ -100,7 +98,6 @@ class Stubs_Generator
 	protected function _findClassName($classDoc)
 	{
 
-
 		foreach (explode("\n", $classDoc) as $line) {
 			echo $line;
 		}
@@ -119,9 +116,11 @@ class Stubs_Generator
 
 }
 
-$version = Phalcon\Version::get();
+$fileVersion = file_get_contents(CPHALCON_DIR . '/../php_phalcon.h');
+preg_match('/PHP_PHALCON_VERSION     "([0-9\.[a-z]+)"/', $fileVersion, $matches);
+$version = $matches[1];
 $versionPieces = explode(' ', $version);
-$genVersion = $versionPieces[0];
+$genVersion = preg_replace('/[a-z]/', '', $versionPieces[0]);
 
 $api = new Stubs_Generator(CPHALCON_DIR);
 
@@ -146,9 +145,12 @@ foreach ($allClasses as $className) {
 	$simpleClassName = str_replace("\\", "_", $className);
 	if (isset($classDocs[$simpleClassName])) {
 		foreach (explode("\n", $classDocs[$simpleClassName]) as $commentPiece) {
-			$source .= "\t" . $commentPiece . "\n";
+			$source .= "    " . $commentPiece . "\n";
 		}
 	}
+
+    $source = rtrim($source,"\n");
+    $source = rtrim($source,' ');
 
 	$reflector = new ReflectionClass($className);
 
@@ -165,23 +167,23 @@ foreach ($allClasses as $className) {
 	$extends = $reflector->getParentClass();
 	if ($reflector->isInterface()) {
 		if ($extends) {
-			$source .= "\t" . 'interface ' . $normalClassName . ' extends \\'.$extends->name.' {'.PHP_EOL;
+			$source .= "    " . 'interface ' . $normalClassName . ' extends \\'.$extends->name."\n        {\n";
 		} else {
-			$source .= "\t" . 'interface ' . $normalClassName . ' {' . PHP_EOL;
+			$source .= "    " . 'interface ' . $normalClassName ."\n        {\n";
 		}
 	} else {
 
 		$implements = $reflector->getInterfaceNames();
 		if ($extends) {
-			$source.="\t".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
+			$source.="    ".$typeClass.'class '.$normalClassName.' extends \\'.$extends->name;
 		} else {
-			$source.="\t".$typeClass.'class '.$normalClassName;
+			$source.="    ".$typeClass.'class '.$normalClassName;
 		}
 		if ($implements) {
 			$source .= " implements \\" . implode(', \\', $implements);
 		}
 
-		$source .= ' {' . PHP_EOL;
+		$source .= "\n    {\n";
 	}
 
 	if (isset($docs[$simpleClassName])) {
@@ -192,137 +194,132 @@ foreach ($allClasses as $className) {
 
 	// constants
 	foreach ($reflector->getConstants() as $constant => $value) {
-		$source.= PHP_EOL . "\t\t" . 'const '.$constant.' = '.$value.';'.PHP_EOL;
+		$source.= "\n        " . 'const '.$constant.' = '.$value.';'.PHP_EOL;
 	}
 
 	// public and protected properties
 	foreach ($reflector->getProperties() as $property) {
 		if ($property->getDeclaringClass()->name == $className) {
-			$source.= PHP_EOL . "\t\t" . implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
+			$source.=  "\n        " . implode(' ', Reflection::getModifierNames($property->getModifiers())).' $'.$property->name.';'.PHP_EOL;
 		}
 	}
 
 	if ($className == 'Phalcon\DI\Injectable') {
 		$source .= '
-		/**
- 		 * @var \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface
- 		 */
-		public $dispatcher;
+        /**
+        * @var \Phalcon\Mvc\ViewInterface
+        */
+        public $view;
 
-		/**
- 		 * @var \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface
- 		 */
-		public $router;
+        /**
+        * @var \Phalcon\Mvc\RouterInterface
+        */
+        public $router;
 
-		/**
- 		 * @var \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface
- 		 */
-		public $url;
+        /**
+        * @var \Phalcon\Mvc\DispatcherInterface
+        */
+        public $dispatcher;
 
-		/**
- 		 * @var \Phalcon\Http\Request|\Phalcon\HTTP\RequestInterface
- 		 */
-		public $request;
+        /**
+        * @var \Phalcon\Mvc\UrlInterface
+        */
+        public $url;
 
-		/**
- 		 * @var \Phalcon\Http\Response|\Phalcon\HTTP\ResponseInterface
- 		 */
-		public $response;
+        /**
+        * @var \Phalcon\DiInterface
+        */
+        public $di;
 
-		/**
- 		 * @var \Phalcon\Http\Response\Cookies|\Phalcon\Http\Response\CookiesInterface
- 		 */
-		public $cookies;
+        /**
+        * @var \Phalcon\HTTP\RequestInterface
+        */
+        public $request;
 
-		/**
- 		 * @var \Phalcon\Filter|\Phalcon\FilterInterface
- 		 */
-		public $filter;
+        /**
+        * @var \Phalcon\HTTP\ResponseInterface
+        */
+        public $response;
 
-		/**
- 		 * @var \Phalcon\Flash\Direct
- 		 */
-		public $flash;
+        /**
+        * @var \Phalcon\Flash\Direct
+        */
+        public $flash;
 
-		/**
- 		 * @var \Phalcon\Flash\Session
- 		 */
-		public $flashSession;
+        /**
+        * @var \Phalcon\Flash\Session
+        */
+        public $flashSession;
 
-		/**
- 		 * @var \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface
- 		 */
-		public $session;
+        /**
+        * @var \Phalcon\Session\AdapterInterface
+        */
+        public $session;
 
-		/**
- 		 * @var \Phalcon\Events\Manager
- 		 */
-		public $eventsManager;
+        /**
+        * @var \Phalcon\Session\Bag
+        */
+        public $persistent;
 
-		/**
- 		 * @var \Phalcon\Db
- 		 */
-		public $db;
+        /**
+        * @var \Phalcon\Mvc\Model\ManagerInterface
+        */
+        public $modelsManager;
 
-		/**
- 		 * @var \Phalcon\Security
- 		 */
-		public $security;
+        /**
+        * @var \Phalcon\Mvc\Model\MetadataInterface
+        */
+        public $modelsMetadata;
 
-		/**
- 		 * @var \Phalcon\Crypt
- 		 */
-		public $crypt;
+        /**
+        * @var \Phalcon\Mvc\Model\Transaction\Manager
+        */
+        public $transactionManager;
 
-		/**
- 		 * @var \Phalcon\Tag
- 		 */
-		public $tag;
+        /**
+        * @var \Phalcon\FilterInterface
+        */
+        public $filter;
 
-		/**
- 		 * @var \Phalcon\Escaper|\Phalcon\EscaperInterface
- 		 */
-		public $escaper;
+        /**
+        * @var \Phalcon\Security
+        */
+        public $security;
 
-		/**
- 		 * @var \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter
- 		 */
-		public $annotations;
+        /**
+        * @var \Phalcon\Annotations\Adapter\Memory
+        */
+        public $annotations;
 
-		/**
- 		 * @var \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface
- 		 */
-		public $modelsManager;
+        /**
+        * @var \Phalcon\Http\Response\Cookies
+        */
+        public $cookies;
 
-		/**
- 		 * @var \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface
- 		 */
-		public $modelsMetadata;
+        /**
+        * @var \Phalcon\Events\Manager
+        */
+        public $eventsManager;
 
-		/**
- 		 * @var \Phalcon\Mvc\Model\Transaction\Manager
- 		 */
-		public $transactionManager;
+        /**
+        * @var \Phalcon\Db
+        */
+        public $db;
 
-		/**
- 		 * @var \Phalcon\Assets\Manager
- 		 */
-		public $assets;
+        /**
+        * @var \Phalcon\Crypt
+        */
+        public $crypt;
 
-		/**
-		 * @var \Phalcon\DI|\Phalcon\DiInterface
-	 	 */
-		public $di;
+        /**
+        * @var \Phalcon\Tag
+        */
+        public $tag;
 
-		/**
-		 * @var \Phalcon\Session\Bag
-	 	 */
-		public $persistent;
-
-		/**
- 		 * @var \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface
- 		 */
-		public $view;
+        /**
+        * @var \Phalcon\Escaper
+        */
+        public $escaper;
 		';
 	}
 
@@ -334,7 +331,7 @@ foreach ($allClasses as $className) {
 			if (isset($docMethods[$method->name])) {
 				$docMethods[$method->name] = str_replace(' Phalcon', ' \Phalcon', $docMethods[$method->name]);
 				foreach (explode("\n", $docMethods[$method->name]) as $commentPiece) {
-					$source.="\t\t".$commentPiece."\n";
+					$source.="        ".$commentPiece."\n";
 				}
 			}
 
@@ -342,7 +339,7 @@ foreach ($allClasses as $className) {
 			if ($reflector->isInterface()) {
 				$modifiers = array_intersect($modifiers, array('static', 'public'));
 			}
-			$source.= "\t\t".implode(' ', $modifiers).' function '.$method->name.'(';
+			$source.= "        ".implode(' ', $modifiers).' function '.$method->name.'(';
 
 			$parameters = array();
 			foreach ($method->getParameters() as $parameter) {
@@ -356,22 +353,22 @@ foreach ($allClasses as $className) {
 					$parameters[] = '$' . $parameter->name;
 				}
 			}
-			if ($reflector->isInterface() || $method->isAbstract()) {
+			if ($reflector->isInterface()) {
 				$source.=join(', ', $parameters).');'.PHP_EOL.PHP_EOL;
 			} else {
-				$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
+				$source.=join(', ', $parameters).")\n        {\n        }".PHP_EOL.PHP_EOL;
 			}
 		}
 	}
 
-	$source.="\t".'}'.PHP_EOL;
+	$source.="    ".'}'.PHP_EOL;
 
 	$source.='}'.PHP_EOL;
 
-	$path = __DIR__ . '/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
+	$path = realpath (__DIR__) . '/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
 	if (!is_dir($path)) {
 		mkdir($path, 0777, true);
 	}
-
+        echo "Generating : " . $path . "\n";
 	file_put_contents($path . DIRECTORY_SEPARATOR . $normalClassName . '.php', $source);
 }
