@@ -122,6 +122,14 @@ $version = $matches[1];
 $versionPieces = explode(' ', $version);
 $genVersion = preg_replace('/[a-z]/', '', $versionPieces[0]);
 
+$version = Phalcon\Version::get();
+$versionPieces = explode(' ', $version);
+$extGenVersion = $versionPieces[0];
+
+if ($genVersion != $extGenVersion) {
+   throw new Exception("phalcon extension version installed ( " . $extGenVersion ." ) differs from code version ( " . $genVersion ." )");
+}
+
 $api = new Stubs_Generator(CPHALCON_DIR);
 
 $classDocs = $api->getClassDocs();
