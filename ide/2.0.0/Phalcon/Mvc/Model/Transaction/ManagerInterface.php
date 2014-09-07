@@ -3,6 +3,9 @@
 namespace Phalcon\Mvc\Model\Transaction {    interface ManagerInterface
         {
 
+        public function __construct($dependencyInjector=null);
+
+
         public function has();
 
 

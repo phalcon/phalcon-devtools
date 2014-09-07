@@ -7,10 +7,17 @@ namespace Phalcon\Translate {
      *
      * Base class for Phalcon\Translate adapters
      */
-    abstract class Adapter implements \ArrayAccess, \Phalcon\Translate\AdapterInterface
+    abstract class Adapter
     {
 
-        public function __construct()
+        /**
+         * Returns the translation string of the given key
+         *
+         * @param string  translateKey
+         * @param array   placeholders
+         * @return string
+         */
+        public function t($translateKey, $placeholders=null)
         {
         }
 
@@ -33,7 +40,7 @@ namespace Phalcon\Translate {
          * @param         string offset
          * @param         string value
          */
-        public function offsetSet($property, $value)
+        public function offsetSet($offset, $value)
         {
         }
 
@@ -44,7 +51,7 @@ namespace Phalcon\Translate {
          * @param string  translateKey
          * @return boolean
          */
-        public function offsetExists($property)
+        public function offsetExists($translateKey)
         {
         }
 
@@ -54,7 +61,7 @@ namespace Phalcon\Translate {
          *
          * @param string offset
          */
-        public function offsetUnset($property)
+        public function offsetUnset($offset)
         {
         }
 
@@ -65,7 +72,7 @@ namespace Phalcon\Translate {
          * @param  string translateKey
          * @return string
          */
-        public function offsetGet($property)
+        public function offsetGet($translateKey)
         {
         }
 

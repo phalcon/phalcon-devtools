@@ -3,12 +3,6 @@
 namespace Phalcon\Annotations {    interface AdapterInterface
         {
 
-        public function read($key);
-
-
-        public function write($key, $data);
-
-
         public function setReader($reader);
 
 

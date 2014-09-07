@@ -53,10 +53,6 @@ namespace Phalcon\Mvc\Router {
 
         protected $_beforeMatch;
 
-        protected $_converters;
-
-        protected $_name;
-
         /**
          * \Phalcon\Mvc\Router\Group constructor
          *
@@ -169,7 +165,7 @@ namespace Phalcon\Mvc\Router {
          * @param array httpMethods
          * @return \Phalcon\Mvc\Router\Route
          */
-        protected function _addRoute()
+        protected function _addRoute($pattern, $paths=null, $httpMethods=null)
         {
         }
 
@@ -279,26 +275,6 @@ namespace Phalcon\Mvc\Router {
          * Removes all the pre-defined routes
          */
         public function clear()
-        {
-        }
-
-
-        public function convert($name, $converter)
-        {
-        }
-
-
-        public function getConverters()
-        {
-        }
-
-
-        public function setName($name)
-        {
-        }
-
-
-        public function getName()
         {
         }
 

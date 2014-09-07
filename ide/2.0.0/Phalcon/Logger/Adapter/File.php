@@ -25,6 +25,14 @@ namespace Phalcon\Logger\Adapter {
         protected $_options;
 
         /**
+         * File Path
+         */
+        public function getPath()
+        {
+        }
+
+
+        /**
          * \Phalcon\Logger\Adapter\File constructor
          *
          * @param string name
@@ -53,7 +61,7 @@ namespace Phalcon\Logger\Adapter {
          * @param int time
          * @param array $context
          */
-        protected function logInternal($message, $type, $time, $context)
+        public function logInternal($message, $type, $time, $context)
         {
         }
 
@@ -64,14 +72,6 @@ namespace Phalcon\Logger\Adapter {
          * @return boolean
          */
         public function close()
-        {
-        }
-
-
-        /**
-         * File Path
-         */
-        public function getPath()
         {
         }
 

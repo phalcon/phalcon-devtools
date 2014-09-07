@@ -7,7 +7,7 @@ namespace Phalcon\Flash {
      *
      * Temporarily stores the messages in session, then messages can be printed in the next request
      */
-    class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalcon\DI\InjectionAwareInterface
+    class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_dependencyInjector;
@@ -38,7 +38,7 @@ namespace Phalcon\Flash {
          * @param boolean remove
          * @return array
          */
-        protected function _getSessionMessages()
+        protected function _getSessionMessages($remove)
         {
         }
 
@@ -48,7 +48,7 @@ namespace Phalcon\Flash {
          *
          * @param array messages
          */
-        protected function _setSessionMessages()
+        protected function _setSessionMessages($messages)
         {
         }
 
@@ -82,11 +82,6 @@ namespace Phalcon\Flash {
          * @param boolean remove
          */
         public function output($remove=null)
-        {
-        }
-
-
-        public function has($type)
         {
         }
 

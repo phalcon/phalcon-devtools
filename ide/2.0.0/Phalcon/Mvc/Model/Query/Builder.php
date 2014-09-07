@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model\Query {
      *$queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
      *</code>
      */
-    class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\DI\InjectionAwareInterface
+    class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_dependencyInjector;
@@ -70,28 +70,7 @@ namespace Phalcon\Mvc\Model\Query {
          * @param array params
          * @param \Phalcon\DiInterface dependencyInjector
          */
-        public function __construct($params=null)
-        {
-        }
-
-
-        /**
-         * Sets SELECT DISTINCT / SELECT ALL flag
-         *
-         * @param bool|null distinct
-         * @return \Phalcon\Mvc\Model\Query\BuilderInterface
-         */
-        public function distinct($distinct)
-        {
-        }
-
-
-        /**
-         * Returns SELECT DISTINCT / SELECT ALL flag
-         *
-         * @return bool
-         */
-        public function getDistinct()
+        public function __construct($params=null, $dependencyInjector=null)
         {
         }
 
@@ -113,6 +92,27 @@ namespace Phalcon\Mvc\Model\Query {
          * @return \Phalcon\DiInterface
          */
         public function getDI()
+        {
+        }
+
+
+        /**
+         * Sets SELECT DISTINCT / SELECT ALL flag
+         *
+         * @param bool|null distinct
+         * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+         */
+        public function distinct($distinct)
+        {
+        }
+
+
+        /**
+         * Returns SELECT DISTINCT / SELECT ALL flag
+         *
+         * @return bool
+         */
+        public function getDistinct()
         {
         }
 
@@ -200,7 +200,7 @@ namespace Phalcon\Mvc\Model\Query {
          * @param string type
          * @return \Phalcon\Mvc\Model\Query\Builder
          */
-        public function join($model, $conditions=null, $alias=null)
+        public function join($model, $conditions=null, $alias=null, $type=null)
         {
         }
 

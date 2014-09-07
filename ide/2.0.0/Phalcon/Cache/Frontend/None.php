@@ -38,7 +38,7 @@ namespace Phalcon\Cache\Frontend {
      *	}
      *</code>
      */
-    class None extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\FrontendInterface
+    class None implements \Phalcon\Cache\FrontendInterface
     {
 
         /**
@@ -47,6 +47,42 @@ namespace Phalcon\Cache\Frontend {
          * @return int
          */
         public function getLifetime()
+        {
+        }
+
+
+        /**
+         * Check whether if frontend is buffering output, always false
+         *
+         * @return boolean
+         */
+        public function isBuffering()
+        {
+        }
+
+
+        /**
+         * Starts output frontend
+         */
+        public function start()
+        {
+        }
+
+
+        /**
+         * Returns output cached content
+         *
+         * @return string
+         */
+        public function getContent()
+        {
+        }
+
+
+        /**
+         * Stops output frontend
+         */
+        public function stop()
         {
         }
 

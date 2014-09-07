@@ -7,7 +7,7 @@ namespace Phalcon\Session {
      *
      * Base class for Phalcon\Session adapters
      */
-    abstract class Adapter implements \Phalcon\Session\AdapterInterface, \Countable, \IteratorAggregate, \Traversable, \ArrayAccess
+    abstract class Adapter
     {
 
         protected $_uniqueId;
@@ -22,11 +22,6 @@ namespace Phalcon\Session {
          * @param array options
          */
         public function __construct($options=null)
-        {
-        }
-
-
-        public function __destruct()
         {
         }
 
@@ -75,7 +70,7 @@ namespace Phalcon\Session {
          * @param boolean remove
          * @return mixed
          */
-        public function get($index, $defaultValue=null)
+        public function get($index, $defaultValue=null, $remove=null)
         {
         }
 
@@ -161,62 +156,7 @@ namespace Phalcon\Session {
          *
          * @return boolean
          */
-        public function destroy($session_id=null)
-        {
-        }
-
-
-        public function __get($property)
-        {
-        }
-
-
-        public function __set($property, $value)
-        {
-        }
-
-
-        public function __isset($property)
-        {
-        }
-
-
-        public function __unset($property)
-        {
-        }
-
-
-        public function offsetGet($property)
-        {
-        }
-
-
-        public function offsetSet($property, $value)
-        {
-        }
-
-
-        public function offsetExists($property)
-        {
-        }
-
-
-        public function offsetUnset($property)
-        {
-        }
-
-
-        public function count()
-        {
-        }
-
-
-        public function getIterator()
-        {
-        }
-
-
-        public function setId($sid)
+        public function destroy()
         {
         }
 

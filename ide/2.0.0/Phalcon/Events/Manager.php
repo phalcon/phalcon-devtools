@@ -28,7 +28,7 @@ namespace Phalcon\Events {
          * @param object handler
          * @param int priority
          */
-        public function attach($eventType, $handler)
+        public function attach($eventType, $handler, $priority=null)
         {
         }
 
@@ -94,13 +94,23 @@ namespace Phalcon\Events {
 
 
         /**
+         * Alias of detachAll
+         *
+         * @param string type
+         */
+        public function dettachAll($type=null)
+        {
+        }
+
+
+        /**
          * Internal handler to call a queue of events
          *
          * @param \SplPriorityQueue|array queue
          * @param \Phalcon\Events\Event event
          * @return mixed
          */
-        public function fireQueue($queue, $event)
+        final public function fireQueue($queue, $event)
         {
         }
 
@@ -118,7 +128,7 @@ namespace Phalcon\Events {
          * @param boolean cancelable
          * @return mixed
          */
-        public function fire($eventType, $source, $data=null)
+        public function fire($eventType, $source, $data=null, $cancelable=null)
         {
         }
 
@@ -141,16 +151,6 @@ namespace Phalcon\Events {
          * @return array
          */
         public function getListeners($type)
-        {
-        }
-
-
-        /**
-         * Alias of detachAll
-         *
-         * @param string type
-         */
-        public function dettachAll($type=null)
         {
         }
 

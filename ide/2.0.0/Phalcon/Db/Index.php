@@ -12,22 +12,11 @@ namespace Phalcon\Db {
     class Index implements \Phalcon\Db\IndexInterface
     {
 
-        protected $_indexName;
+        protected $_name;
 
         protected $_columns;
 
         protected $_type;
-
-        /**
-         * \Phalcon\Db\Index constructor
-         *
-         * @param string name
-         * @param array columns
-         */
-        public function __construct($indexName, $columns, $type=null)
-        {
-        }
-
 
         /**
          * Index name
@@ -60,11 +49,22 @@ namespace Phalcon\Db {
 
 
         /**
+         * \Phalcon\Db\Index constructor
+         *
+         * @param string name
+         * @param array columns
+         */
+        public function __construct($name, $columns, $type=null)
+        {
+        }
+
+
+        /**
          * Restore a \Phalcon\Db\Index object from export
          *
          * @param array data
          */
-        public static function __set_state($properties=null)
+        public static function __set_state($data)
         {
         }
 

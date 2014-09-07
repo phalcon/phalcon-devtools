@@ -8,7 +8,7 @@ namespace Phalcon {
      * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
      * This class can't be instantiated directly, you can use it to create your own dispatchers
      */
-    abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
+    abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
     {
 
         const EXCEPTION_NO_DI = 0;
@@ -56,8 +56,6 @@ namespace Phalcon {
         protected $_handlerSuffix;
 
         protected $_actionSuffix;
-
-        protected $_isExactHandler;
 
         protected $_previousHandlerName;
 
@@ -167,7 +165,7 @@ namespace Phalcon {
          *
          * @param string namespaceName
          */
-        public function setDefaultNamespace($namespace)
+        public function setDefaultNamespace($namespaceName)
         {
         }
 
@@ -251,7 +249,7 @@ namespace Phalcon {
          * @param  mixed defaultValue
          * @return mixed
          */
-        public function getParam($param, $filters=null)
+        public function getParam($param, $filters=null, $defaultValue=null)
         {
         }
 
@@ -327,11 +325,6 @@ namespace Phalcon {
          * @return boolean
          */
         public function wasForwarded()
-        {
-        }
-
-
-        public function getHandlerClass()
         {
         }
 

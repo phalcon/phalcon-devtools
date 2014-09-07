@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon\CLI\Console {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Cli\Console {    class Exception extends \Phalcon\Exception
     {
     }
 }

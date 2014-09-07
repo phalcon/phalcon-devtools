@@ -17,14 +17,12 @@ namespace Phalcon\Db\Adapter {
      *	));
      *</code>
      */
-    abstract class Pdo extends \Phalcon\Db\Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\EventsAwareInterface
+    abstract class Pdo extends \Phalcon\Db\Adapter implements \Phalcon\Events\EventsAwareInterface
     {
 
         protected $_pdo;
 
         protected $_affectedRows;
-
-        protected $_transactionLevel;
 
         /**
          * Constructor for \Phalcon\Db\Adapter\Pdo
@@ -110,7 +108,7 @@ namespace Phalcon\Db\Adapter {
          * @param  array bindTypes
          * @return \Phalcon\Db\ResultInterface|bool
          */
-        public function query($sqlStatement, $placeholders=null, $dataTypes=null)
+        public function query($sqlStatement, $bindParams=null, $bindTypes=null)
         {
         }
 
@@ -130,7 +128,7 @@ namespace Phalcon\Db\Adapter {
          * @param  array bindTypes
          * @return boolean
          */
-        public function execute($sqlStatement, $placeholders=null, $dataTypes=null)
+        public function execute($sqlStatement, $bindParams=null, $bindTypes=null)
         {
         }
 
@@ -203,7 +201,7 @@ namespace Phalcon\Db\Adapter {
          * @param array $params
          * @return array
          */
-        public function convertBoundParams($sqlStatement, $params)
+        public function convertBoundParams($sql, $params=null)
         {
         }
 

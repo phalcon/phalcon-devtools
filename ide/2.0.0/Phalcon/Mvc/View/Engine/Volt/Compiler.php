@@ -15,7 +15,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
      *	require $compiler->getCompiledTemplatePath();
      *</code>
      */
-    class Compiler implements \Phalcon\DI\InjectionAwareInterface
+    class Compiler implements \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_dependencyInjector;
@@ -141,7 +141,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
          * @param array arguments
          * @return mixed
          */
-        public function fireExtensionEvent($name, $arguments=null)
+        final public function fireExtensionEvent($name, $arguments=null)
         {
         }
 
@@ -273,7 +273,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
          * @param string left
          * @return string
          */
-        protected function resolveFilter()
+        final protected function resolveFilter($filter, $left)
         {
         }
 
@@ -284,7 +284,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
          * @param array expr
          * @return string
          */
-        public function expression($expr)
+        final public function expression($expr)
         {
         }
 
@@ -295,7 +295,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
          * @param array statements
          * @return string|array
          */
-        protected function _statementListOrExtends()
+        final protected function _statementListOrExtends($statements)
         {
         }
 
@@ -358,29 +358,6 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 
         /**
-         * Compiles a '{{' '}}' statement returning PHP code
-         *
-         * @param array   statement
-         * @param boolean extendsMode
-         * @return string
-         */
-        public function compileEcho($statement)
-        {
-        }
-
-
-        /**
-         * Compiles a 'include' statement returning PHP code
-         *
-         * @param  array statement
-         * @return string
-         */
-        public function compileInclude($statement)
-        {
-        }
-
-
-        /**
          * Compiles a "set" statement returning PHP code
          *
          * @param array statement
@@ -426,6 +403,29 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 
         /**
+         * Compiles a '{{' '}}' statement returning PHP code
+         *
+         * @param array   statement
+         * @param boolean extendsMode
+         * @return string
+         */
+        public function compileEcho($statement)
+        {
+        }
+
+
+        /**
+         * Compiles a 'include' statement returning PHP code
+         *
+         * @param  array statement
+         * @return string
+         */
+        public function compileInclude($statement)
+        {
+        }
+
+
+        /**
          * Compiles macros
          *
          * @param array   statement
@@ -444,7 +444,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
          * @param boolean  extendsMode
          * @return string
          */
-        public function compileCall()
+        public function compileCall($statement, $extendsMode)
         {
         }
 
@@ -456,7 +456,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
          * @param boolean extendsMode
          * @return string
          */
-        protected function _statementList()
+        final protected function _statementList($statements, $extendsMode=null)
         {
         }
 
@@ -468,7 +468,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
          * @param boolean extendsMode
          * @return string
          */
-        protected function _compileSource()
+        final protected function _compileSource($viewCode, $extendsMode=null)
         {
         }
 

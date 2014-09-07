@@ -50,7 +50,7 @@ namespace Phalcon\Cache\Backend {
          *
          * @return MongoCollection
          */
-        protected function _getCollection()
+        public function _getCollection()
         {
         }
 
@@ -130,7 +130,7 @@ namespace Phalcon\Cache\Backend {
          * @param   long value
          * @return  mixed
          */
-        public function increment($key_name=null, $value=null)
+        public function increment($keyName, $value=null)
         {
         }
 
@@ -142,7 +142,7 @@ namespace Phalcon\Cache\Backend {
          * @param   long $value
          * @return  mixed
          */
-        public function decrement($key_name=null, $value=null)
+        public function decrement($keyName, $value=null)
         {
         }
 

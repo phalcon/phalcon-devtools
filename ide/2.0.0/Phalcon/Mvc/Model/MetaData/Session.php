@@ -16,7 +16,7 @@ namespace Phalcon\Mvc\Model\MetaData {
      * ));
      *</code>
      */
-    class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface, \Phalcon\DI\InjectionAwareInterface
+    class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface
     {
 
         const MODELS_ATTRIBUTES = 0;
@@ -77,11 +77,6 @@ namespace Phalcon\Mvc\Model\MetaData {
          * @param array data
          */
         public function write($key, $data)
-        {
-        }
-
-
-        public function reset()
         {
         }
 

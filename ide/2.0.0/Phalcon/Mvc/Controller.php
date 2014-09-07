@@ -38,7 +38,7 @@ namespace Phalcon\Mvc {
      *
      *</code>
      */
-    abstract class Controller extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\ControllerInterface
+    abstract class Controller extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         /**

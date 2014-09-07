@@ -49,7 +49,7 @@ namespace Phalcon\Http\Response {
          *
          * @param string $header Header name
          */
-        public function remove($header_index)
+        public function remove($header)
         {
         }
 

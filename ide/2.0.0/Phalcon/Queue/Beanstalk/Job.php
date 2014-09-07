@@ -10,11 +10,21 @@ namespace Phalcon\Queue\Beanstalk {
     class Job
     {
 
-        protected $_queue;
-
         protected $_id;
 
         protected $_body;
+
+        protected $_queue;
+
+        public function getId()
+        {
+        }
+
+
+        public function getBody()
+        {
+        }
+
 
         /**
          * \Phalcon\Queue\Beanstalk\Job
@@ -24,16 +34,6 @@ namespace Phalcon\Queue\Beanstalk {
          * @param string body
          */
         public function __construct($queue, $id, $body)
-        {
-        }
-
-
-        public function getId()
-        {
-        }
-
-
-        public function getBody()
         {
         }
 
@@ -57,7 +57,7 @@ namespace Phalcon\Queue\Beanstalk {
          * @param long delay
          * @return boolean
          */
-        public function release()
+        public function release($priority=null, $delay=null)
         {
         }
 
@@ -69,7 +69,7 @@ namespace Phalcon\Queue\Beanstalk {
          *
          * @return boolean
          */
-        public function bury()
+        public function bury($priority=null)
         {
         }
 

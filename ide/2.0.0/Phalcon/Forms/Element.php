@@ -7,7 +7,7 @@ namespace Phalcon\Forms {
      *
      * This is a base class for form elements
      */
-    abstract class Element implements \Phalcon\Forms\ElementInterface
+    abstract class Element
     {
 
         protected $_form;
@@ -274,7 +274,7 @@ namespace Phalcon\Forms {
          *
          * @return string
          */
-        public function label($attributes)
+        public function label()
         {
         }
 

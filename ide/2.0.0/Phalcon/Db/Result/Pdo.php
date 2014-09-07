@@ -15,7 +15,7 @@ namespace Phalcon\Db\Result {
      *	}
      * </code>
      */
-    class Pdo
+    class Pdo implements \Phalcon\Db\ResultInterface
     {
 
         protected $_connection;
@@ -163,7 +163,7 @@ namespace Phalcon\Db\Result {
          *
          * @param int fetchMode
          */
-        public function setFetchMode($fetchMode, $fetchArg1=null, $fetchArg2=null)
+        public function setFetchMode($fetchMode)
         {
         }
 
@@ -174,11 +174,6 @@ namespace Phalcon\Db\Result {
          * @return \PDOStatement
          */
         public function getInternalResult()
-        {
-        }
-
-
-        public function nextRowset()
         {
         }
 

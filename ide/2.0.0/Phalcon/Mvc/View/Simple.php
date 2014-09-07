@@ -13,7 +13,7 @@ namespace Phalcon\Mvc\View {
      *</code>
      *
      */
-    class Simple extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface
+    class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_options;
@@ -84,11 +84,6 @@ namespace Phalcon\Mvc\View {
         }
 
 
-        public function getRegisteredEngines()
-        {
-        }
-
-
         /**
          * Loads registered template engines, if none is registered it will use \Phalcon\Mvc\View\Engine\Php
          *
@@ -105,7 +100,7 @@ namespace Phalcon\Mvc\View {
          * @param string path
          * @param array  params
          */
-        protected function _internalRender()
+        protected function _internalRender($path, $params)
         {
         }
 

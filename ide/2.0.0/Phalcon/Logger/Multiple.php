@@ -14,17 +14,22 @@ namespace Phalcon\Logger {
 
         protected $_formatter;
 
+        public function getLoggers()
+        {
+        }
+
+
+        public function getFormatter()
+        {
+        }
+
+
         /**
          * Pushes a logger to the logger tail
          *
          * @param \Phalcon\Logger\AdapterInterface logger
          */
         public function push($logger)
-        {
-        }
-
-
-        public function getLoggers()
         {
         }
 
@@ -39,18 +44,13 @@ namespace Phalcon\Logger {
         }
 
 
-        public function getFormatter()
-        {
-        }
-
-
         /**
          * Sends a message to each registered logger
          *
          * @param string message
          * @param int type
          */
-        public function log($type, $message, $context=null)
+        public function log($message, $type=null)
         {
         }
 
@@ -60,12 +60,7 @@ namespace Phalcon\Logger {
          *
          * @param string message
          */
-        public function emergency($message, $context=null)
-        {
-        }
-
-
-        public function emergence($message, $context=null)
+        public function emergency($message)
         {
         }
 
@@ -76,7 +71,7 @@ namespace Phalcon\Logger {
          * @param string message
          * @param ing type
          */
-        public function debug($message, $context=null)
+        public function debug($message)
         {
         }
 
@@ -86,7 +81,7 @@ namespace Phalcon\Logger {
          *
          * @param string message
          */
-        public function error($message, $context=null)
+        public function error($message)
         {
         }
 
@@ -96,7 +91,7 @@ namespace Phalcon\Logger {
          *
          * @param string message
          */
-        public function info($message, $context=null)
+        public function info($message)
         {
         }
 
@@ -106,7 +101,7 @@ namespace Phalcon\Logger {
          *
          * @param string message
          */
-        public function notice($message, $context=null)
+        public function notice($message)
         {
         }
 
@@ -116,7 +111,7 @@ namespace Phalcon\Logger {
          *
          * @param string message
          */
-        public function warning($message, $context=null)
+        public function warning($message)
         {
         }
 
@@ -126,7 +121,7 @@ namespace Phalcon\Logger {
          *
          * @param string message
          */
-        public function alert($message, $context=null)
+        public function alert($message)
         {
         }
 

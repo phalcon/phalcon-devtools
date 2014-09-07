@@ -30,13 +30,13 @@ namespace Phalcon\Mvc {    interface RouterInterface
         public function addPut($pattern, $paths=null);
 
 
+        public function addPatch($pattern, $paths=null);
+
+
         public function addDelete($pattern, $paths=null);
 
 
         public function addOptions($pattern, $paths=null);
-
-
-        public function addPatch($pattern, $paths=null);
 
 
         public function addHead($pattern, $paths=null);
@@ -46,6 +46,9 @@ namespace Phalcon\Mvc {    interface RouterInterface
 
 
         public function getModuleName();
+
+
+        public function getNamespaceName();
 
 
         public function getControllerName();
@@ -73,9 +76,6 @@ namespace Phalcon\Mvc {    interface RouterInterface
 
 
         public function getRouteByName($name);
-
-
-        public function isExactControllerName();
 
     }
 }

@@ -54,6 +54,30 @@ namespace Phalcon\Cache\Backend {
 
 
         /**
+         * Increment of a given key, by number $value
+         *
+         * @param  string keyName
+         * @param  long value
+         * @return mixed
+         */
+        public function increment($keyName=null, $value=null)
+        {
+        }
+
+
+        /**
+         * Decrement of a given key, by number $value
+         *
+         * @param  string keyName
+         * @param  long value
+         * @return mixed
+         */
+        public function decrement($keyName=null, $value=null)
+        {
+        }
+
+
+        /**
          * Deletes a value from the cache by its key
          *
          * @param string keyName
@@ -83,35 +107,6 @@ namespace Phalcon\Cache\Backend {
          * @return boolean
          */
         public function exists($keyName=null, $lifetime=null)
-        {
-        }
-
-
-        /**
-         * Increment of a given key, by number $value
-         *
-         * @param  string keyName
-         * @param  long value
-         * @return mixed
-         */
-        public function increment($key_name=null, $value=null)
-        {
-        }
-
-
-        /**
-         * Decrement of a given key, by number $value
-         *
-         * @param  string keyName
-         * @param  long value
-         * @return mixed
-         */
-        public function decrement($key_name=null, $value=null)
-        {
-        }
-
-
-        public function flush()
         {
         }
 

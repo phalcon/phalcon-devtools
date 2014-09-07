@@ -78,6 +78,19 @@ namespace Phalcon\Assets {
 
 
         /**
+         * Adds a inline Css to the 'css' collection
+         *
+         * @param string content
+         * @param boolean filter
+         * @param array attributes
+         * @return \Phalcon\Assets\Manager
+         */
+        public function addInlineCss($content, $filter=null, $attributes=null)
+        {
+        }
+
+
+        /**
          * Adds a javascript resource to the 'js' collection
          *
          *<code>
@@ -92,6 +105,19 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Manager
          */
         public function addJs($path, $local=null, $filter=null, $attributes=null)
+        {
+        }
+
+
+        /**
+         * Adds a inline javascript to the 'js' collection
+         *
+         * @param string content
+         * @param boolean filter
+         * @param array attributes
+         * @return \Phalcon\Assets\Manager
+         */
+        public function addInlineJs($content, $filter=null, $attributes=null)
         {
         }
 
@@ -113,6 +139,18 @@ namespace Phalcon\Assets {
 
 
         /**
+         * Adds a inline code by its type
+         *
+         * @param string type
+         * @param \Phalcon\Assets\Inline code
+         * @return \Phalcon\Assets\Manager
+         */
+        public function addInlineCodeByType($type, $code)
+        {
+        }
+
+
+        /**
          * Adds a raw resource to the manager
          *
          *<code>
@@ -123,6 +161,17 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Manager
          */
         public function addResource($resource)
+        {
+        }
+
+
+        /**
+         * Adds a raw inline code to the manager
+         *
+         * @param \Phalcon\Assets\Inline code
+         * @return \Phalcon\Assets\Manager
+         */
+        public function addInlineCode($code)
         {
         }
 
@@ -196,7 +245,18 @@ namespace Phalcon\Assets {
          * @param callback callback
          * @param string type
          */
-        public function output($collection, $callback, $type=null)
+        public function output($collection, $callback, $type)
+        {
+        }
+
+
+        /**
+         * Traverses a collection and generate its HTML
+         *
+         * @param \Phalcon\Assets\Collection collection
+         * @param string type
+         */
+        public function outputInline($collection, $type)
         {
         }
 
@@ -212,11 +272,31 @@ namespace Phalcon\Assets {
 
 
         /**
+         * Prints the HTML for inline CSS
+         *
+         * @param string collectionName
+         */
+        public function outputInlineCss($collectionName=null)
+        {
+        }
+
+
+        /**
          * Prints the HTML for JS resources
          *
          * @param string collectionName
          */
         public function outputJs($collectionName=null)
+        {
+        }
+
+
+        /**
+         * Prints the HTML for inline JS
+         *
+         * @param string collectionName
+         */
+        public function outputInlineJs($collectionName=null)
         {
         }
 

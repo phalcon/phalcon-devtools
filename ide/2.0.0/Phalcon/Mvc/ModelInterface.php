@@ -33,6 +33,12 @@ namespace Phalcon\Mvc {    interface ModelInterface
         public function getWriteConnection();
 
 
+        public function setDirtyState($dirtyState);
+
+
+        public function getDirtyState();
+
+
         public function assign($data, $columnMap=null);
 
 
@@ -81,7 +87,7 @@ namespace Phalcon\Mvc {    interface ModelInterface
         public function validationHasFailed();
 
 
-        public function getMessages($filter=null);
+        public function getMessages();
 
 
         public function save($data=null, $whiteList=null);
@@ -102,6 +108,9 @@ namespace Phalcon\Mvc {    interface ModelInterface
         public function refresh();
 
 
+        public function skipOperation($skip);
+
+
         public function readAttribute($attribute);
 
 
@@ -111,7 +120,7 @@ namespace Phalcon\Mvc {    interface ModelInterface
         public function getRelated($alias, $arguments=null);
 
 
-        public function reset();
+        public function setSnapshotData($data, $columnMap=null);
 
     }
 }

@@ -78,7 +78,7 @@ namespace Phalcon {
          * @param int length
          * @return string
          */
-        public static function random($type, $length=null)
+        public static function random($type=null, $length=null)
         {
         }
 

@@ -7,7 +7,7 @@ namespace Phalcon\Cache {
      *
      * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
      */
-    abstract class Backend implements \Phalcon\Cache\BackendInterface
+    abstract class Backend
     {
 
         protected $_frontend;
@@ -23,6 +23,36 @@ namespace Phalcon\Cache {
         protected $_fresh;
 
         protected $_started;
+
+        public function getFrontend()
+        {
+        }
+
+
+        public function setFrontend($frontend)
+        {
+        }
+
+
+        public function getOptions()
+        {
+        }
+
+
+        public function setOptions($options)
+        {
+        }
+
+
+        public function getLastKey()
+        {
+        }
+
+
+        public function setLastKey($lastKey)
+        {
+        }
+
 
         /**
          * \Phalcon\Cache\Backend constructor
@@ -57,16 +87,6 @@ namespace Phalcon\Cache {
         }
 
 
-        public function getFrontend()
-        {
-        }
-
-
-        public function getOptions()
-        {
-        }
-
-
         /**
          * Checks whether the last cache is fresh or cached
          *
@@ -83,16 +103,6 @@ namespace Phalcon\Cache {
          * @return boolean
          */
         public function isStarted()
-        {
-        }
-
-
-        public function setLastKey($lastKey)
-        {
-        }
-
-
-        public function getLastKey()
         {
         }
 

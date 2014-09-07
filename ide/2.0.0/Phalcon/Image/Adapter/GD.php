@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon\Image\Adapter {    class GD extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
+namespace Phalcon\Image\Adapter {    class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
     {
 
         public static function check()
@@ -14,11 +14,6 @@ namespace Phalcon\Image\Adapter {    class GD extends \Phalcon\Image\Adapter imp
 
 
         protected function _resize($width, $height)
-        {
-        }
-
-
-        protected function _liquidRescale($width, $height, $delta_x, $regidity)
         {
         }
 
@@ -83,7 +78,7 @@ namespace Phalcon\Image\Adapter {    class GD extends \Phalcon\Image\Adapter imp
         }
 
 
-        protected function _render($type, $quality)
+        protected function _render($ext, $quality)
         {
         }
 

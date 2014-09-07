@@ -16,7 +16,7 @@ namespace Phalcon\Http {
      *	$response->send();
      *</code>
      */
-    class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\DI\InjectionAwareInterface
+    class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_sent;
@@ -272,7 +272,7 @@ namespace Phalcon\Http {
          * @param int jsonOptions
          * @return \Phalcon\Http\ResponseInterface
          */
-        public function setJsonContent($content)
+        public function setJsonContent($content, $jsonOptions=null)
         {
         }
 
@@ -345,7 +345,7 @@ namespace Phalcon\Http {
          * @param string attachmentName
          * @return \Phalcon\Http\ResponseInterface
          */
-        public function setFileToSend($filePath, $attachmentName=null)
+        public function setFileToSend($filePath, $attachmentName=null, $attachment=null)
         {
         }
 

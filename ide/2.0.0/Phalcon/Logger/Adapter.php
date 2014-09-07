@@ -7,7 +7,7 @@ namespace Phalcon\Logger {
      *
      * Base class for Phalcon\Logger adapters
      */
-    abstract class Adapter implements \Phalcon\Logger\AdapterInterface
+    abstract class Adapter
     {
 
         protected $_transaction;
@@ -50,11 +50,6 @@ namespace Phalcon\Logger {
         }
 
 
-        public function isTransaction()
-        {
-        }
-
-
         /**
          * Starts a transaction
          *
@@ -85,20 +80,14 @@ namespace Phalcon\Logger {
         }
 
 
-        public function emergence($message, $context=null)
-        {
-        }
-
-
         /**
-         * Logs messages to the internal loggger. Appends logs to the
+         * Sends/Writes an emergency message to the log
          *
-         * @param mixed type
          * @param string message
          * @param array $context
          * @return \Phalcon\Logger\AdapterInterface
          */
-        public function log($type, $message, $context=null)
+        public function emergency($message, $context=null)
         {
         }
 
@@ -111,6 +100,18 @@ namespace Phalcon\Logger {
          * @return \Phalcon\Logger\AdapterInterface
          */
         public function debug($message, $context=null)
+        {
+        }
+
+
+        /**
+         * Sends/Writes an error message to the log
+         *
+         * @param string message
+         * @param array $context
+         * @return \Phalcon\Logger\AdapterInterface
+         */
+        public function error($message, $context=null)
         {
         }
 
@@ -152,23 +153,6 @@ namespace Phalcon\Logger {
 
 
         /**
-         * Sends/Writes an error message to the log
-         *
-         * @param string message
-         * @param array $context
-         * @return \Phalcon\Logger\AdapterInterface
-         */
-        public function error($message, $context=null)
-        {
-        }
-
-
-        public function critical($message, $context=null)
-        {
-        }
-
-
-        /**
          * Sends/Writes an alert message to the log
          *
          * @param string message
@@ -181,18 +165,14 @@ namespace Phalcon\Logger {
 
 
         /**
-         * Sends/Writes an emergency message to the log
+         * Logs messages to the internal loggger. Appends logs to the
          *
+         * @param mixed type
          * @param string message
          * @param array $context
          * @return \Phalcon\Logger\AdapterInterface
          */
-        public function emergency($message, $context=null)
-        {
-        }
-
-
-        abstract protected function logInternal($message, $type, $time, $context)
+        public function log($type, $message=null, $context=null)
         {
         }
 

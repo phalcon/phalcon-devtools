@@ -16,6 +16,8 @@ namespace Phalcon\Assets {
 
         protected $_resources;
 
+        protected $_codes;
+
         protected $_position;
 
         protected $_filters;
@@ -28,9 +30,69 @@ namespace Phalcon\Assets {
 
         protected $_targetPath;
 
+        protected $_targetLocal;
+
         protected $_sourcePath;
 
-        protected $_targetLocal;
+        public function getPrefix()
+        {
+        }
+
+
+        public function getLocal()
+        {
+        }
+
+
+        public function getResources()
+        {
+        }
+
+
+        public function getCodes()
+        {
+        }
+
+
+        public function getPosition()
+        {
+        }
+
+
+        public function getFilters()
+        {
+        }
+
+
+        public function getAttributes()
+        {
+        }
+
+
+        public function getJoin()
+        {
+        }
+
+
+        public function getTargetUri()
+        {
+        }
+
+
+        public function getTargetPath()
+        {
+        }
+
+
+        public function getTargetLocal()
+        {
+        }
+
+
+        public function getSourcePath()
+        {
+        }
+
 
         /**
          * Adds a resource to the collection
@@ -39,6 +101,17 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Collection
          */
         public function add($resource)
+        {
+        }
+
+
+        /**
+         * Adds a inline code to the collection
+         *
+         * @param \Phalcon\Assets\Inline code
+         * @return \Phalcon\Assets\Collection
+         */
+        public function addInline($code)
         {
         }
 
@@ -58,6 +131,19 @@ namespace Phalcon\Assets {
 
 
         /**
+         * Adds a inline CSS to the collection
+         *
+         * @param string content
+         * @param boolean filter
+         * @param array attributes
+         * @return \Phalcon\Assets\Collection
+         */
+        public function addInlineCss($content, $filter=null, $attributes=null)
+        {
+        }
+
+
+        /**
          * Adds a javascript resource to the collection
          *
          * @param string path
@@ -71,7 +157,15 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getResources()
+        /**
+         * Adds a inline javascript to the collection
+         *
+         * @param string content
+         * @param boolean filter
+         * @param array attributes
+         * @return \Phalcon\Assets\Collection
+         */
+        public function addInlineJs($content, $filter=null, $attributes=null)
         {
         }
 
@@ -144,11 +238,6 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getTargetPath()
-        {
-        }
-
-
         /**
          * Sets a base source path for all the resources in this collection
          *
@@ -156,11 +245,6 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Collection
          */
         public function setSourcePath($sourcePath)
-        {
-        }
-
-
-        public function getSourcePath()
         {
         }
 
@@ -176,11 +260,6 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getTargetUri()
-        {
-        }
-
-
         /**
          * Sets a common prefix for all the resources
          *
@@ -188,11 +267,6 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Collection
          */
         public function setPrefix($prefix)
-        {
-        }
-
-
-        public function getPrefix()
         {
         }
 
@@ -208,11 +282,6 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getLocal()
-        {
-        }
-
-
         /**
          * Sets extra HTML attributes
          *
@@ -220,22 +289,6 @@ namespace Phalcon\Assets {
          * @return $this
          */
         public function setAttributes($attributes)
-        {
-        }
-
-
-        public function getAttributes()
-        {
-        }
-
-
-        /**
-         * Adds a filter to the collection
-         *
-         * @param \Phalcon\Assets\FilterInterface $filter
-         * @return \Phalcon\Assets\Collection
-         */
-        public function addFilter($filter)
         {
         }
 
@@ -251,7 +304,13 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getFilters()
+        /**
+         * Sets the target local
+         *
+         * @param boolean $targetLocal
+         * @return \Phalcon\Assets\Collection
+         */
+        public function setTargetLocal($targetLocal)
         {
         }
 
@@ -267,34 +326,24 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getJoin()
-        {
-        }
-
-
         /**
          * Returns the complete location where the joined/filtered collection must be written
          *
          * @param string basePath
          * @return string
          */
-        public function getRealTargetPath($basePath=null)
+        public function getRealTargetPath($basePath)
         {
         }
 
 
         /**
-         * Sets the target local
+         * Adds a filter to the collection
          *
-         * @param boolean $targetLocal
+         * @param \Phalcon\Assets\FilterInterface $filter
          * @return \Phalcon\Assets\Collection
          */
-        public function setTargetLocal($targetLocal)
-        {
-        }
-
-
-        public function getTargetLocal()
+        public function addFilter($filter)
         {
         }
 

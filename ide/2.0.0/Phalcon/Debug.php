@@ -26,12 +26,6 @@ namespace Phalcon {
 
         protected static $_isActive;
 
-        protected static $_charset;
-
-        protected $_beforeContext;
-
-        protected $_afterContext;
-
         /**
          * Change the base URI for static resources
          *
@@ -116,7 +110,7 @@ namespace Phalcon {
          * @param string key
          * @return \Phalcon\Debug
          */
-        public function debugVar($var, $key=null)
+        public function debugVar($varz, $key=null)
         {
         }
 
@@ -137,7 +131,7 @@ namespace Phalcon {
          * @param string value
          * @return string
          */
-        protected function _escapeString()
+        protected function _escapeString($value)
         {
         }
 
@@ -148,7 +142,7 @@ namespace Phalcon {
          * @param array argument
          * @return string
          */
-        protected function _getArrayDump()
+        protected function _getArrayDump($argument, $n=null)
         {
         }
 
@@ -159,7 +153,7 @@ namespace Phalcon {
          * @param mixed variable
          * @return string
          */
-        protected function _getVarDump()
+        protected function _getVarDump($variable)
         {
         }
 
@@ -210,7 +204,7 @@ namespace Phalcon {
          * @param int n
          * @param array trace
          */
-        protected function showTraceItem()
+        protected function showTraceItem($n, $trace)
         {
         }
 
@@ -222,41 +216,6 @@ namespace Phalcon {
          * @return boolean
          */
         public function onUncaughtException($exception)
-        {
-        }
-
-
-        public function getCharset()
-        {
-        }
-
-
-        public function setCharset($charset)
-        {
-        }
-
-
-        public function getLinesBeforeContext()
-        {
-        }
-
-
-        public function setLinesBeforeContext($lines)
-        {
-        }
-
-
-        public function getLinesAfterContext()
-        {
-        }
-
-
-        public function setLinesAfterContext($lines)
-        {
-        }
-
-
-        protected function getFileLink($file, $line, $format)
         {
         }
 

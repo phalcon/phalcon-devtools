@@ -30,7 +30,7 @@ namespace Phalcon\Mvc\Model\Resultset {
          * @param \Phalcon\Db\ResultInterface result
          * @param \Phalcon\Cache\BackendInterface cache
          */
-        public function __construct($columnsTypes, $result, $cache=null)
+        public function __construct($columnTypes, $result, $cache=null)
         {
         }
 
@@ -71,7 +71,7 @@ namespace Phalcon\Mvc\Model\Resultset {
          *
          * @param string data
          */
-        public function unserialize($serialized=null)
+        public function unserialize($data)
         {
         }
 

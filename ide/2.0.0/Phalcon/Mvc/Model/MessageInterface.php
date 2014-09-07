@@ -3,6 +3,9 @@
 namespace Phalcon\Mvc\Model {    interface MessageInterface
         {
 
+        public function __construct($message, $field=null, $type=null);
+
+
         public function setType($type);
 
 
@@ -19,6 +22,12 @@ namespace Phalcon\Mvc\Model {    interface MessageInterface
 
 
         public function getField();
+
+
+        public function __toString();
+
+
+        public static function __set_state($message);
 
     }
 }

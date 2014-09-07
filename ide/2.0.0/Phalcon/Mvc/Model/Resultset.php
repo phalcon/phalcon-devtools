@@ -85,7 +85,7 @@ namespace Phalcon\Mvc\Model {
          * Rewinds resultset to its beginning
          *
          */
-        public function rewind()
+        final public function rewind()
         {
         }
 
@@ -95,7 +95,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @param int position
          */
-        public function seek($position)
+        final public function seek($position)
         {
         }
 
@@ -105,7 +105,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @return int
          */
-        public function count()
+        final public function count()
         {
         }
 
@@ -116,7 +116,7 @@ namespace Phalcon\Mvc\Model {
          * @param int index
          * @return boolean
          */
-        public function offsetExists($property)
+        public function offsetExists($index)
         {
         }
 
@@ -127,7 +127,7 @@ namespace Phalcon\Mvc\Model {
          * @param int index
          * @return \Phalcon\Mvc\ModelInterface
          */
-        public function offsetGet($property)
+        public function offsetGet($index)
         {
         }
 
@@ -138,7 +138,7 @@ namespace Phalcon\Mvc\Model {
          * @param int index
          * @param \Phalcon\Mvc\ModelInterface value
          */
-        public function offsetSet($property, $value)
+        public function offsetSet($index, $value)
         {
         }
 
@@ -148,7 +148,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @param int offset
          */
-        public function offsetUnset($property)
+        public function offsetUnset($offset)
         {
         }
 
@@ -240,7 +240,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @return \Phalcon\Mvc\ModelInterface
          */
-        public function current()
+        final public function current()
         {
         }
 

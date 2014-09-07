@@ -7,7 +7,7 @@ namespace Phalcon\Logger {
      *
      * This is a base class for logger formatters
      */
-    abstract class Formatter implements \Phalcon\Logger\FormatterInterface
+    abstract class Formatter
     {
 
         /**
@@ -28,7 +28,7 @@ namespace Phalcon\Logger {
          * @param string $message
          * @param array $context
          */
-        protected function interpolate($message, $context)
+        public function interpolate($message, $context=null)
         {
         }
 

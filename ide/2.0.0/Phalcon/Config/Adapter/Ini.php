@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon\Config\Adapter {    class Ini extends \Phalcon\Config implements \Countable, \ArrayAccess
+namespace Phalcon\Config\Adapter {    class Ini extends \Phalcon\Config implements \ArrayAccess
     {
 
         /**

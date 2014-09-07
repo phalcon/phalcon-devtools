@@ -9,9 +9,6 @@ namespace Phalcon\Http {    interface RequestInterface
         public function getPost($name=null, $filters=null, $defaultValue=null);
 
 
-        public function getPut($name=null, $filters=null, $defaultValue=null);
-
-
         public function getQuery($name=null, $filters=null, $defaultValue=null);
 
 
@@ -22,9 +19,6 @@ namespace Phalcon\Http {    interface RequestInterface
 
 
         public function hasPost($name);
-
-
-        public function hasPut($name);
 
 
         public function hasQuery($name);
@@ -115,6 +109,12 @@ namespace Phalcon\Http {    interface RequestInterface
 
 
         public function getBestLanguage();
+
+
+        public function getBasicAuth();
+
+
+        public function getDigestAuth();
 
     }
 }

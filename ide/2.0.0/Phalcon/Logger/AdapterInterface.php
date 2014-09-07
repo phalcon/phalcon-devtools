@@ -15,6 +15,9 @@ namespace Phalcon\Logger {    interface AdapterInterface
         public function getLogLevel();
 
 
+        public function log($type, $message=null, $context=null);
+
+
         public function begin();
 
 
@@ -27,10 +30,10 @@ namespace Phalcon\Logger {    interface AdapterInterface
         public function close();
 
 
-        public function log($type, $message, $context=null);
-
-
         public function debug($message, $context=null);
+
+
+        public function error($message, $context=null);
 
 
         public function info($message, $context=null);
@@ -40,12 +43,6 @@ namespace Phalcon\Logger {    interface AdapterInterface
 
 
         public function warning($message, $context=null);
-
-
-        public function error($message, $context=null);
-
-
-        public function critical($message, $context=null);
 
 
         public function alert($message, $context=null);

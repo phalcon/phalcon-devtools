@@ -17,12 +17,16 @@ namespace Phalcon\Mvc\Model {
      *    ->execute();
      *</code>
      */
-    class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\DI\InjectionAwareInterface
+    class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_model;
 
         protected $_params;
+
+        protected $_bindParams;
+
+        protected $_bindTypes;
 
         protected $_hiddenParamNumber;
 
@@ -190,7 +194,7 @@ namespace Phalcon\Mvc\Model {
          * @param array bindTypes
          * @return \Phalcon\Mvc\Model\Criteria
          */
-        public function where($conditions)
+        public function where($conditions, $bindParams=null, $bindTypes=null)
         {
         }
 
@@ -446,11 +450,6 @@ namespace Phalcon\Mvc\Model {
          * @return \Phalcon\Mvc\Model\ResultsetInterface
          */
         public function execute()
-        {
-        }
-
-
-        public function cache($option)
         {
         }
 

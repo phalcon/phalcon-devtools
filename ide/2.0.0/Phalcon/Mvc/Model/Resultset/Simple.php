@@ -79,7 +79,7 @@ namespace Phalcon\Mvc\Model\Resultset {
          *
          * @param string data
          */
-        public function unserialize($serialized=null)
+        public function unserialize($data)
         {
         }
 

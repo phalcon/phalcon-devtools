@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\Router {
      *
      * This class represents every route added to the router
      */
-    class Route implements \Phalcon\Mvc\Router\RouteInterface
+    class Route
     {
 
         protected $_pattern;
@@ -67,6 +67,17 @@ namespace Phalcon\Mvc\Router {
          * @return \Phalcon\Mvc\Router\Route
          */
         public function via($httpMethods)
+        {
+        }
+
+
+        /**
+         * Extracts parameters from a string
+         *
+         * @param string pattern
+         * @return array|boolean
+         */
+        public function extractNamedParams($pattern)
         {
         }
 

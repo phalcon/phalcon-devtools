@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon {    abstract class Image
+namespace Phalcon {    class Image
     {
 
         const NONE = 1;
@@ -20,9 +20,5 @@ namespace Phalcon {    abstract class Image
         const HORIZONTAL = 11;
 
         const VERTICAL = 12;
-
-        const GD = 21;
-
-        const IMAGICK = 22;
     }
 }

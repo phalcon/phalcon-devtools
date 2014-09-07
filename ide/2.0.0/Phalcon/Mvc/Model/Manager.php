@@ -20,7 +20,7 @@ namespace Phalcon\Mvc\Model {
      * $robot = new Robots($di);
      * </code>
      */
-    class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
+    class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
     {
 
         protected $_dependencyInjector;
@@ -172,7 +172,7 @@ namespace Phalcon\Mvc\Model {
          * @param  boolean newInstance
          * @return \Phalcon\Mvc\ModelInterface
          */
-        public function load($modelName, $newInstance)
+        public function load($modelName, $newInstance=null)
         {
         }
 
@@ -255,23 +255,23 @@ namespace Phalcon\Mvc\Model {
 
 
         /**
-         * Returns the connection to write data related to a model
-         *
-         * @param \Phalcon\Mvc\ModelInterface model
-         * @return \Phalcon\Db\AdapterInterface
-         */
-        public function getWriteConnection($model)
-        {
-        }
-
-
-        /**
          * Returns the connection to read data related to a model
          *
          * @param \Phalcon\Mvc\ModelInterface model
          * @return \Phalcon\Db\AdapterInterface
          */
         public function getReadConnection($model)
+        {
+        }
+
+
+        /**
+         * Returns the connection to write data related to a model
+         *
+         * @param \Phalcon\Mvc\ModelInterface model
+         * @return \Phalcon\Db\AdapterInterface
+         */
+        public function getWriteConnection($model)
         {
         }
 
@@ -726,7 +726,7 @@ namespace Phalcon\Mvc\Model {
          * @param string alias
          * @param string namespace
          */
-        public function registerNamespaceAlias($alias, $namespace)
+        public function registerNamespaceAlias($alias, $namespaceName)
         {
         }
 
@@ -748,11 +748,6 @@ namespace Phalcon\Mvc\Model {
          * @return array
          */
         public function getNamespaceAliases()
-        {
-        }
-
-
-        public function __destruct()
         {
         }
 

@@ -22,16 +22,6 @@ namespace Phalcon\Db {
         protected $_value;
 
         /**
-         * \Phalcon\Db\RawValue constructor
-         *
-         * @param string value
-         */
-        public function __construct($value)
-        {
-        }
-
-
-        /**
          * Raw value without quoting or formating
          *
          * @var string
@@ -47,6 +37,16 @@ namespace Phalcon\Db {
          * @var string
          */
         public function __toString()
+        {
+        }
+
+
+        /**
+         * \Phalcon\Db\RawValue constructor
+         *
+         * @param string value
+         */
+        public function __construct($value)
         {
         }
 

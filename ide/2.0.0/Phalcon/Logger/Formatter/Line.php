@@ -15,22 +15,21 @@ namespace Phalcon\Logger\Formatter {
         protected $_format;
 
         /**
-         * \Phalcon\Logger\Formatter\Line construct
+         * Default date format
          *
-         * @param string format
-         * @param string dateFormat
+         * @var string
          */
-        public function __construct($format=null, $dateFormat=null)
+        public function getDateFormat()
         {
         }
 
 
         /**
-         * Format applied to each message
+         * Default date format
          *
          * @var string
          */
-        public function setFormat($format)
+        public function setDateFormat($dateFormat)
         {
         }
 
@@ -46,21 +45,22 @@ namespace Phalcon\Logger\Formatter {
 
 
         /**
-         * Default date format
+         * Format applied to each message
          *
          * @var string
          */
-        public function setDateFormat($date)
+        public function setFormat($format)
         {
         }
 
 
         /**
-         * Default date format
+         * \Phalcon\Logger\Formatter\Line construct
          *
-         * @var string
+         * @param string format
+         * @param string dateFormat
          */
-        public function getDateFormat()
+        public function __construct($format=null, $dateFormat=null)
         {
         }
 
@@ -74,7 +74,7 @@ namespace Phalcon\Logger\Formatter {
          * @param array $context
          * @return string
          */
-        public function format($message, $type, $timestamp, $context)
+        public function format($message, $type, $timestamp, $context=null)
         {
         }
 

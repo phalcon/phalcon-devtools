@@ -144,7 +144,7 @@ namespace Phalcon\Db\Dialect {
          * @param	array definition
          * @return	array
          */
-        protected function _getTableOptions()
+        protected function _getTableOptions($definition)
         {
         }
 
@@ -170,7 +170,7 @@ namespace Phalcon\Db\Dialect {
          * @param  boolean ifExists
          * @return string
          */
-        public function dropTable($tableName, $schemaName)
+        public function dropTable($tableName, $schemaName, $ifExists=null)
         {
         }
 
@@ -290,7 +290,7 @@ namespace Phalcon\Db\Dialect {
          * @param string $indexName
          * @return string
          */
-        public function describeIndex($indexName)
+        public function describeIndex($index)
         {
         }
 

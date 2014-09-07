@@ -39,8 +39,6 @@ namespace Phalcon\Mvc\Model {
 
         protected $_model;
 
-        protected $_code;
-
         /**
          * \Phalcon\Mvc\Model\Message constructor
          *
@@ -49,7 +47,7 @@ namespace Phalcon\Mvc\Model {
          * @param string type
          * @param \Phalcon\Mvc\ModelInterface model
          */
-        public function __construct($message, $field=null, $type=null)
+        public function __construct($message, $field=null, $type=null, $model=null)
         {
         }
 
@@ -71,16 +69,6 @@ namespace Phalcon\Mvc\Model {
          * @return string
          */
         public function getType()
-        {
-        }
-
-
-        public function setCode($code)
-        {
-        }
-
-
-        public function getCode()
         {
         }
 
@@ -164,7 +152,7 @@ namespace Phalcon\Mvc\Model {
          * @param array message
          * @return \Phalcon\Mvc\Model\MessageInterface
          */
-        public static function __set_state($properties=null)
+        public static function __set_state($message)
         {
         }
 

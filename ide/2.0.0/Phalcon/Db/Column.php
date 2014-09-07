@@ -46,8 +46,6 @@ namespace Phalcon\Db {
 
         const TYPE_BOOLEAN = 8;
 
-        const TYPE_DOUBLE = 9;
-
         const BIND_PARAM_NULL = 0;
 
         const BIND_PARAM_INT = 1;
@@ -60,7 +58,7 @@ namespace Phalcon\Db {
 
         const BIND_SKIP = 1024;
 
-        protected $_columnName;
+        protected $_name;
 
         protected $_schemaName;
 
@@ -71,6 +69,8 @@ namespace Phalcon\Db {
         protected $_size;
 
         protected $_scale;
+
+        protected $_default;
 
         protected $_unsigned;
 
@@ -87,12 +87,11 @@ namespace Phalcon\Db {
         protected $_bindType;
 
         /**
-         * \Phalcon\Db\Column constructor
+         * Column's name
          *
-         * @param string name
-         * @param array definition
+         * @var string
          */
-        public function __construct($columnName, $definition)
+        public function getName()
         {
         }
 
@@ -103,16 +102,6 @@ namespace Phalcon\Db {
          * @var string
          */
         public function getSchemaName()
-        {
-        }
-
-
-        /**
-         * Column's name
-         *
-         * @var string
-         */
-        public function getName()
         {
         }
 
@@ -143,6 +132,25 @@ namespace Phalcon\Db {
          * @var int
          */
         public function getScale()
+        {
+        }
+
+
+        /**
+         * Default column value
+         */
+        public function getDefault()
+        {
+        }
+
+
+        /**
+         * \Phalcon\Db\Column constructor
+         *
+         * @param string name
+         * @param array definition
+         */
+        public function __construct($name, $definition)
         {
         }
 
@@ -233,7 +241,7 @@ namespace Phalcon\Db {
          * @param array data
          * @return \Phalcon\Db\Column
          */
-        public static function __set_state($properties=null)
+        public static function __set_state($data)
         {
         }
 

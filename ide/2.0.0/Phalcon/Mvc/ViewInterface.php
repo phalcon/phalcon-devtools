@@ -24,12 +24,6 @@ namespace Phalcon\Mvc {    interface ViewInterface
         public function setBasePath($basePath);
 
 
-        public function getCurrentRenderLevel();
-
-
-        public function getRenderLevel();
-
-
         public function setRenderLevel($level);
 
 
@@ -115,9 +109,6 @@ namespace Phalcon\Mvc {    interface ViewInterface
 
 
         public function reset();
-
-
-        public function isDisabled();
 
     }
 }

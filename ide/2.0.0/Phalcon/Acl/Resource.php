@@ -7,7 +7,7 @@ namespace Phalcon\Acl {
      *
      * This class defines resource entity and its description
      */
-    class Resource implements \Phalcon\Acl\ResourceInterface
+    class Resource
     {
 
         protected $_name;
@@ -15,12 +15,10 @@ namespace Phalcon\Acl {
         protected $_description;
 
         /**
-         * \Phalcon\Acl\Resource constructor
-         *
-         * @param string name
-         * @param string description
+         * Resource name
+         * @var string
          */
-        public function __construct($name, $description=null)
+        public function getName()
         {
         }
 
@@ -29,7 +27,7 @@ namespace Phalcon\Acl {
          * Resource name
          * @var string
          */
-        public function getName()
+        public function __toString()
         {
         }
 
@@ -44,10 +42,12 @@ namespace Phalcon\Acl {
 
 
         /**
-         * Resource name
-         * @var string
+         * \Phalcon\Acl\Resource constructor
+         *
+         * @param string name
+         * @param string description
          */
-        public function __toString()
+        public function __construct($name, $description=null)
         {
         }
 

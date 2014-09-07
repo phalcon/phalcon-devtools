@@ -18,7 +18,7 @@ namespace Phalcon\Mvc\Model {
      * </code>
      *
      */
-    abstract class MetaData implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface
+    abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
     {
 
         const MODELS_ATTRIBUTES = 0;
@@ -65,7 +65,7 @@ namespace Phalcon\Mvc\Model {
          * @param string|null table
          * @param string|null schema
          */
-        protected function _initialize()
+        final protected function _initialize($model, $key, $table, $schema)
         {
         }
 
@@ -120,7 +120,7 @@ namespace Phalcon\Mvc\Model {
          * @param \Phalcon\Mvc\ModelInterface model
          * @return array
          */
-        public function readMetaData($model)
+        final public function readMetaData($model)
         {
         }
 
@@ -136,7 +136,7 @@ namespace Phalcon\Mvc\Model {
          * @param int index
          * @return mixed
          */
-        public function readMetaDataIndex($model, $index)
+        final public function readMetaDataIndex($model, $index)
         {
         }
 
@@ -152,7 +152,7 @@ namespace Phalcon\Mvc\Model {
          * @param int index
          * @param mixed data
          */
-        public function writeMetaDataIndex($model, $index, $data, $replace)
+        final public function writeMetaDataIndex($model, $index, $data)
         {
         }
 
@@ -167,7 +167,7 @@ namespace Phalcon\Mvc\Model {
          * @param \Phalcon\Mvc\ModelInterface model
          * @return array
          */
-        public function readColumnMap($model)
+        final public function readColumnMap($model)
         {
         }
 
@@ -182,7 +182,7 @@ namespace Phalcon\Mvc\Model {
          * @param \Phalcon\Mvc\ModelInterface model
          * @param int index
          */
-        public function readColumnMapIndex($model, $index)
+        final public function readColumnMapIndex($model, $index)
         {
         }
 
@@ -347,7 +347,7 @@ namespace Phalcon\Mvc\Model {
          * @param  \Phalcon\Mvc\ModelInterface model
          * @param  array attributes
          */
-        public function setAutomaticCreateAttributes($model, $attributes, $replace)
+        public function setAutomaticCreateAttributes($model, $attributes)
         {
         }
 
@@ -362,7 +362,7 @@ namespace Phalcon\Mvc\Model {
          * @param  \Phalcon\Mvc\ModelInterface model
          * @param  array attributes
          */
-        public function setAutomaticUpdateAttributes($model, $attributes, $replace)
+        public function setAutomaticUpdateAttributes($model, $attributes)
         {
         }
 

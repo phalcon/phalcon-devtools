@@ -17,7 +17,7 @@ namespace Phalcon\Mvc {
      *
      *</code>
      */
-    class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\DI\InjectionAwareInterface
+    class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_dependencyInjector;

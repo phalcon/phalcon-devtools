@@ -18,7 +18,7 @@ namespace Phalcon\Http\Response {    interface HeadersInterface
         public function reset();
 
 
-        public function toArray();
+        public static function __set_state($data);
 
     }
 }

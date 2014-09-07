@@ -21,7 +21,7 @@ namespace Phalcon\Mvc {
      *
      *</code>
      */
-    class Micro extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \ArrayAccess
+    class Micro extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface, \ArrayAccess
     {
 
         protected $_dependencyInjector;
@@ -293,7 +293,7 @@ namespace Phalcon\Mvc {
          * @param string alias
          * @return boolean
          */
-        public function offsetExists($serviceName)
+        public function offsetExists($alias)
         {
         }
 
@@ -308,7 +308,7 @@ namespace Phalcon\Mvc {
          * @param string alias
          * @param mixed definition
          */
-        public function offsetSet($serviceName, $definition, $shared=null)
+        public function offsetSet($alias, $definition)
         {
         }
 
@@ -323,7 +323,7 @@ namespace Phalcon\Mvc {
          * @param string alias
          * @return mixed
          */
-        public function offsetGet($serviceName)
+        public function offsetGet($alias)
         {
         }
 

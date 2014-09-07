@@ -3,6 +3,9 @@
 namespace Phalcon\Mvc\Model\Query {    interface StatusInterface
         {
 
+        public function __construct($success, $model);
+
+
         public function getModel();
 
 

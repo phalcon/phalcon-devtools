@@ -30,6 +30,46 @@ namespace Phalcon\Assets {
 
         protected $_targetUri;
 
+        public function getType()
+        {
+        }
+
+
+        public function getPath()
+        {
+        }
+
+
+        public function getLocal()
+        {
+        }
+
+
+        public function getFilter()
+        {
+        }
+
+
+        public function getAttributes()
+        {
+        }
+
+
+        public function getSourcePath()
+        {
+        }
+
+
+        public function getTargetPath()
+        {
+        }
+
+
+        public function getTargetUri()
+        {
+        }
+
+
         /**
          * \Phalcon\Assets\Resource constructor
          *
@@ -55,11 +95,6 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getType()
-        {
-        }
-
-
         /**
          * Sets the resource's path
          *
@@ -67,11 +102,6 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Resource
          */
         public function setPath($path)
-        {
-        }
-
-
-        public function getPath()
         {
         }
 
@@ -87,11 +117,6 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getLocal()
-        {
-        }
-
-
         /**
          * Sets if the resource must be filtered or not
          *
@@ -99,11 +124,6 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Resource
          */
         public function setFilter($filter)
-        {
-        }
-
-
-        public function getFilter()
         {
         }
 
@@ -119,11 +139,6 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getAttributes()
-        {
-        }
-
-
         /**
          * Sets a target uri for the generated HTML
          *
@@ -131,11 +146,6 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Resource
          */
         public function setTargetUri($targetUri)
-        {
-        }
-
-
-        public function getTargetUri()
         {
         }
 
@@ -151,11 +161,6 @@ namespace Phalcon\Assets {
         }
 
 
-        public function getSourcePath()
-        {
-        }
-
-
         /**
          * Sets the resource's target path
          *
@@ -163,11 +168,6 @@ namespace Phalcon\Assets {
          * @return \Phalcon\Assets\Resource
          */
         public function setTargetPath($targetPath)
-        {
-        }
-
-
-        public function getTargetPath()
         {
         }
 

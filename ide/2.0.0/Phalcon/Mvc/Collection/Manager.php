@@ -20,7 +20,7 @@ namespace Phalcon\Mvc\Collection {
      * $robot = new Robots($di);
      * </code>
      */
-    class Manager implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface, \Phalcon\Mvc\Collection\ManagerInterface
+    class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
     {
 
         protected $_dependencyInjector;

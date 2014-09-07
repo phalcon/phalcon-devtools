@@ -7,7 +7,7 @@ namespace Phalcon\Acl {
      *
      * Adapter for Phalcon\Acl adapters
      */
-    abstract class Adapter implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Acl\AdapterInterface
+    class Adapter
     {
 
         protected $_eventsManager;
@@ -21,6 +21,33 @@ namespace Phalcon\Acl {
         protected $_activeResource;
 
         protected $_activeAccess;
+
+        /**
+         * Role which the list is checking if it's allowed to certain resource/access
+         * @var mixed
+         */
+        public function getActiveRole()
+        {
+        }
+
+
+        /**
+         * Resource which the list is checking if some role can access it
+         * @var mixed
+         */
+        public function getActiveResource()
+        {
+        }
+
+
+        /**
+         * Active access which the list is checking if some role can access it
+         * "@var mixed
+         */
+        public function getActiveAccess()
+        {
+        }
+
 
         /**
          * Sets the events manager
@@ -58,33 +85,6 @@ namespace Phalcon\Acl {
          * @return int
          */
         public function getDefaultAction()
-        {
-        }
-
-
-        /**
-         * Role which the list is checking if it's allowed to certain resource/access
-         * @var mixed
-         */
-        public function getActiveRole()
-        {
-        }
-
-
-        /**
-         * Resource which the list is checking if some role can access it
-         * @var mixed
-         */
-        public function getActiveResource()
-        {
-        }
-
-
-        /**
-         * Active access which the list is checking if some role can access it
-         * "@var mixed
-         */
-        public function getActiveAccess()
         {
         }
 

@@ -20,20 +20,7 @@ namespace Phalcon\Events {
 
         protected $_cancelable;
 
-        /**
-         * \Phalcon\Events\Event constructor
-         *
-         * @param string type
-         * @param object source
-         * @param mixed data
-         * @param boolean cancelable
-         */
-        public function __construct($type, $source, $data=null, $cancelable=null)
-        {
-        }
-
-
-        public function setType($eventType)
+        public function setType($type)
         {
         }
 
@@ -58,12 +45,20 @@ namespace Phalcon\Events {
         }
 
 
-        public function setCancelable($cancelable)
+        public function getCancelable()
         {
         }
 
 
-        public function getCancelable()
+        /**
+         * \Phalcon\Events\Event constructor
+         *
+         * @param string type
+         * @param object source
+         * @param mixed data
+         * @param boolean cancelable
+         */
+        public function __construct($type, $source, $data=null, $cancelable=null)
         {
         }
 

@@ -3,7 +3,13 @@
 namespace Phalcon\Mvc\Model {    interface RelationInterface
         {
 
+        public function __construct($type, $referencedModel, $fields, $referencedFields, $options=null);
+
+
         public function setIntermediateRelation($intermediateFields, $intermediateModel, $intermediateReferencedFields);
+
+
+        public function isReusable();
 
 
         public function getType();

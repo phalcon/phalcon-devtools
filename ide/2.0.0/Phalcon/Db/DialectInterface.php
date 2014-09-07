@@ -54,25 +54,13 @@ namespace Phalcon\Db {    interface DialectInterface
         public function dropTable($tableName, $schemaName);
 
 
-        public function createView($viewName, $definition, $schemaName);
-
-
-        public function dropView($viewName, $schemaName, $ifExists=null);
-
-
         public function tableExists($tableName, $schemaName=null);
-
-
-        public function viewExists($viewName, $schemaName=null);
 
 
         public function describeColumns($table, $schema=null);
 
 
         public function listTables($schemaName=null);
-
-
-        public function listViews($schemaName=null);
 
 
         public function describeIndexes($table, $schema=null);

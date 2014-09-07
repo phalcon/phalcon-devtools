@@ -3,9 +3,7 @@
 namespace Phalcon\Image\Adapter {    class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
     {
 
-        protected static $_version;
-
-        protected static $_checked;
+        protected $_version;
 
         public static function check()
         {
@@ -18,11 +16,6 @@ namespace Phalcon\Image\Adapter {    class Imagick extends \Phalcon\Image\Adapte
 
 
         protected function _resize($width, $height)
-        {
-        }
-
-
-        protected function _liquidRescale($width, $height, $delta_x, $regidity)
         {
         }
 
@@ -52,7 +45,7 @@ namespace Phalcon\Image\Adapter {    class Imagick extends \Phalcon\Image\Adapte
         }
 
 
-        protected function _watermark($watermark, $offset_x, $offset_y, $opacity)
+        protected function _watermark($image, $offset_x, $offset_y, $opacity)
         {
         }
 
@@ -62,7 +55,7 @@ namespace Phalcon\Image\Adapter {    class Imagick extends \Phalcon\Image\Adapte
         }
 
 
-        protected function _mask($mask)
+        protected function _mask($image)
         {
         }
 
@@ -87,22 +80,12 @@ namespace Phalcon\Image\Adapter {    class Imagick extends \Phalcon\Image\Adapte
         }
 
 
-        protected function _render($type, $quality)
+        protected function _render($ext, $quality)
         {
         }
 
 
         public function __destruct()
-        {
-        }
-
-
-        public function getInternalImInstance()
-        {
-        }
-
-
-        public static function setResourceLimit($resource, $limit)
         {
         }
 

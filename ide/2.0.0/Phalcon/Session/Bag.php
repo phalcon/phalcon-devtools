@@ -14,7 +14,7 @@ namespace Phalcon\Session {
      *	$user->age = 22;
      *</code>
      */
-    class Bag implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Session\BagInterface, \IteratorAggregate, \Traversable, \ArrayAccess, \Countable
+    class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagInterface
     {
 
         protected $_dependencyInjector;
@@ -23,7 +23,7 @@ namespace Phalcon\Session {
 
         protected $_data;
 
-        protected $_initialized;
+        protected $_initalized;
 
         protected $_session;
 
@@ -93,6 +93,21 @@ namespace Phalcon\Session {
 
 
         /**
+         * Magic setter to assign values to the session bag
+         *
+         *<code>
+         * $user->name = "Kimbra";
+         *</code>
+         *
+         * @param string property
+         * @param string value
+         */
+        public function __set($property, $value)
+        {
+        }
+
+
+        /**
          * Obtains a value from the session bag optionally setting a default value
          *
          *<code>
@@ -104,41 +119,6 @@ namespace Phalcon\Session {
          * @return mixed
          */
         public function get($property, $defaultValue=null)
-        {
-        }
-
-
-        /**
-         * Check whether a property is defined in the internal bag
-         *
-         *<code>
-         * var_dump($user->has('name'));
-         *</code>
-         *
-         * @param string property
-         * @return boolean
-         */
-        public function has($property)
-        {
-        }
-
-
-        /**
-         * Removes a property from the internal bag
-         *
-         *<code>
-         * $user->remove('name');
-         *</code>
-         *
-         * @param string property
-         * @return boolean
-         */
-        public function remove($property)
-        {
-        }
-
-
-        public function getIterator()
         {
         }
 
@@ -159,16 +139,16 @@ namespace Phalcon\Session {
 
 
         /**
-         * Magic setter to assign values to the session bag
+         * Check whether a property is defined in the internal bag
          *
          *<code>
-         * $user->name = "Kimbra";
+         * var_dump($user->has('name'));
          *</code>
          *
          * @param string property
-         * @param string value
+         * @return boolean
          */
-        public function __set($property, $value)
+        public function has($property)
         {
         }
 
@@ -189,6 +169,21 @@ namespace Phalcon\Session {
 
 
         /**
+         * Removes a property from the internal bag
+         *
+         *<code>
+         * $user->remove('name');
+         *</code>
+         *
+         * @param string property
+         * @return boolean
+         */
+        public function remove($property)
+        {
+        }
+
+
+        /**
          * Magic unset to remove items using the array syntax
          *
          *<code>
@@ -199,31 +194,6 @@ namespace Phalcon\Session {
          * @return boolean
          */
         public function __unset($property)
-        {
-        }
-
-
-        public function offsetGet($property)
-        {
-        }
-
-
-        public function offsetSet($property, $value)
-        {
-        }
-
-
-        public function offsetExists($property)
-        {
-        }
-
-
-        public function offsetUnset($property)
-        {
-        }
-
-
-        public function count()
         {
         }
 

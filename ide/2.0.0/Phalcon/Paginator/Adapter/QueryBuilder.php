@@ -23,6 +23,8 @@ namespace Phalcon\Paginator\Adapter {
     class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
     {
 
+        protected $_config;
+
         protected $_builder;
 
         protected $_limitRows;
@@ -40,43 +42,11 @@ namespace Phalcon\Paginator\Adapter {
 
 
         /**
-         * Returns a slice of the resultset to show in the pagination
-         *
-         * @return stdClass
-         */
-        public function getPaginate()
-        {
-        }
-
-
-        /**
-         * Set current rows limit
-         *
-         * @param int $limit
-         *
-         * @return \Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
-         */
-        public function setLimit($limit)
-        {
-        }
-
-
-        /**
-         * Get current rows limit
-         *
-         * @return int $limit
-         */
-        public function getLimit()
-        {
-        }
-
-
-        /**
          * Set the current page number
          *
          * @param int page
          */
-        public function setCurrentPage($page)
+        public function setCurrentPage($currentPage)
         {
         }
 
@@ -92,13 +62,35 @@ namespace Phalcon\Paginator\Adapter {
 
 
         /**
+         * Set current rows limit
+         *
+         * @param int $limit
+         *
+         * @return \Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+         */
+        public function setLimit($limitRows)
+        {
+        }
+
+
+        /**
+         * Get current rows limit
+         *
+         * @return int $limit
+         */
+        public function getLimit()
+        {
+        }
+
+
+        /**
          * Set query builder object
          *
          * @param \Phalcon\Mvc\Model\Query\BuilderInterface $builder
          *
          * @return \Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
          */
-        public function setQueryBuilder($queryBuilder)
+        public function setQueryBuilder($builder)
         {
         }
 
@@ -109,6 +101,16 @@ namespace Phalcon\Paginator\Adapter {
          * @return \Phalcon\Mvc\Model\Query\BuilderInterface $builder
          */
         public function getQueryBuilder()
+        {
+        }
+
+
+        /**
+         * Returns a slice of the resultset to show in the pagination
+         *
+         * @return stdClass
+         */
+        public function getPaginate()
         {
         }
 

@@ -20,14 +20,11 @@ namespace Phalcon\Logger {
         protected $_context;
 
         /**
-         * \Phalcon\Logger\Item constructor
+         * Log type
          *
-         * @param string $message
-         * @param integer $type
-         * @param integer $time
-         * @param array $context
+         * @var integer
          */
-        public function __construct($message, $type, $time=null)
+        public function getType()
         {
         }
 
@@ -43,16 +40,6 @@ namespace Phalcon\Logger {
 
 
         /**
-         * Log type
-         *
-         * @var integer
-         */
-        public function getType()
-        {
-        }
-
-
-        /**
          * Log timestamp
          *
          * @var integer
@@ -63,6 +50,19 @@ namespace Phalcon\Logger {
 
 
         public function getContext()
+        {
+        }
+
+
+        /**
+         * \Phalcon\Logger\Item constructor
+         *
+         * @param string $message
+         * @param integer $type
+         * @param integer $time
+         * @param array $context
+         */
+        public function __construct($message, $type, $time=null, $context=null)
         {
         }
 

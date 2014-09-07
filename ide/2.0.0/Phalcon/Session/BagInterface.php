@@ -18,7 +18,13 @@ namespace Phalcon\Session {    interface BagInterface
         public function has($property);
 
 
-        public function remove($property);
+        public function __set($property, $value);
+
+
+        public function __get($property);
+
+
+        public function __isset($property);
 
     }
 }

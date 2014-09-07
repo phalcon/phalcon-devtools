@@ -6,10 +6,16 @@ namespace Phalcon {    interface DispatcherInterface
         public function setActionSuffix($actionSuffix);
 
 
-        public function setDefaultNamespace($namespace);
+        public function setDefaultNamespace($defaultNamespace);
 
 
         public function setDefaultAction($actionName);
+
+
+        public function setNamespaceName($namespaceName);
+
+
+        public function setModuleName($moduleName);
 
 
         public function setActionName($actionName);

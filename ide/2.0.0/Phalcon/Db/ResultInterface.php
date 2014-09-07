@@ -3,6 +3,9 @@
 namespace Phalcon\Db {    interface ResultInterface
         {
 
+        public function __construct($connection, $result, $sqlStatement=null, $bindParams=null, $bindTypes=null);
+
+
         public function execute();
 
 
@@ -21,7 +24,7 @@ namespace Phalcon\Db {    interface ResultInterface
         public function dataSeek($number);
 
 
-        public function setFetchMode($fetchMode, $fetchArg1=null, $fetchArg2=null);
+        public function setFetchMode($fetchMode);
 
 
         public function getInternalResult();

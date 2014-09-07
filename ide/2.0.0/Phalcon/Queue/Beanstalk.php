@@ -90,11 +90,6 @@ namespace Phalcon\Queue {
         }
 
 
-        public function peekDelayed()
-        {
-        }
-
-
         /**
          * Return the next job in the list of buried jobs
          *
@@ -110,7 +105,7 @@ namespace Phalcon\Queue {
          *
          * @return array
          */
-        protected function readStatus()
+        final public function readStatus()
         {
         }
 
@@ -133,7 +128,7 @@ namespace Phalcon\Queue {
          * @param string data
          * @return integer|boolean
          */
-        protected function write()
+        protected function write($data)
         {
         }
 
@@ -144,16 +139,6 @@ namespace Phalcon\Queue {
          * @return boolean
          */
         public function disconnect()
-        {
-        }
-
-
-        public function __sleep()
-        {
-        }
-
-
-        public function __wakeup()
         {
         }
 

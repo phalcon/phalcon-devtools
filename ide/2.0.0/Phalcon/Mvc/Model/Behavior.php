@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\Model {
      *
      * This is an optional base class for ORM behaviors
      */
-    abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
+    abstract class Behavior
     {
 
         protected $_options;
@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @param string eventName
          */
-        protected function mustTakeAction()
+        protected function mustTakeAction($eventName)
         {
         }
 
@@ -38,7 +38,7 @@ namespace Phalcon\Mvc\Model {
          * @param string eventName
          * @return array
          */
-        protected function getOptions()
+        protected function getOptions($eventName=null)
         {
         }
 

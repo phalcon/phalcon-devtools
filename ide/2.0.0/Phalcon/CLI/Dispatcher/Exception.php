@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon\CLI\Dispatcher {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Cli\Dispatcher {    class Exception extends \Phalcon\Exception
     {
     }
 }

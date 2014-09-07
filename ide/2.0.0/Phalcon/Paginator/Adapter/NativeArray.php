@@ -29,7 +29,7 @@ namespace Phalcon\Paginator\Adapter {
 
         protected $_limitRows;
 
-        protected $_data;
+        protected $_config;
 
         protected $_page;
 

@@ -8,7 +8,7 @@ namespace Phalcon\Db {
      * This is the base class to each database dialect. This implements
      * common methods to transform intermediate code into its RDBM related syntax
      */
-    abstract class Dialect implements \Phalcon\Db\DialectInterface
+    abstract class Dialect
     {
 
         protected $_escapeChar;
@@ -72,7 +72,7 @@ namespace Phalcon\Db {
          * @param	array columnList
          * @return	string
          */
-        public function getColumnList($columnList)
+        final public function getColumnList($columnList)
         {
         }
 
@@ -84,7 +84,7 @@ namespace Phalcon\Db {
          * @param string escapeChar
          * @return string
          */
-        public function getSqlExpression($expression, $escapeChar=null)
+        final public function getSqlExpression($expression, $escapeChar=null)
         {
         }
 
@@ -96,7 +96,7 @@ namespace Phalcon\Db {
          * @param string escapeChar
          * @return string
          */
-        public function getSqlTable($table, $escapeChar=null)
+        final public function getSqlTable($table, $escapeChar=null)
         {
         }
 

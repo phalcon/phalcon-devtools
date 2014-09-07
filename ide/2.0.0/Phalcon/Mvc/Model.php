@@ -34,7 +34,7 @@ namespace Phalcon\Mvc {
      * </code>
      *
      */
-    abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\DI\InjectionAwareInterface, \Serializable
+    abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
     {
 
         const OP_NONE = 0;
@@ -113,7 +113,7 @@ namespace Phalcon\Mvc {
          *
          * @param \Phalcon\Events\ManagerInterface eventsManager
          */
-        protected function setEventsManager()
+        protected function setEventsManager($eventsManager)
         {
         }
 
@@ -485,7 +485,7 @@ namespace Phalcon\Mvc {
          * @param string|array table
          * @return boolean
          */
-        protected function _exists()
+        protected function _exists($metaData, $connection, $table=null)
         {
         }
 
@@ -498,7 +498,7 @@ namespace Phalcon\Mvc {
          * @param array parameters
          * @return \Phalcon\Mvc\Model\ResultsetInterface
          */
-        protected static function _groupResult()
+        protected static function _groupResult($functionName, $alias, $parameters)
         {
         }
 
@@ -775,21 +775,21 @@ namespace Phalcon\Mvc {
 
 
         /**
-         * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
-         *
-         * @return boolean
-         */
-        protected function _checkForeignKeysReverseRestrict()
-        {
-        }
-
-
-        /**
          * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
          *
          * @return boolean
          */
         protected function _checkForeignKeysReverseCascade()
+        {
+        }
+
+
+        /**
+         * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
+         *
+         * @return boolean
+         */
+        protected function _checkForeignKeysReverseRestrict()
         {
         }
 
@@ -802,7 +802,7 @@ namespace Phalcon\Mvc {
          * @param string identityField
          * @return boolean
          */
-        protected function _preSave()
+        protected function _preSave($metaData, $exists, $identityField)
         {
         }
 
@@ -814,7 +814,7 @@ namespace Phalcon\Mvc {
          * @param boolean exists
          * @return boolean
          */
-        protected function _postSave()
+        protected function _postSave($success, $exists)
         {
         }
 
@@ -828,7 +828,7 @@ namespace Phalcon\Mvc {
          * @param boolean|string identityField
          * @return boolean
          */
-        protected function _doLowInsert()
+        protected function _doLowInsert($metaData, $connection, $table, $identityField)
         {
         }
 
@@ -841,7 +841,7 @@ namespace Phalcon\Mvc {
          * @param string|array table
          * @return boolean
          */
-        protected function _doLowUpdate()
+        protected function _doLowUpdate($metaData, $connection, $table)
         {
         }
 
@@ -853,7 +853,7 @@ namespace Phalcon\Mvc {
          * @param \Phalcon\Mvc\ModelInterface[] related
          * @return boolean
          */
-        protected function _preSaveRelatedRecords()
+        protected function _preSaveRelatedRecords($connection, $related)
         {
         }
 
@@ -865,7 +865,7 @@ namespace Phalcon\Mvc {
          * @param  \Phalcon\Mvc\ModelInterface[] related
          * @return boolean
          */
-        protected function _postSaveRelatedRecords()
+        protected function _postSaveRelatedRecords($connection, $related)
         {
         }
 
@@ -1044,7 +1044,7 @@ namespace Phalcon\Mvc {
          *
          * @param array attributes
          */
-        protected function skipAttributes($attributes, $replace=null)
+        protected function skipAttributes($attributes)
         {
         }
 
@@ -1069,7 +1069,7 @@ namespace Phalcon\Mvc {
          *
          * @param array attributes
          */
-        protected function skipAttributesOnCreate($attributes, $replace=null)
+        protected function skipAttributesOnCreate($attributes)
         {
         }
 
@@ -1094,7 +1094,7 @@ namespace Phalcon\Mvc {
          *
          * @param array attributes
          */
-        protected function skipAttributesOnUpdate($attributes, $replace=null)
+        protected function skipAttributesOnUpdate($attributes)
         {
         }
 
@@ -1122,7 +1122,7 @@ namespace Phalcon\Mvc {
          * @param   array options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function hasOne($fields, $referenceModel, $referencedFields, $options=null)
+        protected function hasOne($fields, $referenceModel, $referencedFields, $options=null)
         {
         }
 
@@ -1150,7 +1150,7 @@ namespace Phalcon\Mvc {
          * @param   array options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function belongsTo($fields, $referenceModel, $referencedFields, $options=null)
+        protected function belongsTo($fields, $referenceModel, $referencedFields, $options=null)
         {
         }
 
@@ -1178,7 +1178,7 @@ namespace Phalcon\Mvc {
          * @param   array options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function hasMany($fields, $referenceModel, $referencedFields, $options=null)
+        protected function hasMany($fields, $referenceModel, $referencedFields, $options=null)
         {
         }
 
@@ -1217,7 +1217,7 @@ namespace Phalcon\Mvc {
          * @param   array options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function hasManyToMany($fields, $intermediateModel, $intermediateFields, $intermediateReferencedFields, $referenceModel, $referencedFields, $options=null)
+        protected function hasManyToMany($fields, $intermediateModel, $intermediateFields, $intermediateReferencedFields, $referenceModel, $referencedFields, $options=null)
         {
         }
 
@@ -1248,7 +1248,7 @@ namespace Phalcon\Mvc {
          *
          * @param \Phalcon\Mvc\Model\BehaviorInterface behavior
          */
-        public function addBehavior($behavior)
+        protected function addBehavior($behavior)
         {
         }
 
@@ -1272,7 +1272,7 @@ namespace Phalcon\Mvc {
          *
          * @param boolean keepSnapshots
          */
-        protected function keepSnapshots($keepSnapshots)
+        protected function keepSnapshots($keepSnapshot)
         {
         }
 
@@ -1374,7 +1374,7 @@ namespace Phalcon\Mvc {
          * @param array arguments
          * @return mixed
          */
-        protected function _getRelatedRecords()
+        protected function _getRelatedRecords($modelName, $method, $arguments)
         {
         }
 
@@ -1479,7 +1479,7 @@ namespace Phalcon\Mvc {
          *
          * @return array
          */
-        public function toArray($columns=null)
+        public function toArray()
         {
         }
 
@@ -1490,11 +1490,6 @@ namespace Phalcon\Mvc {
          * @param array options
          */
         public static function setup($options)
-        {
-        }
-
-
-        public function reset()
         {
         }
 

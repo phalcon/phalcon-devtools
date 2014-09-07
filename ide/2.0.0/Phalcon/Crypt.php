@@ -37,11 +37,22 @@ namespace Phalcon {
 
         protected $_key;
 
+        protected $_padding;
+
         protected $_mode;
 
         protected $_cipher;
 
-        protected $_padding;
+        /**
+         * @brief \Phalcon\CryptInterface \Phalcon\Crypt::setPadding(int $scheme)
+         *
+         * @param int scheme Padding scheme
+         * @return \Phalcon\CryptInterface
+         */
+        public function setPadding($scheme)
+        {
+        }
+
 
         /**
          * Sets the cipher algorithm
@@ -107,17 +118,31 @@ namespace Phalcon {
 
 
         /**
-         * @brief \Phalcon\CryptInterface \Phalcon\Crypt::setPadding(int $scheme)
+         * Adds padding @a padding_type to @a text
          *
-         * @param int scheme Padding scheme
-         * @return \Phalcon\CryptInterface
+         * @param return_value Result, possibly padded
+         * @param text Message to be padded
+         * @param mode Encryption mode; padding is applied only in CBC or ECB mode
+         * @param block_size Cipher block size
+         * @param padding_type Padding scheme
+         * @see http://www.di-mgt.com.au/cryptopad.html
          */
-        public function setPadding($scheme)
+        private function _cryptPadText($text, $mode, $blockSize, $paddingType)
         {
         }
 
 
-        public function getPadding()
+        /**
+         * Removes padding @a padding_type from @a text
+         * If the function detects that the text was not padded, it will return it unmodified
+         *
+         * @param return_value Result, possibly unpadded
+         * @param text Message to be unpadded
+         * @param mode Encryption mode; unpadding is applied only in CBC or ECB mode
+         * @param block_size Cipher block size
+         * @param padding_type Padding scheme
+         */
+        private function _cryptUnpadText($text, $mode, $blockSize, $paddingType)
         {
         }
 

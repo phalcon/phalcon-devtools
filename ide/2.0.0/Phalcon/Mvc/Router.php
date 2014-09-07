@@ -28,7 +28,7 @@ namespace Phalcon\Mvc {
      *</code>
      *
      */
-    class Router implements \Phalcon\Mvc\RouterInterface, \Phalcon\DI\InjectionAwareInterface
+    class Router
     {
 
         const URI_SOURCE_GET_URL = 0;
@@ -51,8 +51,6 @@ namespace Phalcon\Mvc {
 
         protected $_routes;
 
-        protected $_routesNameLookup;
-
         protected $_matchedRoute;
 
         protected $_matches;
@@ -72,8 +70,6 @@ namespace Phalcon\Mvc {
         protected $_removeExtraSlashes;
 
         protected $_notFoundPaths;
-
-        protected $_isExactControllerName;
 
         /**
          * \Phalcon\Mvc\Router constructor
@@ -152,11 +148,6 @@ namespace Phalcon\Mvc {
         }
 
 
-        public function getDefaultNamespace()
-        {
-        }
-
-
         /**
          * Sets the name of the default module
          *
@@ -164,11 +155,6 @@ namespace Phalcon\Mvc {
          * @return \Phalcon\Mvc\Router
          */
         public function setDefaultModule($moduleName)
-        {
-        }
-
-
-        public function getDefaultModule()
         {
         }
 
@@ -184,11 +170,6 @@ namespace Phalcon\Mvc {
         }
 
 
-        public function getDefaultController()
-        {
-        }
-
-
         /**
          * Sets the default action name
          *
@@ -196,11 +177,6 @@ namespace Phalcon\Mvc {
          * @return \Phalcon\Mvc\Router
          */
         public function setDefaultAction($actionName)
-        {
-        }
-
-
-        public function getDefaultAction()
         {
         }
 
@@ -220,11 +196,6 @@ namespace Phalcon\Mvc {
          * @return \Phalcon\Mvc\Router
          */
         public function setDefaults($defaults)
-        {
-        }
-
-
-        public function getDefaults()
         {
         }
 

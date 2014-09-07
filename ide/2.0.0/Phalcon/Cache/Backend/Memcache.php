@@ -50,7 +50,7 @@ namespace Phalcon\Cache\Backend {
         /**
          * Create internal connection to memcached
          */
-        protected function _connect()
+        public function _connect()
         {
         }
 
@@ -121,7 +121,7 @@ namespace Phalcon\Cache\Backend {
          * @param  long lifetime
          * @return long
          */
-        public function increment($key_name=null, $value=null)
+        public function increment($keyName=null, $value=null)
         {
         }
 
@@ -133,7 +133,7 @@ namespace Phalcon\Cache\Backend {
          * @param  long value
          * @return long
          */
-        public function decrement($key_name=null, $value=null)
+        public function decrement($keyName=null, $value=null)
         {
         }
 
@@ -144,16 +144,6 @@ namespace Phalcon\Cache\Backend {
          * @return boolean
          */
         public function flush()
-        {
-        }
-
-
-        public function getTrackingKey()
-        {
-        }
-
-
-        public function setTrackingKey($key)
         {
         }
 

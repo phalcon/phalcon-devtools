@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon\Mvc\Model\MetaData\Strategy {    class Annotations
+namespace Phalcon\Mvc\Model\MetaData\Strategy {    class Annotations implements \Phalcon\Mvc\Model\MetaData\StrategyInterface
     {
 
         /**
@@ -10,7 +10,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy {    class Annotations
          * @param \Phalcon\DiInterface dependencyInjector
          * @return array
          */
-        public function getMetaData($model, $dependencyInjector)
+        final public function getMetaData($model, $dependencyInjector)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy {    class Annotations
          * @return array
          * @todo Not implemented
          */
-        public function getColumnMaps()
+        final public function getColumnMaps($model, $dependencyInjector)
         {
         }
 

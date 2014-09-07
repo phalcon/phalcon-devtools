@@ -6,7 +6,13 @@ namespace Phalcon {    interface DiInterface extends \ArrayAccess
         public function set($name, $definition, $shared=null);
 
 
+        public function setShared($name, $definition);
+
+
         public function remove($name);
+
+
+        public function attempt($name, $definition, $shared=null);
 
 
         public function get($name, $parameters=null);
@@ -15,7 +21,10 @@ namespace Phalcon {    interface DiInterface extends \ArrayAccess
         public function getShared($name, $parameters=null);
 
 
-        public function setService($rawDefinition);
+        public function setRaw($name, $rawDefinition);
+
+
+        public function getRaw($name);
 
 
         public function getService($name);

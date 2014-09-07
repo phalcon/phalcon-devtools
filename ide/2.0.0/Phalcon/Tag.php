@@ -53,6 +53,27 @@ namespace Phalcon {
         protected static $_autoEscape;
 
         /**
+         * Obtains the 'escaper' service if required
+         *
+         * @param array params
+         */
+        public static function getEscaper($params)
+        {
+        }
+
+
+        /**
+         * Renders parameters keeping order in html attributes
+         *
+         * @param string code
+         * @param array attributes
+         */
+        public static function renderAttributes($code, $attributes)
+        {
+        }
+
+
+        /**
          * Sets the dependency injector container.
          *
          * @param \Phalcon\DiInterface dependencyInjector
@@ -88,11 +109,6 @@ namespace Phalcon {
          * @return \Phalcon\EscaperInterface
          */
         public static function getEscaperService()
-        {
-        }
-
-
-        public static function getAutoescape()
         {
         }
 
@@ -140,7 +156,7 @@ namespace Phalcon {
          * @param array values
          * @param boolean merge
          */
-        public static function setDefaults($values)
+        public static function setDefaults($values, $merge=null)
         {
         }
 
@@ -205,7 +221,7 @@ namespace Phalcon {
          * @param boolean local
          * @return string
          */
-        public static function linkTo($parameters, $text=null)
+        public static function linkTo($parameters, $text=null, $local=null)
         {
         }
 
@@ -218,7 +234,7 @@ namespace Phalcon {
          * @param 	boolean asValue
          * @return	string
          */
-        protected static function _inputField()
+        protected static function _inputField($type, $parameters, $asValue=null)
         {
         }
 
@@ -230,7 +246,7 @@ namespace Phalcon {
          * @param	array parameters
          * @return	string
          */
-        protected static function _inputFieldChecked()
+        protected static function _inputFieldChecked($type, $parameters)
         {
         }
 
@@ -403,6 +419,21 @@ namespace Phalcon {
 
 
         /**
+         * Builds a HTML input[type="file"] tag
+         *
+         *<code>
+         * echo \Phalcon\Tag::fileField("file");
+         *</code>
+         *
+         * @param	array parameters
+         * @return	string
+         */
+        public static function fileField($parameters)
+        {
+        }
+
+
+        /**
          * Builds a HTML input[type="search"] tag
          *
          * @param array parameters
@@ -431,21 +462,6 @@ namespace Phalcon {
          * @return string
          */
         public static function urlField($parameters)
-        {
-        }
-
-
-        /**
-         * Builds a HTML input[type="file"] tag
-         *
-         *<code>
-         * echo \Phalcon\Tag::fileField("file");
-         *</code>
-         *
-         * @param	array parameters
-         * @return	string
-         */
-        public static function fileField($parameters)
         {
         }
 
@@ -603,7 +619,7 @@ namespace Phalcon {
          * @param array parameters
          * @return string
          */
-        public static function form($parameters=null)
+        public static function form($parameters)
         {
         }
 
@@ -641,7 +657,7 @@ namespace Phalcon {
          *
          * @param string titleSeparator
          */
-        public static function setTitleSeparator($separator)
+        public static function setTitleSeparator($titleSeparator)
         {
         }
 
@@ -785,7 +801,7 @@ namespace Phalcon {
          * @param mixed replace
          * @return text
          */
-        public static function friendlyTitle($text, $separator=null, $lowercase=null)
+        public static function friendlyTitle($text, $separator=null, $lowercase=null, $replace=null)
         {
         }
 

@@ -7,7 +7,7 @@ namespace Phalcon {
      *
      * Allows to validate data using validators
      */
-    class Validation extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface
+    class Validation extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_data;
@@ -20,11 +20,16 @@ namespace Phalcon {
 
         protected $_messages;
 
-        protected $_values;
-
         protected $_defaultMessages;
 
         protected $_labels;
+
+        protected $_values;
+
+        public function setValidators($validators)
+        {
+        }
+
 
         /**
          * \Phalcon\Validation constructor
@@ -55,7 +60,31 @@ namespace Phalcon {
          * @param \Phalcon\Validation\ValidatorInterface validator
          * @return \Phalcon\Validation
          */
-        public function add($attribute, $validator)
+        public function add($field, $validator)
+        {
+        }
+
+
+        /**
+         * Alias of `add` method
+         *
+         * @param string field
+         * @param \Phalcon\Validation\ValidatorInterface validator
+         * @return \Phalcon\Validation
+         */
+        public function rule($field, $validator)
+        {
+        }
+
+
+        /**
+         * Adds the validators to a field
+         *
+         * @param string field
+         * @param array validators
+         * @return \Phalcon\Validation
+         */
+        public function rules($field, $validators)
         {
         }
 
@@ -67,7 +96,7 @@ namespace Phalcon {
          * @param array|string field
          * @return \Phalcon\Validation
          */
-        public function setFilters($attribute, $filters)
+        public function setFilters($field, $filters)
         {
         }
 
@@ -78,7 +107,7 @@ namespace Phalcon {
          * @param string field
          * @return mixed
          */
-        public function getFilters($attribute=null)
+        public function getFilters($field=null)
         {
         }
 
@@ -104,11 +133,54 @@ namespace Phalcon {
 
 
         /**
+         * Adds default messages to validators
+         *
+         * @param array messages
+         * @return array
+         */
+        public function setDefaultMessages($messages=null)
+        {
+        }
+
+
+        /**
+         * Get default message for validator type
+         *
+         * @param string type
+         * @return string
+         */
+        public function getDefaultMessage($type)
+        {
+        }
+
+
+        /**
          * Returns the registered validators
          *
          * @return \Phalcon\Validation\Message\Group
          */
         public function getMessages()
+        {
+        }
+
+
+        /**
+         * Adds labels for fields
+         *
+         * @param array labels
+         */
+        public function setLabels($labels)
+        {
+        }
+
+
+        /**
+         * Get label for field
+         *
+         * @param string field
+         * @return string
+         */
+        public function getLabel($field)
         {
         }
 
@@ -143,50 +215,7 @@ namespace Phalcon {
          * @param string field
          * @return mixed
          */
-        public function getValue($attribute)
-        {
-        }
-
-
-        /**
-         * Adds default messages to validators
-         *
-         * @param array messages
-         * @return array
-         */
-        public function setDefaultMessages($messages=null)
-        {
-        }
-
-
-        /**
-         * Get default message for validator type
-         *
-         * @param string type
-         * @return string
-         */
-        public function getDefaultMessage($type)
-        {
-        }
-
-
-        /**
-         * Adds labels for fields
-         *
-         * @param array labels
-         */
-        public function setLabels($labels)
-        {
-        }
-
-
-        /**
-         * Get label for field
-         *
-         * @param string field
-         * @return string
-         */
-        public function getLabel($field)
+        public function getValue($field)
         {
         }
 

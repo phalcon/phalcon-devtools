@@ -27,7 +27,7 @@ namespace Phalcon {
      *</code>
      *
      */
-    class Config implements \ArrayAccess, \Countable
+    class Config implements \ArrayAccess
     {
 
         /**
@@ -50,7 +50,7 @@ namespace Phalcon {
          * @param string index
          * @return boolean
          */
-        public function offsetExists($property)
+        public function offsetExists($index)
         {
         }
 
@@ -82,7 +82,7 @@ namespace Phalcon {
          * @param string index
          * @return string
          */
-        public function offsetGet($property)
+        public function offsetGet($index)
         {
         }
 
@@ -97,7 +97,7 @@ namespace Phalcon {
          * @param string $index
          * @param mixed $value
          */
-        public function offsetSet($property, $value)
+        public function offsetSet($index, $value)
         {
         }
 
@@ -111,7 +111,7 @@ namespace Phalcon {
          *
          * @param string index
          */
-        public function offsetUnset($property)
+        public function offsetUnset($index)
         {
         }
 
@@ -145,43 +145,13 @@ namespace Phalcon {
         }
 
 
-        public function count()
-        {
-        }
-
-
-        public function __wakeup()
-        {
-        }
-
-
         /**
          * Restores the state of a \Phalcon\Config object
          *
          * @param array data
          * @return \Phalcon\Config
          */
-        public static function __set_state($properties=null)
-        {
-        }
-
-
-        public function __get($property)
-        {
-        }
-
-
-        public function __set($property, $value)
-        {
-        }
-
-
-        public function __isset($property)
-        {
-        }
-
-
-        public function __unset($property)
+        public static function __set_state($data)
         {
         }
 

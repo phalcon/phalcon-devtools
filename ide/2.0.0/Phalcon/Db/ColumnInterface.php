@@ -3,6 +3,9 @@
 namespace Phalcon\Db {    interface ColumnInterface
         {
 
+        public function __construct($columnName, $definition);
+
+
         public function getSchemaName();
 
 
@@ -40,6 +43,9 @@ namespace Phalcon\Db {    interface ColumnInterface
 
 
         public function getBindType();
+
+
+        public static function __set_state($data);
 
     }
 }

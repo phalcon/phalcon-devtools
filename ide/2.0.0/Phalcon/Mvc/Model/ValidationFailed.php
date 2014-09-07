@@ -6,20 +6,5 @@ namespace Phalcon\Mvc\Model {    class ValidationFailed extends \Phalcon\Mvc\Mod
         protected $_model;
 
         protected $_messages;
-
-        public function __construct($model, $validationMessages)
-        {
-        }
-
-
-        public function getMessages()
-        {
-        }
-
-
-        public function getModel()
-        {
-        }
-
     }
 }

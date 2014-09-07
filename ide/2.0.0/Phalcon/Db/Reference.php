@@ -19,11 +19,11 @@ namespace Phalcon\Db {
     class Reference implements \Phalcon\Db\ReferenceInterface
     {
 
+        protected $_name;
+
         protected $_schemaName;
 
         protected $_referencedSchema;
-
-        protected $_referenceName;
 
         protected $_referencedTable;
 
@@ -31,16 +31,9 @@ namespace Phalcon\Db {
 
         protected $_referencedColumns;
 
-        /**
-         * \Phalcon\Db\Reference constructor
-         *
-         * @param string name
-         * @param array definition
-         */
-        public function __construct($referenceName, $definition)
-        {
-        }
+        protected $_onDelete;
 
+        protected $_onUpdate;
 
         /**
          * Constraint name
@@ -63,21 +56,21 @@ namespace Phalcon\Db {
 
 
         /**
-         * Local reference columns
-         *
-         * @var array
-         */
-        public function getColumns()
-        {
-        }
-
-
-        /**
          * Referenced Table
          *
          * @var string
          */
         public function getReferencedTable()
+        {
+        }
+
+
+        /**
+         * Local reference columns
+         *
+         * @var array
+         */
+        public function getColumns()
         {
         }
 
@@ -93,12 +86,43 @@ namespace Phalcon\Db {
 
 
         /**
+         * ON DELETE
+         *
+         * @var array
+         */
+        public function getOnDelete()
+        {
+        }
+
+
+        /**
+         * ON UPDATE
+         *
+         * @var array
+         */
+        public function getOnUpdate()
+        {
+        }
+
+
+        /**
+         * \Phalcon\Db\Reference constructor
+         *
+         * @param string name
+         * @param array definition
+         */
+        public function __construct($name, $definition)
+        {
+        }
+
+
+        /**
          * Restore a \Phalcon\Db\Reference object from export
          *
          * @param array data
          * @return \Phalcon\Db\Reference
          */
-        public static function __set_state($properties=null)
+        public static function __set_state($data)
         {
         }
 

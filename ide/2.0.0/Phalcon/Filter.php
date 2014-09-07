@@ -42,7 +42,7 @@ namespace Phalcon {
          * @param  noRecursive
          * @return mixed
          */
-        public function sanitize($value, $filters)
+        public function sanitize($value, $filters, $noRecursive=null)
         {
         }
 
@@ -54,7 +54,7 @@ namespace Phalcon {
          * @param  string $filter
          * @return mixed
          */
-        protected function _sanitize()
+        protected function _sanitize($value, $filter)
         {
         }
 

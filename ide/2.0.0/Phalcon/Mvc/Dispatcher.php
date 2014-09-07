@@ -25,7 +25,7 @@ namespace Phalcon\Mvc {
      *
      *</code>
      */
-    class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\DispatcherInterface, \Phalcon\Mvc\DispatcherInterface
+    class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\DispatcherInterface, \Phalcon\Mvc\DispatcherInterface
     {
 
         const EXCEPTION_NO_DI = 0;
@@ -71,7 +71,7 @@ namespace Phalcon\Mvc {
          *
          * @param string controllerName
          */
-        public function setControllerName($controllerName, $isExact=null)
+        public function setControllerName($controllerName)
         {
         }
 
@@ -87,12 +87,32 @@ namespace Phalcon\Mvc {
 
 
         /**
+         * Gets previous dispatched controller name
+         *
+         * @return string
+         */
+        public function getPreviousControllerName()
+        {
+        }
+
+
+        /**
+         * Gets previous dispatched action name
+         *
+         * @return string
+         */
+        public function getPreviousActionName()
+        {
+        }
+
+
+        /**
          * Throws an internal exception
          *
          * @param string message
          * @param int exceptionCode
          */
-        protected function _throwDispatchException()
+        protected function _throwDispatchException($message, $exceptionCode=null)
         {
         }
 
@@ -102,7 +122,7 @@ namespace Phalcon\Mvc {
          *
          * @param \Exception exception
          */
-        protected function _handleException()
+        protected function _handleException($exception)
         {
         }
 
@@ -133,26 +153,6 @@ namespace Phalcon\Mvc {
          * @return \Phalcon\Mvc\ControllerInterface
          */
         public function getActiveController()
-        {
-        }
-
-
-        /**
-         * Gets previous dispatched controller name
-         *
-         * @return string
-         */
-        public function getPreviousControllerName()
-        {
-        }
-
-
-        /**
-         * Gets previous dispatched action name
-         *
-         * @return string
-         */
-        public function getPreviousActionName()
         {
         }
 

@@ -9,7 +9,7 @@ namespace Phalcon\Mvc {    interface DispatcherInterface extends \Phalcon\Dispat
         public function setDefaultController($controllerName);
 
 
-        public function setControllerName($controllerName, $isExact=null);
+        public function setControllerName($controllerName);
 
 
         public function getControllerName();

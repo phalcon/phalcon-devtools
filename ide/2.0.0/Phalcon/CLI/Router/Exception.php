@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon\CLI\Router {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Cli\Router {    class Exception extends \Phalcon\Exception
     {
     }
 }

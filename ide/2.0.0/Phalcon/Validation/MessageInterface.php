@@ -3,16 +3,13 @@
 namespace Phalcon\Validation {    interface MessageInterface
         {
 
+        public function __construct($message, $field=null, $type=null);
+
+
         public function setType($type);
 
 
         public function getType();
-
-
-        public function setCode($code);
-
-
-        public function getCode();
 
 
         public function setMessage($message);
@@ -28,6 +25,9 @@ namespace Phalcon\Validation {    interface MessageInterface
 
 
         public function __toString();
+
+
+        public static function __set_state($message);
 
     }
 }

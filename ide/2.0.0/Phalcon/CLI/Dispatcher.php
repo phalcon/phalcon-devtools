@@ -1,6 +1,31 @@
 <?php 
 
-namespace Phalcon\CLI {    class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\DispatcherInterface
+namespace Phalcon\Cli {
+
+    /**
+     * Phalcon\Cli\Dispatcher
+     *
+     * Dispatching is the process of taking the command-line arguments, extracting the module name,
+     * task name, action name, and optional parameters contained in it, and then
+     * instantiating a task and calling an action on it.
+     *
+     *<code>
+     *
+     *	$di = new \Phalcon\Di();
+     *
+     *	$dispatcher = new \Phalcon\Cli\Dispatcher();
+     *
+     *  $dispatcher->setDi(di);
+     *
+     *	$dispatcher->setTaskName('posts');
+     *	$dispatcher->setActionName('index');
+     *	$dispatcher->setParams(array());
+     *
+     *	$handle = dispatcher->dispatch();
+     *
+     *</code>
+     */
+    class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\DispatcherInterface
     {
 
         const EXCEPTION_NO_DI = 0;
@@ -21,46 +46,82 @@ namespace Phalcon\CLI {    class Dispatcher extends \Phalcon\Dispatcher implemen
 
         protected $_defaultAction;
 
+        /**
+         * Sets the default task suffix
+         *
+         * @param string taskSuffix
+         */
         public function setTaskSuffix($taskSuffix)
         {
         }
 
 
+        /**
+         * Sets the default task name
+         *
+         * @param string taskName
+         */
         public function setDefaultTask($taskName)
         {
         }
 
 
+        /**
+         * Sets the task name to be dispatched
+         *
+         * @param string taskName
+         */
         public function setTaskName($taskName)
         {
         }
 
 
+        /**
+         * Gets last dispatched task name
+         *
+         * @return string
+         */
         public function getTaskName()
         {
         }
 
 
-        protected function _throwDispatchException()
+        /**
+         * Throws an internal exception
+         *
+         * @param string message
+         * @param int exceptionCode
+         */
+        protected function _throwDispatchException($message, $exceptionCode=null)
         {
         }
 
 
-        protected function _handleException()
+        /**
+         * Handles a user exception
+         *
+         * @param \Exception exception
+         */
+        protected function _handleException($exception)
         {
         }
 
 
-        public function getTaskClass()
-        {
-        }
-
-
+        /**
+         * Returns the lastest dispatched controller
+         *
+         * @return \Phalcon\CLI\Task
+         */
         public function getLastTask()
         {
         }
 
 
+        /**
+         * Returns the active task in the dispatcher
+         *
+         * @return \Phalcon\CLI\Task
+         */
         public function getActiveTask()
         {
         }

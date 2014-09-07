@@ -41,8 +41,5 @@ namespace Phalcon\Cache {    interface BackendInterface
 
         public function exists($keyName=null, $lifetime=null);
 
-
-        public function flush();
-
     }
 }

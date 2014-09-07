@@ -59,7 +59,7 @@ namespace Phalcon\Acl\Adapter {
      *
      *</code>
      */
-    class Memory extends \Phalcon\Acl\Adapter implements \Phalcon\Acl\AdapterInterface, \Phalcon\Events\EventsAwareInterface
+    class Memory extends \Phalcon\Acl\Adapter
     {
 
         protected $_rolesNames;
@@ -157,7 +157,7 @@ namespace Phalcon\Acl\Adapter {
          * @param   array accessList
          * @return  boolean
          */
-        public function addResource($resource, $accessList=null)
+        public function addResource($resourceValue, $accessList)
         {
         }
 
@@ -192,7 +192,7 @@ namespace Phalcon\Acl\Adapter {
          * @param string access
          * @param string action
          */
-        protected function _allowOrDeny()
+        private function _allowOrDeny($roleName, $resourceName, $access, $action)
         {
         }
 
@@ -272,7 +272,7 @@ namespace Phalcon\Acl\Adapter {
          * @param  string access
          * @return int|boolean
          */
-        public function isAllowed($role, $resource, $access)
+        public function isAllowed($roleName, $resourceName, $access)
         {
         }
 

@@ -24,7 +24,7 @@ namespace Phalcon\Mvc\Model {
      *
      *</code>
      */
-    class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\DI\InjectionAwareInterface
+    class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         const TYPE_SELECT = 309;
@@ -81,7 +81,7 @@ namespace Phalcon\Mvc\Model {
          * @param string $phql
          * @param \Phalcon\DiInterface dependencyInjector
          */
-        public function __construct($phql)
+        public function __construct($phql=null, $dependencyInjector=null)
         {
         }
 
@@ -133,7 +133,7 @@ namespace Phalcon\Mvc\Model {
          * @param array expr
          * @return string
          */
-        protected function _getQualified()
+        final protected function _getQualified($expr)
         {
         }
 
@@ -144,7 +144,7 @@ namespace Phalcon\Mvc\Model {
          * @param array argument
          * @return array
          */
-        protected function _getCallArgument()
+        final protected function _getCallArgument($argument)
         {
         }
 
@@ -155,7 +155,7 @@ namespace Phalcon\Mvc\Model {
          * @param array expr
          * @return array
          */
-        protected function _getFunctionCall()
+        final protected function _getFunctionCall($expr)
         {
         }
 
@@ -167,7 +167,7 @@ namespace Phalcon\Mvc\Model {
          * @param boolean quoting
          * @return string
          */
-        protected function _getExpression()
+        final protected function _getExpression($expr, $quoting=null)
         {
         }
 
@@ -179,7 +179,7 @@ namespace Phalcon\Mvc\Model {
          * @param array column
          * @return array
          */
-        protected function _getSelectColumn()
+        final protected function _getSelectColumn($column)
         {
         }
 
@@ -191,7 +191,7 @@ namespace Phalcon\Mvc\Model {
          * @param array qualifiedName
          * @return string
          */
-        protected function _getTable()
+        final protected function _getTable($manager, $qualifiedName)
         {
         }
 
@@ -203,7 +203,7 @@ namespace Phalcon\Mvc\Model {
          * @param array join
          * @return array
          */
-        protected function _getJoin()
+        final protected function _getJoin($manager, $join)
         {
         }
 
@@ -214,7 +214,7 @@ namespace Phalcon\Mvc\Model {
          * @param array join
          * @return string
          */
-        protected function _getJoinType()
+        final protected function _getJoinType($join)
         {
         }
 
@@ -229,7 +229,7 @@ namespace Phalcon\Mvc\Model {
          * @param \Phalcon\Mvc\Model\RelationInterface relation
          * @return array
          */
-        protected function _getSingleJoin()
+        final protected function _getSingleJoin($joinType, $joinSource, $modelAlias, $joinAlias, $relation)
         {
         }
 
@@ -244,7 +244,7 @@ namespace Phalcon\Mvc\Model {
          * @param \Phalcon\Mvc\Model\RelationInterface relation
          * @return array
          */
-        protected function _getMultiJoin()
+        final protected function _getMultiJoin($joinType, $joinSource, $modelAlias, $joinAlias, $relation)
         {
         }
 
@@ -255,7 +255,7 @@ namespace Phalcon\Mvc\Model {
          * @param array select
          * @return array
          */
-        protected function _getJoins()
+        final protected function _getJoins($select)
         {
         }
 
@@ -266,7 +266,7 @@ namespace Phalcon\Mvc\Model {
          * @param array|string $order
          * @return array
          */
-        protected function _getOrderClause()
+        final protected function _getOrderClause($order)
         {
         }
 
@@ -277,12 +277,7 @@ namespace Phalcon\Mvc\Model {
          * @param array $group
          * @return array
          */
-        protected function _getGroupClause()
-        {
-        }
-
-
-        protected function _getLimitClause()
+        final protected function _getGroupClause($group)
         {
         }
 
@@ -292,7 +287,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @return array
          */
-        protected function _prepareSelect()
+        final protected function _prepareSelect()
         {
         }
 
@@ -302,7 +297,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @return array
          */
-        protected function _prepareInsert()
+        final protected function _prepareInsert()
         {
         }
 
@@ -312,7 +307,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @return array
          */
-        protected function _prepareUpdate()
+        final protected function _prepareUpdate()
         {
         }
 
@@ -322,7 +317,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @return array
          */
-        protected function _prepareDelete()
+        final protected function _prepareDelete()
         {
         }
 
@@ -334,27 +329,6 @@ namespace Phalcon\Mvc\Model {
          * @return array
          */
         public function parse()
-        {
-        }
-
-
-        /**
-         * Sets the cache parameters of the query
-         *
-         * @param array cacheOptions
-         * @return \Phalcon\Mvc\Model\Query
-         */
-        public function cache($cacheOptions)
-        {
-        }
-
-
-        /**
-         * Returns the current cache options
-         *
-         * @param array
-         */
-        public function getCacheOptions()
         {
         }
 
@@ -377,7 +351,7 @@ namespace Phalcon\Mvc\Model {
          * @param array bindTypes
          * @return \Phalcon\Mvc\Model\ResultsetInterface
          */
-        protected function _executeSelect()
+        final protected function _executeSelect($intermediate, $bindParams, $bindTypes)
         {
         }
 
@@ -390,7 +364,33 @@ namespace Phalcon\Mvc\Model {
          * @param array bindTypes
          * @return \Phalcon\Mvc\Model\Query\StatusInterface
          */
-        protected function _executeInsert()
+        final protected function _executeInsert($intermediate, $bindParams, $bindTypes)
+        {
+        }
+
+
+        /**
+         * Executes the UPDATE intermediate representation producing a \Phalcon\Mvc\Model\Query\Status
+         *
+         * @param array intermediate
+         * @param array bindParams
+         * @param array bindTypes
+         * @return \Phalcon\Mvc\Model\Query\StatusInterface
+         */
+        final protected function _executeUpdate($intermediate, $bindParams, $bindTypes)
+        {
+        }
+
+
+        /**
+         * Executes the DELETE intermediate representation producing a \Phalcon\Mvc\Model\Query\Status
+         *
+         * @param array intermediate
+         * @param array bindParams
+         * @param array bindTypes
+         * @return \Phalcon\Mvc\Model\Query\StatusInterface
+         */
+        final protected function _executeDelete($intermediate, $bindParams, $bindTypes)
         {
         }
 
@@ -404,33 +404,7 @@ namespace Phalcon\Mvc\Model {
          * @param array bindTypes
          * @return \Phalcon\Mvc\Model\ResultsetInterface
          */
-        protected function _getRelatedRecords()
-        {
-        }
-
-
-        /**
-         * Executes the UPDATE intermediate representation producing a \Phalcon\Mvc\Model\Query\Status
-         *
-         * @param array intermediate
-         * @param array bindParams
-         * @param array bindTypes
-         * @return \Phalcon\Mvc\Model\Query\StatusInterface
-         */
-        protected function _executeUpdate()
-        {
-        }
-
-
-        /**
-         * Executes the DELETE intermediate representation producing a \Phalcon\Mvc\Model\Query\Status
-         *
-         * @param array intermediate
-         * @param array bindParams
-         * @param array bindTypes
-         * @return \Phalcon\Mvc\Model\Query\StatusInterface
-         */
-        protected function _executeDelete()
+        final protected function _getRelatedRecords($model, $intermediate, $bindParams, $bindTypes)
         {
         }
 
@@ -539,6 +513,27 @@ namespace Phalcon\Mvc\Model {
          * @return array
          */
         public function getIntermediate()
+        {
+        }
+
+
+        /**
+         * Sets the cache parameters of the query
+         *
+         * @param array cacheOptions
+         * @return \Phalcon\Mvc\Model\Query
+         */
+        public function cache($cacheOptions)
+        {
+        }
+
+
+        /**
+         * Returns the current cache options
+         *
+         * @param array
+         */
+        public function getCacheOptions()
         {
         }
 

@@ -20,7 +20,7 @@ namespace Phalcon\Mvc\Router {
      *	};
      *</code>
      */
-    class Annotations extends \Phalcon\Mvc\Router implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\RouterInterface
+    class Annotations extends \Phalcon\Mvc\Router
     {
 
         const URI_SOURCE_GET_URL = 0;
@@ -95,7 +95,7 @@ namespace Phalcon\Mvc\Router {
          * @param string action
          * @param \Phalcon\Annotations\Annotation annotation
          */
-        public function processActionAnnotation($module, $namespace, $controller, $action, $annotation)
+        public function processActionAnnotation($module, $namespaceName, $controller, $action, $annotation)
         {
         }
 

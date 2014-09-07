@@ -24,28 +24,28 @@ namespace Phalcon\Mvc\Micro {    interface CollectionInterface
         public function getHandler();
 
 
-        public function map($routePattern, $handler);
+        public function map($routePattern, $handler, $name=null);
 
 
-        public function get($routePattern, $handler);
+        public function get($routePattern, $handler, $name=null);
 
 
-        public function post($routePattern, $handler);
+        public function post($routePattern, $handler, $name=null);
 
 
-        public function put($routePattern, $handler);
+        public function put($routePattern, $handler, $name=null);
 
 
-        public function patch($routePattern, $handler);
+        public function patch($routePattern, $handler, $name=null);
 
 
-        public function head($routePattern, $handler);
+        public function head($routePattern, $handler, $name=null);
 
 
-        public function delete($routePattern, $handler);
+        public function delete($routePattern, $handler, $name=null);
 
 
-        public function options($routePattern, $handler);
+        public function options($routePattern, $handler, $name=null);
 
     }
 }

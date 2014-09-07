@@ -34,6 +34,19 @@ namespace Phalcon\Mvc\Micro {
         protected $_handlers;
 
         /**
+         * Internal function to add a handler to the group
+         *
+         * @param string|array method
+         * @param string routePattern
+         * @param mixed handler
+         * @param string name
+         */
+        private function _addMap($method, $routePattern, $handler, $name)
+        {
+        }
+
+
+        /**
          * Sets a prefix for all routes added to the collection
          *
          * @param string prefix
@@ -115,7 +128,7 @@ namespace Phalcon\Mvc\Micro {
          * @param  string name
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function map($routePattern, $handler)
+        public function map($routePattern, $handler, $name=null)
         {
         }
 
@@ -128,7 +141,7 @@ namespace Phalcon\Mvc\Micro {
          * @param  string name
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function get($routePattern, $handler)
+        public function get($routePattern, $handler, $name=null)
         {
         }
 
@@ -141,7 +154,7 @@ namespace Phalcon\Mvc\Micro {
          * @param  string name
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function post($routePattern, $handler)
+        public function post($routePattern, $handler, $name=null)
         {
         }
 
@@ -154,7 +167,7 @@ namespace Phalcon\Mvc\Micro {
          * @param  string name
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function put($routePattern, $handler)
+        public function put($routePattern, $handler, $name=null)
         {
         }
 
@@ -167,7 +180,7 @@ namespace Phalcon\Mvc\Micro {
          * @param  string name
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function patch($routePattern, $handler)
+        public function patch($routePattern, $handler, $name=null)
         {
         }
 
@@ -180,7 +193,7 @@ namespace Phalcon\Mvc\Micro {
          * @param  string name
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function head($routePattern, $handler)
+        public function head($routePattern, $handler, $name=null)
         {
         }
 
@@ -193,7 +206,7 @@ namespace Phalcon\Mvc\Micro {
          * @param  string name
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function delete($routePattern, $handler)
+        public function delete($routePattern, $handler, $name=null)
         {
         }
 
@@ -205,7 +218,7 @@ namespace Phalcon\Mvc\Micro {
          * @param callable handler
          * @return \Phalcon\Mvc\Micro\Collection
          */
-        public function options($routePattern, $handler)
+        public function options($routePattern, $handler, $name=null)
         {
         }
 

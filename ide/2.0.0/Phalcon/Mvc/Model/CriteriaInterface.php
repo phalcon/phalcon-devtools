@@ -15,12 +15,6 @@ namespace Phalcon\Mvc\Model {    interface CriteriaInterface
         public function bindTypes($bindTypes);
 
 
-        public function columns($columns);
-
-
-        public function join($model, $conditions=null, $alias=null, $type=null);
-
-
         public function where($conditions);
 
 

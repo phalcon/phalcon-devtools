@@ -21,7 +21,7 @@ namespace Phalcon\Acl {    interface AdapterInterface
         public function isResource($resourceName);
 
 
-        public function addResource($resource, $accessList=null);
+        public function addResource($resourceObject, $accessList=null);
 
 
         public function addResourceAccess($resourceName, $accessList);
@@ -36,7 +36,7 @@ namespace Phalcon\Acl {    interface AdapterInterface
         public function deny($roleName, $resourceName, $access);
 
 
-        public function isAllowed($role, $resource, $access);
+        public function isAllowed($roleName, $resourceName, $access);
 
 
         public function getActiveRole();

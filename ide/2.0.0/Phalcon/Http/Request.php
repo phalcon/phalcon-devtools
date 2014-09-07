@@ -20,16 +20,14 @@ namespace Phalcon\Http {
      *</code>
      *
      */
-    class Request implements \Phalcon\Http\RequestInterface, \Phalcon\DI\InjectionAwareInterface
+    class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_dependencyInjector;
 
-        protected $_filter;
-
         protected $_rawBody;
 
-        protected $_put;
+        protected $_filter;
 
         /**
          * Sets the dependency injector
@@ -70,7 +68,7 @@ namespace Phalcon\Http {
          * @param boolean noRecursive
          * @return mixed
          */
-        public function get($name=null, $filters=null, $defaultValue=null)
+        public function get($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null)
         {
         }
 
@@ -94,12 +92,7 @@ namespace Phalcon\Http {
          * @param boolean noRecursive
          * @return mixed
          */
-        public function getPost($name=null, $filters=null, $defaultValue=null)
-        {
-        }
-
-
-        public function getPut($name=null, $filters=null, $defaultValue=null)
+        public function getPost($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null)
         {
         }
 
@@ -126,7 +119,7 @@ namespace Phalcon\Http {
          * @param boolean noRecursive
          * @return mixed
          */
-        public function getQuery($name=null, $filters=null, $defaultValue=null)
+        public function getQuery($name=null, $filters=null, $defaultValue=null, $notAllowEmpty=null, $noRecursive=null)
         {
         }
 
@@ -164,11 +157,6 @@ namespace Phalcon\Http {
         }
 
 
-        public function hasPut($name)
-        {
-        }
-
-
         /**
          * Checks whether $_GET superglobal has certain index
          *
@@ -186,7 +174,7 @@ namespace Phalcon\Http {
          * @param string name
          * @return boolean
          */
-        public function hasServer($name)
+        final public function hasServer($name)
         {
         }
 
@@ -197,7 +185,7 @@ namespace Phalcon\Http {
          * @param string header
          * @return string
          */
-        public function getHeader($header)
+        final public function getHeader($header)
         {
         }
 
@@ -308,12 +296,7 @@ namespace Phalcon\Http {
          *
          * @return string
          */
-        public function getMethod()
-        {
-        }
-
-
-        public function getURI()
+        final public function getMethod()
         {
         }
 
@@ -416,7 +399,12 @@ namespace Phalcon\Http {
          * @param boolean onlySuccessful
          * @return boolean
          */
-        public function hasFiles($notErrored=null)
+        public function hasFiles($onlySuccessful=null)
+        {
+        }
+
+
+        private function hasFileHelper($data, $onlySuccessful)
         {
         }
 
@@ -428,6 +416,21 @@ namespace Phalcon\Http {
          * @return \Phalcon\Http\Request\File[]
          */
         public function getUploadedFiles($notErrored=null)
+        {
+        }
+
+
+        /**
+         * smooth out $_FILES to have plain array with all files uploaded
+         *
+         * @param array names
+         * @param array types
+         * @param array tmp_names
+         * @param array sizes
+         * @param array errors
+         * @return array
+         */
+        protected function smoothFiles($names, $types, $tmp_names, $sizes, $errors, $prefix)
         {
         }
 
@@ -459,7 +462,7 @@ namespace Phalcon\Http {
          * @param string name
          * @return array
          */
-        protected function _getQualityHeader()
+        protected function _getQualityHeader($serverIndex, $name)
         {
         }
 
@@ -471,7 +474,7 @@ namespace Phalcon\Http {
          * @param string name
          * @return string
          */
-        protected function _getBestQuality()
+        protected function _getBestQuality($qualityParts, $name)
         {
         }
 

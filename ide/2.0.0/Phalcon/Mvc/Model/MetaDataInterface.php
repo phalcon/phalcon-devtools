@@ -15,7 +15,7 @@ namespace Phalcon\Mvc\Model {    interface MetaDataInterface
         public function readMetaDataIndex($model, $index);
 
 
-        public function writeMetaDataIndex($model, $index, $data, $replace);
+        public function writeMetaDataIndex($model, $index, $data);
 
 
         public function readColumnMap($model);
@@ -54,10 +54,10 @@ namespace Phalcon\Mvc\Model {    interface MetaDataInterface
         public function getAutomaticUpdateAttributes($model);
 
 
-        public function setAutomaticCreateAttributes($model, $attributes, $replace);
+        public function setAutomaticCreateAttributes($model, $attributes);
 
 
-        public function setAutomaticUpdateAttributes($model, $attributes, $replace);
+        public function setAutomaticUpdateAttributes($model, $attributes);
 
 
         public function getColumnMap($model);

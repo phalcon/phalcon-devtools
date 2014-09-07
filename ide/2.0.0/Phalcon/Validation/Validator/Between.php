@@ -27,7 +27,7 @@ namespace Phalcon\Validation\Validator {
          * @param string field
          * @return boolean
          */
-        public function validate($validator, $attribute)
+        public function validate($validation, $field)
         {
         }
 

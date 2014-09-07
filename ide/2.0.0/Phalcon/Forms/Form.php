@@ -7,7 +7,7 @@ namespace Phalcon\Forms {
      *
      * This component allows to build forms using an object-oriented interface
      */
-    class Form extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Countable, \Iterator, \Traversable
+    class Form extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface, \Countable, \Iterator, \Traversable
     {
 
         protected $_position;
@@ -25,6 +25,18 @@ namespace Phalcon\Forms {
         protected $_messages;
 
         protected $_action;
+
+        protected $_validation;
+
+        public function setValidation($validation)
+        {
+        }
+
+
+        public function getValidation()
+        {
+        }
+
 
         /**
          * \Phalcon\Forms\Form constructor

@@ -16,8 +16,6 @@ namespace Phalcon\Validation {
 
         protected $_field;
 
-        protected $_code;
-
         /**
          * \Phalcon\Validation\Message constructor
          *
@@ -25,7 +23,7 @@ namespace Phalcon\Validation {
          * @param string field
          * @param string type
          */
-        public function __construct($message, $field=null, $type=null, $code=null)
+        public function __construct($message, $field=null, $type=null)
         {
         }
 
@@ -47,16 +45,6 @@ namespace Phalcon\Validation {
          * @return string
          */
         public function getType()
-        {
-        }
-
-
-        public function setCode($code)
-        {
-        }
-
-
-        public function getCode()
         {
         }
 

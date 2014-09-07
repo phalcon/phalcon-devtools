@@ -21,32 +21,62 @@ namespace Phalcon\Db\Profiler {
 
         protected $_finalTime;
 
-        public function setSQLStatement($sqlStatement)
+        /**
+         * SQL statement related to the profile
+         *
+         * @var string
+         */
+        public function setSqlStatement($sqlStatement)
         {
         }
 
 
-        public function getSQLStatement()
+        /**
+         * SQL statement related to the profile
+         *
+         * @var string
+         */
+        public function getSqlStatement()
         {
         }
 
 
-        public function setSQLVariables($sqlVariables)
+        /**
+         * SQL variables related to the profile
+         *
+         * @var array
+         */
+        public function setSqlVariables($sqlVariables)
         {
         }
 
 
-        public function getSQLVariables()
+        /**
+         * SQL variables related to the profile
+         *
+         * @var array
+         */
+        public function getSqlVariables()
         {
         }
 
 
-        public function setSQLBindTypes($sqlBindTypes)
+        /**
+         * SQL bind types related to the profile
+         *
+         * @var array
+         */
+        public function setSqlBindTypes($sqlBindTypes)
         {
         }
 
 
-        public function getSQLBindTypes()
+        /**
+         * SQL bind types related to the profile
+         *
+         * @var array
+         */
+        public function getSqlBindTypes()
         {
         }
 
@@ -62,21 +92,21 @@ namespace Phalcon\Db\Profiler {
 
 
         /**
-         * Timestamp when the profile ended
-         *
-         * @var double
-         */
-        public function setFinalTime($finalTime)
-        {
-        }
-
-
-        /**
          * Timestamp when the profile started
          *
          * @var double
          */
         public function getInitialTime()
+        {
+        }
+
+
+        /**
+         * Timestamp when the profile ended
+         *
+         * @var double
+         */
+        public function setFinalTime($finalTime)
         {
         }
 

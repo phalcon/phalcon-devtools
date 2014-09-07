@@ -30,7 +30,7 @@ namespace Phalcon\Session {    interface AdapterInterface
         public function isStarted();
 
 
-        public function destroy($session_id=null);
+        public function destroy();
 
     }
 }

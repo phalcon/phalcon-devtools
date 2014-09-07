@@ -24,19 +24,29 @@ namespace Phalcon\Session\Adapter {
      * echo $session->get('var');
      *</code>
      */
-    class Memcache extends \Phalcon\Session\Adapter implements \ArrayAccess, \Traversable, \IteratorAggregate, \Countable, \Phalcon\Session\AdapterInterface
+    class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
     {
+
+        protected $_memcache;
 
         protected $_lifetime;
 
-        protected $_memcache;
+        public function getMemcache()
+        {
+        }
+
+
+        public function getLifetime()
+        {
+        }
+
 
         /**
          * \Phalcon\Session\Adapter\Memcache constructor
          *
          * @param array options
          */
-        public function __construct($options)
+        public function __construct($options=null)
         {
         }
 
@@ -79,7 +89,7 @@ namespace Phalcon\Session\Adapter {
          * @param  string  sessionId
          * @return boolean
          */
-        public function destroy($sessionId=null)
+        public function destroy($session_id=null)
         {
         }
 

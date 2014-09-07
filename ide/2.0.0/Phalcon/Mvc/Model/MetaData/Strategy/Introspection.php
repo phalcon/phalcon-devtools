@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy {
      *
      * Queries the table meta-data in order to instrospect the model's metadata
      */
-    class Introspection
+    class Introspection implements \Phalcon\Mvc\Model\MetaData\StrategyInterface
     {
 
         /**
@@ -17,7 +17,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy {
          * @param \Phalcon\DiInterface dependencyInjector
          * @return array
          */
-        public function getMetaData($model, $dependencyInjector)
+        final public function getMetaData($model, $dependencyInjector)
         {
         }
 
@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy {
          * @param \Phalcon\DiInterface dependencyInjector
          * @return array
          */
-        public function getColumnMaps($model, $dependencyInjector)
+        final public function getColumnMaps($model, $dependencyInjector)
         {
         }
 

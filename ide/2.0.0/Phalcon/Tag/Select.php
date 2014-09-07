@@ -29,7 +29,7 @@ namespace Phalcon\Tag {
          * @param mixed value
          * @param string closeOption
          */
-        protected static function _optionsFromResultset()
+        private static function _optionsFromResultset($resultset, $using, $value, $closeOption)
         {
         }
 
@@ -41,7 +41,7 @@ namespace Phalcon\Tag {
          * @param mixed value
          * @param string closeOption
          */
-        protected static function _optionsFromArray()
+        private static function _optionsFromArray($data, $value, $closeOption)
         {
         }
 

@@ -23,7 +23,7 @@ namespace Phalcon\Mvc {
      * echo $view->getContent();
      * </code>
      */
-    class View extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\ViewInterface
+    class View extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\ViewInterface
     {
 
         const LEVEL_MAIN_LAYOUT = 5;
@@ -37,6 +37,10 @@ namespace Phalcon\Mvc {
         const LEVEL_ACTION_VIEW = 1;
 
         const LEVEL_NO_RENDER = 0;
+
+        const CACHE_MODE_NONE = 0;
+
+        const CACHE_MODE_INVERSE = 1;
 
         protected $_options;
 
@@ -85,6 +89,21 @@ namespace Phalcon\Mvc {
         protected $_activeRenderPath;
 
         protected $_disabled;
+
+        public function getRenderLevel()
+        {
+        }
+
+
+        public function getCurrentRenderLevel()
+        {
+        }
+
+
+        public function getRegisteredEngines()
+        {
+        }
+
 
         /**
          * \Phalcon\Mvc\View constructor
@@ -182,16 +201,6 @@ namespace Phalcon\Mvc {
         }
 
 
-        public function getCurrentRenderLevel()
-        {
-        }
-
-
-        public function getRenderLevel()
-        {
-        }
-
-
         /**
          * Sets the render level for the view
          *
@@ -220,11 +229,6 @@ namespace Phalcon\Mvc {
          * @return \Phalcon\Mvc\View
          */
         public function disableLevel($level)
-        {
-        }
-
-
-        public function getDisabledLevels()
         {
         }
 
@@ -450,7 +454,7 @@ namespace Phalcon\Mvc {
          * @param boolean mustClean
          * @param \Phalcon\Cache\BackendInterface $cache
          */
-        protected function _engineRender()
+        protected function _engineRender($engines, $viewPath, $silence, $mustClean, $cache=null)
         {
         }
 
@@ -470,11 +474,6 @@ namespace Phalcon\Mvc {
          * @return \Phalcon\Mvc\View
          */
         public function registerEngines($engines)
-        {
-        }
-
-
-        public function getRegisteredEngines()
         {
         }
 
@@ -550,7 +549,7 @@ namespace Phalcon\Mvc {
          * @param string partialPath
          * @param array params
          */
-        public function partial($partialPath)
+        public function partial($partialPath, $params=null)
         {
         }
 
@@ -683,11 +682,6 @@ namespace Phalcon\Mvc {
         }
 
 
-        public function isDisabled()
-        {
-        }
-
-
         /**
          * Resets the view component to its factory default values
          *
@@ -708,7 +702,7 @@ namespace Phalcon\Mvc {
          * @param string key
          * @param mixed value
          */
-        public function __set($property, $value)
+        public function __set($key, $value)
         {
         }
 
@@ -723,12 +717,7 @@ namespace Phalcon\Mvc {
          * @param string key
          * @return mixed
          */
-        public function __get($property)
-        {
-        }
-
-
-        public function __isset($property)
+        public function __get($key)
         {
         }
 

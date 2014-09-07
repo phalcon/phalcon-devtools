@@ -3,6 +3,9 @@
 namespace Phalcon\Mvc\Router {    interface RouteInterface
         {
 
+        public function __construct($pattern, $paths=null, $httpMethods=null);
+
+
         public function compilePattern($pattern);
 
 
@@ -31,6 +34,9 @@ namespace Phalcon\Mvc\Router {    interface RouteInterface
 
 
         public function getPaths();
+
+
+        public function getReversedPaths();
 
 
         public function getHttpMethods();

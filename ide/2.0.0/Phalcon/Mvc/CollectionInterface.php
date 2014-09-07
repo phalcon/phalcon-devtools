@@ -3,6 +3,9 @@
 namespace Phalcon\Mvc {    interface CollectionInterface
         {
 
+        public function __construct($dependencyInjector=null);
+
+
         public function setId($id);
 
 

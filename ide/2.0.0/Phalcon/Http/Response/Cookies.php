@@ -8,7 +8,7 @@ namespace Phalcon\Http\Response {
      * This class is a bag to manage the cookies
      * A cookies bag is automatically registered as part of the 'response' service in the DI
      */
-    class Cookies implements \Phalcon\Http\Response\CookiesInterface, \Phalcon\DI\InjectionAwareInterface
+    class Cookies implements \Phalcon\Http\Response\CookiesInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_dependencyInjector;

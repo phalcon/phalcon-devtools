@@ -3,10 +3,7 @@
 namespace Phalcon\Mvc\Model\Query {    interface BuilderInterface
         {
 
-        public function distinct($distinct);
-
-
-        public function getDistinct();
+        public function __construct($params=null);
 
 
         public function columns($columns);

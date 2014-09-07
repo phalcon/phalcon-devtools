@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\Model {
      *
      * This is a base class for Phalcon\Mvc\Model validators
      */
-    abstract class Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+    abstract class Validator
     {
 
         protected $_options;
@@ -31,7 +31,7 @@ namespace Phalcon\Mvc\Model {
          * @param string field
          * @param string type
          */
-        protected function appendMessage()
+        protected function appendMessage($message, $field=null, $type=null)
         {
         }
 
@@ -51,7 +51,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @return array
          */
-        public function getOptions()
+        protected function getOptions()
         {
         }
 
@@ -62,7 +62,7 @@ namespace Phalcon\Mvc\Model {
          * @param	string option
          * @return	mixed
          */
-        public function getOption()
+        protected function getOption($option)
         {
         }
 
@@ -73,7 +73,7 @@ namespace Phalcon\Mvc\Model {
          * @param	string option
          * @return	boolean
          */
-        public function isSetOption()
+        protected function isSetOption($option)
         {
         }
 

@@ -18,7 +18,7 @@ namespace Phalcon\Mvc\Model\Transaction {
          * @param string message
          * @param \Phalcon\Mvc\ModelInterface record
          */
-        public function __construct($message, $record)
+        public function __construct($message, $record=null)
         {
         }
 

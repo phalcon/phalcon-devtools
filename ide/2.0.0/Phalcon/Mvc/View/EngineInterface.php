@@ -3,6 +3,9 @@
 namespace Phalcon\Mvc\View {    interface EngineInterface
         {
 
+        public function __construct($view, $dependencyInjector=null);
+
+
         public function getContent();
 
 

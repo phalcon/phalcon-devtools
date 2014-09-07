@@ -7,7 +7,7 @@ namespace Phalcon\Db {
      *
      * Base class for Phalcon\Db adapters
      */
-    abstract class Adapter implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Db\AdapterInterface
+    abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     {
 
         protected $_eventsManager;
@@ -35,11 +35,37 @@ namespace Phalcon\Db {
         protected static $_connectionConsecutive;
 
         /**
+         * Name of the dialect used
+         */
+        public function getDialectType()
+        {
+        }
+
+
+        /**
+         * Type of database system the adapter is used for
+         */
+        public function getType()
+        {
+        }
+
+
+        /**
+         * Active SQL bound parameter variables
+         *
+         * @var string
+         */
+        public function getSqlVariables()
+        {
+        }
+
+
+        /**
          * \Phalcon\Db\Adapter constructor
          *
          * @param array descriptor
          */
-        protected function __construct()
+        public function __construct($descriptor)
         {
         }
 
@@ -103,7 +129,7 @@ namespace Phalcon\Db {
          * @param array bindTypes
          * @return array
          */
-        public function fetchOne($sqlQuery, $fetchMode=null, $placeholders=null)
+        public function fetchOne($sqlQuery, $fetchMode=null, $bindParams=null, $bindTypes=null)
         {
         }
 
@@ -134,7 +160,30 @@ namespace Phalcon\Db {
          * @param array bindTypes
          * @return array
          */
-        public function fetchAll($sqlQuery, $fetchMode=null, $placeholders=null)
+        public function fetchAll($sqlQuery, $fetchMode=null, $bindParams=null, $bindTypes=null)
+        {
+        }
+
+
+        /**
+         * Returns the n'th field of first row in a SQL query result
+         *
+         *<code>
+         *    //Getting count of robots
+         *    $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+         *    print_r($robotsCount);
+         *
+         *    //Getting name of last edited robot
+         *    $robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc");
+         *    print_r($robot);
+         *</code>
+         *
+         * @param  string sqlQuery
+         * @param  array placeholders
+         * @param  int|string column
+         * @return string|
+         */
+        public function fetchColumn($sqlQuery, $placeholders=null, $column=null)
         {
         }
 
@@ -166,6 +215,34 @@ namespace Phalcon\Db {
 
 
         /**
+         * Inserts data into a table using custom RBDM SQL syntax
+         * Another, more convenient syntax
+         *
+         * <code>
+         * //Inserting a new robot
+         * $success = $connection->insert(
+         *     "robots",
+         *     array(
+         *          "name" => "Astro Boy",
+         *          "year" => 1952
+         *      )
+         * );
+         *
+         * //Next SQL sentence is sent to the database system
+         * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+         * </code>
+         *
+         * @param 	string table
+         * @param 	array data
+         * @param 	array dataTypes
+         * @return 	boolean
+         */
+        public function insertAsDict($table, $data, $dataTypes=null)
+        {
+        }
+
+
+        /**
          * Updates data on a table using custom RBDM SQL syntax
          *
          * <code>
@@ -189,6 +266,35 @@ namespace Phalcon\Db {
          * @return 	boolean
          */
         public function update($table, $fields, $values, $whereCondition=null, $dataTypes=null)
+        {
+        }
+
+
+        /**
+         * Updates data on a table using custom RBDM SQL syntax
+         * Another, more convenient syntax
+         *
+         * <code>
+         * //Updating existing robot
+         * $success = $connection->update(
+         *     "robots",
+         *     array(
+         *          "name" => "New Astro Boy"
+         *      ),
+         *     "id = 101"
+         * );
+         *
+         * //Next SQL sentence is sent to the database system
+         * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+         * </code>
+         *
+         * @param 	string table
+         * @param 	array data
+         * @param 	string whereCondition
+         * @param 	array dataTypes
+         * @return 	boolean
+         */
+        public function updateAsDict($table, $data, $whereCondition=null, $dataTypes=null)
         {
         }
 
@@ -699,33 +805,12 @@ namespace Phalcon\Db {
         }
 
 
-        public function getSQLVariables()
-        {
-        }
-
-
         /**
          * Active SQL statement in the object
          *
          * @return array
          */
         public function getSQLBindTypes()
-        {
-        }
-
-
-        /**
-         * Type of database system the adapter is used for
-         */
-        public function getType()
-        {
-        }
-
-
-        /**
-         * Name of the dialect used
-         */
-        public function getDialectType()
         {
         }
 

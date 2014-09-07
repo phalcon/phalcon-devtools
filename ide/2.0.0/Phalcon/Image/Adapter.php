@@ -1,11 +1,9 @@
 <?php 
 
-namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\AdapterInterface
+namespace Phalcon\Image {    abstract class Adapter
     {
 
         protected $_image;
-
-        protected static $_checked;
 
         protected $_file;
 
@@ -19,7 +17,14 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
 
         protected $_mime;
 
-        public function getRealPath()
+        protected static $_checked;
+
+        public function getImage()
+        {
+        }
+
+
+        public function getRealpath()
         {
         }
 
@@ -44,11 +49,6 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
         }
 
 
-        public function getImage()
-        {
-        }
-
-
         /**
          * Resize the image to the given size
          *
@@ -58,11 +58,6 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
          * @return \Phalcon\Image\Adapter
          */
         public function resize($width=null, $height=null, $master=null)
-        {
-        }
-
-
-        public function liquidRescale($width, $height, $delta_x=null, $rigidity=null)
         {
         }
 
@@ -122,7 +117,7 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
          * @param boolean fade_in
          * @return \Phalcon\Image\Adapter
          */
-        public function reflection($height=null, $opacity=null, $fade_in=null)
+        public function reflection($height, $opacity=null, $fade_in=null)
         {
         }
 
@@ -164,7 +159,7 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
          * @param \Phalcon\Image\Adapter watermark
          * @return \Phalcon\Image\Adapter
          */
-        public function mask($mask)
+        public function mask($watermark)
         {
         }
 
@@ -176,7 +171,7 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
          * @param int opacity
          * @return \Phalcon\Image\Adapter
          */
-        public function background($color, $quality=null)
+        public function background($color, $opacity=null)
         {
         }
 
@@ -187,7 +182,7 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
          * @param int radius
          * @return \Phalcon\Image\Adapter
          */
-        public function blur($radius=null)
+        public function blur($radius)
         {
         }
 
@@ -198,7 +193,7 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
          * @param int amount
          * @return \Phalcon\Image\Adapter
          */
-        public function pixelate($amount=null)
+        public function pixelate($amount)
         {
         }
 
@@ -222,82 +217,7 @@ namespace Phalcon\Image {    abstract class Adapter implements \Phalcon\Image\Ad
          * @param int quality
          * @return string
          */
-        public function render($type=null, $quality=null)
-        {
-        }
-
-
-        abstract protected function _resize($width, $height)
-        {
-        }
-
-
-        abstract protected function _liquidRescale($width, $height, $delta_x, $regidity)
-        {
-        }
-
-
-        abstract protected function _crop($width, $height, $offset_x, $offset_y)
-        {
-        }
-
-
-        abstract protected function _rotate($degrees)
-        {
-        }
-
-
-        abstract protected function _flip($direction)
-        {
-        }
-
-
-        abstract protected function _sharpen($amount)
-        {
-        }
-
-
-        abstract protected function _reflection($height, $opacity, $fade_in)
-        {
-        }
-
-
-        abstract protected function _watermark($watermark, $offset_x, $offset_y, $opacity)
-        {
-        }
-
-
-        abstract protected function _text($text, $offset_x, $offset_y, $opacity, $r, $g, $b, $size, $fontfile)
-        {
-        }
-
-
-        abstract protected function _mask($mask)
-        {
-        }
-
-
-        abstract protected function _background($r, $g, $b, $opacity)
-        {
-        }
-
-
-        abstract protected function _blur($radius)
-        {
-        }
-
-
-        abstract protected function _pixelate($amount)
-        {
-        }
-
-
-        abstract protected function _save($file, $quality)
-        {
-        }
-
-
-        abstract protected function _render($type, $quality)
+        public function render($ext=null, $quality=null)
         {
         }
 

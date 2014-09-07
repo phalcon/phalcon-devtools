@@ -3,6 +3,9 @@
 namespace Phalcon\Mvc\Model {    interface TransactionInterface
         {
 
+        public function __construct($dependencyInjector, $autoBegin=null, $service=null);
+
+
         public function setTransactionManager($manager);
 
 

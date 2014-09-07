@@ -3,6 +3,9 @@
 namespace Phalcon\Db {    interface AdapterInterface
         {
 
+        public function __construct($descriptor);
+
+
         public function fetchOne($sqlQuery, $fetchMode=null, $placeholders=null);
 
 
@@ -132,19 +135,16 @@ namespace Phalcon\Db {    interface AdapterInterface
         public function escapeString($str);
 
 
-        public function convertBoundParams($sqlStatement, $params);
-
-
         public function lastInsertId($sequenceName=null);
 
 
-        public function begin();
+        public function begin($nesting=null);
 
 
-        public function rollback();
+        public function rollback($nesting=null);
 
 
-        public function commit();
+        public function commit($nesting=null);
 
 
         public function isUnderTransaction();

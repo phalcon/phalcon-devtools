@@ -19,26 +19,8 @@ namespace Phalcon {
      *	}
      *</code>
      */
-    class Security implements \Phalcon\DI\InjectionAwareInterface
+    class Security implements \Phalcon\Di\InjectionAwareInterface
     {
-
-        const CRYPT_DEFAULT = 0;
-
-        const CRYPT_STD_DES = 1;
-
-        const CRYPT_EXT_DES = 2;
-
-        const CRYPT_MD5 = 3;
-
-        const CRYPT_BLOWFISH = 4;
-
-        const CRYPT_BLOWFISH_X = 5;
-
-        const CRYPT_BLOWFISH_Y = 6;
-
-        const CRYPT_SHA256 = 7;
-
-        const CRYPT_SHA512 = 8;
 
         protected $_dependencyInjector;
 
@@ -48,7 +30,15 @@ namespace Phalcon {
 
         protected $_csrf;
 
-        protected $_defaultHash;
+        public function setWorkFactor($workFactor)
+        {
+        }
+
+
+        public function getWorkFactor()
+        {
+        }
+
 
         /**
          * Sets the dependency injector
@@ -90,16 +80,6 @@ namespace Phalcon {
         }
 
 
-        public function setWorkFactor($workFactor)
-        {
-        }
-
-
-        public function getWorkFactor()
-        {
-        }
-
-
         /**
          * Generate a >22-length pseudo random string to be used as salt for passwords
          *
@@ -117,7 +97,7 @@ namespace Phalcon {
          * @param int workFactor
          * @return string
          */
-        public function hash($password, $workFactor=null)
+        public function hash($password, $workFactor)
         {
         }
 
@@ -130,7 +110,7 @@ namespace Phalcon {
          * @param int maxPasswordLength
          * @return boolean
          */
-        public function checkHash($password, $passwordHash, $maxPasswordLength=null)
+        public function checkHash($password, $passwordHash, $maxPassLength=null)
         {
         }
 
@@ -142,7 +122,7 @@ namespace Phalcon {
          * @param string passwordHash
          * @return boolean
          */
-        public function isLegacyHash($passwordHash)
+        public function isLegacyHash($password, $passwordHash)
         {
         }
 
@@ -200,27 +180,7 @@ namespace Phalcon {
          * @param string algo
          * @param boolean raw
          */
-        public static function computeHmac($data, $key, $algo, $raw=null)
-        {
-        }
-
-
-        public static function deriveKey($password, $salt, $hash=null, $iterations=null, $size=null)
-        {
-        }
-
-
-        public static function pbkdf2($password, $salt, $hash=null, $iterations=null, $size=null)
-        {
-        }
-
-
-        public function getDefaultHash()
-        {
-        }
-
-
-        public function setDefaultHash($hash)
+        public function computeHmac($data, $key, $algo, $raw=null)
         {
         }
 

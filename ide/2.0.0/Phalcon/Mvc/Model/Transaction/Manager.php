@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\Model\Transaction {
      *</code>
      *
      */
-    class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, \Phalcon\DI\InjectionAwareInterface
+    class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, \Phalcon\Di\InjectionAwareInterface
     {
 
         protected $_dependencyInjector;
@@ -219,7 +219,7 @@ namespace Phalcon\Mvc\Model\Transaction {
          *
          * @param \Phalcon\Mvc\Model\TransactionInterface transaction
          */
-        protected function _collectTransaction()
+        protected function _collectTransaction($transaction)
         {
         }
 

@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phalcon\Mvc\User {    class Component extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface
+namespace Phalcon\Mvc\User {    class Component extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Di\InjectionAwareInterface
     {
     }
 }

@@ -8,7 +8,7 @@ namespace Phalcon\Mvc {
      * This component implements a high level abstraction for NoSQL databases which
      * works with documents
      */
-    class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\DI\InjectionAwareInterface, \Serializable
+    class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
     {
 
         const OP_NONE = 0;
@@ -43,7 +43,7 @@ namespace Phalcon\Mvc {
          * @param \Phalcon\DiInterface dependencyInjector
          * @param \Phalcon\Mvc\Collection\ManagerInterface modelsManager
          */
-        final public function __construct($dependencyInjector=null)
+        final public function __construct($dependencyInjector=null, $modelsManager=null)
         {
         }
 
@@ -133,7 +133,7 @@ namespace Phalcon\Mvc {
          *
          * @param boolean useImplicitObjectIds
          */
-        protected function useImplicitObjectIds()
+        protected function useImplicitObjectIds($useImplicitObjectIds)
         {
         }
 
@@ -144,7 +144,7 @@ namespace Phalcon\Mvc {
          * @param string source
          * @return \Phalcon\Mvc\Collection
          */
-        protected function setSource()
+        protected function setSource($source)
         {
         }
 
@@ -241,7 +241,7 @@ namespace Phalcon\Mvc {
          * @param boolean unique
          * @return array
          */
-        protected static function _getResultset()
+        protected static function _getResultset($params, $collection, $connection, $unique)
         {
         }
 
@@ -254,7 +254,7 @@ namespace Phalcon\Mvc {
          * @param \MongoDb connection
          * @return int
          */
-        protected static function _getGroupResultset()
+        protected static function _getGroupResultset($params, $collection, $connection)
         {
         }
 
@@ -267,7 +267,7 @@ namespace Phalcon\Mvc {
          * @param boolean exists
          * @return boolean
          */
-        protected function _preSave()
+        protected function _preSave($dependencyInjector, $disableEvents, $exists)
         {
         }
 
@@ -280,7 +280,7 @@ namespace Phalcon\Mvc {
          * @param boolean exists
          * @return boolean
          */
-        protected function _postSave()
+        protected function _postSave($disableEvents, $success, $exists)
         {
         }
 
@@ -310,7 +310,7 @@ namespace Phalcon\Mvc {
          *
          * @param object validator
          */
-        protected function validate()
+        protected function validate($validator)
         {
         }
 
@@ -372,7 +372,7 @@ namespace Phalcon\Mvc {
          *
          * @return boolean
          */
-        protected function _cancelOperation()
+        protected function _cancelOperation($disableEvents)
         {
         }
 
@@ -383,7 +383,7 @@ namespace Phalcon\Mvc {
          * @param \MongoCollection collection
          * @return boolean
          */
-        protected function _exists()
+        protected function _exists($collection)
         {
         }
 
@@ -624,12 +624,7 @@ namespace Phalcon\Mvc {
          *
          * @param string data
          */
-        public function unserialize($serialized=null)
-        {
-        }
-
-
-        public static function execute($code, $args=null)
+        public function unserialize($data)
         {
         }
 

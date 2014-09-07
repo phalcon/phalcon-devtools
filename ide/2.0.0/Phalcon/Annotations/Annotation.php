@@ -105,7 +105,7 @@ namespace Phalcon\Annotations {
          * @param string name
          * @return mixed
          */
-        public function getNamedArgument($position)
+        public function getNamedArgument($name)
         {
         }
 
@@ -116,12 +116,7 @@ namespace Phalcon\Annotations {
          * @param string name
          * @return mixed
          */
-        public function getNamedParameter($position)
-        {
-        }
-
-
-        public function hasNamedArgument($position)
+        public function getNamedParameter($name)
         {
         }
 

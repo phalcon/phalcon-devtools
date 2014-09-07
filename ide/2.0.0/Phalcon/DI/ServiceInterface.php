@@ -1,7 +1,10 @@
 <?php 
 
-namespace Phalcon\DI {    interface ServiceInterface
+namespace Phalcon\Di {    interface ServiceInterface
         {
+
+        public function __construct($name, $definition, $shared=null);
+
 
         public function getName();
 
@@ -18,10 +21,10 @@ namespace Phalcon\DI {    interface ServiceInterface
         public function getDefinition();
 
 
-        public function isResolved();
-
-
         public function resolve($parameters=null, $dependencyInjector=null);
+
+
+        public static function __set_state($attributes);
 
     }
 }

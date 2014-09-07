@@ -3,6 +3,9 @@
 namespace Phalcon\Db {    interface ReferenceInterface
         {
 
+        public function __construct($referenceName, $definition);
+
+
         public function getName();
 
 
@@ -19,6 +22,15 @@ namespace Phalcon\Db {    interface ReferenceInterface
 
 
         public function getReferencedColumns();
+
+
+        public function getOnDelete();
+
+
+        public function getOnUpdate();
+
+
+        public static function __set_state($data);
 
     }
 }
