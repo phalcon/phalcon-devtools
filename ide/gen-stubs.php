@@ -12,7 +12,7 @@ if (!extension_loaded('phalcon')) {
 	throw new Exception("phalcon extension isn't installed");
 }
 
-define('CPHALCON_DIR' , '/home/boston/gits/phalcon/core/ext/');
+define('CPHALCON_DIR' , realpath(__DIR__ . '/../../cphalcon/ext/'));
 
 if (!file_exists(CPHALCON_DIR)) {
 	throw new Exception("CPHALCON directory does not exist");
@@ -42,6 +42,7 @@ class Stubs_Generator
 
 	protected function _getDocs($file)
 	{
+		echo "Get content : " . $file . "\n";
 		$firstDoc = true;
 		$openComment = false;
 		$nextLineMethod = false;
@@ -362,10 +363,10 @@ foreach ($allClasses as $className) {
 
 	$source.='}'.PHP_EOL;
 
-	$path = 'ide/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
+	$path = realpath (__DIR__) . '/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
 	if (!is_dir($path)) {
 		mkdir($path, 0777, true);
 	}
-
+        echo "Generating : " . $path . "\n";
 	file_put_contents($path . DIRECTORY_SEPARATOR . $normalClassName . '.php', $source);
 }
