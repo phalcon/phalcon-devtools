@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Filter {    interface UserFilterInterface
+namespace Phalcon\Filter {
+
+    /**
+     * Lacks of documentation
+     */
+    interface UserFilterInterface
         {
 
         public function filter($value);

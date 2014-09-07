@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    interface ManagerInterface
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ManagerInterface
         {
 
         public function initialize($model);

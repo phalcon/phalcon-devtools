@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    interface QueryInterface
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    interface QueryInterface
         {
 
         public function parse();

@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Db {    interface AdapterInterface
+namespace Phalcon\Db {
+
+    /**
+     * Lacks of documentation
+     */
+    interface AdapterInterface
         {
 
         public function __construct($descriptor);

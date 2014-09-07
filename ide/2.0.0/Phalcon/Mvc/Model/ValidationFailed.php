@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    class ValidationFailed extends \Phalcon\Mvc\Model\Exception
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    class ValidationFailed extends \Phalcon\Mvc\Model\Exception
     {
 
         protected $_model;

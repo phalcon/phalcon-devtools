@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Url {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Mvc\Url {
+
+    /**
+     * Lacks of documentation
+     */
+    class Exception extends \Phalcon\Exception
     {
     }
 }

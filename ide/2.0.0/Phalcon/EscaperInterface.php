@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    interface EscaperInterface
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    interface EscaperInterface
         {
 
         public function setEncoding($encoding);

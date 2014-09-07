@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Di {    interface InjectionAwareInterface
+namespace Phalcon\Di {
+
+    /**
+     * Lacks of documentation
+     */
+    interface InjectionAwareInterface
         {
 
         public function setDI($dependencyInjector);

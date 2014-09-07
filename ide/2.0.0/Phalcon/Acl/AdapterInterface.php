@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Acl {    interface AdapterInterface
+namespace Phalcon\Acl {
+
+    /**
+     * Lacks of documentation
+     */
+    interface AdapterInterface
         {
 
         public function setDefaultAction($defaultAccess);

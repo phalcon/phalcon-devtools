@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Db {    interface ColumnInterface
+namespace Phalcon\Db {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ColumnInterface
         {
 
         public function __construct($columnName, $definition);

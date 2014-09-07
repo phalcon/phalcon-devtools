@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    interface CryptInterface
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    interface CryptInterface
         {
 
         public function setCipher($cipher);

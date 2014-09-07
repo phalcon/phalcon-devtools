@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Flash {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Flash {
+
+    /**
+     * Lacks of documentation
+     */
+    class Exception extends \Phalcon\Exception
     {
     }
 }

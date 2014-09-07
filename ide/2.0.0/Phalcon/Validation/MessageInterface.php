@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Validation {    interface MessageInterface
+namespace Phalcon\Validation {
+
+    /**
+     * Lacks of documentation
+     */
+    interface MessageInterface
         {
 
         public function __construct($message, $field=null, $type=null);

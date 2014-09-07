@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Paginator {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Paginator {
+
+    /**
+     * Lacks of documentation
+     */
+    class Exception extends \Phalcon\Exception
     {
     }
 }

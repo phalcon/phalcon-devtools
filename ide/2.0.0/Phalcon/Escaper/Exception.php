@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Escaper {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Escaper {
+
+    /**
+     * Lacks of documentation
+     */
+    class Exception extends \Phalcon\Exception
     {
     }
 }

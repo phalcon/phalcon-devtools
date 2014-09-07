@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Config\Adapter {    class Ini extends \Phalcon\Config implements \ArrayAccess
+namespace Phalcon\Config\Adapter {
+
+    /**
+     * Lacks of documentation
+     */
+    class Ini extends \Phalcon\Config implements \ArrayAccess
     {
 
         /**

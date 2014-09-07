@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    interface TransactionInterface
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    interface TransactionInterface
         {
 
         public function __construct($dependencyInjector, $autoBegin=null, $service=null);

@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc {    interface DispatcherInterface extends \Phalcon\DispatcherInterface
+namespace Phalcon\Mvc {
+
+    /**
+     * Lacks of documentation
+     */
+    interface DispatcherInterface extends \Phalcon\DispatcherInterface
         {
 
         public function setControllerSuffix($controllerSuffix);

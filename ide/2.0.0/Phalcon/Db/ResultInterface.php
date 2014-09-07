@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Db {    interface ResultInterface
+namespace Phalcon\Db {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ResultInterface
         {
 
         public function __construct($connection, $result, $sqlStatement=null, $bindParams=null, $bindTypes=null);

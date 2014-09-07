@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Http\Response {    interface CookiesInterface
+namespace Phalcon\Http\Response {
+
+    /**
+     * Lacks of documentation
+     */
+    interface CookiesInterface
         {
 
         public function useEncryption($useEncryption);

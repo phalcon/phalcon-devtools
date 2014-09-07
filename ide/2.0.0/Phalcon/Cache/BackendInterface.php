@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Cache {    interface BackendInterface
+namespace Phalcon\Cache {
+
+    /**
+     * Lacks of documentation
+     */
+    interface BackendInterface
         {
 
         public function start($keyName, $lifetime=null);

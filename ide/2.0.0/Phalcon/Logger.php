@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    abstract class Logger
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    abstract class Logger
     {
 
         const SPECIAL = 9;

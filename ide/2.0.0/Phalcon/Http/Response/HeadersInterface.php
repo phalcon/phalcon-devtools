@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Http\Response {    interface HeadersInterface
+namespace Phalcon\Http\Response {
+
+    /**
+     * Lacks of documentation
+     */
+    interface HeadersInterface
         {
 
         public function set($name, $value);

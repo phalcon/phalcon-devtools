@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model\Query {    interface StatusInterface
+namespace Phalcon\Mvc\Model\Query {
+
+    /**
+     * Lacks of documentation
+     */
+    interface StatusInterface
         {
 
         public function __construct($success, $model);

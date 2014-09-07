@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Http {    interface RequestInterface
+namespace Phalcon\Http {
+
+    /**
+     * Lacks of documentation
+     */
+    interface RequestInterface
         {
 
         public function get($name=null, $filters=null, $defaultValue=null);

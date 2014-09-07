@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc {    interface CollectionInterface
+namespace Phalcon\Mvc {
+
+    /**
+     * Lacks of documentation
+     */
+    interface CollectionInterface
         {
 
         public function __construct($dependencyInjector=null);

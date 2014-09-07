@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    interface ValidatorInterface
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ValidatorInterface
         {
 
         public function getMessages();

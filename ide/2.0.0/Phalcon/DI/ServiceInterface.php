@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Di {    interface ServiceInterface
+namespace Phalcon\Di {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ServiceInterface
         {
 
         public function __construct($name, $definition, $shared=null);

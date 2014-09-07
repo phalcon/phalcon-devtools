@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Http\Request {    interface FileInterface
+namespace Phalcon\Http\Request {
+
+    /**
+     * Lacks of documentation
+     */
+    interface FileInterface
         {
 
         public function __construct($file, $key=null);

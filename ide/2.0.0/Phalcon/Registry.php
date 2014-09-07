@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    class Registry implements \ArrayAccess
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    class Registry implements \ArrayAccess
     {
 
         public function offsetExists($offset)

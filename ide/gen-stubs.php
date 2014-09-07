@@ -130,6 +130,10 @@ if ($genVersion != $extGenVersion) {
    throw new Exception("phalcon extension version installed ( " . $extGenVersion ." ) differs from code version ( " . $genVersion ." )");
 }
 
+$initialPath = realpath (__DIR__) . '/' . $genVersion . '/';
+
+exec("rm -rf {$initialPath}");
+
 $api = new Stubs_Generator(CPHALCON_DIR);
 
 $classDocs = $api->getClassDocs();
@@ -155,7 +159,9 @@ foreach ($allClasses as $className) {
 		foreach (explode("\n", $classDocs[$simpleClassName]) as $commentPiece) {
 			$source .= "    " . $commentPiece . "\n";
 		}
-	}
+	} else {
+		$source .= "    /**\n     * Lacks of documentation\n     */\n    ";
+        }
 
     $source = rtrim($source,"\n");
     $source = rtrim($source,' ');
@@ -377,6 +383,6 @@ foreach ($allClasses as $className) {
 	if (!is_dir($path)) {
 		mkdir($path, 0777, true);
 	}
-        echo "Generating : " . $path . "\n";
+        echo "Generating : " . $path . '/' . $normalClassName . "\n";
 	file_put_contents($path . DIRECTORY_SEPARATOR . $normalClassName . '.php', $source);
 }

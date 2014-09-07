@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    interface ResultInterface
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ResultInterface
         {
 
         public function setDirtyState($dirtyState);

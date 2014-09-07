@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    class Kernel
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    class Kernel
     {
     }
 }

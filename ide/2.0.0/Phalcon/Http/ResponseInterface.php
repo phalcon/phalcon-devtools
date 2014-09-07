@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Http {    interface ResponseInterface
+namespace Phalcon\Http {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ResponseInterface
         {
 
         public function setStatusCode($code, $message);

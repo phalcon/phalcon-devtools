@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Acl {    interface ResourceInterface
+namespace Phalcon\Acl {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ResourceInterface
         {
 
         public function __construct($name, $description=null);

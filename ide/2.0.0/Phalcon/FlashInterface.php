@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    interface FlashInterface
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    interface FlashInterface
         {
 
         public function error($message);

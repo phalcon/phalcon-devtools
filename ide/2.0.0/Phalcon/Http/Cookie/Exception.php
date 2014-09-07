@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Http\Cookie {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Http\Cookie {
+
+    /**
+     * Lacks of documentation
+     */
+    class Exception extends \Phalcon\Exception
     {
     }
 }

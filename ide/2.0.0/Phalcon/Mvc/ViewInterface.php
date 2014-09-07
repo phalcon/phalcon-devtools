@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc {    interface ViewInterface
+namespace Phalcon\Mvc {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ViewInterface
         {
 
         public function setViewsDir($viewsDir);

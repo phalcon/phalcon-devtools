@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Logger {    interface AdapterInterface
+namespace Phalcon\Logger {
+
+    /**
+     * Lacks of documentation
+     */
+    interface AdapterInterface
         {
 
         public function setFormatter($formatter);

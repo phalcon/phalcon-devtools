@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Image {    abstract class Adapter
+namespace Phalcon\Image {
+
+    /**
+     * Lacks of documentation
+     */
+    abstract class Adapter
     {
 
         protected $_image;

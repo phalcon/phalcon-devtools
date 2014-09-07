@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    class Exception extends \Phalcon\Exception
     {
     }
 }

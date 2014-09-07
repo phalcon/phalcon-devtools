@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\View {    interface EngineInterface
+namespace Phalcon\Mvc\View {
+
+    /**
+     * Lacks of documentation
+     */
+    interface EngineInterface
         {
 
         public function __construct($view, $dependencyInjector=null);

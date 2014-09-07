@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Image\Adapter {    class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
+namespace Phalcon\Image\Adapter {
+
+    /**
+     * Lacks of documentation
+     */
+    class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
     {
 
         protected $_version;

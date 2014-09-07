@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc {    interface ModelInterface
+namespace Phalcon\Mvc {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ModelInterface
         {
 
         public function setTransaction($transaction);

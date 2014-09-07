@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    class Image
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    class Image
     {
 
         const NONE = 1;

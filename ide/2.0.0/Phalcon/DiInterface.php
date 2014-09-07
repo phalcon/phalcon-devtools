@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    interface DiInterface extends \ArrayAccess
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    interface DiInterface extends \ArrayAccess
         {
 
         public function set($name, $definition, $shared=null);

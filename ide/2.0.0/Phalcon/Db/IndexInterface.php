@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Db {    interface IndexInterface
+namespace Phalcon\Db {
+
+    /**
+     * Lacks of documentation
+     */
+    interface IndexInterface
         {
 
         public function __construct($indexName, $columns, $type=null);

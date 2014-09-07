@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model\Query {    interface BuilderInterface
+namespace Phalcon\Mvc\Model\Query {
+
+    /**
+     * Lacks of documentation
+     */
+    interface BuilderInterface
         {
 
         public function __construct($params=null);

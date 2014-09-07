@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model\Transaction {    interface ManagerInterface
+namespace Phalcon\Mvc\Model\Transaction {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ManagerInterface
         {
 
         public function __construct($dependencyInjector=null);

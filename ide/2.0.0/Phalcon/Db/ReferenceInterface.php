@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Db {    interface ReferenceInterface
+namespace Phalcon\Db {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ReferenceInterface
         {
 
         public function __construct($referenceName, $definition);

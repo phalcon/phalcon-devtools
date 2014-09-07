@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Collection {    interface ManagerInterface
+namespace Phalcon\Mvc\Collection {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ManagerInterface
         {
 
         public function setCustomEventsManager($model, $eventsManager);

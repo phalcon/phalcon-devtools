@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Forms {    interface ElementInterface
+namespace Phalcon\Forms {
+
+    /**
+     * Lacks of documentation
+     */
+    interface ElementInterface
         {
 
         public function setForm($form);

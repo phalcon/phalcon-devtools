@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Assets {    interface FilterInterface
+namespace Phalcon\Assets {
+
+    /**
+     * Lacks of documentation
+     */
+    interface FilterInterface
         {
 
         public function filter($content);

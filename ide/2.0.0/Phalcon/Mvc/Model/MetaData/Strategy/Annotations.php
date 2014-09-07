@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model\MetaData\Strategy {    class Annotations implements \Phalcon\Mvc\Model\MetaData\StrategyInterface
+namespace Phalcon\Mvc\Model\MetaData\Strategy {
+
+    /**
+     * Lacks of documentation
+     */
+    class Annotations implements \Phalcon\Mvc\Model\MetaData\StrategyInterface
     {
 
         /**

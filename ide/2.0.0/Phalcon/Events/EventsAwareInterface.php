@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Events {    interface EventsAwareInterface
+namespace Phalcon\Events {
+
+    /**
+     * Lacks of documentation
+     */
+    interface EventsAwareInterface
         {
 
         public function setEventsManager($eventsManager);

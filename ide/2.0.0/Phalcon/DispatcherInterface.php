@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    interface DispatcherInterface
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    interface DispatcherInterface
         {
 
         public function setActionSuffix($actionSuffix);

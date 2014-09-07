@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Session {    interface BagInterface
+namespace Phalcon\Session {
+
+    /**
+     * Lacks of documentation
+     */
+    interface BagInterface
         {
 
         public function initialize();

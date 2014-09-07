@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Image\Adapter {    class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
+namespace Phalcon\Image\Adapter {
+
+    /**
+     * Lacks of documentation
+     */
+    class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
     {
 
         public static function check()

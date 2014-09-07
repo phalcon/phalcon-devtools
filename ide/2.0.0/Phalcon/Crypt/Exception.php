@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Crypt {    class Exception extends \Phalcon\Exception
+namespace Phalcon\Crypt {
+
+    /**
+     * Lacks of documentation
+     */
+    class Exception extends \Phalcon\Exception
     {
     }
 }

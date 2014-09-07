@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Micro {    interface CollectionInterface
+namespace Phalcon\Mvc\Micro {
+
+    /**
+     * Lacks of documentation
+     */
+    interface CollectionInterface
         {
 
         public function setPrefix($prefix);

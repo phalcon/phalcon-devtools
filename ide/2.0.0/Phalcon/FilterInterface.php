@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon {    interface FilterInterface
+namespace Phalcon {
+
+    /**
+     * Lacks of documentation
+     */
+    interface FilterInterface
         {
 
         public function add($name, $handler);

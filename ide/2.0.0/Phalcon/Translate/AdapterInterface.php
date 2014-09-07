@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Translate {    interface AdapterInterface
+namespace Phalcon\Translate {
+
+    /**
+     * Lacks of documentation
+     */
+    interface AdapterInterface
         {
 
         public function t($translateKey, $placeholders=null);

@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Router {    interface RouteInterface
+namespace Phalcon\Mvc\Router {
+
+    /**
+     * Lacks of documentation
+     */
+    interface RouteInterface
         {
 
         public function __construct($pattern, $paths=null, $httpMethods=null);

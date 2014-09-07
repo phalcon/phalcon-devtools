@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Paginator {    interface AdapterInterface
+namespace Phalcon\Paginator {
+
+    /**
+     * Lacks of documentation
+     */
+    interface AdapterInterface
         {
 
         public function __construct($config);

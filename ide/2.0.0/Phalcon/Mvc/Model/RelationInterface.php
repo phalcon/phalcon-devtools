@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Mvc\Model {    interface RelationInterface
+namespace Phalcon\Mvc\Model {
+
+    /**
+     * Lacks of documentation
+     */
+    interface RelationInterface
         {
 
         public function __construct($type, $referencedModel, $fields, $referencedFields, $options=null);

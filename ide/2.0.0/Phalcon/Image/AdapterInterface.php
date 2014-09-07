@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Image {    interface AdapterInterface
+namespace Phalcon\Image {
+
+    /**
+     * Lacks of documentation
+     */
+    interface AdapterInterface
         {
 
         public function resize($width=null, $height=null, $master=null);

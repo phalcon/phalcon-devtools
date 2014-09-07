@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Session {    interface AdapterInterface
+namespace Phalcon\Session {
+
+    /**
+     * Lacks of documentation
+     */
+    interface AdapterInterface
         {
 
         public function start();

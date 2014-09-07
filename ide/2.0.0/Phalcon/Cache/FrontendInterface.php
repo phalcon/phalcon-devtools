@@ -1,6 +1,11 @@
 <?php 
 
-namespace Phalcon\Cache {    interface FrontendInterface
+namespace Phalcon\Cache {
+
+    /**
+     * Lacks of documentation
+     */
+    interface FrontendInterface
         {
 
         public function getLifetime();
