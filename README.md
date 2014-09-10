@@ -1,7 +1,10 @@
+[![Total Downloads](https://poser.pugx.org/phalcon/devtools/downloads.svg)](https://packagist.org/packages/phalcon/devtools) [![License](https://poser.pugx.org/phalcon/devtools/license.svg)](https://packagist.org/packages/phalcon/devtools)
+
+
 Phalcon Devtools
 ================
 
-![Webtools](http://www.phalconphp.com/img/webtools.png)
+![Webtools](http://static.phalconphp.com/img/webtools.png)
 
 What's Phalcon?
 ---------------
