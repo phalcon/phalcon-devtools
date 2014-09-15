@@ -82,6 +82,11 @@ class Migration
         self::$_connection = new $adapter($configArray);
         self::$_databaseConfig = $database;
 
+        if($database->adapter == 'Mysql') {
+            self::$_connection->query('SET FOREIGN_KEY_CHECKS=0');
+        }
+
+
         if ( \Phalcon\Migrations::isConsole() ) {
             $profiler = new Profiler();
 
