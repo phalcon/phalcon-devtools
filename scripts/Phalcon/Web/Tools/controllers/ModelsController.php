@@ -61,7 +61,7 @@ class ModelsController extends ControllerBase
                     'defineRelations'       => $defineRelations,
                     'genSettersGetters'     => $genSettersGetters,
                     'namespace'             => null,
-				    'schema'                => $schema
+                    'schema'                => $schema
                 ));
 
                 $modelBuilder->build();
