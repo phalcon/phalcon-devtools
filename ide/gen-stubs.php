@@ -12,7 +12,13 @@ if (!extension_loaded('phalcon')) {
 	throw new Exception("phalcon extension isn't installed");
 }
 
-define('CPHALCON_DIR' , '/Users/gutierrezandresfelipe/cphalcon/ext/');
+/*
+ * go to some dir and clone cphalcon
+ * git clone --depth=1 git://github.com/phalcon/cphalcon.git
+ * enter this dir here.
+ */
+
+define('CPHALCON_DIR' , '/Users/micate/Code/cphalcon/ext/');
 
 if (!file_exists(CPHALCON_DIR)) {
 	throw new Exception("CPHALCON directory does not exist");
@@ -23,6 +29,8 @@ class Stubs_Generator
 
 	protected $_docs = array();
 
+    protected $_classDocs = array();
+
 	public function __construct($directory)
 	{
 		$this->_scanSources($directory);
@@ -30,6 +38,7 @@ class Stubs_Generator
 
     protected function _scanSources($directory)
     {
+        /** @var RecursiveDirectoryIterator[] $iterator */
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory , FilesystemIterator::SKIP_DOTS));
         foreach ( $iterator as $item ) {
             if ( $item->getExtension() == 'c' ) {
@@ -202,54 +211,114 @@ foreach ($allClasses as $className) {
 	if ($className == 'Phalcon\DI\Injectable') {
 		$source .= '
 		/**
- 		 * @var \Phalcon\Mvc\ViewInterface
+ 		 * @var \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface
  		 */
-		public $view;
-
-		/**
-		 * @var \Phalcon\Mvc\RouterInterface
-	 	 */
-		public $router;
-
-		/**
-		 * @var \Phalcon\Mvc\DispatcherInterface
-	 	 */
 		public $dispatcher;
 
 		/**
-		 * @var \Phalcon\Mvc\UrlInterface
-	 	 */
+ 		 * @var \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface
+ 		 */
+		public $router;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface
+ 		 */
 		public $url;
 
 		/**
-		 * @var \Phalcon\DiInterface
-	 	 */
-		public $di;
-
-		/**
-		 * @var \Phalcon\HTTP\RequestInterface
-	 	 */
+ 		 * @var \Phalcon\Http\Request|\Phalcon\HTTP\RequestInterface
+ 		 */
 		public $request;
 
 		/**
-		 * @var \Phalcon\HTTP\ResponseInterface
-	 	 */
+ 		 * @var \Phalcon\Http\Response|\Phalcon\HTTP\ResponseInterface
+ 		 */
 		public $response;
 
 		/**
-		 * @var \Phalcon\Flash\Direct
-	 	 */
+ 		 * @var \Phalcon\Http\Response\Cookies|\Phalcon\Http\Response\CookiesInterface
+ 		 */
+		public $cookies;
+
+		/**
+ 		 * @var \Phalcon\Filter|\Phalcon\FilterInterface
+ 		 */
+		public $filter;
+
+		/**
+ 		 * @var \Phalcon\Flash\Direct
+ 		 */
 		public $flash;
 
 		/**
-		 * @var \Phalcon\Flash\Session
-	 	 */
+ 		 * @var \Phalcon\Flash\Session
+ 		 */
 		public $flashSession;
 
 		/**
-		 * @var \Phalcon\Session\AdapterInterface
-	 	 */
+ 		 * @var \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface
+ 		 */
 		public $session;
+
+		/**
+ 		 * @var \Phalcon\Events\Manager
+ 		 */
+		public $eventsManager;
+
+		/**
+ 		 * @var \Phalcon\Db
+ 		 */
+		public $db;
+
+		/**
+ 		 * @var \Phalcon\Security
+ 		 */
+		public $security;
+
+		/**
+ 		 * @var \Phalcon\Crypt
+ 		 */
+		public $crypt;
+
+		/**
+ 		 * @var \Phalcon\Tag
+ 		 */
+		public $tag;
+
+		/**
+ 		 * @var \Phalcon\Escaper|\Phalcon\EscaperInterface
+ 		 */
+		public $escaper;
+
+		/**
+ 		 * @var \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter
+ 		 */
+		public $annotations;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface
+ 		 */
+		public $modelsManager;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface
+ 		 */
+		public $modelsMetadata;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Model\Transaction\Manager
+ 		 */
+		public $transactionManager;
+
+		/**
+ 		 * @var \Phalcon\Assets\Manager
+ 		 */
+		public $assets;
+
+		/**
+		 * @var \Phalcon\DI|\Phalcon\DiInterface
+	 	 */
+		public $di;
 
 		/**
 		 * @var \Phalcon\Session\Bag
@@ -257,34 +326,9 @@ foreach ($allClasses as $className) {
 		public $persistent;
 
 		/**
-		 * @var \Phalcon\Mvc\Model\ManagerInterface
-	 	 */
-		public $modelsManager;
-
-		/**
-		 * @var \Phalcon\Mvc\Model\MetadataInterface
-	 	 */
-		public $modelsMetadata;
-
-		/**
-		 * @var \Phalcon\Mvc\Model\Transaction\Manager
-	 	 */
-		public $transactionManager;
-
-		/**
-		 * @var \Phalcon\FilterInterface
-	 	 */
-		public $filter;
-
-		/**
-		 * @var \Phalcon\Security
-	 	 */
-		public $security;
-
-		/**
-		 * @var \Phalcon\Annotations\Adapter\Memory
-	 	 */
-		public $annotations;
+ 		 * @var \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface
+ 		 */
+		public $view;
 		';
 	}
 
@@ -318,7 +362,7 @@ foreach ($allClasses as $className) {
 					$parameters[] = '$' . $parameter->name;
 				}
 			}
-			if ($reflector->isInterface()) {
+			if ($reflector->isInterface() || $method->isAbstract()) {
 				$source.=join(', ', $parameters).');'.PHP_EOL.PHP_EOL;
 			} else {
 				$source.=join(', ', $parameters).'){ }'.PHP_EOL.PHP_EOL;
@@ -330,7 +374,7 @@ foreach ($allClasses as $className) {
 
 	$source.='}'.PHP_EOL;
 
-	$path = 'ide/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
+	$path = __DIR__ . '/' . $genVersion . '/' . str_replace("\\", DIRECTORY_SEPARATOR, $namespaceName);
 	if (!is_dir($path)) {
 		mkdir($path, 0777, true);
 	}
