@@ -157,6 +157,8 @@ class Item
             list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
         }
         $betweenVersions = array();
+        if ($initialVersion->getStamp() == $finalVersion->getStamp()) return $betweenVersions;
+
         foreach ($versions as $version) {
             /**
              * @var $version Item
