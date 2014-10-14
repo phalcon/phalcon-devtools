@@ -82,6 +82,11 @@ class Migration
         self::$_connection = new $adapter($configArray);
         self::$_databaseConfig = $database;
 
+        if($database->adapter == 'Mysql') {
+            self::$_connection->query('SET FOREIGN_KEY_CHECKS=0');
+        }
+
+
         if ( \Phalcon\Migrations::isConsole() ) {
             $profiler = new Profiler();
 
@@ -119,8 +124,14 @@ class Migration
     public static function generateAll($version, $exportData=null)
     {
         $classDefinition = array();
-        foreach (self::$_connection->listTables() as $table) {
-            $classDefinition[$table] = self::generate($version, $table, $exportData);
+    	if (self::$_databaseConfig->adapter == 'Postgresql') {
+        	foreach (self::$_connection->listTables(isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public') as $table) {
+        		$classDefinition[$table] = self::generate($version, $table, $exportData);
+        	}
+        } else {
+        	foreach (self::$_connection->listTables() as $table) {
+        		$classDefinition[$table] = self::generate($version, $table, $exportData);
+        	}
         }
 
         return $classDefinition;
@@ -349,7 +360,7 @@ class ".$className." extends Migration\n".
             $fileName = basename($filePath);
             $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
             $className = \Phalcon\Text::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
-            require $filePath;
+            require_once $filePath;
             if (class_exists($className)) {
                 $migration = new $className();
                 if (method_exists($migration, 'up')) {

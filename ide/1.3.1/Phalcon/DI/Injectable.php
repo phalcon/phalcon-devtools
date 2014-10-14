@@ -16,54 +16,114 @@ namespace Phalcon\DI {
 		protected $_eventsManager;
 
 		/**
- 		 * @var \Phalcon\Mvc\ViewInterface
+ 		 * @var \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface
  		 */
-		public $view;
-
-		/**
-		 * @var \Phalcon\Mvc\RouterInterface
-	 	 */
-		public $router;
-
-		/**
-		 * @var \Phalcon\Mvc\DispatcherInterface
-	 	 */
 		public $dispatcher;
 
 		/**
-		 * @var \Phalcon\Mvc\UrlInterface
-	 	 */
+ 		 * @var \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface
+ 		 */
+		public $router;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface
+ 		 */
 		public $url;
 
 		/**
-		 * @var \Phalcon\DiInterface
-	 	 */
-		public $di;
-
-		/**
-		 * @var \Phalcon\HTTP\RequestInterface
-	 	 */
+ 		 * @var \Phalcon\Http\Request|\Phalcon\HTTP\RequestInterface
+ 		 */
 		public $request;
 
 		/**
-		 * @var \Phalcon\HTTP\ResponseInterface
-	 	 */
+ 		 * @var \Phalcon\Http\Response|\Phalcon\HTTP\ResponseInterface
+ 		 */
 		public $response;
 
 		/**
-		 * @var \Phalcon\Flash\Direct
-	 	 */
+ 		 * @var \Phalcon\Http\Response\Cookies|\Phalcon\Http\Response\CookiesInterface
+ 		 */
+		public $cookies;
+
+		/**
+ 		 * @var \Phalcon\Filter|\Phalcon\FilterInterface
+ 		 */
+		public $filter;
+
+		/**
+ 		 * @var \Phalcon\Flash\Direct
+ 		 */
 		public $flash;
 
 		/**
-		 * @var \Phalcon\Flash\Session
-	 	 */
+ 		 * @var \Phalcon\Flash\Session
+ 		 */
 		public $flashSession;
 
 		/**
-		 * @var \Phalcon\Session\AdapterInterface
-	 	 */
+ 		 * @var \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface
+ 		 */
 		public $session;
+
+		/**
+ 		 * @var \Phalcon\Events\Manager
+ 		 */
+		public $eventsManager;
+
+		/**
+ 		 * @var \Phalcon\Db
+ 		 */
+		public $db;
+
+		/**
+ 		 * @var \Phalcon\Security
+ 		 */
+		public $security;
+
+		/**
+ 		 * @var \Phalcon\Crypt
+ 		 */
+		public $crypt;
+
+		/**
+ 		 * @var \Phalcon\Tag
+ 		 */
+		public $tag;
+
+		/**
+ 		 * @var \Phalcon\Escaper|\Phalcon\EscaperInterface
+ 		 */
+		public $escaper;
+
+		/**
+ 		 * @var \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter
+ 		 */
+		public $annotations;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface
+ 		 */
+		public $modelsManager;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface
+ 		 */
+		public $modelsMetadata;
+
+		/**
+ 		 * @var \Phalcon\Mvc\Model\Transaction\Manager
+ 		 */
+		public $transactionManager;
+
+		/**
+ 		 * @var \Phalcon\Assets\Manager
+ 		 */
+		public $assets;
+
+		/**
+		 * @var \Phalcon\DI|\Phalcon\DiInterface
+	 	 */
+		public $di;
 
 		/**
 		 * @var \Phalcon\Session\Bag
@@ -71,34 +131,9 @@ namespace Phalcon\DI {
 		public $persistent;
 
 		/**
-		 * @var \Phalcon\Mvc\Model\ManagerInterface
-	 	 */
-		public $modelsManager;
-
-		/**
-		 * @var \Phalcon\Mvc\Model\MetadataInterface
-	 	 */
-		public $modelsMetadata;
-
-		/**
-		 * @var \Phalcon\Mvc\Model\Transaction\Manager
-	 	 */
-		public $transactionManager;
-
-		/**
-		 * @var \Phalcon\FilterInterface
-	 	 */
-		public $filter;
-
-		/**
-		 * @var \Phalcon\Security
-	 	 */
-		public $security;
-
-		/**
-		 * @var \Phalcon\Annotations\Adapter\Memory
-	 	 */
-		public $annotations;
+ 		 * @var \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface
+ 		 */
+		public $view;
 		
 		/**
 		 * Sets the dependency injector

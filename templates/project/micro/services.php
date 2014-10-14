@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Simple as View;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
@@ -13,7 +13,6 @@ $di = new FactoryDefault();
 $di['view'] = function () use ($config) {
     $view = new View();
     $view->setViewsDir($config->application->viewsDir);
-
     return $view;
 };
 
@@ -23,7 +22,6 @@ $di['view'] = function () use ($config) {
 $di['url'] = function () use ($config) {
     $url = new UrlResolver();
     $url->setBaseUri($config->application->baseUri);
-
     return $url;
 };
 

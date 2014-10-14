@@ -5,7 +5,7 @@
     <tr>
         <td align="left">{{ link_to("$plural$", "Go Back") }}</td>
         <td align="right">{{ submit_button("Save") }}</td>
-    <tr>
+    </tr>
 </table>
 
 {{ content() }}
@@ -18,7 +18,7 @@
 $captureFields$
     <tr>
         <td></td>
-        <td>{{ submit_button("Search") }}</td>
+        <td>{{ submit_button("Save") }}</td>
     </tr>
 </table>
 

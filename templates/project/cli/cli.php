@@ -42,6 +42,7 @@ foreach ($argv as $k => $arg) {
 }
 
 try {
+
     /**
      * Handle
      */
@@ -56,9 +57,11 @@ try {
      *
      * You can disable this behaviour if the output of your application needs to don't have a new line at end
      */
-    if(isset($config["printNewLine"]) && $config["printNewLine"] )
+    if (isset($config["printNewLine"]) && $config["printNewLine"]) {
         echo PHP_EOL;
-} catch (\Phalcon\Exception $e) {
+    }
+
+} catch (Exception $e) {
     echo $e->getMessage();
     exit(255);
 }

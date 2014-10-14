@@ -21,6 +21,7 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
+use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Commands\CommandsInterface;
@@ -99,7 +100,7 @@ class Migration extends Command implements CommandsInterface
         $directory = new \RecursiveDirectoryIterator('.');
         $iterator = new \RecursiveIteratorIterator($directory);
         foreach ($iterator as $f) {
-            if (preg_match('/config\.php$/', $f->getPathName())) {
+            if (preg_match('/config\.php$/i', $f->getPathName())) {
                 $config = include($f->getPathName());
 
                 return $config;
@@ -147,6 +148,11 @@ class Migration extends Command implements CommandsInterface
 
         $action = $this->getOption(array('action', 1));
 
+        $version = $this->getOption('version');
+        
+        
+
+
         if ($action == 'generate') {
             Migrations::generate(array(
                 'directory' => $path,
@@ -164,7 +170,8 @@ class Migration extends Command implements CommandsInterface
                     'tableName' => $tableName,
                     'migrationsDir' => $migrationsDir,
                     'force' => $this->isReceivedOption('force'),
-                    'config' => $config
+                    'config' => $config ,
+                    'version' => $version ,
                 ));
             }
         }

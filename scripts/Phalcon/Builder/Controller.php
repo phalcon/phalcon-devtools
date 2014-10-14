@@ -98,7 +98,7 @@ class Controller extends Component
 
         $className = Utils::camelize($name);
 
-        $controllerPath = $controllersDir . $className . "Controller.php";
+        $controllerPath = $controllersDir . DIRECTORY_SEPARATOR . $className . "Controller.php";
 
         $code = "<?php\n\n".$namespace."class ".$className."Controller extends ".$baseClass."\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
         $code = str_replace("\t", "    ", $code);
@@ -106,7 +106,7 @@ class Controller extends Component
         if (!file_exists($controllerPath) || $this->_options['force'] == true) {
             if (!@file_put_contents($controllerPath, $code)) {
                 throw new BuilderException("Unable to write to '$controllerPath'");
-            };
+            }
         } else {
             throw new BuilderException("The Controller '$name' already exists");
         }

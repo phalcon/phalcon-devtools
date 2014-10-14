@@ -102,8 +102,8 @@ class Model extends Component
         return '%s';
     }
 ";
-        $templateThis = "\t\t\$this->%s(%s);\n";
-        $templateRelation = "\t\t\$this->%s(\"%s\", \"%s\", \"%s\", %s);\n";
+        $templateThis = "        \$this->%s(%s);" . PHP_EOL;
+        $templateRelation = "        \$this->%s('%s', '%s', '%s', %s);" . PHP_EOL;
         $templateSetter = "
     /**
      * Method to set the value of field %s
@@ -123,9 +123,9 @@ class Model extends Component
         \$this->validate(
             new InclusionIn(
                 array(
-                    \"field\"    => \"%s\",
-                    \"domain\"   => array(%s),
-                    \"required\" => true,
+                    'field'    => '%s',
+                    'domain'   => array(%s),
+                    'required' => true,
                 )
             )
         );";
@@ -134,8 +134,8 @@ class Model extends Component
         \$this->validate(
             new Email(
                 array(
-                    \"field\"    => \"%s\",
-                    \"required\" => true,
+                    'field'    => '%s',
+                    'required' => true,
                 )
             )
         );";
@@ -151,7 +151,7 @@ class Model extends Component
      * @var %s
      */
     %s \$%s;
-     ";
+";
 
         $templateGetterMap = "
     /**
@@ -223,11 +223,8 @@ class Model extends Component
         $templateUseAs = 'use %s as %s;';
 
         $templateCode = "<?php
-%s
-%s
-%s
 
-class %s extends %s
+%s%s%sclass %s extends %s
 {
 %s
 }
@@ -242,6 +239,8 @@ class %s extends %s
             if ($this->_options['directory']) {
                 $path = $this->_options['directory'] . '/';
             }
+        } else {
+            $path = '.';
         }
 
         $config = $this->_getConfig($path);
@@ -255,13 +254,15 @@ class %s extends %s
             $modelsDir = $config->application->modelsDir;
         } else {
             $modelsDir = $this->_options['modelsDir'];
-        }
-
+        }            
+        
+        $modelsDir = rtrim(rtrim($modelsDir, '/'), '\\') . DIRECTORY_SEPARATOR;             
+        
         if ($this->isAbsolutePath($modelsDir) == false) {
-            $modelPath = $path . "public" . DIRECTORY_SEPARATOR . $modelsDir;
+            $modelPath = $path . DIRECTORY_SEPARATOR . $modelsDir;
         } else {
             $modelPath = $modelsDir;
-        }
+        }                                 
 
         $methodRawCode = array();
         $className = $this->_options['className'];
@@ -421,9 +422,13 @@ class %s extends %s
                 require $modelPath;
 
                 $linesCode = file($modelPath);
-                $reflection = new \ReflectionClass($this->_options['className']);
+                $fullClassName = $this->_options['className'];
+                if (isset($this->_options['namespace'])) {
+                    $fullClassName = $this->_options['namespace'].'\\'.$fullClassName;
+                }
+                $reflection = new \ReflectionClass($fullClassName);
                 foreach ($reflection->getMethods() as $method) {
-                    if ($method->getDeclaringClass()->getName() == $this->_options['className']) {
+                    if ($method->getDeclaringClass()->getName() == $fullClassName) {
                         $methodName = $method->getName();
                         if (!isset($possibleMethods[$methodName])) {
                             $methodRawCode[$methodName] = join(
@@ -559,31 +564,31 @@ class %s extends %s
         if ($alreadyValidations == false) {
             if (count($validations) > 0) {
                 $validationsCode = sprintf(
-                    $templateValidations, join("", $validations)
+                    $templateValidations, join('', $validations)
                 );
             } else {
-                $validationsCode = "";
+                $validationsCode = '';
             }
         } else {
-            $validationsCode = "";
+            $validationsCode = '';
         }
 
         if ($alreadyInitialized == false) {
             if (count($initialize) > 0) {
                 $initCode = sprintf(
                     $templateInitialize,
-                    join('', $initialize)
+                    rtrim(join('', $initialize))
                 );
             } else {
-                $initCode = "";
+                $initCode = '';
             }
         } else {
-            $initCode = "";
+            $initCode = '';
         }
 
         $license = '';
         if (file_exists('license.txt')) {
-            $license = file_get_contents('license.txt');
+            $license = trim(file_get_contents('license.txt')) . PHP_EOL . PHP_EOL;
         }
 
         $content = join('', $attributes);
@@ -606,7 +611,10 @@ class %s extends %s
             $content .= $this->_genColumnMapCode($fields);
         }
 
-        $str_use = implode("\n", $uses);
+        $str_use = '';
+        if (!empty($uses)) {
+            $str_use = implode(PHP_EOL, $uses) . PHP_EOL . PHP_EOL;
+        }
 
         $code = sprintf(
             $templateCode,
@@ -617,7 +625,10 @@ class %s extends %s
             $extends,
             $content
         );
-        file_put_contents($modelPath, $code);
+
+        if (!@file_put_contents($modelPath, $code)) {
+                throw new BuilderException("Unable to write to '$modelPath'");
+        }
 
         if ($this->isConsole()) {
             $this->_notifySuccess('Model "' . $this->_options['name'] .'" was successfully created.');
@@ -643,7 +654,7 @@ class %s extends %s
                 $val = "'{$val}'";
             }
 
-            $values[] = sprintf('"%s"=>%s', $name, $val);
+            $values[] = sprintf('\'%s\' => %s', $name, $val);
         }
 
         $syntax = 'array('. implode(',', $values). ')';

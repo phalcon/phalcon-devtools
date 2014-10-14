@@ -118,7 +118,7 @@ class Webtools extends Command implements CommandsInterface
         echo Color::colorize('  ?', Color::FG_GREEN);
         echo Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->echoParameters($this->params);
+        $this->printParameters($this->params);
     }
 
     /**

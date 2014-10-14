@@ -9,7 +9,7 @@
         <td align="right">
             {{ link_to("$plural$/new", "Create ") }}
         </td>
-    <tr>
+    </tr>
 </table>
 
 <table class="browse" align="center">
@@ -41,5 +41,5 @@ $rowColumns$            <td>{{ link_to("$plural$/edit/"~$singularVar$.$pk$, "Edi
                 </table>
             </td>
         </tr>
-    <tbody>
+    </tbody>
 </table>
