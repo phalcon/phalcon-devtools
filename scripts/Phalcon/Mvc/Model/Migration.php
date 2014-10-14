@@ -119,8 +119,14 @@ class Migration
     public static function generateAll($version, $exportData=null)
     {
         $classDefinition = array();
-        foreach (self::$_connection->listTables() as $table) {
-            $classDefinition[$table] = self::generate($version, $table, $exportData);
+    	if (self::$_databaseConfig->adapter == 'Postgresql') {
+        	foreach (self::$_connection->listTables(isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public') as $table) {
+        		$classDefinition[$table] = self::generate($version, $table, $exportData);
+        	}
+        } else {
+        	foreach (self::$_connection->listTables() as $table) {
+        		$classDefinition[$table] = self::generate($version, $table, $exportData);
+        	}
         }
 
         return $classDefinition;
