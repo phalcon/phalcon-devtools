@@ -12,6 +12,12 @@ if (!extension_loaded('phalcon')) {
 	throw new Exception("phalcon extension isn't installed");
 }
 
+/*
+ * go to some dir and clone cphalcon
+ * git clone --depth=1 git://github.com/phalcon/cphalcon.git
+ * enter this dir here.
+ */
+
 define('CPHALCON_DIR' , '/Users/micate/Code/cphalcon/ext/');
 
 if (!file_exists(CPHALCON_DIR)) {
