@@ -4,8 +4,6 @@ use Phalcon\Mvc\Micro;
 
 error_reporting(E_ALL);
 
-define('APP_PATH', realpath('..'));
-
 try {
 
     /**
@@ -16,12 +14,12 @@ try {
     /**
      * Include Services
      */
-    include APP_PATH . '/config/services.php';
+    include __DIR__ . '/../config/services.php';
 
     /**
      * Include Autoloader
      */
-    include APP_PATH . '/config/loader.php';
+    include __DIR__ . '/../config/loader.php';
 
     /**
      * Starting the application
@@ -32,7 +30,7 @@ try {
     /**
      * Incude Application
      */
-    include APP_PATH . '/app.php';
+    include __DIR__ . '/../app.php';
 
     /**
      * Handle the request
