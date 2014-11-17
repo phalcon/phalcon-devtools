@@ -338,7 +338,7 @@ class Model extends Component
         } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
             $initialize[] = sprintf(
-                $templateThis, 'setSchema', '"' . $this->_options['schema'] . '"'
+                $templateThis, 'setSchema', '"' . $schema . '"'
             );
         } else {
             $schema = $config->database->dbname;
