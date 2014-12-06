@@ -346,15 +346,21 @@ foreach ($allClasses as $className) {
 
 			$parameters = array();
 			foreach ($method->getParameters() as $parameter) {
+			    $strParameter = '';
+                $hintedClass = $parameter->getClass();
+                if ($hintedClass) {
+                    $strParameter = '\\' . $hintedClass->getName() . ' ';
+                }
 				if ($parameter->isOptional()) {
 					if($parameter->isDefaultValueAvailable()){
-						$parameters[] = '$' . $parameter->name . '=' . $parameter->getDefaultValue();
+						$strParameter .= '$' . $parameter->name . '=' . $parameter->getDefaultValue();
 					} else {
-						$parameters[] = '$' . $parameter->name . '=null';
+						$strParameter .= '$' . $parameter->name . '=null';
 					}
 				} else {
-					$parameters[] = '$' . $parameter->name;
+					$strParameter .= '$' . $parameter->name;
 				}
+				$parameters[] = $strParameter;
 			}
 			if ($reflector->isInterface() || $method->isAbstract()) {
 				$source.=join(', ', $parameters).');'.PHP_EOL.PHP_EOL;
