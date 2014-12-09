@@ -63,8 +63,11 @@ abstract class Component
             } else {
                 if (file_exists($path . $configPath. "/config.php")) {
                     $config = include($path . $configPath . "/config.php");
+                    if (!is_array($config)) {
+                        throw new BuilderException("config.php must return an array, to use in this context");
+                    }
 
-                    return $config;
+                    return new \Phalcon\Config($config);
                 }
             }
         }
