@@ -8,6 +8,7 @@ return new \Phalcon\Config(array(
         'username'   => 'root',
         'password'   => '',
         'dbname'     => 'test',
+        'charset'    => 'utf8',
     ),
 
     'application' => array(
