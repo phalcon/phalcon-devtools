@@ -63,6 +63,9 @@ abstract class Component
             } else {
                 if (file_exists($path . $configPath. "/config.php")) {
                     $config = include($path . $configPath . "/config.php");
+                    if (is_array($config)) {
+                        $config = new \Phalcon\Config($config);
+                    }
 
                     return $config;
                 }
@@ -74,6 +77,9 @@ abstract class Component
         foreach ($iterator as $f) {
             if (preg_match('/config\.php$/i', $f->getPathName())) {
                 $config = include $f->getPathName();
+                if (is_array($config)) {
+                    $config = new \Phalcon\Config($config);
+                }
 
                 return $config;
             } else {
