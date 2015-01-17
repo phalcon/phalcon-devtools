@@ -355,7 +355,7 @@ class Model extends Component
         if ($db->tableExists($table, $schema)) {
             $fields = $db->describeColumns($table, $schema);
         } else {
-            throw new BuilderException('Table "' . $table . '" does not exists');
+            throw new BuilderException('Table "' . $table . '" does not exist');
         }
 
         if (isset($this->_options['hasMany'])) {
