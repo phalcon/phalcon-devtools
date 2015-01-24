@@ -102,7 +102,8 @@ class AllModels extends Command implements CommandsInterface
             'foreignKeys' => $this->isReceivedOption('fk'),
             'defineRelations' => $this->isReceivedOption('relations'),
             'genSettersGetters' => $this->isReceivedOption('get-set'),
-            'genDocMethods' => $this->isReceivedOption('doc')
+            'genDocMethods' => $this->isReceivedOption('doc'),
+            'modelsDir' => $modelsDir,
         ));
 
         $modelBuilder->build();

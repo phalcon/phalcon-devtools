@@ -196,6 +196,7 @@ class AllModels extends Component
                     'foreignKeys' => $foreignKeysModel,
                     'genSettersGetters' => $genSettersGetters,
                     'directory' => $this->_options['directory'],
+                    'modelsDir' => $this->_options['modelsDir'],
                 ));
 
                 $modelBuilder->build();
