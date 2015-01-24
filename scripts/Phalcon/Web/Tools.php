@@ -214,13 +214,11 @@ class Tools
             define('TEMPLATE_PATH', $path . '/templates');
         }
 
-        chdir('..');
-
         // Read configuration
         $configPaths = array(
-            'config',
-            'app/config',
-            'apps/frontend/config'
+            '../config',
+            '../app/config',
+            '../apps/frontend/config'
         );
 
         $readed = false;
