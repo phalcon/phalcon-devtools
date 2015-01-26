@@ -177,9 +177,9 @@ class Migrations
 
         $migrationFid = $path.'.phalcon/migration-version';
         if (file_exists($migrationFid)) {
-            $fromVersion = file_get_contents($migrationFid);
+            $fromVersion = trim(file_get_contents($migrationFid));
         } else {
-            $fromVersion = (string) $version;
+            $fromVersion = null;
         }
 
         if (isset($config->database)) {
@@ -190,6 +190,12 @@ class Migrations
 
         ModelMigration::setMigrationPath($migrationsDir.'/'.$version . '/') ;
         $versionsBetween = VersionItem::between($fromVersion, $version, $versions);
+
+	    // get rid of the current version, we don't want migrations to run for our
+	    // existing version.
+	    if (isset($versionsBetween[0]) && (string)$versionsBetween[0] == $fromVersion) {
+		    unset($versionsBetween[0]);
+	    }
 
         foreach ($versionsBetween as $version) {
             if ($tableName == 'all') {
@@ -220,3 +226,4 @@ class Migrations
 
 
 }
+
