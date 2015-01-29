@@ -15,7 +15,10 @@ try {
      * Handle the request
      */
     $application = new Application($di);
-
+	/**
+	* Include routes
+	*/
+	require __DIR__ . '/../config/routes.php';
     /**
      * Include modules
      */
