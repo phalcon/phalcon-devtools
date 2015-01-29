@@ -607,7 +607,7 @@ class Model extends Component
             $content .= sprintf($templateFind, $className, $className);
         }
 
-        if (isset($this->_options['mapColumn'])) {
+        if (isset($this->_options['mapColumn']) && $this->_options['mapColumn']) {
             $content .= $this->_genColumnMapCode($fields);
         }
 
