@@ -425,6 +425,10 @@ class ".$className." extends Migration\n".
                         if ($localFields[$fieldName]->getType() != $tableColumn->getType()) {
                             $changed = true;
                         }
+												
+						if ($localFields[$fieldName]->getSize() != $tableColumn->getSize()) {
+							$changed = true;
+						}
 
                         if ($tableColumn->isNotNull() != $localFields[$fieldName]->isNotNull()) {
                             $changed = true;
