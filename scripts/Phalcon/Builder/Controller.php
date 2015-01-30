@@ -61,9 +61,13 @@ class Controller extends Component
     public function build()
     {
         $path = '';
-        if (isset($this->_options['directory']) && $this->_options['directory']) {
-            $path = $this->_options['directory'] . '/';
-        }
+        if (isset($this->_options['directory'])) {
+            if ($this->_options['directory']) {
+                $path = $this->_options['directory'] . '/';
+            }
+        } else {
+            $path = '.';
+        } 
 
         if (isset($this->_options['namespace'])) {
             $namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
