@@ -133,7 +133,16 @@ class Migration extends Command implements CommandsInterface
         if ($this->isReceivedOption('migrations')) {
             $migrationsDir = $path.$this->getOption('migrations');
         } else {
-            $migrationsDir = $path.'app/migrations';
+			if(file_exists($path.'app')) {
+				$migrationsDir = $path.'app/migrations';
+			}
+			else if(file_exists($path.'apps')) {
+				$migrationsDir = $path.'apps/migrations';
+			}
+			else {
+				$migrationsDir = $path.'migrations';		
+			}
+		
         }
 
         $exportData = $this->getOption('data');
