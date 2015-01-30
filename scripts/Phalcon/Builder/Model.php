@@ -239,8 +239,6 @@ class Model extends Component
             if ($this->_options['directory']) {
                 $path = $this->_options['directory'] . '/';
             }
-        } else {
-            $path = '.';
         }
 
         $config = $this->_getConfig($path);
