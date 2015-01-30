@@ -60,7 +60,7 @@ class Controller extends Command implements CommandsInterface
         $controllerBuilder = new ControllerBuilder(array(
             'name' => $controllerName,
             'directory' => $this->getOption('directory'),
-			'controllersDir' => $this->getOption('output'),
+	    'controllersDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
             'baseClass' => $this->getOption('base-class'),
             'force' => $this->isReceivedOption('force')
