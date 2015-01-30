@@ -65,7 +65,9 @@ class Controller extends Component
             if ($this->_options['directory']) {
                 $path = $this->_options['directory'] . '/';
             }
-        }
+        } else {
+            $path = '.';
+        } 
 
         if (isset($this->_options['namespace'])) {
             $namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
