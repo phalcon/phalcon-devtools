@@ -234,7 +234,7 @@ class Model extends Component
             throw new BuilderException("You must specify the table name");
         }
 
-        $path = '';
+        $path = '.\\';
         if (isset($this->_options['directory'])) {
             if ($this->_options['directory']) {
                 $path = $this->_options['directory'] . '/';
