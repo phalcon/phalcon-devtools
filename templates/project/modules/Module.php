@@ -4,7 +4,6 @@ namespace @@namespace@@\Frontend;
 
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 @@iniConfigImport@@
 
@@ -54,15 +53,9 @@ class Module implements ModuleDefinitionInterface
          * Database connection is created based in the parameters defined in the configuration file
          */
         $di['db'] = function () use ($config) {
-            return new DbAdapter(array(
-                "host" => $config->database->host,
-                "username" => $config->database->username,
-                "password" => $config->database->password,
-                "dbname" => $config->database->name,
-                "charset" => $config->database->charset
-            ));
+            $dbClass = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
+            return new $dbClass($config->database->toArray());
         };
-
     }
 
 }
