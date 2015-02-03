@@ -55,14 +55,13 @@ class Module implements ModuleDefinitionInterface
          */
         $di['db'] = function () use ($config) {
             return new DbAdapter(array(
-                "host" => $config->database->host,
-                "username" => $config->database->username,
-                "password" => $config->database->password,
-                "dbname" => $config->database->name,
-                "charset" => $config->database->charset
+                'host' => $config->database->host,
+                'username' => $config->database->username,
+                'password' => $config->database->password,
+                'dbname' => $config->database->dbname,
+                'charset' => $config->database->charset,
             ));
         };
-
     }
 
 }
