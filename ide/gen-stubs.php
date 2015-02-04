@@ -192,7 +192,7 @@ foreach ($allClasses as $className) {
 
 	// constants
 	foreach ($reflector->getConstants() as $constant => $value) {
-		$source.= PHP_EOL . "\t\t" . 'const '.$constant.' = '.$value.';'.PHP_EOL;
+		$source.= PHP_EOL . "\t\t" . 'const '.$constant.' = '.(is_bool($value) ? (int)$value : $value).';'.PHP_EOL;
 	}
 
 	// public and protected properties
