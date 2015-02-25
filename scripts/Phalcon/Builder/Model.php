@@ -240,7 +240,7 @@ class Model extends Component
                 $path = $this->_options['directory'] . '/';
             }
         } else {
-            $path = '.';
+            $path = '../';
         }
 
         $config = $this->_getConfig($path);
@@ -254,21 +254,15 @@ class Model extends Component
             $modelsDir = $config->application->modelsDir;
         } else {
             $modelsDir = $this->_options['modelsDir'];
-        }            
-        
-        $modelsDir = rtrim(rtrim($modelsDir, '/'), '\\') . DIRECTORY_SEPARATOR;             
-        
-        if ($this->isAbsolutePath($modelsDir) == false) {
-            $modelPath = $path . DIRECTORY_SEPARATOR . $modelsDir;
-        } else {
-            $modelPath = $modelsDir;
-        }                                 
+        }
+
+        $modelsDir = rtrim(rtrim($modelsDir, '/'), '\\') . DIRECTORY_SEPARATOR;
 
         $methodRawCode = array();
         $className = $this->_options['className'];
-        $modelPath .= $className . '.php';
+        $modelsDir .= $className . '.php';
 
-        if (file_exists($modelPath)) {
+        if (file_exists($modelsDir)) {
             if (!$this->_options['force']) {
                 throw new BuilderException(
                     "The model file '" . $className .
@@ -408,7 +402,7 @@ class Model extends Component
 
         $alreadyInitialized = false;
         $alreadyValidations = false;
-        if (file_exists($modelPath)) {
+        if (file_exists($modelsDir)) {
             try {
                 $possibleMethods = array();
                 if ($useSettersGetters) {
@@ -419,9 +413,9 @@ class Model extends Component
                     }
                 }
 
-                require $modelPath;
+                require $modelsDir;
 
-                $linesCode = file($modelPath);
+                $linesCode = file($modelsDir);
                 $fullClassName = $this->_options['className'];
                 if (isset($this->_options['namespace'])) {
                     $fullClassName = $this->_options['namespace'].'\\'.$fullClassName;
@@ -626,8 +620,8 @@ class Model extends Component
             $content
         );
 
-        if (!@file_put_contents($modelPath, $code)) {
-                throw new BuilderException("Unable to write to '$modelPath'");
+        if (!@file_put_contents($modelsDir, $code)) {
+                throw new BuilderException("Unable to write to '$modelsDir'");
         }
 
         if ($this->isConsole()) {
