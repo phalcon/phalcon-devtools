@@ -58,7 +58,7 @@ class Module implements ModuleDefinitionInterface
                 "host" => $config->database->host,
                 "username" => $config->database->username,
                 "password" => $config->database->password,
-                "dbname" => $config->database->name,
+                "dbname" => $config->database->dbname,
                 "charset" => $config->database->charset
             ));
         };
