@@ -41,8 +41,8 @@ class Controller extends Command implements CommandsInterface
 {
 
     protected $_possibleParameters = array(
-        'name=s' 		=> "Model name",
-        'namespace=s'	=> "Model's namespace [option]",
+        'name=s' 		=> "Controller name",
+        'namespace=s'	=> "Controller's namespace [option]",
         'directory=s'   => "Directory where the controller should be created [optional]",
         'base-class=s'	=> "Base class to be inherited by the controller [optional]",
         'force'			=> "Force to rewrite controller [optional]",
