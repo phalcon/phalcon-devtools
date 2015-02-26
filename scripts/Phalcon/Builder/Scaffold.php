@@ -105,8 +105,8 @@ class Scaffold extends Component
     {
 
         $options = $this->_options;
-
         $path = '';
+
         if (isset($this->_options['directory'])) {
             if ($this->_options['directory']) {
                 $path = $this->_options['directory'] . '/';
@@ -114,7 +114,7 @@ class Scaffold extends Component
         }
 
         $name = $options['name'];
-        $config = $this->_getConfig($path);
+        $config = $path === '' ? $this->_getConfig('../') : $this->_getConfig($path);
 
         if (!isset($config->database->adapter)) {
             throw new BuilderException("Adapter was not found in the config. Please specify a config variable [database][adapter]");
