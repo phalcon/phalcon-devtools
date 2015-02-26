@@ -357,6 +357,43 @@ class Model extends Component
         } else {
             throw new BuilderException('Table "' . $table . '" does not exist');
         }
+        
+        foreach ($db->listTables() as $tableName) {
+            foreach ($db->describeReferences($tableName) as $reference) {
+                if ($reference->getReferencedTable() == $this->_options['name']) {
+                    if (isset($this->_options['namespace'])) {
+                        $entityNamespace = "{$this->_options['namespace']}\\";
+                    }
+                    else {
+                        $entityNamespace = '';
+                    }
+                    $initialize[] = sprintf(
+                        $templateRelation, 
+                        'hasMany', 
+                        $reference->getReferencedColumns()[0], 
+                        $entityNamespace . ucfirst($tableName),
+                        $reference->getColumns()[0],
+                        "array('alias' => '" . ucfirst($tableName) . "')"
+                    );
+                }
+            }
+        }
+        foreach ($db->describeReferences($this->_options['name']) as $reference) {
+            if (isset($this->_options['namespace'])) {
+                $entityNamespace = "{$this->_options['namespace']}\\";
+            }
+            else {
+                $entityNamespace = '';
+            }
+            $initialize[] = sprintf(
+                $templateRelation,
+                'belongsTo',
+                $reference->getColumns()[0],
+                $entityNamespace . ucfirst($reference->getReferencedTable()),
+                $reference->getReferencedColumns()[0],
+                "array('alias' => '" . ucfirst($reference->getReferencedTable()) . "')"
+            );
+        }
 
         if (isset($this->_options['hasMany'])) {
             if (count($this->_options['hasMany'])) {
