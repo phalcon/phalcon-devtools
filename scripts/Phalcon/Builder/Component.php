@@ -59,10 +59,10 @@ abstract class Component
     {
         foreach (array('app/config/', 'config/') as $configPath) {
             if (file_exists($path . $configPath . "config.ini")) {
-                return new \Phalcon\Config\Adapter\Ini($path . $configPath . "/config.ini");
+                return new \Phalcon\Config\Adapter\Ini($path . $configPath . "config.ini");
             } else {
-                if (file_exists($path . $configPath. "/config.php")) {
-                    $config = include($path . $configPath . "/config.php");
+                if (file_exists($path . $configPath . "config.php")) {
+                    $config = include($path . $configPath . "config.php");
                     if (is_array($config)) {
                         $config = new \Phalcon\Config($config);
                     }

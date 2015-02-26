@@ -66,7 +66,7 @@ class Controller extends Component
         }
 
         if (isset($this->_options['namespace'])) {
-            $namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
+            $namespace = 'namespace '. $this->_options['namespace'] . ';' . PHP_EOL . PHP_EOL;
         } else {
             $namespace = '';
         }
@@ -102,6 +102,8 @@ class Controller extends Component
 
         $code = "<?php\n\n".$namespace."class ".$className."Controller extends ".$baseClass."\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
         $code = str_replace("\t", "    ", $code);
+
+        chdir('app');
 
         if (!file_exists($controllerPath) || $this->_options['force'] == true) {
             if (!@file_put_contents($controllerPath, $code)) {
