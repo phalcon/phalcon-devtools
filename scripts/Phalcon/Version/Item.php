@@ -163,7 +163,7 @@ class Item
             /**
              * @var $version Item
              */
-            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+            if (($version->getStamp() > $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
                 $betweenVersions[] = $version;
             }
         }
