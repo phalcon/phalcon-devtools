@@ -399,7 +399,7 @@ class Scaffold extends Component
                     $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date")) ?>';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date")) ?>';
+                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textArea(array("' . $attribute . '", "cols" => 30, "rows" => 4)) ?>';
                     break;
                 default:
                     $code .= PHP_EOL . "\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "size" => 30)) ?>';
@@ -446,7 +446,7 @@ class Scaffold extends Component
                     $code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "date") }}';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "date") }}';
+                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_area("' . $attribute . '", "cols": "30", "rows": "4") }}';
                     break;
                 default:
                     $code .= PHP_EOL . "\t\t\t" . '{{ text_field("' . $attribute . '", "size" : 30) }}';
