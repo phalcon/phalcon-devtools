@@ -388,6 +388,9 @@ class Scaffold extends Component
         } else {
 
             switch ($dataType) {
+                case 5: // enum
+                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->selectStatic(array("' . $attribute . '", array())) ?>';
+                    break;
                 case Column::TYPE_CHAR:
                     $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '")) ?>';
                     break;
@@ -435,6 +438,9 @@ class Scaffold extends Component
         } else {
 
             switch ($dataType) {
+                case 5: // enum
+                    $code .= PHP_EOL . "\t\t\t\t" . '{{ select_static("' . $attribute . '", "using": []) }}';
+                    break;
                 case Column::TYPE_CHAR:
                     $code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '") }}';
                     break;
