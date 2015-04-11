@@ -704,6 +704,9 @@ class Model extends Component
         $template = '
     /**
      * Independent Column Mapping.
+     * Keys are the real names in the table and the values their names in the application
+     *
+     * @return array
      */
     public function columnMap()
     {
