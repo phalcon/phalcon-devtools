@@ -1,52 +1,116 @@
-<?php 
+<?php
 
-namespace Phalcon {
+namespace Phalcon;
 
-	interface DispatcherInterface {
+interface DispatcherInterface
+{
 
-		public function setActionSuffix($actionSuffix);
+    /**
+     * Sets the default action suffix
+     *
+     * @param string $actionSuffix 
+     */
+	public function setActionSuffix($actionSuffix);
 
+    /**
+     * Sets the default namespace
+     *
+     * @param string $defaultNamespace 
+     */
+	public function setDefaultNamespace($defaultNamespace);
 
-		public function setDefaultNamespace($defaultNamespace);
+    /**
+     * Sets the default action name
+     *
+     * @param string $actionName 
+     */
+	public function setDefaultAction($actionName);
 
+    /**
+     * Sets the namespace which the controller belongs to
+     *
+     * @param string $namespaceName 
+     */
+	public function setNamespaceName($namespaceName);
 
-		public function setDefaultAction($actionName);
+    /**
+     * Sets the module name which the application belongs to
+     *
+     * @param string $moduleName 
+     */
+	public function setModuleName($moduleName);
 
+    /**
+     * Sets the action name to be dispatched
+     *
+     * @param string $actionName 
+     */
+	public function setActionName($actionName);
 
-		public function setNamespaceName($namespaceName);
+    /**
+     * Gets last dispatched action name
+     *
+     * @return string 
+     */
+	public function getActionName();
 
+    /**
+     * Sets action params to be dispatched
+     *
+     * @param array $params 
+     */
+	public function setParams($params);
 
-		public function setModuleName($moduleName);
+    /**
+     * Gets action params
+     *
+     * @return array 
+     */
+	public function getParams();
 
+    /**
+     * Set a param by its name or numeric index
+     *
+     * @param mixed $param 
+     * @param mixed $value 
+     */
+	public function setParam($param, $value);
 
-		public function setActionName($actionName);
+    /**
+     * Gets a param by its name or numeric index
+     *
+     * @param mixed $param 
+     * @param string|array $filters 
+     * @return mixed 
+     */
+	public function getParam($param, $filters = null);
 
+    /**
+     * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
+     *
+     * @return bool 
+     */
+	public function isFinished();
 
-		public function getActionName();
+    /**
+     * Returns value returned by the lastest dispatched action
+     *
+     * @return mixed 
+     */
+	public function getReturnedValue();
 
+    /**
+     * Dispatches a handle action taking into account the routing parameters
+     *
+     * @return object 
+     */
+	public function dispatch();
 
-		public function setParams($params);
+    /**
+     * Forwards the execution flow to another controller/action
+     *
+     * @param array $forward 
+     */
+	public function forward($forward);
 
-
-		public function getParams();
-
-
-		public function setParam($param, $value);
-
-
-		public function getParam($param, $filters=null);
-
-
-		public function isFinished();
-
-
-		public function getReturnedValue();
-
-
-		public function dispatch();
-
-
-		public function forward($forward);
-
-	}
 }

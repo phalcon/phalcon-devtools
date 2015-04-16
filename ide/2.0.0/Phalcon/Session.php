@@ -1,7 +1,8 @@
-<?php 
+<?php
 
-namespace Phalcon {
+namespace Phalcon;
 
-	abstract class Session {
-	}
+abstract class Session
+{
+
 }
