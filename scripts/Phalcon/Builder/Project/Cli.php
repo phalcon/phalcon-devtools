@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -25,11 +25,10 @@ use Phalcon\Script\Color;
 /**
  * Cli
  *
- * Builder to create cli application skeletons
+ * Builder to create Cli application skeletons
  *
- * @category    Phalcon
- * @package     Scripts
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
+ * @package     Phalcon\Builder\Project
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
 class Cli extends ProjectBuilder
@@ -45,9 +44,8 @@ class Cli extends ProjectBuilder
     /**
      * Creates the configuration
      *
-     * @param $path
-     * @param $templatePath
-     * @param $type
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createConfig($path, $templatePath)
     {
@@ -67,9 +65,8 @@ class Cli extends ProjectBuilder
     /**
      * Create Bootstrap file by default of application
      *
-     * @param $path
-     * @param $templatePath
-     * @param $useIniConfig
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createBootstrapFiles($path, $templatePath)
     {
@@ -81,8 +78,8 @@ class Cli extends ProjectBuilder
     /**
      * Create Default Tasks
      *
-     * @param $path
-     * @param $templatePath
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createDefaultTasks($path, $templatePath)
     {
@@ -98,11 +95,11 @@ class Cli extends ProjectBuilder
     /**
      * Create a launcher file to launch the application simply with ./project/application
      *
-     * @param $name string name of the application
-     * @param $path string path to the project root
-     * @param $templatePath
+     * @param string $name Name of the application
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
-    private function createLauncher($name,$path,$templatePath)
+    private function createLauncher($name, $path, $templatePath)
     {
         $getFile = $templatePath . '/project/cli/launcher';
         $putFile = $path . $name;
@@ -113,14 +110,14 @@ class Cli extends ProjectBuilder
     /**
      * Build project
      *
-     * @param $name
-     * @param $path
-     * @param $templatePath
-     * @param $options
+     * @param string $name Name of the application
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param array $options
      *
      * @return bool
      */
-    public function build($name, $path, $templatePath, $options)
+    public function build($name, $path, $templatePath, array $options)
     {
 
         $this->buildDirectories($this->_dirs,$path);

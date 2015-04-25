@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,15 +20,17 @@
 
 namespace Phalcon\Builder\Project;
 
+use Phalcon\Builder\Controller;
+use Phalcon\Web\Tools;
+
 /**
  * Simple
  *
- * Builder to create simple application skeletons
+ * Builder to create Simple application skeletons
  *
- * @category  Phalcon
- * @package   Scripts
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license   New BSD License
+ * @package     Phalcon\Builder\Project
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class Simple extends ProjectBuilder
 {
@@ -54,11 +56,11 @@ class Simple extends ProjectBuilder
     /**
      * Create indexController file
      *
-     * @param $path
+     * @param string $path Path to the project root
      */
     private function createControllerFile($path)
     {
-        $modelBuilder = new \Phalcon\Builder\Controller(array(
+        $modelBuilder = new Controller(array(
             'name' => 'index',
             'directory' => $path,
             'controllersDir' => $path . 'app/controllers',
@@ -70,6 +72,8 @@ class Simple extends ProjectBuilder
     /**
      * Create .htaccess files by default of application
      *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createHtaccessFiles($path, $templatePath)
     {
@@ -97,6 +101,8 @@ class Simple extends ProjectBuilder
     /**
      * Create view files by default
      *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createIndexViewFiles($path, $templatePath)
     {
@@ -107,29 +113,15 @@ class Simple extends ProjectBuilder
         $getFile = $templatePath . '/project/simple/views/index/index.volt';
         $putFile = $path.'app/views/index/index.volt';
         $this->generateFile($getFile, $putFile);
-
-        return;
-
-        $file = $path.'app/views/index.phtml';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/simple/views/index.phtml');
-            file_put_contents($file, $str);
-        }
-
-        $file = $path.'app/views/index/index.phtml';
-        if (!file_exists($file)) {
-            $str = file_get_contents($templatePath . '/project/simple/views/index/index.phtml');
-            file_put_contents($file, $str);
-        }
     }
 
     /**
      * Creates the configuration
      *
-     * @param $path
-     * @param $templatePath
-     * @param $name
-     * @param $type
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param string $name Name of the application
+     * @param string $type Config type
      */
     private function createConfig($path, $templatePath, $name, $type)
     {
@@ -149,9 +141,9 @@ class Simple extends ProjectBuilder
     /**
      * Create ControllerBase
      *
-     * @param $path
-     * @param $templatePath
-     * @param $name
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param string $name Name of the application
      */
     private function createControllerBase($path, $templatePath, $name)
     {
@@ -163,9 +155,8 @@ class Simple extends ProjectBuilder
     /**
      * Create Bootstrap file by default of application
      *
-     * @param $path
-     * @param $templatePath
-     * @param $useIniConfig
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createBootstrapFile($path, $templatePath)
     {
@@ -177,20 +168,20 @@ class Simple extends ProjectBuilder
     /**
      * Build project
      *
-     * @param $name
-     * @param $path
-     * @param $templatePath
-     * @param $options
+     * @param string $name Name of the application
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param array $options Options
      *
      * @return bool
      */
-    public function build($name, $path, $templatePath, $options)
+    public function build($name, $path, $templatePath, array $options)
     {
-        
+
         $this->buildDirectories($this->_dirs,$path);
 
         $this->getVariableValues($options);
-        
+
         if (isset($options['useConfigIni']) && $options['useConfigIni']) {
             $this->createConfig($path, $templatePath, $name, 'ini');
         } else {
@@ -204,7 +195,7 @@ class Simple extends ProjectBuilder
         $this->createControllerFile($path, $templatePath);
 
         if ($options['enableWebTools']) {
-            \Phalcon\Web\Tools::install($path);
+            Tools::install($path);
         }
 
         return true;

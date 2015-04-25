@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -23,12 +23,11 @@ namespace Phalcon\Builder\Project;
 /**
  * Micro
  *
- * Builder to create micro application skeletons
+ * Builder to create Micro application skeletons
  *
- * @category  Phalcon
- * @package   Scripts
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license   New BSD License
+ * @package     Phalcon\Builder\Project
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class Micro extends ProjectBuilder
 {
@@ -49,6 +48,8 @@ class Micro extends ProjectBuilder
     /**
      * Create .htaccess files by default of application
      *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createHtaccessFiles($path, $templatePath)
     {
@@ -76,6 +77,8 @@ class Micro extends ProjectBuilder
     /**
      * Create view files by default
      *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createIndexViewFiles($path, $templatePath)
     {
@@ -91,10 +94,10 @@ class Micro extends ProjectBuilder
     /**
      * Creates the configuration
      *
-     * @param $path
-     * @param $templatePath
-     * @param $name
-     * @param $type
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param string $name Name of the application
+     * @param string $type Config type
      */
     private function createConfig($path, $templatePath, $name, $type)
     {
@@ -118,9 +121,8 @@ class Micro extends ProjectBuilder
     /**
      * Create Bootstrap file by default of application
      *
-     * @param $path
-     * @param $templatePath
-     * @param $useIniConfig
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createBootstrapFile($path, $templatePath)
     {
@@ -132,14 +134,14 @@ class Micro extends ProjectBuilder
     /**
      * Build project
      *
-     * @param $name
-     * @param $path
-     * @param $templatePath
-     * @param $options
+     * @param string $name Name of the application
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param array $options Options
      *
      * @return bool
      */
-    public function build($name, $path, $templatePath, $options)
+    public function build($name, $path, $templatePath, array $options)
     {
 
         $this->buildDirectories($this->_dirs,$path);

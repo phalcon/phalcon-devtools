@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,14 +20,16 @@
 
 namespace Phalcon\Builder\Project;
 
+use Phalcon\Builder\Controller;
+use Phalcon\Web\Tools;
+
 /**
  * Multi-Module
  *
- * Builder to create multi-module application skeletons
+ * Builder to create Multi-Module application skeletons
  *
- * @category    Phalcon
- * @package     Scripts
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
+ * @package     Phalcon\Builder\Project
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
 class Modules extends ProjectBuilder
@@ -55,12 +57,12 @@ class Modules extends ProjectBuilder
     /**
      * Create indexController file
      *
-     * @param $path
-     * @param $name
+     * @param string $path Path to the project root
+     * @param string $name Name of the application
      */
     private function createControllerFile($path, $name)
     {
-        $modelBuilder = new \Phalcon\Builder\Controller(array(
+        $modelBuilder = new Controller(array(
             'name' => 'index',
             'controllersDir' => $path . 'apps/frontend/controllers/',
             'namespace' => ucfirst($name) . '\Frontend\Controllers',
@@ -72,6 +74,8 @@ class Modules extends ProjectBuilder
     /**
      * Create .htaccess files by default of application
      *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createHtaccessFiles($path, $templatePath)
     {
@@ -99,6 +103,8 @@ class Modules extends ProjectBuilder
     /**
      * Create view files by default
      *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createIndexViewFiles($path, $templatePath)
     {
@@ -114,10 +120,10 @@ class Modules extends ProjectBuilder
     /**
      * Creates the configuration
      *
-     * @param $path
-     * @param $templatePath
-     * @param $name
-     * @param $type
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param string $name Name of the application
+     * @param string $type Config type
      */
     private function createConfig($path, $templatePath, $name, $type)
     {
@@ -129,9 +135,9 @@ class Modules extends ProjectBuilder
     /**
      * Create ControllerBase
      *
-     * @param $path
-     * @param $templatePath
-     * @param $name
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param string $name Name of the application
      */
     private function createControllerBase($path, $templatePath, $name)
     {
@@ -143,9 +149,9 @@ class Modules extends ProjectBuilder
     /**
      * Create ControllerBase
      *
-     * @param $path
-     * @param $templatePath
-     * @param $name
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param string $name Name of the application
      */
     private function createModule($path, $templatePath, $name)
     {
@@ -157,9 +163,9 @@ class Modules extends ProjectBuilder
     /**
      * Create Bootstrap file by default of application
      *
-     * @param $name
-     * @param $path
-     * @param $templatePath
+     * @param string $name Name of the application
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
      */
     private function createBootstrapFile($name, $path, $templatePath)
     {
@@ -179,14 +185,14 @@ class Modules extends ProjectBuilder
     /**
      * Build project
      *
-     * @param $name
-     * @param $path
-     * @param $templatePath
-     * @param $options
+     * @param string $name Name of the application
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     * @param array $options Options
      *
      * @return bool
      */
-    public function build($name, $path, $templatePath, $options)
+    public function build($name, $path, $templatePath, array $options)
     {
 
         $this->buildDirectories($this->_dirs,$path);
@@ -207,7 +213,7 @@ class Modules extends ProjectBuilder
         $this->createControllerFile($path, $name);
 
         if ($options['enableWebTools']) {
-            \Phalcon\Web\Tools::install($path);
+            Tools::install($path);
         }
 
         return true;
