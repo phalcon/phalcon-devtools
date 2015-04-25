@@ -60,10 +60,10 @@ class Controller extends Component
      */
     public function build()
     {
-        $path = '.\\';
+        $path = realpath('.') . DIRECTORY_SEPARATOR;
         if (isset($this->_options['directory'])) {
             if ($this->_options['directory']) {
-                $path = $this->_options['directory'] . '/';
+                $path = $this->_options['directory'] . DIRECTORY_SEPARATOR;
             }
         }
 
