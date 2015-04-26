@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -25,19 +25,21 @@ namespace Phalcon\Builder\Project;
  *
  * Abstract Builder to create application skeletons
  *
- * @category  Phalcon
- * @package   Scripts
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license   New BSD License
+ * @package     Phalcon\Builder\Project
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 abstract class ProjectBuilder
 {
-    /* Stores variable values depending on parameters */
+    /**
+     * Stores variable values depending on parameters
+     * @var array
+     */
     protected $variableValues;
 
-    abstract public function build($name, $path, $templatePath, $options);
+    abstract public function build($name, $path, $templatePath, array $options);
 
-    public function buildDirectories(array $directoryList,$path)
+    public function buildDirectories(array $directoryList, $path)
     {
         foreach ($directoryList as $dir) {
             @mkdir(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $dir);
@@ -47,9 +49,9 @@ abstract class ProjectBuilder
     /**
      * Generate variable values depending on parameters
      *
-     * @param $options
+     * @param array $options
      */
-    protected function getVariableValues($options) 
+    protected function getVariableValues(array $options)
     {
         $variableValuesResult = array();
         $variablesJsonFile = $options['templatePath'].'/project/'.$options['type'].'/variables.json';
@@ -69,27 +71,29 @@ abstract class ProjectBuilder
     }
 
     /**
-    * Generate file $putFile from $getFile, replacing @@variableValues@@
-    * @param $getFile
-    * @param $putFile
-    * @param $name
-    */
-    protected function generateFile($getFile, $putFile, $name = '') {
-
+     * Generate file $putFile from $getFile, replacing @@variableValues@@
+     *
+     * @param $getFile
+     * @param $putFile
+     * @param $name
+     */
+    protected function generateFile($getFile, $putFile, $name = '')
+    {
        if (file_exists($putFile) == false) {
             $str = file_get_contents($getFile);
-            if($name) {
+            if ($name) {
                 $str = preg_replace('/@@name@@/', $name, $str);
                 $str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
             }
-            if(sizeof($this->variableValues) > 0) {
+
+            if (sizeof($this->variableValues) > 0) {
                 foreach($this->variableValues as $variableValueKey => $variableValue) {
                     $variableValueKeyRegEx = '/@@'.preg_quote($variableValueKey, '/').'@@/';
                     $str = preg_replace($variableValueKeyRegEx, $variableValue, $str);
                 }
             }
+
             file_put_contents($putFile, $str);
         }
-
     }
 }
