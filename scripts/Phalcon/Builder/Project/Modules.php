@@ -192,7 +192,7 @@ class Modules extends ProjectBuilder
      *
      * @return bool
      */
-    public function build($name, $path, $templatePath, array $options)
+    public function build($path, $templatePath, $name, array $options)
     {
 
         $this->buildDirectories($this->_dirs,$path);
