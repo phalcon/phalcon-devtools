@@ -110,14 +110,14 @@ class Cli extends ProjectBuilder
     /**
      * Build project
      *
-     * @param string $name Name of the application
      * @param string $path Path to the project root
      * @param string $templatePath Path to the template
+     * @param string $name Name of the application
      * @param array $options
      *
      * @return bool
      */
-    public function build($name, $path, $templatePath, array $options)
+    public function build($path, $templatePath, $name, array $options)
     {
 
         $this->buildDirectories($this->_dirs,$path);

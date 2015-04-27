@@ -37,7 +37,7 @@ abstract class ProjectBuilder
      */
     protected $variableValues;
 
-    abstract public function build($name, $path, $templatePath, array $options);
+    abstract public function build($path, $templatePath, $name, array $options);
 
     public function buildDirectories(array $directoryList, $path)
     {
