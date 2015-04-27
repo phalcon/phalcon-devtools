@@ -359,7 +359,7 @@ class Model extends Component
         }
         
         foreach ($db->listTables() as $tableName) {
-            foreach ($db->describeReferences($tableName) as $reference) {
+            foreach ($db->describeReferences($tableName, $schema) as $reference) {
                 if ($reference->getReferencedTable() == $this->_options['name']) {
                     if (isset($this->_options['namespace'])) {
                         $entityNamespace = "{$this->_options['namespace']}\\";
@@ -378,7 +378,7 @@ class Model extends Component
                 }
             }
         }
-        foreach ($db->describeReferences($this->_options['name']) as $reference) {
+        foreach ($db->describeReferences($this->_options['name'], $schema) as $reference) {
             if (isset($this->_options['namespace'])) {
                 $entityNamespace = "{$this->_options['namespace']}\\";
             }
