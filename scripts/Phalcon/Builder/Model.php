@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,30 +21,27 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Db\Column;
-use Phalcon\Builder\Component;
-use Phalcon\Builder\BuilderException;
-use Phalcon\Script\Color;
 use Phalcon\Text as Utils;
+use ReflectionException;
+use ReflectionClass;
 
 /**
  * ModelBuilderComponent
  *
  * Builder to generate models
  *
- * @category    Phalcon
- * @package    Builder
- * @subpackage  Model
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license    New BSD License
+ * @package     Phalcon\Builder
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class Model extends Component
 {
     /**
-     * Mapa de datos escalares a objetos
-     *
+     * Map of scalar data objects
      * @var array
      */
-    private $_typeMap = array(//'Date' => 'Date',
+    private $_typeMap = array(
+        //'Date' => 'Date',
         //'Decimal' => 'Decimal'
     );
 
@@ -213,17 +210,23 @@ class Model extends Component
 
         $templateFind = "
     /**
+     * Allows to query a set of records that match the specified conditions
+     *
      * @return %s[]
+     * @param mixed \$parameters
      */
-    public static function find(\$parameters = array())
+    public static function find(\$parameters = null)
     {
         return parent::find(\$parameters);
     }
 
     /**
+     * Allows to query the first record that match the specified conditions
+     *
      * @return %s
+     * @param mixed \$parameters
      */
-    public static function findFirst(\$parameters = array())
+    public static function findFirst(\$parameters = null)
     {
         return parent::findFirst(\$parameters);
     }
@@ -264,15 +267,15 @@ class Model extends Component
             $modelsDir = $config->application->modelsDir;
         } else {
             $modelsDir = $this->_options['modelsDir'];
-        }            
-        
-        $modelsDir = rtrim(rtrim($modelsDir, '/'), '\\') . DIRECTORY_SEPARATOR;             
-        
+        }
+
+        $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+
         if ($this->isAbsolutePath($modelsDir) == false) {
             $modelPath = $path . DIRECTORY_SEPARATOR . $modelsDir;
         } else {
             $modelPath = $modelsDir;
-        }                                 
+        }
 
         $methodRawCode = array();
         $className = $this->_options['className'];
@@ -367,7 +370,7 @@ class Model extends Component
         } else {
             throw new BuilderException('Table "' . $table . '" does not exist');
         }
-        
+
         foreach ($db->listTables() as $tableName) {
             foreach ($db->describeReferences($tableName, $schema) as $reference) {
                 if ($reference->getReferencedTable() == $this->_options['name']) {
@@ -378,9 +381,9 @@ class Model extends Component
                         $entityNamespace = '';
                     }
                     $initialize[] = sprintf(
-                        $templateRelation, 
-                        'hasMany', 
-                        $reference->getReferencedColumns()[0], 
+                        $templateRelation,
+                        'hasMany',
+                        $reference->getReferencedColumns()[0],
                         $entityNamespace . ucfirst($tableName),
                         $reference->getColumns()[0],
                         "array('alias' => '" . ucfirst($tableName) . "')"
@@ -473,7 +476,7 @@ class Model extends Component
                 if (isset($this->_options['namespace'])) {
                     $fullClassName = $this->_options['namespace'].'\\'.$fullClassName;
                 }
-                $reflection = new \ReflectionClass($fullClassName);
+                $reflection = new ReflectionClass($fullClassName);
                 foreach ($reflection->getMethods() as $method) {
                     if ($method->getDeclaringClass()->getName() == $fullClassName) {
                         $methodName = $method->getName();
@@ -498,7 +501,7 @@ class Model extends Component
                         }
                     }
                 }
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
             }
         }
 
