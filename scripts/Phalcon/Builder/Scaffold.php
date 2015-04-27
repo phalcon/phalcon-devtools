@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,8 +21,6 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Text;
-use Phalcon\Script\Color;
-use Phalcon\Builder\Component;
 use Phalcon\Builder\Model as ModelBuilder;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Column;
@@ -32,11 +30,9 @@ use Phalcon\Db\Column;
  *
  * Build CRUDs using Phalcon
  *
- * @category 	Phalcon
- * @package 	Builder
- * @subpackage  Scaffold
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @package     Phalcon\Builder
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class Scaffold extends Component
 {
@@ -99,7 +95,7 @@ class Scaffold extends Component
 
     /**
      * @return bool
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     public function build()
     {
@@ -268,7 +264,7 @@ class Scaffold extends Component
      * @param $type
      *
      * @return string
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     private function _resolveType($type)
     {
@@ -669,7 +665,7 @@ class Scaffold extends Component
      * @param $options
      * @param $type
      *
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     private function makeView($path, $options, $type)
     {

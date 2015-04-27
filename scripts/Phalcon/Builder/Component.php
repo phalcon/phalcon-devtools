@@ -99,7 +99,7 @@ abstract class Component
     /**
      * Check if a path is absolute
      *
-     * @param string $path Project path
+     * @param string $path Path to check
      *
      * @return bool
      */
