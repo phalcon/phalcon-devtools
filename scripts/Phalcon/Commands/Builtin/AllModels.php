@@ -53,6 +53,7 @@ class AllModels extends Command implements CommandsInterface
         'fk' 				=> "Define any virtual foreign keys.  ",
         'validations' 		=> "Define possible domain validation according to conventions.  ",
         'directory=s' 		=> "Base path on which project will be created",
+        'mapcolumn'         => 'Get some code for map columns. [optional]',
     );
 
     /**
@@ -104,6 +105,7 @@ class AllModels extends Command implements CommandsInterface
             'genSettersGetters' => $this->isReceivedOption('get-set'),
             'genDocMethods' => $this->isReceivedOption('doc'),
             'modelsDir' => $modelsDir,
+            'mapColumn' => $this->isReceivedOption('mapcolumn'),
         ));
 
         $modelBuilder->build();

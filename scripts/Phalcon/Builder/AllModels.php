@@ -79,6 +79,12 @@ class AllModels extends Component
             $genSettersGetters = false;
         }
 
+        if (isset($this->_options['mapColumn'])) {
+            $mapColumn = $this->_options['mapColumn'] ? true : null;
+        } else {
+            $mapColumn = null;
+        }
+
         $adapter = $config->database->adapter;
         $this->isSupportedAdapter($adapter);
 
@@ -197,6 +203,7 @@ class AllModels extends Component
                     'genSettersGetters' => $genSettersGetters,
                     'directory' => $this->_options['directory'],
                     'modelsDir' => $this->_options['modelsDir'],
+                    'mapColumn' => $mapColumn,
                 ));
 
                 $modelBuilder->build();
