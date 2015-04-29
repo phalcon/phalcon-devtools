@@ -57,7 +57,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * $params = array(
 		 *    'models'     => array('Users'),
 		 *    'columns'    => array('id', 'name', 'status'),
-		 *    'conditions' => "created > '2013-01-01' AND created < '2014-01-01'",
+		 *    'conditions' => "created > '2013-01-01' AND created < '2015-01-01'",
 		 *    'group'      => array('id', 'name'),
 		 *    'having'     => "name = 'Kamil'",
 		 *    'order'      => array('name', 'id'),

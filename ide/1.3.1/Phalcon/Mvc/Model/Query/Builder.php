@@ -62,11 +62,11 @@ namespace Phalcon\Mvc\Model\Query {
 		 *    'conditions' => array(
 		 *        array(
 		 *            "created > :min: AND created < :max:",
-		 *            array("min" => '2013-01-01',   'max' => '2014-01-01'),
+		 *            array("min" => '2013-01-01',   'max' => '2015-01-01'),
 		 *            array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
 		 *        ),
 		 *    ),
-		 *    // or 'conditions' => "created > '2013-01-01' AND created < '2014-01-01'",
+		 *    // or 'conditions' => "created > '2013-01-01' AND created < '2015-01-01'",
 		 *    'group'      => array('id', 'name'),
 		 *    'having'     => "name = 'Kamil'",
 		 *    'order'      => array('name', 'id'),
