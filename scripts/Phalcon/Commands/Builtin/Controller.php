@@ -41,11 +41,12 @@ class Controller extends Command implements CommandsInterface
 {
 
     protected $_possibleParameters = array(
-        'name=s' 		=> "Controller name",
-        'namespace=s'	=> "Controller's namespace [option]",
-        'directory=s'   => "Directory where the controller should be created [optional]",
+        'name=s' 	=> "Model name",
+        'namespace=s'	=> "Model's namespace [option]",
+	'directory=s'   => "Base path on which project is located [optional]",
+        'output=s'      => "Folder where controllers are located [optional]", 
         'base-class=s'	=> "Base class to be inherited by the controller [optional]",
-        'force'			=> "Force to rewrite controller [optional]",
+        'force'		=> "Force to rewrite controller [optional]",
     );
 
     /**
@@ -59,6 +60,7 @@ class Controller extends Command implements CommandsInterface
         $controllerBuilder = new ControllerBuilder(array(
             'name' => $controllerName,
             'directory' => $this->getOption('directory'),
+	    'controllersDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
             'baseClass' => $this->getOption('base-class'),
             'force' => $this->isReceivedOption('force')
