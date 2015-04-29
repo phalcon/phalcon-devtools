@@ -24,6 +24,7 @@ use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Version\Item as VersionItem;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -41,7 +42,7 @@ class Migration
     /**
      * Migration database connection
      *
-     * @var \Phalcon\Db
+     * @var \Phalcon\Db\AdapterInterface
      */
     protected static $_connection;
 
@@ -59,6 +60,14 @@ class Migration
      */
     private static $_migrationPath = null;
 
+
+    /**
+     * Version of the migration file
+     *
+     * @var string
+     */
+    protected $_version = null;
+
     /**
      * Prepares component
      *
@@ -68,7 +77,6 @@ class Migration
      */
     public static function setup($database)
     {
-
         if ( ! isset($database->adapter))
             throw new \Phalcon\Exception('Unspecified database Adapter in your configuration!');
 
@@ -85,7 +93,6 @@ class Migration
         if($database->adapter == 'Mysql') {
             self::$_connection->query('SET FOREIGN_KEY_CHECKS=0');
         }
-
 
         if ( \Phalcon\Migrations::isConsole() ) {
             $profiler = new Profiler();
@@ -111,6 +118,9 @@ class Migration
      */
     public static function setMigrationPath($path)
     {
+        if (substr($path, -1) != '/') {
+            $path .= '/';
+        }
         self::$_migrationPath = $path;
     }
 
@@ -140,30 +150,29 @@ class Migration
     /**
      * Generate specified table migration
      *
-     * @param      $version
-     * @param      $table
+     * @param string $version
+     * @param string $table
      * @param null $exportData
-     *
      * @return string
+     *
      * @throws Exception
      */
     public static function generate($version, $table, $exportData=null)
     {
-
         $oldColumn = null;
         $allFields = array();
         $numericFields = array();
         $tableDefinition = array();
 
-                if (isset(self::$_databaseConfig->schema)) {
-                        $defaultSchema = self::$_databaseConfig->schema;
-                } elseif (isset(self::$_databaseConfig->adapter) && self::$_databaseConfig->adapter == 'Postgresql') {
-                        $defaultSchema =  'public';
-                } elseif (isset(self::$_databaseConfig->dbname)) {
-                        $defaultSchema = self::$_databaseConfig->dbname;
-                } else {
-                        $defaultSchema = null;
-                }
+        if (isset(self::$_databaseConfig->schema)) {
+            $defaultSchema = self::$_databaseConfig->schema;
+        } elseif (isset(self::$_databaseConfig->adapter) && self::$_databaseConfig->adapter == 'Postgresql') {
+            $defaultSchema =  'public';
+        } elseif (isset(self::$_databaseConfig->dbname)) {
+            $defaultSchema = self::$_databaseConfig->dbname;
+        } else {
+            $defaultSchema = null;
+        }
 
         $description = self::$_connection->describeColumns($table, $defaultSchema);
         foreach ($description as $field) {
@@ -186,18 +195,18 @@ class Migration
                     $fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
                     break;
                 case Column::TYPE_DECIMAL:
-                        $fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
+                    $fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
                     $numericFields[$field->getName()] = true;
                     break;
                 case Column::TYPE_TEXT:
                     $fieldDefinition[] = "'type' => Column::TYPE_TEXT";
                     break;
                 case Column::TYPE_BOOLEAN:
-                                        $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
-                                        break;
-                                case Column::TYPE_FLOAT:
-                                        $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
-                                        break;
+                    $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
+                    break;
+                case Column::TYPE_FLOAT:
+                    $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
+                    break;
                 case Column::TYPE_DOUBLE:
                     $fieldDefinition[] = "'type' => Column::TYPE_DOUBLE";
                     break;
@@ -222,14 +231,14 @@ class Migration
             }
 
             if ($field->getSize()) {
-                        $fieldDefinition[] = "'size' => " . $field->getSize();
-                } else {
-                    $fieldDefinition[] = "'size' => 1";
-                }
+                $fieldDefinition[] = "'size' => " . $field->getSize();
+            } else {
+                $fieldDefinition[] = "'size' => 1";
+            }
 
-                        if ($field->getScale()) {
-                                $fieldDefinition[] = "'scale' => " . $field->getScale();
-                        }
+            if ($field->getScale()) {
+                $fieldDefinition[] = "'scale' => " . $field->getScale();
+            }
 
             if ($oldColumn != null) {
                 $fieldDefinition[] = "'after' => '" . $oldColumn . "'";
@@ -238,7 +247,7 @@ class Migration
             }
 
             $oldColumn = $field->getName();
-            $tableDefinition[] = "\t\t\t\tnew Column(\n\t\t\t\t\t'" . $field->getName() . "',\n\t\t\t\t\tarray(\n\t\t\t\t\t\t" . join(",\n\t\t\t\t\t\t", $fieldDefinition) . "\n\t\t\t\t\t)\n\t\t\t\t)";
+            $tableDefinition[] = "\t\t\t\tnew Column('" . $field->getName() . "', array(\n\t\t\t\t\t" . join(",\n\t\t\t\t\t", $fieldDefinition) . "\n\t\t\t\t))";
             $allFields[] = "'".$field->getName()."'";
         }
 
@@ -283,16 +292,33 @@ class Migration
 
         $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
         $className = \Phalcon\Text::camelize($table) . 'Migration_'.$classVersion;
-        $classData = "use Phalcon\\Db\\Column;
-use Phalcon\\Db\\Index;
-use Phalcon\\Db\\Reference;
-use Phalcon\\Mvc\\Model\\Migration;
 
-class ".$className." extends Migration\n".
-"{\n\n".
-        "\tpublic function up()\n".
-        "\t{\n\t\t\$this->morphTable(\n\t\t\t'" . $table . "',\n\t\t\tarray(" .
-        "\n\t\t\t'columns' => array(\n" . join(",\n", $tableDefinition) . "\n\t\t\t),";
+        // begin of class
+
+        $classData =
+            "use Phalcon\\Db\\Column;\n" .
+            "use Phalcon\\Db\\Index;\n" .
+            "use Phalcon\\Db\\Reference;\n" .
+            "use Phalcon\\Mvc\\Model\\Migration;\n" .
+            "\n" .
+            "class ".$className." extends Migration\n" .
+            "{\n";
+
+        // morph()
+
+        $classData .=
+            "\n" .
+            "\t/**\n" .
+            "\t * Define the table structure\n" .
+            "\t *\n" .
+            "\t * @return void\n" .
+            "\t */\n" .
+            "\tpublic function morph()\n" .
+            "\t{\n" .
+            "\t\t\$this->morphTable('" . $table . "', array(\n" .
+            "\t\t\t'columns' => array(\n" . join(",\n", $tableDefinition) . "\n" .
+            "\t\t\t),";
+
         if (count($indexesDefinition)) {
             $classData .= "\n\t\t\t'indexes' => array(\n" . join(",\n", $indexesDefinition) . "\n\t\t\t),";
         }
@@ -305,17 +331,76 @@ class ".$className." extends Migration\n".
             $classData .= "\n\t\t\t'options' => array(\n".join(",\n", $optionsDefinition) . "\n\t\t\t)\n";
         }
 
-        $classData .= "\t\t)\n\t\t);\n\t}";
+        $classData .=
+            "\t\t));\n" .
+            "\t}\n";
+
+        // up()
+
+        $classData .=
+            "\n" .
+            "\t/**\n" .
+            "\t * Run the migrations\n" .
+            "\t *\n" .
+            "\t * @return void\n" .
+            "\t */\n" .
+            "\tpublic function up()\n" .
+            "\t{\n";
+
+        if ($exportData == 'always') {
+            $classData .= "\t\t\$this->batchInsert('" . $table . "', array(\n\t\t\t" . join(",\n\t\t\t", $allFields) . "\n\t\t));\n";
+        }
+
+        $classData .=
+            "\t}\n";
+
+        // down()
+
+        $classData .=
+            "\n" .
+            "\t/**\n" .
+            "\t * Reverse the migrations\n" .
+            "\t *\n" .
+            "\t * @return void\n" .
+            "\t */\n" .
+            "\tpublic function down()\n" .
+            "\t{\n";
+
+        if ($exportData == 'always') {
+            $classData .= "\t\t\$this->batchDelete('" . $table . "');\n";
+        }
+
+        $classData .=
+            "\t}\n";
+
+        // afterCreateTable()
+
+        if ($exportData == 'oncreate') {
+            $classData .=
+                "\n" .
+                "\t/**\n" .
+                "\t * This function is called after the table was created\n" .
+                "\t *\n" .
+                "\t * @return void\n" .
+                "\t */\n" .
+                "\tpublic function afterCreateTable()\n" .
+                "\t{\n" .
+                "\t\t\$this->batchInsert('" . $table . "', array(\n\t\t\t" . join(",\n\t\t\t", $allFields) . "\n\t\t));\n";
+                "\t}\n";
+        }
+
+        // end of class
+
+        $classData .=
+            "\n" .
+            "}\n";
+
+        $classData = str_replace("\t", "    ", $classData);
+
+        // dump data
+
         if ($exportData == 'always' || $exportData == 'oncreate') {
-
-            if ($exportData == 'oncreate') {
-                $classData .= "\n\n\tpublic function afterCreateTable() {\n";
-            } else {
-                $classData .= "\n\n\tpublic function afterUp() {\n";
-            }
-            $classData .= "\t\t\$this->batchInsert('$table', array(\n\t\t\t" . join(",\n\t\t\t", $allFields) . "\n\t\t));";
-
-            $fileHandler = fopen(self::$_migrationPath . '/' . $table . '.dat', 'w');
+            $fileHandler = fopen(self::$_migrationPath . $version . '/' . $table . '.dat', 'w');
             $cursor = self::$_connection->query('SELECT * FROM ' . $table);
             $cursor->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
             while ($row = $cursor->fetchArray()) {
@@ -337,41 +422,74 @@ class ".$className." extends Migration\n".
                 unset($data);
             }
             fclose($fileHandler);
-
-            $classData.="\n\t}";
         }
-        $classData.="\n}\n";
-        $classData = str_replace("\t", "    ", $classData);
 
         return $classData;
     }
 
     /**
-     * Migrate single file
+     * Migrate single table
      *
-     * @param $version
-     * @param $filePath
+     * @param Phalcon\Version\Item $version
+     * @param string $filePath
+     * @param string $action null|'up'|'down'
+     * @return string
      *
      * @throws Exception
      */
-    public static function migrateFile($version, $filePath)
+    public static function migrate($fromVersion, $toVersion, $tableName)
     {
-        if (file_exists($filePath)) {
-            $fileName = basename($filePath);
-            $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
-            $className = \Phalcon\Text::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
-            require_once $filePath;
-            if (class_exists($className)) {
-                $migration = new $className();
-                if (method_exists($migration, 'up')) {
-                    $migration->up();
-                    if (method_exists($migration, 'afterUp')) {
-                        $migration->afterUp();
-                    }
+        if (!is_object($fromVersion)) {
+            $fromVersion = new VersionItem($fromVersion);
+        }
+
+        if (!is_object($toVersion)) {
+            $toVersion = new VersionItem($toVersion);
+        }
+
+        if ($fromVersion->getStamp() == $toVersion->getStamp()) {
+            return; // nothing to do
+        }
+
+        if ($fromVersion->getStamp() < $toVersion->getStamp()) {
+
+            $toMigration = self::createClass($toVersion, $tableName);
+            if (!is_null($toMigration)) {
+
+                // morph the table structure
+                if (method_exists($toMigration, 'morph')) {
+                    $toMigration->morph();
                 }
-            } else {
-                throw new Exception('Migration class cannot be found ' . $className . ' at ' . $filePath);
+
+                // modifiy the datasets
+                if (method_exists($toMigration, 'up')) {
+                    $toMigration->up();
+                    // we don't need the afterUp function anymore!
+                    //if (method_exists($toMigration, 'afterUp')) {
+                    //    $toMigration->afterUp();
+                    //}
+                }
             }
+
+        } else {
+
+            // rollback!
+
+            // reset the data modifications
+            $fromMigration = self::createClass($fromVersion, $tableName);
+            if (!is_null($fromMigration) && method_exists($fromMigration, 'down')) {
+                $fromMigration->down();
+            }
+
+            // call the last morph function in the previous migration files
+            $toMigration = self::createPrevClassWithMorphMethode($toVersion, $tableName);
+            if (!is_null($toMigration)) {
+                $toMigration->morph();
+            } else {
+                // for safety's sake commented out!
+                //self::$_connection->dropTable($tableName);
+            }
+
         }
     }
 
@@ -587,18 +705,104 @@ class ".$className." extends Migration\n".
      */
     public function batchInsert($tableName, $fields)
     {
-        $migrationData = self::$_migrationPath.'/'.$tableName.'.dat';
-        if (file_exists($migrationData)) {
-            self::$_connection->begin();
-            self::$_connection->delete($tableName);
-            $batchHandler = fopen($migrationData, 'r');
-            while (($line = fgets($batchHandler)) !== false) {
-                self::$_connection->insert($tableName, explode('|', rtrim($line)), $fields, false);
-                unset($line);
-            }
-            fclose($batchHandler);
-            self::$_connection->commit();
+        $migrationData = self::$_migrationPath . $this->_version . '/' . $tableName . '.dat';
+        if (!file_exists($migrationData)) {
+            return;
         }
+
+        self::$_connection->begin();
+        self::$_connection->delete($tableName);
+        $batchHandler = fopen($migrationData, 'r');
+        while (($line = fgets($batchHandler)) !== false) {
+            self::$_connection->insert($tableName, explode('|', rtrim($line)), $fields);
+            unset($line);
+        }
+        fclose($batchHandler);
+        self::$_connection->commit();
     }
 
+    /**
+     * Delete the migration datasets from the table
+     *
+     * @param string $tableName
+     */
+    public function batchDelete($tableName)
+    {
+        $migrationData = self::$_migrationPath . $this->_version . '/' . $tableName . '.dat';
+        if (!file_exists($migrationData)) {
+            return;
+        }
+
+        self::$_connection->begin();
+        self::$_connection->delete($tableName);
+        $batchHandler = fopen($migrationData, 'r');
+        while (($line = fgets($batchHandler)) !== false) {
+            $data = explode('|', rtrim($line), 2);
+            self::$_connection->delete($tableName, 'id=?', [$data[0]]);
+            unset($line);
+        }
+        fclose($batchHandler);
+        self::$_connection->commit();
+    }
+
+    /**
+     * Create migration object for specified version
+     *
+     * @param Phalcon\Version\Item|string $version
+     * @param string $tableName
+     * @return null|Phalcon\Mvc\Model\Migration
+     *
+     * @throws Exception
+     */
+    private static function createClass($version, $tableName)
+    {
+        if (is_object($version)) {
+            $version = (string)$version;
+        }
+
+        $fileName = self::$_migrationPath . $version . '/' . $tableName . '.php';
+        if (!file_exists($fileName)) {
+            return null;
+        }
+
+        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
+        $className = \Phalcon\Text::camelize($tableName).'Migration_'.$classVersion;
+        @include_once $fileName;
+        if (!class_exists($className)) {
+            throw new Exception('Migration class cannot be found ' . $className . ' at ' . $fileName);
+        }
+
+        $migration = new $className($version);
+        $migration->_version = $version;
+        return $migration;
+    }
+
+    /**
+     * Find the last morph function in the previous migration files
+     *
+     * @return null|Phalcon\Mvc\Model\Migration
+     */
+    private static function createPrevClassWithMorphMethode($version, $tableName)
+    {
+        $prevVersions = array();
+        $iterator = new \DirectoryIterator(self::$_migrationPath);
+        foreach ($iterator as $fileinfo) {
+            if ($fileinfo->isDir() && preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileinfo->getFilename(), $matches)) {
+                $prevVersion = new VersionItem($matches[0], 3);
+                if (($prevVersion->getStamp() <= $version->getStamp())) {
+                    $prevVersions[] = $prevVersion;
+                }
+            }
+        }
+
+        $prevVersions = VersionItem::sortDesc($prevVersions);
+        foreach ($prevVersions as $prevVersion) {
+            $migration = self::createClass($prevVersion, $tableName);
+            if (!is_null($migration) && method_exists($migration, 'morph')) {
+                return $migration;
+            }
+        }
+
+        return null;
+    }
 }

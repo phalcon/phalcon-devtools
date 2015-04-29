@@ -137,8 +137,8 @@ class Item
     /**
      * Allows to check whether a version is in a range between two values.
      *
-     * @param  string  $initialVersion
-     * @param  string  $finalVersion
+     * @param  string|self  $initialVersion
+     * @param  string|self  $finalVersion
      * @param  array   $versions       Item[]
      * @return boolean
      */
@@ -149,24 +149,30 @@ class Item
         if (!is_object($initialVersion)) {
             $initialVersion = new self($initialVersion);
         }
-        if ( !is_object($finalVersion)) {
+
+        if (!is_object($finalVersion)) {
             $finalVersion = new self($finalVersion);
         }
-        if ($initialVersion->getStamp() > $finalVersion->getStamp()) {
+
+        $betweenVersions = array();
+        if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
+            return $betweenVersions; // nothing to do
+        }
+
+        if ($initialVersion->getStamp() < $finalVersion->getStamp()) {
+            $versions = self::sortAsc($versions);
+        } else {
             $versions = self::sortDesc($versions);
             list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
         }
-        $betweenVersions = array();
-        if ($initialVersion->getStamp() == $finalVersion->getStamp()) return $betweenVersions;
 
         foreach ($versions as $version) {
-            /**
-             * @var $version Item
-             */
-            if (($version->getStamp() > $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+            /** @var Item $version */
+            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
                 $betweenVersions[] = $version;
             }
         }
+
         return $betweenVersions ;
     }
 
