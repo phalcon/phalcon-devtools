@@ -22,7 +22,6 @@ namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Project as ProjectBuilder;
 
 /**
@@ -34,7 +33,7 @@ use Phalcon\Builder\Project as ProjectBuilder;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
 */
-class Project extends Command implements CommandsInterface
+class Project extends Command
 {
     protected $_possibleParameters = array(
         'name'            => 'Name of the new project',

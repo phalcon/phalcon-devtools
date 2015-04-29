@@ -24,7 +24,6 @@ use Phalcon\Builder;
 use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Migrations;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
@@ -38,7 +37,7 @@ use Phalcon\Config\Adapter\Json as JsonConfig;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Migration extends Command implements CommandsInterface
+class Migration extends Command
 {
 
     protected $_possibleParameters = array(

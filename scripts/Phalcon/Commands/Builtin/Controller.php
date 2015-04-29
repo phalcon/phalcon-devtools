@@ -23,7 +23,6 @@ namespace Phalcon\Commands\Builtin;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Controller as ControllerBuilder;
 
 /**
@@ -35,7 +34,7 @@ use Phalcon\Builder\Controller as ControllerBuilder;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Controller extends Command implements CommandsInterface
+class Controller extends Command
 {
     protected $_possibleParameters = array(
         'name=s'        => "Controller name",

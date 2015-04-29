@@ -24,7 +24,6 @@ use Phalcon\Text;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Model as ModelBuilder;
 
 /**
@@ -36,7 +35,7 @@ use Phalcon\Builder\Model as ModelBuilder;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Model extends Command implements CommandsInterface
+class Model extends Command
 {
     protected $_possibleParameters = array(
         'name=s'          => "Table name",

@@ -22,7 +22,6 @@ namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 
 /**
  * Enumerate Command
@@ -31,7 +30,7 @@ use Phalcon\Commands\CommandsInterface;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Enumerate extends Command implements CommandsInterface
+class Enumerate extends Command
 {
     protected $_possibleParameters = array();
 

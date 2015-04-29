@@ -24,7 +24,6 @@ use Phalcon\Builder\AllModels as AllModelsBuilder;
 use Phalcon\Builder;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 
 /**
  * AllModels Command
@@ -35,7 +34,7 @@ use Phalcon\Commands\CommandsInterface;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class AllModels extends Command implements CommandsInterface
+class AllModels extends Command
 {
     protected $_possibleParameters = array(
         'config=s'    => "Configuration file  ",

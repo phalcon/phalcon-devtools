@@ -22,7 +22,6 @@ namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Web\Tools;
 use Phalcon\Commands\CommandsException;
 
@@ -35,7 +34,7 @@ use Phalcon\Commands\CommandsException;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Webtools extends Command implements CommandsInterface
+class Webtools extends Command
 {
     /**
      * Possible command parameters

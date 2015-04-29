@@ -23,7 +23,6 @@ namespace Phalcon\Commands\Builtin;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Scaffold as ScaffoldBuilder;
 
 /**
@@ -35,7 +34,7 @@ use Phalcon\Builder\Scaffold as ScaffoldBuilder;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Scaffold extends Command implements CommandsInterface
+class Scaffold extends Command
 {
     protected $_possibleParameters = array(
         'table-name=s'      => "Table used as base to generate the scaffold",
