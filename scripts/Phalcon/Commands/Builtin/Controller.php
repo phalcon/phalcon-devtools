@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,24 +27,21 @@ use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Controller as ControllerBuilder;
 
 /**
- * CreateController
+ * Create Controller Command
  *
  * Create a handler for the command line.
  *
- * @category 	Phalcon
- * @package 	Command
- * @subpackage  Controller
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @package     Phalcon\Commands\Builtin
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class Controller extends Command implements CommandsInterface
 {
-
     protected $_possibleParameters = array(
         'name=s' 		=> "Controller name",
         'namespace=s'	=> "Controller's namespace [option]",
         'directory=s'   => "Base path on which project is located [optional]",
-        'output=s'		=> "Directory where the controller should be created [optional]"
+        'output=s'      => "Directory where the controller should be created [optional]",
         'base-class=s'	=> "Base class to be inherited by the controller [optional]",
         'force'			=> "Force to rewrite controller [optional]",
     );
@@ -54,7 +51,6 @@ class Controller extends Command implements CommandsInterface
      */
     public function run($parameters)
     {
-
         $controllerName = $this->getOption(array('name', 1));
 
         $controllerBuilder = new ControllerBuilder(array(
@@ -116,5 +112,4 @@ class Controller extends Command implements CommandsInterface
     {
         return 1;
     }
-
 }
