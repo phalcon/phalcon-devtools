@@ -54,6 +54,7 @@ class Model extends Command implements CommandsInterface
         'force'           => "Rewrite the model. [optional]",
         'trace'           => "Shows the trace of the framework in case of exception. [optional]",
         'mapcolumn'       => 'Get some code for map columns. [optional]',
+        'abstract'        => 'Abstract Model [optional]'
     );
 
     /**
@@ -84,6 +85,7 @@ class Model extends Command implements CommandsInterface
                 'excludeFields'     => $this->getOption('excludefields'),
                 'force'             => $this->isReceivedOption('force'),
                 'mapColumn'         => $this->isReceivedOption('mapcolumn'),
+                'abstract'          => $this->isReceivedOption('abstract')
             )
         );
 

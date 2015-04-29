@@ -45,6 +45,10 @@ class AllModels extends Component
         if (!isset($options['force'])) {
             $options['force'] = false;
         }
+        if (!isset($options['abstract'])) {
+            $options['abstract'] = false;
+        }
+
 
         $this->_options = $options;
     }
@@ -170,7 +174,10 @@ class AllModels extends Component
         }
 
         foreach ($db->listTables($schema) as $name) {
-            $className = Utils::camelize($name);
+            
+            $className = ($this->_options['abstract'] ? 'Abstract' : '');
+            $className .= Utils::camelize($name);
+
             if (!file_exists($modelsDir . '/' . $className . '.php') || $forceProcess) {
 
                 if (isset($hasMany[$name])) {
@@ -204,6 +211,7 @@ class AllModels extends Component
                     'directory' => $this->_options['directory'],
                     'modelsDir' => $this->_options['modelsDir'],
                     'mapColumn' => $mapColumn,
+                    'abstract' => $this->_options['abstract']
                 ));
 
                 $modelBuilder->build();
