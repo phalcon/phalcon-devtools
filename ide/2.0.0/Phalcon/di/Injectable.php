@@ -74,7 +74,7 @@ abstract class Injectable implements \Phalcon\Di\InjectionAwareInterface, \Phalc
     public $eventsManager;
 
     /**
-     * @var \Phalcon\Db
+     * @var \Phalcon\Db\AdapterInterface
      */
     public $db;
 
