@@ -1,5 +1,6 @@
-[![Total Downloads](https://poser.pugx.org/phalcon/devtools/downloads.svg)](https://packagist.org/packages/phalcon/devtools) [![License](https://poser.pugx.org/phalcon/devtools/license.svg)](https://packagist.org/packages/phalcon/devtools)
-
+[![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)](https://github.com/phalcon/incubator/devtools)
+[![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
+[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)](https://github.com/phalcon/phalcon-devtools/blob/master/docs/LICENSE)
 
 Phalcon Devtools
 ================
