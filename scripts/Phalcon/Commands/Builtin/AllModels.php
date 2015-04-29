@@ -151,5 +151,4 @@ class AllModels extends Command implements CommandsInterface
     {
         return 0;
     }
-
 }
