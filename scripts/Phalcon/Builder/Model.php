@@ -62,6 +62,16 @@ class Model extends Component
         if (!isset($options['fileName'])) {
             $options['fileName'] = $options['name'];
         }
+        if (!isset($options['abstract'])) {
+            $options['abstract'] = false;
+        }
+
+        
+        if ($options['abstract']) {
+            $options['className'] = 'Abstract' . $options['className'];
+        }
+
+
         $this->_options = $options;
     }
 
@@ -224,7 +234,7 @@ class Model extends Component
 
         $templateCode = "<?php
 
-%s%s%sclass %s extends %s
+%s%s%s%sclass %s extends %s
 {
 %s
 }
@@ -653,11 +663,15 @@ class Model extends Component
             $str_use = implode(PHP_EOL, $uses) . PHP_EOL . PHP_EOL;
         }
 
+        $abstract = ($this->_options['abstract'] ? 'abstract ' : '');
+
+
         $code = sprintf(
             $templateCode,
             $license,
             $namespace,
             $str_use,
+            $abstract,
             $className,
             $extends,
             $content
@@ -668,7 +682,10 @@ class Model extends Component
         }
 
         if ($this->isConsole()) {
-            $this->_notifySuccess('Model "' . $this->_options['name'] .'" was successfully created.');
+            $msgSuccess = ($this->_options['abstract'] ? 'Abstract ' : '');
+            $msgSuccess .= 'Model "' . $this->_options['name'] .'" was successfully created.'; 
+            
+            $this->_notifySuccess($msgSuccess);
         }
     }
 

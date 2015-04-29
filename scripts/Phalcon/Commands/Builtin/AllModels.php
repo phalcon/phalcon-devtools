@@ -54,6 +54,7 @@ class AllModels extends Command implements CommandsInterface
         'validations' 		=> "Define possible domain validation according to conventions.  ",
         'directory=s' 		=> "Base path on which project will be created",
         'mapcolumn'         => 'Get some code for map columns. [optional]',
+        'abstract'         => 'Abstract Model [optional]'
     );
 
     /**
@@ -106,6 +107,7 @@ class AllModels extends Command implements CommandsInterface
             'genDocMethods' => $this->isReceivedOption('doc'),
             'modelsDir' => $modelsDir,
             'mapColumn' => $this->isReceivedOption('mapcolumn'),
+            'abstract' => $this->isReceivedOption('abstract')
         ));
 
         $modelBuilder->build();
