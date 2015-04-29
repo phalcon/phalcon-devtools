@@ -85,7 +85,7 @@ class Scaffold extends Command implements CommandsInterface
      */
     public function getCommands()
     {
-        return array('scaffold');
+        return array('scaffold', 'create-scaffold');
     }
 
     /**

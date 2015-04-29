@@ -96,7 +96,7 @@ class Webtools extends Command implements CommandsInterface
      */
     public function getCommands()
     {
-        return array('webtools');
+        return array('webtools', 'create-webtools');
     }
 
     /**

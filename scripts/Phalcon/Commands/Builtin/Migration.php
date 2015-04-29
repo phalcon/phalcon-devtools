@@ -184,7 +184,7 @@ class Migration extends Command implements CommandsInterface
      */
     public function getCommands()
     {
-        return array('migration');
+        return array('migration', 'create-migration');
     }
 
     /**
