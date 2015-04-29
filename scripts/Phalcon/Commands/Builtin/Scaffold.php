@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -23,44 +23,40 @@ namespace Phalcon\Commands\Builtin;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Scaffold as ScaffoldBuilder;
 
 /**
- * \Phalcon\Command\Scaffold
+ * Scaffold Command
  *
  * Scaffold a controller, model and view for a database table
  *
- * @category 	Phalcon
- * @package 	Command
- * @subpackage  Scaffold
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @package     Phalcon\Commands\Builtin
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
-class Scaffold extends Command implements CommandsInterface
+class Scaffold extends Command
 {
-
     protected $_possibleParameters = array(
-        'table-name=s'   => "Table used as base to generate the scaffold",
-        'schema=s'       => "Name of the schema. [optional]",
-        'get-set'        => "Attributes will be protected and have setters/getters. [optional]",
-        'directory=s'    => "Base path on which project was created [optional]",
-        'template-path=s'	 => 'Specify a template path [optional]',
-        'template-engine=s'=> 'Define the template engine, default php (php, volt). [optional]',
-        'force'          => "Forces to rewrite generated code if they already exists. [optional]",
-        'trace'          => "Shows the trace of the framework in case of exception. [optional]",
-        'ns-models=s'     => "Model's namespace [optional]",
-        'ns-controllers=s'     => "Controller's namespace [optional]",
+        'table-name=s'      => "Table used as base to generate the scaffold",
+        'schema=s'          => "Name of the schema. [optional]",
+        'get-set'           => "Attributes will be protected and have setters/getters. [optional]",
+        'directory=s'       => "Base path on which project was created [optional]",
+        'template-path=s'   => 'Specify a template path [optional]',
+        'template-engine=s' => 'Define the template engine, default php (php, volt). [optional]',
+        'force'             => "Forces to rewrite generated code if they already exists. [optional]",
+        'trace'             => "Shows the trace of the framework in case of exception. [optional]",
+        'ns-models=s'       => "Model's namespace [optional]",
+        'ns-controllers=s'  => "Controller's namespace [optional]",
     );
 
     /**
-     * @param $parameters
+     * Executes the current command
      *
-     * @return bool
+     * @param $parameters
+     * @return boolean
      */
     public function run($parameters)
     {
-
         $name = $this->getOption(array('table-name', 1));
         $templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);
         $schema = $this->getOption('schema');
@@ -84,11 +80,11 @@ class Scaffold extends Command implements CommandsInterface
     /**
      * Returns the command identifier
      *
-     * @return string
+     * @return array
      */
     public function getCommands()
     {
-        return array('scaffold');
+        return array('scaffold', 'create-scaffold');
     }
 
     /**
@@ -104,6 +100,7 @@ class Scaffold extends Command implements CommandsInterface
     /**
      * Prints help on the usage of the command
      *
+     * @return void
      */
     public function getHelp()
     {
@@ -123,11 +120,10 @@ class Scaffold extends Command implements CommandsInterface
     /**
      * Returns number of required parameters for this command
      *
-     * @return int
+     * @return integer
      */
     public function getRequiredParams()
     {
         return 1;
     }
-
 }

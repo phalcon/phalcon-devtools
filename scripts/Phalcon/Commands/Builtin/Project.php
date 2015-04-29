@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -22,43 +22,38 @@ namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Project as ProjectBuilder;
 
 /**
- * CreateProject
+ * Project Command
  *
  * Creates project skeletons
  *
- * @category 	Phalcon
- * @package		Command
- * @subpackage  Project
- * @copyright	Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license		New BSD License
+ * @package     Phalcon\Commands\Builtin
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
 */
-class Project extends Command implements CommandsInterface
+class Project extends Command
 {
-
     protected $_possibleParameters = array(
-        'name' => 'Name of the new project',
+        'name'            => 'Name of the new project',
         'enable-webtools' => 'Determines if webtools should be enabled [optional]',
-        'directory=s' => 'Base path on which project will be created [optional]',
-        'type=s' => 'Type of the application to be generated (micro, simple, modules)',
-        'template-path' => 'Specify a template path [optional]',
-        'use-config-ini' => 'Use a ini file as configuration file [optional]',
-        'trace' => 'Shows the trace of the framework in case of exception. [optional]',
-        'help' => 'Shows this help'
+        'directory=s'     => 'Base path on which project will be created [optional]',
+        'type=s'          => 'Type of the application to be generated (micro, simple, modules)',
+        'template-path'   => 'Specify a template path [optional]',
+        'use-config-ini'  => 'Use a ini file as configuration file [optional]',
+        'trace'           => 'Shows the trace of the framework in case of exception. [optional]',
+        'help'            => 'Shows this help'
     );
 
     /**
      * Executes the current command
      *
      * @param  array $parameters
-     * @return mixed
+     * @return boolean
      */
     public function run($parameters)
     {
-
         $projectName = $this->getOption(array('name', 1), null, 'default');
         $projectType = $this->getOption(array('type', 2), null, 'simple');
         $projectPath = $this->getOption(array('directory', 3), null, '');
@@ -90,6 +85,8 @@ class Project extends Command implements CommandsInterface
 
     /**
      * Checks whether the command can be executed outside a Phalcon project
+     *
+     * @return boolean
      */
     public function canBeExternal()
     {
@@ -122,7 +119,7 @@ class Project extends Command implements CommandsInterface
     /**
      * Returns number of required parameters for this command
      *
-     * @return int
+     * @return integer
      */
     public function getRequiredParams()
     {

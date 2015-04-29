@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com.com>                   |
   +------------------------------------------------------------------------+
 */
 
@@ -26,44 +27,40 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
 
 /**
- * Phalcon\Commands\Command
+ * Command Class
  *
- * Allows to implement devtools commands
+ * @package     Phalcon\Commands
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
-abstract class Command
+abstract class Command implements CommandsInterface
 {
-
     /**
      * Script
-     *
      * @var \Phalcon\Script
      */
     protected $_script;
 
     /**
      * Events Manager
-     *
      * @var \Phalcon\Events\Manager
      */
     protected $_eventsManager;
 
     /**
      * Output encoding of the script.
-     *
      * @var string
      */
     protected $_encoding = 'UTF-8';
 
     /**
      * Parameters received by the script.
-     *
      * @var string
      */
     protected $_parameters = array();
 
     /**
      * Possible prepared arguments.
-     *
      * @var array
      */
     protected $_preparedArguments = array();
@@ -77,6 +74,7 @@ abstract class Command
     final public function __construct(Script $script, EventsManager $eventsManager)
     {
         $this->_script = $script;
+        $this->_eventsManager = $eventsManager;
     }
 
     /**
@@ -126,10 +124,11 @@ abstract class Command
      * @param  array             $possibleAlias
      * @return array
      * @throws CommandsException
+     *
+     * @todo Refactor
      */
-    public function parseParameters($parameters = array(), $possibleAlias = array())
+    public function parseParameters(array $parameters = array(), $possibleAlias = array())
     {
-
         if (count($parameters) == 0) {
             if (isset($this->_possibleParameters)) {
                 $parameters = $this->_possibleParameters;
@@ -140,10 +139,6 @@ abstract class Command
                     throw new CommandsException("Cannot load possible parameters for script: " . get_class($this));
                 }
             }
-        }
-
-        if (!is_array($parameters)) {
-            throw new CommandsException("Cannot load possible parameters for script: " . get_class($this));
         }
 
         $arguments = array();
@@ -445,11 +440,14 @@ abstract class Command
     }
 
     /**
-     * Return required parameters
+     * Checks whether the command has identifier
+     *
+     * @param string $identifier
+     *
+     * @return boolean
      */
-    public function getRequiredParams()
+    public function hasIdentifier($identifier)
     {
-
+        return in_array($identifier, $this->getCommands(), true);
     }
-
 }
