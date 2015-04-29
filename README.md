@@ -45,7 +45,7 @@ Run the composer installer:
 php composer.phar install
 ```
 
-Create a symbolink link to the phalcon.php script:
+Create a symbolic link to the phalcon.php script:
 
 ```bash
 ln -s ~/devtools/phalcon.php /usr/bin/phalcon
@@ -104,10 +104,10 @@ $ phalcon commands
 This command should display something similar to:
 
 ```bash
-Phalcon DevTools (1.0.0)
+Phalcon DevTools (2.0.1)
 
 Help:
-  Lists the commands availables in Phalcon devtools
+  Lists the commands available in Phalcon devtools
 
 Available commands:
   commands (alias of: list, enumerate)
@@ -115,9 +115,9 @@ Available commands:
   model (alias of: create-model)
   all-models (alias of: create-all-models)
   project (alias of: create-project)
-  migration
-  scaffold
-  webtools
+  scaffold (alias of: create-scaffold)
+  migration (alias of: create-migration)
+  webtools (alias of: create-webtools)
 ```
 
 Database adapter
