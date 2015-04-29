@@ -35,13 +35,14 @@ interface CommandsInterface
      * Executes the command
      *
      * @param $parameters
+     * @return mixed
      */
     public function run($parameters);
 
     /**
      * Returns the command identifier
      *
-     * @return string
+     * @return array
      */
     public function getCommands();
 
@@ -54,6 +55,8 @@ interface CommandsInterface
 
     /**
      * Prints help on the usage of the command
+     *
+     * @return void
      */
     public function getHelp();
 }

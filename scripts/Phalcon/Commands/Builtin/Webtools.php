@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -24,11 +24,16 @@ use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Commands\CommandsInterface;
 use Phalcon\Web\Tools;
+use Phalcon\Commands\CommandsException;
 
 /**
- * Phalcon\Commands\Webtools
+ * Webtools Command
  *
  * Enables/disables webtools in a project
+ *
+ * @package     Phalcon\Commands\Builtin
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class Webtools extends Command implements CommandsInterface
 {
@@ -52,9 +57,10 @@ class Webtools extends Command implements CommandsInterface
     }
 
     /**
-     * Run the command
+     * Executes the command
      *
      * @param  array $parameters
+     * @throws CommandsException
      * @return void
      */
     public function run($parameters)
@@ -63,21 +69,23 @@ class Webtools extends Command implements CommandsInterface
         $directory = './';
 
         if ($action == 'enable') {
-            if (file_exists($directory . 'public/webtools.php'))
-                throw new \Exception('Webtools are already enabled!');
+            if (file_exists($directory . 'public/webtools.php')) {
+                throw new CommandsException('Webtools are already enabled!');
+            }
 
             Tools::install($directory);
 
             echo Color::success('Webtools successfully enabled!');
         } elseif ($action == 'disable') {
-            if ( ! file_exists($directory . 'public/webtools.php'))
-                throw new \Exception('Webtools are already disabled!');
+            if (!file_exists($directory . 'public/webtools.php')) {
+                throw new CommandsException('Webtools are already disabled!');
+            }
 
             Tools::uninstall($directory);
 
             echo Color::success('Webtools successfully disabled!');
         } else {
-            throw new \Exception('Invalid action!');
+            throw new CommandsException('Invalid action!');
         }
     }
 
@@ -94,7 +102,7 @@ class Webtools extends Command implements CommandsInterface
     /**
      * Check whether the command can be executed outside a Phalcon project
      *
-     * @return bool
+     * @return boolean
      */
     public function canBeExternal()
     {
@@ -124,7 +132,7 @@ class Webtools extends Command implements CommandsInterface
     /**
      * Return the number of required parameters for this command
      *
-     * @return int
+     * @return integer
      */
     public function getRequiredParams()
     {

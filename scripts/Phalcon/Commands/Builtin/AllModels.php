@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,49 +20,48 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Text;
+use Phalcon\Builder\AllModels as AllModelsBuilder;
 use Phalcon\Builder;
-use Phalcon\Script\Color;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Commands\Command;
 use Phalcon\Commands\CommandsInterface;
 
 /**
- * AllModels
+ * AllModels Command
  *
  * Create all models from a database
  *
- * @category 	Phalcon
- * @package 	Commands
- * @subpackage  Builtin
- * @copyright   Copyright (c) 2011-2014 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @package     Phalcon\Commands\Builtin
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class AllModels extends Command implements CommandsInterface
 {
-
     protected $_possibleParameters = array(
-        'config=s' 			=> "Configuration file  ",
-        'models=s' 			=> "Models directory ",
-        'schema=s'        	=> "Name of the schema. [optional]",
-        'namespace=s'       => "Model's namespace [optional]",
-        'extends=s'         => "Models extends [optional]",
-        'force'				=> "Force script to rewrite all the models.  ",
-        'get-set' 			=> "Attributes will be protected and have setters/getters.  ",
-        'doc' 				=> "Helps to improve code completion on IDEs  ",
-        'relations' 		=> "Possible relations defined according to convention.  ",
-        'fk' 				=> "Define any virtual foreign keys.  ",
-        'validations' 		=> "Define possible domain validation according to conventions.  ",
-        'directory=s' 		=> "Base path on which project will be created",
-        'mapcolumn'         => 'Get some code for map columns. [optional]',
-        'abstract'         => 'Abstract Model [optional]'
+        'config=s'    => "Configuration file  ",
+        'models=s'    => "Models directory ",
+        'schema=s'    => "Name of the schema. [optional]",
+        'namespace=s' => "Model's namespace [optional]",
+        'extends=s'   => "Models extends [optional]",
+        'force'       => "Force script to rewrite all the models.  ",
+        'get-set'     => "Attributes will be protected and have setters/getters.  ",
+        'doc'         => "Helps to improve code completion on IDEs  ",
+        'relations'   => "Possible relations defined according to convention.  ",
+        'fk'          => "Define any virtual foreign keys.  ",
+        'validations' => "Define possible domain validation according to conventions.  ",
+        'directory=s' => "Base path on which project will be created",
+        'mapcolumn'   => 'Get some code for map columns. [optional]',
+        'abstract'    => 'Abstract Model [optional]'
     );
 
     /**
+     * Executes the command
+     *
      * @param $parameters
+     * @return void
      */
     public function run($parameters)
     {
-
         $path = '';
         if ($this->isReceivedOption('directory')) {
             $path = $this->getOption('directory') . '/';
@@ -80,7 +79,7 @@ class AllModels extends Command implements CommandsInterface
             }
 
             if ($fileType == 'ini') {
-                $config = new \Phalcon\Config\Adapter\Ini($configPath);
+                $config = new ConfigIni($configPath);
             } else {
                 $config = include $configPath;
             }
@@ -94,7 +93,7 @@ class AllModels extends Command implements CommandsInterface
             $modelsDir = $this->getOption('models');
         }
 
-        $modelBuilder = new \Phalcon\Builder\AllModels(array(
+        $modelBuilder = new AllModelsBuilder(array(
             'force' => $this->isReceivedOption('force'),
             'config' => $config,
             'schema' => $this->getOption('schema'),
@@ -146,7 +145,7 @@ class AllModels extends Command implements CommandsInterface
     /**
      * Returns number of required parameters for this command
      *
-     * @return int
+     * @return integer
      */
     public function getRequiredParams()
     {

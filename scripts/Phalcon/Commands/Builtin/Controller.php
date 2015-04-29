@@ -27,7 +27,7 @@ use Phalcon\Commands\CommandsInterface;
 use Phalcon\Builder\Controller as ControllerBuilder;
 
 /**
- * Create Controller Command
+ * Controller Command
  *
  * Create a handler for the command line.
  *
@@ -38,16 +38,19 @@ use Phalcon\Builder\Controller as ControllerBuilder;
 class Controller extends Command implements CommandsInterface
 {
     protected $_possibleParameters = array(
-        'name=s' 		=> "Controller name",
-        'namespace=s'	=> "Controller's namespace [option]",
+        'name=s'        => "Controller name",
+        'namespace=s'   => "Controller's namespace [option]",
         'directory=s'   => "Base path on which project is located [optional]",
         'output=s'      => "Directory where the controller should be created [optional]",
-        'base-class=s'	=> "Base class to be inherited by the controller [optional]",
-        'force'			=> "Force to rewrite controller [optional]",
+        'base-class=s'  => "Base class to be inherited by the controller [optional]",
+        'force'         => "Force to rewrite controller [optional]",
     );
 
     /**
-     * Run the command
+     * Executes the command
+     *
+     * @param $parameters
+     * @return string
      */
     public function run($parameters)
     {
@@ -68,7 +71,7 @@ class Controller extends Command implements CommandsInterface
     /**
      * Returns the command identifier
      *
-     * @return string
+     * @return array
      */
     public function getCommands()
     {
@@ -106,7 +109,7 @@ class Controller extends Command implements CommandsInterface
     /**
      * Returns number of required parameters for this command
      *
-     * @return int
+     * @return integer
      */
     public function getRequiredParams()
     {
