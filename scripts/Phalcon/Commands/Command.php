@@ -438,4 +438,16 @@ abstract class Command implements CommandsInterface
     {
         return false;
     }
+
+    /**
+     * Checks whether the command has identifier
+     *
+     * @param string $identifier
+     *
+     * @return boolean
+     */
+    public function hasIdentifier($identifier)
+    {
+        return in_array($identifier, $this->getCommands(), true);
+    }
 }

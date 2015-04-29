@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
@@ -66,4 +67,13 @@ interface CommandsInterface
      * @return integer
      */
     public function getRequiredParams();
+
+    /**
+     * Checks whether the command has identifier
+     *
+     * @param string $identifier
+     *
+     * @return boolean
+     */
+    public function hasIdentifier($identifier);
 }
