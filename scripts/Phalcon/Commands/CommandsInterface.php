@@ -59,4 +59,11 @@ interface CommandsInterface
      * @return void
      */
     public function getHelp();
+
+    /**
+     * Return required parameters
+     *
+     * @return integer
+     */
+    public function getRequiredParams();
 }

@@ -32,7 +32,7 @@ use Phalcon\Filter;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-abstract class Command
+abstract class Command implements CommandsInterface
 {
     /**
      * Script
@@ -436,12 +436,5 @@ abstract class Command
     public function canBeExternal()
     {
         return false;
-    }
-
-    /**
-     * Return required parameters
-     */
-    public function getRequiredParams()
-    {
     }
 }
