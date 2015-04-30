@@ -133,3 +133,7 @@ $config = array(
   "adapter" => "Postgresql",
  );
  ```
+
+License
+=====
+Phalcon Developer Tools is open source software licensed under the New BSD License. See the docs/LICENSE file for more.
