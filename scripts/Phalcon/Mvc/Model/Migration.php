@@ -20,6 +20,9 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Db;
+use Phalcon\Text;
+use Phalcon\Migrations;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Mvc\Model\Exception;
@@ -30,31 +33,26 @@ use Phalcon\Events\Manager as EventsManager;
  *
  * Migrations of DML y DDL over databases
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @package     Phalcon\Mvc\Model
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
 class Migration
 {
-
     /**
      * Migration database connection
-     *
      * @var \Phalcon\Db
      */
     protected static $_connection;
 
     /**
      * Database configuration
-     *
      * @var \Phalcon\Config
      */
     private static $_databaseConfig;
 
     /**
      * Path where to save the migration
-     *
      * @var string
      */
     private static $_migrationPath = null;
@@ -69,13 +67,15 @@ class Migration
     public static function setup($database)
     {
 
-        if ( ! isset($database->adapter))
+        if (!isset($database->adapter)) {
             throw new \Phalcon\Exception('Unspecified database Adapter in your configuration!');
+        }
 
         $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $database->adapter;
 
-        if ( ! class_exists($adapter))
+        if (!class_exists($adapter)) {
             throw new \Phalcon\Exception('Invalid database Adapter!');
+        }
 
         $configArray = $database->toArray();
         unset($configArray['adapter']);
@@ -86,8 +86,7 @@ class Migration
             self::$_connection->query('SET FOREIGN_KEY_CHECKS=0');
         }
 
-
-        if ( \Phalcon\Migrations::isConsole() ) {
+        if (Migrations::isConsole()) {
             $profiler = new Profiler();
 
             $eventsManager = new EventsManager();
@@ -149,7 +148,6 @@ class Migration
      */
     public static function generate($version, $table, $exportData=null)
     {
-
         $oldColumn = null;
         $allFields = array();
         $numericFields = array();
@@ -282,7 +280,7 @@ class Migration
         }
 
         $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
-        $className = \Phalcon\Text::camelize($table) . 'Migration_'.$classVersion;
+        $className = Text::camelize($table) . 'Migration_'.$classVersion;
         $classData = "use Phalcon\\Db\\Column;
 use Phalcon\\Db\\Index;
 use Phalcon\\Db\\Reference;
@@ -317,7 +315,7 @@ class ".$className." extends Migration\n".
 
             $fileHandler = fopen(self::$_migrationPath . '/' . $table . '.dat', 'w');
             $cursor = self::$_connection->query('SELECT * FROM ' . $table);
-            $cursor->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+            $cursor->setFetchMode(Db::FETCH_ASSOC);
             while ($row = $cursor->fetchArray()) {
                 $data = array();
                 foreach ($row as $key => $value) {
@@ -359,7 +357,7 @@ class ".$className." extends Migration\n".
         if (file_exists($filePath)) {
             $fileName = basename($filePath);
             $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
-            $className = \Phalcon\Text::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
+            $className = Text::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
             require_once $filePath;
             if (class_exists($className)) {
                 $migration = new $className();
@@ -385,7 +383,6 @@ class ".$className." extends Migration\n".
      */
     public function morphTable($tableName, $definition)
     {
-
         if (isset(self::$_databaseConfig->dbname)) {
             $defaultSchema = self::$_databaseConfig->dbname;
         } else {
@@ -425,7 +422,7 @@ class ".$className." extends Migration\n".
                         if ($localFields[$fieldName]->getType() != $tableColumn->getType()) {
                             $changed = true;
                         }
-												
+
 						if ($localFields[$fieldName]->getSize() != $tableColumn->getSize()) {
 							$changed = true;
 						}
@@ -600,5 +597,4 @@ class ".$className." extends Migration\n".
             self::$_connection->commit();
         }
     }
-
 }

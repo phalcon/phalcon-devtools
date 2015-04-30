@@ -120,7 +120,6 @@ class Migration extends Command
      */
     public function run($parameters)
     {
-
         if ($this->isReceivedOption('table')) {
             $tableName = $this->getOption('table');
         } else {
@@ -129,8 +128,9 @@ class Migration extends Command
 
         $path = '';
         if ($this->isReceivedOption('directory')) {
-            $path = $this->getOption('directory') .'/';
+            $path = $this->getOption('directory');
         }
+        $path = realpath($path) . DIRECTORY_SEPARATOR;
 
         if ($this->isReceivedOption('migrations')) {
             $migrationsDir = $path.$this->getOption('migrations');

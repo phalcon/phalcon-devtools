@@ -46,7 +46,6 @@ class Migrations
      */
     public static function generate(array $options)
     {
-        $path = $options['directory'];
         $tableName = $options['tableName'];
         $exportData = $options['exportData'];
         $migrationsDir = $options['migrationsDir'];
