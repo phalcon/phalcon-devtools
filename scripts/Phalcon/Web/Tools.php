@@ -20,20 +20,26 @@
 
 namespace Phalcon\Web;
 
+use Phalcon\Mvc\Application;
+use Phalcon\Flash\Direct as Flash;
+use Phalcon\Mvc\Url;
+use Phalcon\Loader;
+use Phalcon\Exception;
 use Phalcon\Version;
 use Phalcon\Script;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\View;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Config;
 
 /**
  * Phalcon\Web\Tools
  *
  * Allows to use Phalcon Developer Tools with a web interface
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @package     Phalcon\Web
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
 class Tools
 {
@@ -203,39 +209,41 @@ class Tools
      */
     public static function main($path, $ip = null)
     {
-        if ( ! extension_loaded('phalcon'))
+        if (!extension_loaded('phalcon')) {
             throw new \Exception('Phalcon extension is not installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
+        }
 
         if ($ip !== null) {
             self::$ip = $ip;
         }
 
-        if ( ! defined('TEMPLATE_PATH')) {
+        if (!defined('TEMPLATE_PATH')) {
             define('TEMPLATE_PATH', $path . '/templates');
         }
 
-        // Read configuration
-        $configPaths = array(
-            '../config',
-            '../app/config',
-            '../apps/frontend/config'
+        $basePath = dirname(getcwd());
+        // Dirs for search config file
+        $configDirs = array(
+            $basePath . '/config/',
+            $basePath . '/app/config/',
+            $basePath . '/apps/frontend/config/',
+            $basePath . '/apps/backend/config/',
         );
 
         $readed = false;
 
-        foreach ($configPaths as $configPath) {
-            $cpath = $configPath . '/config.ini';
-
-            if (file_exists($cpath)) {
-                $config = new \Phalcon\Config\Adapter\Ini($cpath);
+        foreach ($configDirs as $configPath) {
+            if (file_exists($configPath . 'config.ini')) {
+                $config = new ConfigIni($configPath . 'config.ini');
                 $readed = true;
 
                 break;
             } else {
-                $cpath = $configPath . '/config.php';
-
-                if (file_exists($cpath)) {
-                    $config = require $cpath;
+                if (file_exists($configPath . 'config.php')) {
+                    $config = include($configPath . 'config.php');
+                    if (is_array($config)) {
+                        $config = new Config($config);
+                    }
                     $readed = true;
 
                     break;
@@ -243,10 +251,14 @@ class Tools
             }
         }
 
-        if ($readed === false)
-            throw new \Phalcon\Exception('Configuration file could not be loaded!');
+        if ($readed === false) {
+            throw new Exception(sprintf(
+                'Configuration file could not be loaded! Scanned dirs: %s',
+                implode(', ', $configDirs)
+            ));
+        }
 
-        $loader = new \Phalcon\Loader();
+        $loader = new Loader();
 
         $loader->registerDirs(array(
             $path . '/scripts/',
@@ -277,14 +289,14 @@ class Tools
             $di->set('config', $config);
 
             $di->set('url', function () use ($config) {
-                $url = new \Phalcon\Mvc\Url();
+                $url = new Url();
                 $url->setBaseUri($config->application->baseUri);
 
                 return $url;
             });
 
             $di->set('flash', function () {
-                return new \Phalcon\Flash\Direct(array(
+                return new Flash(array(
                     'error' => 'alert alert-error',
                     'success' => 'alert alert-success',
                     'notice' => 'alert alert-info',
@@ -313,12 +325,12 @@ class Tools
 
             self::$di = $di;
 
-            $app = new \Phalcon\Mvc\Application();
+            $app = new Application();
 
             $app->setDi($di);
 
             echo $app->handle()->getContent();
-        } catch (\Phalcon\Exception $e) {
+        } catch (Exception $e) {
             echo get_class($e), ': ', $e->getMessage(), "<br>";
             echo nl2br($e->getTraceAsString());
         } catch (\PDOException $e) {
@@ -344,7 +356,7 @@ class Tools
             $tools = str_replace("\\", '/', $tools);
         }
 
-        if ( ! is_dir($path . 'public/')) {
+        if (!is_dir($path . 'public/')) {
             throw new \Exception('Document root cannot be located');
         }
 
@@ -353,7 +365,7 @@ class Tools
 
         copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
-        if ( ! file_exists($configPath = $path . 'public/webtools.config.php')) {
+        if (!file_exists($configPath = $path . 'public/webtools.config.php')) {
             $template = file_get_contents(TEMPLATE_PATH . '/webtools.config.php');
             $code = str_replace('@@PATH@@', $tools, $template);
 
@@ -366,15 +378,17 @@ class Tools
      *
      * @param  string $path
      * @return void
+     *
+     * @throws \Exception
      */
     public static function uninstall($path)
     {
-        $path = rtrim(realpath($path), '/') . '/';
+        $path = realpath($path) . '/';
         if (PHP_OS == 'WINNT') {
             $path = str_replace("\\", '/', $path);
         }
 
-        if ( ! is_dir($path . 'public/')) {
+        if (!is_dir($path . 'public/')) {
             throw new \Exception('Document root cannot be located');
         }
 
