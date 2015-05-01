@@ -24,7 +24,6 @@ use Phalcon\Builder\BuilderException;
 
 class ModelsController extends ControllerBase
 {
-
     public function indexAction()
     {
         $this->listTables(true);
@@ -35,7 +34,6 @@ class ModelsController extends ControllerBase
      */
     public function createAction()
     {
-
         if ($this->request->isPost()) {
 
             $force = $this->request->getPost('force', 'int');
@@ -46,7 +44,6 @@ class ModelsController extends ControllerBase
             $defineRelations = $this->request->getPost('defineRelations', 'int');
 
             try {
-
                 $component = '\Phalcon\Builder\Model';
                 if ($tableName == 'all') {
                     $component = '\Phalcon\Builder\AllModels';
@@ -85,11 +82,9 @@ class ModelsController extends ControllerBase
                 } else {
                     $this->flash->success('Model "'.$tableName.'" was created successfully');
                 }
-
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }
-
         }
 
         return $this->dispatcher->forward(array(
@@ -106,7 +101,6 @@ class ModelsController extends ControllerBase
 
     public function editAction($fileName)
     {
-
         $fileName = str_replace('..', '', $fileName);
 
         $modelsDir = Tools::getConfig()->application->modelsDir;
@@ -128,9 +122,7 @@ class ModelsController extends ControllerBase
 
     public function saveAction()
     {
-
         if ($this->request->isPost()) {
-
             $fileName = $this->request->getPost('name', 'string');
 
             $fileName = str_replace('..', '', $fileName);
