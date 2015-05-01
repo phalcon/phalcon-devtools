@@ -30,27 +30,30 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Exception as PhalconException;
 
 try {
-
     $extensionLoaded = true;
+
     if (!extension_loaded('phalcon')) {
-        $extensionLoaded = false;
-        throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://docs.phalconphp.com/en/latest/reference/install.html');
+        throw new Exception(
+            sprintf(
+                "Phalcon extension isn't installed, follow these instructions to install it: %s",
+                Script::DOC_INSTALL_URL
+            )
+        );
     }
 
     $loader = new Loader();
-
-    $loader->registerDirs(array(
-        __DIR__ . '/scripts/'
-    ));
-
-    $loader->registerNamespaces(array(
-        'Phalcon' => __DIR__ . '/scripts/'
-    ));
-
-    $loader->register();
+    $loader
+        ->registerDirs(array(__DIR__ . '/scripts/'))
+        ->registerNamespaces(array('Phalcon' => __DIR__ . '/scripts/'))
+        ->register();
 
     if (Version::getId() < Script::COMPATIBLE_VERSION) {
-        throw new PhalconException('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
+        throw new Exception(
+            sprintf(
+                "Your Phalcon version isn't compatible with Developer Tools, download the latest at: %s",
+                Script::DOC_DOWNLOAD_URL
+            )
+        );
     }
 
     if (!defined('TEMPLATE_PATH')) {
@@ -76,6 +79,7 @@ try {
         '\Phalcon\Commands\Builtin\Migration',
         '\Phalcon\Commands\Builtin\Webtools'
     );
+
     foreach ($commandsToEnable as $command) {
         $script->attach(new $command($script, $eventsManager));
     }
@@ -83,12 +87,7 @@ try {
     $script->run();
 
 } catch (PhalconException $e) {
-    if ($extensionLoaded) {
-        print Color::error($e->getMessage()) . PHP_EOL;
-    } else {
-        print 'ERROR: ' . $e->getMessage() . PHP_EOL;
-    }
-
+    print Color::error($e->getMessage()) . PHP_EOL;
 } catch (Exception $e) {
     if ($extensionLoaded) {
         print Color::error($e->getMessage()) . PHP_EOL;

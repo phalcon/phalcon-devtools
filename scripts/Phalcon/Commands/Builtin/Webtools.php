@@ -41,19 +41,9 @@ class Webtools extends Command
      *
      * @var array
      */
-    protected $params = array(
+    protected $_possibleParameters = array(
         'action=s' => 'Enables/Disables webtools in a project'
     );
-
-    /**
-     * Return an array of possible command parameters
-     *
-     * @return array
-     */
-    public function getPossibleParams()
-    {
-        return $this->params;
-    }
 
     /**
      * Executes the command
@@ -125,7 +115,7 @@ class Webtools extends Command
         echo Color::colorize('  ?', Color::FG_GREEN);
         echo Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->params);
+        $this->printParameters($this->_possibleParameters);
     }
 
     /**

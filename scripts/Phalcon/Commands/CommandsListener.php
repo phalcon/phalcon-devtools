@@ -32,6 +32,15 @@ use Phalcon\Events\Event;
  */
 class CommandsListener
 {
+    /**
+     * Before command executing
+     *
+     * @param Event   $event
+     * @param Command $command
+     *
+     * @return bool
+     * @throws CommandsException
+     */
     public function beforeCommand(Event $event, Command $command)
     {
         if ($command->canBeExternal() == false) {
@@ -47,5 +56,7 @@ class CommandsListener
 
             return false;
         }
+
+        return true;
     }
 }
