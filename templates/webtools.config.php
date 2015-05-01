@@ -19,21 +19,18 @@
 */
 
 /**
- * Phalcon Developers Tools can only be used in local machines, however
- * you can set this to allow certain IP address.
+ * @const PTOOLS_IP Allowed IP for access.
+ *        Phalcon Developers Tools can only be used in local machine, however
+ *        you can set this to allow certain IP address.
  *
- * For example:
- *   192.168.0.1 or SUBNET 192., 10.0.2., 86.84.124.
- *
- * @var string
+ *        For example:
+ *          192.168.0.1 or SUBNET 192., 10.0.2., 86.84.124.
  */
-define('PTOOLS_IP', '192.168.');
+defined('PTOOLS_IP') || define('PTOOLS_IP', '192.168.');
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
 
 /**
- * The path to the Phalcon Developers Tools.
- *
- * @var string
+ * @const PTOOLSPATH The path to the Phalcon Developers Tools.
  */
-define('PTOOLSPATH', '@@PATH@@');
+defined('PTOOLSPATH') || define('PTOOLSPATH', '@@PATH@@');
