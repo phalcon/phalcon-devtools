@@ -19,7 +19,7 @@
 */
 
 use Phalcon\Web\Tools;
-
+define("APP_DIRECTORY", __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
 require 'webtools.config.php';
 require PTOOLSPATH . '/scripts/Phalcon/Web/Tools.php';
 
