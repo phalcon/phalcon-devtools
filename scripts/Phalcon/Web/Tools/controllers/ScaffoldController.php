@@ -24,7 +24,6 @@ use Phalcon\Builder\Scaffold;
 
 class ScaffoldController extends ControllerBase
 {
-
     public function indexAction()
     {
 
@@ -34,7 +33,6 @@ class ScaffoldController extends ControllerBase
             'volt' => 'volt',
             'php' => 'php'
         );
-
     }
 
     /**
@@ -42,9 +40,7 @@ class ScaffoldController extends ControllerBase
      */
     public function generateAction()
     {
-
         if ($this->request->isPost()) {
-
             $schema = $this->request->getPost('schema', 'string');
             $tableName = $this->request->getPost('tableName', 'string');
             $version = $this->request->getPost('version', 'string');
@@ -71,7 +67,6 @@ class ScaffoldController extends ControllerBase
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }
-
         }
 
         return $this->dispatcher->forward(array(

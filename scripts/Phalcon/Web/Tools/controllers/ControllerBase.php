@@ -20,6 +20,7 @@
 
 use Phalcon\Web\Tools;
 use Phalcon\Mvc\Controller;
+use Phalcon\Exception;
 
 class ControllerBase extends Controller
 {
@@ -46,7 +47,7 @@ class ControllerBase extends Controller
         if ($ip && ($ip == '127.0.0.1' || $ip == '::1' || $this->checkToolsIp($ip)))
             return false;
 
-        throw new \Phalcon\Exception('WebTools can only be used on the local machine (Your IP: ' . $ip . ') or you can make changes in webtools.config.php file to allow IP or NET');
+        throw new Exception('WebTools can only be used on the local machine (Your IP: ' . $ip . ') or you can make changes in webtools.config.php file to allow IP or NET');
     }
 
     /**

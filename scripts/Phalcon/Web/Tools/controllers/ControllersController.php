@@ -24,10 +24,8 @@ use Phalcon\Builder\BuilderException;
 
 class ControllersController extends ControllerBase
 {
-
     public function indexAction()
     {
-
     }
 
     /**
@@ -35,7 +33,6 @@ class ControllersController extends ControllerBase
      */
     public function createAction()
     {
-
         if ($this->request->isPost()) {
 
             $controllerName = $this->request->getPost('name', 'string');
@@ -71,7 +68,6 @@ class ControllersController extends ControllerBase
             'controller' => 'controllers',
             'action' => 'index'
         ));
-
     }
 
     /**
@@ -89,7 +85,6 @@ class ControllersController extends ControllerBase
      */
     public function editAction($fileName)
     {
-
         $fileName = str_replace('..', '', $fileName);
 
         $controllersDir = Tools::getConfig()->application->controllersDir;
@@ -105,7 +100,6 @@ class ControllersController extends ControllerBase
         $this->tag->setDefault('code', file_get_contents($controllersDir.'/'.$fileName));
         $this->tag->setDefault('name', $fileName);
         $this->view->setVar('name', $fileName);
-
     }
 
     /**
@@ -113,7 +107,6 @@ class ControllersController extends ControllerBase
      */
     public function saveAction()
     {
-
         if ($this->request->isPost()) {
 
             $fileName = $this->request->getPost('name', 'string');
@@ -148,6 +141,5 @@ class ControllersController extends ControllerBase
             'controller' => 'controllers',
             'action' => 'list'
         ));
-
     }
 }

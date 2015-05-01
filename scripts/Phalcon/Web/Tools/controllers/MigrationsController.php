@@ -18,12 +18,12 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Migrations;
 use Phalcon\Web\Tools;
 use Phalcon\Builder\BuilderException;
 
 class MigrationsController extends ControllerBase
 {
-
     /**
      * @return string
      */
@@ -39,7 +39,6 @@ class MigrationsController extends ControllerBase
 
     protected function _prepareVersions()
     {
-
         $migrationsDir = $this->_getMigrationsDir();
 
         $folders = array();
@@ -74,7 +73,6 @@ class MigrationsController extends ControllerBase
      */
     public function generateAction()
     {
-
          if ($this->request->isPost()) {
 
             $exportData = '';
@@ -85,8 +83,7 @@ class MigrationsController extends ControllerBase
             $migrationsDir = $this->_getMigrationsDir();
 
             try {
-
-                \Phalcon\Migrations::generate(array(
+                Migrations::generate(array(
                     'config' => Tools::getConfig(),
                     'directory' => null,
                     'tableName' => $tableName,
@@ -110,23 +107,17 @@ class MigrationsController extends ControllerBase
 
     }
 
-    /*
-     *
-     */
     public function runAction()
     {
-
         if ($this->request->isPost()) {
-
             $version = '';
             $exportData = '';
             $force = $this->request->getPost('force', 'int');
 
             try {
-
                 $migrationsDir = $this->_getMigrationsDir();
 
-                \Phalcon\Migrations::run(array(
+                Migrations::run(array(
                     'config' => Tools::getConfig(),
                     'directory' => null,
                     'tableName' => 'all',
@@ -141,7 +132,5 @@ class MigrationsController extends ControllerBase
         }
 
         $this->_prepareVersions();
-
     }
-
 }
