@@ -15,9 +15,28 @@
         <div class="control-group">
             <label class="control-label" for="name">Controller name</label>
             <div class="controls">
-                <?php echo $this->tag->textField(array('name', 'placeholder' => 'Name ...')) ?>
+                <?php echo $this->tag->textField(array('name', 'placeholder' => 'Class name')) ?>
             </div>
         </div>
+        <div class="control-group">
+            <label class="control-label" for="namespace">Namespace</label>
+            <div class="controls">
+                <?php echo $this->tag->textField(array('namespace')) ?>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="baseClass">Base class</label>
+            <div class="controls">
+                <?php echo $this->tag->textField(array('baseClass')) ?>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="directory">Project Root</label>
+            <div class="controls">
+                <?php echo $this->tag->textField(array('directory', 'value' => $directory)) ?>
+            </div>
+        </div>
+
         <label class="checkbox">
             <input type="checkbox" name="force" value="1"/>Force
         </label>

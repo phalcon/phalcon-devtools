@@ -44,23 +44,25 @@ class ControllersController extends ControllerBase
     public function createAction()
     {
         if ($this->request->isPost()) {
-
+            $force          = $this->request->getPost('force', 'int');
             $controllerName = $this->request->getPost('name', 'string');
-            $force = $this->request->getPost('force', 'int');
+            $directory      = $this->request->getPost('directory');
+            $namespace      = $this->request->getPost('namespace');
+            $baseClass      = $this->request->getPost('baseClass');
 
             try {
-
                 $controllerBuilder = new \Phalcon\Builder\Controller(array(
-                    'name' => $controllerName,
-                    'directory' => null,
-                    'namespace' => null,
-                    'baseClass' => null,
-                    'force' => $force
+                    'name'           => $controllerName,
+                    'directory'      => $directory,
+                    'namespace'      => $namespace,
+                    'baseClass'      => $baseClass,
+                    'force'          => $force,
+                    'controllersDir' => $this->controllersDir
                 ));
 
                 $fileName = $controllerBuilder->build();
 
-                $this->flash->success('The controller "'.$fileName.'" was created successfully');
+                $this->flash->success(sprintf('Model "%s" was created successfully', str_replace('.php', '', $fileName)));
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'controllers',
