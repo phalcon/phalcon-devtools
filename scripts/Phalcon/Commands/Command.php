@@ -304,13 +304,14 @@ abstract class Command implements CommandsInterface
 
     /**
      * Returns the value of an option received. If more parameters are taken as filters.
-     * @param      $option
-     * @param null $filters
-     * @param null $defaultValue
      *
-     * @return mixed|null
+     * @param mixed $option Option name or array of options
+     * @param mixed $filters Filter name or array of filters
+     * @param mixed $defaultValue Default value [Optional]
+     *
+     * @return mixed
      */
-    public function getOption($option, $filters=null, $defaultValue=null)
+    public function getOption($option, $filters = null, $defaultValue = null)
     {
         if (is_array($option)) {
             foreach ($option as $optionItem) {
