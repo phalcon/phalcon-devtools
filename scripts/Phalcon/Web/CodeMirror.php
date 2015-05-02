@@ -60,7 +60,7 @@ class CodeMirror
         $css = $path . 'public/css/codemirror';
 
         // Install bootstrap
-        if ( ! is_dir($js)) {
+        if (!is_dir($js)) {
             mkdir($js . '/lib', 0777, true);
             mkdir($js . '/mode/php', 0777, true);
             mkdir($js . '/mode/css', 0777);
@@ -81,12 +81,12 @@ class CodeMirror
             foreach ($modes as $mode) {
                 copy($codemirror . '/mode/' . $mode . '/' . $mode . '.js', $js . '/mode/' . $mode . '/' . $mode . '.js');
 
-                if ( ! file_exists($js . '/mode/' . $mode . '/index.html'))
+                if (!file_exists($js . '/mode/' . $mode . '/index.html'))
                     touch($js . '/mode/' . $mode . '/index.html');
             }
         }
 
-        if ( ! file_exists($css)) {
+        if (!file_exists($css)) {
             mkdir($css, 0777, true);
             touch($css . '/index.html');
             copy($codemirror . '/lib/codemirror.css', $css . '/codemirror.css');
