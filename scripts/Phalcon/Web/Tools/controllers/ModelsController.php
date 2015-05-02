@@ -114,12 +114,19 @@ class ModelsController extends ControllerBase
         ]);
     }
 
+    /**
+     * Edit Model
+     *
+     * @param string $fileName Model Name
+     *
+     * @return mixed
+     */
     public function editAction($fileName)
     {
         $fileName = str_replace('..', '', $fileName);
 
         if (!file_exists($this->modelsDir . $fileName)) {
-            $this->flash->error(sprintf('Model %s could not be found', $this->modelsDir . $fileName));
+            $this->flash->error(sprintf('Model %s could not be found.', $this->modelsDir . $fileName));
 
             return $this->dispatcher->forward(array(
                 'controller' => 'models',
