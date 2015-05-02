@@ -4,7 +4,6 @@ window.onload = function () {
     try {
         editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
-            lineNumbers: true,
             matchBrackets: true,
             mode: "application/x-httpd-php",
             indentUnit: 4,
