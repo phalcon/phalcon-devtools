@@ -58,6 +58,12 @@ class Migration
     private static $_migrationPath = null;
 
     /**
+     * Skip auto increment
+     * @var bool
+     */
+    private static $_skipAI = false;
+
+    /**
      * Prepares component
      *
      * @param $database
@@ -101,6 +107,16 @@ class Migration
 
             self::$_connection->setEventsManager($eventsManager);
         }
+    }
+
+    /**
+     * Set the skip auto increment value
+     *
+     * @param string $skip
+     */
+    public static function setSkipAutoIncrement($skip)
+    {
+        self::$_skipAI = $skip;
     }
 
     /**
@@ -276,7 +292,10 @@ class Migration
         $optionsDefinition = array();
         $tableOptions = self::$_connection->tableOptions($table, $defaultSchema);
         foreach ($tableOptions as $optionName => $optionValue) {
-            $optionsDefinition[] = "\t\t\t\t'" . strtoupper($optionName) . "' => '" . $optionValue . "'";
+	    if(self::$_skipAI && strtoupper($optionName) == "AUTO_INCREMENT") {
+		$optionValue = '';
+	    }
+	    $optionsDefinition[] = "\t\t\t\t'" . strtoupper($optionName) . "' => '" . $optionValue . "'";
         }
 
         $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
