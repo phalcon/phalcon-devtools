@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
@@ -36,12 +37,13 @@ class ModelsController extends ControllerBase
     {
         if ($this->request->isPost()) {
 
-            $force = $this->request->getPost('force', 'int');
-            $schema = $this->request->getPost('schema');
-            $tableName = $this->request->getPost('tableName');
+            $force             = $this->request->getPost('force', 'int');
+            $schema            = $this->request->getPost('schema');
+            $namespace         = $this->request->getPost('namespace');
+            $tableName         = $this->request->getPost('tableName');
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
-            $foreignKeys = $this->request->getPost('foreignKeys', 'int');
-            $defineRelations = $this->request->getPost('defineRelations', 'int');
+            $foreignKeys       = $this->request->getPost('foreignKeys', 'int');
+            $defineRelations   = $this->request->getPost('defineRelations', 'int');
 
             try {
                 $component = '\Phalcon\Builder\Model';
@@ -57,7 +59,7 @@ class ModelsController extends ControllerBase
                     'foreignKeys'           => $foreignKeys,
                     'defineRelations'       => $defineRelations,
                     'genSettersGetters'     => $genSettersGetters,
-                    'namespace'             => null,
+                    'namespace'             => $namespace,
                     'schema'                => $schema
                 ));
 

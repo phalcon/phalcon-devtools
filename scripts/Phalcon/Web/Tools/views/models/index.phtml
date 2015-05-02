@@ -22,6 +22,10 @@
             <td><i><?php echo $this->tag->selectStatic('tableName', $tables) ?></i></td>
         </tr>
         <tr>
+            <td><b>Namespace</b></td>
+            <td><?php echo $this->tag->textField(array('namespace', 'value' => '')) ?></td>
+        </tr>
+        <tr>
             <td><b>Add setters and getters</b></td>
             <td><i><input type="checkbox" name="genSettersGetters" value="1"/></i></td>
         </tr>
