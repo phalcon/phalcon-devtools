@@ -101,7 +101,24 @@ class ModelsController extends ControllerBase
 
     public function listAction()
     {
-        $this->view->setVar('modelsDir', Tools::getConfig()->application->modelsDir);
+        $modelsDir = null;
+        $config = Tools::getConfig()->offsetGet('application');
+
+        if (isset($config['modelsDir']) && $config['modelsDir']) {
+            if ($this->isAbsolutePath($config['modelsDir'])) {
+                $path = $config['modelsDir'];
+            } else {
+                $path = dirname(getcwd()) . DIRECTORY_SEPARATOR . $config['modelsDir'];
+            }
+
+            $path = rtrim($path, '\\/') . DIRECTORY_SEPARATOR;
+
+            if (file_exists($path)) {
+                $modelsDir = $path;
+            }
+        }
+
+        $this->view->setVar('modelsDir', $modelsDir);
     }
 
     public function editAction($fileName)

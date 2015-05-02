@@ -1,11 +1,11 @@
 <?php
-
 /**
  * Local variables
  * @var \Phalcon\Mvc\View\Engine $this
+ * @var null|string $modelsDir
  */
-
 ?>
+
 <?php echo $this->getContent() ?>
 
 <h1>Edit Models</h1>
@@ -19,18 +19,24 @@
 		</tr>
 	</thead>
 	<tbody>
-	<?php
-		$iterator = new DirectoryIterator($modelsDir);
-		foreach($iterator as $fileinfo){
-			if(!$fileinfo->isDot()){
-				echo '<tr>
-					<td>', $fileinfo->getFileName(), '</td>
-					<td>', $fileinfo->getSize(), '</td>
-					<td><a href="', $this->url->get("webtools.php?_url=/models/edit/".$fileinfo->getFileName()), '"
-					    class"="btn">Edit</a></td>
-				</tr>';
-			}
-		}
-	?>
+        <?php if (!$modelsDir): ?>
+        <tr>
+            <td colspan="3">
+                <p class="text-center text-error">Sorry, Web Tools doesn't know where is the models directory.</p>
+            </td>
+        </tr>
+        <?php else: ?>
+            <?php $iterator = new DirectoryIterator($modelsDir); foreach($iterator as $file): ?>
+                <?php if (!$file->isDot()): ?>
+                    <tr>
+                        <td><?php echo $file->getFileName() ?></td>
+                        <td><?php echo $file->getSize() ?></td>
+                        <td>
+                            <a href="<?php $this->url->get(sprintf('webtools.php?_url=/models/edit/%s', $file->getFileName())) ?>" class="btn">Edit</a>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 	</tbody>
 </table>
