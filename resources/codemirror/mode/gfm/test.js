@@ -1,225 +1,213 @@
-// Initiate ModeTest and set defaults
-var MT = ModeTest;
-MT.modeName = 'gfm';
-MT.modeOptions = {};
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
 
-// Emphasis characters within a word
-MT.testMode(
-  'emInWordAsterisk',
-  'foo*bar*hello',
-  [
-    null, 'foo',
-    'em', '*bar*',
-    null, 'hello'
-  ]
-);
-MT.testMode(
-  'emInWordUnderscore',
-  'foo_bar_hello',
-  [
-    null, 'foo_bar_hello'
-  ]
-);
-MT.testMode(
-  'emStrongUnderscore',
-  '___foo___ bar',
-  [
-    'strong', '__',
-    'emstrong', '_foo__',
-    'em', '_',
-    null, ' bar'
-  ]
-);
+(function() {
+  var mode = CodeMirror.getMode({tabSize: 4}, "gfm");
+  function MT(name) { test.mode(name, mode, Array.prototype.slice.call(arguments, 1)); }
+  var modeHighlightFormatting = CodeMirror.getMode({tabSize: 4}, {name: "gfm", highlightFormatting: true});
+  function FT(name) { test.mode(name, modeHighlightFormatting, Array.prototype.slice.call(arguments, 1)); }
 
-// Fenced code blocks
-MT.testMode(
-  'fencedCodeBlocks',
-  '```\nfoo\n\n```\nbar',
-  [
-    'comment', '```',
-    'comment', 'foo',
-    'comment', '```',
-    null, 'bar'
-  ]
-);
-// Fenced code block mode switching
-MT.testMode(
-  'fencedCodeBlockModeSwitching',
-  '```javascript\nfoo\n\n```\nbar',
-  [
-    'comment', '```javascript',
-    'variable', 'foo',
-    'comment', '```',
-    null, 'bar'
-  ]
-);
+  FT("codeBackticks",
+     "[comment&formatting&formatting-code `][comment foo][comment&formatting&formatting-code `]");
 
-// SHA
-MT.testMode(
-  'SHA',
-  'foo be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2 bar',
-  [
-    null, 'foo ',
-    'link', 'be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2',
-    null, ' bar'
-  ]
-);
-// GitHub highlights hashes 7-40 chars in length
-MT.testMode(
-  'shortSHA',
-  'foo be6a8cc bar',
-  [
-    null, 'foo ',
-    'link', 'be6a8cc',
-    null, ' bar'
-  ]
-);
-// Invalid SHAs
-// 
-// GitHub does not highlight hashes shorter than 7 chars
-MT.testMode(
-  'tooShortSHA',
-  'foo be6a8c bar',
-  [
-    null, 'foo be6a8c bar'
-  ]
-);
-// GitHub does not highlight hashes longer than 40 chars
-MT.testMode(
-  'longSHA',
-  'foo be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd22 bar',
-  [
-    null, 'foo be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd22 bar'
-  ]
-);
-MT.testMode(
-  'badSHA',
-  'foo be6a8cc1c1ecfe9489fb51e4869af15a13fc2cg2 bar',
-  [
-    null, 'foo be6a8cc1c1ecfe9489fb51e4869af15a13fc2cg2 bar'
-  ]
-);
-// User@SHA
-MT.testMode(
-  'userSHA',
-  'foo bar@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2 hello',
-  [
-    null, 'foo ',
-    'link', 'bar@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2',
-    null, ' hello'
-  ]
-);
-// User/Project@SHA
-MT.testMode(
-  'userProjectSHA',
-  'foo bar/hello@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2 world',
-  [
-    null, 'foo ',
-    'link', 'bar/hello@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2',
-    null, ' world'
-  ]
-);
+  FT("doubleBackticks",
+     "[comment&formatting&formatting-code ``][comment foo ` bar][comment&formatting&formatting-code ``]");
 
-// #Num
-MT.testMode(
-  'num',
-  'foo #1 bar',
-  [
-    null, 'foo ',
-    'link', '#1',
-    null, ' bar'
-  ]
-);
-// bad #Num
-MT.testMode(
-  'badNum',
-  'foo #1bar hello',
-  [
-    null, 'foo #1bar hello'
-  ]
-);
-// User#Num
-MT.testMode(
-  'userNum',
-  'foo bar#1 hello',
-  [
-    null, 'foo ',
-    'link', 'bar#1',
-    null, ' hello'
-  ]
-);
-// User/Project#Num
-MT.testMode(
-  'userProjectNum',
-  'foo bar/hello#1 world',
-  [
-    null, 'foo ',
-    'link', 'bar/hello#1',
-    null, ' world'
-  ]
-);
+  FT("codeBlock",
+     "[comment&formatting&formatting-code-block ```css]",
+     "[tag foo]",
+     "[comment&formatting&formatting-code-block ```]");
 
-// Vanilla links
-MT.testMode(
-  'vanillaLink',
-  'foo http://www.example.com/ bar',
-  [
-    null, 'foo ',
-    'link', 'http://www.example.com/',
-    null, ' bar'
-  ]
-);
-MT.testMode(
-  'vanillaLinkPunctuation',
-  'foo http://www.example.com/. bar',
-  [
-    null, 'foo ',
-    'link', 'http://www.example.com/',
-    null, '. bar'
-  ]
-);
-MT.testMode(
-  'vanillaLinkExtension',
-  'foo http://www.example.com/index.html bar',
-  [
-    null, 'foo ',
-    'link', 'http://www.example.com/index.html',
-    null, ' bar'
-  ]
-);
-// Not a link
-MT.testMode(
-  'notALink',
-  '```css\nfoo {color:black;}\n```http://www.example.com/',
-  [
-    'comment', '```css',
-    'tag', 'foo',
-    null, ' {',
-    'property', 'color',
-    'operator', ':',
-    'keyword', 'black',
-    null, ';}',
-    'comment', '```',
-    'link', 'http://www.example.com/'
-  ]
-);
-// Not a link
-MT.testMode(
-  'notALink',
-  '``foo `bar` http://www.example.com/`` hello',
-  [
-    'comment', '``foo `bar` http://www.example.com/``',
-    null, ' hello'
-  ]
-);
-// Not a link
-MT.testMode(
-  'notALink',
-  '`foo\nhttp://www.example.com/\n`foo\n\nhttp://www.example.com/',
-  [
-    'comment', '`foo',
-    'link', 'http://www.example.com/',
-    'comment', '`foo',
-    'link', 'http://www.example.com/'
-  ]
-);
+  FT("taskList",
+     "[variable-2&formatting&formatting-list&formatting-list-ul - ][meta&formatting&formatting-task [ ]]][variable-2  foo]",
+     "[variable-2&formatting&formatting-list&formatting-list-ul - ][property&formatting&formatting-task [x]]][variable-2  foo]");
+
+  FT("formatting_strikethrough",
+     "[strikethrough&formatting&formatting-strikethrough ~~][strikethrough foo][strikethrough&formatting&formatting-strikethrough ~~]");
+
+  FT("formatting_strikethrough",
+     "foo [strikethrough&formatting&formatting-strikethrough ~~][strikethrough bar][strikethrough&formatting&formatting-strikethrough ~~]");
+
+  MT("emInWordAsterisk",
+     "foo[em *bar*]hello");
+
+  MT("emInWordUnderscore",
+     "foo_bar_hello");
+
+  MT("emStrongUnderscore",
+     "[strong __][em&strong _foo__][em _] bar");
+
+  MT("fencedCodeBlocks",
+     "[comment ```]",
+     "[comment foo]",
+     "",
+     "[comment ```]",
+     "bar");
+
+  MT("fencedCodeBlockModeSwitching",
+     "[comment ```javascript]",
+     "[variable foo]",
+     "",
+     "[comment ```]",
+     "bar");
+
+  MT("taskListAsterisk",
+     "[variable-2 * []] foo]", // Invalid; must have space or x between []
+     "[variable-2 * [ ]]bar]", // Invalid; must have space after ]
+     "[variable-2 * [x]]hello]", // Invalid; must have space after ]
+     "[variable-2 * ][meta [ ]]][variable-2  [world]]]", // Valid; tests reference style links
+     "    [variable-3 * ][property [x]]][variable-3  foo]"); // Valid; can be nested
+
+  MT("taskListPlus",
+     "[variable-2 + []] foo]", // Invalid; must have space or x between []
+     "[variable-2 + [ ]]bar]", // Invalid; must have space after ]
+     "[variable-2 + [x]]hello]", // Invalid; must have space after ]
+     "[variable-2 + ][meta [ ]]][variable-2  [world]]]", // Valid; tests reference style links
+     "    [variable-3 + ][property [x]]][variable-3  foo]"); // Valid; can be nested
+
+  MT("taskListDash",
+     "[variable-2 - []] foo]", // Invalid; must have space or x between []
+     "[variable-2 - [ ]]bar]", // Invalid; must have space after ]
+     "[variable-2 - [x]]hello]", // Invalid; must have space after ]
+     "[variable-2 - ][meta [ ]]][variable-2  [world]]]", // Valid; tests reference style links
+     "    [variable-3 - ][property [x]]][variable-3  foo]"); // Valid; can be nested
+
+  MT("taskListNumber",
+     "[variable-2 1. []] foo]", // Invalid; must have space or x between []
+     "[variable-2 2. [ ]]bar]", // Invalid; must have space after ]
+     "[variable-2 3. [x]]hello]", // Invalid; must have space after ]
+     "[variable-2 4. ][meta [ ]]][variable-2  [world]]]", // Valid; tests reference style links
+     "    [variable-3 1. ][property [x]]][variable-3  foo]"); // Valid; can be nested
+
+  MT("SHA",
+     "foo [link be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2] bar");
+
+  MT("SHAEmphasis",
+     "[em *foo ][em&link be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2][em *]");
+
+  MT("shortSHA",
+     "foo [link be6a8cc] bar");
+
+  MT("tooShortSHA",
+     "foo be6a8c bar");
+
+  MT("longSHA",
+     "foo be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd22 bar");
+
+  MT("badSHA",
+     "foo be6a8cc1c1ecfe9489fb51e4869af15a13fc2cg2 bar");
+
+  MT("userSHA",
+     "foo [link bar@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2] hello");
+
+  MT("userSHAEmphasis",
+     "[em *foo ][em&link bar@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2][em *]");
+
+  MT("userProjectSHA",
+     "foo [link bar/hello@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2] world");
+
+  MT("userProjectSHAEmphasis",
+     "[em *foo ][em&link bar/hello@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2][em *]");
+
+  MT("num",
+     "foo [link #1] bar");
+
+  MT("numEmphasis",
+     "[em *foo ][em&link #1][em *]");
+
+  MT("badNum",
+     "foo #1bar hello");
+
+  MT("userNum",
+     "foo [link bar#1] hello");
+
+  MT("userNumEmphasis",
+     "[em *foo ][em&link bar#1][em *]");
+
+  MT("userProjectNum",
+     "foo [link bar/hello#1] world");
+
+  MT("userProjectNumEmphasis",
+     "[em *foo ][em&link bar/hello#1][em *]");
+
+  MT("vanillaLink",
+     "foo [link http://www.example.com/] bar");
+
+  MT("vanillaLinkPunctuation",
+     "foo [link http://www.example.com/]. bar");
+
+  MT("vanillaLinkExtension",
+     "foo [link http://www.example.com/index.html] bar");
+
+  MT("vanillaLinkEmphasis",
+     "foo [em *][em&link http://www.example.com/index.html][em *] bar");
+
+  MT("notALink",
+     "[comment ```css]",
+     "[tag foo] {[property color]:[keyword black];}",
+     "[comment ```][link http://www.example.com/]");
+
+  MT("notALink",
+     "[comment ``foo `bar` http://www.example.com/``] hello");
+
+  MT("notALink",
+     "[comment `foo]",
+     "[link http://www.example.com/]",
+     "[comment `foo]",
+     "",
+     "[link http://www.example.com/]");
+
+  MT("headerCodeBlockGithub",
+     "[header&header-1 # heading]",
+     "",
+     "[comment ```]",
+     "[comment code]",
+     "[comment ```]",
+     "",
+     "Commit: [link be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2]",
+     "Issue: [link #1]",
+     "Link: [link http://www.example.com/]");
+
+  MT("strikethrough",
+     "[strikethrough ~~foo~~]");
+
+  MT("strikethroughWithStartingSpace",
+     "~~ foo~~");
+
+  MT("strikethroughUnclosedStrayTildes",
+    "[strikethrough ~~foo~~~]");
+
+  MT("strikethroughUnclosedStrayTildes",
+     "[strikethrough ~~foo ~~]");
+
+  MT("strikethroughUnclosedStrayTildes",
+    "[strikethrough ~~foo ~~ bar]");
+
+  MT("strikethroughUnclosedStrayTildes",
+    "[strikethrough ~~foo ~~ bar~~]hello");
+
+  MT("strikethroughOneLetter",
+     "[strikethrough ~~a~~]");
+
+  MT("strikethroughWrapped",
+     "[strikethrough ~~foo]",
+     "[strikethrough foo~~]");
+
+  MT("strikethroughParagraph",
+     "[strikethrough ~~foo]",
+     "",
+     "foo[strikethrough ~~bar]");
+
+  MT("strikethroughEm",
+     "[strikethrough ~~foo][em&strikethrough *bar*][strikethrough ~~]");
+
+  MT("strikethroughEm",
+     "[em *][em&strikethrough ~~foo~~][em *]");
+
+  MT("strikethroughStrong",
+     "[strikethrough ~~][strong&strikethrough **foo**][strikethrough ~~]");
+
+  MT("strikethroughStrong",
+     "[strong **][strong&strikethrough ~~foo~~][strong **]");
+
+})();

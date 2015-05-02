@@ -1,211 +1,120 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>CodeMirror: Verilog mode</title>
-    <link rel="stylesheet" href="../../lib/codemirror.css">
-    <script src="../../lib/codemirror.js"></script>
-    <script src="verilog.js"></script>
-    <link rel="stylesheet" href="../../doc/docs.css">
-    <style>.CodeMirror {border: 2px inset #dee;}</style>
-  </head>
-  <body>
-    <h1>CodeMirror: Verilog mode</h1>
 
-<form><textarea id="code" name="code">
-/* Verilog demo code */
+<title>CodeMirror: Verilog/SystemVerilog mode</title>
+<meta charset="utf-8"/>
+<link rel=stylesheet href="../../doc/docs.css">
 
-//////////////////////////////////////////////////////////////////////
-////                                                              ////
-////  wb_master_model.v                                           ////
-////                                                              ////
-////  This file is part of the SPI IP core project                ////
-////  http://www.opencores.org/projects/spi/                      ////
-////                                                              ////
-////  Author(s):                                                  ////
-////      - Simon Srot (simons@opencores.org)                     ////
-////                                                              ////
-////  Based on:                                                   ////
-////      - i2c/bench/verilog/wb_master_model.v                   ////
-////        Copyright (C) 2001 Richard Herveille                  ////
-////                                                              ////
-////  All additional information is avaliable in the Readme.txt   ////
-////  file.                                                       ////
-////                                                              ////
-//////////////////////////////////////////////////////////////////////
-////                                                              ////
-//// Copyright (C) 2002 Authors                                   ////
-////                                                              ////
-//// This source file may be used and distributed without         ////
-//// restriction provided that this copyright statement is not    ////
-//// removed from the file and that any derivative work contains  ////
-//// the original copyright notice and the associated disclaimer. ////
-////                                                              ////
-//// This source file is free software; you can redistribute it   ////
-//// and/or modify it under the terms of the GNU Lesser General   ////
-//// Public License as published by the Free Software Foundation; ////
-//// either version 2.1 of the License, or (at your option) any   ////
-//// later version.                                               ////
-////                                                              ////
-//// This source is distributed in the hope that it will be       ////
-//// useful, but WITHOUT ANY WARRANTY; without even the implied   ////
-//// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR      ////
-//// PURPOSE.  See the GNU Lesser General Public License for more ////
-//// details.                                                     ////
-////                                                              ////
-//// You should have received a copy of the GNU Lesser General    ////
-//// Public License along with this source; if not, download it   ////
-//// from http://www.opencores.org/lgpl.shtml                     ////
-////                                                              ////
-//////////////////////////////////////////////////////////////////////
+<link rel="stylesheet" href="../../lib/codemirror.css">
+<script src="../../lib/codemirror.js"></script>
+<script src="../../addon/edit/matchbrackets.js"></script>
+<script src="verilog.js"></script>
+<style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+<div id=nav>
+  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
 
-`include "timescale.v"
+  <ul>
+    <li><a href="../../index.html">Home</a>
+    <li><a href="../../doc/manual.html">Manual</a>
+    <li><a href="https://github.com/codemirror/codemirror">Code</a>
+  </ul>
+  <ul>
+    <li><a href="../index.html">Language modes</a>
+    <li><a class=active href="#">Verilog/SystemVerilog</a>
+  </ul>
+</div>
 
-module wb_master_model(clk, rst, adr, din, dout, cyc, stb, we, sel, ack, err, rty);
+<article>
+<h2>SystemVerilog mode</h2>
 
-  parameter dwidth = 32;
-  parameter awidth = 32;
+<div><textarea id="code" name="code">
+// Literals
+1'b0
+1'bx
+1'bz
+16'hDC78
+'hdeadbeef
+'b0011xxzz
+1234
+32'd5678
+3.4e6
+-128.7
+
+// Macro definition
+`define BUS_WIDTH = 8;
+
+// Module definition
+module block(
+  input                   clk,
+  input                   rst_n,
+  input  [`BUS_WIDTH-1:0] data_in,
+  output [`BUS_WIDTH-1:0] data_out
+);
   
-  input                  clk, rst;
-  output [awidth   -1:0] adr;
-  input  [dwidth   -1:0] din;
-  output [dwidth   -1:0] dout;
-  output                 cyc, stb;
-  output                 we;
-  output [dwidth/8 -1:0] sel;
-  input                  ack, err, rty;
-  
-  // Internal signals
-  reg    [awidth   -1:0] adr;
-  reg    [dwidth   -1:0] dout;
-  reg                    cyc, stb;
-  reg                    we;
-  reg    [dwidth/8 -1:0] sel;
-         
-  reg    [dwidth   -1:0] q;
-  
-  // Memory Logic
-  initial
-    begin
-      adr  = {awidth{1'bx}};
-      dout = {dwidth{1'bx}};
-      cyc  = 1'b0;
-      stb  = 1'bx;
-      we   = 1'hx;
-      sel  = {dwidth/8{1'bx}};
-      #1;
+  always @(posedge clk or negedge rst_n) begin
+
+    if (~rst_n) begin
+      data_out <= 8'b0;
+    end else begin
+      data_out <= data_in;
     end
-  
-  // Wishbone write cycle
-  task wb_write;
-    input   delay;
-    integer delay;
-  
-    input [awidth -1:0] a;
-    input [dwidth -1:0] d;
-  
-    begin
-  
-      // wait initial delay
-      repeat(delay) @(posedge clk);
-  
-      // assert wishbone signal
-      #1;
-      adr  = a;
-      dout = d;
-      cyc  = 1'b1;
-      stb  = 1'b1;
-      we   = 1'b1;
-      sel  = {dwidth/8{1'b1}};
-      @(posedge clk);
-  
-      // wait for acknowledge from slave
-      while(~ack) @(posedge clk);
-  
-      // negate wishbone signals
-      #1;
-      cyc  = 1'b0;
-      stb  = 1'bx;
-      adr  = {awidth{1'bx}};
-      dout = {dwidth{1'bx}};
-      we   = 1'hx;
-      sel  = {dwidth/8{1'bx}};
-  
-    end
-  endtask
-  
-  // Wishbone read cycle
-  task wb_read;
-    input   delay;
-    integer delay;
-  
-    input  [awidth -1:0]  a;
-    output  [dwidth -1:0] d;
-  
-    begin
-  
-      // wait initial delay
-      repeat(delay) @(posedge clk);
-  
-      // assert wishbone signals
-      #1;
-      adr  = a;
-      dout = {dwidth{1'bx}};
-      cyc  = 1'b1;
-      stb  = 1'b1;
-      we   = 1'b0;
-      sel  = {dwidth/8{1'b1}};
-      @(posedge clk);
-  
-      // wait for acknowledge from slave
-      while(~ack) @(posedge clk);
-  
-      // negate wishbone signals
-      #1;
-      cyc  = 1'b0;
-      stb  = 1'bx;
-      adr  = {awidth{1'bx}};
-      dout = {dwidth{1'bx}};
-      we   = 1'hx;
-      sel  = {dwidth/8{1'bx}};
-      d    = din;
-  
-    end
-  endtask
-  
-  // Wishbone compare cycle (read data from location and compare with expected data)
-  task wb_cmp;
-    input   delay;
-    integer delay;
-  
-    input [awidth -1:0] a;
-    input [dwidth -1:0] d_exp;
-  
-    begin
-      wb_read (delay, a, q);
-
-      if (d_exp !== q) begin
-        $display("\n--- ERROR: At address 0x%0x, got 0x%0x, expected 0x%0x at time %t", a, q, d_exp, $time);
-        $stop;
+    
+    if (~rst_n)
+      data_out <= 8'b0;
+    else
+      data_out <= data_in;
+    
+    if (~rst_n)
+      begin
+        data_out <= 8'b0;
       end
-    end
-  endtask
+    else
+      begin
+        data_out <= data_in;
+      end
+
+  end
   
 endmodule
-</textarea></form>
 
-    <script>
-      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: "text/x-verilog"
-      });
-    </script>
+// Class definition
+class test;
 
-    <p>Simple mode that tries to handle Verilog-like languages as well as it
-    can. Takes one configuration parameters: <code>keywords</code>, an
-    object whose property names are the keywords in the language.</p>
+  /**
+   * Sum two integers
+   */
+  function int sum(int a, int b);
+    int result = a + b;
+    string msg = $sformatf("%d + %d = %d", a, b, result);
+    $display(msg);
+    return result;
+  endfunction
+  
+  task delay(int num_cycles);
+    repeat(num_cycles) #1;
+  endtask
+  
+endclass
 
-    <p><strong>MIME types defined:</strong> <code>text/x-verilog</code> (Verilog code).</p>
-  </body>
-</html>
+</textarea></div>
+
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    lineNumbers: true,
+    matchBrackets: true,
+    mode: {
+      name: "verilog",
+      noIndentKeywords: ["package"]
+    }
+  });
+</script>
+
+<p>
+Syntax highlighting and indentation for the Verilog and SystemVerilog languages (IEEE 1800).
+<h2>Configuration options:</h2>
+  <ul>
+    <li><strong>noIndentKeywords</strong> - List of keywords which should not cause identation to increase. E.g. ["package", "module"]. Default: None</li>
+  </ul>
+</p>
+
+<p><strong>MIME types defined:</strong> <code>text/x-verilog</code> and <code>text/x-systemverilog</code>.</p>
+</article>

@@ -10,6 +10,8 @@ window.onload = function () {
             indentWithTabs: true,
             enterMode: "keep",
             tabMode: "shift",
+            theme: 'ambiance',
+            styleActiveLine: true,
             onCursorActivity: function () {
                 var line = editor.getCursor().line, handle = editor.getLineHandle(line);
                 if (handle == currentHandle && line == currentLine) return;
