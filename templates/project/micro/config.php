@@ -12,8 +12,8 @@ return new \Phalcon\Config(array(
     ),
 
     'application' => array(
-        'modelsDir'      => APP_PATH . '/models/',
-        'viewsDir'       => APP_PATH . '/views/',
+        'modelsDir'      => __DIR__ . '/../models/',
+        'viewsDir'       => __DIR__ . '/../views/',
         'baseUri'        => '/@@name@@/',
     )
 ));
