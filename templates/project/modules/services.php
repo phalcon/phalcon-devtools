@@ -46,3 +46,12 @@ $di['session'] = function () {
 
     return $session;
 };
+
+/**
+* Set the default namespace for dispatcher
+*/
+$di->set('dispatcher', function() use ($di) {
+	$dispatcher = new Phalcon\Mvc\Dispatcher();
+	$dispatcher->setDefaultNamespace('@@namespace@@\Frontend\Controllers');
+	return $dispatcher;
+},true);
