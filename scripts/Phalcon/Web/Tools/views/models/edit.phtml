@@ -6,7 +6,6 @@
  */
 
 ?>
-<?php Phalcon\Web\CodeMirror::importResources(); ?>
 
 <?php echo $this->getContent() ?>
 
@@ -25,3 +24,5 @@
 	<?php echo $this->tag->hiddenField('name') ?>
 
 </form>
+
+<?php Phalcon\Web\CodeMirror::importResources(); ?>
