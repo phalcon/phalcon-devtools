@@ -63,7 +63,7 @@ class Model extends Component
             $options['abstract'] = false;
         }
 
-        
+
         if ($options['abstract']) {
             $options['className'] = 'Abstract' . $options['className'];
         }
@@ -247,10 +247,10 @@ class Model extends Component
             throw new BuilderException("You must specify the table name");
         }
 
-        $path = real_path('.') . DIRECTORY_SEPERATOR;
+        $path = realpath('.') . DIRECTORY_SEPARATOR;
         if (isset($this->_options['directory'])) {
             if ($this->_options['directory']) {
-                $path = $this->_options['directory'] . DIRECTORY_SEPERATOR;
+                $path = $this->_options['directory'] . DIRECTORY_SEPARATOR;
             }
         } else {
             $path = '.';
@@ -380,12 +380,16 @@ class Model extends Component
                     else {
                         $entityNamespace = '';
                     }
+
+
+                    $refColumns = $reference->getReferencedColumns();
+                    $columns = $reference->getColumns();
                     $initialize[] = sprintf(
                         $templateRelation,
                         'hasMany',
-                        $reference->getReferencedColumns()[0],
+                        $refColumns[0],
                         $entityNamespace . ucfirst($tableName),
-                        $reference->getColumns()[0],
+                        $columns[0],
                         "array('alias' => '" . ucfirst($tableName) . "')"
                     );
                 }
@@ -398,12 +402,15 @@ class Model extends Component
             else {
                 $entityNamespace = '';
             }
+
+            $refColumns = $reference->getReferencedColumns();
+            $columns = $reference->getColumns();
             $initialize[] = sprintf(
                 $templateRelation,
                 'belongsTo',
-                $reference->getColumns()[0],
+                $columns[0],
                 $entityNamespace . ucfirst($reference->getReferencedTable()),
-                $reference->getReferencedColumns()[0],
+                $refColumns[0],
                 "array('alias' => '" . ucfirst($reference->getReferencedTable()) . "')"
             );
         }
@@ -689,8 +696,8 @@ class Model extends Component
 
         if ($this->isConsole()) {
             $msgSuccess = ($this->_options['abstract'] ? 'Abstract ' : '');
-            $msgSuccess .= 'Model "' . $this->_options['name'] .'" was successfully created.'; 
-            
+            $msgSuccess .= 'Model "' . $this->_options['name'] .'" was successfully created.';
+
             $this->_notifySuccess($msgSuccess);
         }
     }
