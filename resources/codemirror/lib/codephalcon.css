@@ -1,21 +1,13 @@
-
 .CodeMirror {
-	border: 1px solid #eee;
+    font-family: "Consolas", "Lucida Console", monospace;
+    border: 1px solid black;
+    font-size:13px;
+    height: auto;
 }
 
 .CodeMirror-scroll {
-	height: auto;
-	overflow-y: hidden;
-	overflow-x: auto;
+    height: auto;
+    overflow-y: hidden!important;
+    overflow-x: auto;
 	width: 100%;
-	background: #fafafa;
-}
-
-.CodeMirror pre {
-	font-family: "Consolas", "Lucida Console", monospace;
-	font-size: 14px;
-}
-
-.activeline {
-	background: #e8f2ff !important;
 }

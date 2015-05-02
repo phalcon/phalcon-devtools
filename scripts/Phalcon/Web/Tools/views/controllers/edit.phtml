@@ -6,22 +6,22 @@
  */
 
 ?>
-<?php Phalcon\Web\CodeMirror::importResources(); ?>
-
 <?php echo $this->getContent() ?>
 
-<p><h2>Editing Controller <?php echo $name; ?></h2></p>
+<h2>Editing Controller <?php echo $name; ?></h2>
 
 <form method="post" action="<?php echo $this->url->get("webtools.php?_url=/controllers/save") ?>">
 
-	<p>
-		<div align="right">
-			<input type="submit" class="btn btn-primary" value="Save"/>
-		</div>
-	</p>
+    <div class="text-right">
+        <p>
+            <input type="submit" class="btn btn-primary" value="Save">
+        </p>
+    </div>
 
 	<?php echo $this->tag->textArea(array('code', 'cols' => 50, 'rows' => 20)) ?>
 
 	<?php echo $this->tag->hiddenField('name') ?>
 
 </form>
+
+<?php Phalcon\Web\CodeMirror::importResources(); ?>

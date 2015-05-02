@@ -4,13 +4,14 @@ window.onload = function () {
     try {
         editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
-            lineNumbers: true,
             matchBrackets: true,
             mode: "application/x-httpd-php",
             indentUnit: 4,
             indentWithTabs: true,
             enterMode: "keep",
             tabMode: "shift",
+            theme: 'ambiance',
+            styleActiveLine: true,
             onCursorActivity: function () {
                 var line = editor.getCursor().line, handle = editor.getLineHandle(line);
                 if (handle == currentHandle && line == currentLine) return;

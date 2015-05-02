@@ -116,22 +116,25 @@ class Tools
      * Print navigation menu of the given controller
      *
      * @param  string $controllerName
-     * @return void
+     * @return string
      */
     public static function getNavMenu($controllerName)
     {
         $uri = self::getUrl()->get();
+        $menu = '';
 
         foreach (self::$options as $controller => $option) {
             if ($controllerName == $controller) {
-                echo '<li class="active">';
+                $menu .= '<li class="active">';
             } else {
-                echo '<li>';
+                $menu .= '<li>';
             }
 
             $ref = $uri . 'webtools.php?_url=/' . $controller;
-            echo '<a href="' . $ref . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
+            $menu .= '<a href="' . $ref . '">' . $option['caption'] . '</a></li>' . PHP_EOL;
         }
+
+        return $menu;
     }
 
     /**
@@ -180,7 +183,7 @@ class Tools
     /**
      * Return the config object in the services container
      *
-     * @return \Phalcon\Mvc\Url
+     * @return \Phalcon\Db\AdapterInterface
      */
     public static function getConnection()
     {
