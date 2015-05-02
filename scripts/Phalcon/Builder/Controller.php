@@ -65,13 +65,13 @@ class Controller extends Component
             $path = $this->_options['directory'] . DIRECTORY_SEPARATOR;
         }
 
-        if (isset($this->_options['namespace'])) {
+        if (isset($this->_options['namespace']) && $this->_options['namespace']) {
             $namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
         } else {
             $namespace = '';
         }
 
-        if (isset($this->_options['baseClass'])) {
+        if (isset($this->_options['baseClass']) && $this->_options['baseClass']) {
             $baseClass = $this->_options['baseClass'];
         } else {
             $baseClass = '\Phalcon\Mvc\Controller';

@@ -57,7 +57,7 @@ class AllModels extends Component
     {
 
         $path = '.';
-        if (isset($this->_options['directory'])) {
+        if (isset($this->_options['directory']) && $this->_options['directory']) {
             $path = $this->_options['directory'];
         }
 
@@ -112,7 +112,7 @@ class AllModels extends Component
          */
         $db = new $adapterName($configArray);
 
-        if (isset($this->_options['schema'])) {
+        if (isset($this->_options['schema']) && $this->_options['schema']) {
             $schema = $this->_options['schema'];
         } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
@@ -174,7 +174,7 @@ class AllModels extends Component
         }
 
         foreach ($db->listTables($schema) as $name) {
-            
+
             $className = ($this->_options['abstract'] ? 'Abstract' : '');
             $className .= Utils::camelize($name);
 

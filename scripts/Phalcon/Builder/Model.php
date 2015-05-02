@@ -299,7 +299,7 @@ class Model extends Component
             );
         }
 
-        if (isset($this->_options['namespace'])) {
+        if (isset($this->_options['namespace']) && $this->_options['namespace']) {
             $namespace = 'namespace ' . $this->_options['namespace'] . ';'
                 . PHP_EOL . PHP_EOL;
             $methodRawCode[] = sprintf($getSource, $this->_options['name']);
