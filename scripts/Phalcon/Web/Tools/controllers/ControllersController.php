@@ -15,17 +15,27 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
 use Phalcon\Tag;
-use Phalcon\Web\Tools;
 use Phalcon\Builder\BuilderException;
 
 class ControllersController extends ControllerBase
 {
     public function indexAction()
     {
+        if (!$this->controllersDir) {
+            $this->flash->error(
+                "Sorry, Web Tools doesn't know where is the controllers directory. <br>" .
+                "Please add to <code>application</code> section <code>controllersDir</code> param with valid path."
+            );
+        }
+
+        $this->view->setVars([
+            'directory' => dirname(getcwd())
+        ]);
     }
 
     /**
@@ -34,23 +44,25 @@ class ControllersController extends ControllerBase
     public function createAction()
     {
         if ($this->request->isPost()) {
-
+            $force          = $this->request->getPost('force', 'int');
             $controllerName = $this->request->getPost('name', 'string');
-            $force = $this->request->getPost('force', 'int');
+            $directory      = $this->request->getPost('directory');
+            $namespace      = $this->request->getPost('namespace');
+            $baseClass      = $this->request->getPost('baseClass');
 
             try {
-
                 $controllerBuilder = new \Phalcon\Builder\Controller(array(
-                    'name' => $controllerName,
-                    'directory' => null,
-                    'namespace' => null,
-                    'baseClass' => null,
-                    'force' => $force
+                    'name'           => $controllerName,
+                    'directory'      => $directory,
+                    'namespace'      => $namespace,
+                    'baseClass'      => $baseClass,
+                    'force'          => $force,
+                    'controllersDir' => $this->controllersDir
                 ));
 
                 $fileName = $controllerBuilder->build();
 
-                $this->flash->success('The controller "'.$fileName.'" was created successfully');
+                $this->flash->success(sprintf('Model "%s" was created successfully', str_replace('.php', '', $fileName)));
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'controllers',
@@ -70,16 +82,18 @@ class ControllersController extends ControllerBase
         ));
     }
 
-    /**
-     *
-     */
     public function listAction()
     {
-        $this->view->setVar('controllersDir', Tools::getConfig()->application->controllersDir);
+        $this->view->setVars([
+            'controllersDir' => $this->controllersDir,
+            'fileOwner' => $this->fileOwner
+        ]);
     }
 
     /**
-     * @param $fileName
+     * Edit Controller
+     *
+     * @param string $fileName Controller Name
      *
      * @return mixed
      */
@@ -87,9 +101,8 @@ class ControllersController extends ControllerBase
     {
         $fileName = str_replace('..', '', $fileName);
 
-        $controllersDir = Tools::getConfig()->application->controllersDir;
-        if (!file_exists($controllersDir.'/'.$fileName)) {
-            $this->flash->error('Controller could not be found', 'alert alert-error');
+        if (!file_exists($this->controllersDir . $fileName)) {
+            $this->flash->error('Controller could not be found.');
 
             return $this->dispatcher->forward(array(
                 'controller' => 'controllers',
@@ -97,7 +110,7 @@ class ControllersController extends ControllerBase
             ));
         }
 
-        $this->tag->setDefault('code', file_get_contents($controllersDir.'/'.$fileName));
+        $this->tag->setDefault('code', file_get_contents($this->controllersDir . $fileName));
         $this->tag->setDefault('name', $fileName);
         $this->view->setVar('name', $fileName);
     }
@@ -108,14 +121,12 @@ class ControllersController extends ControllerBase
     public function saveAction()
     {
         if ($this->request->isPost()) {
-
             $fileName = $this->request->getPost('name', 'string');
 
             $fileName = str_replace('..', '', $fileName);
 
-            $controllersDir = Tools::getConfig()->application->controllersDir;
-            if (!file_exists($controllersDir . '/' . $fileName)) {
-                $this->flash->error('Controller could not be found');
+            if (!file_exists($this->controllersDir . $fileName)) {
+                $this->flash->error('Controller could not be found.');
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'controllers',
@@ -123,8 +134,8 @@ class ControllersController extends ControllerBase
                 ));
             }
 
-            if (!is_writable($controllersDir.'/'.$fileName)) {
-                $this->flash->error('Controller file does not has write access');
+            if (!is_writable($this->controllersDir . $fileName)) {
+                $this->flash->error('Controller file does not has write access.');
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'controllers',
@@ -132,9 +143,9 @@ class ControllersController extends ControllerBase
                 ));
             }
 
-            file_put_contents($controllersDir.'/'.$fileName, $this->request->getPost('code'));
+            file_put_contents($this->controllersDir . $fileName, $this->request->getPost('code'));
 
-            $this->flash->success('The controller "'.$fileName.'" was saved successfully');
+            $this->flash->success(sprintf('The controller "%s" was saved successfully.', str_replace('.php', '', $fileName)));
         }
 
         return $this->dispatcher->forward(array(

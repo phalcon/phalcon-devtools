@@ -1,14 +1,14 @@
 <?php
-
 /**
  * Local variables
  * @var \Phalcon\Mvc\View\Engine $this
+ * @var string $name
  */
-
 ?>
+
 <?php echo $this->getContent() ?>
 
-<h2>Editing Controller <?php echo $name; ?></h2>
+<h2>Editing Controller: <?php echo str_replace('.php', '', $name); ?></h2>
 
 <form method="post" action="<?php echo $this->url->get("webtools.php?_url=/controllers/save") ?>">
 

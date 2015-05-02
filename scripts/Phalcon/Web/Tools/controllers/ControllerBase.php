@@ -26,6 +26,24 @@ use Phalcon\Exception;
 class ControllerBase extends Controller
 {
     /**
+     * Get file owner/group closure
+     * @var closure
+     */
+    protected $fileOwner = null;
+
+    /**
+     * Models Dir
+     * @var string|null
+     */
+    protected $modelsDir = null;
+
+    /**
+     * Controllers Dir
+     * @var string|null
+     */
+    protected $controllersDir = null;
+
+    /**
      * Initialize controller
      *
      * @return void
@@ -33,6 +51,24 @@ class ControllerBase extends Controller
     public function initialize()
     {
         $this->checkAccess();
+
+        $this->fileOwner = function(DirectoryIterator $file) {
+            // Windows, fallback, etc.
+            $userName = getenv('USERNAME') ?: getenv('USER');
+
+            if (function_exists('posix_getpwuid')) {
+                $owner = posix_getpwuid($file->getOwner());
+                $group = posix_getgrgid($file->getGroup());
+                $userName = isset($owner['name']) ? $owner['name'] : '-?-';
+                $groupName = isset($group['name']) ? $group['name'] : '-?-';
+
+                $userName = $userName . ' / ' . $groupName;
+            }
+
+            return $userName;
+        };
+
+        $this->initDirs();
     }
 
     /**
@@ -114,5 +150,35 @@ class ControllerBase extends Controller
         }
 
         return false;
+    }
+
+    /**
+     * Initialize system dirs
+     *
+     * @return $this
+     */
+    protected function initDirs()
+    {
+        $config = Tools::getConfig()->offsetGet('application');
+
+        $dirs = array('modelsDir', 'controllersDir');
+
+        foreach ($dirs as $dirName) {
+            if (isset($config[$dirName]) && $config[$dirName]) {
+                if ($this->isAbsolutePath($config[$dirName])) {
+                    $path = $config[$dirName];
+                } else {
+                    $path = dirname(getcwd()) . DIRECTORY_SEPARATOR . $config[$dirName];
+                }
+
+                $path = rtrim($path, '\\/') . DIRECTORY_SEPARATOR;
+
+                if (file_exists($path)) {
+                    $this->{$dirName} = $path;
+                }
+            }
+        }
+
+        return $this;
     }
 }

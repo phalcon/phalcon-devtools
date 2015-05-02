@@ -20,25 +20,10 @@
 */
 
 use Phalcon\Tag;
-use Phalcon\Web\Tools;
 use Phalcon\Builder\BuilderException;
 
 class ModelsController extends ControllerBase
 {
-    private $modelsDir = null;
-
-    /**
-     * Initialize controller
-     *
-     * @return void
-     */
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->initModelsDir();
-    }
-
     public function indexAction()
     {
         $this->listTables(true);
@@ -105,9 +90,9 @@ class ModelsController extends ControllerBase
                 }
 
                 if ($tableName == 'all') {
-                    $this->flash->success('Models were created successfully');
+                    $this->flash->success('Models were created successfully.');
                 } else {
-                    $this->flash->success('Model "'.$tableName.'" was created successfully');
+                    $this->flash->success(sprintf('Model "%s" was created successfully', str_replace('.php', '', $tableName)));
                 }
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
@@ -123,15 +108,25 @@ class ModelsController extends ControllerBase
 
     public function listAction()
     {
-        $this->view->setVar('modelsDir', $this->modelsDir);
+        $this->view->setVars([
+            'modelsDir' => $this->modelsDir,
+            'fileOwner' => $this->fileOwner
+        ]);
     }
 
+    /**
+     * Edit Model
+     *
+     * @param string $fileName Model Name
+     *
+     * @return mixed
+     */
     public function editAction($fileName)
     {
         $fileName = str_replace('..', '', $fileName);
 
         if (!file_exists($this->modelsDir . $fileName)) {
-            $this->flash->error(sprintf('Model %s could not be found', $this->modelsDir . $fileName));
+            $this->flash->error(sprintf('Model %s could not be found.', $this->modelsDir . $fileName));
 
             return $this->dispatcher->forward(array(
                 'controller' => 'models',
@@ -153,7 +148,7 @@ class ModelsController extends ControllerBase
             $fileName = str_replace('..', '', $fileName);
 
             if (!file_exists($this->modelsDir . $fileName)) {
-                $this->flash->error('Model could not be found');
+                $this->flash->error('Model could not be found.');
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'models',
@@ -162,7 +157,7 @@ class ModelsController extends ControllerBase
             }
 
             if (!is_writable($this->modelsDir . $fileName)) {
-                $this->flash->error('Model file does not has write access');
+                $this->flash->error('Model file does not has write access.');
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'models',
@@ -172,38 +167,12 @@ class ModelsController extends ControllerBase
 
             file_put_contents($this->modelsDir . $fileName, $this->request->getPost('code'));
 
-            $this->flash->success('The model "'.$fileName.'" was saved successfully');
+            $this->flash->success(sprintf('The model "%s" was saved successfully.', str_replace('.php', '', $fileName)));
         }
 
         return $this->dispatcher->forward(array(
             'controller' => 'models',
             'action' => 'list'
         ));
-    }
-
-    /**
-     * Initialize Models dir
-     *
-     * @return $this
-     */
-    private function initModelsDir()
-    {
-        $config = Tools::getConfig()->offsetGet('application');
-
-        if (isset($config['modelsDir']) && $config['modelsDir']) {
-            if ($this->isAbsolutePath($config['modelsDir'])) {
-                $path = $config['modelsDir'];
-            } else {
-                $path = dirname(getcwd()) . DIRECTORY_SEPARATOR . $config['modelsDir'];
-            }
-
-            $path = rtrim($path, '\\/') . DIRECTORY_SEPARATOR;
-
-            if (file_exists($path)) {
-                $this->modelsDir = $path;
-            }
-        }
-
-        return $this;
     }
 }
