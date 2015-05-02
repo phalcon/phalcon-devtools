@@ -247,10 +247,10 @@ class Model extends Component
             throw new BuilderException("You must specify the table name");
         }
 
-        $path = '';
+        $path = real_path('.') . DIRECTORY_SEPERATOR;
         if (isset($this->_options['directory'])) {
             if ($this->_options['directory']) {
-                $path = $this->_options['directory'] . '/';
+                $path = $this->_options['directory'] . DIRECTORY_SEPERATOR;
             }
         } else {
             $path = '.';
