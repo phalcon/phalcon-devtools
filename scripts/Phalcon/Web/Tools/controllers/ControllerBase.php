@@ -44,6 +44,12 @@ class ControllerBase extends Controller
     protected $controllersDir = null;
 
     /**
+     * Migrations Dir
+     * @var string|null
+     */
+    protected $migrationsDir = null;
+
+    /**
      * Initialize controller
      *
      * @return void
@@ -116,6 +122,12 @@ class ControllerBase extends Controller
         } else {
             $this->view->databaseName = null;
         }
+
+        if ($this->migrationsDir) {
+            $this->view->migrationsDir = $this->migrationsDir;
+        } else {
+            $this->view->migrationsDir = null;
+        }
     }
 
     /**
@@ -161,7 +173,7 @@ class ControllerBase extends Controller
     {
         $config = Tools::getConfig()->offsetGet('application');
 
-        $dirs = array('modelsDir', 'controllersDir');
+        $dirs = array('modelsDir', 'controllersDir', 'migrationsDir');
 
         foreach ($dirs as $dirName) {
             if (isset($config[$dirName]) && $config[$dirName]) {
