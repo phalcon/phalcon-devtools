@@ -26,6 +26,12 @@ use Phalcon\Exception;
 class ControllerBase extends Controller
 {
     /**
+     * Get file owner/group closure
+     * @var closure
+     */
+    protected $fileOwner = null;
+
+    /**
      * Initialize controller
      *
      * @return void
@@ -33,6 +39,22 @@ class ControllerBase extends Controller
     public function initialize()
     {
         $this->checkAccess();
+
+        $this->fileOwner = function(DirectoryIterator $file) {
+            // Windows, fallback, etc.
+            $userName = getenv('USERNAME') ?: getenv('USER');
+
+            if (function_exists('posix_getpwuid')) {
+                $owner = posix_getpwuid($file->getOwner());
+                $group = posix_getgrgid($file->getGroup());
+                $userName = isset($owner['name']) ? $owner['name'] : '-?-';
+                $groupName = isset($group['name']) ? $group['name'] : '-?-';
+
+                $userName = $userName . ' / ' . $groupName;
+            }
+
+            return $userName;
+        };
     }
 
     /**
