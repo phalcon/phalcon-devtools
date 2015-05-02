@@ -32,6 +32,18 @@ class ControllerBase extends Controller
     protected $fileOwner = null;
 
     /**
+     * Models Dir
+     * @var string|null
+     */
+    protected $modelsDir = null;
+
+    /**
+     * Controllers Dir
+     * @var string|null
+     */
+    protected $controllersDir = null;
+
+    /**
      * Initialize controller
      *
      * @return void
@@ -55,6 +67,8 @@ class ControllerBase extends Controller
 
             return $userName;
         };
+
+        $this->initDirs();
     }
 
     /**
@@ -136,5 +150,35 @@ class ControllerBase extends Controller
         }
 
         return false;
+    }
+
+    /**
+     * Initialize system dirs
+     *
+     * @return $this
+     */
+    protected function initDirs()
+    {
+        $config = Tools::getConfig()->offsetGet('application');
+
+        $dirs = array('modelsDir', 'controllersDir');
+
+        foreach ($dirs as $dirName) {
+            if (isset($config[$dirName]) && $config[$dirName]) {
+                if ($this->isAbsolutePath($config[$dirName])) {
+                    $path = $config[$dirName];
+                } else {
+                    $path = dirname(getcwd()) . DIRECTORY_SEPARATOR . $config[$dirName];
+                }
+
+                $path = rtrim($path, '\\/') . DIRECTORY_SEPARATOR;
+
+                if (file_exists($path)) {
+                    $this->{$dirName} = $path;
+                }
+            }
+        }
+
+        return $this;
     }
 }
