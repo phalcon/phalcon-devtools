@@ -180,7 +180,7 @@ class Tools
     /**
      * Return the config object in the services container
      *
-     * @return \Phalcon\Mvc\Url
+     * @return \Phalcon\Db\AdapterInterface
      */
     public static function getConnection()
     {
