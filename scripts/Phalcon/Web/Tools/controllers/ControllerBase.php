@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
@@ -90,5 +91,27 @@ class ControllerBase extends Controller
     private function checkToolsIp($ip)
     {
         return strpos($ip, Tools::getToolsIp()) === 0;
+    }
+
+    /**
+     * Check if a path is absolute
+     *
+     * @param string $path Path to check
+     *
+     * @return bool
+     */
+    public function isAbsolutePath($path)
+    {
+        if (PHP_OS == "WINNT") {
+            if (preg_match('/^[A-Z]:\\\\/', $path)) {
+                return true;
+            }
+        } else {
+            if (substr($path, 0, 1) == DIRECTORY_SEPARATOR) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

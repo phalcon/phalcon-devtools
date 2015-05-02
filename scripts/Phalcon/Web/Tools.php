@@ -210,7 +210,12 @@ class Tools
     public static function main($path, $ip = null)
     {
         if (!extension_loaded('phalcon')) {
-            throw new \Exception('Phalcon extension is not installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
+            throw new \Exception(
+                sprintf(
+                    "Phalcon extension isn't installed, follow these instructions to install it: %s",
+                    Script::DOC_INSTALL_URL
+                )
+            );
         }
 
         if ($ip !== null) {
@@ -272,7 +277,12 @@ class Tools
         $loader->register();
 
         if (Version::getId() < Script::COMPATIBLE_VERSION) {
-            throw new \Exception('Your Phalcon version is not compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
+            throw new \Exception(
+                sprintf(
+                    "Your Phalcon version isn't compatible with Developer Tools, download the latest at: %s",
+                    Script::DOC_DOWNLOAD_URL
+                )
+            );
         }
 
         try {

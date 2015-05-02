@@ -248,12 +248,8 @@ class Model extends Component
         }
 
         $path = realpath('.') . DIRECTORY_SEPARATOR;
-        if (isset($this->_options['directory'])) {
-            if ($this->_options['directory']) {
-                $path = $this->_options['directory'] . DIRECTORY_SEPARATOR;
-            }
-        } else {
-            $path = '.';
+        if (isset($this->_options['directory']) && $this->_options['directory']) {
+            $path = realpath($this->_options['directory']) . DIRECTORY_SEPARATOR;
         }
 
         $config = $this->_getConfig($path);
@@ -261,7 +257,7 @@ class Model extends Component
         if (!isset($this->_options['modelsDir']) || !file_exists($this->_options['modelsDir'])) {
             if (!isset($config->application->modelsDir)) {
                 throw new BuilderException(
-                    "Builder doesn't know where is the models' directory"
+                    "Builder doesn't know where is the models directory"
                 );
             }
             $modelsDir = $config->application->modelsDir;

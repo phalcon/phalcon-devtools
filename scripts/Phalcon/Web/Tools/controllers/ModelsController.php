@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
@@ -24,9 +25,34 @@ use Phalcon\Builder\BuilderException;
 
 class ModelsController extends ControllerBase
 {
+    private $modelsDir = null;
+
+    /**
+     * Initialize controller
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->initModelsDir();
+    }
+
     public function indexAction()
     {
         $this->listTables(true);
+
+        if (!$this->modelsDir) {
+            $this->flash->error(
+                "Sorry, Web Tools doesn't know where is the models directory. <br>" .
+                "Please add to <code>application</code> section <code>modelsDir</code> param with valid path."
+            );
+        }
+
+        $this->view->setVars([
+            'directory' => dirname(getcwd())
+        ]);
     }
 
     /**
@@ -35,13 +61,14 @@ class ModelsController extends ControllerBase
     public function createAction()
     {
         if ($this->request->isPost()) {
-
-            $force = $this->request->getPost('force', 'int');
-            $schema = $this->request->getPost('schema');
-            $tableName = $this->request->getPost('tableName');
+            $force             = $this->request->getPost('force', 'int');
+            $schema            = $this->request->getPost('schema');
+            $directory         = $this->request->getPost('directory');
+            $namespace         = $this->request->getPost('namespace');
+            $tableName         = $this->request->getPost('tableName');
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
-            $foreignKeys = $this->request->getPost('foreignKeys', 'int');
-            $defineRelations = $this->request->getPost('defineRelations', 'int');
+            $foreignKeys       = $this->request->getPost('foreignKeys', 'int');
+            $defineRelations   = $this->request->getPost('defineRelations', 'int');
 
             try {
                 $component = '\Phalcon\Builder\Model';
@@ -52,12 +79,12 @@ class ModelsController extends ControllerBase
                 $modelBuilder = new $component(array(
                     'name'                  => $tableName,
                     'force'                 => $force,
-                    'modelsDir'             => Tools::getConfig()->application->modelsDir,
-                    'directory'             => null,
+                    'modelsDir'             => $this->modelsDir,
+                    'directory'             => $directory,
                     'foreignKeys'           => $foreignKeys,
                     'defineRelations'       => $defineRelations,
                     'genSettersGetters'     => $genSettersGetters,
-                    'namespace'             => null,
+                    'namespace'             => $namespace,
                     'schema'                => $schema
                 ));
 
@@ -96,17 +123,15 @@ class ModelsController extends ControllerBase
 
     public function listAction()
     {
-        $this->view->setVar('modelsDir', Tools::getConfig()->application->modelsDir);
+        $this->view->setVar('modelsDir', $this->modelsDir);
     }
 
     public function editAction($fileName)
     {
         $fileName = str_replace('..', '', $fileName);
 
-        $modelsDir = Tools::getConfig()->application->modelsDir;
-
-        if (!file_exists($modelsDir.'/'.$fileName)) {
-            $this->flash->error('Model could not be found');
+        if (!file_exists($this->modelsDir . $fileName)) {
+            $this->flash->error(sprintf('Model %s could not be found', $this->modelsDir . $fileName));
 
             return $this->dispatcher->forward(array(
                 'controller' => 'models',
@@ -114,7 +139,7 @@ class ModelsController extends ControllerBase
             ));
         }
 
-        $this->tag->setDefault('code', file_get_contents($modelsDir.'/'.$fileName));
+        $this->tag->setDefault('code', file_get_contents($this->modelsDir . $fileName));
         $this->tag->setDefault('name', $fileName);
         $this->view->setVar('name', $fileName);
 
@@ -127,8 +152,7 @@ class ModelsController extends ControllerBase
 
             $fileName = str_replace('..', '', $fileName);
 
-            $modelsDir = Tools::getConfig()->application->modelsDir;
-            if (!file_exists($modelsDir.'/'.$fileName)) {
+            if (!file_exists($this->modelsDir . $fileName)) {
                 $this->flash->error('Model could not be found');
 
                 return $this->dispatcher->forward(array(
@@ -137,7 +161,7 @@ class ModelsController extends ControllerBase
                 ));
             }
 
-            if (!is_writable($modelsDir.'/'.$fileName)) {
+            if (!is_writable($this->modelsDir . $fileName)) {
                 $this->flash->error('Model file does not has write access');
 
                 return $this->dispatcher->forward(array(
@@ -146,7 +170,7 @@ class ModelsController extends ControllerBase
                 ));
             }
 
-            file_put_contents($modelsDir.'/'.$fileName, $this->request->getPost('code'));
+            file_put_contents($this->modelsDir . $fileName, $this->request->getPost('code'));
 
             $this->flash->success('The model "'.$fileName.'" was saved successfully');
         }
@@ -155,5 +179,31 @@ class ModelsController extends ControllerBase
             'controller' => 'models',
             'action' => 'list'
         ));
+    }
+
+    /**
+     * Initialize Models dir
+     *
+     * @return $this
+     */
+    private function initModelsDir()
+    {
+        $config = Tools::getConfig()->offsetGet('application');
+
+        if (isset($config['modelsDir']) && $config['modelsDir']) {
+            if ($this->isAbsolutePath($config['modelsDir'])) {
+                $path = $config['modelsDir'];
+            } else {
+                $path = dirname(getcwd()) . DIRECTORY_SEPARATOR . $config['modelsDir'];
+            }
+
+            $path = rtrim($path, '\\/') . DIRECTORY_SEPARATOR;
+
+            if (file_exists($path)) {
+                $this->modelsDir = $path;
+            }
+        }
+
+        return $this;
     }
 }
