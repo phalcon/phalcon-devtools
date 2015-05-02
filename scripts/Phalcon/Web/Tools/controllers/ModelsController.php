@@ -123,7 +123,10 @@ class ModelsController extends ControllerBase
 
     public function listAction()
     {
-        $this->view->setVar('modelsDir', $this->modelsDir);
+        $this->view->setVars([
+            'modelsDir' => $this->modelsDir,
+            'fileOwner' => $this->fileOwner
+        ]);
     }
 
     public function editAction($fileName)
