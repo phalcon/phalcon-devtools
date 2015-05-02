@@ -98,6 +98,7 @@ class Migrations
             throw new \Exception("Cannot load database configuration");
         }
 
+        ModelMigration::setSkipAutoIncrement($options['no-ai']);
         ModelMigration::setMigrationPath($migrationsDir.'/'.$version);
         if ($tableName == 'all') {
             $migrations = ModelMigration::generateAll($version, $exportData);
