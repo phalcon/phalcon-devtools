@@ -37,7 +37,10 @@ use DirectoryIterator;
  */
 class Script
 {
-    const COMPATIBLE_VERSION = '1020000';
+    const COMPATIBLE_VERSION = 1020000;
+
+    const DOC_INSTALL_URL = ' http://phalconphp.com/documentation/install';
+    const DOC_DOWNLOAD_URL = 'http://phalconphp.com/download';
 
     /**
      * Events Manager

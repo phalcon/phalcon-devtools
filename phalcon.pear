@@ -25,60 +25,73 @@ use Phalcon\Script;
 use Phalcon\Version;
 use Phalcon\Script\Color;
 use Phalcon\Commands\CommandsListener;
+use Phalcon\Loader;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Exception as PhalconException;
 
 try {
+    $extensionLoaded = true;
 
-	if (!extension_loaded('phalcon')) {
-		throw new Exception('Phalcon extension isn\'t installed, follow these instructions to install it: http://phalconphp.com/documentation/install');
-	}
+    if (!extension_loaded('phalcon')) {
+        throw new Exception(
+            sprintf(
+                "Phalcon extension isn't installed, follow these instructions to install it: %s",
+                Script::DOC_INSTALL_URL
+            )
+        );
+    }
 
-	$loader = new \Phalcon\Loader();
+    $loader = new Loader();
+    $loader
+        ->registerDirs(array('@php_dir@/'))
+        ->registerNamespaces(array('Phalcon' => '@php_dir@/'))
+        ->register();
 
-	$loader->registerDirs(array(
-		'@php_dir@/'
-	));
-
-	$loader->registerNamespaces(array(
-		'Phalcon' => '@php_dir@/'
-	));
-
-	$loader->register();
-
-	if (Version::getId() < Script::COMPATIBLE_VERSION) {
-		throw new Exception('Your Phalcon version isn\'t compatible with Developer Tools, download the latest at: http://phalconphp.com/download');
-	}
+    if (Version::getId() < Script::COMPATIBLE_VERSION) {
+        throw new Exception(
+            sprintf(
+                "Your Phalcon version isn't compatible with Developer Tools, download the latest at: %s",
+                Script::DOC_DOWNLOAD_URL
+            )
+        );
+    }
 
     if (!defined('TEMPLATE_PATH')) {
         define('TEMPLATE_PATH', '@php_dir@/Phalcon/templates');
     }
 
-	$vendor = sprintf('Phalcon DevTools (%s)', Version::get());
-	print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
+    $vendor = sprintf('Phalcon DevTools (%s)', Version::get());
+    print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
 
-	$eventsManager = new Phalcon\Events\Manager();
+    $eventsManager = new EventsManager();
 
-	$eventsManager->attach('command', new CommandsListener());
+    $eventsManager->attach('command', new CommandsListener());
 
-	$script = new Script($eventsManager);
+    $script = new Script($eventsManager);
 
-	$commandsToEnable = array(
-		'\Phalcon\Commands\Builtin\Enumerate',
-		'\Phalcon\Commands\Builtin\Controller',
-		'\Phalcon\Commands\Builtin\Model',
-		'\Phalcon\Commands\Builtin\AllModels',
-		'\Phalcon\Commands\Builtin\Project',
-		'\Phalcon\Commands\Builtin\Scaffold',
-		'\Phalcon\Commands\Builtin\Webtools'
-	);
-	foreach ($commandsToEnable as $command){
-		$script->attach(new $command($script, $eventsManager));
-	}
+    $commandsToEnable = array(
+        '\Phalcon\Commands\Builtin\Enumerate',
+        '\Phalcon\Commands\Builtin\Controller',
+        '\Phalcon\Commands\Builtin\Model',
+        '\Phalcon\Commands\Builtin\AllModels',
+        '\Phalcon\Commands\Builtin\Project',
+        '\Phalcon\Commands\Builtin\Scaffold',
+        '\Phalcon\Commands\Builtin\Webtools'
+    );
 
-	$script->run();
+    foreach ($commandsToEnable as $command){
+        $script->attach(new $command($script, $eventsManager));
+    }
+
+    $script->run();
 }
-catch (\Phalcon\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
+catch (PhalconException $e) {
+    print Color::error($e->getMessage()) . PHP_EOL;
 }
-catch (\Exception $e) {
-	print Color::error($e->getMessage()) . PHP_EOL;
+catch (Exception $e) {
+    if ($extensionLoaded) {
+        print Color::error($e->getMessage()) . PHP_EOL;
+    } else {
+        print 'ERROR: ' . $e->getMessage() . PHP_EOL;
+    }
 }
