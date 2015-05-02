@@ -180,6 +180,10 @@ class Modules extends ProjectBuilder
         $getFile = $templatePath . '/project/modules/modules.php';
         $putFile = $path . 'config/modules.php';
         $this->generateFile($getFile, $putFile, $name);
+
+	$getFile = $templatePath . '/project/modules/routes.php';
+	$putFile = $path . 'config/routes.php';
+	$this->generateFile($getFile, $putFile, $name);
     }
 
     /**

@@ -21,8 +21,14 @@ try {
      */
     require __DIR__ . '/../config/modules.php';
 
+    /**
+     * Include routes
+     */
+    require __DIR__ . '/../config/routes.php';
+
     echo $application->handle()->getContent();
 
 } catch (Exception $e) {
     echo $e->getMessage();
 }
+
