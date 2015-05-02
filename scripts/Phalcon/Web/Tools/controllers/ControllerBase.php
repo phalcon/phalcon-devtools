@@ -38,15 +38,16 @@ class ControllerBase extends Controller
     /**
      * Check remote IP address to disable remote activity
      *
-     * @return void
+     * @return boolean
      * @throws \Phalcon\Exception if connected remotely
      */
     protected function checkAccess()
     {
         $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : false;
 
-        if ($ip && ($ip == '127.0.0.1' || $ip == '::1' || $this->checkToolsIp($ip)))
-            return false;
+        if ($ip && ($ip == '127.0.0.1' || $ip == '::1' || $this->checkToolsIp($ip))) {
+            return true;
+        }
 
         throw new Exception('WebTools can only be used on the local machine (Your IP: ' . $ip . ') or you can make changes in webtools.config.php file to allow IP or NET');
     }
