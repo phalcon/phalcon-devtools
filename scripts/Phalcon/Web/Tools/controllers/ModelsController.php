@@ -28,6 +28,8 @@ class ModelsController extends ControllerBase
     public function indexAction()
     {
         $this->listTables(true);
+
+        $this->view->setVar('directory', dirname(getcwd()));
     }
 
     /**
@@ -39,6 +41,7 @@ class ModelsController extends ControllerBase
 
             $force             = $this->request->getPost('force', 'int');
             $schema            = $this->request->getPost('schema');
+            $directory         = $this->request->getPost('directory');
             $namespace         = $this->request->getPost('namespace');
             $tableName         = $this->request->getPost('tableName');
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
@@ -55,7 +58,7 @@ class ModelsController extends ControllerBase
                     'name'                  => $tableName,
                     'force'                 => $force,
                     'modelsDir'             => Tools::getConfig()->application->modelsDir,
-                    'directory'             => null,
+                    'directory'             => $directory,
                     'foreignKeys'           => $foreignKeys,
                     'defineRelations'       => $defineRelations,
                     'genSettersGetters'     => $genSettersGetters,
