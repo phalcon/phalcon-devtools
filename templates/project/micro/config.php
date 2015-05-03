@@ -13,6 +13,7 @@ return new \Phalcon\Config(array(
 
     'application' => array(
         'modelsDir'      => APP_PATH . '/models/',
+        'migrationsDir'  => APP_PATH . '/migrations/',
         'viewsDir'       => APP_PATH . '/views/',
         'baseUri'        => '/@@name@@/',
     )

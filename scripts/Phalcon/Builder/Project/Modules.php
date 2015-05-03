@@ -34,13 +34,13 @@ use Phalcon\Web\Tools;
  */
 class Modules extends ProjectBuilder
 {
-
     private $_dirs = array(
         'apps/',
         'apps/frontend',
         'apps/frontend/views',
         'apps/frontend/config',
         'apps/frontend/models',
+        'apps/frontend/migrations',
         'apps/frontend/controllers',
         'apps/frontend/views/index',
         'apps/frontend/views/layouts',
@@ -63,11 +63,12 @@ class Modules extends ProjectBuilder
     private function createControllerFile($path, $name)
     {
         $modelBuilder = new Controller(array(
-            'name' => 'index',
+            'name'           => 'index',
             'controllersDir' => $path . 'apps/frontend/controllers/',
-            'namespace' => ucfirst($name) . '\Frontend\Controllers',
-            'baseClass' => 'ControllerBase'
+            'namespace'      => ucfirst($name) . '\Frontend\Controllers',
+            'baseClass'      => 'ControllerBase'
         ));
+
         $modelBuilder->build();
     }
 
@@ -79,7 +80,6 @@ class Modules extends ProjectBuilder
      */
     private function createHtaccessFiles($path, $templatePath)
     {
-
         if (file_exists($path . '.htaccess') == false) {
             $code = '<IfModule mod_rewrite.c>' . PHP_EOL .
                 "\t" . 'RewriteEngine on' . PHP_EOL .
@@ -97,7 +97,6 @@ class Modules extends ProjectBuilder
             $code = '<html><body><h1>Mod-Rewrite is not enabled</h1><p>Please enable rewrite module on your web server to continue</body></html>';
             file_put_contents($path . 'index.html', $code);
         }
-
     }
 
     /**
@@ -181,9 +180,9 @@ class Modules extends ProjectBuilder
         $putFile = $path . 'config/modules.php';
         $this->generateFile($getFile, $putFile, $name);
 
-	$getFile = $templatePath . '/project/modules/routes.php';
-	$putFile = $path . 'config/routes.php';
-	$this->generateFile($getFile, $putFile, $name);
+        $getFile = $templatePath . '/project/modules/routes.php';
+        $putFile = $path . 'config/routes.php';
+        $this->generateFile($getFile, $putFile, $name);
     }
 
     /**
@@ -198,7 +197,6 @@ class Modules extends ProjectBuilder
      */
     public function build($path, $templatePath, $name, array $options)
     {
-
         $this->buildDirectories($this->_dirs,$path);
 
         $this->getVariableValues($options);
@@ -222,5 +220,4 @@ class Modules extends ProjectBuilder
 
         return true;
     }
-
 }

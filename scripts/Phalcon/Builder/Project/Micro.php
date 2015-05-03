@@ -31,11 +31,11 @@ namespace Phalcon\Builder\Project;
  */
 class Micro extends ProjectBuilder
 {
-
     private $_dirs = array(
         'config',
         'models',
         'views',
+        'migrations',
         'public',
         'public/img',
         'public/css',
@@ -53,7 +53,6 @@ class Micro extends ProjectBuilder
      */
     private function createHtaccessFiles($path, $templatePath)
     {
-
         if (file_exists($path . '.htaccess') == false) {
             $code = '<IfModule mod_rewrite.c>'.PHP_EOL.
                 "\t".'RewriteEngine on'.PHP_EOL.
@@ -71,7 +70,6 @@ class Micro extends ProjectBuilder
             $code = '<html><body><h1>Mod-Rewrite is not enabled</h1><p>Please enable rewrite module on your web server to continue</body></html>';
             file_put_contents($path.'index.html', $code);
         }
-
     }
 
     /**
@@ -143,7 +141,6 @@ class Micro extends ProjectBuilder
      */
     public function build($path, $templatePath, $name, array $options)
     {
-
         $this->buildDirectories($this->_dirs,$path);
 
         $this->getVariableValues($options);
@@ -160,5 +157,4 @@ class Micro extends ProjectBuilder
 
         return true;
     }
-
 }
