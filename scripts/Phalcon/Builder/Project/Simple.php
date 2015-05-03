@@ -34,7 +34,6 @@ use Phalcon\Web\Tools;
  */
 class Simple extends ProjectBuilder
 {
-
     private $_dirs = array(
         'app',
         'app/cache',
@@ -42,6 +41,7 @@ class Simple extends ProjectBuilder
         'app/config',
         'app/models',
         'app/controllers',
+        'app/migrations',
         'app/views/index',
         'app/views/layouts',
         'public',
@@ -61,11 +61,12 @@ class Simple extends ProjectBuilder
     private function createControllerFile($path)
     {
         $modelBuilder = new Controller(array(
-            'name' => 'index',
-            'directory' => $path,
+            'name'           => 'index',
+            'directory'      => $path,
             'controllersDir' => $path . 'app/controllers',
-            'baseClass' => 'ControllerBase'
+            'baseClass'      => 'ControllerBase'
         ));
+
         $modelBuilder->build();
     }
 
@@ -77,7 +78,6 @@ class Simple extends ProjectBuilder
      */
     private function createHtaccessFiles($path, $templatePath)
     {
-
         if (file_exists($path . '.htaccess') == false) {
             $code = '<IfModule mod_rewrite.c>'.PHP_EOL.
                 "\t".'RewriteEngine on'.PHP_EOL.
@@ -177,7 +177,6 @@ class Simple extends ProjectBuilder
      */
     public function build($path, $templatePath, $name, array $options)
     {
-
         $this->buildDirectories($this->_dirs,$path);
 
         $this->getVariableValues($options);
@@ -200,5 +199,4 @@ class Simple extends ProjectBuilder
 
         return true;
     }
-
 }

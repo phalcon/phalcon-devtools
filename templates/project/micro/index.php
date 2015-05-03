@@ -30,7 +30,7 @@ try {
     $app = new Micro($di);
 
     /**
-     * Incude Application
+     * Include Application
      */
     include APP_PATH . '/app.php';
 
