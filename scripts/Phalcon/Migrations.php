@@ -54,7 +54,7 @@ class Migrations
         $config = $options['config'];
 
         if ($migrationsDir && !file_exists($migrationsDir)) {
-            mkdir($migrationsDir);
+            mkdir($migrationsDir, 0777, true);
         }
 
         if ($originalVersion) {
@@ -64,10 +64,8 @@ class Migrations
 
             $originalVersion = $matches[0];
             $version = new VersionItem($originalVersion, 3);
-            if (file_exists($migrationsDir.'/'.$version)) {
-                if (!$force) {
-                    throw new \Exception('Version '.$version.' is already generated');
-                }
+            if (file_exists($migrationsDir.'/'.$version) && !$force) {
+                throw new \Exception('Version '.$version.' is already generated');
             }
         } else {
             $versions = array();
