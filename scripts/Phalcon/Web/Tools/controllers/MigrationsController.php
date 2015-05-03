@@ -24,26 +24,16 @@ use Phalcon\Builder\BuilderException;
 
 class MigrationsController extends ControllerBase
 {
-    /**
-     * @return string
-     */
-    protected function _getMigrationsDir()
-    {
-        $migrationsDir = 'app/migrations';
-        if (!file_exists($migrationsDir)) {
-            mkdir($migrationsDir);
-        }
-
-        return $migrationsDir;
-    }
-
     protected function _prepareVersions()
     {
-        $migrationsDir = $this->_getMigrationsDir();
+        if (!$this->migrationsDir) {
+            $this->view->setVar('version', 'None');
+            return;
+        }
 
         $folders = array();
 
-        $iterator = new DirectoryIterator($migrationsDir);
+        $iterator = new DirectoryIterator($this->migrationsDir);
         foreach ($iterator as $fileinfo) {
             if (!$fileinfo->isDot()) {
                 $folders[$fileinfo->getFileName()] = $fileinfo->getFileName();
@@ -64,6 +54,13 @@ class MigrationsController extends ControllerBase
 
     public function indexAction()
     {
+        if (!$this->migrationsDir) {
+            $this->flash->error(
+                "Sorry, Web Tools doesn't know where is the migrations directory. <br>" .
+                "Please add to <code>application</code> section <code>migrationsDir</code> param with valid path."
+            );
+        }
+
         $this->_prepareVersions();
         $this->listTables();
     }
@@ -73,31 +70,32 @@ class MigrationsController extends ControllerBase
      */
     public function generateAction()
     {
-         if ($this->request->isPost()) {
-
+        if ($this->request->isPost()) {
             $exportData = '';
-            $tableName = $this->request->getPost('table-name', 'string');
-            $version = $this->request->getPost('version', 'string');
-            $force = $this->request->getPost('force', 'int');
 
-            $migrationsDir = $this->_getMigrationsDir();
+            $tableName     = $this->request->getPost('table-name', 'string');
+            $version       = $this->request->getPost('version', 'string');
+            $force         = $this->request->getPost('force', 'int');
+            $noAi          = $this->request->getPost('noAi', 'int');
+            $migrationsDir = $this->request->getPost('migrationsDir');
 
             try {
                 Migrations::generate(array(
-                    'config' => Tools::getConfig(),
-                    'directory' => null,
-                    'tableName' => $tableName,
-                    'exportData' => $exportData,
-                    'migrationsDir' => $migrationsDir,
+                    'config'          => Tools::getConfig(),
+                    'tableName'       => $tableName,
+                    'exportData'      => $exportData,
+                    'migrationsDir'   => $migrationsDir,
                     'originalVersion' => $version,
-                    'force' => $force
+                    'force'           => $force,
+                    'no-ai'           => $noAi,
                 ));
 
-                $this->flash->success("The migration was generated successfully");
+                $this->flash->success('The migration was generated successfully.');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
+            } catch (Exception $e) {
+                $this->flash->error($e->getMessage());
             }
-
         }
 
         return $this->dispatcher->forward(array(
@@ -115,17 +113,15 @@ class MigrationsController extends ControllerBase
             $force = $this->request->getPost('force', 'int');
 
             try {
-                $migrationsDir = $this->_getMigrationsDir();
-
                 Migrations::run(array(
                     'config' => Tools::getConfig(),
-                    'directory' => null,
-                    'tableName' => 'all',
-                    'migrationsDir' => $migrationsDir,
-                    'force' => $force
+                    'directory'     => null,
+                    'tableName'     => 'all',
+                    'migrationsDir' => $this->migrationsDir,
+                    'force'         => $force
                 ));
 
-                $this->flash->success("The migration was executed successfully");
+                $this->flash->success('The migration was executed successfully.');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }

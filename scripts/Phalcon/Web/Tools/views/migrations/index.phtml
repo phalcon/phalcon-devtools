@@ -1,11 +1,12 @@
 <?php
-
 /**
  * Local variables
  * @var \Phalcon\Mvc\View\Engine $this
+ * @var array $tables
+ * @var string|null $migrationsDir
  */
-
 ?>
+
 <?php echo $this->getContent() ?>
 
 <h1>Generate  Migration</h1>
@@ -19,15 +20,23 @@
         </tr>
         <tr>
             <td><b>New Version</b></td>
-            <td><?php echo $this->tag->textField(array('version', 'value' => '', 'placeholder' => 'Let empty to auto new version')) ?></td>
+            <td><?php echo $this->tag->textField(array('version', 'placeholder' => 'Let empty to auto new version')) ?></td>
         </tr>
         <tr>
             <td><b>Table name</b></td>
             <td><?php echo $this->tag->selectStatic('table-name', $tables) ?></td>
         </tr>
         <tr>
+            <td><b>Migrations Dir</b></td>
+            <td><?php echo $this->tag->textField(array('migrationsDir', 'value' => $migrationsDir)) ?></td>
+        </tr>
+        <tr>
             <td><b>Force</b></td>
             <td><input type="checkbox" name="force" value="1"/></td>
+        </tr>
+        <tr>
+            <td><b>Disable auto increment</b></td>
+            <td><input type="checkbox" name="noAi" value=""/></td>
         </tr>
         <tr>
             <td colspan="2">
@@ -37,5 +46,4 @@
             </td>
         </tr>
     </table>
-
 </form>
