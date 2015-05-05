@@ -39,7 +39,7 @@ class Project extends Command
         'name'            => 'Name of the new project',
         'enable-webtools' => 'Determines if webtools should be enabled [optional]',
         'directory=s'     => 'Base path on which project will be created [optional]',
-        'type=s'          => 'Type of the application to be generated (micro, simple, modules)',
+        'type=s'          => 'Type of the application to be generated (cli, micro, simple, modules)',
         'template-path'   => 'Specify a template path [optional]',
         'use-config-ini'  => 'Use a ini file as configuration file [optional]',
         'trace'           => 'Shows the trace of the framework in case of exception. [optional]',
