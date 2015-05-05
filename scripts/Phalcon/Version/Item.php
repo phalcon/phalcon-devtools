@@ -21,18 +21,16 @@
 namespace Phalcon\Version;
 
 /**
- * Phalcon\Version\Item
+ * Item Class
  *
  * Allows to manipulate version texts
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @package     Phalcon\Version
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
 class Item
 {
-
     /**
      * @var string
      */
@@ -161,7 +159,7 @@ class Item
 
         foreach ($versions as $version) {
             /**
-             * @var $version Item
+             * @var Item $version
              */
             if (($version->getStamp() > $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
                 $betweenVersions[] = $version;
@@ -204,5 +202,4 @@ class Item
     {
         return $this->_version;
     }
-
 }
