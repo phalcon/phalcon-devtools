@@ -99,21 +99,18 @@ class Scaffold extends Component
      */
     public function build()
     {
-
         $options = $this->_options;
 
-        $path = '';
-        if (isset($this->_options['directory'])) {
-            if ($this->_options['directory']) {
-                $path = $this->_options['directory'] . '/';
-            }
+        $path = realpath('.') . DIRECTORY_SEPARATOR;
+        if (isset($this->_options['directory']) && $this->_options['directory']) {
+            $path = realpath($this->_options['directory']) . DIRECTORY_SEPARATOR;
         }
 
         $name = $options['name'];
         $config = $this->_getConfig($path);
 
         if (!isset($config->database->adapter)) {
-            throw new BuilderException("Adapter was not found in the config. Please specify a config variable [database][adapter]");
+            throw new BuilderException("Adapter was not found in the config. Please specify a config variable [database][adapter].");
         }
 
         $adapter = ucfirst($config->database->adapter);
@@ -143,19 +140,34 @@ class Scaffold extends Component
         });
 
         if (isset($config->application->modelsDir)) {
-            $options['modelsDir'] = $path . $config->application->modelsDir;
+            if ($this->isAbsolutePath($config->application->modelsDir) == false) {
+                $modelPath = $path . DIRECTORY_SEPARATOR . $config->application->modelsDir;
+            } else {
+                $modelPath = $config->application->modelsDir;
+            }
+            $options['modelsDir'] = $modelPath;
         } else {
             throw new BuilderException("The builder is unable to find the views directory");
         }
 
         if (isset($config->application->controllersDir)) {
-            $options['controllersDir'] = $path . $config->application->controllersDir;
+            if ($this->isAbsolutePath($config->application->modelsDir) == false) {
+                $controllerPath = $path . DIRECTORY_SEPARATOR . $config->application->controllersDir;
+            } else {
+                $controllerPath = $config->application->controllersDir;
+            }
+            $options['controllersDir'] = $controllerPath;
         } else {
             throw new BuilderException("The builder is unable to find the controllers directory");
         }
 
         if (isset($config->application->viewsDir)) {
-            $options['viewsDir'] = $path . $config->application->viewsDir;
+            if ($this->isAbsolutePath($config->application->viewsDir) == false) {
+                $viewPath = $path . DIRECTORY_SEPARATOR . $config->application->viewsDir;
+            } else {
+                $viewPath = $config->application->viewsDir;
+            }
+            $options['viewsDir'] = $viewPath;
         } else {
             throw new BuilderException("The builder is unable to find the views directory");
         }
@@ -165,9 +177,8 @@ class Scaffold extends Component
         $options['className'] = Text::camelize($options['name']);
         $options['fileName'] = Text::uncamelize($options['className']);
 
-
-        $modelsNamespace = $options['modelsNamespace'];
-        if (isset($modelsNamespace) && substr($modelsNamespace, -1) !== '\\') {
+        $modelsNamespace = (isset($options['modelsNamespace']) && $options['modelsNamespace']) ? $options['modelsNamespace'] : '';
+        if ($modelsNamespace && substr($modelsNamespace, -1) !== '\\') {
             $modelsNamespace .= "\\";
         }
 
@@ -177,13 +188,13 @@ class Scaffold extends Component
         if (!file_exists($modelPath)) {
 
             $modelBuilder = new ModelBuilder(array(
-                'name' => $name,
-                'schema' => $options['schema'],
-                'className' => $options['className'],
-                'fileName' => $options['fileName'],
+                'name'              => $name,
+                'schema'            => $options['schema'],
+                'className'         => $options['className'],
+                'fileName'          => $options['fileName'],
                 'genSettersGetters' => $options['genSettersGetters'],
-                'directory' => $options['directory'],
-                'force' => $options['force']
+                'directory'         => $options['directory'],
+                'force'             => $options['force']
             ));
 
             $modelBuilder->build();
