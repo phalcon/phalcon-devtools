@@ -84,10 +84,10 @@ class ControllersController extends ControllerBase
 
     public function listAction()
     {
-        $this->view->setVars([
+        $this->view->setVars(array(
             'controllersDir' => $this->controllersDir,
             'fileOwner' => $this->fileOwner
-        ]);
+        ));
     }
 
     /**

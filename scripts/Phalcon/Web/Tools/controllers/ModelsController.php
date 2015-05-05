@@ -35,9 +35,9 @@ class ModelsController extends ControllerBase
             );
         }
 
-        $this->view->setVars([
+        $this->view->setVars(array(
             'directory' => dirname(getcwd())
-        ]);
+        ));
     }
 
     /**
@@ -108,10 +108,10 @@ class ModelsController extends ControllerBase
 
     public function listAction()
     {
-        $this->view->setVars([
+        $this->view->setVars(array(
             'modelsDir' => $this->modelsDir,
             'fileOwner' => $this->fileOwner
-        ]);
+        ));
     }
 
     /**
