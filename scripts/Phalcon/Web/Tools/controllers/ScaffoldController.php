@@ -18,7 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Web\Tools;
 use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold;
 
@@ -26,13 +25,15 @@ class ScaffoldController extends ControllerBase
 {
     public function indexAction()
     {
-
         $this->listTables();
 
-        $this->view->templateEngines = array(
-            'volt' => 'volt',
-            'php' => 'php'
-        );
+        $this->view->setVars(array(
+            'directory'       => dirname(getcwd()),
+            'templateEngines' => array(
+                'volt' => 'volt',
+                'php'  => 'php',
+            )
+        ));
     }
 
     /**
@@ -41,28 +42,31 @@ class ScaffoldController extends ControllerBase
     public function generateAction()
     {
         if ($this->request->isPost()) {
-            $schema = $this->request->getPost('schema', 'string');
-            $tableName = $this->request->getPost('tableName', 'string');
-            $version = $this->request->getPost('version', 'string');
-            $templateEngine = $this->request->getPost('templateEngine');
-            $force = $this->request->getPost('force', 'int');
+            $schema            = $this->request->getPost('schema', 'string');
+            $tableName         = $this->request->getPost('tableName', 'string');
+            $version           = $this->request->getPost('version', 'string');
+            $templateEngine    = $this->request->getPost('templateEngine');
+            $force             = $this->request->getPost('force', 'int');
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
+            $directory         = $this->request->getPost('directory');
+            $modelsNamespace   = $this->request->getPost('modelsNamespace', 'trim');
 
             try {
 
                 $scaffoldBuilder = new Scaffold(array(
-                    'name' => $tableName,
-                    'schema' => $schema,
-                    'force'	=> $force,
+                    'name'              => $tableName,
+                    'schema'            => $schema,
+                    'force'	            => $force,
                     'genSettersGetters' => $genSettersGetters,
-                    'directory' => null,
-                    'templatePath' => TEMPLATE_PATH,
-                    'templateEngine' => $templateEngine
+                    'directory'         => $directory,
+                    'templatePath'      => TEMPLATE_PATH,
+                    'templateEngine'    => $templateEngine,
+                    'modelsNamespace'   => $modelsNamespace,
                 ));
 
                 $scaffoldBuilder->build();
 
-                $this->flash->success('Scaffold for table "'.$tableName.'" was generated successfully');
+                $this->flash->success(sprintf('Scaffold for table "%s" was generated successfully', $tableName));
 
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
