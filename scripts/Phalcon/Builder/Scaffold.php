@@ -140,19 +140,34 @@ class Scaffold extends Component
         });
 
         if (isset($config->application->modelsDir)) {
-            $options['modelsDir'] = $path . $config->application->modelsDir;
+            if ($this->isAbsolutePath($config->application->modelsDir) == false) {
+                $modelPath = $path . DIRECTORY_SEPARATOR . $config->application->modelsDir;
+            } else {
+                $modelPath = $config->application->modelsDir;
+            }
+            $options['modelsDir'] = $modelPath;
         } else {
             throw new BuilderException("The builder is unable to find the views directory");
         }
 
         if (isset($config->application->controllersDir)) {
-            $options['controllersDir'] = $path . $config->application->controllersDir;
+            if ($this->isAbsolutePath($config->application->modelsDir) == false) {
+                $controllerPath = $path . DIRECTORY_SEPARATOR . $config->application->controllersDir;
+            } else {
+                $controllerPath = $config->application->controllersDir;
+            }
+            $options['controllersDir'] = $controllerPath;
         } else {
             throw new BuilderException("The builder is unable to find the controllers directory");
         }
 
         if (isset($config->application->viewsDir)) {
-            $options['viewsDir'] = $path . $config->application->viewsDir;
+            if ($this->isAbsolutePath($config->application->viewsDir) == false) {
+                $viewPath = $path . DIRECTORY_SEPARATOR . $config->application->viewsDir;
+            } else {
+                $viewPath = $config->application->viewsDir;
+            }
+            $options['viewsDir'] = $viewPath;
         } else {
             throw new BuilderException("The builder is unable to find the views directory");
         }
