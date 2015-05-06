@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\DI\FactoryDefault;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
@@ -67,7 +67,7 @@ $di->set('modelsMetadata', function () {
 /**
  * Start the session the first time some component request the session service
  */
-$di->set('session', function () {
+$di->setShared('session', function () {
     $session = new SessionAdapter();
     $session->start();
 
