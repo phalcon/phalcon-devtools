@@ -1,7 +1,7 @@
 <?php
 
-use Phalcon\Di\FactoryDefault\CLi as CliDi;
-use Phalcon\CLi\Console as ConsoleApp;
+use Phalcon\Di\FactoryDefault\Cli as CliDi;
+use Phalcon\Cli\Console as ConsoleApp;
 
 /**
  * Read auto-loader

@@ -1,6 +1,6 @@
 <?php
 
-class VersionTask extends \Phalcon\CLi\Task
+class VersionTask extends \Phalcon\Cli\Task
 {
     public function mainAction()
     {
