@@ -103,7 +103,6 @@ class ModelsController extends ControllerBase
             'controller' => 'models',
             'action' => 'list'
         ));
-
     }
 
     public function listAction()
@@ -137,7 +136,6 @@ class ModelsController extends ControllerBase
         $this->tag->setDefault('code', file_get_contents($this->modelsDir . $fileName));
         $this->tag->setDefault('name', $fileName);
         $this->view->setVar('name', $fileName);
-
     }
 
     public function saveAction()

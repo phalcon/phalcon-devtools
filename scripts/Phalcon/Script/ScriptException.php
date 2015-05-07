@@ -31,5 +31,4 @@ namespace Phalcon\Script;
  */
 class ScriptException extends \Phalcon\Exception
 {
-
 }

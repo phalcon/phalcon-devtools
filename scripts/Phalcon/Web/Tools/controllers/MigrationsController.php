@@ -49,7 +49,6 @@ class MigrationsController extends ControllerBase
         } else {
             $this->view->setVar('version', 'None');
         }
-
     }
 
     public function indexAction()
@@ -102,7 +101,6 @@ class MigrationsController extends ControllerBase
             'controller' => 'migrations',
             'action' => 'index'
         ));
-
     }
 
     public function runAction()

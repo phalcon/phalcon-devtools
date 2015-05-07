@@ -41,14 +41,14 @@ class Migration extends Command
 {
 
     protected $_possibleParameters = array(
-        'action=s'      	=> "Generates a Migration [generate|run]",
-        'config=s'      	=> "Configuration file.",
-        'migrations=s'  	=> "Migrations directory.",
-        'directory=s'   	=> "Directory where the project was created.",
-        'table=s'       	=> "Table to migrate. Default: all.",
-        'version=s'     	=> "Version to migrate.",
-        'force'         	=> "Forces to overwrite existing migrations.",
-        'no-auto-increment'	=> "Disable auto increment (Generating only)",
+        'action=s'          => "Generates a Migration [generate|run]",
+        'config=s'          => "Configuration file.",
+        'migrations=s'      => "Migrations directory.",
+        'directory=s'       => "Directory where the project was created.",
+        'table=s'           => "Table to migrate. Default: all.",
+        'version=s'         => "Version to migrate.",
+        'force'             => "Forces to overwrite existing migrations.",
+        'no-auto-increment' => "Disable auto increment (Generating only)",
     );
 
     /**
@@ -136,12 +136,12 @@ class Migration extends Command
         if ($this->isReceivedOption('migrations')) {
             $migrationsDir = $path.$this->getOption('migrations');
         } else {
-            if(file_exists($path.'app')) {
-            	$migrationsDir = $path.'app/migrations';
-            } else if(file_exists($path.'apps')) {
-            	$migrationsDir = $path.'apps/migrations';
+            if (file_exists($path.'app')) {
+                $migrationsDir = $path.'app/migrations';
+            } elseif (file_exists($path.'apps')) {
+                $migrationsDir = $path.'apps/migrations';
             } else {
-            	$migrationsDir = $path.'migrations';
+                $migrationsDir = $path.'migrations';
             }
         }
 
@@ -161,24 +161,24 @@ class Migration extends Command
 
         if ($action == 'generate') {
             Migrations::generate(array(
-                'directory' => $path,
-                'tableName' => $tableName,
-                'exportData' => $exportData,
-                'migrationsDir' => $migrationsDir,
+                'directory'       => $path,
+                'tableName'       => $tableName,
+                'exportData'      => $exportData,
+                'migrationsDir'   => $migrationsDir,
                 'originalVersion' => $originalVersion,
-                'force' => $this->isReceivedOption('force'),
-                'no-ai' => $this->isReceivedOption('no-auto-increment'),
-                'config' => $config
+                'force'           => $this->isReceivedOption('force'),
+                'no-ai'           => $this->isReceivedOption('no-auto-increment'),
+                'config'          => $config
             ));
         } else {
             if ($action == 'run') {
                 Migrations::run(array(
-                    'directory' => $path,
-                    'tableName' => $tableName,
+                    'directory'     => $path,
+                    'tableName'     => $tableName,
                     'migrationsDir' => $migrationsDir,
-                    'force' => $this->isReceivedOption('force'),
-                    'config' => $config ,
-                    'version' => $version ,
+                    'force'         => $this->isReceivedOption('force'),
+                    'config'        => $config,
+                    'version'       => $version,
                 ));
             }
         }
