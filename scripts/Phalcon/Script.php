@@ -181,7 +181,6 @@ class Script
                     $iterator = new DirectoryIterator($directory);
                     foreach ($iterator as $item) {
                         if (!$item->isDir()) {
-
                             require $item->getPathName();
 
                             $className = preg_replace('/\.php$/', '', $item->getBaseName());

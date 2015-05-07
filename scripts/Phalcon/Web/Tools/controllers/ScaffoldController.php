@@ -25,7 +25,7 @@ class ScaffoldController extends ControllerBase
 {
     public function indexAction()
     {
-        $errorMessage = function($directoryName, $directoryPath) {
+        $errorMessage = function ($directoryName, $directoryPath) {
             return sprintf(
                 "Sorry, Web Tools doesn't know where is the %s directory. <br>" .
                 "Please add to <code>application</code> section <code>%s</code> param with valid path.",
@@ -35,11 +35,11 @@ class ScaffoldController extends ControllerBase
         };
 
         if (!$this->controllersDir) {
-            $this->flash->error($errorMessage('controllers','controllersDir'));
+            $this->flash->error($errorMessage('controllers', 'controllersDir'));
         }
 
         if (!$this->modelsDir) {
-            $this->flash->error($errorMessage('models','modelsDir'));
+            $this->flash->error($errorMessage('models', 'modelsDir'));
         }
 
         $this->listTables();
@@ -69,7 +69,6 @@ class ScaffoldController extends ControllerBase
             $modelsNamespace   = $this->request->getPost('modelsNamespace', 'trim');
 
             try {
-
                 $scaffoldBuilder = new Scaffold(array(
                     'name'              => $tableName,
                     'schema'            => $schema,
@@ -89,7 +88,6 @@ class ScaffoldController extends ControllerBase
                     'controller' => 'scaffold',
                     'action' => 'index'
                 ));
-
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }
@@ -100,5 +98,4 @@ class ScaffoldController extends ControllerBase
             'action' => 'index'
         ));
     }
-
 }

@@ -95,7 +95,6 @@ class Simple extends ProjectBuilder
             $code = '<html><body><h1>Mod-Rewrite is not enabled</h1><p>Please enable rewrite module on your web server to continue</body></html>';
             file_put_contents($path.'index.html', $code);
         }
-
     }
 
     /**
@@ -177,7 +176,7 @@ class Simple extends ProjectBuilder
      */
     public function build($path, $templatePath, $name, array $options)
     {
-        $this->buildDirectories($this->_dirs,$path);
+        $this->buildDirectories($this->_dirs, $path);
 
         $this->getVariableValues($options);
 

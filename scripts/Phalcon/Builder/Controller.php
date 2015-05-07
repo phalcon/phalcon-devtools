@@ -94,7 +94,7 @@ class Controller extends Component
             throw new BuilderException("The controller name is required");
         }
 
-        $name = str_replace(' ','_',$name);
+        $name = str_replace(' ', '_', $name);
 
         $className = Utils::camelize($name);
 
@@ -116,7 +116,5 @@ class Controller extends Component
         }
 
         return $className . 'Controller.php';
-
     }
-
 }

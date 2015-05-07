@@ -289,7 +289,6 @@ class Tools
         }
 
         try {
-
             $di = new FactoryDefault();
 
             $di->set('view', function () use ($path) {
