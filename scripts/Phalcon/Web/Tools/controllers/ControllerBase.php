@@ -58,7 +58,7 @@ class ControllerBase extends Controller
     {
         $this->checkAccess();
 
-        $this->fileOwner = function(DirectoryIterator $file) {
+        $this->fileOwner = function (DirectoryIterator $file) {
             // Windows, fallback, etc.
             $userName = getenv('USERNAME') ?: getenv('USER');
 
@@ -151,7 +151,7 @@ class ControllerBase extends Controller
      */
     public function isAbsolutePath($path)
     {
-        if (PHP_OS == "WINNT") {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             if (preg_match('/^[A-Z]:\\\\/', $path)) {
                 return true;
             }

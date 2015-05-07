@@ -141,7 +141,7 @@ class Micro extends ProjectBuilder
      */
     public function build($path, $templatePath, $name, array $options)
     {
-        $this->buildDirectories($this->_dirs,$path);
+        $this->buildDirectories($this->_dirs, $path);
 
         $this->getVariableValues($options);
 

@@ -63,14 +63,14 @@ class Scaffold extends Command
         $templateEngine = $this->getOption(array('template-engine'), null, "php");
 
         $scaffoldBuilder = new scaffoldBuilder(array(
-            'name' => $name,
-            'schema' => $schema,
-            'force'	=> $this->isReceivedOption('force'),
-            'genSettersGetters' => $this->isReceivedOption('get-set'),
-            'directory' => $this->getOption('directory'),
-            'templatePath' => $templatePath,
-            'templateEngine'=> $templateEngine,
-            'modelsNamespace' => $this->getOption('ns-models'),
+            'name'                 => $name,
+            'schema'               => $schema,
+            'force'                => $this->isReceivedOption('force'),
+            'genSettersGetters'    => $this->isReceivedOption('get-set'),
+            'directory'            => $this->getOption('directory'),
+            'templatePath'         => $templatePath,
+            'templateEngine'       => $templateEngine,
+            'modelsNamespace'      => $this->getOption('ns-models'),
             'controllersNamespace' => $this->getOption('ns-controllers'),
         ));
 

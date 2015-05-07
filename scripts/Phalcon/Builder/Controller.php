@@ -29,10 +29,10 @@ use Phalcon\Builder\BuilderException;
  *
  * Builder to generate controller
  *
- * @category 	Phalcon
- * @package 	Builder
+ * @category    Phalcon
+ * @package     Builder
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
 class Controller extends Component
 {
@@ -94,7 +94,7 @@ class Controller extends Component
             throw new BuilderException("The controller name is required");
         }
 
-        $name = str_replace(' ','_',$name);
+        $name = str_replace(' ', '_', $name);
 
         $className = Utils::camelize($name);
 
@@ -116,7 +116,5 @@ class Controller extends Component
         }
 
         return $className . 'Controller.php';
-
     }
-
 }

@@ -49,13 +49,11 @@ class AllModels extends Component
             $options['abstract'] = false;
         }
 
-
         $this->_options = $options;
     }
 
     public function build()
     {
-
         $path = '.';
         if (isset($this->_options['directory']) && $this->_options['directory']) {
             $path = $this->_options['directory'];
@@ -117,7 +115,7 @@ class AllModels extends Component
         } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
         } else {
-            $schema = isset($config->database->schema)?$config->database->schema:$config->database->dbname;
+            $schema = isset($config->database->schema) ? $config->database->schema : $config->database->dbname;
         }
 
         $hasMany = array();
@@ -151,7 +149,7 @@ class AllModels extends Component
                                     'referencedModel' => $referencedModel,
                                     'fields' => $columns[0],
                                     'relationFields' => $referencedColumns[0],
-                                    'options' => $defineForeignKeys ? array('foreignKey'=>true) : NULL
+                                    'options' => $defineForeignKeys ? array('foreignKey'=>true) : null
                                 );
                                 $hasMany[$reference->getReferencedTable()][] = array(
                                     'camelizedName' => $camelCaseName,
@@ -174,12 +172,10 @@ class AllModels extends Component
         }
 
         foreach ($db->listTables($schema) as $name) {
-
             $className = ($this->_options['abstract'] ? 'Abstract' : '');
             $className .= Utils::camelize($name);
 
             if (!file_exists($modelsDir . '/' . $className . '.php') || $forceProcess) {
-
                 if (isset($hasMany[$name])) {
                     $hasManyModel = $hasMany[$name];
                 } else {
@@ -216,14 +212,12 @@ class AllModels extends Component
 
                 $modelBuilder->build();
             } else {
-                if ( $this->isConsole() ) {
-
+                if ($this->isConsole()) {
                     print Color::info("Skipping model \"$name\" because it already exist");
                 } else {
                     $this->exist[] = $name;
                 }
             }
         }
-
     }
 }

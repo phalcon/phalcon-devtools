@@ -69,11 +69,9 @@ class ControllersController extends ControllerBase
                     'action' => 'edit',
                     'params' => array($fileName)
                 ));
-
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }
-
         }
 
         return $this->dispatcher->forward(array(

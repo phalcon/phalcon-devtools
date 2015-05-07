@@ -55,16 +55,16 @@ abstract class ProjectBuilder
     {
         $variableValuesResult = array();
         $variablesJsonFile = $options['templatePath'].'/project/'.$options['type'].'/variables.json';
-        if(file_exists($variablesJsonFile)) {
+        if (file_exists($variablesJsonFile)) {
             $variableValues = json_decode(file_get_contents($variablesJsonFile), true);
-            if($variableValues) {
-              foreach($options as $k => $option) {
-                  if(!isset($variableValues[$k])) {
-                      continue;
-                  }
-                  $valueKey = $option ? 'true':'false';
-                  $variableValuesResult = $variableValues[$k][$valueKey];
-              }
+            if ($variableValues) {
+                foreach ($options as $k => $option) {
+                    if (!isset($variableValues[$k])) {
+                        continue;
+                    }
+                    $valueKey = $option ? 'true' : 'false';
+                    $variableValuesResult = $variableValues[$k][$valueKey];
+                }
             }
             $this->variableValues = $variableValuesResult;
         }
@@ -79,7 +79,7 @@ abstract class ProjectBuilder
      */
     protected function generateFile($getFile, $putFile, $name = '')
     {
-       if (file_exists($putFile) == false) {
+        if (file_exists($putFile) == false) {
             $str = file_get_contents($getFile);
             if ($name) {
                 $str = preg_replace('/@@name@@/', $name, $str);
@@ -87,7 +87,7 @@ abstract class ProjectBuilder
             }
 
             if (sizeof($this->variableValues) > 0) {
-                foreach($this->variableValues as $variableValueKey => $variableValue) {
+                foreach ($this->variableValues as $variableValueKey => $variableValue) {
                     $variableValueKeyRegEx = '/@@'.preg_quote($variableValueKey, '/').'@@/';
                     $str = preg_replace($variableValueKeyRegEx, $variableValue, $str);
                 }

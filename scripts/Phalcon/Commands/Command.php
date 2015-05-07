@@ -133,11 +133,11 @@ abstract class Command implements CommandsInterface
             if (isset($this->_possibleParameters)) {
                 $parameters = $this->_possibleParameters;
             } else {
-                if (method_exists($this, 'getPossibleParams')) {
-                    $parameters = $this->getPossibleParams();
-                } else {
+                if (!method_exists($this, 'getPossibleParams')) {
                     throw new CommandsException("Cannot load possible parameters for script: " . get_class($this));
                 }
+
+                $parameters = $this->getPossibleParams();
             }
         }
 
@@ -179,15 +179,15 @@ abstract class Command implements CommandsInterface
                         'data-type' => $parameterParts[1]
                     );
                 } else {
-                    if (preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
-                        $this->_preparedArguments[$parameter] = true;
-                        $arguments[$parameter] = array(
-                            'have-option' => false,
-                            'option-required' => false
-                        );
-                    } else {
+                    if (!preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
                         throw new CommandsException("Invalid parameter '$parameter'");
                     }
+
+                    $this->_preparedArguments[$parameter] = true;
+                    $arguments[$parameter] = array(
+                        'have-option'     => false,
+                        'option-required' => false
+                    );
                 }
             }
         }
@@ -198,10 +198,8 @@ abstract class Command implements CommandsInterface
         $numberArguments = count($_SERVER['argv']);
 
         for ($i = 1; $i < $numberArguments; $i++) {
-
             $argv = $_SERVER['argv'][$i];
             if (preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)(=(.*)){0,1}$#', $argv, $matches)) {
-
                 if (strlen($matches[1]) == 1) {
                     $param = substr($matches[2], 1);
                     $paramName = substr($matches[2], 0, 1);
@@ -215,9 +213,8 @@ abstract class Command implements CommandsInterface
                 if (!isset($this->_preparedArguments[$paramName])) {
                     if (!isset($possibleAlias[$paramName])) {
                         throw new CommandsException("Unknown parameter '$paramName'");
-                    } else {
-                        $paramName = $possibleAlias[$paramName];
                     }
+                    $paramName = $possibleAlias[$paramName];
                 }
 
                 if (isset($arguments[$paramName])) {
@@ -228,13 +225,10 @@ abstract class Command implements CommandsInterface
                     }
                     if ($arguments[$paramName]['have-option'] == false) {
                         $receivedParams[$paramName] = true;
-                    } else {
-                        if (isset($matches[4])) {
-                            $receivedParams[$paramName] = $matches[4];
-                        }
+                    } elseif (isset($matches[4])) {
+                        $receivedParams[$paramName] = $matches[4];
                     }
                 }
-
             } else {
                 $param = $argv;
                 if ($paramName != '') {
@@ -277,7 +271,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     *  Sets the output encoding of the script.
+     * Sets the output encoding of the script.
      * @param $encoding
      *
      * @return $this

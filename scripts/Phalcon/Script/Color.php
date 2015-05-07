@@ -73,7 +73,7 @@ final class Color
     /**
      * @var array Map of supported foreground colors
      */
-    private static $_fg = array (
+    private static $_fg = array(
         self::FG_BLACK        => '0;30',
         self::FG_DARK_GRAY    => '1;30',
         self::FG_RED          => '0;31',
