@@ -186,7 +186,6 @@ class Scaffold extends Component
         $modelClass = $modelsNamespace . $modelName;
         $modelPath = $config->application->modelsDir.'/'.$modelName.'.php';
         if (!file_exists($modelPath)) {
-
             $modelBuilder = new ModelBuilder(array(
                 'name'              => $name,
                 'schema'            => $options['schema'],
@@ -219,18 +218,18 @@ class Scaffold extends Component
         $relationField = '';
 
         $single = $name;
-        $options['name'] 				 = strtolower(Text::camelize($single));
-        $options['plural'] 				 = $this->_getPossiblePlural($name);
-        $options['singular']			 = $this->_getPossibleSingular($name);
-        $options['entity']				 = $entity;
-        $options['setParams'] 			 = $setParams;
-        $options['attributes'] 			 = $attributes;
-        $options['dataTypes'] 			 = $dataTypes;
+        $options['name']                 = strtolower(Text::camelize($single));
+        $options['plural']                 = $this->_getPossiblePlural($name);
+        $options['singular']             = $this->_getPossibleSingular($name);
+        $options['entity']                 = $entity;
+        $options['setParams']             = $setParams;
+        $options['attributes']             = $attributes;
+        $options['dataTypes']             = $dataTypes;
         $options['primaryKeys']          = $primaryKeys;
-        $options['identityField']		 = $identityField;
-        $options['relationField'] 		 = $relationField;
-        $options['selectDefinition']	 = $selectDefinition;
-        $options['autocompleteFields'] 	 = array();
+        $options['identityField']         = $identityField;
+        $options['relationField']         = $relationField;
+        $options['selectDefinition']     = $selectDefinition;
+        $options['autocompleteFields']     = array();
         $options['belongsToDefinitions'] = array();
 
         //Build Controller
@@ -321,7 +320,6 @@ class Scaffold extends Component
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
-
             if ($field == $identityField) {
                 continue;
             }
@@ -360,7 +358,6 @@ class Scaffold extends Component
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
-
             if ($useGetSetters) {
                 $accessor = 'get' . Text::camelize($field) . '()';
             } else {
@@ -393,7 +390,6 @@ class Scaffold extends Component
             $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
                 ', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true)) ?>';
         } else {
-
             switch ($dataType) {
                 case 5: // enum
                     $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->selectStatic(array("' . $attribute . '", array())) ?>';
@@ -443,7 +439,6 @@ class Scaffold extends Component
             $code .= PHP_EOL . "\t\t\t\t" . '{{ select("' . $attribute . '", ' . $selectDefinition[$attribute]['varName'] .
                 ', "using" :[ "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true]) }}';
         } else {
-
             switch ($dataType) {
                 case 5: // enum
                     $code .= PHP_EOL . "\t\t\t\t" . '{{ select_static("' . $attribute . '", "using": []) }}';
@@ -483,17 +478,15 @@ class Scaffold extends Component
      */
     private function _makeFields($path, $options, $action)
     {
-
-        $entity	= $options['entity'];
+        $entity    = $options['entity'];
         $relationField = $options['relationField'];
-        $autocompleteFields	= $options['autocompleteFields'];
+        $autocompleteFields    = $options['autocompleteFields'];
         $selectDefinition = $options['selectDefinition'];
         $identityField = $options['identityField'];
 
         $code = '';
         foreach ($options['dataTypes'] as $attribute => $dataType) {
-
-            if (($action == 'new' || $action == 'edit' ) && $attribute == $identityField) {
+            if (($action == 'new' || $action == 'edit') && $attribute == $identityField) {
                 continue;
             }
 
@@ -512,17 +505,15 @@ class Scaffold extends Component
      */
     private function _makeFieldsVolt($path, $options, $action)
     {
-
-        $entity	= $options['entity'];
+        $entity    = $options['entity'];
         $relationField = $options['relationField'];
-        $autocompleteFields	= $options['autocompleteFields'];
+        $autocompleteFields    = $options['autocompleteFields'];
         $selectDefinition = $options['selectDefinition'];
         $identityField = $options['identityField'];
 
         $code = '';
         foreach ($options['dataTypes'] as $attribute => $dataType) {
-
-            if (($action == 'new' || $action == 'edit' ) && $attribute == $identityField) {
+            if (($action == 'new' || $action == 'edit') && $attribute == $identityField) {
                 continue;
             }
 
@@ -540,7 +531,6 @@ class Scaffold extends Component
      */
     private function _makeController($path, $options)
     {
-
         $controllerPath = $options['controllersDir'] . $options['className'] . 'Controller.php';
 
         if (file_exists($controllerPath)) {
@@ -593,7 +583,7 @@ class Scaffold extends Component
     {
 
         //Make Layouts dir
-        $dirPathLayouts	= $options['viewsDir'] . '/layouts';
+        $dirPathLayouts    = $options['viewsDir'] . '/layouts';
 
         //If dir doesn't exist we make it
         if (is_dir($dirPathLayouts) == false) {
@@ -624,7 +614,6 @@ class Scaffold extends Component
 
             $code = str_replace("\t", "    ", $code);
             file_put_contents($viewPath, $code);
-
         }
     }
 
@@ -636,7 +625,7 @@ class Scaffold extends Component
     {
 
         //Make Layouts dir
-        $dirPathLayouts	= $options['viewsDir'] . '/layouts';
+        $dirPathLayouts    = $options['viewsDir'] . '/layouts';
 
         //If not exists dir; we make it
         if (is_dir($dirPathLayouts) == false) {
@@ -667,7 +656,6 @@ class Scaffold extends Component
 
             $code = str_replace("\t", "    ", $code);
             file_put_contents($viewPath, $code);
-
         }
     }
 
@@ -680,7 +668,6 @@ class Scaffold extends Component
      */
     private function makeView($path, $options, $type)
     {
-
         $dirPath = $options['viewsDir'] . $options['fileName'];
         if (is_dir($dirPath) == false) {
             mkdir($dirPath);
@@ -720,7 +707,6 @@ class Scaffold extends Component
      */
     private function makeViewVolt($path, $options, $type)
     {
-
         $dirPath = $options['viewsDir'] . $options['fileName'];
         if (is_dir($dirPath) == false) {
             mkdir($dirPath);
@@ -817,7 +803,6 @@ class Scaffold extends Component
      */
     private function _makeViewSearch($path, $options)
     {
-
         $dirPath = $options['viewsDir'] . $options['fileName'];
         if (is_dir($dirPath) == false) {
             mkdir($dirPath);
@@ -887,7 +872,6 @@ class Scaffold extends Component
      */
     private function _makeViewSearchVolt($path, $options)
     {
-
         $dirPath = $options['viewsDir'] . $options['fileName'];
         if (is_dir($dirPath) == false) {
             mkdir($dirPath);

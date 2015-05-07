@@ -140,7 +140,7 @@ class Migrations
         $config = $options['config'];
         $version = null ;
 
-        if ( isset($options['version']) && $options['version'] !== null){
+        if (isset($options['version']) && $options['version'] !== null) {
             $version = new VersionItem($options['version']);
         }
 
@@ -164,10 +164,10 @@ class Migrations
             }
         }
 
-        if ( count($versions) == 0) {
+        if (count($versions) == 0) {
             throw new ModelException('Migrations were not found at '.$migrationsDir);
         } else {
-            if ($version === null){
+            if ($version === null) {
                 $version = VersionItem::maximum($versions);
             }
         }
@@ -193,15 +193,15 @@ class Migrations
         ModelMigration::setMigrationPath($migrationsDir.'/'.$version . '/') ;
         $versionsBetween = VersionItem::between($fromVersion, $version, $versions);
 
-	    // get rid of the current version, we don't want migrations to run for our
-	    // existing version.
-	    if (isset($versionsBetween[0]) && (string)$versionsBetween[0] == $fromVersion) {
-		    unset($versionsBetween[0]);
-	    }
+        // get rid of the current version, we don't want migrations to run for our
+        // existing version.
+        if (isset($versionsBetween[0]) && (string)$versionsBetween[0] == $fromVersion) {
+            unset($versionsBetween[0]);
+        }
 
         foreach ($versionsBetween as $version) {
             if ($tableName == 'all') {
-                 $iterator = new \DirectoryIterator($migrationsDir.'/'.$version);
+                $iterator = new \DirectoryIterator($migrationsDir.'/'.$version);
                 foreach ($iterator as $fileinfo) {
                     if ($fileinfo->isFile()) {
                         if (preg_match('/\.php$/', $fileinfo->getFilename())) {
@@ -223,4 +223,3 @@ class Migrations
         file_put_contents($migrationFid, (string) $version);
     }
 }
-

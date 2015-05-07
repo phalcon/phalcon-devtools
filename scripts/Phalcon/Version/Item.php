@@ -147,7 +147,7 @@ class Item
         if (!is_object($initialVersion)) {
             $initialVersion = new self($initialVersion);
         }
-        if ( !is_object($finalVersion)) {
+        if (!is_object($finalVersion)) {
             $finalVersion = new self($finalVersion);
         }
         if ($initialVersion->getStamp() > $finalVersion->getStamp()) {
@@ -155,7 +155,9 @@ class Item
             list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
         }
         $betweenVersions = array();
-        if ($initialVersion->getStamp() == $finalVersion->getStamp()) return $betweenVersions;
+        if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
+            return $betweenVersions;
+        }
 
         foreach ($versions as $version) {
             /**

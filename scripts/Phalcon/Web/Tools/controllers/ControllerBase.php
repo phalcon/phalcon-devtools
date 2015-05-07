@@ -58,7 +58,7 @@ class ControllerBase extends Controller
     {
         $this->checkAccess();
 
-        $this->fileOwner = function(DirectoryIterator $file) {
+        $this->fileOwner = function (DirectoryIterator $file) {
             // Windows, fallback, etc.
             $userName = getenv('USERNAME') ?: getenv('USER');
 

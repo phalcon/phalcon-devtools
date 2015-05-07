@@ -68,7 +68,6 @@ class AllModels extends Command
 
         $config = null;
         if (!$this->isReceivedOption('models')) {
-
             $fileType = file_exists($path . "app/config/config.ini") ? "ini" : "php";
 
             if ($this->isReceivedOption('config')) {

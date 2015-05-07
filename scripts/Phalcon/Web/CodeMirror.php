@@ -92,14 +92,14 @@ class CodeMirror
             foreach ($modes as $mode) {
                 copy($codemirror . '/mode/' . $mode . '/' . $mode . '.js', $js . '/mode/' . $mode . '/' . $mode . '.js');
 
-                if (!file_exists($js . '/mode/' . $mode . '/index.html'))
+                if (!file_exists($js . '/mode/' . $mode . '/index.html')) {
                     touch($js . '/mode/' . $mode . '/index.html');
+                }
             }
 
             foreach ($addons as $addon) {
                 copy($codemirror . '/addon/' . $addon . '.js', $js . '/addon/' . $addon . '.js');
             }
-
         }
 
         if (!file_exists($css)) {
