@@ -364,7 +364,7 @@ class Tools
         $path = rtrim(realpath($path), '/') . '/';
         $tools = realpath(__DIR__ . '/../../../');
 
-        if (PHP_OS == 'WINNT') {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $path = str_replace("\\", '/', $path);
             $tools = str_replace("\\", '/', $tools);
         }
@@ -397,7 +397,7 @@ class Tools
     public static function uninstall($path)
     {
         $path = realpath($path) . '/';
-        if (PHP_OS == 'WINNT') {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $path = str_replace("\\", '/', $path);
         }
 
