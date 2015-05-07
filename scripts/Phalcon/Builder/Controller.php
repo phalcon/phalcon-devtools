@@ -98,7 +98,12 @@ class Controller extends Component
 
         $className = Utils::camelize($name);
 
-        $controllerPath = $controllersDir . DIRECTORY_SEPARATOR . $className . "Controller.php";
+        // Oops! We are in APP_PATH and try to get controllersDir from outside from project dir
+        if ($this->isConsole() && substr($controllersDir, 0, 3) === '../') {
+            $controllersDir = ltrim($controllersDir, './');
+        }
+
+        $controllerPath = rtrim($controllersDir, '\\/') . DIRECTORY_SEPARATOR . $className . "Controller.php";
 
         $code = "<?php\n\n".$namespace."class ".$className."Controller extends ".$baseClass."\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
         $code = str_replace("\t", "    ", $code);
