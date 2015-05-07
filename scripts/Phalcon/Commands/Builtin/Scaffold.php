@@ -65,7 +65,7 @@ class Scaffold extends Command
         $scaffoldBuilder = new scaffoldBuilder(array(
             'name' => $name,
             'schema' => $schema,
-            'force'	=> $this->isReceivedOption('force'),
+            'force'    => $this->isReceivedOption('force'),
             'genSettersGetters' => $this->isReceivedOption('get-set'),
             'directory' => $this->getOption('directory'),
             'templatePath' => $templatePath,

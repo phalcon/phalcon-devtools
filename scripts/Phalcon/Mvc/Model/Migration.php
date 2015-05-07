@@ -72,7 +72,6 @@ class Migration
      */
     public static function setup($database)
     {
-
         if (!isset($database->adapter)) {
             throw new \Phalcon\Exception('Unspecified database Adapter in your configuration!');
         }
@@ -88,7 +87,7 @@ class Migration
         self::$_connection = new $adapter($configArray);
         self::$_databaseConfig = $database;
 
-        if($database->adapter == 'Mysql') {
+        if ($database->adapter == 'Mysql') {
             self::$_connection->query('SET FOREIGN_KEY_CHECKS=0');
         }
 
@@ -139,14 +138,14 @@ class Migration
     public static function generateAll($version, $exportData=null)
     {
         $classDefinition = array();
-    	if (self::$_databaseConfig->adapter == 'Postgresql') {
-        	foreach (self::$_connection->listTables(isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public') as $table) {
-        		$classDefinition[$table] = self::generate($version, $table, $exportData);
-        	}
+        if (self::$_databaseConfig->adapter == 'Postgresql') {
+            foreach (self::$_connection->listTables(isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public') as $table) {
+                $classDefinition[$table] = self::generate($version, $table, $exportData);
+            }
         } else {
-        	foreach (self::$_connection->listTables() as $table) {
-        		$classDefinition[$table] = self::generate($version, $table, $exportData);
-        	}
+            foreach (self::$_connection->listTables() as $table) {
+                $classDefinition[$table] = self::generate($version, $table, $exportData);
+            }
         }
 
         return $classDefinition;
@@ -169,15 +168,15 @@ class Migration
         $numericFields = array();
         $tableDefinition = array();
 
-                if (isset(self::$_databaseConfig->schema)) {
-                        $defaultSchema = self::$_databaseConfig->schema;
-                } elseif (isset(self::$_databaseConfig->adapter) && self::$_databaseConfig->adapter == 'Postgresql') {
-                        $defaultSchema =  'public';
-                } elseif (isset(self::$_databaseConfig->dbname)) {
-                        $defaultSchema = self::$_databaseConfig->dbname;
-                } else {
-                        $defaultSchema = null;
-                }
+        if (isset(self::$_databaseConfig->schema)) {
+            $defaultSchema = self::$_databaseConfig->schema;
+        } elseif (isset(self::$_databaseConfig->adapter) && self::$_databaseConfig->adapter == 'Postgresql') {
+            $defaultSchema =  'public';
+        } elseif (isset(self::$_databaseConfig->dbname)) {
+            $defaultSchema = self::$_databaseConfig->dbname;
+        } else {
+            $defaultSchema = null;
+        }
 
         $description = self::$_connection->describeColumns($table, $defaultSchema);
         foreach ($description as $field) {
@@ -236,14 +235,14 @@ class Migration
             }
 
             if ($field->getSize()) {
-                        $fieldDefinition[] = "'size' => " . $field->getSize();
-                } else {
-                    $fieldDefinition[] = "'size' => 1";
-                }
+                $fieldDefinition[] = "'size' => " . $field->getSize();
+            } else {
+                $fieldDefinition[] = "'size' => 1";
+            }
 
-                        if ($field->getScale()) {
-                                $fieldDefinition[] = "'scale' => " . $field->getScale();
-                        }
+            if ($field->getScale()) {
+                $fieldDefinition[] = "'scale' => " . $field->getScale();
+            }
 
             if ($oldColumn != null) {
                 $fieldDefinition[] = "'after' => '" . $oldColumn . "'";
@@ -269,7 +268,6 @@ class Migration
         $referencesDefinition = array();
         $references = self::$_connection->describeReferences($table, $defaultSchema);
         foreach ($references as $constraintName => $dbReference) {
-
             $columns = array();
             foreach ($dbReference->getColumns() as $column) {
                 $columns[] = "'" . $column . "'";
@@ -292,10 +290,10 @@ class Migration
         $optionsDefinition = array();
         $tableOptions = self::$_connection->tableOptions($table, $defaultSchema);
         foreach ($tableOptions as $optionName => $optionValue) {
-	    if(self::$_skipAI && strtoupper($optionName) == "AUTO_INCREMENT") {
-		$optionValue = '';
-	    }
-	    $optionsDefinition[] = "\t\t\t\t'" . strtoupper($optionName) . "' => '" . $optionValue . "'";
+            if (self::$_skipAI && strtoupper($optionName) == "AUTO_INCREMENT") {
+                $optionValue = '';
+            }
+            $optionsDefinition[] = "\t\t\t\t'" . strtoupper($optionName) . "' => '" . $optionValue . "'";
         }
 
         $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
@@ -324,7 +322,6 @@ class ".$className." extends Migration\n".
 
         $classData .= "\t\t)\n\t\t);\n\t}";
         if ($exportData == 'always' || $exportData == 'oncreate') {
-
             if ($exportData == 'oncreate') {
                 $classData .= "\n\n\tpublic function afterCreateTable() {\n";
             } else {
@@ -410,7 +407,6 @@ class ".$className." extends Migration\n".
 
         $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
         if (isset($definition['columns'])) {
-
             if (count($definition['columns']) == 0) {
                 throw new Exception('Table must have at least one column');
             }
@@ -424,7 +420,6 @@ class ".$className." extends Migration\n".
             }
 
             if ($tableExists == true) {
-
                 $localFields = array();
                 $description = self::$_connection->describeColumns($tableName, $defaultSchema);
                 foreach ($description as $field) {
@@ -435,7 +430,6 @@ class ".$className." extends Migration\n".
                     if (!isset($localFields[$fieldName])) {
                         self::$_connection->addColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);
                     } else {
-
                         $changed = false;
 
                         if ($localFields[$fieldName]->getType() != $tableColumn->getType()) {
@@ -471,7 +465,6 @@ class ".$className." extends Migration\n".
 
         if (isset($definition['references'])) {
             if ($tableExists == true) {
-
                 $references = array();
                 foreach ($definition['references'] as $tableReference) {
                     $references[$tableReference->getName()] = $tableReference;
@@ -491,7 +484,6 @@ class ".$className." extends Migration\n".
                     if (!isset($localReferences[$tableReference->getName()])) {
                         self::$_connection->addForeignKey($tableName, $tableReference->getSchemaName(), $tableReference);
                     } else {
-
                         $changed = false;
                         if ($tableReference->getReferencedTable()!=$localReferences[$tableReference->getName()]['referencedTable']) {
                             $changed = true;
@@ -537,13 +529,11 @@ class ".$className." extends Migration\n".
                         self::$_connection->dropForeignKey($tableName, null, $referenceName);
                     }
                 }
-
             }
         }
 
         if (isset($definition['indexes'])) {
             if ($tableExists == true) {
-
                 $indexes = array();
                 foreach ($definition['indexes'] as $tableIndex) {
                     $indexes[$tableIndex->getName()] = $tableIndex;
@@ -592,7 +582,6 @@ class ".$className." extends Migration\n".
                 }
             }
         }
-
     }
 
     /**

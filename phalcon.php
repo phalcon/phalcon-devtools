@@ -85,7 +85,6 @@ try {
     }
 
     $script->run();
-
 } catch (PhalconException $e) {
     print Color::error($e->getMessage()) . PHP_EOL;
 } catch (Exception $e) {

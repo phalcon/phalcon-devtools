@@ -41,14 +41,14 @@ class Migration extends Command
 {
 
     protected $_possibleParameters = array(
-        'action=s'      	=> "Generates a Migration [generate|run]",
-        'config=s'      	=> "Configuration file.",
-        'migrations=s'  	=> "Migrations directory.",
-        'directory=s'   	=> "Directory where the project was created.",
-        'table=s'       	=> "Table to migrate. Default: all.",
-        'version=s'     	=> "Version to migrate.",
-        'force'         	=> "Forces to overwrite existing migrations.",
-        'no-auto-increment'	=> "Disable auto increment (Generating only)",
+        'action=s'          => "Generates a Migration [generate|run]",
+        'config=s'          => "Configuration file.",
+        'migrations=s'    => "Migrations directory.",
+        'directory=s'    => "Directory where the project was created.",
+        'table=s'           => "Table to migrate. Default: all.",
+        'version=s'         => "Version to migrate.",
+        'force'             => "Forces to overwrite existing migrations.",
+        'no-auto-increment'    => "Disable auto increment (Generating only)",
     );
 
     /**
@@ -136,12 +136,12 @@ class Migration extends Command
         if ($this->isReceivedOption('migrations')) {
             $migrationsDir = $path.$this->getOption('migrations');
         } else {
-            if(file_exists($path.'app')) {
-            	$migrationsDir = $path.'app/migrations';
-            } else if(file_exists($path.'apps')) {
-            	$migrationsDir = $path.'apps/migrations';
+            if (file_exists($path.'app')) {
+                $migrationsDir = $path.'app/migrations';
+            } elseif (file_exists($path.'apps')) {
+                $migrationsDir = $path.'apps/migrations';
             } else {
-            	$migrationsDir = $path.'migrations';
+                $migrationsDir = $path.'migrations';
             }
         }
 
@@ -177,8 +177,8 @@ class Migration extends Command
                     'tableName' => $tableName,
                     'migrationsDir' => $migrationsDir,
                     'force' => $this->isReceivedOption('force'),
-                    'config' => $config ,
-                    'version' => $version ,
+                    'config' => $config,
+                    'version' => $version,
                 ));
             }
         }

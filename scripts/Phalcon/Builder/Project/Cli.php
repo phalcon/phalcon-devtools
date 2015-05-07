@@ -104,7 +104,7 @@ class Cli extends ProjectBuilder
         $getFile = $templatePath . '/project/cli/launcher';
         $putFile = $path . $name;
         $this->generateFile($getFile, $putFile);
-        chmod($putFile , 0755);
+        chmod($putFile, 0755);
     }
 
     /**
@@ -119,8 +119,7 @@ class Cli extends ProjectBuilder
      */
     public function build($path, $templatePath, $name, array $options)
     {
-
-        $this->buildDirectories($this->_dirs,$path);
+        $this->buildDirectories($this->_dirs, $path);
 
         $this->getVariableValues($options);
 
@@ -136,13 +135,12 @@ class Cli extends ProjectBuilder
 
         $this->createDefaultTasks($path, $templatePath);
 
-        $this->createLauncher($name,$path,$templatePath);
+        $this->createLauncher($name, $path, $templatePath);
 
-        $pathSymLink = realpath( $path . $name );
+        $pathSymLink = realpath($path . $name);
 
         print Color::success("You can create a symlink to $pathSymLink to invoke the application") . PHP_EOL;
 
         return true;
     }
-
 }
