@@ -105,7 +105,7 @@ abstract class Component
      */
     public function isAbsolutePath($path)
     {
-        if (PHP_OS == "WINNT") {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             if (preg_match('/^[A-Z]:\\\\/', $path)) {
                 return true;
             }
