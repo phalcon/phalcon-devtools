@@ -168,11 +168,11 @@ class Stub
             }
         }
 
-        if (!empty($all)) {
-            return implode("\n", $all);
+        if (empty($all)) {
+            return null;
         }
 
-        return null;
+        return implode("\n", $all);
     }
 
     /**
@@ -258,33 +258,31 @@ class Stub
 
             $params = array();
 
-            if ($method->getNumberOfParameters() > 0) {
-                foreach ($method->getParameters() as $parameter) {
-                    $name = $parameter->getName();
-                    $_doc = '';
-                    $param = '$' . $name;
+            foreach ($method->getParameters() as $parameter) {
+                $name = $parameter->getName();
+                $_doc = '';
+                $param = '$' . $name;
 
-                    if ($parameter->isOptional() && $parameter->isDefaultValueAvailable()) {
-                        if ($parameter->isArray()) {
-                            $param .= ' = ' . print_r($parameter->getDefaultValue(), true);
-                            $_doc .= 'array ';
+                if ($parameter->isOptional() && $parameter->isDefaultValueAvailable()) {
+                    if ($parameter->isArray()) {
+                        $param .= ' = ' . print_r($parameter->getDefaultValue(), true);
+                        $_doc .= 'array ';
+                    } else {
+                        if (gettype($method->getDefaultValue()) == 'string') {
+                            $param .= " = '" . $method->getDefaultValue() . "'";
                         } else {
-                            if (gettype($method->getDefaultValue()) == 'string') {
-                                $param .= " = '" . $method->getDefaultValue() . "'";
-                            } else {
-                                $param .= " = " . $method->getDefaultValue();
-                            }
-
-                            $_doc .= gettype($method->getDefaultValue()) . ' ';
+                            $param .= " = " . $method->getDefaultValue();
                         }
-                    } elseif ($parameter->isDefaultValueAvailable()) {
-                        $param = '&' . $param;
-                    }
 
-                    $_doc .= '$';
-                    $doc[] = sprintf("\t * @param %s", $_doc . $name);
-                    $params[] = $param;
+                        $_doc .= gettype($method->getDefaultValue()) . ' ';
+                    }
+                } elseif ($parameter->isDefaultValueAvailable()) {
+                    $param = '&' . $param;
                 }
+
+                $_doc .= '$';
+                $doc[] = sprintf("\t * @param %s", $_doc . $name);
+                $params[] = $param;
             }
 
             $func[] = $method->getName() . '(' . implode(', ', $params) . ')';

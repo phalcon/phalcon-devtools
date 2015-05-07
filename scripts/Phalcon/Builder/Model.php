@@ -63,11 +63,9 @@ class Model extends Component
             $options['abstract'] = false;
         }
 
-
         if ($options['abstract']) {
             $options['className'] = 'Abstract' . $options['className'];
         }
-
 
         $this->_options = $options;
     }
@@ -369,27 +367,29 @@ class Model extends Component
 
         foreach ($db->listTables() as $tableName) {
             foreach ($db->describeReferences($tableName, $schema) as $reference) {
-                if ($reference->getReferencedTable() == $this->_options['name']) {
-                    if (isset($this->_options['namespace'])) {
-                        $entityNamespace = "{$this->_options['namespace']}\\";
-                    } else {
-                        $entityNamespace = '';
-                    }
-
-
-                    $refColumns = $reference->getReferencedColumns();
-                    $columns = $reference->getColumns();
-                    $initialize[] = sprintf(
-                        $templateRelation,
-                        'hasMany',
-                        $refColumns[0],
-                        $entityNamespace . ucfirst($tableName),
-                        $columns[0],
-                        "array('alias' => '" . ucfirst($tableName) . "')"
-                    );
+                if ($reference->getReferencedTable() != $this->_options['name']) {
+                    continue;
                 }
+
+                if (isset($this->_options['namespace'])) {
+                    $entityNamespace = "{$this->_options['namespace']}\\";
+                } else {
+                    $entityNamespace = '';
+                }
+
+                $refColumns = $reference->getReferencedColumns();
+                $columns = $reference->getColumns();
+                $initialize[] = sprintf(
+                    $templateRelation,
+                    'hasMany',
+                    $refColumns[0],
+                    $entityNamespace . ucfirst($tableName),
+                    $columns[0],
+                    "array('alias' => '" . ucfirst($tableName) . "')"
+                );
             }
         }
+
         foreach ($db->describeReferences($this->_options['name'], $schema) as $reference) {
             if (isset($this->_options['namespace'])) {
                 $entityNamespace = "{$this->_options['namespace']}\\";
@@ -412,23 +412,25 @@ class Model extends Component
         if (isset($this->_options['hasMany'])) {
             if (count($this->_options['hasMany'])) {
                 foreach ($this->_options['hasMany'] as $relation) {
-                    if (is_string($relation['fields'])) {
-                        $entityName = $relation['camelizedName'];
-                        if (isset($this->_options['namespace'])) {
-                            $entityNamespace = "{$this->_options['namespace']}\\";
-                            $relation['options']['alias'] = $entityName;
-                        } else {
-                            $entityNamespace = '';
-                        }
-                        $initialize[] = sprintf(
-                            $templateRelation,
-                            'hasMany',
-                            $relation['fields'],
-                            $entityNamespace . $entityName,
-                            $relation['relationFields'],
-                            $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : null)
-                        );
+                    if (!is_string($relation['fields'])) {
+                        continue;
                     }
+
+                    $entityName = $relation['camelizedName'];
+                    if (isset($this->_options['namespace'])) {
+                        $entityNamespace = "{$this->_options['namespace']}\\";
+                        $relation['options']['alias'] = $entityName;
+                    } else {
+                        $entityNamespace = '';
+                    }
+                    $initialize[] = sprintf(
+                        $templateRelation,
+                        'hasMany',
+                        $relation['fields'],
+                        $entityNamespace . $entityName,
+                        $relation['relationFields'],
+                        $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : null)
+                    );
                 }
             }
         }
@@ -436,23 +438,25 @@ class Model extends Component
         if (isset($this->_options['belongsTo'])) {
             if (count($this->_options['belongsTo'])) {
                 foreach ($this->_options['belongsTo'] as $relation) {
-                    if (is_string($relation['fields'])) {
-                        $entityName = $relation['referencedModel'];
-                        if (isset($this->_options['namespace'])) {
-                            $entityNamespace = "{$this->_options['namespace']}\\";
-                            $relation['options']['alias'] = $entityName;
-                        } else {
-                            $entityNamespace = '';
-                        }
-                        $initialize[] = sprintf(
-                            $templateRelation,
-                            'belongsTo',
-                            $relation['fields'],
-                            $entityNamespace . $entityName,
-                            $relation['relationFields'],
-                            $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : null)
-                        );
+                    if (!is_string($relation['fields'])) {
+                        continue;
                     }
+
+                    $entityName = $relation['referencedModel'];
+                    if (isset($this->_options['namespace'])) {
+                        $entityNamespace = "{$this->_options['namespace']}\\";
+                        $relation['options']['alias'] = $entityName;
+                    } else {
+                        $entityNamespace = '';
+                    }
+                    $initialize[] = sprintf(
+                        $templateRelation,
+                        'belongsTo',
+                        $relation['fields'],
+                        $entityNamespace . $entityName,
+                        $relation['relationFields'],
+                        $this->_buildRelationOptions(isset($relation['options']) ? $relation["options"] : null)
+                    );
                 }
             }
         }
@@ -479,26 +483,28 @@ class Model extends Component
                 }
                 $reflection = new ReflectionClass($fullClassName);
                 foreach ($reflection->getMethods() as $method) {
-                    if ($method->getDeclaringClass()->getName() == $fullClassName) {
-                        $methodName = $method->getName();
-                        if (!isset($possibleMethods[$methodName])) {
-                            $methodRawCode[$methodName] = join(
-                                '',
-                                array_slice(
-                                    $linesCode,
-                                    $method->getStartLine() - 1,
-                                    $method->getEndLine() - $method->getStartLine() + 1
-                                )
-                            );
-                        } else {
-                            continue;
-                        }
-                        if ($methodName == 'initialize') {
-                            $alreadyInitialized = true;
-                        } else {
-                            if ($methodName == 'validation') {
-                                $alreadyValidations = true;
-                            }
+                    if ($method->getDeclaringClass()->getName() != $fullClassName) {
+                        continue;
+                    }
+
+                    $methodName = $method->getName();
+                    if (!isset($possibleMethods[$methodName])) {
+                        $methodRawCode[$methodName] = join(
+                            '',
+                            array_slice(
+                                $linesCode,
+                                $method->getStartLine() - 1,
+                                $method->getEndLine() - $method->getStartLine() + 1
+                            )
+                        );
+                    } else {
+                        continue;
+                    }
+                    if ($methodName == 'initialize') {
+                        $alreadyInitialized = true;
+                    } else {
+                        if ($methodName == 'validation') {
+                            $alreadyValidations = true;
                         }
                     }
                 }
@@ -623,15 +629,11 @@ class Model extends Component
             $validationsCode = '';
         }
 
-        if ($alreadyInitialized == false) {
-            if (count($initialize) > 0) {
-                $initCode = sprintf(
-                    $templateInitialize,
-                    rtrim(join('', $initialize))
-                );
-            } else {
-                $initCode = '';
-            }
+        if ($alreadyInitialized == false && count($initialize) > 0) {
+            $initCode = sprintf(
+                $templateInitialize,
+                rtrim(join('', $initialize))
+            );
         } else {
             $initCode = '';
         }
@@ -669,7 +671,6 @@ class Model extends Component
         }
 
         $abstract = ($this->_options['abstract'] ? 'abstract ' : '');
-
 
         $code = sprintf(
             $templateCode,
@@ -738,6 +739,7 @@ class Model extends Component
         );
     }
 ';
+
         $contents = array();
         foreach ($fields as $field) {
             $name = $field->getName();

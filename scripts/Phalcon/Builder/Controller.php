@@ -29,10 +29,10 @@ use Phalcon\Builder\BuilderException;
  *
  * Builder to generate controller
  *
- * @category 	Phalcon
- * @package 	Builder
+ * @category    Phalcon
+ * @package     Builder
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
 class Controller extends Component
 {

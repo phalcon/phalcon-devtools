@@ -135,17 +135,17 @@ class Migration
      * @param  string $exportData
      * @return array
      */
-    public static function generateAll($version, $exportData=null)
+    public static function generateAll($version, $exportData = null)
     {
         $classDefinition = array();
         if (self::$_databaseConfig->adapter == 'Postgresql') {
-            foreach (self::$_connection->listTables(isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public') as $table) {
-                $classDefinition[$table] = self::generate($version, $table, $exportData);
-            }
+            $tables = self::$_connection->listTables(isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public');
         } else {
-            foreach (self::$_connection->listTables() as $table) {
-                $classDefinition[$table] = self::generate($version, $table, $exportData);
-            }
+            $tables = self::$_connection->listTables();
+        }
+
+        foreach ($tables as $table) {
+            $classDefinition[$table] = self::generate($version, $table, $exportData);
         }
 
         return $classDefinition;
@@ -375,16 +375,17 @@ class ".$className." extends Migration\n".
             $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
             $className = Text::camelize(str_replace('.php', '', $fileName)).'Migration_'.$classVersion;
             require_once $filePath;
-            if (class_exists($className)) {
-                $migration = new $className();
-                if (method_exists($migration, 'up')) {
-                    $migration->up();
-                    if (method_exists($migration, 'afterUp')) {
-                        $migration->afterUp();
-                    }
-                }
-            } else {
+
+            if (!class_exists($className)) {
                 throw new Exception('Migration class cannot be found ' . $className . ' at ' . $filePath);
+            }
+
+            $migration = new $className();
+            if (method_exists($migration, 'up')) {
+                $migration->up();
+                if (method_exists($migration, 'afterUp')) {
+                    $migration->afterUp();
+                }
             }
         }
     }

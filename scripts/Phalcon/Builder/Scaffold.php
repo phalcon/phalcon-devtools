@@ -74,9 +74,9 @@ class Scaffold extends Component
     {
         if (substr($className, strlen($className) - 1, 1) == 's') {
             return substr($className, 0, strlen($className) - 1);
-        } else {
-            return $className;
         }
+
+        return $className;
     }
 
     /**
@@ -139,38 +139,35 @@ class Scaffold extends Component
             return new $adapterName($configArray);
         });
 
-        if (isset($config->application->modelsDir)) {
-            if ($this->isAbsolutePath($config->application->modelsDir) == false) {
-                $modelPath = $path . DIRECTORY_SEPARATOR . $config->application->modelsDir;
-            } else {
-                $modelPath = $config->application->modelsDir;
-            }
-            $options['modelsDir'] = $modelPath;
-        } else {
-            throw new BuilderException("The builder is unable to find the views directory");
+        if (!isset($config->application->modelsDir)) {
+            throw new BuilderException("The builder is unable to find the models directory");
         }
-
-        if (isset($config->application->controllersDir)) {
-            if ($this->isAbsolutePath($config->application->modelsDir) == false) {
-                $controllerPath = $path . DIRECTORY_SEPARATOR . $config->application->controllersDir;
-            } else {
-                $controllerPath = $config->application->controllersDir;
-            }
-            $options['controllersDir'] = $controllerPath;
+        if ($this->isAbsolutePath($config->application->modelsDir) == false) {
+            $modelPath = $path . DIRECTORY_SEPARATOR . $config->application->modelsDir;
         } else {
+            $modelPath = $config->application->modelsDir;
+        }
+        $options['modelsDir'] = $modelPath;
+
+        if (!isset($config->application->controllersDir)) {
             throw new BuilderException("The builder is unable to find the controllers directory");
         }
-
-        if (isset($config->application->viewsDir)) {
-            if ($this->isAbsolutePath($config->application->viewsDir) == false) {
-                $viewPath = $path . DIRECTORY_SEPARATOR . $config->application->viewsDir;
-            } else {
-                $viewPath = $config->application->viewsDir;
-            }
-            $options['viewsDir'] = $viewPath;
+        if ($this->isAbsolutePath($config->application->modelsDir) == false) {
+            $controllerPath = $path . DIRECTORY_SEPARATOR . $config->application->controllersDir;
         } else {
+            $controllerPath = $config->application->controllersDir;
+        }
+        $options['controllersDir'] = $controllerPath;
+
+        if (!isset($config->application->viewsDir)) {
             throw new BuilderException("The builder is unable to find the views directory");
         }
+        if ($this->isAbsolutePath($config->application->viewsDir) == false) {
+            $viewPath = $path . DIRECTORY_SEPARATOR . $config->application->viewsDir;
+        } else {
+            $viewPath = $config->application->viewsDir;
+        }
+        $options['viewsDir'] = $viewPath;
 
         $options['manager'] = $di->getShared('modelsManager');
 

@@ -173,11 +173,13 @@ class Script
     {
         if (file_exists('.phalcon/project.ini')) {
             $config = parse_ini_file('.phalcon/project.ini');
+
             if (isset($config['scripts'])) {
                 foreach (explode(',', $config['scripts']) as $directory) {
                     if (!is_dir($directory)) {
                         throw new ScriptException("Cannot load user scripts in directory '" . $directory . "'");
                     }
+
                     $iterator = new DirectoryIterator($directory);
                     foreach ($iterator as $item) {
                         if (!$item->isDir()) {

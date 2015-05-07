@@ -123,7 +123,7 @@ Available commands:
 
 Database adapter
 =====
-Should add 'adapter' parameter in your db config file (if you use not Mysql database). For PostreSql will be
+Should add 'adapter' parameter in your db config file (if you use not Mysql database). For PostgreSql will be
 ```bash
 $config = array(
   "host" => "localhost",
