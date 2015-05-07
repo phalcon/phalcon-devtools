@@ -49,7 +49,6 @@ class AllModels extends Component
             $options['abstract'] = false;
         }
 
-
         $this->_options = $options;
     }
 
@@ -116,7 +115,7 @@ class AllModels extends Component
         } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
         } else {
-            $schema = isset($config->database->schema)?$config->database->schema:$config->database->dbname;
+            $schema = isset($config->database->schema) ? $config->database->schema : $config->database->dbname;
         }
 
         $hasMany = array();

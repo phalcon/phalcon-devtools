@@ -138,7 +138,7 @@ class Migrations
         $path = $options['directory'];
         $migrationsDir = $options['migrationsDir'];
         $config = $options['config'];
-        $version = null ;
+        $version = null;
 
         if (isset($options['version']) && $options['version'] !== null) {
             $version = new VersionItem($options['version']);
@@ -211,11 +211,10 @@ class Migrations
                 }
             } else {
                 $migrationPath = $migrationsDir.'/'.$version.'/'.$tableName.'.php';
-                if (file_exists($migrationPath)) {
-                    ModelMigration::migrateFile((string) $version, $migrationPath);
-                } else {
+                if (!file_exists($migrationPath)) {
                     throw new ScriptException('Migration class was not found '.$migrationPath);
                 }
+                ModelMigration::migrateFile((string) $version, $migrationPath);
             }
             print Color::success('Version '.$version.' was successfully migrated').PHP_EOL;
         }

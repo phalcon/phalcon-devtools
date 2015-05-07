@@ -50,7 +50,7 @@ class Item
      * @param     $version
      * @param int $numberParts
      */
-    public function __construct($version, $numberParts=3)
+    public function __construct($version, $numberParts = 3)
     {
         $n = 9;
         $versionStamp = 0;
@@ -74,11 +74,11 @@ class Item
         }
         foreach ($this->_parts as $part) {
             if (is_numeric($part)) {
-                $versionStamp += $part*pow(10, $n);
+                $versionStamp += $part * pow(10, $n);
             } else {
-                $versionStamp += ord($part)*pow(10, $n);
+                $versionStamp += ord($part) * pow(10, $n);
             }
-            $n-=3;
+            $n -= 3;
         }
         $this->_versionStamp = $versionStamp;
         $this->_version = $version;
@@ -125,11 +125,11 @@ class Item
     {
         if (count($versions) == 0) {
             return null;
-        } else {
-            $versions = self::sortDesc($versions);
-
-            return $versions[0];
         }
+
+        $versions = self::sortDesc($versions);
+
+        return $versions[0];
     }
 
     /**
@@ -188,9 +188,9 @@ class Item
         $parts = array_reverse($this->_parts);
         if (isset($parts[0])) {
             if (is_numeric($parts[0])) {
-                $parts[0]+=$number;
+                $parts[0] += $number;
             } else {
-                $parts[0] = ord($parts[0])+$number;
+                $parts[0] = ord($parts[0]) + $number;
             }
         }
 

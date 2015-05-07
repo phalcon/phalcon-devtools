@@ -62,7 +62,7 @@ abstract class ProjectBuilder
                     if (!isset($variableValues[$k])) {
                         continue;
                     }
-                    $valueKey = $option ? 'true':'false';
+                    $valueKey = $option ? 'true' : 'false';
                     $variableValuesResult = $variableValues[$k][$valueKey];
                 }
             }
