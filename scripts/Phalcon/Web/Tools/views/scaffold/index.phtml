@@ -1,11 +1,14 @@
 <?php
-
 /**
  * Local variables
  * @var \Phalcon\Mvc\View\Engine $this
+ * @var string $databaseName
+ * @var string $tables
+ * @var string $templateEngines
+ * @var string $directory
  */
-
 ?>
+
 <?php echo $this->getContent() ?>
 
 <h1>Generate Scaffold</h1>
@@ -35,11 +38,11 @@
         </tr>
         <tr>
             <td><b>Add setters and getters</b></td>
-            <td><i><input type="checkbox" name="genSettersGetters" value="1"/></i></td>
+            <td><?php echo $this->tag->checkField(array('genSettersGetters', 'value' => 1)) ?></td>
         </tr>
         <tr>
             <td><b>Force</b></td>
-            <td><i><input type="checkbox" name="force" value="1"/></i></td>
+            <td><?php echo $this->tag->checkField(array('force', 'value' => 1)) ?></td>
         </tr>
         <tr>
             <td colspan="2">
