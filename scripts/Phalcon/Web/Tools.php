@@ -372,8 +372,8 @@ class Tools
             throw new \Exception('Document root cannot be located');
         }
 
-        TBootstrap::install($path);
-        CodeMirror::install($path);
+        (new Bootstrap())->install($path);
+        (new CodeMirror())->install($path);
 
         copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
@@ -404,8 +404,8 @@ class Tools
             throw new \Exception('Document root cannot be located');
         }
 
-        TBootstrap::uninstall($path);
-        CodeMirror::uninstall($path);
+        (new Bootstrap())->uninstall($path);
+        (new CodeMirror())->uninstall($path);
 
         if (is_file($path . 'public/webtools.config.php')) {
             unlink($path . 'public/webtools.config.php');

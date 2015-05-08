@@ -15,25 +15,30 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Web;
 
 /**
- * Phalcon\Web\TBootstrap
+ * Bootstrap Installer
  *
  * Install/Uninstall Twitter Bootstrap resources
+ *
+ * @package     Phalcon\Web
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
-class TBootstrap
+class Bootstrap implements InstallerInterface
 {
     /**
      * Install Twitter Bootstrap resources
      *
-     * @param  string $path
-     * @return void
+     * @param  string $path Project root path
+     * @return $this
      */
-    public static function install($path)
+    public function install($path)
     {
         // Set paths
         $bootstrapRoot = realpath(__DIR__ . '/../../../') . '/resources/bootstrap';
@@ -71,15 +76,17 @@ class TBootstrap
             touch($jsJqueryDir . '/index.html');
             copy($jqueryRoot . '/jquery.min.js', $jsJqueryDir . '/jquery.min.js');
         }
+
+        return $this;
     }
 
     /**
-     * Remove Twitter Bootstrap resources
+     * Uninstall Twitter Bootstrap resources
      *
-     * @param  string $path
-     * @return void
+     * @param  string $path Project root path
+     * @return $this
      */
-    public static function uninstall($path)
+    public function uninstall($path)
     {
         $js  = $path . 'public/js';
         $css = $path . 'public/css';
@@ -120,5 +127,7 @@ class TBootstrap
                 }
             }
         }
+
+        return $this;
     }
 }
