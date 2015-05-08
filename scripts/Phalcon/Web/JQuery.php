@@ -13,27 +13,25 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
+  | Authors: Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Web;
 
 /**
- * Bootstrap Installer
+ * CodeMirror Installer
  *
- * Install/Uninstall Twitter Bootstrap resources
+ * This class installs code-mirror in the app
  *
  * @package     Phalcon\Web
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Bootstrap implements InstallerInterface
+class JQuery implements InstallerInterface
 {
     /**
-     * Install Twitter Bootstrap resources
+     * Install JQuery resources
      *
      * @param  string $path Project root path
      * @return $this
@@ -41,36 +39,21 @@ class Bootstrap implements InstallerInterface
     public function install($path)
     {
         // Set paths
-        $bootstrapRoot = realpath(__DIR__ . '/../../../') . '/resources/bootstrap';
-        $jsBootstrapDir = $path . 'public/js/bootstrap';
-        $css = $path . 'public/css/bootstrap';
-        $img = $path . 'public/img/bootstrap';
+        $jqueryRoot  = realpath(__DIR__ . '/../../../') . '/resources/jquery';
+        $jsJqueryDir = $path . 'public/js/jquery';
 
-        // Install bootstrap
-        if (!is_dir($jsBootstrapDir)) {
-            mkdir($jsBootstrapDir, 0777, true);
-            touch($jsBootstrapDir . '/index.html');
-            copy($bootstrapRoot . '/js/bootstrap.min.js', $jsBootstrapDir . '/bootstrap.min.js');
-        }
-
-        if (!is_dir($css)) {
-            mkdir($css, 0777, true);
-            touch($css . '/index.html');
-            copy($bootstrapRoot . '/css/bootstrap.min.css', $css . '/bootstrap.min.css');
-            copy($bootstrapRoot . '/css/bootstrap-responsive.min.css', $css . '/bootstrap-responsive.min.css');
-        }
-
-        if (!is_dir($img)) {
-            mkdir($img, 0777, true);
-            touch($img . '/index.html');
-            copy($bootstrapRoot . '/img/glyphicons-halflings.png', $img . '/glyphicons-halflings.png');
+        if (!is_dir($jsJqueryDir)) {
+            mkdir($jsJqueryDir, 0777, true);
+            touch($jsJqueryDir . '/index.html');
+            copy($jqueryRoot . '/jquery-2.1.4.min.js', $jsJqueryDir . '/jquery-2.1.4.min.js');
+            copy($jqueryRoot . '/jquery-2.1.4.min.map', $jsJqueryDir . '/jquery-2.1.4.min.map');
         }
 
         return $this;
     }
 
     /**
-     * Uninstall Twitter Bootstrap resources
+     * Uninstall JQuery resources
      *
      * @param  string $path Project root path
      * @return $this
@@ -78,29 +61,18 @@ class Bootstrap implements InstallerInterface
     public function uninstall($path)
     {
         $js  = $path . 'public/js';
-        $css = $path . 'public/css';
-        $img = $path . 'public/img';
 
         $installed = array(
-
             // Files:
-            $js . '/bootstrap/bootstrap.min.js',
-            $js . '/bootstrap/index.html',
-            $css . '/bootstrap/bootstrap.min.css',
-            $css . '/bootstrap/bootstrap-responsive.min.css',
-            $css . '/bootstrap/index.html',
-            $img . '/bootstrap/glyphicons-halflings.png',
-            $img . '/bootstrap/index.html',
+            $js . '/jquery/jquery-2.1.4.min.map',
+            $js . '/jquery/jquery-2.1.4.min.js',
+            $js . '/jquery/index.html',
 
             // Sub-directories:
-            $js . '/bootstrap',
-            $css . '/bootstrap',
-            $img . '/bootstrap',
+            $js . '/jquery',
 
             // Directories:
             $js,
-            $css,
-            $img
         );
 
         foreach ($installed as $file) {
