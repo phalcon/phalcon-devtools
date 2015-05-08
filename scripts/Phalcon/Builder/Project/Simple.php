@@ -165,6 +165,19 @@ class Simple extends ProjectBuilder
     }
 
     /**
+     * Create .htrouter.php file
+     *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     */
+    private function createHtrouterFile($path, $templatePath)
+    {
+        $getFile = $templatePath . '/project/simple/.htrouter.php';
+        $putFile = $path . '.htrouter.php';
+        $this->generateFile($getFile, $putFile);
+    }
+
+    /**
      * Build project
      *
      * @param string $path Path to the project root
@@ -191,6 +204,7 @@ class Simple extends ProjectBuilder
         $this->createControllerBase($path, $templatePath, $name);
         $this->createIndexViewFiles($path, $templatePath);
         $this->createControllerFile($path, $templatePath);
+        $this->createHtrouterFile($path, $templatePath);
 
         if ($options['enableWebTools']) {
             Tools::install($path);

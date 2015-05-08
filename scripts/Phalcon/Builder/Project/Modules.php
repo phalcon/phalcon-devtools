@@ -186,6 +186,19 @@ class Modules extends ProjectBuilder
     }
 
     /**
+     * Create .htrouter.php file
+     *
+     * @param string $path Path to the project root
+     * @param string $templatePath Path to the template
+     */
+    private function createHtrouterFile($path, $templatePath)
+    {
+        $getFile = $templatePath . '/project/modules/.htrouter.php';
+        $putFile = $path . '.htrouter.php';
+        $this->generateFile($getFile, $putFile);
+    }
+
+    /**
      * Build project
      *
      * @param string $name Name of the application
@@ -213,6 +226,7 @@ class Modules extends ProjectBuilder
         $this->createModule($path, $templatePath, $name);
         $this->createIndexViewFiles($path, $templatePath);
         $this->createControllerFile($path, $name);
+        $this->createHtrouterFile($path, $templatePath);
 
         if ($options['enableWebTools']) {
             Tools::install($path);
