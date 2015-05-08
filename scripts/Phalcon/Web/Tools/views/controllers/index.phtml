@@ -1,11 +1,11 @@
 <?php
-
 /**
  * Local variables
  * @var \Phalcon\Mvc\View\Engine $this
+ * @var string $directory
  */
-
 ?>
+
 <?php echo $this->getContent() ?>
 
 <h1>Create Controller</h1>
@@ -38,7 +38,7 @@
         </div>
 
         <label class="checkbox">
-            <input type="checkbox" name="force" value="1"/>Force
+            <td><?php echo $this->tag->checkField(array('force', 'value' => 1)) ?></td>
         </label>
         <div align="right">
             <input type="submit" class="btn btn-primary" value="Generate"/>

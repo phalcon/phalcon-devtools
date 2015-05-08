@@ -4,6 +4,7 @@
  * @var \Phalcon\Mvc\View\Engine $this
  * @var array $tables
  * @var string|null $migrationsDir
+ * @var string $version
  */
 ?>
 
@@ -32,11 +33,11 @@
         </tr>
         <tr>
             <td><b>Force</b></td>
-            <td><input type="checkbox" name="force" value="1"/></td>
+            <td><?php echo $this->tag->checkField(array('force', 'value' => 1)) ?></td>
         </tr>
         <tr>
             <td><b>Disable auto increment</b></td>
-            <td><input type="checkbox" name="noAi" value=""/></td>
+            <td><?php echo $this->tag->checkField(array('noAi', 'value' => 1)) ?></td>
         </tr>
         <tr>
             <td colspan="2">
