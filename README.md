@@ -20,7 +20,7 @@ Requirements
 ------------
 
 * PHP >= 5.3.9
-* Phalcon >= 0.7.0
+* Phalcon >= 2.0.0
 
 Installing via Composer
 =======================
@@ -124,15 +124,16 @@ Available commands:
 Database adapter
 =====
 Should add 'adapter' parameter in your db config file (if you use not Mysql database). For PostgreSql will be
-```bash
+
+```php
 $config = array(
-  "host" => "localhost",
-  "dbname" => "my_db_name",
+  "host"     => "localhost",
+  "dbname"   => "my_db_name",
   "username" => "my_db_user",
   "password" => "my_db_user_password",
-  "adapter" => "Postgresql",
- );
- ```
+  "adapter"  => "Postgresql",
+);
+```
 
 License
 =====
