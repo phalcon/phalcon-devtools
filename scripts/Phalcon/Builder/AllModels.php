@@ -20,8 +20,6 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder\Component;
-use Phalcon\Builder\BuilderException;
 use Phalcon\Text as Utils;
 use Phalcon\Script\Color;
 
@@ -30,14 +28,12 @@ use Phalcon\Script\Color;
  *
  * Builder to generate all models
  *
- * @category    Phalcon
- * @package    Scripts
+ * @package     Phalcon\Builder
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license    New BSD License
+ * @license     New BSD License
  */
 class AllModels extends Component
 {
-
     public $exist = array();
 
     public function __construct($options)
@@ -45,6 +41,7 @@ class AllModels extends Component
         if (!isset($options['force'])) {
             $options['force'] = false;
         }
+
         if (!isset($options['abstract'])) {
             $options['abstract'] = false;
         }
@@ -194,7 +191,7 @@ class AllModels extends Component
                     $foreignKeysModel = array();
                 }
 
-                $modelBuilder = new \Phalcon\Builder\Model(array(
+                $modelBuilder = new Model(array(
                     'name' => $name,
                     'schema' => $schema,
                     'extends' => isset($this->_options['extends']) ? $this->_options['extends'] : null,
@@ -213,7 +210,7 @@ class AllModels extends Component
                 $modelBuilder->build();
             } else {
                 if ($this->isConsole()) {
-                    print Color::info("Skipping model \"$name\" because it already exist");
+                    print Color::info(sprintf('Skipping model "%s" because it already exist', Color::error($name)));
                 } else {
                     $this->exist[] = $name;
                 }
