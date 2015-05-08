@@ -374,6 +374,7 @@ class Tools
 
         (new Bootstrap())->install($path);
         (new CodeMirror())->install($path);
+        (new JQuery())->install($path);
 
         copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
@@ -406,6 +407,7 @@ class Tools
 
         (new Bootstrap())->uninstall($path);
         (new CodeMirror())->uninstall($path);
+        (new JQuery())->uninstall($path);
 
         if (is_file($path . 'public/webtools.config.php')) {
             unlink($path . 'public/webtools.config.php');
