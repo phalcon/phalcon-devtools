@@ -54,6 +54,7 @@ class ModelsController extends ControllerBase
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
             $foreignKeys       = $this->request->getPost('foreignKeys', 'int');
             $defineRelations   = $this->request->getPost('defineRelations', 'int');
+            $mapcolumn         = $this->request->getPost('mapcolumn', 'int');
 
             try {
                 $component = '\Phalcon\Builder\Model';
@@ -70,7 +71,8 @@ class ModelsController extends ControllerBase
                     'defineRelations'       => $defineRelations,
                     'genSettersGetters'     => $genSettersGetters,
                     'namespace'             => $namespace,
-                    'schema'                => $schema
+                    'schema'                => $schema,
+                    'mapColumn'             => $mapcolumn
                 ));
 
                 $modelBuilder->build();
