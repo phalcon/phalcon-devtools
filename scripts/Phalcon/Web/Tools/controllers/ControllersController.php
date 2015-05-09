@@ -28,7 +28,7 @@ class ControllersController extends ControllerBase
     {
         if (!$this->controllersDir) {
             $this->flash->error(
-                "Sorry, Web Tools doesn't know where is the controllers directory. <br>" .
+                "Sorry, WebTools doesn't know where is the controllers directory. <br>" .
                 "Please add to <code>application</code> section <code>controllersDir</code> param with valid path."
             );
         }

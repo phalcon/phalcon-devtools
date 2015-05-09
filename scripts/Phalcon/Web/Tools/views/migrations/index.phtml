@@ -8,43 +8,72 @@
  */
 ?>
 
-<?php echo $this->getContent() ?>
+<h1 class="page-header">Generate Migration</h1>
 
-<h1>Generate  Migration</h1>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->getContent() ?>
+    </div>
+</div>
 
-<form method="POST" class="form-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/migrations/generate") ?>">
-
-    <table class="table table-striped table-bordered table-condensed">
-        <tr>
-            <td><b>Current Version</b></td>
-            <td><i><?php echo $version ?></i></td>
-        </tr>
-        <tr>
-            <td><b>New Version</b></td>
-            <td><?php echo $this->tag->textField(array('version', 'placeholder' => 'Let empty to auto new version')) ?></td>
-        </tr>
-        <tr>
-            <td><b>Table name</b></td>
-            <td><?php echo $this->tag->selectStatic('table-name', $tables) ?></td>
-        </tr>
-        <tr>
-            <td><b>Migrations Dir</b></td>
-            <td><?php echo $this->tag->textField(array('migrationsDir', 'value' => $migrationsDir)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Force</b></td>
-            <td><?php echo $this->tag->checkField(array('force', 'value' => 1)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Disable auto increment</b></td>
-            <td><?php echo $this->tag->checkField(array('noAi', 'value' => 1)) ?></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div align="right">
-                    <input type="submit" class="btn btn-primary" value="Generate"/>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="row">
+            <form class="form-horizontal" autocomplete="off" method="post" action="<?php echo $this->url->get("webtools.php?_url=/migrations/generate") ?>">
+                <div class="form-group disabled">
+                    <label for="oldVersion" class="col-sm-4 control-label">Current Version</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('oldVersion', 'value' => $version,  'disabled' => 'disabled', 'class' => 'form-control', 'id' => 'oldVersion')) ?>
+                    </div>
                 </div>
-            </td>
-        </tr>
-    </table>
-</form>
+
+                <div class="form-group disabled">
+                    <label for="version" class="col-sm-4 control-label">New Version</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('version', 'placeholder' => 'Let empty to auto new version',  'class' => 'form-control', 'id' => 'version')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="table-name" class="col-sm-4 control-label">Table name</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->selectStatic(array('table-name', 'class' => 'form-control', 'id' => 'table-name'), $tables); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="migrationsDir" class="col-sm-4 control-label">Migrations Dir</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('migrationsDir', 'value' => $migrationsDir,  'class' => 'form-control', 'id' => 'migrationsDir')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="force">
+                                <?php echo $this->tag->checkField(array('force', 'id' => 'force', 'value' => 1)) ?> Force
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="noAi">
+                                <?php echo $this->tag->checkField(array('noAi', 'id' => 'noAi', 'value' => 1)) ?> Disable auto increment
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8 text-right">
+                        <button type="submit" class="btn btn-primary">Generate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
