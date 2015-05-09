@@ -21,6 +21,7 @@
 
 use Phalcon\Tag;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Builder\Controller as ControllerBuilder;
 
 class ControllersController extends ControllerBase
 {
@@ -51,7 +52,7 @@ class ControllersController extends ControllerBase
             $baseClass      = $this->request->getPost('baseClass');
 
             try {
-                $controllerBuilder = new \Phalcon\Builder\Controller(array(
+                $controllerBuilder = new ControllerBuilder(array(
                     'name'           => $controllerName,
                     'directory'      => $directory,
                     'namespace'      => $namespace,

@@ -278,8 +278,10 @@ class Model extends Component
         if (file_exists($modelPath)) {
             if (!$this->_options['force']) {
                 throw new BuilderException(
-                    "The model file '" . $className .
-                    ".php' already exists in models dir"
+                    sprintf(
+                        'The model file "%s.php" already exists in models dir',
+                        $className
+                    )
                 );
             }
         }

@@ -23,6 +23,13 @@ use Phalcon\Web\Tools;
 use Phalcon\Mvc\Controller;
 use Phalcon\Exception;
 
+/**
+ * @property \Phalcon\Flash\Direct flash
+ * @property \Phalcon\Mvc\View view
+ * @property \Phalcon\Http\Request request
+ * @property \Phalcon\Mvc\Dispatcher dispatcher
+ * @property \Phalcon\Tag tag
+ */
 class ControllerBase extends Controller
 {
     /**
