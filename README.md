@@ -2,28 +2,26 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
 [![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)](https://github.com/phalcon/phalcon-devtools/blob/master/docs/LICENSE.txt)
 
-Phalcon Devtools
-================
+# Phalcon Devtools
 
 ![Webtools](http://static.phalconphp.com/img/webtools.png)
 
-What's Phalcon?
----------------
+## What's Phalcon?
+
 Phalcon PHP is a web framework delivered as a C extension providing high performance and lower resource consumption.
 
-What are Devtools?
-------------------
+## What are Devtools?
+
 This tools provide you useful scripts to generate code helping to develop faster and easy applications that use
 with Phalcon framework.
 
-Requirements
-------------
+## Requirements
 
 * PHP >= 5.3.9
 * Phalcon >= 2.0.0
 
-Installing via Composer
-=======================
+## Installing via Composer
+
 Install composer in a common location or in your project:
 
 ```bash
@@ -53,8 +51,8 @@ ln -s ~/devtools/phalcon.php /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```
 
-Installation via PEAR
-=====================
+## Installation via PEAR
+
 Phalcon Devtools can be installed using PEAR. Since the current version of Devtools
 is in beta state, you might need to update your PEAR config. You can execute following to check
 your current state:
@@ -93,8 +91,7 @@ ln -s ~/phalcon-devtools/phalcon.php /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```
 
-Usage
-=====
+## Usage
 
 To get a list of available commands just execute following:
 
@@ -121,8 +118,30 @@ Available commands:
   webtools (alias of: create-webtools)
 ```
 
-Database adapter
-=====
+## Update WebTools from old version
+
+Please remove manually directories:
+
+* `public/css/bootstrap`
+* `public/css/codemirror`
+* `public/js/bootstrap`
+* `public/img/bootstrap`
+* `public/js/codemirror`
+* `public/js/jquery`
+
+and files:
+
+* `public/webtools.config.php`
+* `public/webtools.php`
+
+and just run form your project root:
+
+```bash
+$ phalcon webtools --action=enable
+```
+
+## Database adapter
+
 Should add 'adapter' parameter in your db config file (if you use not Mysql database). For PostgreSql will be
 
 ```php
@@ -135,6 +154,6 @@ $config = array(
 );
 ```
 
-License
-=====
+## License
+
 Phalcon Developer Tools is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more.

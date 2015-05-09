@@ -27,7 +27,7 @@ class ScaffoldController extends ControllerBase
     {
         $errorMessage = function ($directoryName, $directoryPath) {
             return sprintf(
-                "Sorry, Web Tools doesn't know where is the %s directory. <br>" .
+                "Sorry, WebTools doesn't know where is the %s directory. <br>" .
                 "Please add to <code>application</code> section <code>%s</code> param with valid path.",
                 $directoryName,
                 $directoryPath

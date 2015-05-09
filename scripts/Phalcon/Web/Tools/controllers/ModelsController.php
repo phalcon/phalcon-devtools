@@ -30,7 +30,7 @@ class ModelsController extends ControllerBase
 
         if (!$this->modelsDir) {
             $this->flash->error(
-                "Sorry, Web Tools doesn't know where is the models directory. <br>" .
+                "Sorry, WebTools doesn't know where is the models directory. <br>" .
                 "Please add to <code>application</code> section <code>modelsDir</code> param with valid path."
             );
         }
