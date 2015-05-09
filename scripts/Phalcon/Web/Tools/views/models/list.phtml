@@ -7,46 +7,54 @@
  */
 ?>
 
-<?php echo $this->getContent() ?>
+<h1 class="page-header">Edit Models</h1>
 
-<h1>Edit Models</h1>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->getContent() ?>
+    </div>
+</div>
 
-<table class="table table-bordered table-striped">
-	<thead>
-		<tr>
-			<td><strong>Name</strong></td>
-			<td width="10%"><strong>Size</strong></td>
-			<td width="15%"><strong>Owner</strong></td>
-			<td width="10%"><strong>Actions</strong></td>
-		</tr>
-	</thead>
-	<tbody>
-        <?php if (!$modelsDir): ?>
-        <tr>
-            <td colspan="3">
-                <p class="text-center text-error">
-                    Sorry, Web Tools doesn't know where is the models directory. <br>
-                    Please add to <code>application</code> section <code>modelsDir</code> param with valid path.
-                </p>
-            </td>
-        </tr>
-        <?php else: ?>
-            <?php $iterator = new DirectoryIterator($modelsDir); foreach($iterator as $file): ?>
-                <?php if (!$file->isDot()): ?>
-                    <tr>
-                        <td><?php echo $file->getBasename('.php'); ?></td>
-                        <td><?php echo $file->getSize() . ' b' ?></td>
-                        <td><?php echo $fileOwner($file); ?></td>
-                        <td>
-                            <?php if ($file->isWritable()): ?>
-                                <a href="<?php echo $this->url->get(sprintf('webtools.php?_url=/models/edit/%s', $file->getFileName())) ?>" class="btn">Edit</a>
-                            <?php else: ?>
-                                <span class="btn disabled muted">Readonly</span>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-	</tbody>
-</table>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th width="10%">Size</th>
+                    <th width="15%">Owner</th>
+                    <th width="10%">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php if (!$modelsDir): ?>
+                <tr class="warning">
+                    <td colspan="4">
+                        <p class="text-center lead">
+                            Sorry, WebTools doesn't know where is the models directory. <br>
+                            Please add to <code>application</code> section <code>modelsDir</code> param with valid path.
+                        </p>
+                    </td>
+                </tr>
+            <?php else: ?>
+                <?php $iterator = new DirectoryIterator($modelsDir); foreach($iterator as $file): ?>
+                    <?php if (!$file->isDot()): ?>
+                        <tr>
+                            <td><?php echo $file->getBasename('.php'); ?></td>
+                            <td><?php echo $file->getSize() . ' b' ?></td>
+                            <td><?php echo $fileOwner($file); ?></td>
+                            <td>
+                                <?php if ($file->isWritable()): ?>
+                                    <a href="<?php echo $this->url->get(sprintf('webtools.php?_url=/models/edit/%s', $file->getFileName())) ?>" class="btn btn-link">Edit</a>
+                                <?php else: ?>
+                                    <a href="<?php echo $this->url->get(sprintf('webtools.php?_url=/controllers/edit/%s', $file->getFileName())) ?>" class="btn btn-link">Readonly</a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

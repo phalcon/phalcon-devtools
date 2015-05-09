@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Local variables
  * @var \Phalcon\Mvc\View\Engine $this
@@ -7,57 +6,104 @@
  * @var string $tables
  * @var string $directory
  */
-
 ?>
-<?php echo $this->getContent() ?>
 
-<h1>Generate Models</h1>
+<h1 class="page-header">Generate Models</h1>
 
-<form method="post" autocomplete="off" class="form-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/models/create") ?>">
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->getContent() ?>
+    </div>
+</div>
 
-    <table class="table table-striped table-bordered table-condensed">
-        <tr>
-            <td><b>Schema</b></td>
-            <td><?php echo $this->tag->textField(array('schema', 'value' => $databaseName)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Table name</b></td>
-            <td><i><?php echo $this->tag->selectStatic('tableName', $tables) ?></i></td>
-        </tr>
-        <tr>
-            <td><b>Namespace</b></td>
-            <td><?php echo $this->tag->textField(array('namespace')) ?></td>
-        </tr>
-        <tr>
-            <td><b>Project Root</b></td>
-            <td><?php echo $this->tag->textField(array('directory', 'value' => $directory)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Add setters and getters</b></td>
-            <td><?php echo $this->tag->checkField(array('genSettersGetters', 'value' => 1)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Set Foreign Keys</b></td>
-            <td><?php echo $this->tag->checkField(array('foreignKeys', 'value' => 1)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Define Relations</b></td>
-            <td><?php echo $this->tag->checkField(array('defineRelations', 'value' => 1)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Generate map columns</b></td>
-            <td><?php echo $this->tag->checkField(array('mapcolumn', 'value' => 1)) ?></td>
-        </tr>
-        <tr>
-            <td><b>Force</b></td>
-            <td><?php echo $this->tag->checkField(array('force', 'value' => 1)) ?></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div align="right">
-                    <input type="submit" class="btn btn-primary" value="Generate"/>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="row">
+            <form class="form-horizontal" autocomplete="off" method="post" action="<?php echo $this->url->get("webtools.php?_url=/models/create") ?>">
+                <div class="form-group">
+                    <label for="schema" class="col-sm-4 control-label">Schema</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('schema', 'value' => $databaseName,  'placeholder' => 'Database name', 'class' => 'form-control', 'id' => 'schema')) ?>
+                    </div>
                 </div>
-            </td>
-        </tr>
-    </table>
-</form>
+
+                <div class="form-group">
+                    <label for="tableName" class="col-sm-4 control-label">Table name</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->selectStatic(array('tableName', 'class' => 'form-control', 'id' => 'tableName'), $tables); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="namespace" class="col-sm-4 control-label">Namespace</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('namespace', 'placeholder' => 'eg. My\Awesome\Namespace', 'class' => 'form-control', 'id' => 'namespace')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="directory" class="col-sm-4 control-label">Project Root</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('directory', 'value' => $directory, 'placeholder' => 'Absolute path to the project', 'class' => 'form-control', 'id' => 'directory')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="genSettersGetters">
+                                <?php echo $this->tag->checkField(array('genSettersGetters', 'id' => 'genSettersGetters', 'value' => 1)) ?> Add setters and getters
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="foreignKeys">
+                                <?php echo $this->tag->checkField(array('foreignKeys', 'id' => 'foreignKeys', 'value' => 1)) ?> Set Foreign Keys
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="defineRelations">
+                                <?php echo $this->tag->checkField(array('defineRelations', 'id' => 'defineRelations', 'value' => 1)) ?> Define Relations
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="mapcolumn">
+                                <?php echo $this->tag->checkField(array('mapcolumn', 'id' => 'mapcolumn', 'value' => 1)) ?> Generate map columns
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="force">
+                                <?php echo $this->tag->checkField(array('force', 'id' => 'force', 'value' => 1)) ?> Force
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8 text-right">
+                        <button type="submit" class="btn btn-primary">Generate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
