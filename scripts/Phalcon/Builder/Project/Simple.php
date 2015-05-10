@@ -15,12 +15,13 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Builder\Project;
 
-use Phalcon\Builder\Controller;
+use Phalcon\Builder\Controller as ControllerBuilder;
 use Phalcon\Web\Tools;
 
 /**
@@ -34,7 +35,11 @@ use Phalcon\Web\Tools;
  */
 class Simple extends ProjectBuilder
 {
-    private $_dirs = array(
+    /**
+     * Project directories
+     * @var array
+     */
+    protected $projectDirectories = array(
         'app',
         'app/cache',
         'app/views',
@@ -56,159 +61,156 @@ class Simple extends ProjectBuilder
     /**
      * Create indexController file
      *
-     * @param string $path Path to the project root
+     * @return $this
      */
-    private function createControllerFile($path)
+    private function createControllerFile()
     {
-        $modelBuilder = new Controller(array(
+        $builder = new ControllerBuilder(array(
             'name'           => 'index',
-            'directory'      => $path,
-            'controllersDir' => $path . 'app/controllers',
+            'directory'      => $this->options->get('projectPath') ,
+            'controllersDir' => $this->options->get('projectPath')  . 'app/controllers',
             'baseClass'      => 'ControllerBase'
         ));
 
-        $modelBuilder->build();
+        $builder->build();
+
+        return $this;
     }
 
     /**
      * Create .htaccess files by default of application
      *
-     * @param string $path Path to the project root
-     * @param string $templatePath Path to the template
+     * @return $this
      */
-    private function createHtaccessFiles($path, $templatePath)
+    private function createHtaccessFiles()
     {
-        if (file_exists($path . '.htaccess') == false) {
+        if (file_exists($this->options->get('projectPath') . '.htaccess') == false) {
             $code = '<IfModule mod_rewrite.c>'.PHP_EOL.
                 "\t".'RewriteEngine on'.PHP_EOL.
                 "\t".'RewriteRule  ^$ public/    [L]'.PHP_EOL.
                 "\t".'RewriteRule  (.*) public/$1 [L]'.PHP_EOL.
                 '</IfModule>';
-            file_put_contents($path.'.htaccess', $code);
+            file_put_contents($this->options->get('projectPath').'.htaccess', $code);
         }
 
-        if (file_exists($path . 'public/.htaccess') == false) {
-            file_put_contents($path.'public/.htaccess', file_get_contents($templatePath . '/project/simple/htaccess'));
+        if (file_exists($this->options->get('projectPath') . 'public/.htaccess') == false) {
+            file_put_contents(
+                $this->options->get('projectPath').'public/.htaccess',
+                file_get_contents($this->options->get('templatePath') . '/project/simple/htaccess')
+            );
         }
 
-        if (file_exists($path.'index.html') == false) {
+        if (file_exists($this->options->get('projectPath').'index.html') == false) {
             $code = '<html><body><h1>Mod-Rewrite is not enabled</h1><p>Please enable rewrite module on your web server to continue</body></html>';
-            file_put_contents($path.'index.html', $code);
+            file_put_contents($this->options->get('projectPath').'index.html', $code);
         }
+
+        return $this;
     }
 
     /**
      * Create view files by default
      *
-     * @param string $path Path to the project root
-     * @param string $templatePath Path to the template
+     * @return $this
      */
-    private function createIndexViewFiles($path, $templatePath)
+    private function createIndexViewFiles()
     {
-        $getFile = $templatePath . '/project/simple/views/index.volt';
-        $putFile = $path.'app/views/index.volt';
+        $getFile = $this->options->get('templatePath') . '/project/simple/views/index.volt';
+        $putFile = $this->options->get('projectPath').'app/views/index.volt';
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $templatePath . '/project/simple/views/index/index.volt';
-        $putFile = $path.'app/views/index/index.volt';
+        $getFile = $this->options->get('templatePath') . '/project/simple/views/index/index.volt';
+        $putFile = $this->options->get('projectPath').'app/views/index/index.volt';
         $this->generateFile($getFile, $putFile);
+
+        return $this;
     }
 
     /**
      * Creates the configuration
      *
-     * @param string $path Path to the project root
-     * @param string $templatePath Path to the template
-     * @param string $name Name of the application
-     * @param string $type Config type
+     * @return $this
      */
-    private function createConfig($path, $templatePath, $name, $type)
+    private function createConfig()
     {
-        $getFile = $templatePath . '/project/simple/config.' . $type;
-        $putFile = $path . 'app/config/config.' . $type;
-        $this->generateFile($getFile, $putFile, $name);
+        $type = $this->options->contains('useConfigIni') ? 'ini' : 'php';
 
-        $getFile = $templatePath . '/project/simple/loader.php';
-        $putFile = $path . 'app/config/loader.php';
-        $this->generateFile($getFile, $putFile, $name);
+        $getFile = $this->options->get('templatePath') . '/project/simple/config.' . $type;
+        $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $templatePath . '/project/simple/services.php';
-        $putFile = $path . 'app/config/services.php';
-        $this->generateFile($getFile, $putFile, $name);
+        $getFile = $this->options->get('templatePath') . '/project/simple/loader.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/simple/services.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/services.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        return $this;
     }
 
     /**
      * Create ControllerBase
      *
-     * @param string $path Path to the project root
-     * @param string $templatePath Path to the template
-     * @param string $name Name of the application
+     * @return $this
      */
-    private function createControllerBase($path, $templatePath, $name)
+    private function createControllerBase()
     {
-        $getFile = $templatePath . '/project/simple/ControllerBase.php';
-        $putFile = $path . 'app/controllers/ControllerBase.php';
-        $this->generateFile($getFile, $putFile, $name);
+        $getFile = $this->options->get('templatePath') . '/project/simple/ControllerBase.php';
+        $putFile = $this->options->get('projectPath') . 'app/controllers/ControllerBase.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        return $this;
     }
 
     /**
      * Create Bootstrap file by default of application
      *
-     * @param string $path Path to the project root
-     * @param string $templatePath Path to the template
+     * @return $this
      */
-    private function createBootstrapFile($path, $templatePath)
+    private function createBootstrapFiles()
     {
-        $getFile = $templatePath . '/project/simple/index.php';
-        $putFile = $path . 'public/index.php';
+        $getFile = $this->options->get('templatePath') . '/project/simple/index.php';
+        $putFile = $this->options->get('projectPath') . 'public/index.php';
         $this->generateFile($getFile, $putFile);
+
+        return $this;
     }
 
     /**
      * Create .htrouter.php file
      *
-     * @param string $path Path to the project root
-     * @param string $templatePath Path to the template
+     * @return $this
      */
-    private function createHtrouterFile($path, $templatePath)
+    private function createHtrouterFile()
     {
-        $getFile = $templatePath . '/project/simple/.htrouter.php';
-        $putFile = $path . '.htrouter.php';
+        $getFile = $this->options->get('templatePath') . '/project/simple/.htrouter.php';
+        $putFile = $this->options->get('projectPath') . '.htrouter.php';
         $this->generateFile($getFile, $putFile);
+
+        return $this;
     }
 
     /**
      * Build project
      *
-     * @param string $path Path to the project root
-     * @param string $templatePath Path to the template
-     * @param string $name Name of the application
-     * @param array $options Options
-     *
      * @return bool
      */
-    public function build($path, $templatePath, $name, array $options)
+    public function build()
     {
-        $this->buildDirectories($this->_dirs, $path);
+        $this
+            ->buildDirectories()
+            ->getVariableValues()
+            ->createConfig()
+            ->createBootstrapFiles()
+            ->createHtaccessFiles()
+            ->createControllerBase()
+            ->createIndexViewFiles()
+            ->createControllerFile()
+            ->createHtrouterFile();
 
-        $this->getVariableValues($options);
-
-        if (isset($options['useConfigIni']) && $options['useConfigIni']) {
-            $this->createConfig($path, $templatePath, $name, 'ini');
-        } else {
-            $this->createConfig($path, $templatePath, $name, 'php');
-        }
-
-        $this->createBootstrapFile($path, $templatePath);
-        $this->createHtaccessFiles($path, $templatePath);
-        $this->createControllerBase($path, $templatePath, $name);
-        $this->createIndexViewFiles($path, $templatePath);
-        $this->createControllerFile($path, $templatePath);
-        $this->createHtrouterFile($path, $templatePath);
-
-        if ($options['enableWebTools']) {
-            Tools::install($path);
-        }
+        $this->options->contains('enableWebTools') && Tools::install($this->options->get('projectPath'));
 
         return true;
     }

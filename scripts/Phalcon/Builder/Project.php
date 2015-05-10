@@ -31,12 +31,39 @@ namespace Phalcon\Builder;
  */
 class Project extends Component
 {
+    CONST TYPE_MICRO   = 'micro';
+    CONST TYPE_SIMPLE  = 'simple';
+    CONST TYPE_MODULES = 'modules';
+    CONST TYPE_CLI     = 'cli';
+
+    /**
+     * Current Project Type
+     * @var null
+     */
+    private $currentType = null;
+
+    /**
+     * Available Project Types
+     * @var array
+     */
     private $_types = array(
-        'micro' => '\Phalcon\Builder\Project\Micro',
-        'simple' => '\Phalcon\Builder\Project\Simple',
-        'modules' => '\Phalcon\Builder\Project\Modules',
-        'cli' => '\Phalcon\Builder\Project\Cli',
+        self::TYPE_MICRO   => '\Phalcon\Builder\Project\Micro',
+        self::TYPE_SIMPLE  => '\Phalcon\Builder\Project\Simple',
+        self::TYPE_MODULES => '\Phalcon\Builder\Project\Modules',
+        self::TYPE_CLI     => '\Phalcon\Builder\Project\Cli',
     );
+
+    /**
+     * Create Builder object
+     *
+     * @param array $options Builder options
+     */
+    public function __construct(array $options = array())
+    {
+        $this->currentType = self::TYPE_SIMPLE;
+
+        parent::__construct($options);
+    }
 
     /**
      * Project build
@@ -46,58 +73,60 @@ class Project extends Component
      */
     public function build()
     {
-        $path = '';
-        if (isset($this->_options['directory'])) {
-            if ($this->_options['directory']) {
-                $path = $this->_options['directory'] . DIRECTORY_SEPARATOR;
-            }
+        if ($this->options->contains('directory')) {
+            $this->currentPath = $this->options->get('directory') . DIRECTORY_SEPARATOR;
         }
 
-        if (isset($this->_options['templatePath'])) {
-            $templatePath = $this->_options['templatePath'];
-        } else {
-            $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) . 'templates';
+        $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) . 'templates';
+        if ($this->options->contains('templatePath')) {
+            $templatePath = $this->options->get('templatePath');
         }
 
-        if (file_exists($path.'.phalcon')) {
-            throw new BuilderException("Projects cannot be created inside Phalcon projects");
+        if ($this->hasPhalconDir()) {
+            throw new BuilderException('Projects cannot be created inside Phalcon projects.');
         }
 
-        $type = 'simple';
-        if (isset($this->_options['type']) && $type = $this->_options['type']) {
-            if (!isset($this->_types[$type])) {
-                $keys = array_keys($this->_types);
-                $keys = implode(" , ", $keys);
-                throw new BuilderException('Type "' . $type . '" is not a valid type. Choose among [' . $keys . '] ');
-            }
+        $this->currentType = $this->options->get('type', self::TYPE_SIMPLE);
+
+        if (!isset($this->_types[$this->currentType])) {
+            throw new BuilderException(sprintf(
+                'Type "%s" is not a valid type. Choose among [%s] ',
+                $this->currentType,
+                implode(', ', array_keys($this->_types))
+            ));
         }
 
-        $name = null;
-        if (isset($this->_options['name']) && $name = $this->_options['name']) {
-            $path .= $this->_options['name'] . DIRECTORY_SEPARATOR;
+        $builderClass = $this->_types[$this->currentType];
 
-            if (file_exists($path)) {
-                throw new BuilderException(sprintf('Directory %s already exists', realpath($path)));
-            }
-
-            if (!mkdir($path, 0777, true)) {
-                throw new BuilderException(sprintf('Unable create project directory %s', realpath($path)));
-            }
+        if ($this->options->contains('name')) {
+            $this->currentPath .= rtrim($this->options->get('name'), '\\/') . DIRECTORY_SEPARATOR;
         }
 
-        if (!is_writable($path)) {
-            throw new BuilderException(sprintf('Directory %s is not writable', realpath($path)));
+        if (file_exists($this->currentPath)) {
+            throw new BuilderException(sprintf('Directory %s already exists.', realpath($this->currentPath)));
         }
 
-        $builderClass = $this->_types[$type];
+        if (!mkdir($this->currentPath, 0777, true)) {
+            throw new BuilderException(sprintf('Unable create project directory %s', realpath($this->currentPath)));
+        }
+
+        if (!is_writable($this->currentPath)) {
+            throw new BuilderException(sprintf('Directory %s is not writable.', realpath($this->currentPath)));
+        }
+
+        $this->options->offsetSet('templatePath', $templatePath);
+        $this->options->offsetSet('projectPath', $this->currentPath);
 
         /** @var \Phalcon\Builder\Project\ProjectBuilder $builder */
-        $builder = new $builderClass();
+        $builder = new $builderClass($this->options);
 
-        $success = $builder->build($path, $templatePath, $name, $this->_options);
+        $success = $builder->build($this->currentPath, $templatePath, $this->options);
 
         if ($success === true) {
-            $this->_notifySuccess("Project '$name' was successfully created.");
+            $this->_notifySuccess(sprintf(
+                'Project "%s" was successfully created.',
+                $this->options->get('name')
+            ));
         }
 
         return $success;

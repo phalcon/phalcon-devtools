@@ -356,12 +356,12 @@ class Tools
      * Install webtools
      *
      * @param  string     $path
-     * @return void
+     * @return bool
      * @throws \Exception if document root cannot be located
      */
     public static function install($path)
     {
-        $path = rtrim(realpath($path), '/') . '/';
+        $path = realpath($path) . DIRECTORY_SEPARATOR;
         $tools = realpath(__DIR__ . '/../../../');
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -385,19 +385,21 @@ class Tools
 
             file_put_contents($configPath, $code);
         }
+
+        return true;
     }
 
     /**
      * Uninstall webtools
      *
      * @param  string $path
-     * @return void
+     * @return bool
      *
      * @throws \Exception
      */
     public static function uninstall($path)
     {
-        $path = realpath($path) . '/';
+        $path = realpath($path) . DIRECTORY_SEPARATOR;
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $path = str_replace("\\", '/', $path);
         }
@@ -417,5 +419,7 @@ class Tools
         if (is_file($path . 'public/webtools.php')) {
             unlink($path . 'public/webtools.php');
         }
+
+        return true;
     }
 }

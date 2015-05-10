@@ -20,6 +20,7 @@
 
 use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold;
+use Phalcon\Text as Utils;
 
 class ScaffoldController extends ControllerBase
 {
@@ -82,7 +83,7 @@ class ScaffoldController extends ControllerBase
 
                 $scaffoldBuilder->build();
 
-                $this->flash->success(sprintf('Scaffold for table "%s" was generated successfully', $tableName));
+                $this->flash->success(sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName)));
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'scaffold',
