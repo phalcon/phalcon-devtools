@@ -26,6 +26,8 @@ use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Namespaces;
 
 /**
  * Abstract Component
@@ -38,7 +40,6 @@ use RecursiveIteratorIterator;
  */
 abstract class Component
 {
-
     protected $_options = array();
 
     /**
@@ -47,6 +48,28 @@ abstract class Component
     public function __construct($options)
     {
         $this->_options = $options;
+    }
+
+    protected function checkNamespace($namespace)
+    {
+        $validation = new Validation();
+
+        $validation->add('namespace', new Namespaces(array(
+            'allowEmpty' => true
+        )));
+
+        $messages = $validation->validate(array('namespace' => $namespace));
+
+        if (count($messages)) {
+            $errors = array();
+            foreach ($messages as $message) {
+                $errors[] = $message->getMessage();
+            }
+
+            throw new BuilderException(sprintf('%s', implode(PHP_EOL, $errors)));
+        }
+
+        return true;
     }
 
     /**

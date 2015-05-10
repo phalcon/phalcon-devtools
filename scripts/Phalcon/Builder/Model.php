@@ -278,8 +278,10 @@ class Model extends Component
         if (file_exists($modelPath)) {
             if (!$this->_options['force']) {
                 throw new BuilderException(
-                    "The model file '" . $className .
-                    ".php' already exists in models dir"
+                    sprintf(
+                        'The model file "%s.php" already exists in models dir',
+                        $className
+                    )
                 );
             }
         }
@@ -298,6 +300,7 @@ class Model extends Component
         }
 
         if (isset($this->_options['namespace']) && $this->_options['namespace']) {
+            $this->checkNamespace($this->_options['namespace']);
             $namespace = 'namespace ' . $this->_options['namespace'] . ';'
                 . PHP_EOL . PHP_EOL;
             $methodRawCode[] = sprintf($getSource, $this->_options['name']);

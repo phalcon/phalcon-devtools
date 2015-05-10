@@ -174,7 +174,13 @@ class Scaffold extends Component
         $options['className'] = Text::camelize($options['name']);
         $options['fileName'] = Text::uncamelize($options['className']);
 
-        $modelsNamespace = (isset($options['modelsNamespace']) && $options['modelsNamespace']) ? $options['modelsNamespace'] : '';
+        $modelsNamespace = '';
+
+        if (isset($options['modelsNamespace']) && $options['modelsNamespace']) {
+            $this->checkNamespace($options['modelsNamespace']);
+            $modelsNamespace = $options['modelsNamespace'];
+        }
+
         if ($modelsNamespace && substr($modelsNamespace, -1) !== '\\') {
             $modelsNamespace .= "\\";
         }
@@ -541,6 +547,7 @@ class Scaffold extends Component
         $code = file_get_contents($path);
 
         if (isset($options['controllersNamespace']) === true) {
+            $this->checkNamespace($options['controllersNamespace']);
             $code = str_replace('$namespace$', 'namespace '.$options['controllersNamespace'].';'.PHP_EOL, $code);
         } else {
             $code = str_replace('$namespace$', ' ', $code);

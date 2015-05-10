@@ -21,6 +21,7 @@
 
 use Phalcon\Tag;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Text as Utils;
 
 class ModelsController extends ControllerBase
 {
@@ -94,7 +95,7 @@ class ModelsController extends ControllerBase
                 if ($tableName == 'all') {
                     $this->flash->success('Models were created successfully.');
                 } else {
-                    $this->flash->success(sprintf('Model "%s" was created successfully', str_replace('.php', '', $tableName)));
+                    $this->flash->success(sprintf('Model "%s" was created successfully', Utils::camelize(str_replace('.php', '', $tableName))));
                 }
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
