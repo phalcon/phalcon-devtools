@@ -36,7 +36,6 @@ use Phalcon\Builder\BuilderException;
  */
 class Controller extends Component
 {
-
     /**
      * Controller constructor
      *
@@ -66,6 +65,7 @@ class Controller extends Component
         }
 
         if (isset($this->_options['namespace']) && $this->_options['namespace']) {
+            $this->checkNamespace($this->_options['namespace']);
             $namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
         } else {
             $namespace = '';
