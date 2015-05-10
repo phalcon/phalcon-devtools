@@ -20,16 +20,17 @@
 
 namespace Phalcon\Builder;
 
+use Phalcon\Exception;
+
 /**
- * BuilderException
+ * Builder Exception
  *
  * Exception Builder made
  *
- * @category 	Phalcon
- * @package 	Scripts
+ * @package     Phalcon\Builder
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
-class BuilderException extends \Phalcon\Exception
+class BuilderException extends Exception
 {
 }

@@ -20,6 +20,8 @@
 
 namespace Phalcon\Builder\Project;
 
+use Phalcon\Builder\Options;
+
 /**
  * ProjectBuilder
  *
@@ -37,28 +39,60 @@ abstract class ProjectBuilder
      */
     protected $variableValues;
 
-    abstract public function build($path, $templatePath, $name, array $options);
+    /**
+     * Builder options
+     * @var Options
+     */
+    protected $options = null;
 
-    public function buildDirectories(array $directoryList, $path)
+    /**
+     * Project directories
+     * @var array
+     */
+    protected $projectDirectories = array();
+
+    public function __construct(Options $options)
     {
-        foreach ($directoryList as $dir) {
-            @mkdir(rtrim($path, '\\/') . DIRECTORY_SEPARATOR . $dir);
+        $this->options = $options;
+    }
+
+    /**
+     * Build Project
+     * @return mixed
+     */
+    abstract public function build();
+
+    /**
+     * Build project directories
+     * @return $this
+     */
+    public function buildDirectories()
+    {
+        foreach ($this->projectDirectories as $dir) {
+            mkdir(realpath($this->options->get('projectPath')) . DIRECTORY_SEPARATOR . $dir, 0777, true);
         }
+
+        return $this;
     }
 
     /**
      * Generate variable values depending on parameters
      *
-     * @param array $options
+     * return $this
      */
-    protected function getVariableValues(array $options)
+    protected function getVariableValues()
     {
         $variableValuesResult = array();
-        $variablesJsonFile = $options['templatePath'].'/project/'.$options['type'].'/variables.json';
+        $variablesJsonFile =
+            $this->options->get('templatePath') . DIRECTORY_SEPARATOR
+            . 'project' . DIRECTORY_SEPARATOR
+            . $this->options->get('type') . DIRECTORY_SEPARATOR .
+            'variables.json';
+
         if (file_exists($variablesJsonFile)) {
             $variableValues = json_decode(file_get_contents($variablesJsonFile), true);
             if ($variableValues) {
-                foreach ($options as $k => $option) {
+                foreach ($this->options as $k => $option) {
                     if (!isset($variableValues[$k])) {
                         continue;
                     }
@@ -68,18 +102,25 @@ abstract class ProjectBuilder
             }
             $this->variableValues = $variableValuesResult;
         }
+
+        return $this;
     }
 
     /**
      * Generate file $putFile from $getFile, replacing @@variableValues@@
      *
-     * @param $getFile
-     * @param $putFile
-     * @param $name
+     * @param string $getFile From file
+     * @param string $putFile To file
+     * @param string $name
+     *
+     * @return $this
      */
     protected function generateFile($getFile, $putFile, $name = '')
     {
-        if (file_exists($putFile) == false) {
+        if (false == file_exists($putFile)) {
+            touch($putFile);
+            $fh = fopen($putFile, "w+");
+
             $str = file_get_contents($getFile);
             if ($name) {
                 $str = preg_replace('/@@name@@/', $name, $str);
@@ -93,7 +134,10 @@ abstract class ProjectBuilder
                 }
             }
 
-            file_put_contents($putFile, $str);
+            fwrite($fh, $str);
+            fclose($fh);
         }
+
+        return $this;
     }
 }

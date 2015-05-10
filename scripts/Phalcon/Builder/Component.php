@@ -40,14 +40,37 @@ use Phalcon\Validation\Validator\Namespaces;
  */
 abstract class Component
 {
-    protected $_options = array();
+    /**
+     * Builder Options
+     * @var Options
+     */
+    protected $options = null;
 
     /**
-     * @param $options
+     * Current work directory
+     * @var string
      */
-    public function __construct($options)
+    public $currentPath = null;
+
+    /**
+     * Create Builder object
+     *
+     * @param array $options Builder options
+     */
+    public function __construct(array $options = array())
     {
-        $this->_options = $options;
+        $this->options = new Options($options);
+        $this->currentPath = realpath('.') . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Check Phalcon system dir
+     *
+     * @return bool
+     */
+    public function hasPhalconDir()
+    {
+        return file_exists($this->currentPath . '.phalcon');
     }
 
     protected function checkNamespace($namespace)
@@ -75,21 +98,17 @@ abstract class Component
     /**
      * Tries to find the current configuration in the application
      *
-     * @param string $path Project path
-     *
      * @return mixed|Config|ConfigIni
      * @throws BuilderException
      */
-    protected function _getConfig($path)
+    protected function getConfig()
     {
-        $path = realpath($path) . DIRECTORY_SEPARATOR;
-
         foreach (array('app/config/', 'config/') as $configPath) {
-            if (file_exists($path . $configPath . 'config.ini')) {
-                return new ConfigIni($path . $configPath . 'config.ini');
+            if (file_exists($this->currentPath . $configPath . 'config.ini')) {
+                return new ConfigIni($this->currentPath . $configPath . 'config.ini');
             } else {
-                if (file_exists($path . $configPath. 'config.php')) {
-                    $config = include($path . $configPath . 'config.php');
+                if (file_exists($this->currentPath . $configPath. 'config.php')) {
+                    $config = include($this->currentPath . $configPath . 'config.php');
                     if (is_array($config)) {
                         $config = new Config($config);
                     }
@@ -116,7 +135,7 @@ abstract class Component
             }
         }
 
-        throw new BuilderException('Builder can\'t locate the configuration file');
+        throw new BuilderException("Builder can't locate the configuration file");
     }
 
     /**
