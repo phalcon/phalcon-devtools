@@ -38,7 +38,7 @@
                 </tr>
             <?php else: ?>
                 <?php $iterator = new DirectoryIterator($modelsDir); foreach($iterator as $file): ?>
-                    <?php if (!$file->isDot()): ?>
+                    <?php if (!$file->isDot() && 0 !== strrpos($file->getBasename(), '.')): ?>
                         <tr>
                             <td><?php echo $file->getBasename('.php'); ?></td>
                             <td><?php echo $file->getSize() . ' b' ?></td>
