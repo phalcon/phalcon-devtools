@@ -20,6 +20,7 @@
 */
 
 use Phalcon\Web\Tools;
+use Phalcon\Builder\Path;
 use Phalcon\Mvc\Controller;
 use Phalcon\Exception;
 
@@ -57,6 +58,12 @@ class ControllerBase extends Controller
     protected $migrationsDir = null;
 
     /**
+     * Path component
+     * @var Path
+     */
+    protected $path = null;
+
+    /**
      * Initialize controller
      *
      * @return void
@@ -64,6 +71,8 @@ class ControllerBase extends Controller
     public function initialize()
     {
         $this->checkAccess();
+
+        $this->path = new Path();
 
         $this->fileOwner = function (DirectoryIterator $file) {
             // Windows, fallback, etc.
@@ -158,17 +167,7 @@ class ControllerBase extends Controller
      */
     public function isAbsolutePath($path)
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            if (preg_match('/^[A-Z]:\\\\/', $path)) {
-                return true;
-            }
-        } else {
-            if (substr($path, 0, 1) == DIRECTORY_SEPARATOR) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->path->isAbsolutePath($path);
     }
 
     /**
@@ -181,13 +180,15 @@ class ControllerBase extends Controller
         $config = Tools::getConfig()->offsetGet('application');
 
         $dirs = array('modelsDir', 'controllersDir', 'migrationsDir');
+        $this->path->setRootPath(dirname(getcwd()));
+        $projectPath = $this->path->getRootPAth();
 
         foreach ($dirs as $dirName) {
             if (isset($config[$dirName]) && $config[$dirName]) {
                 if ($this->isAbsolutePath($config[$dirName])) {
                     $path = $config[$dirName];
                 } else {
-                    $path = dirname(getcwd()) . DIRECTORY_SEPARATOR . $config[$dirName];
+                    $path = $projectPath . $config[$dirName];
                 }
 
                 $path = rtrim($path, '\\/') . DIRECTORY_SEPARATOR;
