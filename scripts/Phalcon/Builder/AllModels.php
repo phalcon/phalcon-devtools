@@ -58,10 +58,10 @@ class AllModels extends Component
     public function build()
     {
         if ($this->options->contains('directory')) {
-            $this->setCurrentPatch($this->options->get('directory'));
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
-        $this->options->offsetSet('directory', $this->getCurrentPath());
+        $this->options->offsetSet('directory', $this->path->getRootPath());
 
         $config = $this->getConfig();
 
@@ -75,7 +75,7 @@ class AllModels extends Component
         $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
         $modelPath = $modelsDir;
         if (false == $this->isAbsolutePath($modelsDir)) {
-            $modelPath = $this->getCurrentPath($modelsDir);
+            $modelPath = $this->path->getRootPath($modelsDir);
         }
 
         $this->options->offsetSet('modelsDir', $modelPath);
@@ -212,7 +212,7 @@ class AllModels extends Component
                 $modelBuilder->build();
             } else {
                 if ($this->isConsole()) {
-                    print Color::info(sprintf('Skipping model "%s" because it already exist', Color::error($name)));
+                    print Color::info(sprintf('Skipping model "%s" because it already exist', Utils::camelize($name)));
                 } else {
                     $this->exist[] = $name;
                 }
