@@ -86,7 +86,7 @@ class Scaffold extends Component
     public function build()
     {
         if ($this->options->contains('directory')) {
-            $this->currentPath = rtrim($this->options->get('directory'), '\\/') . DIRECTORY_SEPARATOR;
+            $this->setCurrentPatch($this->options->get('directory'));
         }
 
         $name = $this->options->get('name');
@@ -123,7 +123,7 @@ class Scaffold extends Component
 
         $modelPath = $config->application->modelsDir;
         if (false == $this->isAbsolutePath($modelPath)) {
-            $modelPath = $this->currentPath . $config->application->modelsDir;
+            $modelPath = $this->getCurrentPath($config->application->modelsDir);
         }
         $this->options->offsetSet('modelsDir', rtrim($modelPath, '\\/') . DIRECTORY_SEPARATOR);
 
@@ -133,7 +133,7 @@ class Scaffold extends Component
 
         $controllerPath = $config->application->controllersDir;
         if (false == $this->isAbsolutePath($controllerPath)) {
-            $controllerPath = $this->currentPath . $config->application->controllersDir;
+            $controllerPath = $this->getCurrentPath($config->application->controllersDir);
         }
         $this->options->offsetSet('controllersDir', rtrim($controllerPath, '\\/') . DIRECTORY_SEPARATOR);
 
@@ -142,9 +142,9 @@ class Scaffold extends Component
         }
         $viewPath = $config->application->viewsDir;
         if (false == $this->isAbsolutePath($viewPath)) {
-            $viewPath = $this->currentPath . $config->application->viewsDir;
+            $viewPath = $this->getCurrentPath($config->application->viewsDir);
         }
-        $this->options->offsetSet('viewsDir', rtrim($viewPath, '\\/') . DIRECTORY_SEPARATOR);
+        $this->options->offsetSet('viewsDir', $viewPath);
 
 
         $this->options->offsetSet('manager', $di->getShared('modelsManager'));

@@ -58,11 +58,28 @@ class AllModels extends Component
     public function build()
     {
         if ($this->options->contains('directory')) {
-            $this->currentPath = rtrim($this->options->directory, '\\/') . DIRECTORY_SEPARATOR;
+            $this->setCurrentPatch($this->options->get('directory'));
         }
 
+        $this->options->offsetSet('directory', $this->getCurrentPath());
+
         $config = $this->getConfig();
-        $modelsDir = $config->application->modelsDir;
+
+        if (!$modelsDir = $this->options->get('modelsDir')) {
+            if (!isset($config->application->modelsDir)) {
+                throw new BuilderException("Builder doesn't know where is the models directory.");
+            }
+            $modelsDir = $config->application->modelsDir;
+        }
+
+        $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+        $modelPath = $modelsDir;
+        if (false == $this->isAbsolutePath($modelsDir)) {
+            $modelPath = $this->getCurrentPath($modelsDir);
+        }
+
+        $this->options->offsetSet('modelsDir', $modelPath);
+
         $forceProcess = $this->options->get('force');
 
         $defineRelations = $this->options->get('defineRelations', false);
@@ -157,7 +174,7 @@ class AllModels extends Component
             $className = ($this->options->contains('abstract') ? 'Abstract' : '');
             $className .= Utils::camelize($name);
 
-            if (!file_exists($modelsDir . '/' . $className . '.php') || $forceProcess) {
+            if (!file_exists($modelPath . $className . '.php') || $forceProcess) {
                 if (isset($hasMany[$name])) {
                     $hasManyModel = $hasMany[$name];
                 } else {

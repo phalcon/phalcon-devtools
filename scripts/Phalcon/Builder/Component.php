@@ -23,9 +23,6 @@ namespace Phalcon\Builder;
 
 use Phalcon\Script\Color;
 use Phalcon\Config;
-use Phalcon\Config\Adapter\Ini as ConfigIni;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Namespaces;
 
@@ -47,10 +44,10 @@ abstract class Component
     protected $options = null;
 
     /**
-     * Current work directory
-     * @var string
+     * Path Component
+     * @var Path
      */
-    public $currentPath = null;
+    protected $path;
 
     /**
      * Create Builder object
@@ -60,7 +57,24 @@ abstract class Component
     public function __construct(array $options = array())
     {
         $this->options = new Options($options);
-        $this->currentPath = realpath('.') . DIRECTORY_SEPARATOR;
+        $this->path = new Path(realpath('.') . DIRECTORY_SEPARATOR);
+    }
+
+    public function setCurrentPatch($path)
+    {
+        $this->path->setRootPath($path);
+
+        return $this;
+    }
+
+    public function getCurrentPath($pathPath = null)
+    {
+        return $this->path->getRootPath() . ($pathPath ? trim($pathPath, '\\/') . DIRECTORY_SEPARATOR : '');
+    }
+
+    public function appendCurrentPath($pathPath)
+    {
+        $this->setCurrentPatch($this->getCurrentPath() . rtrim($pathPath, '\\/') . DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -70,7 +84,7 @@ abstract class Component
      */
     public function hasPhalconDir()
     {
-        return file_exists($this->currentPath . '.phalcon');
+        return file_exists($this->getCurrentPath() . '.phalcon');
     }
 
     protected function checkNamespace($namespace)
@@ -98,44 +112,12 @@ abstract class Component
     /**
      * Tries to find the current configuration in the application
      *
-     * @return mixed|Config|ConfigIni
+     * @return \Phalcon\Config
      * @throws BuilderException
      */
     protected function getConfig()
     {
-        foreach (array('app/config/', 'config/') as $configPath) {
-            if (file_exists($this->currentPath . $configPath . 'config.ini')) {
-                return new ConfigIni($this->currentPath . $configPath . 'config.ini');
-            } else {
-                if (file_exists($this->currentPath . $configPath. 'config.php')) {
-                    $config = include($this->currentPath . $configPath . 'config.php');
-                    if (is_array($config)) {
-                        $config = new Config($config);
-                    }
-
-                    return $config;
-                }
-            }
-        }
-
-        $directory = new RecursiveDirectoryIterator('.');
-        $iterator = new RecursiveIteratorIterator($directory);
-        foreach ($iterator as $f) {
-            if (preg_match('/config\.php$/i', $f->getPathName())) {
-                $config = include $f->getPathName();
-                if (is_array($config)) {
-                    $config = new Config($config);
-                }
-
-                return $config;
-            } else {
-                if (preg_match('/config\.ini$/i', $f->getPathName())) {
-                    return new ConfigIni($f->getPathName());
-                }
-            }
-        }
-
-        throw new BuilderException("Builder can't locate the configuration file");
+        return $this->path->getConfig();
     }
 
     /**
@@ -147,17 +129,7 @@ abstract class Component
      */
     public function isAbsolutePath($path)
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            if (preg_match('/^[A-Z]:\\\\/', $path)) {
-                return true;
-            }
-        } else {
-            if (substr($path, 0, 1) == DIRECTORY_SEPARATOR) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->path->isAbsolutePath($path);
     }
 
     /**

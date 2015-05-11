@@ -125,7 +125,7 @@ class Model extends Component
         }
 
         if ($this->options->contains('directory')) {
-            $this->currentPath = rtrim($this->options->get('directory'), '\\/') . DIRECTORY_SEPARATOR;
+            $this->setCurrentPatch($this->options->get('directory'));
         }
 
         $config = $this->getConfig();
@@ -140,7 +140,7 @@ class Model extends Component
         $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
         $modelPath = $modelsDir;
         if (false == $this->isAbsolutePath($modelsDir)) {
-            $modelPath = $this->currentPath . $modelsDir;
+            $modelPath = $this->getCurrentPath($modelsDir);
         }
 
         $methodRawCode = array();
