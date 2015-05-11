@@ -46,12 +46,6 @@ class Model extends Component
     );
 
     /**
-     * Builder messages
-     * @var array
-     */
-    protected $messages = [];
-
-    /**
      * Create Builder object
      *
      * @param array $options Builder options
@@ -482,6 +476,8 @@ class Model extends Component
                     }
                 }
 
+                $possibleMethods['getSource'] = true;
+
                 require $modelPath;
 
                 $linesCode = file($modelPath);
@@ -526,7 +522,6 @@ class Model extends Component
                             break;
                         case 'validation':
                             $alreadyValidations = true;
-                            $this->messages[] = 'If it is needed, update your validators in accordance with new fields.';
                             break;
                         case 'find':
                             $alreadyFind = true;
@@ -536,11 +531,9 @@ class Model extends Component
                             break;
                         case 'columnMap':
                             $alreadyColumnMapped = true;
-                            $this->messages[] = 'Do not forget to update columns map.';
                             break;
                         case 'getSource':
                             $alreadyGetSourced = true;
-                            $this->messages[] = sprintf('If table name has changed - change method %s:%s.', $method->getDeclaringClass()->getName(), $methodName);
                             break;
                     }
                 }
@@ -722,11 +715,6 @@ class Model extends Component
 
         if ($this->isConsole()) {
             $msgSuccess = ($this->options->contains('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
-
-            if (!empty($this->messages)) {
-                $msgSuccess .= "\n  * " . join("\n  * ", $this->messages);
-            }
-
             $this->_notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->get('name'))));
         }
     }
