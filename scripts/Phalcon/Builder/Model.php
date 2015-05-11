@@ -125,7 +125,7 @@ class Model extends Component
         }
 
         if ($this->options->contains('directory')) {
-            $this->currentPath = rtrim($this->options->get('directory'), '\\/') . DIRECTORY_SEPARATOR;
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
         $config = $this->getConfig();
@@ -140,7 +140,7 @@ class Model extends Component
         $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
         $modelPath = $modelsDir;
         if (false == $this->isAbsolutePath($modelsDir)) {
-            $modelPath = $this->currentPath . $modelsDir;
+            $modelPath = $this->path->getRootPath($modelsDir);
         }
 
         $methodRawCode = array();
@@ -277,7 +277,7 @@ class Model extends Component
                         $relation['fields'],
                         $entityNamespace . $entityName,
                         $relation['relationFields'],
-                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"] : null)
+                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"]->toArray() : null)
                     );
                 }
             }
@@ -302,7 +302,7 @@ class Model extends Component
                         $relation['fields'],
                         $entityNamespace . $entityName,
                         $relation['relationFields'],
-                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"] : null)
+                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"]->toArray() : null)
                     );
                 }
             }

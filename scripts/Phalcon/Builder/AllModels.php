@@ -58,11 +58,28 @@ class AllModels extends Component
     public function build()
     {
         if ($this->options->contains('directory')) {
-            $this->currentPath = rtrim($this->options->directory, '\\/') . DIRECTORY_SEPARATOR;
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
+        $this->options->offsetSet('directory', $this->path->getRootPath());
+
         $config = $this->getConfig();
-        $modelsDir = $config->application->modelsDir;
+
+        if (!$modelsDir = $this->options->get('modelsDir')) {
+            if (!isset($config->application->modelsDir)) {
+                throw new BuilderException("Builder doesn't know where is the models directory.");
+            }
+            $modelsDir = $config->application->modelsDir;
+        }
+
+        $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+        $modelPath = $modelsDir;
+        if (false == $this->isAbsolutePath($modelsDir)) {
+            $modelPath = $this->path->getRootPath($modelsDir);
+        }
+
+        $this->options->offsetSet('modelsDir', $modelPath);
+
         $forceProcess = $this->options->get('force');
 
         $defineRelations = $this->options->get('defineRelations', false);
@@ -157,7 +174,7 @@ class AllModels extends Component
             $className = ($this->options->contains('abstract') ? 'Abstract' : '');
             $className .= Utils::camelize($name);
 
-            if (!file_exists($modelsDir . '/' . $className . '.php') || $forceProcess) {
+            if (!file_exists($modelPath . $className . '.php') || $forceProcess) {
                 if (isset($hasMany[$name])) {
                     $hasManyModel = $hasMany[$name];
                 } else {
@@ -195,7 +212,7 @@ class AllModels extends Component
                 $modelBuilder->build();
             } else {
                 if ($this->isConsole()) {
-                    print Color::info(sprintf('Skipping model "%s" because it already exist', Color::error($name)));
+                    print Color::info(sprintf('Skipping model "%s" because it already exist', Utils::camelize($name)));
                 } else {
                     $this->exist[] = $name;
                 }

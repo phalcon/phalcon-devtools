@@ -59,7 +59,7 @@ class Controller extends Component
     public function build()
     {
         if ($this->options->contains('directory')) {
-            $this->currentPath = rtrim($this->options->get('directory'), '\\/') . DIRECTORY_SEPARATOR;
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
         $namespace = '';
