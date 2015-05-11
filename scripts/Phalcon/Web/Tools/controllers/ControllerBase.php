@@ -133,11 +133,8 @@ class ControllerBase extends Controller
         }
 
         $this->view->tables = $tables;
-        if ($config->database->adapter != 'Sqlite') {
-            $this->view->databaseName = $config->database->dbname;
-        } else {
-            $this->view->databaseName = null;
-        }
+
+        $this->view->databaseName = $config->database->dbname;
 
         if ($this->migrationsDir) {
             $this->view->migrationsDir = $this->migrationsDir;
