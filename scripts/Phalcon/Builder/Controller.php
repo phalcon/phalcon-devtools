@@ -59,7 +59,7 @@ class Controller extends Component
     public function build()
     {
         if ($this->options->contains('directory')) {
-            $this->setCurrentPatch($this->options->get('directory'));
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
         $namespace = '';

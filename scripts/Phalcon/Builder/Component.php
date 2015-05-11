@@ -60,33 +60,6 @@ abstract class Component
         $this->path = new Path(realpath('.') . DIRECTORY_SEPARATOR);
     }
 
-    public function setCurrentPatch($path)
-    {
-        $this->path->setRootPath($path);
-
-        return $this;
-    }
-
-    public function getCurrentPath($pathPath = null)
-    {
-        return $this->path->getRootPath() . ($pathPath ? trim($pathPath, '\\/') . DIRECTORY_SEPARATOR : '');
-    }
-
-    public function appendCurrentPath($pathPath)
-    {
-        $this->setCurrentPatch($this->getCurrentPath() . rtrim($pathPath, '\\/') . DIRECTORY_SEPARATOR);
-    }
-
-    /**
-     * Check Phalcon system dir
-     *
-     * @return bool
-     */
-    public function hasPhalconDir()
-    {
-        return file_exists($this->getCurrentPath() . '.phalcon');
-    }
-
     protected function checkNamespace($namespace)
     {
         $validation = new Validation();
@@ -112,12 +85,13 @@ abstract class Component
     /**
      * Tries to find the current configuration in the application
      *
+     * @param string $type Config type: ini | php
      * @return \Phalcon\Config
      * @throws BuilderException
      */
-    protected function getConfig()
+    protected function getConfig($type = null)
     {
-        return $this->path->getConfig();
+        return $this->path->getConfig($type);
     }
 
     /**

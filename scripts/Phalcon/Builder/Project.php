@@ -74,7 +74,7 @@ class Project extends Component
     public function build()
     {
         if ($this->options->contains('directory')) {
-            $this->setCurrentPatch($this->options->get('directory'));
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
         $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) . 'templates';
@@ -82,7 +82,7 @@ class Project extends Component
             $templatePath = $this->options->get('templatePath');
         }
 
-        if ($this->hasPhalconDir()) {
+        if ($this->path->hasPhalconDir()) {
             throw new BuilderException('Projects cannot be created inside Phalcon projects.');
         }
 
@@ -99,23 +99,23 @@ class Project extends Component
         $builderClass = $this->_types[$this->currentType];
 
         if ($this->options->contains('name')) {
-            $this->appendCurrentPath($this->options->get('name'));
+            $this->path->appendRootPath($this->options->get('name'));
         }
 
-        if (file_exists($this->getCurrentPath())) {
-            throw new BuilderException(sprintf('Directory %s already exists.', $this->getCurrentPath()));
+        if (file_exists($this->path->getRootPath())) {
+            throw new BuilderException(sprintf('Directory %s already exists.', $this->path->getRootPath()));
         }
 
-        if (!mkdir($this->getCurrentPath(), 0777, true)) {
-            throw new BuilderException(sprintf('Unable create project directory %s', $this->getCurrentPath()));
+        if (!mkdir($this->path->getRootPath(), 0777, true)) {
+            throw new BuilderException(sprintf('Unable create project directory %s', $this->path->getRootPath()));
         }
 
-        if (!is_writable($this->getCurrentPath())) {
-            throw new BuilderException(sprintf('Directory %s is not writable.', $this->getCurrentPath()));
+        if (!is_writable($this->path->getRootPath())) {
+            throw new BuilderException(sprintf('Directory %s is not writable.', $this->path->getRootPath()));
         }
 
         $this->options->offsetSet('templatePath', $templatePath);
-        $this->options->offsetSet('projectPath', $this->getCurrentPath());
+        $this->options->offsetSet('projectPath', $this->path->getRootPath());
 
         /** @var \Phalcon\Builder\Project\ProjectBuilder $builder */
         $builder = new $builderClass($this->options);
