@@ -277,7 +277,7 @@ class Model extends Component
                         $relation['fields'],
                         $entityNamespace . $entityName,
                         $relation['relationFields'],
-                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"] : null)
+                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"]->toArray() : null)
                     );
                 }
             }
@@ -302,7 +302,7 @@ class Model extends Component
                         $relation['fields'],
                         $entityNamespace . $entityName,
                         $relation['relationFields'],
-                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"] : null)
+                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"]->toArray() : null)
                     );
                 }
             }
