@@ -46,6 +46,12 @@ class Model extends Component
     );
 
     /**
+     * Builder messages
+     * @var array
+     */
+    protected $messages = [];
+
+    /**
      * Create Builder object
      *
      * @param array $options Builder options
@@ -112,6 +118,11 @@ class Model extends Component
     public function build()
     {
         $getSource = "
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
     public function getSource()
     {
         return '%s';
@@ -227,7 +238,9 @@ class Model extends Component
     {
         return parent::find(\$parameters);
     }
+";
 
+        $templateFindFirst = "
     /**
      * Allows to query the first record that match the specified conditions
      *
@@ -275,7 +288,7 @@ class Model extends Component
         }
 
         $methodRawCode = array();
-        $className = $this->options->className;
+        $className = $this->options->get('className');
         $modelPath .= $className . '.php';
 
         if (file_exists($modelPath) && !$this->options->contains('force')) {
@@ -298,7 +311,7 @@ class Model extends Component
 
         $namespace = '';
         if ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
-            $namespace = 'namespace '.$this->options->namespace.';'.PHP_EOL.PHP_EOL;
+            $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
         }
 
         $genDocMethods = $this->options->get('genDocMethods', false);
@@ -323,6 +336,7 @@ class Model extends Component
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
+        /** @var \Phalcon\Db\Adapter\Pdo $db */
         $db = new $adapterName($configArray);
 
         $initialize = array();
@@ -342,8 +356,8 @@ class Model extends Component
             $schema = $config->database->dbname;
         }
 
-        $table = $this->options->name;
-        if ($this->options->fileName != $this->options->name) {
+        $table = $this->options->get('name');
+        if ($this->options->get('fileName') != $this->options->get('name')) {
             $initialize[] = sprintf(
                 $templateThis, 'setSource',
                 '\'' . $table . '\''
@@ -357,7 +371,7 @@ class Model extends Component
 
         foreach ($db->listTables() as $tableName) {
             foreach ($db->describeReferences($tableName, $schema) as $reference) {
-                if ($reference->getReferencedTable() != $this->options->name) {
+                if ($reference->getReferencedTable() != $this->options->get('name')) {
                     continue;
                 }
 
@@ -379,7 +393,7 @@ class Model extends Component
             }
         }
 
-        foreach ($db->describeReferences($this->options->name, $schema) as $reference) {
+        foreach ($db->describeReferences($this->options->get('name'), $schema) as $reference) {
             $entityNamespace = '';
             if ($this->options->contains('namespace')) {
                 $entityNamespace = "{$this->options->namespace}\\";
@@ -449,13 +463,19 @@ class Model extends Component
             }
         }
 
-        $alreadyInitialized = false;
-        $alreadyValidations = false;
+        $alreadyInitialized  = false;
+        $alreadyValidations  = false;
+        $alreadyFind         = false;
+        $alreadyFindFirst    = false;
+        $alreadyColumnMapped = false;
+        $alreadyGetSourced   = false;
+
         if (file_exists($modelPath)) {
             try {
                 $possibleMethods = array();
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
+                        /** @var \Phalcon\Db\Column $field */
                         $methodName = Utils::camelize($field->getName());
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
@@ -465,9 +485,9 @@ class Model extends Component
                 require $modelPath;
 
                 $linesCode = file($modelPath);
-                $fullClassName = $this->options->className;
+                $fullClassName = $this->options->get('className');
                 if ($this->options->contains('namespace')) {
-                    $fullClassName = $this->options->namespace.'\\'.$fullClassName;
+                    $fullClassName = $this->options->get('namespace').'\\'.$fullClassName;
                 }
                 $reflection = new ReflectionClass($fullClassName);
                 foreach ($reflection->getMethods() as $method) {
@@ -476,24 +496,52 @@ class Model extends Component
                     }
 
                     $methodName = $method->getName();
-                    if (!isset($possibleMethods[$methodName])) {
-                        $methodRawCode[$methodName] = join(
-                            '',
-                            array_slice(
-                                $linesCode,
-                                $method->getStartLine() - 1,
-                                $method->getEndLine() - $method->getStartLine() + 1
-                            )
-                        );
-                    } else {
+                    if (isset($possibleMethods[$methodName])) {
                         continue;
                     }
-                    if ($methodName == 'initialize') {
-                        $alreadyInitialized = true;
-                    } else {
-                        if ($methodName == 'validation') {
-                            $alreadyValidations = true;
+
+                    $indent = PHP_EOL;
+                    if ($method->getDocComment()) {
+                        $firstLine = $linesCode[$method->getStartLine()-1];
+                        preg_match('#^\s+#', $firstLine, $matches);
+                        if (isset($matches[0])) {
+                            $indent .= $matches[0];
                         }
+                    }
+
+                    $methodDeclaration = join(
+                        '',
+                        array_slice(
+                            $linesCode,
+                            $method->getStartLine() - 1,
+                            $method->getEndLine() - $method->getStartLine() + 1
+                        )
+                    );
+
+                    $methodRawCode[$methodName] = $indent . $method->getDocComment() . PHP_EOL . $methodDeclaration;
+
+                    switch ($methodName) {
+                        case 'initialize':
+                            $alreadyInitialized = true;
+                            break;
+                        case 'validation':
+                            $alreadyValidations = true;
+                            $this->messages[] = 'If it is needed, update your validators in accordance with new fields.';
+                            break;
+                        case 'find':
+                            $alreadyFind = true;
+                            break;
+                        case 'findFirst':
+                            $alreadyFindFirst = true;
+                            break;
+                        case 'columnMap':
+                            $alreadyColumnMapped = true;
+                            $this->messages[] = 'Do not forget to update columns map.';
+                            break;
+                        case 'getSource':
+                            $alreadyGetSourced = true;
+                            $this->messages[] = sprintf('If table name has changed - change method %s:%s.', $method->getDeclaringClass()->getName(), $methodName);
+                            break;
                     }
                 }
             } catch (ReflectionException $e) {
@@ -534,17 +582,14 @@ class Model extends Component
         /**
          * Check if there has been an extender class
          */
-        $extends = '\\Phalcon\\Mvc\\Model';
-        if ($this->options->contains('extends')) {
-            $extends = $this->options->extends;
-        }
+        $extends = $this->options->get('extends', '\Phalcon\Mvc\Model');
 
         /**
          * Check if there have been any excluded fields
          */
         $exclude = array();
         if ($this->options->contains('excludeFields')) {
-            $keys = explode(',', $this->options->excludeFields);
+            $keys = explode(',', $this->options->get('excludeFields'));
             if (count($keys) > 0) {
                 foreach ($keys as $key) {
                     $exclude[trim($key)] = '';
@@ -616,11 +661,22 @@ class Model extends Component
             $license = trim(file_get_contents('license.txt')) . PHP_EOL . PHP_EOL;
         }
 
+        if (false == $alreadyGetSourced) {
+            $methodRawCode[] = sprintf($getSource, $this->options->get('name'));
+        }
+
+        if (false == $alreadyFind) {
+            $methodRawCode[] = sprintf($templateFind, $className, $className);
+        }
+
+        if (false == $alreadyFindFirst) {
+            $methodRawCode[] = sprintf($templateFindFirst, $className, $className);
+        }
+
         $content = join('', $attributes);
 
         if ($useSettersGetters) {
-            $content .= join('', $setters)
-                . join('', $getters);
+            $content .= join('', $setters) . join('', $getters);
         }
 
         $content .= $validationsCode . $initCode;
@@ -630,11 +686,10 @@ class Model extends Component
 
         $auto_generated = '';
         if ($genDocMethods) {
-            $content .= sprintf($templateFind, $className, $className);
             $auto_generated = '/**' . PHP_EOL . ' * @autogenerated' . PHP_EOL . ' */' . PHP_EOL;
         }
 
-        if ($this->options->contains('mapColumn')) {
+        if ($this->options->contains('mapColumn') && false == $alreadyColumnMapped) {
             $content .= $this->_genColumnMapCode($fields);
         }
 
@@ -657,18 +712,22 @@ class Model extends Component
             $content
         );
 
-        if (file_exists($modelPath) && $this->options->contains('force') && !is_writable($modelPath)) {
+        if (file_exists($modelPath) && !is_writable($modelPath)) {
             throw new BuilderException(sprintf('Unable to write to %s. Check write-access of a file.', $modelPath));
         }
 
-        if (!@file_put_contents($modelPath, $code)) {
+        if (!file_put_contents($modelPath, $code)) {
             throw new BuilderException(sprintf('Unable to write to %s', $modelPath));
         }
 
         if ($this->isConsole()) {
             $msgSuccess = ($this->options->contains('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
 
-            $this->_notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->name)));
+            if (!empty($this->messages)) {
+                $msgSuccess .= "\n  * " . join("\n  * ", $this->messages);
+            }
+
+            $this->_notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->get('name'))));
         }
     }
 
