@@ -41,13 +41,17 @@ class Path
     /**
      * Tries to find the current configuration in the application
      *
+     * @param string $type Config type: ini | php
      * @return \Phalcon\Config
      * @throws BuilderException
      */
-    public function getConfig()
+    public function getConfig($type = null)
     {
-        foreach (array('app/config/', 'config/') as $configPath) {
-            if (file_exists($this->rootPath . $configPath . 'config.ini')) {
+        $types = array('php' => true, 'ini' => true);
+        $type  = isset($types[$type]) ? $type : 'ini';
+
+        foreach (array('app/config/', 'config/', 'apps/config/', 'apps/frontend/config/') as $configPath) {
+            if ('ini' == $type && file_exists($this->rootPath . $configPath . 'config.ini')) {
                 return new ConfigIni($this->rootPath . $configPath . 'config.ini');
             } else {
                 if (file_exists($this->rootPath . $configPath. 'config.php')) {
@@ -88,10 +92,16 @@ class Path
         return $this;
     }
 
-    public function getRootPath()
+    public function getRootPath($pathPath = null)
     {
-        return $this->rootPath;
+        return $this->rootPath . ($pathPath ? trim($pathPath, '\\/') . DIRECTORY_SEPARATOR : '');
     }
+
+    public function appendRootPath($pathPath)
+    {
+        $this->setRootPath($this->getRootPath() . rtrim($pathPath, '\\/') . DIRECTORY_SEPARATOR);
+    }
+
 
     /**
      * Check if a path is absolute
@@ -113,5 +123,15 @@ class Path
         }
 
         return false;
+    }
+
+    /**
+     * Check Phalcon system dir
+     *
+     * @return bool
+     */
+    public function hasPhalconDir()
+    {
+        return file_exists($this->rootPath . '.phalcon');
     }
 }
