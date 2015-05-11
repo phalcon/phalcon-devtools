@@ -112,7 +112,7 @@ EOD;
     public function getClassDoc($className, $namespace = '')
     {
         if (!empty($namespace)) {
-            $namespace = str_replace('namespace ', '\\', $namespace);
+            $namespace = str_replace('namespace ', '', $namespace);
             $namespace = str_replace(';', '', $namespace);
             $namespace = str_replace(["\r", "\n"], '', $namespace);
 
