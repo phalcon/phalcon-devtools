@@ -45,7 +45,7 @@ If you are still using Phalcon 1.3.x, create a composer.json with the following 
 ```json
 {
     "require": {
-        "phalcon/devtools": "v1.3.5"
+        "phalcon/devtools": "1.3.*@dev"
     }
 }
 ```
