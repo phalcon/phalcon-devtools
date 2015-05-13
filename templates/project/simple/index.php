@@ -2,6 +2,8 @@
 
 error_reporting(E_ALL);
 
+define('APP_PATH', realpath('..'));
+
 try {
 
     /**
@@ -12,12 +14,12 @@ try {
     /**
      * Read auto-loader
      */
-    include __DIR__ . "/../app/config/loader.php";
+    include APP_PATH . "/app/config/loader.php";
 
     /**
      * Read services
      */
-    include __DIR__ . "/../app/config/services.php";
+    include APP_PATH . "/app/config/services.php";
 
     /**
      * Handle the request
