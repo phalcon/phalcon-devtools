@@ -20,80 +20,79 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder\Component;
-use Phalcon\Builder\BuilderException;
 use Phalcon\Text as Utils;
 use Phalcon\Script\Color;
 
 /**
- * AllModels
+ * AllModels Class
  *
  * Builder to generate all models
  *
- * @category    Phalcon
- * @package    Scripts
+ * @package     Phalcon\Builder
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license    New BSD License
+ * @license     New BSD License
  */
 class AllModels extends Component
 {
-
     public $exist = array();
 
-    public function __construct($options)
+    /**
+     * Create Builder object
+     *
+     * @param array $options Builder options
+     * @throws BuilderException
+     */
+    public function __construct(array $options = array())
     {
         if (!isset($options['force'])) {
             $options['force'] = false;
         }
+
         if (!isset($options['abstract'])) {
             $options['abstract'] = false;
         }
 
-        $this->_options = $options;
+        parent::__construct($options);
     }
 
     public function build()
     {
-        $path = '.';
-        if (isset($this->_options['directory']) && $this->_options['directory']) {
-            $path = $this->_options['directory'];
+        if ($this->options->contains('directory')) {
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
-        $config = $this->_getConfig($path . '/');
-        $modelsDir = $config->application->modelsDir;
-        $forceProcess = $this->_options['force'];
+        $this->options->offsetSet('directory', $this->path->getRootPath());
 
-        if (isset($this->_options['defineRelations'])) {
-            $defineRelations = $this->_options['defineRelations'];
-        } else {
-            $defineRelations = false;
+        $config = $this->getConfig();
+
+        if (!$modelsDir = $this->options->get('modelsDir')) {
+            if (!isset($config->application->modelsDir)) {
+                throw new BuilderException("Builder doesn't know where is the models directory.");
+            }
+            $modelsDir = $config->application->modelsDir;
         }
 
-        if (isset($this->_options['foreignKeys'])) {
-            $defineForeignKeys = $this->_options['foreignKeys'];
-        } else {
-            $defineForeignKeys = false;
+        $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+        $modelPath = $modelsDir;
+        if (false == $this->isAbsolutePath($modelsDir)) {
+            $modelPath = $this->path->getRootPath($modelsDir);
         }
 
-        if (isset($this->_options['genSettersGetters'])) {
-            $genSettersGetters = $this->_options['genSettersGetters'];
-        } else {
-            $genSettersGetters = false;
-        }
+        $this->options->offsetSet('modelsDir', $modelPath);
 
-        if (isset($this->_options['mapColumn'])) {
-            $mapColumn = $this->_options['mapColumn'] ? true : null;
-        } else {
-            $mapColumn = null;
-        }
+        $forceProcess = $this->options->get('force');
+
+        $defineRelations = $this->options->get('defineRelations', false);
+        $defineForeignKeys = $this->options->get('foreignKeys', false);
+        $genSettersGetters = $this->options->get('genSettersGetters', false);
+        $mapColumn = $this->options->get('mapColumn', null);
 
         $adapter = $config->database->adapter;
         $this->isSupportedAdapter($adapter);
 
+        $adapter = 'Mysql';
         if (isset($config->database->adapter)) {
             $adapter = $config->database->adapter;
-        } else {
-            $adapter = 'Mysql';
         }
 
         if (is_object($config->database)) {
@@ -110,8 +109,8 @@ class AllModels extends Component
          */
         $db = new $adapterName($configArray);
 
-        if (isset($this->_options['schema']) && $this->_options['schema']) {
-            $schema = $this->_options['schema'];
+        if ($this->options->contains('schema')) {
+            $schema = $this->options->get('schema');
         } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
         } else {
@@ -172,10 +171,10 @@ class AllModels extends Component
         }
 
         foreach ($db->listTables($schema) as $name) {
-            $className = ($this->_options['abstract'] ? 'Abstract' : '');
+            $className = ($this->options->contains('abstract') ? 'Abstract' : '');
             $className .= Utils::camelize($name);
 
-            if (!file_exists($modelsDir . '/' . $className . '.php') || $forceProcess) {
+            if (!file_exists($modelPath . $className . '.php') || $forceProcess) {
                 if (isset($hasMany[$name])) {
                     $hasManyModel = $hasMany[$name];
                 } else {
@@ -194,26 +193,26 @@ class AllModels extends Component
                     $foreignKeysModel = array();
                 }
 
-                $modelBuilder = new \Phalcon\Builder\Model(array(
+                $modelBuilder = new Model(array(
                     'name' => $name,
                     'schema' => $schema,
-                    'extends' => isset($this->_options['extends']) ? $this->_options['extends'] : null,
-                    'namespace' => $this->_options['namespace'],
+                    'extends' => $this->options->get('extends'),
+                    'namespace' => $this->options->get('namespace'),
                     'force' => $forceProcess,
                     'hasMany' => $hasManyModel,
                     'belongsTo' => $belongsToModel,
                     'foreignKeys' => $foreignKeysModel,
                     'genSettersGetters' => $genSettersGetters,
-                    'directory' => $this->_options['directory'],
-                    'modelsDir' => $this->_options['modelsDir'],
+                    'directory' => $this->options->get('directory'),
+                    'modelsDir' => $this->options->get('modelsDir'),
                     'mapColumn' => $mapColumn,
-                    'abstract' => $this->_options['abstract']
+                    'abstract' => $this->options->get('abstract')
                 ));
 
                 $modelBuilder->build();
             } else {
                 if ($this->isConsole()) {
-                    print Color::info("Skipping model \"$name\" because it already exist");
+                    print Color::info(sprintf('Skipping model "%s" because it already exist', Utils::camelize($name)));
                 } else {
                     $this->exist[] = $name;
                 }

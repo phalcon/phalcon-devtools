@@ -20,6 +20,7 @@
 
 use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold;
+use Phalcon\Text as Utils;
 
 class ScaffoldController extends ControllerBase
 {
@@ -27,7 +28,7 @@ class ScaffoldController extends ControllerBase
     {
         $errorMessage = function ($directoryName, $directoryPath) {
             return sprintf(
-                "Sorry, Web Tools doesn't know where is the %s directory. <br>" .
+                "Sorry, WebTools doesn't know where is the %s directory. <br>" .
                 "Please add to <code>application</code> section <code>%s</code> param with valid path.",
                 $directoryName,
                 $directoryPath
@@ -82,7 +83,7 @@ class ScaffoldController extends ControllerBase
 
                 $scaffoldBuilder->build();
 
-                $this->flash->success(sprintf('Scaffold for table "%s" was generated successfully', $tableName));
+                $this->flash->success(sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName)));
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'scaffold',

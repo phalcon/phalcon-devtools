@@ -20,38 +20,36 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Builder\Component;
 use Phalcon\Text as Utils;
-use Phalcon\Builder\BuilderException;
 
 /**
- * \Phalcon\Builder\Controller
+ * Controller Class
  *
  * Builder to generate controller
  *
- * @category    Phalcon
- * @package     Builder
+ * @package     Phalcon\Builder
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
 class Controller extends Component
 {
-
     /**
-     * Controller constructor
+     * Create Builder object
      *
-     * @param $options
-     * @throws \Phalcon\Builder\BuilderException
+     * @param array $options Builder options
+     * @throws BuilderException
      */
-    public function __construct($options)
+    public function __construct(array $options = array())
     {
         if (!isset($options['name'])) {
-            throw new BuilderException("Please specify the controller name");
+            throw new BuilderException('Please specify the controller name.');
         }
+
         if (!isset($options['force'])) {
             $options['force'] = false;
         }
-        $this->_options = $options;
+
+        parent::__construct($options);
     }
 
     /**
@@ -60,59 +58,58 @@ class Controller extends Component
      */
     public function build()
     {
-        $path = realpath('.') . DIRECTORY_SEPARATOR;
-        if (isset($this->_options['directory']) && $this->_options['directory']) {
-            $path = $this->_options['directory'] . DIRECTORY_SEPARATOR;
+        if ($this->options->contains('directory')) {
+            $this->path->setRootPath($this->options->get('directory'));
         }
 
-        if (isset($this->_options['namespace']) && $this->_options['namespace']) {
-            $namespace = 'namespace '.$this->_options['namespace'].';'.PHP_EOL.PHP_EOL;
-        } else {
-            $namespace = '';
+        $namespace = '';
+        if ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
+            $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
         }
 
-        if (isset($this->_options['baseClass']) && $this->_options['baseClass']) {
-            $baseClass = $this->_options['baseClass'];
-        } else {
-            $baseClass = '\Phalcon\Mvc\Controller';
-        }
+        $baseClass = $this->options->get('baseClass', '\Phalcon\Mvc\Controller');
 
-        if (!isset($this->_options['controllersDir'])) {
-            $config = $this->_getConfig($path);
+        if (!$controllersDir = $this->options->get('controllersDir')) {
+            $config = $this->getConfig();
             if (!isset($config->application->controllersDir)) {
-                throw new BuilderException("Please specify a controller directory");
+                throw new BuilderException('Please specify a controller directory.');
             }
+
             $controllersDir = $config->application->controllersDir;
-        } else {
-            $controllersDir = $this->_options['controllersDir'];
         }
 
-        $name = $this->_options['name'];
-        $name = trim($name);
-
-        if (!$name) {
-            throw new BuilderException("The controller name is required");
+        if (!$this->options->contains('name')) {
+            throw new BuilderException('The controller name is required.');
         }
 
-        $name = str_replace(' ', '_', $name);
+        $name = str_replace(' ', '_', $this->options->get('name'));
 
         $className = Utils::camelize($name);
 
-        $controllerPath = $controllersDir . DIRECTORY_SEPARATOR . $className . "Controller.php";
+        // Oops! We are in APP_PATH and try to get controllersDir from outside from project dir
+        if ($this->isConsole() && substr($controllersDir, 0, 3) === '../') {
+            $controllersDir = ltrim($controllersDir, './');
+        }
+
+        $controllerPath = rtrim($controllersDir, '\\/') . DIRECTORY_SEPARATOR . $className . "Controller.php";
 
         $code = "<?php\n\n".$namespace."class ".$className."Controller extends ".$baseClass."\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
         $code = str_replace("\t", "    ", $code);
 
-        if (!file_exists($controllerPath) || $this->_options['force'] == true) {
-            if (!@file_put_contents($controllerPath, $code)) {
-                throw new BuilderException("Unable to write to '$controllerPath'");
+        if (file_exists($controllerPath)) {
+            if ($this->options->contains('force') && !is_writable($controllerPath)) {
+                throw new BuilderException(sprintf('Unable to write to %s. Check write-access of a file.', $controllerPath));
+            } else {
+                throw new BuilderException(sprintf('The Controller %s already exists.', $name));
             }
-        } else {
-            throw new BuilderException("The Controller '$name' already exists");
+        }
+
+        if (!@file_put_contents($controllerPath, $code)) {
+            throw new BuilderException(sprintf('Unable to write to %s.', $controllerPath));
         }
 
         if ($this->isConsole()) {
-            $this->_notifySuccess('Controller "' . $name . '" was successfully created.');
+            $this->_notifySuccess(sprintf('Controller "%s" was successfully created.', $name));
         }
 
         return $className . 'Controller.php';

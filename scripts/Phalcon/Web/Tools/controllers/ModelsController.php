@@ -21,6 +21,7 @@
 
 use Phalcon\Tag;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Text as Utils;
 
 class ModelsController extends ControllerBase
 {
@@ -30,7 +31,7 @@ class ModelsController extends ControllerBase
 
         if (!$this->modelsDir) {
             $this->flash->error(
-                "Sorry, Web Tools doesn't know where is the models directory. <br>" .
+                "Sorry, WebTools doesn't know where is the models directory. <br>" .
                 "Please add to <code>application</code> section <code>modelsDir</code> param with valid path."
             );
         }
@@ -54,6 +55,7 @@ class ModelsController extends ControllerBase
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
             $foreignKeys       = $this->request->getPost('foreignKeys', 'int');
             $defineRelations   = $this->request->getPost('defineRelations', 'int');
+            $mapcolumn         = $this->request->getPost('mapcolumn', 'int');
 
             try {
                 $component = '\Phalcon\Builder\Model';
@@ -70,7 +72,8 @@ class ModelsController extends ControllerBase
                     'defineRelations'       => $defineRelations,
                     'genSettersGetters'     => $genSettersGetters,
                     'namespace'             => $namespace,
-                    'schema'                => $schema
+                    'schema'                => $schema,
+                    'mapColumn'             => $mapcolumn
                 ));
 
                 $modelBuilder->build();
@@ -92,7 +95,7 @@ class ModelsController extends ControllerBase
                 if ($tableName == 'all') {
                     $this->flash->success('Models were created successfully.');
                 } else {
-                    $this->flash->success(sprintf('Model "%s" was created successfully', str_replace('.php', '', $tableName)));
+                    $this->flash->success(sprintf('Model "%s" was created successfully', Utils::camelize(str_replace('.php', '', $tableName))));
                 }
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());

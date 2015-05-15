@@ -13,24 +13,34 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Builder;
-
-use Phalcon\Exception;
+namespace Phalcon\Web;
 
 /**
- * Builder Exception
+ * Installer Interface
  *
- * Exception Builder made
- *
- * @package     Phalcon\Builder
+ * @package     Phalcon\Web
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class BuilderException extends Exception
+interface InstallerInterface
 {
+    /**
+     * Install resources
+     *
+     * @param  string $path Project root path
+     * @return $this
+     */
+    public function install($path);
+
+    /**
+     * Uninstall resources
+     *
+     * @param  string $path Project root path
+     * @return $this
+     */
+    public function uninstall($path);
 }

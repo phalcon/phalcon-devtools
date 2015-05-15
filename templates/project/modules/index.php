@@ -4,7 +4,14 @@ use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
 
+define('APP_PATH', realpath('..'));
+
 try {
+
+    /**
+     * Read the configuration
+     */
+    $config = @@configLoader@@;
 
     /**
      * Include services

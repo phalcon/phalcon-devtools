@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <eduar@phalconphp.com>                       |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
@@ -24,11 +24,15 @@ namespace Phalcon\Web;
 use Phalcon\Tag;
 
 /**
- * Phalcon\Web\CodeMirror
+ * CodeMirror Installer
  *
  * This class installs code-mirror in the app
+ *
+ * @package     Phalcon\Web
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
-class CodeMirror
+class CodeMirror implements InstallerInterface
 {
     /**
      * Import CodeMirror resources
@@ -54,10 +58,10 @@ class CodeMirror
     /**
      * Install CodeMirror resources
      *
-     * @param  string $path
-     * @return void
+     * @param  string $path Project root path
+     * @return $this
      */
-    public static function install($path)
+    public function install($path)
     {
         // Set paths
         $codemirror = realpath(__DIR__ . '/../../../') . '/resources/codemirror';
@@ -109,15 +113,17 @@ class CodeMirror
             copy($codemirror . '/lib/codephalcon.css', $css . '/codephalcon.css');
             copy($codemirror . '/theme/ambiance.css', $css . '/ambiance.css');
         }
+
+        return $this;
     }
 
     /**
-     * Remove CodeMirror resources
+     * Uninstall CodeMirror resources
      *
-     * @param  string $path
-     * @return void
+     * @param  string $path Project root path
+     * @return $this
      */
-    public static function uninstall($path)
+    public function uninstall($path)
     {
         $js  = $path . 'public/js';
         $css = $path . 'public/css';
@@ -178,5 +184,7 @@ class CodeMirror
                 }
             }
         }
+
+        return $this;
     }
 }

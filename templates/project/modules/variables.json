@@ -1,11 +1,11 @@
 {
     "useConfigIni": {
         "true": {
-            "configLoader": "new Ini(__DIR__ . \"/config/config.ini\")",
+            "configLoader": "new Ini(APP_PATH  . \"/apps/frontend/config/config.ini\")",
             "iniConfigImport": "use Phalcon\\Config\\Adapter\\Ini;"
         },
         "false": {
-            "configLoader": "include __DIR__ . \"/config/config.php\"",
+            "configLoader": "include APP_PATH . \"/apps/frontend/config/config.php\"",
             "iniConfigImport": ""
         }
     }
