@@ -68,12 +68,25 @@ class AllModels extends Command
 
         $config = null;
         if (!$this->isReceivedOption('models')) {
-            $fileType = file_exists($path . "app/config/config.ini") ? "ini" : "php";
+          
+            // Check in the app config directory but also check in the micro-app config directory
+            if(file_exists($path . "app/config/config.ini") || file_exists($path . "config/config.ini")){
+                $fileType = 'ini';
+            } else {
+                $fileType = 'php';
+            }
 
             if ($this->isReceivedOption('config')) {
                 $configPath = $path.$this->getOption('config')."/config.".$fileType;
             } else {
-                $configPath = $path."app/config/config." . $fileType;
+                // Check for the app config files
+                if(file_exists($path."app/config/config.".$fileType)){
+                    // Single/Multi-module config
+                    $configPath = $path."app/config/config.".$fileType;
+                } elseif(file_exists($path."config/config.".$fileType)){
+                    // Micro-app config
+                    $configPath = $path."config/config.".$fileType;
+                }
             }
 
             if ($fileType == 'ini') {
