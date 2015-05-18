@@ -309,9 +309,10 @@ class Tools
 
             $di->set('flash', function () {
                 return new Flash(array(
-                    'error' => 'alert alert-error',
+                    'error' => 'alert alert-danger',
                     'success' => 'alert alert-success',
                     'notice' => 'alert alert-info',
+                    'warning' => 'alert alert-warning'
                 ));
             });
 
