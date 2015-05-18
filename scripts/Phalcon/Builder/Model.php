@@ -383,9 +383,9 @@ class Model extends Component
                     $templateRelation,
                     'hasMany',
                     $refColumns[0],
-                    $entityNamespace . ucfirst($tableName),
+                    $entityNamespace . Utils::camelize($tableName),
                     $columns[0],
-                    "array('alias' => '" . ucfirst($tableName) . "')"
+                    "array('alias' => '" . Utils::camelize($tableName) . "')"
                 );
             }
         }
@@ -403,9 +403,9 @@ class Model extends Component
                 $templateRelation,
                 'belongsTo',
                 $columns[0],
-                $entityNamespace . ucfirst($reference->getReferencedTable()),
+                $entityNamespace . Utils::camelize($reference->getReferencedTable()),
                 $refColumns[0],
-                "array('alias' => '" . ucfirst($reference->getReferencedTable()) . "')"
+                "array('alias' => '" . Utils::camelize($reference->getReferencedTable()) . "')"
             );
         }
 
