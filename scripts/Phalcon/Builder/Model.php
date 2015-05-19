@@ -234,9 +234,9 @@ class Model extends Component
                 $initialize[] = $this->snippet->getRelation(
                     'hasMany',
                     $refColumns[0],
-                    $entityNamespace . ucfirst($tableName),
+                    $entityNamespace . Utils::camelize($tableName),
                     $columns[0],
-                    "array('alias' => '" . ucfirst($tableName) . "')"
+                    "array('alias' => '" . Utils::camelize($tableName) . "')"
                 );
             }
         }
@@ -252,9 +252,9 @@ class Model extends Component
             $initialize[] = $this->snippet->getRelation(
                 'belongsTo',
                 $columns[0],
-                $entityNamespace . ucfirst($reference->getReferencedTable()),
+                $entityNamespace . Utils::camelize($reference->getReferencedTable()),
                 $refColumns[0],
-                "array('alias' => '" . ucfirst($reference->getReferencedTable()) . "')"
+                "array('alias' => '" . Utils::camelize($reference->getReferencedTable()) . "')"
             );
         }
 
@@ -290,7 +290,7 @@ class Model extends Component
                         continue;
                     }
 
-                    $entityName = $relation['referencedModel'];
+                    $entityName = Utils::camelize($relation['referencedModel']);
                     $entityNamespace = '';
                     if ($this->options->contains('namespace')) {
                         $entityNamespace = $this->options->get('namespace')."\\";
