@@ -25,6 +25,7 @@ use Phalcon\Script;
 use Phalcon\Script\Color;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
+use Phalcon\Builder\Path;
 
 /**
  * Command Class
@@ -65,6 +66,8 @@ abstract class Command implements CommandsInterface
      */
     protected $_preparedArguments = array();
 
+    protected $path;
+
     /**
      * Phalcon\Commands\Command
      *
@@ -75,6 +78,7 @@ abstract class Command implements CommandsInterface
     {
         $this->_script = $script;
         $this->_eventsManager = $eventsManager;
+        $this->path = new Path();
     }
 
     /**

@@ -21,6 +21,7 @@
 
 use Phalcon\Tag;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Builder\Controller as ControllerBuilder;
 
 class ControllersController extends ControllerBase
 {
@@ -28,7 +29,7 @@ class ControllersController extends ControllerBase
     {
         if (!$this->controllersDir) {
             $this->flash->error(
-                "Sorry, Web Tools doesn't know where is the controllers directory. <br>" .
+                "Sorry, WebTools doesn't know where is the controllers directory. <br>" .
                 "Please add to <code>application</code> section <code>controllersDir</code> param with valid path."
             );
         }
@@ -51,7 +52,7 @@ class ControllersController extends ControllerBase
             $baseClass      = $this->request->getPost('baseClass');
 
             try {
-                $controllerBuilder = new \Phalcon\Builder\Controller(array(
+                $controllerBuilder = new ControllerBuilder(array(
                     'name'           => $controllerName,
                     'directory'      => $directory,
                     'namespace'      => $namespace,

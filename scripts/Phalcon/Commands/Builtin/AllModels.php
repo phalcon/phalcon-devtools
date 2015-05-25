@@ -23,7 +23,9 @@ namespace Phalcon\Commands\Builtin;
 use Phalcon\Builder\AllModels as AllModelsBuilder;
 use Phalcon\Builder;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Config;
 use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsException;
 
 /**
  * AllModels Command
@@ -58,37 +60,50 @@ class AllModels extends Command
      *
      * @param $parameters
      * @return void
+     * @throws CommandsException
      */
     public function run($parameters)
     {
-        $path = '';
         if ($this->isReceivedOption('directory')) {
-            $path = $this->getOption('directory') . '/';
+            if (false == $this->path->isAbsolutePath($this->getOption('directory'))) {
+                $this->path->appendRootPath($this->getOption('directory'));
+            } else {
+                $this->path->setRootPath($this->getOption('directory'));
+            }
         }
 
-        $config = null;
-        if (!$this->isReceivedOption('models')) {
-            $fileType = file_exists($path . "app/config/config.ini") ? "ini" : "php";
-
-            if ($this->isReceivedOption('config')) {
-                $configPath = $path.$this->getOption('config')."/config.".$fileType;
+        if ($this->isReceivedOption('config')) {
+            if (false == $this->path->isAbsolutePath($this->getOption('config'))) {
+                $configPath = $this->path->getRootPath() . $this->getOption('config');
             } else {
-                $configPath = $path."app/config/config." . $fileType;
+                $configPath = $this->getOption('config');
             }
 
-            if ($fileType == 'ini') {
+            if (preg_match('/.*(:?\.ini)(?:\s)?$/i', $configPath)) {
                 $config = new ConfigIni($configPath);
             } else {
                 $config = include $configPath;
+
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
             }
 
-            if (file_exists($path.'public')) {
-                $modelsDir = 'public/'.$config->application->modelsDir;
-            } else {
-                $modelsDir = $config->application->modelsDir;
+        } else {
+            $config = $this->path->getConfig();
+        }
+
+        if (!$this->isReceivedOption('models')) {
+            if (!isset($config->application->modelsDir)) {
+                throw new CommandsException("Builder doesn't know where is the models directory.");
             }
+            $modelsDir = rtrim($config->application->modelsDir, '\\/') . DIRECTORY_SEPARATOR;
         } else {
             $modelsDir = $this->getOption('models');
+        }
+
+        if (false == $this->path->isAbsolutePath($modelsDir)) {
+            $modelsDir = $this->path->getRootPath($modelsDir);
         }
 
         $modelBuilder = new AllModelsBuilder(array(

@@ -25,9 +25,9 @@ run_profile(){
 		. $HOME/.profile
 	elif [ -e $HOME/.bashrc ]; then
 		. $HOME/.bashrc
-	elif [ -e $HOME/.zshrc]; then
+	elif [ -e $HOME/.zshrc ]; then
 		. $HOME/.zshrc
-	elif [ -e $HOME/.config/fish/config.fish]; then
+	elif [ -e $HOME/.config/fish/config.fish ]; then
 		. $HOME/.config/fish/config.fish
 	fi
 }
@@ -48,5 +48,4 @@ else
 	else
 		echo "Error: Add environment variable PTOOLSPATH, unknown shell type"
 	fi
-	
 fi

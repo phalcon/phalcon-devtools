@@ -55,7 +55,7 @@ class MigrationsController extends ControllerBase
     {
         if (!$this->migrationsDir) {
             $this->flash->error(
-                "Sorry, Web Tools doesn't know where is the migrations directory. <br>" .
+                "Sorry, WebTools doesn't know where is the migrations directory. <br>" .
                 "Please add to <code>application</code> section <code>migrationsDir</code> param with real path."
             );
         }

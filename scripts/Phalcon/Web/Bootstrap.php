@@ -15,99 +15,100 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Web;
 
 /**
- * Phalcon\Web\TBootstrap
+ * Bootstrap Installer
  *
  * Install/Uninstall Twitter Bootstrap resources
+ *
+ * @package     Phalcon\Web
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
-class TBootstrap
+class Bootstrap implements InstallerInterface
 {
     /**
      * Install Twitter Bootstrap resources
      *
-     * @param  string $path
-     * @return void
+     * @param  string $path Project root path
+     * @return $this
      */
-    public static function install($path)
+    public function install($path)
     {
         // Set paths
         $bootstrapRoot = realpath(__DIR__ . '/../../../') . '/resources/bootstrap';
-        $jqueryRoot    = realpath(__DIR__ . '/../../../') . '/resources/jquery';
-
-        $jsBootstrapDir = $path . 'public/js/bootstrap';
-        $jsJqueryDir    = $path . 'public/js/jquery';
-
+        $js = $path . 'public/js/bootstrap';
         $css = $path . 'public/css/bootstrap';
-        $img = $path . 'public/img/bootstrap';
+        $fonts = $path . 'public/fonts/bootstrap';
 
         // Install bootstrap
-        if (! is_dir($jsBootstrapDir)) {
-            mkdir($jsBootstrapDir, 0777, true);
-            touch($jsBootstrapDir . '/index.html');
-            copy($bootstrapRoot . '/js/bootstrap.min.js', $jsBootstrapDir . '/bootstrap.min.js');
+        if (!is_dir($js)) {
+            mkdir($js, 0777, true);
+            touch($js . '/index.html');
+            copy($bootstrapRoot . '/js/bootstrap.min.js', $js . '/bootstrap.min.js');
         }
 
-        if (! is_dir($css)) {
+        if (!is_dir($css)) {
             mkdir($css, 0777, true);
             touch($css . '/index.html');
+            copy($bootstrapRoot . '/css/dashboard.css', $css . '/dashboard.css');
             copy($bootstrapRoot . '/css/bootstrap.min.css', $css . '/bootstrap.min.css');
-            copy($bootstrapRoot . '/css/bootstrap-responsive.min.css', $css . '/bootstrap-responsive.min.css');
         }
 
-        if (! is_dir($img)) {
-            mkdir($img, 0777, true);
-            touch($img . '/index.html');
-            copy($bootstrapRoot . '/img/glyphicons-halflings.png', $img . '/glyphicons-halflings.png');
+        if (!is_dir($fonts)) {
+            mkdir($fonts, 0777, true);
+            touch($fonts . '/index.html');
+            copy($bootstrapRoot . '/fonts/glyphicons-halflings-regular.eot', $fonts . '/glyphicons-halflings-regular.eot');
+            copy($bootstrapRoot . '/fonts/glyphicons-halflings-regular.svg', $fonts . '/glyphicons-halflings-regular.svg');
+            copy($bootstrapRoot . '/fonts/glyphicons-halflings-regular.ttf', $fonts . '/glyphicons-halflings-regular.ttf');
+            copy($bootstrapRoot . '/fonts/glyphicons-halflings-regular.woff', $fonts . '/glyphicons-halflings-regular.woff');
+            copy($bootstrapRoot . '/fonts/glyphicons-halflings-regular.woff2', $fonts . '/glyphicons-halflings-regular.woff2');
         }
 
-        // Install jQuery
-        if (! is_dir($jsJqueryDir)) {
-            mkdir($jsJqueryDir, 0777, true);
-            touch($jsJqueryDir . '/index.html');
-            copy($jqueryRoot . '/jquery.min.js', $jsJqueryDir . '/jquery.min.js');
-        }
+        return $this;
     }
 
     /**
-     * Remove Twitter Bootstrap resources
+     * Uninstall Twitter Bootstrap resources
      *
-     * @param  string $path
-     * @return void
+     * @param  string $path Project root path
+     * @return $this
      */
-    public static function uninstall($path)
+    public function uninstall($path)
     {
         $js  = $path . 'public/js';
         $css = $path . 'public/css';
-        $img = $path . 'public/img';
+        $fonts = $path . 'public/fonts';
 
         $installed = array(
 
             // Files:
             $js . '/bootstrap/bootstrap.min.js',
             $js . '/bootstrap/index.html',
-            $js . '/jquery/jquery.min.js',
-            $js . '/jquery/index.html',
             $css . '/bootstrap/bootstrap.min.css',
-            $css . '/bootstrap/bootstrap-responsive.min.css',
+            $css . '/bootstrap/dashboard.css',
             $css . '/bootstrap/index.html',
-            $img . '/bootstrap/glyphicons-halflings.png',
-            $img . '/bootstrap/index.html',
+            $fonts . '/bootstrap/glyphicons-halflings-regular.eot',
+            $fonts . '/bootstrap/glyphicons-halflings-regular.svg',
+            $fonts . '/bootstrap/glyphicons-halflings-regular.ttf',
+            $fonts . '/bootstrap/glyphicons-halflings-regular.woff',
+            $fonts . '/bootstrap/glyphicons-halflings-regular.woff2',
+            $fonts . '/bootstrap/index.html',
 
             // Sub-directories:
             $js . '/bootstrap',
-            $js . '/jquery',
             $css . '/bootstrap',
-            $img . '/bootstrap',
+            $fonts . '/bootstrap',
 
             // Directories:
             $js,
             $css,
-            $img
+            $fonts
         );
 
         foreach ($installed as $file) {
@@ -120,5 +121,7 @@ class TBootstrap
                 }
             }
         }
+
+        return $this;
     }
 }

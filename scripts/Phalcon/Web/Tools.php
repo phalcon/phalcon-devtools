@@ -309,9 +309,10 @@ class Tools
 
             $di->set('flash', function () {
                 return new Flash(array(
-                    'error' => 'alert alert-error',
+                    'error'   => 'alert alert-danger',
                     'success' => 'alert alert-success',
-                    'notice' => 'alert alert-info',
+                    'notice'  => 'alert alert-info',
+                    'warning' => 'alert alert-warning'
                 ));
             });
 
@@ -355,12 +356,12 @@ class Tools
      * Install webtools
      *
      * @param  string     $path
-     * @return void
+     * @return bool
      * @throws \Exception if document root cannot be located
      */
     public static function install($path)
     {
-        $path = rtrim(realpath($path), '/') . '/';
+        $path = realpath($path) . DIRECTORY_SEPARATOR;
         $tools = realpath(__DIR__ . '/../../../');
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -372,8 +373,9 @@ class Tools
             throw new \Exception('Document root cannot be located');
         }
 
-        TBootstrap::install($path);
-        CodeMirror::install($path);
+        (new Bootstrap())->install($path);
+        (new CodeMirror())->install($path);
+        (new JQuery())->install($path);
 
         copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
@@ -383,19 +385,21 @@ class Tools
 
             file_put_contents($configPath, $code);
         }
+
+        return true;
     }
 
     /**
      * Uninstall webtools
      *
      * @param  string $path
-     * @return void
+     * @return bool
      *
      * @throws \Exception
      */
     public static function uninstall($path)
     {
-        $path = realpath($path) . '/';
+        $path = realpath($path) . DIRECTORY_SEPARATOR;
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $path = str_replace("\\", '/', $path);
         }
@@ -404,8 +408,9 @@ class Tools
             throw new \Exception('Document root cannot be located');
         }
 
-        TBootstrap::uninstall($path);
-        CodeMirror::uninstall($path);
+        (new Bootstrap())->uninstall($path);
+        (new CodeMirror())->uninstall($path);
+        (new JQuery())->uninstall($path);
 
         if (is_file($path . 'public/webtools.config.php')) {
             unlink($path . 'public/webtools.config.php');
@@ -414,5 +419,7 @@ class Tools
         if (is_file($path . 'public/webtools.php')) {
             unlink($path . 'public/webtools.php');
         }
+
+        return true;
     }
 }

@@ -1,47 +1,67 @@
 <?php
-
 /**
  * Local variables
  * @var \Phalcon\Mvc\View\Engine $this
+ * @var string $directory
  */
-
 ?>
-<?php echo $this->getContent() ?>
 
-<h1>Create Controller</h1>
+<h1 class="page-header">Create Controller</h1>
 
-<form method="post" autocomplete="off" class="form-horizontal" action="<?php echo $this->url->get("webtools.php?_url=/controllers/create") ?>">
-    <fieldset>
-        <div class="control-group">
-            <label class="control-label" for="name">Controller name</label>
-            <div class="controls">
-                <?php echo $this->tag->textField(array('name', 'placeholder' => 'Class name')) ?>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="namespace">Namespace</label>
-            <div class="controls">
-                <?php echo $this->tag->textField(array('namespace')) ?>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="baseClass">Base class</label>
-            <div class="controls">
-                <?php echo $this->tag->textField(array('baseClass')) ?>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="directory">Project Root</label>
-            <div class="controls">
-                <?php echo $this->tag->textField(array('directory', 'value' => $directory)) ?>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->getContent() ?>
+    </div>
+</div>
 
-        <label class="checkbox">
-            <input type="checkbox" name="force" value="1"/>Force
-        </label>
-        <div align="right">
-            <input type="submit" class="btn btn-primary" value="Generate"/>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="row">
+            <form class="form-horizontal" autocomplete="off" method="post" action="<?php echo $this->url->get("webtools.php?_url=/controllers/create") ?>">
+                <div class="form-group">
+                    <label for="name" class="col-sm-4 control-label">Controller name</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('name', 'placeholder' => 'Class name', 'class' => 'form-control', 'id' => 'name')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="namespace" class="col-sm-4 control-label">Namespace</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('namespace', 'placeholder' => 'eg. My\Awesome\Namespace', 'class' => 'form-control', 'id' => 'namespace')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="baseClass" class="col-sm-4 control-label">Base class</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('baseClass', 'placeholder' => 'eg. BaseController', 'class' => 'form-control', 'id' => 'baseClass')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="directory" class="col-sm-4 control-label">Project Root</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('directory', 'placeholder' => 'Absolute path to the project', 'value' => $directory, 'class' => 'form-control', 'id' => 'directory')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="checkbox">
+                            <label for="force">
+                                <?php echo $this->tag->checkField(array('force', 'id' => 'force', 'value' => 1)) ?> Force
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8 text-right">
+                        <button type="submit" class="btn btn-primary">Generate</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </fieldset>
-</form>
+    </div>
+</div>
