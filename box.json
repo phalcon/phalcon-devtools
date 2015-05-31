@@ -1,0 +1,24 @@
+{
+  "directories": "resources",
+  "files": "webtools.php",
+  "finder": [
+    {
+      "exclude": [
+        "CONTRIBUTING.md",
+        "README.md",
+        "LICENSE",
+        "phalcon.bat",
+        "phalcon.sh"
+      ],
+      "in": "scripts",
+      "name": [
+        "*.phtml",
+        "*.php"
+      ]
+    }
+  ],
+  "git-version": "git_tag",
+  "main": "phalcon.php",
+  "output": "phalcon.phar",
+  "stub": true
+}
