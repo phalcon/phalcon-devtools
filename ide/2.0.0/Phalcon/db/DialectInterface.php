@@ -38,7 +38,7 @@ interface DialectInterface
      * @param array $definition 
      * @return string 
      */
-	public function select($definition);
+	public function select(array $definition);
 
     /**
      * Gets a list of columns
@@ -182,7 +182,7 @@ interface DialectInterface
      * @param  $string tableName
      * @return  
      */
-	public function createTable($tableName, $schemaName, $definition);
+	public function createTable($tableName, $schemaName, array $definition);
 
     /**
      * Generates SQL to drop a table

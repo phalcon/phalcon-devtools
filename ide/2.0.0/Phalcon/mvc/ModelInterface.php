@@ -94,14 +94,12 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array
      *
-     * @param array $data 
-     * @param mixed $dataColumnMap 
-     * @param mixed $whiteList 
-     * @param \Phalcon\Mvc\Model $object 
-     * @param array $columnMap 
-     * @return \Phalcon\Mvc\Model 
+     * @param array data
+     * @param array dataColumnMap array to transform keys of data to another
+     * @param array whiteList
+     * @return Phalcon\Mvc\Model
      */
-	public function assign($data, $dataColumnMap = null, $whiteList = null);
+	public function assign(array $data, $dataColumnMap = null, $whiteList = null);
 
     /**
      * Assigns values to a model from an array returning a new model
