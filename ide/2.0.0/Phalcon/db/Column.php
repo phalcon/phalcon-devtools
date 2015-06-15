@@ -55,6 +55,26 @@ class Column implements \Phalcon\Db\ColumnInterface
     const TYPE_DOUBLE = 9;
 
     /**
+     * Tinyblob abstract data type
+     */
+    const TYPE_TINYBLOB = 10;
+
+    /**
+     * Blob abstract data type
+     */
+    const TYPE_BLOB = 11;
+
+    /**
+     * Mediumblob abstract data type
+     */
+    const TYPE_MEDIUMBLOB = 12;
+
+    /**
+     * Longblob abstract data type
+     */
+    const TYPE_LONGBLOB = 13;
+
+    /**
      * Bind Type Null
      */
     const BIND_PARAM_NULL = 0;

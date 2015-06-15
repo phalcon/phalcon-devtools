@@ -214,6 +214,18 @@ class Migration
                 case Column::TYPE_DOUBLE:
                     $fieldDefinition[] = "'type' => Column::TYPE_DOUBLE";
                     break;
+                case Column::TYPE_TINYBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_TINYBLOB";
+                    break;
+                case Column::TYPE_BLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_BLOB";
+                    break;
+                case Column::TYPE_MEDIUMBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_MEDIUMBLOB";
+                    break;
+                case Column::TYPE_LONGBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_LONGBLOB";
+                    break;
                 default:
                     throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
             }
