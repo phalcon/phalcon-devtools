@@ -434,8 +434,8 @@ class Model extends Component
         $getters = array();
         foreach ($fields as $field) {
             $type = $this->getPHPType($field->getType());
-            if ($useSettersGetters) {
-                if (!array_key_exists(strtolower($field->getName()), $exclude)) {
+            if (!array_key_exists(strtolower($field->getName()), $exclude)) {
+                if ($useSettersGetters) {
                     $attributes[] = $this->snippet->getAttributes($type, 'protected', $field->getName());
                     $setterName = Utils::camelize($field->getName());
                     $setters[] = $this->snippet->getSetter($field->getName(), $type, $setterName);
@@ -445,9 +445,9 @@ class Model extends Component
                     } else {
                         $getters[] = $this->snippet->getGetter($field->getName(), $type, $setterName);
                     }
+                } else {
+                    $attributes[] = $this->snippet->getAttributes($type, 'public', $field->getName());
                 }
-            } else {
-                $attributes[] = $this->snippet->getAttributes($type, 'public', $field->getName());
             }
         }
 
