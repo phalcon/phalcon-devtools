@@ -92,9 +92,9 @@ class Path
         return $this;
     }
 
-    public function getRootPath($pathPath = null)
+    public function getRootPath($path = null)
     {
-        return $this->rootPath . ($pathPath ? trim($pathPath, '\\/') . DIRECTORY_SEPARATOR : '');
+        return $this->rootPath . ($path ? trim($path, '\\/') . DIRECTORY_SEPARATOR : '');
     }
 
     public function appendRootPath($pathPath)
