@@ -2,6 +2,24 @@
 
 namespace Phalcon\Db;
 
+/**
+ * Phalcon\Db\Column
+ * Allows to define columns to be used on create or alter table operations
+ * <code>
+ * use Phalcon\Db\Column as Column;
+ * //column definition
+ * $column = new Column("id", array(
+ * "type" => Column::TYPE_INTEGER,
+ * "size" => 10,
+ * "unsigned" => true,
+ * "notNull" => true,
+ * "autoIncrement" => true,
+ * "first" => true
+ * ));
+ * //add column to existing table
+ * $connection->addColumn("robots", null, $column);
+ * </code>
+ */
 class Column implements \Phalcon\Db\ColumnInterface
 {
     /**
@@ -53,6 +71,26 @@ class Column implements \Phalcon\Db\ColumnInterface
      * Double abstract data type
      */
     const TYPE_DOUBLE = 9;
+
+    /**
+     * Tinyblob abstract data type
+     */
+    const TYPE_TINYBLOB = 10;
+
+    /**
+     * Blob abstract data type
+     */
+    const TYPE_BLOB = 11;
+
+    /**
+     * Mediumblob abstract data type
+     */
+    const TYPE_MEDIUMBLOB = 12;
+
+    /**
+     * Longblob abstract data type
+     */
+    const TYPE_LONGBLOB = 13;
 
     /**
      * Bind Type Null
@@ -194,54 +232,54 @@ class Column implements \Phalcon\Db\ColumnInterface
      *
      * @return string 
      */
-	public function getName() {}
+    public function getName() {}
 
     /**
      * Schema which table related is
      *
      * @return string 
      */
-	public function getSchemaName() {}
+    public function getSchemaName() {}
 
     /**
      * Column data type
      *
      * @return int|string 
      */
-	public function getType() {}
+    public function getType() {}
 
     /**
      * Column data type reference
      *
      * @return int 
      */
-	public function getTypeReference() {}
+    public function getTypeReference() {}
 
     /**
      * Column data type values
      *
      * @return array|string 
      */
-	public function getTypeValues() {}
+    public function getTypeValues() {}
 
     /**
      * Integer column size
      *
      * @return int 
      */
-	public function getSize() {}
+    public function getSize() {}
 
     /**
      * Integer column number scale
      *
      * @return int 
      */
-	public function getScale() {}
+    public function getScale() {}
 
     /**
      * Default column value
      */
-	public function getDefault() {}
+    public function getDefault() {}
 
     /**
      * Phalcon\Db\Column constructor
@@ -249,63 +287,63 @@ class Column implements \Phalcon\Db\ColumnInterface
      * @param string $name 
      * @param array $definition 
      */
-	public function __construct($name, $definition) {}
+    public function __construct($name, $definition) {}
 
     /**
      * Returns true if number column is unsigned
      *
      * @return bool 
      */
-	public function isUnsigned() {}
+    public function isUnsigned() {}
 
     /**
      * Not null
      *
      * @return bool 
      */
-	public function isNotNull() {}
+    public function isNotNull() {}
 
     /**
      * Column is part of the primary key?
      *
      * @return bool 
      */
-	public function isPrimary() {}
+    public function isPrimary() {}
 
     /**
      * Auto-Increment
      *
      * @return bool 
      */
-	public function isAutoIncrement() {}
+    public function isAutoIncrement() {}
 
     /**
      * Check whether column have an numeric type
      *
      * @return bool 
      */
-	public function isNumeric() {}
+    public function isNumeric() {}
 
     /**
      * Check whether column have first position in table
      *
      * @return bool 
      */
-	public function isFirst() {}
+    public function isFirst() {}
 
     /**
      * Check whether field absolute to position in table
      *
      * @return string 
      */
-	public function getAfterPosition() {}
+    public function getAfterPosition() {}
 
     /**
      * Returns the type of bind handling
      *
      * @return int 
      */
-	public function getBindType() {}
+    public function getBindType() {}
 
     /**
      * Restores the internal state of a Phalcon\Db\Column object
@@ -313,6 +351,6 @@ class Column implements \Phalcon\Db\ColumnInterface
      * @param array $data 
      * @return Column 
      */
-	public static function __set_state($data) {}
+    public static function __set_state($data) {}
 
 }
