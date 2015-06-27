@@ -92,6 +92,16 @@ class Column implements \Phalcon\Db\ColumnInterface
      */
     const TYPE_LONGBLOB = 13;
 
+	/**
+	 * Longblob abstract data type
+	 */
+	const TYPE_JSON = 14;
+
+	/**
+	 * Longblob abstract data type
+	 */
+	const TYPE_JSONB = 15;
+
     /**
      * Bind Type Null
      */

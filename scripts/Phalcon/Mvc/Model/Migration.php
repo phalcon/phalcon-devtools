@@ -206,11 +206,11 @@ class Migration
                     $fieldDefinition[] = "'type' => Column::TYPE_TEXT";
                     break;
                 case Column::TYPE_BOOLEAN:
-                                        $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
-                                        break;
-                                case Column::TYPE_FLOAT:
-                                        $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
-                                        break;
+	                $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
+	                break;
+	            case Column::TYPE_FLOAT:
+		            $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
+		            break;
                 case Column::TYPE_DOUBLE:
                     $fieldDefinition[] = "'type' => Column::TYPE_DOUBLE";
                     break;
@@ -226,6 +226,12 @@ class Migration
                 case Column::TYPE_LONGBLOB:
                     $fieldDefinition[] = "'type' => Column::TYPE_LONGBLOB";
                     break;
+	            case Column::TYPE_JSON:
+		            $fieldDefinition[] = "'type' => Column::TYPE_JSON";
+		            break;
+	            case Column::TYPE_JSONB:
+		            $fieldDefinition[] = "'type' => Column::TYPE_JSONB";
+		            break;
                 default:
                     throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
             }
