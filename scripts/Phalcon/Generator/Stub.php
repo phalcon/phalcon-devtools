@@ -314,6 +314,5 @@ class Stub
         rmdir($dir);
     }
 }
-
-$s = new Stub('phalcon', __DIR__ . '/../../../ide/phpstorm');
+$s = new Stub('phalcon', __DIR__ . '/../../../ide');
 $s->generate();
