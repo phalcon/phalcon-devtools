@@ -61,6 +61,22 @@ ln -s ~/devtools/phalcon.php /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```
 
+## Build `.phar`
+
+Install composer and box in a common location or in your project:
+```bash
+curl -s http://getcomposer.org/installer | php
+bin/composer install
+```
+
+Build phar file `phalcon-devtools`
+```bash
+bin/box build -v
+chmod +xr ./phalcon.phar
+# Test it!
+php ./phalcon.phar
+```
+
 ## Installation via PEAR
 
 Phalcon Devtools can be installed using PEAR. Since the current version of Devtools
