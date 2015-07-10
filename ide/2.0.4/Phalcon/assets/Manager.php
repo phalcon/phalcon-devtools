@@ -60,10 +60,17 @@ class Manager
      * </code>
      *
      * @param string $path 
+<<<<<<< HEAD
      * @param mixed $local 
      * @param mixed $filter 
      * @param mixed $attributes 
      * @return Manager 
+=======
+     * @param boolean $local 
+     * @param boolean $filter 
+     * @param array $attributes 
+     * @return \Phalcon\Assets\Manager 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addCss($path, $local = true, $filter = true, $attributes = null) {}
 
@@ -71,9 +78,15 @@ class Manager
      * Adds a inline Css to the 'css' collection
      *
      * @param string $content 
+<<<<<<< HEAD
      * @param mixed $filter 
      * @param mixed $attributes 
      * @return Manager 
+=======
+     * @param boolean $filter 
+     * @param array $attributes 
+     * @return \Phalcon\Assets\Manager 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addInlineCss($content, $filter = true, $attributes = null) {}
 
@@ -85,10 +98,17 @@ class Manager
      * </code>
      *
      * @param string $path 
+<<<<<<< HEAD
      * @param mixed $local 
      * @param mixed $filter 
      * @param mixed $attributes 
      * @return Manager 
+=======
+     * @param boolean $local 
+     * @param boolean $filter 
+     * @param array $attributes 
+     * @return \Phalcon\Assets\Manager 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addJs($path, $local = true, $filter = true, $attributes = null) {}
 
@@ -96,9 +116,15 @@ class Manager
      * Adds a inline javascript to the 'js' collection
      *
      * @param string $content 
+<<<<<<< HEAD
      * @param mixed $filter 
      * @param mixed $attributes 
      * @return Manager 
+=======
+     * @param boolean $filter 
+     * @param array $attributes 
+     * @return \Phalcon\Assets\Manager 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addInlineJs($content, $filter = true, $attributes = null) {}
 

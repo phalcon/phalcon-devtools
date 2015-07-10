@@ -298,6 +298,25 @@ interface ModelInterface
     public function skipOperation($skip);
 
     /**
+<<<<<<< HEAD
+=======
+     * Reads an attribute value by its name
+     *
+     * @param string $attribute 
+     * @return mixed 
+     */
+    public function readAttribute($attribute);
+
+    /**
+     * Writes an attribute value by its name
+     *
+     * @param string $attribute 
+     * @param mixed $value 
+     */
+    public function writeAttribute($attribute, $value);
+
+    /**
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Returns related records based on defined relations
      *
      * @param string $alias 

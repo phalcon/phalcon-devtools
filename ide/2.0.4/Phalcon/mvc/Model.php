@@ -4,6 +4,7 @@ namespace Phalcon\Mvc;
 
 /**
  * Phalcon\Mvc\Model
+<<<<<<< HEAD
  * Phalcon\Mvc\Model connects business objects and database tables to create
  * a persistable domain model where logic and data are presented in one wrapping.
  * It‘s an implementation of the object-relational mapping (ORM).
@@ -13,6 +14,17 @@ namespace Phalcon\Mvc;
  * The bulk of your application's business logic will be concentrated in the models.
  * Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
  * when interacting with databases while is also easy to use.
+=======
+ * <p>Phalcon\Mvc\Model connects business objects and database tables to create
+ * a persistable domain model where logic and data are presented in one wrapping.
+ * It‘s an implementation of the object-relational mapping (ORM).</p>
+ * <p>A model represents the information (data) of the application and the rules to manipulate that data.
+ * Models are primarily used for managing the rules of interaction with a corresponding database table.
+ * In most cases, each table in your database will correspond to one model in your application.
+ * The bulk of your application's business logic will be concentrated in the models.</p>
+ * <p>Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
+ * when interacting with databases while is also easy to use.</p>
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * <code>
  * $robot = new Robots();
  * $robot->type = 'mechanical';
@@ -28,7 +40,11 @@ namespace Phalcon\Mvc;
  * }
  * </code>
  */
+<<<<<<< HEAD
 abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
+=======
+abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 {
 
     const OP_NONE = 0;
@@ -383,7 +399,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * echo "The first virtual robot name is ", $robot->name;
      * </code>
      *
+<<<<<<< HEAD
      * @param string|array $parameters 
+=======
+     * @param array $parameters 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * @return \Phalcon\Mvc\Model 
      */
     public static function findFirst($parameters = null) {}
@@ -729,9 +749,15 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * ));
      * </code>
      *
+<<<<<<< HEAD
      * @param mixed $data 
      * @param mixed $whiteList 
      * @return bool 
+=======
+     * @param array $data 
+     * @param array $whiteList 
+     * @return boolean 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function create($data = null, $whiteList = null) {}
 
@@ -745,9 +771,15 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * $robot->update();
      * </code>
      *
+<<<<<<< HEAD
      * @param mixed $data 
      * @param mixed $whiteList 
      * @return bool 
+=======
+     * @param array $data 
+     * @param array $whiteList 
+     * @return boolean 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function update($data = null, $whiteList = null) {}
 
@@ -1104,7 +1136,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param string $method 
      * @param mixed $arguments 
      */
+<<<<<<< HEAD
     public function __call($method, $arguments) {}
+=======
+    public function __call($method, $arguments = null) {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Handles method calls when a static method is not implemented

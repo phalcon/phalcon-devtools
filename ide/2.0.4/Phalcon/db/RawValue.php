@@ -38,7 +38,11 @@ class RawValue
     /**
      * Phalcon\Db\RawValue constructor
      *
+<<<<<<< HEAD
      * @param mixed $value 
+=======
+     * @param string $value 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function __construct($value) {}
 

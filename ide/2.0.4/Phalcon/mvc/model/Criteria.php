@@ -83,6 +83,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function bindTypes($bindTypes) {}
 
     /**
+<<<<<<< HEAD
      * Sets SELECT DISTINCT / SELECT ALL flag
      *
      * @param mixed $distinct 
@@ -91,6 +92,8 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function distinct($distinct) {}
 
     /**
+=======
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Sets the columns to be queried
      * <code>
      * $criteria->columns(array('id', 'name'));
@@ -111,10 +114,17 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * </code>
      *
      * @param string $model 
+<<<<<<< HEAD
      * @param mixed $conditions 
      * @param mixed $alias 
      * @param mixed $type 
      * @return Criteria 
+=======
+     * @param string $conditions 
+     * @param string $alias 
+     * @param string $type 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function join($model, $conditions = null, $alias = null, $type = null) {}
 
@@ -127,9 +137,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * </code>
      *
      * @param string $model 
+<<<<<<< HEAD
      * @param mixed $conditions 
      * @param mixed $alias 
      * @return Criteria 
+=======
+     * @param string $conditions 
+     * @param string $alias 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function innerJoin($model, $conditions = null, $alias = null) {}
 
@@ -140,9 +156,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * </code>
      *
      * @param string $model 
+<<<<<<< HEAD
      * @param mixed $conditions 
      * @param mixed $alias 
      * @return Criteria 
+=======
+     * @param string $conditions 
+     * @param string $alias 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function leftJoin($model, $conditions = null, $alias = null) {}
 
@@ -153,9 +175,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * </code>
      *
      * @param string $model 
+<<<<<<< HEAD
      * @param mixed $conditions 
      * @param mixed $alias 
      * @return Criteria 
+=======
+     * @param string $conditions 
+     * @param string $alias 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function rightJoin($model, $conditions = null, $alias = null) {}
 
@@ -163,9 +191,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * Sets the conditions parameter in the criteria
      *
      * @param string $conditions 
+<<<<<<< HEAD
      * @param mixed $bindParams 
      * @param mixed $bindTypes 
      * @return Criteria 
+=======
+     * @param array $bindParams 
+     * @param array $bindTypes 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function where($conditions, $bindParams = null, $bindTypes = null) {}
 
@@ -175,9 +209,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @deprecated 1.0.0
      * @see \Phalcon\Mvc\Model\Criteria::andWhere()
      * @param string $conditions 
+<<<<<<< HEAD
      * @param mixed $bindParams 
      * @param mixed $bindTypes 
      * @return Criteria 
+=======
+     * @param array $bindParams 
+     * @param array $bindTypes 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addWhere($conditions, $bindParams = null, $bindTypes = null) {}
 
@@ -185,9 +225,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * Appends a condition to the current conditions using an AND operator
      *
      * @param string $conditions 
+<<<<<<< HEAD
      * @param mixed $bindParams 
      * @param mixed $bindTypes 
      * @return Criteria 
+=======
+     * @param array $bindParams 
+     * @param array $bindTypes 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function andWhere($conditions, $bindParams = null, $bindTypes = null) {}
 
@@ -195,9 +241,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * Appends a condition to the current conditions using an OR operator
      *
      * @param string $conditions 
+<<<<<<< HEAD
      * @param mixed $bindParams 
      * @param mixed $bindTypes 
      * @return Criteria 
+=======
+     * @param array $bindParams 
+     * @param array $bindTypes 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function orWhere($conditions, $bindParams = null, $bindTypes = null) {}
 
@@ -210,7 +262,11 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
+<<<<<<< HEAD
      * @return Criteria 
+=======
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function betweenWhere($expr, $minimum, $maximum) {}
 
@@ -223,7 +279,11 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
+<<<<<<< HEAD
      * @return Criteria 
+=======
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function notBetweenWhere($expr, $minimum, $maximum) {}
 
@@ -270,7 +330,11 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function order($orderColumns) {}
 
     /**
+<<<<<<< HEAD
      * Adds the order-by clause to the criteria
+=======
+     * Adds the order-by parameter to the criteria
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      *
      * @param string $orderColumns 
      * @return Criteria 
@@ -278,6 +342,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function orderBy($orderColumns) {}
 
     /**
+<<<<<<< HEAD
      * Adds the group-by clause to the criteria
      *
      * @param mixed $group 
@@ -299,6 +364,13 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param mixed $limit 
      * @param mixed $offset 
      * @return Criteria 
+=======
+     * Adds the limit parameter to the criteria
+     *
+     * @param int $limit 
+     * @param int $offset 
+     * @return \Phalcon\Mvc\Model\Criteria 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function limit($limit, $offset = null) {}
 
@@ -359,13 +431,18 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function getLimit() {}
 
     /**
+<<<<<<< HEAD
      * Returns the order clause in the criteria
+=======
+     * Returns the order parameter in the criteria
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      *
      * @return string|null 
      */
     public function getOrder() {}
 
     /**
+<<<<<<< HEAD
      * Returns the group clause in the criteria
      */
     public function getGroupBy() {}
@@ -376,6 +453,8 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function getHaving() {}
 
     /**
+=======
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Returns all the parameters defined in the criteria
      *
      * @return array 

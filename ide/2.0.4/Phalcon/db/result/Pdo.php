@@ -72,6 +72,7 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * $result = $connection->query("SELECTFROM robots ORDER BY name");
      * $result->setFetchMode(Phalcon\Db::FETCH_OBJ);
      * while ($robot = $result->fetch()) {
+<<<<<<< HEAD
      * echo $robot->name;
      * }
      * </code>
@@ -81,6 +82,15 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * @param mixed $cursorOffset 
      */
     public function fetch($fetchStyle = null, $cursorOrientation = null, $cursorOffset = null) {}
+=======
+     * echo robot->name;
+     * }
+     * </code>
+     *
+     * @return mixed 
+     */
+    public function fetch() {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
@@ -92,6 +102,11 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * print_r($robot);
      * }
      * </code>
+<<<<<<< HEAD
+=======
+     *
+     * @return mixed 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function fetchArray() {}
 
@@ -103,12 +118,18 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * $robots = $result->fetchAll();
      * </code>
      *
+<<<<<<< HEAD
      * @param mixed $fetchStyle 
      * @param mixed $fetchArgument 
      * @param mixed $ctorArgs 
      * @return array 
      */
     public function fetchAll($fetchStyle = null, $fetchArgument = null, $ctorArgs = null) {}
+=======
+     * @return array 
+     */
+    public function fetchAll() {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Gets number of rows returned by a resultset
@@ -147,11 +168,16 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * </code>
      *
      * @param int $fetchMode 
+<<<<<<< HEAD
      * @param mixed $colNoOrClassNameOrObject 
      * @param mixed $ctorargs 
      * @return bool 
      */
     public function setFetchMode($fetchMode, $colNoOrClassNameOrObject = null, $ctorargs = null) {}
+=======
+     */
+    public function setFetchMode($fetchMode) {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Gets the internal PDO result object

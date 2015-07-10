@@ -268,7 +268,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
      * @param array $whiteList 
      * @return \Phalcon\Mvc\Model 
      */
-	public function assign($data, $dataColumnMap = null, $whiteList = null) {}
+	public function assign(array $data, $dataColumnMap = null, $whiteList = null) {}
 
     /**
      * Assigns values to a model from an array returning a new model.

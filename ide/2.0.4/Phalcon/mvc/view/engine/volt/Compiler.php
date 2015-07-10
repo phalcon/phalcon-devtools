@@ -159,8 +159,13 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * Register a new function in the compiler
      *
      * @param string $name 
+<<<<<<< HEAD
      * @param mixed $definition 
      * @return Compiler 
+=======
+     * @param Closure|string $definition 
+     * @return \Phalcon\Mvc\View\Engine\Volt\Compiler 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addFunction($name, $definition) {}
 
@@ -175,8 +180,13 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * Register a new filter in the compiler
      *
      * @param string $name 
+<<<<<<< HEAD
      * @param mixed $definition 
      * @return Compiler 
+=======
+     * @param Closure|string $definition 
+     * @return \Phalcon\Mvc\View\Engine\Volt\Compiler 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addFilter($name, $definition) {}
 
@@ -414,7 +424,12 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * </code>
      *
      * @param string $templatePath 
+<<<<<<< HEAD
      * @param bool $extendsMode 
+=======
+     * @param boolean $extendsMode 
+     * @return string|array 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function compile($templatePath, $extendsMode = false) {}
 

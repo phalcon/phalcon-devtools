@@ -12,7 +12,11 @@ namespace Phalcon\Mvc\Model;
  * "name": "Lamborghini"
  * ));
  * foreach ($result as $row) {
+<<<<<<< HEAD
  * echo "Name: ",  $row->cars->name, "\n";
+=======
+ * echo "Name: ", $row->cars->name, "\n";
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * echo "Price: ", $row->cars->price, "\n";
  * echo "Taxes: ", $row->taxes, "\n";
  * }
@@ -250,7 +254,12 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Returns a processed group clause for a SELECT statement
      *
+<<<<<<< HEAD
      * @param array $group 
+=======
+     * @param mixed $group 
+     * @param array $$group 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * @return array 
      */
     protected final function _getGroupClause($group) {}
@@ -258,7 +267,12 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Returns a processed limit clause for a SELECT statement
      *
+<<<<<<< HEAD
      * @param array $limitClause 
+=======
+     * @param mixed $limitClause 
+     * @param array $$limit 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * @return array 
      */
     protected final function _getLimitClause($limitClause) {}
@@ -397,10 +411,16 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * Set default bind parameters
      *
      * @param array $bindParams 
+<<<<<<< HEAD
      * @param bool $merge 
      * @return Query 
      */
     public function setBindParams($bindParams, $merge = false) {}
+=======
+     * @return Query 
+     */
+    public function setBindParams($bindParams) {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Returns default bind params
@@ -413,10 +433,16 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * Set default bind parameters
      *
      * @param array $bindTypes 
+<<<<<<< HEAD
      * @param bool $merge 
      * @return Query 
      */
     public function setBindTypes($bindTypes, $merge = false) {}
+=======
+     * @return Query 
+     */
+    public function setBindTypes($bindTypes) {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Returns default bind types

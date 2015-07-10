@@ -8,11 +8,17 @@ namespace Phalcon\Mvc\Model;
  * between the different models of the application.
  * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\DI.
  * <code>
+<<<<<<< HEAD
  * use Phalcon\DI;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  * $di = new DI();
  * $di->set('modelsManager', function() {
  * return new ModelsManager();
+=======
+ * $di = new \Phalcon\DI();
+ * $di->set('modelsManager', function() {
+ * return new \Phalcon\Mvc\Model\Manager();
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * });
  * $robot = new Robots($di);
  * </code>
@@ -480,6 +486,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     public function getRelationByAlias($modelName, $alias) {}
 
     /**
+<<<<<<< HEAD
      * Merge two arrays of find parameters
      *
      * @param mixed $findParamsOne 
@@ -489,6 +496,8 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     protected final function _mergeFindParameters($findParamsOne, $findParamsTwo) {}
 
     /**
+=======
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Helper method to query records based on a relation definition
      *
      * @param mixed $relation 

@@ -9,10 +9,17 @@ namespace Phalcon\Mvc\Collection;
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  * <code>
  * $di = new \Phalcon\Di();
+<<<<<<< HEAD
  * $di->set('collectionManager', function() {
  * return new \Phalcon\Mvc\Collection\Manager();
  * });
  * $robot = new Robots(di);
+=======
+ * $di->set('collectionManager', function(){
+ * return new \Phalcon\Mvc\Collection\Manager();
+ * });
+ * robot = new Robots(di);
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * </code>
  */
 interface ManagerInterface
@@ -83,7 +90,11 @@ interface ManagerInterface
     /**
      * Returns the connection related to a model
      *
+<<<<<<< HEAD
      * @param mixed $model 
+=======
+     * @param \Phalcon\Mvc\CollectionInterface $model 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * @return \Phalcon\Db\AdapterInterface 
      */
     public function getConnection(\Phalcon\Mvc\CollectionInterface $model);
