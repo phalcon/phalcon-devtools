@@ -52,6 +52,8 @@ interface CollectionInterface
     public function getConnection();
 
     /**
+<<<<<<< HEAD
+=======
      * Reads an attribute value by its name
      *
      * @param string $attribute 
@@ -68,6 +70,7 @@ interface CollectionInterface
     public function writeAttribute($attribute, $value);
 
     /**
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Returns a cloned collection
      *
      * @param mixed $collection 

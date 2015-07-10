@@ -4,7 +4,11 @@ namespace Phalcon\Assets\Inline;
 
 /**
  * Phalcon\Assets\Inline\Js
+<<<<<<< HEAD
+ * Represents an inline Javascript
+=======
  * Represents inline Javascript
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  */
 class Js extends \Phalcon\Assets\Inline
 {

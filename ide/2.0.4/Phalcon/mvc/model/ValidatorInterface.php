@@ -22,6 +22,10 @@ interface ValidatorInterface
      * @param \Phalcon\Mvc\ModelInterface $record 
      * @return boolean 
      */
+<<<<<<< HEAD
+    public function validate(\Phalcon\Mvc\EntityInterface $record);
+=======
     public function validate(\Phalcon\Mvc\ModelInterface $record);
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
 }

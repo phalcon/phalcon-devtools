@@ -27,7 +27,11 @@ namespace Phalcon\Mvc;
  * }
  * </code>
  */
+<<<<<<< HEAD
+abstract class Controller extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ControllerInterface
+=======
 abstract class Controller extends \Phalcon\Di\Injectable
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 {
 
     /**

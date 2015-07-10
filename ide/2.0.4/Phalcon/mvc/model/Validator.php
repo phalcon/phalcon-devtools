@@ -43,16 +43,28 @@ abstract class Validator
      *
      * @return array 
      */
+<<<<<<< HEAD
+    public function getOptions() {}
+=======
     protected function getOptions() {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Returns an option
      *
+<<<<<<< HEAD
+     * @param string $option 
+     * @param mixed $defaultValue 
+     * @return variable 
+     */
+    public function getOption($option, $defaultValue = "") {}
+=======
      * @param	string option
      * @return	mixed
      * @param string $option 
      */
     protected function getOption($option) {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Check whether a option has been defined in the validator options
@@ -60,9 +72,16 @@ abstract class Validator
      * @param string $option 
      * @return bool 
      */
+<<<<<<< HEAD
+    public function isSetOption($option) {}
+
+
+     function zephir_init_properties_Phalcon_Mvc_Model_Validator() {}
+=======
     protected function isSetOption($option) {}
 
 
      function zephir_init_properties() {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
 }

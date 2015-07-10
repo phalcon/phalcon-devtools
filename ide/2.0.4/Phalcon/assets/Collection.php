@@ -133,9 +133,15 @@ class Collection implements \Countable, \Iterator
      * Adds a inline javascript to the collection
      *
      * @param string $content 
+<<<<<<< HEAD
+     * @param bool $filter 
+     * @param mixed $attributes 
+     * @return Collection 
+=======
      * @param boolean $filter 
      * @param array $attributes 
      * @return \Phalcon\Assets\Collection 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function addInlineJs($content, $filter = false, $attributes = null) {}
 
@@ -266,9 +272,13 @@ class Collection implements \Countable, \Iterator
     public function addFilter(\Phalcon\Assets\FilterInterface $filter) {}
 
 
+<<<<<<< HEAD
+     function zephir_init_properties_Phalcon_Assets_Collection() {}
+=======
     public function __construct() {}
 
 
      function zephir_init_properties() {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
 }

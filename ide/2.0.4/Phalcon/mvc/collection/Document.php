@@ -7,7 +7,11 @@ namespace Phalcon\Mvc\Collection;
  * This component allows Phalcon\Mvc\Collection to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
+<<<<<<< HEAD
+class Document implements \Phalcon\Mvc\EntityInterface, \ArrayAccess
+=======
 class Document implements \ArrayAccess
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 {
 
     /**
@@ -22,7 +26,10 @@ class Document implements \ArrayAccess
      * Returns the value of a field using the ArrayAccess interfase
      *
      * @param string $index 
+<<<<<<< HEAD
+=======
      * @return mixed 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function offsetGet($index) {}
 
@@ -30,7 +37,11 @@ class Document implements \ArrayAccess
      * Change a value using the ArrayAccess interface
      *
      * @param string $index 
+<<<<<<< HEAD
+     * @param mixed $value 
+=======
      * @param \Phalcon\Mvc\ModelInterface $value 
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function offsetSet($index, $value) {}
 
@@ -44,7 +55,11 @@ class Document implements \ArrayAccess
     /**
      * Reads an attribute value by its name
      * <code>
+<<<<<<< HEAD
+     * echo $robot->readAttribute('name');
+=======
      * echo robot->readAttribute('name');
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * </code>
      *
      * @param string $attribute 
@@ -55,7 +70,11 @@ class Document implements \ArrayAccess
     /**
      * Writes an attribute value by its name
      * <code>
+<<<<<<< HEAD
+     * $robot->writeAttribute('name', 'Rosey');
+=======
      * robot->writeAttribute('name', 'Rosey');
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * </code>
      *
      * @param string $attribute 
@@ -63,4 +82,14 @@ class Document implements \ArrayAccess
      */
     public function writeAttribute($attribute, $value) {}
 
+<<<<<<< HEAD
+    /**
+     * Returns the instance as an array representation
+     *
+     * @return array 
+     */
+    public function toArray() {}
+
+=======
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }

@@ -4,9 +4,15 @@ namespace Phalcon\Http;
 
 /**
  * Phalcon\Http\Request
+<<<<<<< HEAD
+ * Encapsulates request information for easy and secure access from application controllers.
+ * The request object is a simple value object that is passed between the dispatcher and controller classes.
+ * It packages the HTTP request environment.
+=======
  * <p>Encapsulates request information for easy and secure access from application controllers.</p>
  * <p>The request object is a simple value object that is passed between the dispatcher and controller classes.
  * It packages the HTTP request environment.</p>
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * <code>
  * $request = new \Phalcon\Http\Request();
  * if ($request->isPost() == true) {
@@ -280,12 +286,31 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     public function getUserAgent() {}
 
     /**
+<<<<<<< HEAD
+     * Checks if a method is a valid HTTP method
+     *
+     * @param string $method 
+     * @return bool 
+     */
+    public function isValidHttpMethod($method) {}
+
+    /**
+     * Check if HTTP method match any of the passed methods
+     * When strict is true it checks if validated methods are real HTTP methods
+     *
+     * @param mixed $methods 
+     * @param bool $strict 
+     * @return bool 
+     */
+    public function isMethod($methods, $strict = false) {}
+=======
      * Check if HTTP method match any of the passed methods
      *
      * @param mixed $methods 
      * @return bool 
      */
     public function isMethod($methods) {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Checks whether HTTP method is POST. if _SERVER["REQUEST_METHOD"]==="POST"

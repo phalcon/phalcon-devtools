@@ -153,6 +153,8 @@ interface ViewInterface extends \Phalcon\Mvc\ViewBaseInterface
     public function pick($renderView);
 
     /**
+<<<<<<< HEAD
+=======
      * Renders a partial view
      *
      * @param string $partialPath 
@@ -161,6 +163,7 @@ interface ViewInterface extends \Phalcon\Mvc\ViewBaseInterface
     public function partial($partialPath);
 
     /**
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Finishes the render process by stopping the output buffering
      */
     public function finish();

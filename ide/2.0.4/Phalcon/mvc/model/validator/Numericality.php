@@ -30,6 +30,13 @@ class Numericality extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
      * @param mixed $record 
      * @return bool 
      */
+<<<<<<< HEAD
+    public function validate(\Phalcon\Mvc\EntityInterface $record) {}
+
+
+     function zephir_init_properties_Phalcon_Mvc_Model_Validator_Numericality() {}
+=======
     public function validate(\Phalcon\Mvc\ModelInterface $record) {}
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
 }

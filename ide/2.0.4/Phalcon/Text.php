@@ -152,4 +152,23 @@ abstract class Text
      */
     public static function concat() {}
 
+<<<<<<< HEAD
+    /**
+     * Generates random text in accordance with the template
+     * <code>
+     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Bob
+     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Jon
+     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hello my name is a Bob
+     * </code>
+     *
+     * @param string $text 
+     * @param string $leftDelimiter 
+     * @param string $rightDelimiter 
+     * @param string $separator 
+     * @return string 
+     */
+    public static function dynamic($text, $leftDelimiter = "{", $rightDelimiter = "}", $separator = "|") {}
+
+=======
+>>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }
