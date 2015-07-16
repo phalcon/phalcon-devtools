@@ -60,7 +60,7 @@ class Profiler
     /**
      * Returns all the processed profiles
      *
-     * @return \Phalcon\Db\Profiler\Item 
+     * @return \Phalcon\Db\Profiler\Item[] 
      */
 	public function getProfiles() {}
 
