@@ -28,7 +28,7 @@ namespace Phalcon\Events {
          * @param object|callable $handler
          * @param int $priority
          */
-        public function attach($eventType, $handler)
+        public function attach($eventType, $handler, $priority)
         {
         }
 
