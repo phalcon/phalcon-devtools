@@ -372,10 +372,11 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Set default bind parameters
      *
-     * @param array $bindParams 
+     * @param array $bindParams
+     * @param bool $merge
      * @return \Phalcon\Mvc\Model\Query 
      */
-	public function setBindParams($bindParams) {}
+	public function setBindParams($bindParams, $merge) {}
 
     /**
      * Returns default bind params
