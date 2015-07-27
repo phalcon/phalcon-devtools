@@ -50,6 +50,11 @@ class Column implements \Phalcon\Db\ColumnInterface
     const TYPE_BOOLEAN = 8;
 
     /**
+     * Double abstract data type
+     */
+    const TYPE_DOUBLE = 9;
+
+    /**
      * Bind Type Null
      */
     const BIND_PARAM_NULL = 0;

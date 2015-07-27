@@ -373,9 +373,14 @@ class Tools
             throw new \Exception('Document root cannot be located');
         }
 
-        (new Bootstrap())->install($path);
-        (new CodeMirror())->install($path);
-        (new JQuery())->install($path);
+        $bootstrap = new Bootstrap();
+        $bootstrap->install($path);
+
+        $codeMirror = new CodeMirror();
+        $codeMirror->install($path);
+
+        $jQuery = new JQuery();
+        $jQuery->install($path);
 
         copy($tools . '/webtools.php', $path . 'public/webtools.php');
 
@@ -408,9 +413,16 @@ class Tools
             throw new \Exception('Document root cannot be located');
         }
 
-        (new Bootstrap())->uninstall($path);
-        (new CodeMirror())->uninstall($path);
-        (new JQuery())->uninstall($path);
+
+        $bootstrap = new Bootstrap();
+        $bootstrap->uninstall($path);
+
+        $codeMirror = new CodeMirror();
+        $codeMirror->uninstall($path);
+
+        $jQuery = new JQuery();
+        $jQuery->uninstall($path);
+
 
         if (is_file($path . 'public/webtools.config.php')) {
             unlink($path . 'public/webtools.config.php');
