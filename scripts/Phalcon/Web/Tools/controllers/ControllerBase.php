@@ -177,7 +177,7 @@ class ControllerBase extends Controller
         $config = Tools::getConfig()->offsetGet('application');
 
         $dirs = array('modelsDir', 'controllersDir', 'migrationsDir');
-        $this->path->setRootPath(dirname(getcwd()));
+        $this->path->setRootPath(dirname($_SERVER["SCRIPT_FILENAME"]));
         $projectPath = $this->path->getRootPAth();
 
         foreach ($dirs as $dirName) {
