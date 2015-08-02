@@ -141,7 +141,8 @@ class Di implements \Phalcon\DiInterface
      * Resolves the service based on its configuration
      *
      * @param string $name 
-     * @param mixed $parameters 
+     * @param mixed $parameters
+     * @return mixed
      */
     public function get($name, $parameters = null) {}
 
