@@ -232,6 +232,9 @@ class Migration
 		        case Column::TYPE_JSONB:
 			        $fieldDefinition[] = "'type' => Column::TYPE_JSONB";
 			        break;
+		        case Column::TYPE_BIGINTEGER:
+	                        $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
+                        	break;
 		        default:
 			        throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
 	        }
