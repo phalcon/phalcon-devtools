@@ -128,7 +128,7 @@ $ phalcon commands
 This command should display something similar to:
 
 ```bash
-Phalcon DevTools (2.0.1)
+Phalcon DevTools (2.0.7)
 
 Help:
   Lists the commands available in Phalcon devtools
@@ -171,13 +171,13 @@ $ phalcon webtools --action=enable
 Should add 'adapter' parameter in your db config file (if you use not Mysql database). For PostgreSql will be
 
 ```php
-$config = array(
+$config = [
   "host"     => "localhost",
   "dbname"   => "my_db_name",
   "username" => "my_db_user",
   "password" => "my_db_user_password",
-  "adapter"  => "Postgresql",
-);
+  "adapter"  => "Postgresql"
+];
 ```
 
 ## License
