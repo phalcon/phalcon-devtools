@@ -33,6 +33,8 @@ try {
     $extensionLoaded = true;
 
     if (!extension_loaded('phalcon')) {
+        $extensionLoaded = false;
+        include dirname(__FILE__) . '/scripts/Phalcon/Script.php';
         throw new Exception(
             sprintf(
                 "Phalcon extension isn't installed, follow these instructions to install it: %s",
