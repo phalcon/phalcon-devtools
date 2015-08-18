@@ -16,7 +16,7 @@
         "ext-phalcon": "~2.0"
     },
     "require-dev": {
-        "box": ">=2.5.2"
+        "kherge/box": ">=2.5.2"
     },
     "autoload": {
         "psr-0" : {
