@@ -22,7 +22,7 @@ $di = new FactoryDefault();
 /**
  * Registering a router
  */
-$di->set('router', function () {
+$di->setShared('router', function () {
     $router = new Router();
 
     $router->setDefaultModule('frontend');
@@ -34,7 +34,7 @@ $di->set('router', function () {
 /**
  * The URL component is used to generate all kinds of URLs in the application
  */
-$di->set('url', function () {
+$di->setShared('url', function () {
     $url = new UrlResolver();
     $url->setBaseUri('/@@name@@/');
 
@@ -71,14 +71,14 @@ $di->setShared('view', function () use ($config) {
 /**
  * Database connection is created based in the parameters defined in the configuration file
  */
-$di->set('db', function () use ($config) {
+$di->setShared('db', function () use ($config) {
     return new DbAdapter($config->database->toArray());
 });
 
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
-$di->set('modelsMetadata', function () {
+$di->setShared('modelsMetadata', function () {
     return new MetaDataAdapter();
 });
 

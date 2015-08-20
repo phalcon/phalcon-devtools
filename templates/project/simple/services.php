@@ -21,12 +21,12 @@ $di = new FactoryDefault();
 /**
  * The URL component is used to generate all kind of urls in the application
  */
-$di->set('url', function () use ($config) {
+$di->setShared('url', function () use ($config) {
     $url = new UrlResolver();
     $url->setBaseUri($config->application->baseUri);
 
     return $url;
-}, true);
+});
 
 /**
  * Setting up the view component
@@ -58,14 +58,14 @@ $di->setShared('view', function () use ($config) {
 /**
  * Database connection is created based in the parameters defined in the configuration file
  */
-$di->set('db', function () use ($config) {
+$di->setShared('db', function () use ($config) {
     return new DbAdapter($config->database->toArray());
 });
 
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
-$di->set('modelsMetadata', function () {
+$di->setShared('modelsMetadata', function () {
     return new MetaDataAdapter();
 });
 
