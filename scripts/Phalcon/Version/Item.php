@@ -138,7 +138,7 @@ class Item
      * @param  string  $initialVersion
      * @param  string  $finalVersion
      * @param  array   $versions       Item[]
-     * @return boolean
+     * @return array
      */
     public static function between($initialVersion, $finalVersion, $versions)
     {
