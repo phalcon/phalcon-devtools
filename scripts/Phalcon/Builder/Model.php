@@ -196,20 +196,22 @@ class Model extends Component
         $db = new $adapterName($configArray);
 
         $initialize = array();
+
         if ($this->options->contains('schema')) {
             $schema = $this->options->get('schema');
             if ($schema != $config->database->dbname) {
-                $initialize[] = $this->snippet->getThisMethod('setSchema', $schema);
+                $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
             }
+
         } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
-            $initialize[] = $initialize[] = $this->snippet->getThisMethod('setSchema', $schema);
+            $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
         } else {
             $schema = $config->database->dbname;
         }
 
         $table = $this->options->get('name');
-        if ($this->options->get('fileName') != $this->options->get('name')) {
+        if ($this->options->get('fileName') != $table && !isset($initialize['schema'])) {
             $initialize[] = $this->snippet->getThisMethod('setSource', '\'' . $table . '\'');
         }
 
