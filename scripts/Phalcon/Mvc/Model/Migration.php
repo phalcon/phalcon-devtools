@@ -178,8 +178,9 @@ class Migration
             $defaultSchema = null;
         }
         $description = self::$_connection->describeColumns($table, $defaultSchema);
-        print_r($description);
+
         foreach ($description as $field) {
+            /** @var \Phalcon\Db\Column $field */
             $fieldDefinition = array();
             switch ($field->getType()) {
                 case Column::TYPE_INTEGER:
@@ -239,6 +240,9 @@ class Migration
                     throw new DbException('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
             }
 
+            if (null !== ($default = $field->getDefault())) {
+                $fieldDefinition[] = "'default' => '$default'";
+            }
             //if ($field->isPrimary()) {
             //	$fieldDefinition[] = "'primary' => true";
             //}
@@ -421,10 +425,10 @@ class ".$className." extends Migration\n".
      */
     public function morphTable($tableName, $definition)
     {
+        $defaultSchema = null;
+
         if (isset(self::$_databaseConfig->dbname)) {
             $defaultSchema = self::$_databaseConfig->dbname;
-        } else {
-            $defaultSchema = null;
         }
 
         $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
