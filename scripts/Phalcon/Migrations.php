@@ -90,11 +90,11 @@ class Migrations
             mkdir($migrationsDir.'/'.$version);
         }
 
-        if (isset($config->database)) {
-            ModelMigration::setup($config->database);
-        } else {
+        if (!isset($config->database)) {
             throw new \Exception("Cannot load database configuration");
         }
+
+        ModelMigration::setup($config->database);
 
         ModelMigration::setSkipAutoIncrement($options['no-ai']);
         ModelMigration::setMigrationPath($migrationsDir.'/'.$version);
@@ -166,10 +166,10 @@ class Migrations
 
         if (count($versions) == 0) {
             throw new ModelException('Migrations were not found at '.$migrationsDir);
-        } else {
-            if ($version === null) {
-                $version = VersionItem::maximum($versions);
-            }
+        }
+
+        if ($version === null) {
+            $version = VersionItem::maximum($versions);
         }
 
         if (is_file($path.'.phalcon')) {
@@ -184,11 +184,11 @@ class Migrations
             $fromVersion = null;
         }
 
-        if (isset($config->database)) {
-            ModelMigration::setup($config->database);
-        } else {
+        if (!isset($config->database)) {
             throw new \Exception("Cannot load database configuration");
         }
+
+        ModelMigration::setup($config->database);
 
         ModelMigration::setMigrationPath($migrationsDir.'/'.$version . '/') ;
         $versionsBetween = VersionItem::between($fromVersion, $version, $versions);
