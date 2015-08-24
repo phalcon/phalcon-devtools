@@ -25,7 +25,7 @@ use Phalcon\Text;
 use Phalcon\Migrations;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\Migration\Profiler;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
 
 /**
@@ -41,7 +41,7 @@ class Migration
 {
     /**
      * Migration database connection
-     * @var \Phalcon\Db
+     * @var \Phalcon\Db\AdapterInterface
      */
     protected static $_connection;
 
@@ -66,20 +66,20 @@ class Migration
     /**
      * Prepares component
      *
-     * @param $database
+     * @param \Phalcon\Config $database Database config
      *
-     * @throws \Phalcon\Exception
+     * @throws \Phalcon\Db\Exception
      */
     public static function setup($database)
     {
         if (!isset($database->adapter)) {
-            throw new \Phalcon\Exception('Unspecified database Adapter in your configuration!');
+            throw new DbException('Unspecified database Adapter in your configuration!');
         }
 
         $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $database->adapter;
 
         if (!class_exists($adapter)) {
-            throw new \Phalcon\Exception('Invalid database Adapter!');
+            throw new DbException('Invalid database Adapter!');
         }
 
         $configArray = $database->toArray();
@@ -159,7 +159,7 @@ class Migration
      * @param null $exportData
      *
      * @return string
-     * @throws Exception
+     * @throws \Phalcon\Db\Exception
      */
     public static function generate($version, $table, $exportData=null)
     {
@@ -177,8 +177,8 @@ class Migration
         } else {
             $defaultSchema = null;
         }
-
         $description = self::$_connection->describeColumns($table, $defaultSchema);
+        print_r($description);
         foreach ($description as $field) {
             $fieldDefinition = array();
             switch ($field->getType()) {
@@ -236,7 +236,7 @@ class Migration
                             $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
                             break;
                 default:
-                    throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
+                    throw new DbException('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
             }
 
             //if ($field->isPrimary()) {
@@ -387,7 +387,7 @@ class ".$className." extends Migration\n".
      * @param $version
      * @param $filePath
      *
-     * @throws Exception
+     * @throws \Phalcon\Db\Exception
      */
     public static function migrateFile($version, $filePath)
     {
@@ -398,7 +398,7 @@ class ".$className." extends Migration\n".
             require_once $filePath;
 
             if (!class_exists($className)) {
-                throw new Exception('Migration class cannot be found ' . $className . ' at ' . $filePath);
+                throw new DbException('Migration class cannot be found ' . $className . ' at ' . $filePath);
             }
 
             $migration = new $className();
@@ -417,7 +417,7 @@ class ".$className." extends Migration\n".
      * @param $tableName
      * @param $definition
      *
-     * @throws Exception
+     * @throws \Phalcon\Db\Exception
      */
     public function morphTable($tableName, $definition)
     {
@@ -430,13 +430,13 @@ class ".$className." extends Migration\n".
         $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
         if (isset($definition['columns'])) {
             if (count($definition['columns']) == 0) {
-                throw new Exception('Table must have at least one column');
+                throw new DbException('Table must have at least one column');
             }
 
             $fields = array();
             foreach ($definition['columns'] as $tableColumn) {
                 if (!is_object($tableColumn)) {
-                    throw new Exception('Table must have at least one column');
+                    throw new DbException('Table must have at least one column');
                 }
                 $fields[$tableColumn->getName()] = $tableColumn;
             }
