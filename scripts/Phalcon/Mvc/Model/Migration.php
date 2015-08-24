@@ -25,7 +25,7 @@ use Phalcon\Text;
 use Phalcon\Migrations;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\Migration\Profiler;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
 
 /**
@@ -41,7 +41,7 @@ class Migration
 {
     /**
      * Migration database connection
-     * @var \Phalcon\Db
+     * @var \Phalcon\Db\AdapterInterface
      */
     protected static $_connection;
 
@@ -66,20 +66,20 @@ class Migration
     /**
      * Prepares component
      *
-     * @param $database
+     * @param \Phalcon\Config $database Database config
      *
-     * @throws \Phalcon\Exception
+     * @throws \Phalcon\Db\Exception
      */
     public static function setup($database)
     {
         if (!isset($database->adapter)) {
-            throw new \Phalcon\Exception('Unspecified database Adapter in your configuration!');
+            throw new DbException('Unspecified database Adapter in your configuration!');
         }
 
         $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $database->adapter;
 
         if (!class_exists($adapter)) {
-            throw new \Phalcon\Exception('Invalid database Adapter!');
+            throw new DbException('Invalid database Adapter!');
         }
 
         $configArray = $database->toArray();
@@ -159,7 +159,7 @@ class Migration
      * @param null $exportData
      *
      * @return string
-     * @throws Exception
+     * @throws \Phalcon\Db\Exception
      */
     public static function generate($version, $table, $exportData=null)
     {
@@ -177,68 +177,72 @@ class Migration
         } else {
             $defaultSchema = null;
         }
-
         $description = self::$_connection->describeColumns($table, $defaultSchema);
-        foreach ($description as $field) {
-            $fieldDefinition = array();
-	        switch ($field->getType()) {
-		        case Column::TYPE_INTEGER:
-			        $fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
-			        $numericFields[ $field->getName() ] = true;
-			        break;
-		        case Column::TYPE_VARCHAR:
-			        $fieldDefinition[] = "'type' => Column::TYPE_VARCHAR";
-			        break;
-		        case Column::TYPE_CHAR:
-			        $fieldDefinition[] = "'type' => Column::TYPE_CHAR";
-			        break;
-		        case Column::TYPE_DATE:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DATE";
-			        break;
-		        case Column::TYPE_DATETIME:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
-			        break;
-		        case Column::TYPE_DECIMAL:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
-			        $numericFields[ $field->getName() ] = true;
-			        break;
-		        case Column::TYPE_TEXT:
-			        $fieldDefinition[] = "'type' => Column::TYPE_TEXT";
-			        break;
-		        case Column::TYPE_BOOLEAN:
-			        $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
-			        break;
-		        case Column::TYPE_FLOAT:
-			        $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
-			        break;
-		        case Column::TYPE_DOUBLE:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DOUBLE";
-			        break;
-		        case Column::TYPE_TINYBLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_TINYBLOB";
-			        break;
-		        case Column::TYPE_BLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_BLOB";
-			        break;
-		        case Column::TYPE_MEDIUMBLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_MEDIUMBLOB";
-			        break;
-		        case Column::TYPE_LONGBLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_LONGBLOB";
-			        break;
-		        case Column::TYPE_JSON:
-			        $fieldDefinition[] = "'type' => Column::TYPE_JSON";
-			        break;
-		        case Column::TYPE_JSONB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_JSONB";
-			        break;
-		        case Column::TYPE_BIGINTEGER:
-	                        $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
-                        	break;
-		        default:
-			        throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
-	        }
 
+        foreach ($description as $field) {
+            /** @var \Phalcon\Db\Column $field */
+            $fieldDefinition = array();
+            switch ($field->getType()) {
+                case Column::TYPE_INTEGER:
+                    $fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
+                    $numericFields[ $field->getName() ] = true;
+                    break;
+                case Column::TYPE_VARCHAR:
+                    $fieldDefinition[] = "'type' => Column::TYPE_VARCHAR";
+                    break;
+                case Column::TYPE_CHAR:
+                    $fieldDefinition[] = "'type' => Column::TYPE_CHAR";
+                    break;
+                case Column::TYPE_DATE:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DATE";
+                    break;
+                case Column::TYPE_DATETIME:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
+                    break;
+                case Column::TYPE_DECIMAL:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
+                    $numericFields[ $field->getName() ] = true;
+                    break;
+                case Column::TYPE_TEXT:
+                    $fieldDefinition[] = "'type' => Column::TYPE_TEXT";
+                    break;
+                case Column::TYPE_BOOLEAN:
+                    $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
+                    break;
+                case Column::TYPE_FLOAT:
+                    $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
+                    break;
+                case Column::TYPE_DOUBLE:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DOUBLE";
+                    break;
+                case Column::TYPE_TINYBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_TINYBLOB";
+                    break;
+                case Column::TYPE_BLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_BLOB";
+                    break;
+                case Column::TYPE_MEDIUMBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_MEDIUMBLOB";
+                    break;
+                case Column::TYPE_LONGBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_LONGBLOB";
+                    break;
+                case Column::TYPE_JSON:
+                    $fieldDefinition[] = "'type' => Column::TYPE_JSON";
+                    break;
+                case Column::TYPE_JSONB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_JSONB";
+                    break;
+                case Column::TYPE_BIGINTEGER:
+                            $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
+                            break;
+                default:
+                    throw new DbException('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
+            }
+
+            if (null !== ($default = $field->getDefault())) {
+                $fieldDefinition[] = "'default' => '$default'";
+            }
             //if ($field->isPrimary()) {
             //	$fieldDefinition[] = "'primary' => true";
             //}
@@ -387,7 +391,7 @@ class ".$className." extends Migration\n".
      * @param $version
      * @param $filePath
      *
-     * @throws Exception
+     * @throws \Phalcon\Db\Exception
      */
     public static function migrateFile($version, $filePath)
     {
@@ -398,7 +402,7 @@ class ".$className." extends Migration\n".
             require_once $filePath;
 
             if (!class_exists($className)) {
-                throw new Exception('Migration class cannot be found ' . $className . ' at ' . $filePath);
+                throw new DbException('Migration class cannot be found ' . $className . ' at ' . $filePath);
             }
 
             $migration = new $className();
@@ -417,26 +421,26 @@ class ".$className." extends Migration\n".
      * @param $tableName
      * @param $definition
      *
-     * @throws Exception
+     * @throws \Phalcon\Db\Exception
      */
     public function morphTable($tableName, $definition)
     {
+        $defaultSchema = null;
+
         if (isset(self::$_databaseConfig->dbname)) {
             $defaultSchema = self::$_databaseConfig->dbname;
-        } else {
-            $defaultSchema = null;
         }
 
         $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
         if (isset($definition['columns'])) {
             if (count($definition['columns']) == 0) {
-                throw new Exception('Table must have at least one column');
+                throw new DbException('Table must have at least one column');
             }
 
             $fields = array();
             foreach ($definition['columns'] as $tableColumn) {
                 if (!is_object($tableColumn)) {
-                    throw new Exception('Table must have at least one column');
+                    throw new DbException('Table must have at least one column');
                 }
                 $fields[$tableColumn->getName()] = $tableColumn;
             }
