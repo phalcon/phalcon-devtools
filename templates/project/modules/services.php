@@ -9,7 +9,6 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -72,7 +71,13 @@ $di->setShared('view', function () use ($config) {
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->setShared('db', function () use ($config) {
-    return new DbAdapter($config->database->toArray());
+    $dbConfig = $config->database->toArray();
+    $adapter = $dbConfig['adapter'];
+    unset($dbConfig['adapter']);
+
+    $class = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+
+    return new $class($dbConfig);
 });
 
 /**
@@ -96,7 +101,7 @@ $di->setShared('session', function () {
 * Set the default namespace for dispatcher
 */
 $di->setShared('dispatcher', function() use ($di) {
-	$dispatcher = new Phalcon\Mvc\Dispatcher();
-	$dispatcher->setDefaultNamespace('@@namespace@@\Frontend\Controllers');
-	return $dispatcher;
+    $dispatcher = new Phalcon\Mvc\Dispatcher();
+    $dispatcher->setDefaultNamespace('@@namespace@@\Frontend\Controllers');
+    return $dispatcher;
 });
