@@ -181,63 +181,63 @@ class Migration
         $description = self::$_connection->describeColumns($table, $defaultSchema);
         foreach ($description as $field) {
             $fieldDefinition = array();
-	        switch ($field->getType()) {
-		        case Column::TYPE_INTEGER:
-			        $fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
-			        $numericFields[ $field->getName() ] = true;
-			        break;
-		        case Column::TYPE_VARCHAR:
-			        $fieldDefinition[] = "'type' => Column::TYPE_VARCHAR";
-			        break;
-		        case Column::TYPE_CHAR:
-			        $fieldDefinition[] = "'type' => Column::TYPE_CHAR";
-			        break;
-		        case Column::TYPE_DATE:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DATE";
-			        break;
-		        case Column::TYPE_DATETIME:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
-			        break;
-		        case Column::TYPE_DECIMAL:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
-			        $numericFields[ $field->getName() ] = true;
-			        break;
-		        case Column::TYPE_TEXT:
-			        $fieldDefinition[] = "'type' => Column::TYPE_TEXT";
-			        break;
-		        case Column::TYPE_BOOLEAN:
-			        $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
-			        break;
-		        case Column::TYPE_FLOAT:
-			        $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
-			        break;
-		        case Column::TYPE_DOUBLE:
-			        $fieldDefinition[] = "'type' => Column::TYPE_DOUBLE";
-			        break;
-		        case Column::TYPE_TINYBLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_TINYBLOB";
-			        break;
-		        case Column::TYPE_BLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_BLOB";
-			        break;
-		        case Column::TYPE_MEDIUMBLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_MEDIUMBLOB";
-			        break;
-		        case Column::TYPE_LONGBLOB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_LONGBLOB";
-			        break;
-		        case Column::TYPE_JSON:
-			        $fieldDefinition[] = "'type' => Column::TYPE_JSON";
-			        break;
-		        case Column::TYPE_JSONB:
-			        $fieldDefinition[] = "'type' => Column::TYPE_JSONB";
-			        break;
-		        case Column::TYPE_BIGINTEGER:
-	                        $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
-                        	break;
-		        default:
-			        throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
-	        }
+            switch ($field->getType()) {
+                case Column::TYPE_INTEGER:
+                    $fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
+                    $numericFields[ $field->getName() ] = true;
+                    break;
+                case Column::TYPE_VARCHAR:
+                    $fieldDefinition[] = "'type' => Column::TYPE_VARCHAR";
+                    break;
+                case Column::TYPE_CHAR:
+                    $fieldDefinition[] = "'type' => Column::TYPE_CHAR";
+                    break;
+                case Column::TYPE_DATE:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DATE";
+                    break;
+                case Column::TYPE_DATETIME:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
+                    break;
+                case Column::TYPE_DECIMAL:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
+                    $numericFields[ $field->getName() ] = true;
+                    break;
+                case Column::TYPE_TEXT:
+                    $fieldDefinition[] = "'type' => Column::TYPE_TEXT";
+                    break;
+                case Column::TYPE_BOOLEAN:
+                    $fieldDefinition[] = "'type' => Column::TYPE_BOOLEAN";
+                    break;
+                case Column::TYPE_FLOAT:
+                    $fieldDefinition[] = "'type' => Column::TYPE_FLOAT";
+                    break;
+                case Column::TYPE_DOUBLE:
+                    $fieldDefinition[] = "'type' => Column::TYPE_DOUBLE";
+                    break;
+                case Column::TYPE_TINYBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_TINYBLOB";
+                    break;
+                case Column::TYPE_BLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_BLOB";
+                    break;
+                case Column::TYPE_MEDIUMBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_MEDIUMBLOB";
+                    break;
+                case Column::TYPE_LONGBLOB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_LONGBLOB";
+                    break;
+                case Column::TYPE_JSON:
+                    $fieldDefinition[] = "'type' => Column::TYPE_JSON";
+                    break;
+                case Column::TYPE_JSONB:
+                    $fieldDefinition[] = "'type' => Column::TYPE_JSONB";
+                    break;
+                case Column::TYPE_BIGINTEGER:
+                            $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
+                            break;
+                default:
+                    throw new Exception('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
+            }
 
             //if ($field->isPrimary()) {
             //	$fieldDefinition[] = "'primary' => true";
