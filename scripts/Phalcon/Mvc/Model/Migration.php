@@ -199,6 +199,9 @@ class Migration
                 case Column::TYPE_DATETIME:
                     $fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
                     break;
+                case 17: // If so, then Phalcon is support for Column::TYPE_TIMESTAMP constant
+                    $fieldDefinition[] = "'type' => Column::TYPE_TIMESTAMP";
+                    break;
                 case Column::TYPE_DECIMAL:
                     $fieldDefinition[] = "'type' => Column::TYPE_DECIMAL";
                     $numericFields[ $field->getName() ] = true;
@@ -234,8 +237,8 @@ class Migration
                     $fieldDefinition[] = "'type' => Column::TYPE_JSONB";
                     break;
                 case Column::TYPE_BIGINTEGER:
-                            $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
-                            break;
+                    $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
+                    break;
                 default:
                     throw new DbException('Unrecognized data type ' . $field->getType() . ' at column ' . $field->getName());
             }
