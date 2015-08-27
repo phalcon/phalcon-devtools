@@ -114,7 +114,7 @@ EOD;
         if (!empty($namespace)) {
             $namespace = str_replace('namespace ', '', $namespace);
             $namespace = str_replace(';', '', $namespace);
-            $namespace = str_replace(["\r", "\n"], '', $namespace);
+            $namespace = str_replace(array("\r", "\n"), '', $namespace);
 
             $namespace = PHP_EOL . ' * @package ' . $namespace;
         }
