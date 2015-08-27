@@ -33,9 +33,9 @@ $di->setShared('router', function () {
 /**
  * The URL component is used to generate all kinds of URLs in the application
  */
-$di->setShared('url', function () {
+$di->setShared('url', function () use ($config) {
     $url = new UrlResolver();
-    $url->setBaseUri('/@@name@@/');
+    $url->setBaseUri($config->application->baseUri);
 
     return $url;
 });
