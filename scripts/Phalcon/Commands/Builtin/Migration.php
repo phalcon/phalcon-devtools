@@ -25,8 +25,10 @@ use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Migrations;
+use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
+use Phalcon\Config\Adapter\Yaml as YamlConfig;
 
 /**
  * Migration Command
@@ -55,45 +57,58 @@ class Migration extends Command
      * Determines correct adapter by file name
      * and load config
      *
-     * @param $fileName
+     * @param string $fileName Config file name
      *
-     * @return bool|mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
+     * @return \Phalcon\Config
+     * @throws \Phalcon\Builder\BuilderException
      */
-    protected static function _loadConfig($fileName)
+    protected function loadConfig($fileName)
     {
         $pathInfo = pathinfo($fileName);
 
         if (isset($pathInfo['extension'])) {
-            $extension = $pathInfo['extension'];
+            $extension = strtolower(trim($pathInfo['extension']));
             if ($extension === 'php') {
-                return include($fileName);
+                $config = include($fileName);
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
+
+                return $config;
             } elseif ($extension === 'ini') {
                 return new IniConfig($fileName);
             } elseif ($extension === 'json') {
                 return new JsonConfig($fileName);
+            } elseif ($extension === 'json') {
+                return new YamlConfig($fileName);
             }
         }
 
-        return false;
+        throw new BuilderException("Builder can't locate the configuration file.");
     }
 
     /**
-     * @param $path
+     * @param string $path Config path
      *
-     * @return mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
+     * @return \Phalcon\Config
      * @throws \Phalcon\Builder\BuilderException
      */
-    protected static function _getConfig($path)
+    protected function getConfig($path)
     {
         foreach (array('app/config/', 'config/') as $configPath) {
             if (file_exists($path . $configPath. "config.ini")) {
                 return new IniConfig($path . $configPath. "/config.ini");
             } elseif (file_exists($path . $configPath. "/config.php")) {
                 $config = include($path . $configPath. "/config.php");
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
 
                 return $config;
             } elseif (file_exists($path . $configPath. "/config.json")) {
                 return new JsonConfig($path . $configPath. "/config.json");
+            } elseif (file_exists($path . $configPath. "/config.yaml")) {
+                return new YamlConfig($path . $configPath. "/config.yaml");
             }
         }
 
@@ -102,15 +117,21 @@ class Migration extends Command
         foreach ($iterator as $f) {
             if (preg_match('/config\.php$/i', $f->getPathName())) {
                 $config = include($f->getPathName());
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
 
                 return $config;
-            } elseif (preg_match('/config\.ini$/', $f->getPathName())) {
+            } elseif (preg_match('/config\.ini$/i', $f->getPathName())) {
                 return new IniConfig($f->getPathName());
-            } elseif (preg_match('/config\.json$/', $f->getPathName())) {
+            } elseif (preg_match('/config\.json$/i', $f->getPathName())) {
                 return new JsonConfig($f->getPathName());
+            } elseif (preg_match('/config\.yaml$/i', $f->getPathName())) {
+                return new YamlConfig($f->getPathName());
             }
         }
-        throw new BuilderException('Builder can\'t locate the configuration file');
+
+        throw new BuilderException("Builder can't locate the configuration file.");
     }
 
     /**
@@ -149,10 +170,9 @@ class Migration extends Command
         $originalVersion = $this->getOption('version');
 
         if ($this->isReceivedOption('config')) {
-            $configPath = $path . $this->getOption('config');
-            $config = $this->_loadConfig($configPath);
+            $config = $this->loadConfig($path . $this->getOption('config'));
         } else {
-            $config = $this->_getConfig($path);
+            $config = $this->getConfig($path);
         }
 
         $action = $this->getOption(array('action', 1));
