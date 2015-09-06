@@ -24,6 +24,7 @@ use Phalcon\Db;
 use Phalcon\Text;
 use Phalcon\Migrations;
 use Phalcon\Db\Column;
+use Phalcon\Generator\Snippet;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
@@ -161,22 +162,24 @@ class Migration
      * @return string
      * @throws \Phalcon\Db\Exception
      */
-    public static function generate($version, $table, $exportData=null)
+    public static function generate($version, $table, $exportData = null)
     {
         $oldColumn = null;
         $allFields = array();
         $numericFields = array();
         $tableDefinition = array();
+        $snippet = new Snippet();
 
-        if (isset(self::$_databaseConfig->schema)) {
-            $defaultSchema = self::$_databaseConfig->schema;
-        } elseif (isset(self::$_databaseConfig->adapter) && self::$_databaseConfig->adapter == 'Postgresql') {
+        if (self::$_databaseConfig->offsetExists('schema')) {
+            $defaultSchema = self::$_databaseConfig->get('schema');
+        } elseif (self::$_databaseConfig->get('adapter') == 'Postgresql') {
             $defaultSchema =  'public';
-        } elseif (isset(self::$_databaseConfig->dbname)) {
-            $defaultSchema = self::$_databaseConfig->dbname;
+        } elseif (self::$_databaseConfig->offsetExists('dbname')) {
+            $defaultSchema = self::$_databaseConfig->get('dbname');
         } else {
             $defaultSchema = null;
         }
+
         $description = self::$_connection->describeColumns($table, $defaultSchema);
 
         foreach ($description as $field) {
@@ -279,7 +282,7 @@ class Migration
             }
 
             $oldColumn = $field->getName();
-            $tableDefinition[] = "\t\t\t\tnew Column(\n\t\t\t\t\t'" . $field->getName() . "',\n\t\t\t\t\tarray(\n\t\t\t\t\t\t" . join(",\n\t\t\t\t\t\t", $fieldDefinition) . "\n\t\t\t\t\t)\n\t\t\t\t)";
+            $tableDefinition[] = $snippet->getColumnDefinition($field->getName(), $fieldDefinition);
             $allFields[] = "'".$field->getName()."'";
         }
 
@@ -290,7 +293,7 @@ class Migration
             foreach ($dbIndex->getColumns() as $indexColumn) {
                 $indexDefinition[] = "'" . $indexColumn . "'";
             }
-            $indexesDefinition[] = "\t\t\t\tnew Index('".$indexName."', array(" . join(", ", $indexDefinition) . "))";
+            $indexesDefinition[] = $snippet->getIndexDefinition($indexName, $indexDefinition);
         }
 
         $referencesDefinition = array();
@@ -312,7 +315,7 @@ class Migration
             $referenceDefinition[] = "'columns' => array(" . join(",", $columns) . ")";
             $referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns) . ")";
 
-            $referencesDefinition[] = "\t\t\t\tnew Reference('" . $constraintName."', array(\n\t\t\t\t\t" . join(",\n\t\t\t\t\t", $referenceDefinition) . "\n\t\t\t\t))";
+            $referencesDefinition[] = $snippet->getReferenceDefinition($constraintName, $referenceDefinition);
         }
 
         $optionsDefinition = array();
@@ -321,34 +324,26 @@ class Migration
             if (self::$_skipAI && strtoupper($optionName) == "AUTO_INCREMENT") {
                 $optionValue = '';
             }
-            $optionsDefinition[] = "\t\t\t\t'" . strtoupper($optionName) . "' => '" . $optionValue . "'";
+            $optionsDefinition[] = "'" . strtoupper($optionName) . "' => '" . $optionValue . "'";
         }
 
         $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
         $className = Text::camelize($table) . 'Migration_'.$classVersion;
-        $classData = "use Phalcon\\Db\\Column;
-use Phalcon\\Db\\Index;
-use Phalcon\\Db\\Reference;
-use Phalcon\\Mvc\\Model\\Migration;
+        $classData = $snippet->getMigrationClassData($className, $table, $tableDefinition);
 
-class ".$className." extends Migration\n".
-"{\n\n".
-        "\tpublic function up()\n".
-        "\t{\n\t\t\$this->morphTable(\n\t\t\t'" . $table . "',\n\t\t\tarray(" .
-        "\n\t\t\t'columns' => array(\n" . join(",\n", $tableDefinition) . "\n\t\t\t),";
         if (count($indexesDefinition)) {
-            $classData .= "\n\t\t\t'indexes' => array(\n" . join(",\n", $indexesDefinition) . "\n\t\t\t),";
+            $classData .= $snippet->getMigrationDefinition('indexes', $indexesDefinition);
         }
 
         if (count($referencesDefinition)) {
-            $classData .= "\n\t\t\t'references' => array(\n".join(",\n", $referencesDefinition) . "\n\t\t\t),";
+            $classData .= $snippet->getMigrationDefinition('references', $referencesDefinition);
         }
 
         if (count($optionsDefinition)) {
-            $classData .= "\n\t\t\t'options' => array(\n".join(",\n", $optionsDefinition) . "\n\t\t\t)\n";
+            $classData .= $snippet->getMigrationDefinition('options', $optionsDefinition);
         }
 
-        $classData .= "\t\t)\n\t\t);\n\t}";
+        $classData .= "            )\n        );\n    }";
         if ($exportData == 'always' || $exportData == 'oncreate') {
             if ($exportData == 'oncreate') {
                 $classData .= "\n\n\tpublic function afterCreateTable() {\n";
