@@ -57,12 +57,12 @@ class Migration extends Command
      * Determines correct adapter by file name
      * and load config
      *
-     * @param $fileName
+     * @param string $fileName Config file name
      *
      * @return \Phalcon\Config
      * @throws \Phalcon\Builder\BuilderException
      */
-    protected static function _loadConfig($fileName)
+    protected function loadConfig($fileName)
     {
         $pathInfo = pathinfo($fileName);
 
@@ -88,12 +88,12 @@ class Migration extends Command
     }
 
     /**
-     * @param $path
+     * @param string $path Config path
      *
      * @return \Phalcon\Config
      * @throws \Phalcon\Builder\BuilderException
      */
-    protected static function _getConfig($path)
+    protected function getConfig($path)
     {
         foreach (array('app/config/', 'config/') as $configPath) {
             if (file_exists($path . $configPath. "config.ini")) {
@@ -170,9 +170,9 @@ class Migration extends Command
         $originalVersion = $this->getOption('version');
 
         if ($this->isReceivedOption('config')) {
-            $config = $this->_loadConfig($path . $this->getOption('config'));
+            $config = $this->loadConfig($path . $this->getOption('config'));
         } else {
-            $config = $this->_getConfig($path);
+            $config = $this->getConfig($path);
         }
 
         $action = $this->getOption(array('action', 1));
