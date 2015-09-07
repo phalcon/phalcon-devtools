@@ -43,14 +43,15 @@ class Migration extends Command
 {
 
     protected $_possibleParameters = array(
-        'action=s'          => "Generates a Migration [generate|run]",
+        'action=s'          => "Generates a Migration [generate|run].",
         'config=s'          => "Configuration file.",
         'migrations=s'      => "Migrations directory.",
         'directory=s'       => "Directory where the project was created.",
         'table=s'           => "Table to migrate. Default: all.",
         'version=s'         => "Version to migrate.",
         'force'             => "Forces to overwrite existing migrations.",
-        'no-auto-increment' => "Disable auto increment (Generating only)",
+        'no-auto-increment' => "Disable auto increment (Generating only).",
+        'data=s'            => "Export data [always|oncreate] (Import data when run migration).",
     );
 
     /**
