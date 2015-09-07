@@ -313,7 +313,7 @@ EOD;
         return PHP_EOL.sprintf($template, join(",\n            ", $contents)).PHP_EOL;
     }
 
-    public function getMigrationClassData($className, $table, $tableDefinition)
+    public function getMigrationMorph($className, $table, $tableDefinition)
     {
         $template = <<<EOD
 use Phalcon\Db\Column;
@@ -324,16 +324,87 @@ use Phalcon\Mvc\Model\Migration;
 class %s extends Migration
 {
     /**
+     * Define the table structure
+     *
+     * @return void
+     */
+    public function morph()
+    {
+        \$this->morphTable('%s', array(
+%s
+EOD;
+        return sprintf($template, $className, $table, $this->getMigrationDefinition('columns', $tableDefinition));
+    }
+
+    public function getMigrationUp()
+    {
+        $template = <<<EOD
+
+    /**
      * Run the migrations
      *
      * @return void
      */
     public function up()
     {
-        \$this->morphTable('%s', array(
-%s
+
 EOD;
-        return sprintf($template, $className, $table, $this->getMigrationDefinition('columns', $tableDefinition));
+        return $template;
+    }
+
+    public function getMigrationDown()
+    {
+        $template = <<<EOD
+
+    /**
+     * Reverse the migrations
+     *
+     * @return void
+     */
+    public function down()
+    {
+
+EOD;
+        return $template;
+    }
+
+    public function getMigrationBatchInsert($table, $allFields)
+    {
+        $template = <<<EOD
+        \$this->batchInsert('%s', array(
+                %s
+            )
+        );
+EOD;
+        return sprintf($template, $table, join(",\n                ", $allFields));
+    }
+
+    public function getMigrationAfterCreateTable($table, $allFields)
+    {
+        $template = <<<EOD
+
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        \$this->batchInsert('%s', array(
+                %s
+            )
+        );
+     }
+EOD;
+        return sprintf($template, $table, join(",\n                ", $allFields));
+    }
+
+    public function getMigrationBatchDelete($table)
+    {
+        $template = <<<EOD
+        \$this->batchDelete('%s');
+EOD;
+        return sprintf($template, $table);
     }
 
     public function getMigrationDefinition($name, $definition)
