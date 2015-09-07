@@ -313,6 +313,77 @@ EOD;
         return PHP_EOL.sprintf($template, join(",\n            ", $contents)).PHP_EOL;
     }
 
+    public function getMigrationClassData($className, $table, $tableDefinition)
+    {
+        $template = <<<EOD
+use Phalcon\Db\Column;
+use Phalcon\Db\Index;
+use Phalcon\Db\Reference;
+use Phalcon\Mvc\Model\Migration;
+
+class %s extends Migration
+{
+    /**
+     * Run the migrations
+     *
+     * @return void
+     */
+    public function up()
+    {
+        \$this->morphTable('%s', array(
+%s
+EOD;
+        return sprintf($template, $className, $table, $this->getMigrationDefinition('columns', $tableDefinition));
+    }
+
+    public function getMigrationDefinition($name, $definition)
+    {
+        $template = <<<EOD
+                '%s' => array(
+                    %s
+                ),
+
+EOD;
+        return sprintf($template, $name, join(",\n                    ", $definition));
+    }
+
+    public function getColumnDefinition($field, $fieldDefinition)
+    {
+        $template = <<<EOD
+new Column(
+                        '%s',
+                        array(
+                            %s
+                        )
+                    )
+EOD;
+
+        return sprintf($template, $field, join(",\n                            ", $fieldDefinition));
+    }
+
+    public function getIndexDefinition($indexName, $indexDefinition)
+    {
+        $template = <<<EOD
+new Index('%s', array(%s))
+EOD;
+
+        return sprintf($template, $indexName, join(", ", $indexDefinition));
+    }
+
+    public function getReferenceDefinition($constraintName, $referenceDefinition)
+    {
+        $template = <<<EOD
+new Reference(
+                        '%s',
+                        array(
+                            %s
+                        )
+                    )
+EOD;
+
+        return sprintf($template, $constraintName, join(",\n                            ", $referenceDefinition));
+    }
+
     public function getUse($class)
     {
         $templateUse = 'use %s;';
