@@ -476,13 +476,9 @@ class Migration
      */
     public function morphTable($tableName, $definition)
     {
-        $defaultSchema = null;
-
-        if (isset(self::$_databaseConfig->dbname)) {
-            $defaultSchema = self::$_databaseConfig->dbname;
-        }
-
+        $defaultSchema = self::$_databaseConfig->get('dbname');
         $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
+
         if (isset($definition['columns'])) {
             if (count($definition['columns']) == 0) {
                 throw new DbException('Table must have at least one column');
@@ -493,13 +489,19 @@ class Migration
                 if (!is_object($tableColumn)) {
                     throw new DbException('Table must have at least one column');
                 }
-                /** @var  \Phalcon\Db\ColumnInterface $tableColumn */
+                /**
+                 * @var \Phalcon\Db\ColumnInterface $tableColumn
+                 * @var \Phalcon\Db\ColumnInterface[] $fields
+                 */
                 $fields[$tableColumn->getName()] = $tableColumn;
             }
 
             if ($tableExists == true) {
                 $localFields = array();
-                /** @var  \Phalcon\Db\ColumnInterface[] $description */
+                /**
+                 * @var \Phalcon\Db\ColumnInterface[] $description
+                 * @var \Phalcon\Db\ColumnInterface[] $localFields
+                 */
                 $description = self::$_connection->describeColumns($tableName, $defaultSchema);
                 foreach ($description as $field) {
                     $localFields[$field->getName()] = $field;
@@ -513,7 +515,6 @@ class Migration
                     if (!isset($localFields[$fieldName])) {
                         self::$_connection->addColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);
                     } else {
-
                         $changed = false;
 
                         if ($localFields[$fieldName]->getType() != $tableColumn->getType()) {
