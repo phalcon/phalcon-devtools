@@ -153,10 +153,22 @@ class Migration extends Command
         if ($this->isReceivedOption('directory')) {
             $path = $this->getOption('directory');
         }
+
         $path = realpath($path) . DIRECTORY_SEPARATOR;
+
+        if ($this->isReceivedOption('config')) {
+            $config = $this->loadConfig($path . $this->getOption('config'));
+        } else {
+            $config = $this->getConfig($path);
+        }
 
         if ($this->isReceivedOption('migrations')) {
             $migrationsDir = $path.$this->getOption('migrations');
+        } elseif (isset($config['application']['migrationsDir'])) {
+            $migrationsDir = $config['application']['migrationsDir'];
+            if (!$this->path->isAbsolutePath($migrationsDir)) {
+                $migrationsDir = $path . $migrationsDir;
+            }
         } else {
             if (file_exists($path.'app')) {
                 $migrationsDir = $path.'app/migrations';
@@ -169,12 +181,6 @@ class Migration extends Command
 
         $exportData = $this->getOption('data');
         $originalVersion = $this->getOption('version');
-
-        if ($this->isReceivedOption('config')) {
-            $config = $this->loadConfig($path . $this->getOption('config'));
-        } else {
-            $config = $this->getConfig($path);
-        }
 
         $action = $this->getOption(array('action', 1));
 
