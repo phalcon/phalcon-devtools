@@ -273,10 +273,16 @@ class Migration
                 $fieldDefinition[] = "'autoIncrement' => true";
             }
 
-            if ($field->getSize()) {
-                $fieldDefinition[] = "'size' => " . $field->getSize();
+            if (self::$_databaseConfig->adapter == 'Postgresql' &&
+                in_array($field->getType(), [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])
+            ) {
+                // nothing
             } else {
-                $fieldDefinition[] = "'size' => 1";
+                if ($field->getSize()) {
+                    $fieldDefinition[] = "'size' => " . $field->getSize();
+                } else {
+                    $fieldDefinition[] = "'size' => 1";
+                }
             }
 
             if ($field->getScale()) {
