@@ -1,5 +1,9 @@
 {
-  "directories": "resources",
+  "directories": [
+    "resources",
+    "scripts",
+    "templates"
+  ],
   "files": "webtools.php",
   "finder": [
     {
@@ -9,11 +13,6 @@
         "LICENSE",
         "phalcon.bat",
         "phalcon.sh"
-      ],
-      "in": "scripts",
-      "name": [
-        "*.phtml",
-        "*.php"
       ]
     }
   ],
