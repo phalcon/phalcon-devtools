@@ -404,8 +404,10 @@ class Migration
                     } else {
                         $data[] = "'".addslashes($value)."'";
                     }
+
                     unset($value);
                 }
+
                 fputs($fileHandler, join('|', $data).PHP_EOL);
                 unset($row);
                 unset($data);
@@ -466,8 +468,7 @@ class Migration
                     $toMigration->morph();
                 }
             } else {
-                // for safety's sake commented out!
-                //self::$_connection->dropTable($tableName);
+                self::$_connection->dropTable($tableName);
             }
         }
     }
@@ -696,7 +697,11 @@ class Migration
         self::$_connection->delete($tableName);
         $batchHandler = fopen($migrationData, 'r');
         while (($line = fgets($batchHandler)) !== false) {
-            self::$_connection->insert($tableName, explode('|', rtrim($line)), $fields);
+            $values = array_map(function ($value) {
+                return trim($value, "'");
+            }, explode('|', rtrim($line)));
+
+            self::$_connection->insert($tableName, $values, $fields);
             unset($line);
         }
         fclose($batchHandler);
