@@ -389,17 +389,14 @@ class Migration
             while ($row = $cursor->fetchArray()) {
                 $data = array();
                 foreach ($row as $key => $value) {
-                    if (isset($numericFields[$key])) {
-                        if ($value==='' || is_null($value)) {
-                            $data[] = 'NULL';
-                        } else {
-                            $data[] = addslashes($value);
-                        }
+                    if (isset($numericFields[$key]) && ($value === '' || is_null($value))) {
+                        $data[] = 'NULL';
                     } else {
-                        $data[] = "'".addslashes($value)."'";
+                        $data[] = addslashes($value);
                     }
                     unset($value);
                 }
+
                 fputs($fileHandler, join('|', $data).PHP_EOL);
                 unset($row);
                 unset($data);
@@ -460,8 +457,7 @@ class Migration
                     $toMigration->morph();
                 }
             } else {
-                // for safety's sake commented out!
-                //self::$_connection->dropTable($tableName);
+                self::$_connection->dropTable($tableName);
             }
         }
     }
