@@ -66,10 +66,15 @@ class Modules extends ProjectBuilder
      */
     private function createControllerFile()
     {
+        $namespace = $this->options->get('name');
+        if (strtolower(trim($namespace)) == 'default') {
+            $namespace = 'MyDefault';
+        }
+
         $builder = new ControllerBuilder(array(
             'name'           => 'index',
             'controllersDir' => $this->options->get('projectPath') . 'apps/frontend/controllers/',
-            'namespace'      => ucfirst($this->options->get('name')) . '\Frontend\Controllers',
+            'namespace'      => ucfirst($namespace) . '\Frontend\Controllers',
             'baseClass'      => 'ControllerBase'
         ));
 
