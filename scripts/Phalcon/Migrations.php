@@ -98,6 +98,7 @@ class Migrations
 
         ModelMigration::setSkipAutoIncrement($options['no-ai']);
         ModelMigration::setMigrationPath($migrationsDir);
+
         if ($tableName == 'all') {
             $migrations = ModelMigration::generateAll($version, $exportData);
             foreach ($migrations as $tableName => $migration) {
@@ -199,23 +200,22 @@ class Migrations
         $versionsBetween = VersionItem::between($initialVersion, $finalVersion, $versions);
         foreach ($versionsBetween as $k => $version) {
             /** @var \Phalcon\Version\Item $version */
-            if ($k > 0) { // skip the initial version
-                if ($tableName == 'all') {
-                    $iterator = new \DirectoryIterator($migrationsDir . '/' . $version);
-                    foreach ($iterator as $fileinfo) {
-                        if (!$fileinfo->isFile() || !preg_match('/\.php$/i', $fileinfo->getFilename())) {
-                            continue;
-                        }
-
-                        ModelMigration::migrate($initialVersion, $version, $fileinfo->getBasename('.php'));
+            if ($tableName == 'all') {
+                $iterator = new \DirectoryIterator($migrationsDir . '/' . $version);
+                foreach ($iterator as $fileinfo) {
+                    if (!$fileinfo->isFile() || !preg_match('/\.php$/i', $fileinfo->getFilename())) {
+                        continue;
                     }
-                } else {
-                    ModelMigration::migrate($initialVersion, $version, $tableName);
-                }
 
-                file_put_contents($migrationFid, (string)$version);
-                print Color::success('Version ' . $version . ' was successfully migrated');
+                    ModelMigration::migrate($initialVersion, $version, $fileinfo->getBasename('.php'));
+                }
+            } else {
+                ModelMigration::migrate($initialVersion, $version, $tableName);
             }
+
+            file_put_contents($migrationFid, (string)$version);
+            print Color::success('Version ' . $version . ' was successfully migrated');
+
             $initialVersion = $version;
         }
     }
