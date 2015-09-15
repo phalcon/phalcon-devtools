@@ -389,11 +389,16 @@ class Migration
             while ($row = $cursor->fetchArray()) {
                 $data = array();
                 foreach ($row as $key => $value) {
-                    if (isset($numericFields[$key]) && ($value === '' || is_null($value))) {
-                        $data[] = 'NULL';
+                    if (isset($numericFields[$key])) {
+                        if ($value==='' || is_null($value)) {
+                            $data[] = 'NULL';
+                        } else {
+                            $data[] = addslashes($value);
+                        }
                     } else {
-                        $data[] = addslashes($value);
+                        $data[] = "'".addslashes($value)."'";
                     }
+
                     unset($value);
                 }
 
@@ -686,7 +691,11 @@ class Migration
         self::$_connection->delete($tableName);
         $batchHandler = fopen($migrationData, 'r');
         while (($line = fgets($batchHandler)) !== false) {
-            self::$_connection->insert($tableName, explode('|', rtrim($line)), $fields);
+            $values = array_map(function ($value) {
+                return trim($value, "'");
+            }, explode('|', rtrim($line)));
+
+            self::$_connection->insert($tableName, $values, $fields);
             unset($line);
         }
         fclose($batchHandler);
