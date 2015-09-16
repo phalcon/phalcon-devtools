@@ -122,26 +122,26 @@ chmod ugo+x /usr/bin/phalcon
 To get a list of available commands just execute following:
 
 ```bash
-$ phalcon commands
+$ phalcon commands help
 ```
 
 This command should display something similar to:
 
 ```bash
-Phalcon DevTools (2.0.7)
+Phalcon DevTools (2.0.8)
 
 Help:
   Lists the commands available in Phalcon devtools
 
 Available commands:
-  commands (alias of: list, enumerate)
-  controller (alias of: create-controller)
-  model (alias of: create-model)
-  all-models (alias of: create-all-models)
-  project (alias of: create-project)
-  scaffold (alias of: create-scaffold)
-  migration (alias of: create-migration)
-  webtools (alias of: create-webtools)
+  commands         (alias of: list, enumerate)
+  controller       (alias of: create-controller)
+  model            (alias of: create-model)
+  all-models       (alias of: create-all-models)
+  project          (alias of: create-project)
+  scaffold         (alias of: create-scaffold)
+  migration        (alias of: create-migration)
+  webtools         (alias of: create-webtools)
 ```
 
 ## Update WebTools from old version
