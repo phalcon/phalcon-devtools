@@ -321,6 +321,9 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Mvc\Model\Migration;
 
+/**
+ * Class %s
+ */
 class %s extends Migration
 {
     /**
@@ -333,7 +336,7 @@ class %s extends Migration
         \$this->morphTable('%s', array(
 %s
 EOD;
-        return sprintf($template, $className, $table, $this->getMigrationDefinition('columns', $tableDefinition));
+        return sprintf($template, $className, $className, $table, $this->getMigrationDefinition('columns', $tableDefinition));
     }
 
     public function getMigrationUp()
