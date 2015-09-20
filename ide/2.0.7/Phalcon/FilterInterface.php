@@ -23,7 +23,7 @@ interface FilterInterface
      *
      * @param mixed $value 
      * @param mixed $filters 
-     * @return variable 
+     * @return mixed 
      */
     public function sanitize($value, $filters);
 

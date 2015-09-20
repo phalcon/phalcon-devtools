@@ -265,7 +265,4 @@ class Collection implements \Countable, \Iterator
      */
     public function addFilter(\Phalcon\Assets\FilterInterface $filter) {}
 
-
-     function zephir_init_properties_Phalcon_Assets_Collection() {}
-
 }

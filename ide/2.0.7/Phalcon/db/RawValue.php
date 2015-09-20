@@ -32,6 +32,8 @@ class RawValue
 
     /**
      * Raw value without quoting or formating
+     *
+     * @return string 
      */
     public function __toString() {}
 
