@@ -33,7 +33,4 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 
-
-     function zephir_init_properties_Phalcon_Mvc_Model_Validator_Inclusionin() {}
-
 }

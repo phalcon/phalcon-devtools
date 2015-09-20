@@ -50,7 +50,7 @@ abstract class Validator
      *
      * @param string $option 
      * @param mixed $defaultValue 
-     * @return variable 
+     * @return mixed 
      */
     public function getOption($option, $defaultValue = "") {}
 
@@ -61,8 +61,5 @@ abstract class Validator
      * @return bool 
      */
     public function isSetOption($option) {}
-
-
-     function zephir_init_properties_Phalcon_Mvc_Model_Validator() {}
 
 }

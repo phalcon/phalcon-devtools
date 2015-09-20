@@ -65,7 +65,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
      * Returns an index in the registry
      *
      * @param string $offset 
-     * @return variable 
+     * @return mixed 
      */
     public final function offsetGet($offset) {}
 
@@ -132,7 +132,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
      * Returns an index in the registry
      *
      * @param string $key 
-     * @return variable 
+     * @return mixed 
      */
     public final function __get($key) {}
 

@@ -69,7 +69,4 @@ class Headers implements \Phalcon\Http\Response\HeadersInterface
      */
     public static function __set_state($data) {}
 
-
-     function zephir_init_properties_Phalcon_Http_Response_Headers() {}
-
 }

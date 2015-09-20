@@ -56,7 +56,4 @@ class Ip extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\Vali
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 
-
-     function zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip() {}
-
 }
