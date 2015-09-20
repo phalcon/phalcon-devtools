@@ -20,15 +20,15 @@
 
 namespace Phalcon\Script;
 
+use Phalcon\Exception as PhalconException;
+
 /**
  * \Phalcon\Script\ScriptException
  *
- * @category 	Phalcon
- * @package 	Script
- * @subpackage  Exception
+ * @package     Phalcon
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license 	New BSD License
+ * @license     New BSD License
  */
-class ScriptException extends \Phalcon\Exception
+class ScriptException extends PhalconException
 {
 }
