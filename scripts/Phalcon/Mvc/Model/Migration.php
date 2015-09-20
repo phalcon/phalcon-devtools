@@ -161,6 +161,16 @@ class Migration
     }
 
     /**
+     * Returns database name
+     *
+     * @return mixed
+     */
+    public static function getDbName()
+    {
+        return self::$_databaseConfig->get('dbname');
+    }
+
+    /**
      * Generate specified table migration
      *
      * @param      $version
