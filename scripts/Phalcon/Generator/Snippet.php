@@ -190,7 +190,7 @@ EOD;
         return PHP_EOL.sprintf($templateGetterMap, $fieldName, $type, $setterName, $fieldName, $typeMap, $fieldName).PHP_EOL;
     }
 
-    public function getGetter($fieldName, $type, $setterName)
+    public function getGetter($fieldName, $type, $getterName)
     {
         $templateGetter = <<<EOD
     /**
@@ -203,7 +203,7 @@ EOD;
         return \$this->%s;
     }
 EOD;
-        return PHP_EOL.sprintf($templateGetter, $fieldName, $type, $setterName, $fieldName).PHP_EOL;
+        return PHP_EOL.sprintf($templateGetter, $fieldName, $type, $getterName, $fieldName).PHP_EOL;
     }
 
     public function getInitialize(array $pieces)
