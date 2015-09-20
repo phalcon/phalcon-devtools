@@ -56,7 +56,7 @@ abstract class Command implements CommandsInterface
 
     /**
      * Parameters received by the script.
-     * @var string
+     * @var array
      */
     protected $_parameters = array();
 
@@ -301,10 +301,33 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * Returns the value of an option received. If more parameters are taken as filters.
+     * Returns all received options.
+     *
+     * @param mixed $filters Filter name or array of filters [Optional]
+     *
+     * @return array
+     */
+    public function getOptions($filters = null)
+    {
+        if (!$filters) {
+            return $this->_parameters;
+        }
+
+        $result = [];
+
+        foreach ($this->_parameters as $param) {
+            $filter = new Filter();
+            $result[] = $filter->sanitize($param, $filters);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns the value of an option received.
      *
      * @param mixed $option Option name or array of options
-     * @param mixed $filters Filter name or array of filters
+     * @param mixed $filters Filter name or array of filters [Optional]
      * @param mixed $defaultValue Default value [Optional]
      *
      * @return mixed
@@ -325,19 +348,19 @@ abstract class Command implements CommandsInterface
             }
 
             return $defaultValue;
-        } else {
-            if (isset($this->_parameters[$option])) {
-                if ($filters !== null) {
-                    $filter = new Filter();
-
-                    return $filter->sanitize($this->_parameters[$option], $filters);
-                }
-
-                return $this->_parameters[$option];
-            } else {
-                return $defaultValue;
-            }
         }
+
+        if (isset($this->_parameters[$option])) {
+            if ($filters !== null) {
+                $filter = new Filter();
+
+                return $filter->sanitize($this->_parameters[$option], $filters);
+            }
+
+            return $this->_parameters[$option];
+        }
+
+        return $defaultValue;
     }
 
     /**
