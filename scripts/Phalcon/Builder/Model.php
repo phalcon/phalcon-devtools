@@ -323,7 +323,12 @@ class Model extends Component
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
                         /** @var \Phalcon\Db\Column $field */
-                        $methodName = Utils::camelize($field->getName());
+
+                        $methodName  = $field->getName();
+                        $methodParts = explode('_', $methodName);
+                        $methodParts = array_map('ucfirst',$methodParts);
+                        $methodName = implode('', $methodParts);
+
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
                     }
@@ -441,13 +446,18 @@ class Model extends Component
             $type = $this->getPHPType($field->getType());
             if ($useSettersGetters) {
                 $attributes[] = $this->snippet->getAttributes($type, 'protected', $field->getName());
-                $setterName = Utils::camelize($field->getName());
-                $setters[] = $this->snippet->getSetter($field->getName(), $type, $setterName);
+
+                $methodName  = $field->getName();
+                $methodParts = explode('_', $methodName);
+                $methodParts = array_map('ucfirst',$methodParts);
+                $methodName = implode('', $methodParts);
+
+                $setters[] = $this->snippet->getSetter($field->getName(), $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
-                    $getters[] = $this->snippet->getGetterMap($field->getName(), $type, $setterName, $this->_typeMap[$type]);
+                    $getters[] = $this->snippet->getGetterMap($field->getName(), $type, $methodName, $this->_typeMap[$type]);
                 } else {
-                    $getters[] = $this->snippet->getGetter($field->getName(), $type, $setterName);
+                    $getters[] = $this->snippet->getGetter($field->getName(), $type, $methodName);
                 }
             } else {
                 $attributes[] = $this->snippet->getAttributes($type, 'public', $field->getName());
