@@ -238,13 +238,11 @@ class Tools
             $basePath . '/apps/backend/config/',
         );
 
-        $readed = false;
         $config = null;
 
         foreach ($configDirs as $configPath) {
             if (file_exists($configPath . 'config.ini')) {
                 $config = new ConfigIni($configPath . 'config.ini');
-                $readed = true;
 
                 break;
             } elseif (file_exists($configPath . 'config.php')) {
@@ -252,25 +250,22 @@ class Tools
                 if (is_array($config)) {
                     $config = new Config($config);
                 }
-                $readed = true;
 
                 break;
             } elseif (file_exists($configPath . 'config.yaml')) {
                 $config = new YamlConfig($configPath . 'config.yaml');
-                $readed = true;
 
                 break;
             } elseif (file_exists($configPath . 'config.json')) {
                 $config = new JsonConfig($configPath . 'config.json');
-                $readed = true;
 
                 break;
             }
         }
 
-        if ($readed === false) {
+        if (null === $config) {
             throw new Exception(sprintf(
-                'Configuration file could not be loaded! Scanned dirs: %s',
+                "Configuration file couldn't be loaded! Scanned dirs: %s",
                 implode(', ', $configDirs)
             ));
         }
