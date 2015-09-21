@@ -26,6 +26,10 @@ use Phalcon\Script\Color;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
 use Phalcon\Builder\Path;
+use Phalcon\Config\Adapter\Ini as IniConfig;
+use Phalcon\Config\Adapter\Json as JsonConfig;
+use Phalcon\Config\Adapter\Yaml as YamlConfig;
+use Phalcon\Config;
 
 /**
  * Command Class
@@ -119,6 +123,87 @@ abstract class Command implements CommandsInterface
     public function getScript()
     {
         return $this->_script;
+    }
+
+    /**
+     * @param string $path Config path
+     *
+     * @return \Phalcon\Config
+     * @throws CommandsException
+     */
+    protected function getConfig($path)
+    {
+        foreach (array('app/config/', 'config/') as $configPath) {
+            if (file_exists($path . $configPath. "config.ini")) {
+                return new IniConfig($path . $configPath. "/config.ini");
+            } elseif (file_exists($path . $configPath. "/config.php")) {
+                $config = include($path . $configPath. "/config.php");
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
+
+                return $config;
+            } elseif (file_exists($path . $configPath. "/config.json")) {
+                return new JsonConfig($path . $configPath. "/config.json");
+            } elseif (file_exists($path . $configPath. "/config.yaml")) {
+                return new YamlConfig($path . $configPath. "/config.yaml");
+            }
+        }
+
+        $directory = new \RecursiveDirectoryIterator('.');
+        $iterator = new \RecursiveIteratorIterator($directory);
+        foreach ($iterator as $f) {
+            if (preg_match('/config\.php$/i', $f->getPathName())) {
+                $config = include($f->getPathName());
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
+
+                return $config;
+            } elseif (preg_match('/config\.ini$/i', $f->getPathName())) {
+                return new IniConfig($f->getPathName());
+            } elseif (preg_match('/config\.json$/i', $f->getPathName())) {
+                return new JsonConfig($f->getPathName());
+            } elseif (preg_match('/config\.yaml$/i', $f->getPathName())) {
+                return new YamlConfig($f->getPathName());
+            }
+        }
+
+        throw new CommandsException("Builder can't locate the configuration file.");
+    }
+
+    /**
+     * Determines correct adapter by file name
+     * and load config
+     *
+     * @param string $fileName Config file name
+     *
+     * @return \Phalcon\Config
+     * @throws CommandsException
+     */
+    protected function loadConfig($fileName)
+    {
+        $pathInfo = pathinfo($fileName);
+
+        if (isset($pathInfo['extension'])) {
+            $extension = strtolower(trim($pathInfo['extension']));
+            if ($extension === 'php') {
+                $config = include($fileName);
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
+
+                return $config;
+            } elseif ($extension === 'ini') {
+                return new IniConfig($fileName);
+            } elseif ($extension === 'json') {
+                return new JsonConfig($fileName);
+            } elseif ($extension === 'json') {
+                return new YamlConfig($fileName);
+            }
+        }
+
+        throw new CommandsException("Builder can't locate the configuration file.");
     }
 
     /**
