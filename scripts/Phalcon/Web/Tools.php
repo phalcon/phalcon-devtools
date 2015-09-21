@@ -29,8 +29,10 @@ use Phalcon\Version;
 use Phalcon\Script;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\View;
-use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Config;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Config\Adapter\Yaml as YamlConfig;
+use Phalcon\Config\Adapter\Json as JsonConfig;
 
 /**
  * Phalcon\Web\Tools
@@ -214,10 +216,8 @@ class Tools
     {
         if (!extension_loaded('phalcon')) {
             throw new \Exception(
-                sprintf(
-                    "Phalcon extension isn't installed, follow these instructions to install it: %s",
-                    Script::DOC_INSTALL_URL
-                )
+                "Phalcon extension isn't installed, follow these instructions to install it: " .
+                'http://phalconphp.com/documentation/install'
             );
         }
 
@@ -239,6 +239,7 @@ class Tools
         );
 
         $readed = false;
+        $config = null;
 
         foreach ($configDirs as $configPath) {
             if (file_exists($configPath . 'config.ini')) {
@@ -246,16 +247,24 @@ class Tools
                 $readed = true;
 
                 break;
-            } else {
-                if (file_exists($configPath . 'config.php')) {
-                    $config = include($configPath . 'config.php');
-                    if (is_array($config)) {
-                        $config = new Config($config);
-                    }
-                    $readed = true;
-
-                    break;
+            } elseif (file_exists($configPath . 'config.php')) {
+                $config = include($configPath . 'config.php');
+                if (is_array($config)) {
+                    $config = new Config($config);
                 }
+                $readed = true;
+
+                break;
+            } elseif (file_exists($configPath . 'config.yaml')) {
+                $config = new YamlConfig($configPath . 'config.yaml');
+                $readed = true;
+
+                break;
+            } elseif (file_exists($configPath . 'config.json')) {
+                $config = new JsonConfig($configPath . 'config.json');
+                $readed = true;
+
+                break;
             }
         }
 
@@ -291,23 +300,32 @@ class Tools
         try {
             $di = new FactoryDefault();
 
-            $di->set('view', function () use ($path) {
+            $di->setShared('view', function () use ($path) {
                 $view = new View();
                 $view->setViewsDir($path . '/scripts/Phalcon/Web/Tools/views/');
 
                 return $view;
             });
 
-            $di->set('config', $config);
+            $di->setShared('config', $config);
 
-            $di->set('url', function () use ($config) {
+            $di->setShared('url', function () use ($config) {
                 $url = new Url();
-                $url->setBaseUri($config->application->baseUri);
+
+                if (isset($config->application->baseUri)) {
+                    $baseUri = $config->application->baseUri;
+                } elseif (isset($config->baseUri)) {
+                    $baseUri = $config->baseUri;
+                } else {
+                    $baseUri = '/';
+                }
+
+                $url->setBaseUri($baseUri);
 
                 return $url;
             });
 
-            $di->set('flash', function () {
+            $di->setShared('flash', function () {
                 return new Flash(array(
                     'error'   => 'alert alert-danger',
                     'success' => 'alert alert-success',
@@ -316,7 +334,7 @@ class Tools
                 ));
             });
 
-            $di->set('db', function () use ($config) {
+            $di->setShared('db', function () use ($config) {
 
                 if (isset($config->database->adapter)) {
                     $adapter = $config->database->adapter;
