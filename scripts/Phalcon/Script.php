@@ -43,7 +43,6 @@ class Script
      */
     const COMPATIBLE_VERSION = 2000023;
 
-    const DOC_INSTALL_URL = ' http://phalconphp.com/documentation/install';
     const DOC_DOWNLOAD_URL = 'http://phalconphp.com/download';
 
     /**
