@@ -163,4 +163,7 @@ $config = [
 
 ## License
 
-Phalcon Developer Tools is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more.
+Phalcon Developer Tools is open source software licensed under the [New BSD License][1].
+© Phalcon Framework Team and contributors
+
+[1]: https://github.com/phalcon/phalcon-devtools/blob/master/docs/LICENSE.md
