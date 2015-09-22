@@ -21,7 +21,7 @@
 
 use Phalcon\Tag;
 use Phalcon\Builder\BuilderException;
-use Phalcon\Text as Utils;
+use Phalcon\Utils;
 
 class ModelsController extends ControllerBase
 {

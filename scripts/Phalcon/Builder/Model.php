@@ -21,7 +21,7 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Db\Column;
-use Phalcon\Text as Utils;
+use Phalcon\Utils;
 use ReflectionException;
 use Phalcon\Generator\Snippet;
 use ReflectionClass;
@@ -323,11 +323,7 @@ class Model extends Component
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
                         /** @var \Phalcon\Db\Column $field */
-
-                        $methodName  = $field->getName();
-                        $methodParts = explode('_', $methodName);
-                        $methodParts = array_map('ucfirst',$methodParts);
-                        $methodName = implode('', $methodParts);
+                        $methodName = Utils::camelize($field->getName());
 
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
@@ -446,11 +442,7 @@ class Model extends Component
             $type = $this->getPHPType($field->getType());
             if ($useSettersGetters) {
                 $attributes[] = $this->snippet->getAttributes($type, 'protected', $field->getName());
-
-                $methodName  = $field->getName();
-                $methodParts = explode('_', $methodName);
-                $methodParts = array_map('ucfirst',$methodParts);
-                $methodName = implode('', $methodParts);
+                $methodName = Utils::camelize($field->getName());
 
                 $setters[] = $this->snippet->getSetter($field->getName(), $type, $methodName);
 

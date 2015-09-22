@@ -20,7 +20,7 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Text as Utils;
+use Phalcon\Utils;
 
 /**
  * Controller Class
