@@ -440,7 +440,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     /**
      * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
      *
-     * @return variable 
+     * @return mixed 
      */
     public function getClientCharsets() {}
 

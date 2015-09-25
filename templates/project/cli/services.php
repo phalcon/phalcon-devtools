@@ -6,6 +6,6 @@
  * @var \Phalcon\Di\FactoryDefault\Cli $di
  */
 
-$di->set('config', function () use ($config) {
+$di->setShared('config', function () use ($config) {
     return $config;
 });

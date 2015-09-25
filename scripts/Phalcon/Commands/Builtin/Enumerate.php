@@ -32,6 +32,8 @@ use Phalcon\Commands\Command;
  */
 class Enumerate extends Command
 {
+    const COMMAND_COLUMN_LEN = 16;
+
     protected $_possibleParameters = array();
 
     /**
@@ -42,13 +44,16 @@ class Enumerate extends Command
      */
     public function run($parameters)
     {
-        print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL ;
+        print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL;
         foreach ($this->getScript()->getCommands() as $commands) {
             $providedCommands = $commands->getCommands();
+            $commandLen = strlen($providedCommands[0]);
+
             print '  ' . Color::colorize($providedCommands[0], Color::FG_GREEN);
             unset($providedCommands[0]);
             if (count($providedCommands)) {
-                print ' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
+                $spacer = str_repeat(' ', self::COMMAND_COLUMN_LEN - $commandLen);
+                print $spacer.' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
             }
             print PHP_EOL;
         }

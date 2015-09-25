@@ -15,13 +15,13 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <sadhooklay@gmail.com>                       |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
 use Phalcon\Tag;
 use Phalcon\Builder\BuilderException;
-use Phalcon\Text as Utils;
+use Phalcon\Utils;
 
 class ModelsController extends ControllerBase
 {

@@ -123,8 +123,13 @@ abstract class ProjectBuilder
 
             $str = file_get_contents($getFile);
             if ($name) {
+                $namespace = $name;
+                if (strtolower(trim($name)) == 'default') {
+                    $namespace = 'MyDefault';
+                }
+
                 $str = preg_replace('/@@name@@/', $name, $str);
-                $str = preg_replace('/@@namespace@@/', ucfirst($name), $str);
+                $str = preg_replace('/@@namespace@@/', $namespace, $str);
             }
 
             if (sizeof($this->variableValues) > 0) {

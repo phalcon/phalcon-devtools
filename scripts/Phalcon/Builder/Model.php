@@ -21,7 +21,7 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Db\Column;
-use Phalcon\Text as Utils;
+use Phalcon\Utils;
 use ReflectionException;
 use Phalcon\Generator\Snippet;
 use ReflectionClass;
@@ -196,20 +196,22 @@ class Model extends Component
         $db = new $adapterName($configArray);
 
         $initialize = array();
+
         if ($this->options->contains('schema')) {
             $schema = $this->options->get('schema');
             if ($schema != $config->database->dbname) {
-                $initialize[] = $this->snippet->getThisMethod('setSchema', $schema);
+                $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
             }
+
         } elseif ($adapter == 'Postgresql') {
             $schema = 'public';
-            $initialize[] = $initialize[] = $this->snippet->getThisMethod('setSchema', $schema);
+            $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
         } else {
             $schema = $config->database->dbname;
         }
 
         $table = $this->options->get('name');
-        if ($this->options->get('fileName') != $this->options->get('name')) {
+        if ($this->options->get('fileName') != $table && !isset($initialize['schema'])) {
             $initialize[] = $this->snippet->getThisMethod('setSource', '\'' . $table . '\'');
         }
 
@@ -322,6 +324,7 @@ class Model extends Component
                     foreach ($fields as $field) {
                         /** @var \Phalcon\Db\Column $field */
                         $methodName = Utils::camelize($field->getName());
+
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
                     }
@@ -439,13 +442,14 @@ class Model extends Component
             $type = $this->getPHPType($field->getType());
             if ($useSettersGetters) {
                 $attributes[] = $this->snippet->getAttributes($type, 'protected', $field->getName());
-                $setterName = Utils::camelize($field->getName());
-                $setters[] = $this->snippet->getSetter($field->getName(), $type, $setterName);
+                $methodName = Utils::camelize($field->getName());
+
+                $setters[] = $this->snippet->getSetter($field->getName(), $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
-                    $getters[] = $this->snippet->getGetterMap($field->getName(), $type, $setterName, $this->_typeMap[$type]);
+                    $getters[] = $this->snippet->getGetterMap($field->getName(), $type, $methodName, $this->_typeMap[$type]);
                 } else {
-                    $getters[] = $this->snippet->getGetter($field->getName(), $type, $setterName);
+                    $getters[] = $this->snippet->getGetter($field->getName(), $type, $methodName);
                 }
             } else {
                 $attributes[] = $this->snippet->getAttributes($type, 'public', $field->getName());

@@ -13,7 +13,7 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Serghei Iakovlev <sadhooklay@gmail.com>                       |
+  | Authors: Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
@@ -114,7 +114,7 @@ EOD;
         if (!empty($namespace)) {
             $namespace = str_replace('namespace ', '', $namespace);
             $namespace = str_replace(';', '', $namespace);
-            $namespace = str_replace(["\r", "\n"], '', $namespace);
+            $namespace = str_replace(array("\r", "\n"), '', $namespace);
 
             $namespace = PHP_EOL . ' * @package ' . $namespace;
         }
@@ -190,7 +190,7 @@ EOD;
         return PHP_EOL.sprintf($templateGetterMap, $fieldName, $type, $setterName, $fieldName, $typeMap, $fieldName).PHP_EOL;
     }
 
-    public function getGetter($fieldName, $type, $setterName)
+    public function getGetter($fieldName, $type, $getterName)
     {
         $templateGetter = <<<EOD
     /**
@@ -203,7 +203,7 @@ EOD;
         return \$this->%s;
     }
 EOD;
-        return PHP_EOL.sprintf($templateGetter, $fieldName, $type, $setterName, $fieldName).PHP_EOL;
+        return PHP_EOL.sprintf($templateGetter, $fieldName, $type, $getterName, $fieldName).PHP_EOL;
     }
 
     public function getInitialize(array $pieces)
@@ -311,6 +311,151 @@ EOD;
         }
 
         return PHP_EOL.sprintf($template, join(",\n            ", $contents)).PHP_EOL;
+    }
+
+    public function getMigrationMorph($className, $table, $tableDefinition)
+    {
+        $template = <<<EOD
+use Phalcon\Db\Column;
+use Phalcon\Db\Index;
+use Phalcon\Db\Reference;
+use Phalcon\Mvc\Model\Migration;
+
+/**
+ * Class %s
+ */
+class %s extends Migration
+{
+    /**
+     * Define the table structure
+     *
+     * @return void
+     */
+    public function morph()
+    {
+        \$this->morphTable('%s', array(
+%s
+EOD;
+        return sprintf($template, $className, $className, $table, $this->getMigrationDefinition('columns', $tableDefinition));
+    }
+
+    public function getMigrationUp()
+    {
+        $template = <<<EOD
+
+    /**
+     * Run the migrations
+     *
+     * @return void
+     */
+    public function up()
+    {
+
+EOD;
+        return $template;
+    }
+
+    public function getMigrationDown()
+    {
+        $template = <<<EOD
+
+    /**
+     * Reverse the migrations
+     *
+     * @return void
+     */
+    public function down()
+    {
+
+EOD;
+        return $template;
+    }
+
+    public function getMigrationBatchInsert($table, $allFields)
+    {
+        $template = <<<EOD
+        \$this->batchInsert('%s', array(
+                %s
+            )
+        );
+EOD;
+        return sprintf($template, $table, join(",\n                ", $allFields));
+    }
+
+    public function getMigrationAfterCreateTable($table, $allFields)
+    {
+        $template = <<<EOD
+
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        \$this->batchInsert('%s', array(
+                %s
+            )
+        );
+     }
+EOD;
+        return sprintf($template, $table, join(",\n                ", $allFields));
+    }
+
+    public function getMigrationBatchDelete($table)
+    {
+        $template = <<<EOD
+        \$this->batchDelete('%s');
+EOD;
+        return sprintf($template, $table);
+    }
+
+    public function getMigrationDefinition($name, $definition)
+    {
+        $template = <<<EOD
+                '%s' => array(
+                    %s
+                ),
+
+EOD;
+        return sprintf($template, $name, join(",\n                    ", $definition));
+    }
+
+    public function getColumnDefinition($field, $fieldDefinition)
+    {
+        $template = <<<EOD
+new Column(
+                        '%s',
+                        array(
+                            %s
+                        )
+                    )
+EOD;
+
+        return sprintf($template, $field, join(",\n                            ", $fieldDefinition));
+    }
+
+    public function getIndexDefinition($indexName, $indexDefinition)
+    {
+        $template = <<<EOD
+new Index('%s', array(%s))
+EOD;
+
+        return sprintf($template, $indexName, join(", ", $indexDefinition));
+    }
+
+    public function getReferenceDefinition($constraintName, $referenceDefinition)
+    {
+        $template = <<<EOD
+new Reference(
+                        '%s',
+                        array(
+                            %s
+                        )
+                    )
+EOD;
+
+        return sprintf($template, $constraintName, join(",\n                            ", $referenceDefinition));
     }
 
     public function getUse($class)

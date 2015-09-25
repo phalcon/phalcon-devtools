@@ -20,7 +20,7 @@
 
 use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold;
-use Phalcon\Text as Utils;
+use Phalcon\Utils;
 
 class ScaffoldController extends ControllerBase
 {

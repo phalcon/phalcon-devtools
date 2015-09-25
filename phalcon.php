@@ -30,16 +30,10 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Exception as PhalconException;
 
 try {
-    $extensionLoaded = true;
-
     if (!extension_loaded('phalcon')) {
-        $extensionLoaded = false;
-        include dirname(__FILE__) . '/scripts/Phalcon/Script.php';
         throw new Exception(
-            sprintf(
-                "Phalcon extension isn't installed, follow these instructions to install it: %s",
-                Script::DOC_INSTALL_URL
-            )
+            "Phalcon extension isn't installed, follow these instructions to install it: " .
+            'http://phalconphp.com/documentation/install'
         );
     }
 
@@ -90,9 +84,5 @@ try {
 } catch (PhalconException $e) {
     print Color::error($e->getMessage()) . PHP_EOL;
 } catch (Exception $e) {
-    if ($extensionLoaded) {
-        print Color::error($e->getMessage()) . PHP_EOL;
-    } else {
-        print 'ERROR: ' . $e->getMessage() . PHP_EOL;
-    }
+    print 'ERROR: ' . $e->getMessage() . PHP_EOL;
 }

@@ -25,8 +25,10 @@ use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Migrations;
+use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
+use Phalcon\Config\Adapter\Yaml as YamlConfig;
 
 /**
  * Migration Command
@@ -41,77 +43,16 @@ class Migration extends Command
 {
 
     protected $_possibleParameters = array(
-        'action=s'          => "Generates a Migration [generate|run]",
+        'action=s'          => "Generates a Migration [generate|run].",
         'config=s'          => "Configuration file.",
         'migrations=s'      => "Migrations directory.",
         'directory=s'       => "Directory where the project was created.",
         'table=s'           => "Table to migrate. Default: all.",
         'version=s'         => "Version to migrate.",
         'force'             => "Forces to overwrite existing migrations.",
-        'no-auto-increment' => "Disable auto increment (Generating only)",
+        'no-auto-increment' => "Disable auto increment (Generating only).",
+        'data=s'            => "Export data [always|oncreate] (Import data when run migration).",
     );
-
-    /**
-     * Determines correct adapter by file name
-     * and load config
-     *
-     * @param $fileName
-     *
-     * @return bool|mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
-     */
-    protected static function _loadConfig($fileName)
-    {
-        $pathInfo = pathinfo($fileName);
-
-        if (isset($pathInfo['extension'])) {
-            $extension = $pathInfo['extension'];
-            if ($extension === 'php') {
-                return include($fileName);
-            } elseif ($extension === 'ini') {
-                return new IniConfig($fileName);
-            } elseif ($extension === 'json') {
-                return new JsonConfig($fileName);
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $path
-     *
-     * @return mixed|\Phalcon\Config\Adapter\Ini|\Phalcon\Config\Adapter\Json
-     * @throws \Phalcon\Builder\BuilderException
-     */
-    protected static function _getConfig($path)
-    {
-        foreach (array('app/config/', 'config/') as $configPath) {
-            if (file_exists($path . $configPath. "config.ini")) {
-                return new IniConfig($path . $configPath. "/config.ini");
-            } elseif (file_exists($path . $configPath. "/config.php")) {
-                $config = include($path . $configPath. "/config.php");
-
-                return $config;
-            } elseif (file_exists($path . $configPath. "/config.json")) {
-                return new JsonConfig($path . $configPath. "/config.json");
-            }
-        }
-
-        $directory = new \RecursiveDirectoryIterator('.');
-        $iterator = new \RecursiveIteratorIterator($directory);
-        foreach ($iterator as $f) {
-            if (preg_match('/config\.php$/i', $f->getPathName())) {
-                $config = include($f->getPathName());
-
-                return $config;
-            } elseif (preg_match('/config\.ini$/', $f->getPathName())) {
-                return new IniConfig($f->getPathName());
-            } elseif (preg_match('/config\.json$/', $f->getPathName())) {
-                return new JsonConfig($f->getPathName());
-            }
-        }
-        throw new BuilderException('Builder can\'t locate the configuration file');
-    }
 
     /**
      * Executes the command
@@ -131,10 +72,22 @@ class Migration extends Command
         if ($this->isReceivedOption('directory')) {
             $path = $this->getOption('directory');
         }
+
         $path = realpath($path) . DIRECTORY_SEPARATOR;
+
+        if ($this->isReceivedOption('config')) {
+            $config = $this->loadConfig($path . $this->getOption('config'));
+        } else {
+            $config = $this->getConfig($path);
+        }
 
         if ($this->isReceivedOption('migrations')) {
             $migrationsDir = $path.$this->getOption('migrations');
+        } elseif (isset($config['application']['migrationsDir'])) {
+            $migrationsDir = $config['application']['migrationsDir'];
+            if (!$this->path->isAbsolutePath($migrationsDir)) {
+                $migrationsDir = $path . $migrationsDir;
+            }
         } else {
             if (file_exists($path.'app')) {
                 $migrationsDir = $path.'app/migrations';
@@ -147,13 +100,6 @@ class Migration extends Command
 
         $exportData = $this->getOption('data');
         $originalVersion = $this->getOption('version');
-
-        if ($this->isReceivedOption('config')) {
-            $configPath = $path . $this->getOption('config');
-            $config = $this->_loadConfig($configPath);
-        } else {
-            $config = $this->_getConfig($path);
-        }
 
         $action = $this->getOption(array('action', 1));
 

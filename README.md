@@ -77,30 +77,11 @@ chmod +xr ./phalcon.phar
 php ./phalcon.phar
 ```
 
-## Installation via PEAR
+## Installation via Git
 
-Phalcon Devtools can be installed using PEAR. Since the current version of Devtools
-is in beta state, you might need to update your PEAR config. You can execute following to check
-your current state:
+Phalcon Devtools can be installed by using Git.
 
-```bash
-pear config-show | grep preferred_state | awk '{split($0, s, " "); print s[5]}'
-```
-
-If it prints "stable" you need to set the preferred_state to beta:
-
-```bash
-pear config-set preferred_state beta
-```
-
-After that just discover the channel and install the package:
-
-```bash
-pear channel-discover pear.phalconphp.com
-pear install phalcon/Devtools
-```
-
-Alternatively you can just clone the repo and checkout the current branch
+Just clone the repo and checkout the current branch:
 
 ```bash
 cd ~
@@ -122,26 +103,26 @@ chmod ugo+x /usr/bin/phalcon
 To get a list of available commands just execute following:
 
 ```bash
-$ phalcon commands
+$ phalcon commands help
 ```
 
 This command should display something similar to:
 
 ```bash
-Phalcon DevTools (2.0.7)
+Phalcon DevTools (2.0.8)
 
 Help:
   Lists the commands available in Phalcon devtools
 
 Available commands:
-  commands (alias of: list, enumerate)
-  controller (alias of: create-controller)
-  model (alias of: create-model)
-  all-models (alias of: create-all-models)
-  project (alias of: create-project)
-  scaffold (alias of: create-scaffold)
-  migration (alias of: create-migration)
-  webtools (alias of: create-webtools)
+  commands         (alias of: list, enumerate)
+  controller       (alias of: create-controller)
+  model            (alias of: create-model)
+  all-models       (alias of: create-all-models)
+  project          (alias of: create-project)
+  scaffold         (alias of: create-scaffold)
+  migration        (alias of: create-migration)
+  webtools         (alias of: create-webtools)
 ```
 
 ## Update WebTools from old version
@@ -182,4 +163,7 @@ $config = [
 
 ## License
 
-Phalcon Developer Tools is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more.
+Phalcon Developer Tools is open source software licensed under the [New BSD License][1].
+© Phalcon Framework Team and contributors
+
+[1]: https://github.com/phalcon/phalcon-devtools/blob/master/docs/LICENSE.md
