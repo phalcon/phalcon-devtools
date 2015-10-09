@@ -265,7 +265,7 @@ class Migration
             }
 
             if (null !== ($default = $field->getDefault())) {
-                $fieldDefinition[] = "'default' => '$default'";
+                $fieldDefinition[] = "'default' => \"$default\"";
             }
             //if ($field->isPrimary()) {
             //	$fieldDefinition[] = "'primary' => true";
