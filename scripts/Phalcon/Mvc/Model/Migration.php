@@ -493,13 +493,7 @@ class Migration
      */
     public function morphTable($tableName, $definition)
     {
-        if(self::$_databaseConfig->get('adapter') === 'Postgresql'){
-            $defaultSchema = self::$_databaseConfig->get('dbname').'.'.self::$_databaseConfig->get('schema');
-        }
-        else{
-            $defaultSchema = self::$_databaseConfig->get('dbname');
-        }
-
+        $defaultSchema = self::$_databaseConfig->get('dbname');
         $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
 
         if (isset($definition['columns'])) {
