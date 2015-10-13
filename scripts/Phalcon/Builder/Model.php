@@ -199,15 +199,12 @@ class Model extends Component
 
         if ($this->options->contains('schema')) {
             $schema = $this->options->get('schema');
-            if ($schema != $config->database->dbname) {
-                $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
-            }
-
-        } elseif ($adapter == 'Postgresql') {
-            $schema = 'public';
-            $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
         } else {
-            $schema = $config->database->dbname;
+            $schema = Utils::resolveDbSchema($config->database);
+        }
+
+        if ($schema && $schema != $config->database->dbname) {
+            $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
         }
 
         $table = $this->options->get('name');

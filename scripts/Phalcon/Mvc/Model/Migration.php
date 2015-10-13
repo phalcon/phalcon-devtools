@@ -28,6 +28,7 @@ use Phalcon\Generator\Snippet;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Utils;
 use Phalcon\Version\Item as VersionItem;
 
 /**
@@ -188,17 +189,8 @@ class Migration
         $tableDefinition = array();
         $snippet = new Snippet();
 
-        if (self::$_databaseConfig->offsetExists('schema')) {
-            $defaultSchema = self::$_databaseConfig->get('schema');
-        } elseif (self::$_databaseConfig->get('adapter') == 'Postgresql') {
-            $defaultSchema =  'public';
-        } elseif (self::$_databaseConfig->offsetExists('dbname')) {
-            $defaultSchema = self::$_databaseConfig->get('dbname');
-        } else {
-            $defaultSchema = null;
-        }
-
-        $description = self::$_connection->describeColumns($table, $defaultSchema);
+        $defaultSchema = Utils::resolveDbSchema(self::$_databaseConfig);
+        $description   = self::$_connection->describeColumns($table, $defaultSchema);
 
         foreach ($description as $field) {
             /** @var \Phalcon\Db\ColumnInterface $field */
@@ -493,8 +485,8 @@ class Migration
      */
     public function morphTable($tableName, $definition)
     {
-        $defaultSchema = self::$_databaseConfig->get('dbname');
-        $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
+        $defaultSchema = Utils::resolveDbSchema(self::$_databaseConfig);
+        $tableExists   = self::$_connection->tableExists($tableName, $defaultSchema);
 
         if (isset($definition['columns'])) {
             if (count($definition['columns']) == 0) {
