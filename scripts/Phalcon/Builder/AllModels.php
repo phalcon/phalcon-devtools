@@ -111,10 +111,8 @@ class AllModels extends Component
 
         if ($this->options->contains('schema')) {
             $schema = $this->options->get('schema');
-        } elseif ($adapter == 'Postgresql') {
-            $schema = 'public';
         } else {
-            $schema = isset($config->database->schema) ? $config->database->schema : $config->database->dbname;
+            $schema = Utils::resolveDbSchema($config->database);
         }
 
         $hasMany = array();
