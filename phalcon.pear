@@ -52,9 +52,7 @@ try {
         );
     }
 
-    if (!defined('TEMPLATE_PATH')) {
-        define('TEMPLATE_PATH', '@php_dir@/Phalcon/templates');
-    }
+    defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', __DIR__ . '/templates');
 
     $vendor = sprintf('Phalcon DevTools (%s)', Version::get());
     print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
