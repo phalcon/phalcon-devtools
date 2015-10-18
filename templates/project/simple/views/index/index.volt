@@ -4,4 +4,4 @@
 
 <p>You're now flying with Phalcon. Great things are about to happen!</p>
 
-<em>This page is located at views/index/index.phtml</em>
+<p>This page is located at <code>views/index/index.volt</code></p>
