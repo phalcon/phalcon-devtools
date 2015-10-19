@@ -2,10 +2,10 @@
 $namespace$
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
+$useFullyQualifiedModelName$
 
 class $className$Controller extends ControllerBase
 {
-
     /**
      * Index action
      */
@@ -19,10 +19,9 @@ class $className$Controller extends ControllerBase
      */
     public function searchAction()
     {
-
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, "$className$", $_POST);
+            $query = Criteria::fromInput($this->di, '$fullyQualifiedModelName$', $_POST);
             $this->persistent->parameters = $query->getParams();
         } else {
             $numberPage = $this->request->getQuery("page", "int");
@@ -68,7 +67,6 @@ class $className$Controller extends ControllerBase
      */
     public function editAction($pkVar$)
     {
-
         if (!$this->request->isPost()) {
 
             $singularVar$ = $className$::findFirstBy$pk$($pkVar$);
@@ -92,7 +90,6 @@ class $className$Controller extends ControllerBase
      */
     public function createAction()
     {
-
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
                 "controller" => "$plural$",
@@ -121,7 +118,6 @@ class $className$Controller extends ControllerBase
             "controller" => "$plural$",
             "action" => "index"
         ));
-
     }
 
     /**
@@ -171,7 +167,6 @@ class $className$Controller extends ControllerBase
             "controller" => "$plural$",
             "action" => "index"
         ));
-
     }
 
     /**
@@ -181,7 +176,6 @@ class $className$Controller extends ControllerBase
      */
     public function deleteAction($pkVar$)
     {
-
         $singularVar$ = $className$::findFirstBy$pk$($pkVar$);
         if (!$singularVar$) {
             $this->flash->error("$singular$ was not found");
