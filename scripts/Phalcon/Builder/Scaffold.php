@@ -156,14 +156,17 @@ class Scaffold extends Component
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
-        if ($modelsNamespace && substr($modelsNamespace, -1) !== '\\') {
-            $modelsNamespace .= "\\";
+        $modelName = Text::camelize($name);
+
+        if ($modelsNamespace) {
+            $modelClass = '\\' . trim($modelsNamespace, '\\') . '\\' . $modelName;
+        } else {
+            $modelClass = $modelName;
         }
 
-        $modelName = Text::camelize($name);
-        $modelClass = $modelsNamespace . $modelName;
         $modelPath = $this->options->get('modelsDir') . $modelName.'.php';
-        if (!file_exists($modelPath)) {
+
+        if (!file_exists($modelPath) || $this->options->get('force')) {
             $modelBuilder = new ModelBuilder(array(
                 'name'              => $name,
                 'schema'            => $this->options->get('schema'),
@@ -171,7 +174,8 @@ class Scaffold extends Component
                 'fileName'          => $this->options->get('fileName'),
                 'genSettersGetters' => $this->options->get('genSettersGetters'),
                 'directory'         => $this->options->get('directory'),
-                'force'             => $this->options->get('force')
+                'force'             => $this->options->get('force'),
+                'namespace'         => $this->options->get('modelsNamespace'),
             ));
 
             $modelBuilder->build();
@@ -199,6 +203,7 @@ class Scaffold extends Component
         $this->options->offsetSet('name', strtolower(Text::camelize($single)));
         $this->options->offsetSet('plural', $this->_getPossiblePlural($name));
         $this->options->offsetSet('singular', $this->_getPossibleSingular($name));
+        $this->options->offsetSet('modelClass', $modelClass);
         $this->options->offsetSet('entity', $entity);
         $this->options->offsetSet('setParams', $setParams);
         $this->options->offsetSet('attributes', $attributes);
@@ -479,6 +484,9 @@ class Scaffold extends Component
         } else {
             $code = str_replace('$namespace$', ' ', $code);
         }
+
+        $code = str_replace('$useFullyQualifiedModelName$', "use " . ltrim($this->options->modelClass, '\\') . ';', $code);
+        $code = str_replace('$fullyQualifiedModelName$', $this->options->modelClass, $code);
 
         $code = str_replace('$singularVar$', '$' . $this->options->singular, $code);
         $code = str_replace('$singular$', $this->options->singular, $code);
