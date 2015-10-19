@@ -62,12 +62,12 @@ class Project extends Command
         $useConfigIni = $this->getOption('use-config-ini');
 
         $builder = new ProjectBuilder(array(
-            'name' => $projectName,
-            'type' => $projectType,
-            'directory' => $projectPath,
+            'name'           => $projectName,
+            'type'           => $projectType,
+            'directory'      => $projectPath,
             'enableWebTools' => $enableWebtools,
-            'templatePath' => $templatePath,
-            'useConfigIni' => $useConfigIni
+            'templatePath'   => $templatePath,
+            'useConfigIni'   => $useConfigIni
         ));
 
         return $builder->build();
