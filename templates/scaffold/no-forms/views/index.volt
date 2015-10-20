@@ -9,7 +9,6 @@
 
 {{ content() }}
 
-
 {{ form("$plural$/search", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
 
 $captureFields$
