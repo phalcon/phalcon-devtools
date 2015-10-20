@@ -152,20 +152,21 @@ class Scaffold extends Component
         $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
-        if ($this->options->contains('modelsNamespace') && $this->checkNamespace($this->options->get('modelsNamespace'))) {
-            $modelsNamespace = $this->options->get('modelsNamespace');
-        }
-
-        if ($modelsNamespace && substr($modelsNamespace, -1) !== '\\') {
-            $modelsNamespace .= "\\";
-        }
-
         $modelName = Text::camelize($name);
-        $modelClass = $modelsNamespace . $modelName;
+        $modelClass = $modelName;
+        if ($this->options->contains('modelsNamespace') && $this->checkNamespace($this->options->get('modelsNamespace'))) {
+            $modelsNamespace = rtrim($this->options->get('modelsNamespace'), '\\');
+        }
+
+        if ($modelsNamespace) {
+            $modelClass = $modelsNamespace . '\\' . $modelName;
+        }
+
         $modelPath = $this->options->get('modelsDir') . $modelName.'.php';
         if (!file_exists($modelPath)) {
             $modelBuilder = new ModelBuilder(array(
                 'name'              => $name,
+                'namespace'         => $modelsNamespace,
                 'schema'            => $this->options->get('schema'),
                 'className'         => $this->options->get('className'),
                 'fileName'          => $this->options->get('fileName'),
