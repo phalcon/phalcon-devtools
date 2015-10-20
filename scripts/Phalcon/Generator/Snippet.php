@@ -435,13 +435,13 @@ EOD;
         return sprintf($template, $field, join(",\n                            ", $fieldDefinition));
     }
 
-    public function getIndexDefinition($indexName, $indexDefinition)
+    public function getIndexDefinition($indexName, $indexDefinition, $indexType = null)
     {
         $template = <<<EOD
-new Index('%s', array(%s))
+new Index('%s', array(%s), %s)
 EOD;
 
-        return sprintf($template, $indexName, join(", ", $indexDefinition));
+        return sprintf($template, $indexName, join(", ", $indexDefinition), $indexType ?: 'null');
     }
 
     public function getReferenceDefinition($constraintName, $referenceDefinition)

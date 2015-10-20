@@ -305,11 +305,12 @@ class Migration
         $indexesDefinition = array();
         $indexes = self::$_connection->describeIndexes($table, $defaultSchema);
         foreach ($indexes as $indexName => $dbIndex) {
+            /** @var \Phalcon\Db\Index $dbIndex */
             $indexDefinition = array();
             foreach ($dbIndex->getColumns() as $indexColumn) {
                 $indexDefinition[] = "'" . $indexColumn . "'";
             }
-            $indexesDefinition[] = $snippet->getIndexDefinition($indexName, $indexDefinition);
+            $indexesDefinition[] = $snippet->getIndexDefinition($indexName, $indexDefinition, $dbIndex->getType());
         }
 
         $referencesDefinition = array();
