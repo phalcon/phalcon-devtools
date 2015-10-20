@@ -42,7 +42,7 @@ class Webtools extends Command
      * @var array
      */
     protected $_possibleParameters = array(
-        'action=s' => 'Enables/Disables webtools in a project'
+        'action=s' => 'Enables/Disables webtools in a project [enable|disable].'
     );
 
     /**
@@ -108,8 +108,11 @@ class Webtools extends Command
         echo Color::head('Help:') . PHP_EOL;
         echo Color::colorize('  Enables/disables webtools in a project') . PHP_EOL . PHP_EOL;
 
-        echo Color::head('Usage:') . PHP_EOL;
-        echo Color::colorize('  webtools [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::head('Usage: Enable webtools') . PHP_EOL;
+        print Color::colorize('  webtools enable', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+        print Color::head('Usage: Disable webtools') . PHP_EOL;
+        print Color::colorize('  webtools disable', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Arguments:') . PHP_EOL;
         echo Color::colorize('  help', Color::FG_GREEN);
