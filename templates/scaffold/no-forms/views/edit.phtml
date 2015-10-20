@@ -1,25 +1,42 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="row">
+    <nav>
+        <ul class="pager">
+            <li class="previous"><?php echo $this->tag->linkTo(array("$plural$", "Back")) ?></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="page-header">
+    <h1>
+        Edit $plural$
+    </h1>
+</div>
 
 <?php echo $this->getContent(); ?>
 
-<?php echo $this->tag->form("$plural$/save") ?>
+<?php
+    echo $this->tag->form(
+        array(
+            "$plural$/save",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        )
+    );
+?>
 
-<table width="100%">
-    <tr>
-        <td align="left"><?php echo $this->tag->linkTo(array("$plural$", "Back")) ?></td>
-        <td align="right"><?php echo $this->tag->submitButton("Save") ?></td>
-    </tr>
-</table>
+$captureFields$
+<?php echo $this->tag->hiddenField("id") ?>
 
-<div align="center">
-    <h1>Edit $plural$</h1>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <?php echo $this->tag->submitButton(array("Save", "class" => "btn btn-default")) ?>
+    </div>
 </div>
 
-<table>
-$captureFields$
-	<tr>
-		<td><?php echo $this->tag->hiddenField("id") ?></td>
-		<td><?php echo $this->tag->submitButton("Save") ?></td>
-	</tr>
-</table>
-
-</form>
+<?php echo $this->tag->endForm(); ?>

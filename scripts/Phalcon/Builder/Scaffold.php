@@ -325,43 +325,42 @@ class Scaffold extends Component
      */
     private function _makeField($attribute, $dataType, $relationField, $selectDefinition)
     {
-        $code = "\t" . '<tr>' . PHP_EOL .
-                "\t\t" . '<td align="right">' . PHP_EOL .
-                "\t\t\t" . '<label for="' . $attribute . '">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
-                "\t\t" . '</td>' . PHP_EOL .
-                "\t\t" . '<td align="left">';
+        $id = 'field' . Text::camelize($attribute);
+        $code = '<div class="form-group">' . PHP_EOL .
+                "\t" . '<label for="' . $id . '" class="col-sm-2 control-label">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
+                "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
-            $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
-                ', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true)) ?>';
+            $code .= "\t\t" . '<?php echo $this->tag->select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
+                ', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '") ?>';
         } else {
             switch ($dataType) {
                 case 5: // enum
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->selectStatic(array("' . $attribute . '", array())) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->selectStatic(array("' . $attribute . '", array(), "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '")) ?>';
+                    $code .=  "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= PHP_EOL . "\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "number")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "number", "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date", "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textArea(array("' . $attribute . '", "cols" => 30, "rows" => 4)) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textArea(array("' . $attribute . '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 default:
-                    $code .= PHP_EOL . "\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "size" => 30)) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "size" => 30, "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
             }
         }
 
-        $code .= PHP_EOL . "\t\t" . '</td>';
-        $code .= PHP_EOL . "\t" . '</tr>' . PHP_EOL;
+        $code .= PHP_EOL . "\t" . '</div>' . PHP_EOL;
+        $code .= '</div>' . PHP_EOL . PHP_EOL;
 
-        return $code;
+        return str_replace("\t", '    ', $code);
     }
 
     /**
@@ -374,43 +373,42 @@ class Scaffold extends Component
      */
     private function _makeFieldVolt($attribute, $dataType, $relationField, $selectDefinition)
     {
-        $code = "\t" . '<tr>' . PHP_EOL .
-                "\t\t" . '<td align="right">' . PHP_EOL .
-                "\t\t\t" . '<label for="' . $attribute . '">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
-                "\t\t" . '</td>' . PHP_EOL .
-                "\t\t" . '<td align="left">';
+        $id = 'field' . Text::camelize($attribute);
+        $code = '<div class="form-group">' . PHP_EOL .
+            "\t" . '<label for="' . $id . '" class="col-sm-2 control-label">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
+            "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
-            $code .= PHP_EOL . "\t\t\t\t" . '{{ select("' . $attribute . '", ' . $selectDefinition[$attribute]['varName'] .
-                ', "using" :[ "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true]) }}';
+            $code .= "\t\t" . '{{ select("' . $attribute . '", ' . $selectDefinition[$attribute]['varName'] .
+                ', "using" :[ "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true], "class" : "form-control", "id" : "' . $id . '") }}';
         } else {
             switch ($dataType) {
                 case 5: // enum
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ select_static("' . $attribute . '", "using": []) }}';
+                    $code .= "\t\t" . '{{ select_static("' . $attribute . '", "using": [], "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '") }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= PHP_EOL . "\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "numeric") }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "type" : "numeric", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "date") }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "type" : "date", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_area("' . $attribute . '", "cols": "30", "rows": "4") }}';
+                    $code .= "\t\t" . '{{ text_area("' . $attribute . '", "cols": "30", "rows": "4", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 default:
-                    $code .= PHP_EOL . "\t\t\t" . '{{ text_field("' . $attribute . '", "size" : 30) }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "size" : 30, "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
             }
         }
 
-        $code .= PHP_EOL . "\t\t" . '</td>';
-        $code .= PHP_EOL . "\t" . '</tr>' . PHP_EOL;
+        $code .= PHP_EOL . "\t" . '</div>' . PHP_EOL;
+        $code .= '</div>' . PHP_EOL . PHP_EOL;
 
-        return $code;
+        return str_replace("\t", '    ', $code);
     }
 
     /**
@@ -538,7 +536,7 @@ class Scaffold extends Component
                 $code .= '<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
-                $code .= '<div align="center">' . PHP_EOL;
+                $code .= '<div class="row center-block">' . PHP_EOL;
             }
             $code .= "\t" . '<?php echo $this->getContent(); ?>' . PHP_EOL . '</div>';
 
@@ -579,7 +577,7 @@ class Scaffold extends Component
                 $code .= '{{ stylesheet_link("themes/base") }}'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
-                $code .= '<div align="center">' . PHP_EOL;
+                $code .= '<div class="row center-block">' . PHP_EOL;
             }
 
             $code .= "\t" . '{{ content() }}' . PHP_EOL . '</div>';

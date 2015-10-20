@@ -109,7 +109,7 @@ $ phalcon commands help
 This command should display something similar to:
 
 ```bash
-Phalcon DevTools (2.0.8)
+Phalcon DevTools (2.0.9)
 
 Help:
   Lists the commands available in Phalcon devtools
