@@ -112,7 +112,7 @@ class Webtools extends Command
         echo Color::colorize('  webtools [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Arguments:') . PHP_EOL;
-        echo Color::colorize('  ?', Color::FG_GREEN);
+        echo Color::colorize('  help', Color::FG_GREEN);
         echo Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
         $this->printParameters($this->_possibleParameters);

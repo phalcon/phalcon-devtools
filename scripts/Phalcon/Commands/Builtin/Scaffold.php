@@ -111,7 +111,7 @@ class Scaffold extends Command
         print Color::colorize('  scaffold [tableName] [options]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
-        print Color::colorize('  ?', Color::FG_GREEN);
+        print Color::colorize('  help', Color::FG_GREEN);
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
         $this->printParameters($this->_possibleParameters);
