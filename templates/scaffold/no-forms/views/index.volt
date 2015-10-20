@@ -1,10 +1,10 @@
 <div class="page-header">
     <h1>
         Search $plural$
-        <small>
-            {{ link_to("$plural$/new", "Create $plural$") }}
-        </small>
     </h1>
+    <p>
+        {{ link_to("$plural$/new", "Create $plural$") }}
+    </p>
 </div>
 
 {{ content() }}
