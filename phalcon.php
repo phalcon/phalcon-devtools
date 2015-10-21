@@ -80,7 +80,9 @@ try {
 
     $script->run();
 } catch (PhalconException $e) {
-    print Color::error($e->getMessage()) . PHP_EOL;
+    fwrite(STDERR, Color::error($e->getMessage()) . PHP_EOL);
+    exit(1);
 } catch (Exception $e) {
-    print 'ERROR: ' . $e->getMessage() . PHP_EOL;
+    fwrite(STDERR, 'ERROR: ' . $e->getMessage() . PHP_EOL);
+    exit(1);
 }
