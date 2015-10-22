@@ -54,13 +54,6 @@ Run the composer installer:
 php composer.phar install
 ```
 
-Create a symbolic link to the phalcon.php script:
-
-```bash
-ln -s ~/devtools/phalcon.php /usr/bin/phalcon
-chmod ugo+x /usr/bin/phalcon
-```
-
 ## Build `.phar`
 
 Install composer and box in a common location or in your project:
