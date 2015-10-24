@@ -21,7 +21,7 @@ $captureFields$
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        {{ submit_button(["Save", "class" : "btn btn-default"]) }}
+        {{ submit_button('Send', 'class': 'btn btn-default') }}
     </div>
 </div>
 
