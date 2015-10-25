@@ -441,7 +441,7 @@ EOD;
 new Index('%s', array(%s), %s)
 EOD;
 
-        return sprintf($template, $indexName, join(", ", $indexDefinition), $indexType ?: 'null');
+        return sprintf($template, $indexName, join(", ", $indexDefinition), $indexType ? "'$indexType'" : 'null');
     }
 
     public function getReferenceDefinition($constraintName, $referenceDefinition)
