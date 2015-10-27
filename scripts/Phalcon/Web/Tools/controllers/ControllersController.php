@@ -29,8 +29,8 @@ class ControllersController extends ControllerBase
     {
         if (!$this->controllersDir) {
             $this->flash->error(
-                "Sorry, WebTools doesn't know where is the controllers directory. <br>" .
-                "Please add to <code>application</code> section <code>controllersDir</code> param with valid path."
+                "Sorry, WebTools doesn't know where the controllers directory is. <br>" .
+                "Please add the valid path for <code>controllersDir</code> in the <code>application</code> section."
             );
         }
 
@@ -134,7 +134,7 @@ class ControllersController extends ControllerBase
             }
 
             if (!is_writable($this->controllersDir . $fileName)) {
-                $this->flash->error('Controller file does not has write access.');
+                $this->flash->error('Controller file does not have write access.');
 
                 return $this->dispatcher->forward(array(
                     'controller' => 'controllers',
