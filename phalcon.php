@@ -33,7 +33,7 @@ try {
     if (!extension_loaded('phalcon')) {
         throw new Exception(
             "Phalcon extension isn't installed, follow these instructions to install it: " .
-            'http://phalconphp.com/documentation/install'
+            'https://docs.phalconphp.com/en/latest/reference/install.html'
         );
     }
 

@@ -30,7 +30,7 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Phalcon\Config constructor
      *
-     * @param array $arrayConfig 
+     * @param array $arrayConfig
      */
     public function __construct($arrayConfig = null) {}
 
@@ -40,8 +40,8 @@ class Config implements \ArrayAccess, \Countable
      * var_dump(isset($config['database']));
      * </code>
      *
-     * @param mixed $index 
-     * @return bool 
+     * @param mixed $index
+     * @return bool
      */
     public function offsetExists($index) {}
 
@@ -52,8 +52,9 @@ class Config implements \ArrayAccess, \Countable
      * echo $config->get('controllersDir', '../app/controllers/');
      * </code>
      *
-     * @param mixed $index 
-     * @param mixed $defaultValue 
+     * @param mixed $index
+     * @param mixed $defaultValue
+     * @return mixed
      */
     public function get($index, $defaultValue = null) {}
 
@@ -63,8 +64,8 @@ class Config implements \ArrayAccess, \Countable
      * print_r($config['database']);
      * </code>
      *
-     * @param mixed $index 
-     * @return string 
+     * @param mixed $index
+     * @return string
      */
     public function offsetGet($index) {}
 
@@ -74,8 +75,8 @@ class Config implements \ArrayAccess, \Countable
      * $config['database'] = array('type' => 'Sqlite');
      * </code>
      *
-     * @param mixed $index 
-     * @param mixed $value 
+     * @param mixed $index
+     * @param mixed $value
      */
     public function offsetSet($index, $value) {}
 
@@ -85,7 +86,7 @@ class Config implements \ArrayAccess, \Countable
      * unset($config['database']);
      * </code>
      *
-     * @param mixed $index 
+     * @param mixed $index
      */
     public function offsetUnset($index) {}
 
@@ -96,8 +97,8 @@ class Config implements \ArrayAccess, \Countable
      * $globalConfig->merge($config2);
      * </code>
      *
-     * @param mixed $config 
-     * @return Config 
+     * @param mixed $config
+     * @return Config
      */
     public function merge(Config $config) {}
 
@@ -107,7 +108,7 @@ class Config implements \ArrayAccess, \Countable
      * print_r($config->toArray());
      * </code>
      *
-     * @return array 
+     * @return array
      */
     public function toArray() {}
 
@@ -121,22 +122,22 @@ class Config implements \ArrayAccess, \Countable
      * print $config->count();
      * </code>
      *
-     * @return int 
+     * @return int
      */
     public function count() {}
 
     /**
      * Restores the state of a Phalcon\Config object
      *
-     * @param array $data 
-     * @return Config 
+     * @param array $data
+     * @return Config
      */
     public static function __set_state($data) {}
 
     /**
      * Helper method for merge configs (forwarding nested config instance)
      *
-     * @param Config $config 
+     * @param Config $config
      * @param Config $instance = null
      * @return Config config
      */
