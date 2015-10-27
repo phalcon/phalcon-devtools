@@ -76,4 +76,15 @@ interface CommandsInterface
      * @return boolean
      */
     public function hasIdentifier($identifier);
+
+    /**
+     * Gets possible command parameters
+     *
+     * This method returns a list of available parameters for the current command.
+     * The list must be represented as pairs key-value.
+     * Where key is the parameter name and value is the short description.
+     *
+     * @return array
+     */
+    public function getPossibleParams();
 }
