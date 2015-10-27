@@ -36,14 +36,22 @@ use Phalcon\Builder\Controller as ControllerBuilder;
  */
 class Controller extends Command
 {
-    protected $_possibleParameters = array(
-        'name=s'        => "Controller name",
-        'namespace=s'   => "Controller's namespace [option]",
-        'directory=s'   => "Base path on which project is located [optional]",
-        'output=s'      => "Directory where the controller should be created [optional]",
-        'base-class=s'  => "Base class to be inherited by the controller [optional]",
-        'force'         => "Force to rewrite controller [optional]",
-    );
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array(
+            'name=s'        => 'Controller name',
+            'namespace=s'   => "Controller's namespace [option]",
+            'directory=s'   => 'Base path on which project is located [optional]',
+            'output=s'      => 'Directory where the controller should be created [optional]',
+            'base-class=s'  => 'Base class to be inherited by the controller [optional]',
+            'force'         => 'Force to rewrite controller [optional]',
+        );
+    }
 
     /**
      * Executes the command
@@ -102,7 +110,7 @@ class Controller extends Command
         print Color::colorize('  help', Color::FG_GREEN);
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**

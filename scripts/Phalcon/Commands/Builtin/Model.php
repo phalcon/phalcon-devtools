@@ -37,21 +37,29 @@ use Phalcon\Builder\Model as ModelBuilder;
  */
 class Model extends Command
 {
-    protected $_possibleParameters = array(
-        'name=s'          => "Table name",
-        'schema=s'        => "Name of the schema. [optional]",
-        'namespace=s'     => "Model's namespace [optional]",
-        'get-set'         => "Attributes will be protected and have setters/getters. [optional]",
-        'extends=s'       => 'Model extends the class name supplied [optional]',
-        'excludefields=l' => 'Excludes fields defined in a comma separated list [optional]',
-        'doc'             => "Helps to improve code completion on IDEs [optional]",
-        'directory=s'     => "Base path on which project is located [optional]",
-        'output=s'        => "Folder where models are located [optional]",
-        'force'           => "Rewrite the model. [optional]",
-        'trace'           => "Shows the trace of the framework in case of exception. [optional]",
-        'mapcolumn'       => 'Get some code for map columns. [optional]',
-        'abstract'        => 'Abstract Model [optional]'
-    );
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array(
+            'name=s'          => 'Table name',
+            'schema=s'        => 'Name of the schema [optional]',
+            'namespace=s'     => "Model's namespace [optional]",
+            'get-set'         => 'Attributes will be protected and have setters/getters [optional]',
+            'extends=s'       => 'Model extends the class name supplied [optional]',
+            'excludefields=l' => 'Excludes fields defined in a comma separated list [optional]',
+            'doc'             => 'Helps to improve code completion on IDEs [optional]',
+            'directory=s'     => 'Base path on which project is located [optional]',
+            'output=s'        => 'Folder where models are located [optional]',
+            'force'           => 'Rewrite the model [optional]',
+            'trace'           => 'Shows the trace of the framework in case of exception [optional]',
+            'mapcolumn'       => 'Get some code for map columns [optional]',
+            'abstract'        => 'Abstract Model [optional]'
+        );
+    }
 
     /**
      * Executes the command
@@ -127,7 +135,7 @@ class Model extends Command
         print Color::colorize('  help', Color::FG_GREEN);
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**

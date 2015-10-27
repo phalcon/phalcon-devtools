@@ -37,13 +37,16 @@ use Phalcon\Commands\CommandsException;
 class Webtools extends Command
 {
     /**
-     * Possible command parameters
+     * {@inheritdoc}
      *
-     * @var array
+     * @return array
      */
-    protected $_possibleParameters = array(
-        'action=s' => 'Enables/Disables webtools in a project [enable|disable].'
-    );
+    public function getPossibleParams()
+    {
+        return array(
+            'action=s' => 'Enables/Disables webtools in a project [enable|disable]'
+        );
+    }
 
     /**
      * Executes the command
@@ -118,7 +121,7 @@ class Webtools extends Command
         echo Color::colorize('  help', Color::FG_GREEN);
         echo Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**

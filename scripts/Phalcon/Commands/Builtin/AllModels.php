@@ -38,22 +38,30 @@ use Phalcon\Commands\CommandsException;
  */
 class AllModels extends Command
 {
-    protected $_possibleParameters = array(
-        'config=s'    => "Configuration file  ",
-        'models=s'    => "Models directory ",
-        'schema=s'    => "Name of the schema. [optional]",
-        'namespace=s' => "Model's namespace [optional]",
-        'extends=s'   => "Models extends [optional]",
-        'force'       => "Force script to rewrite all the models.  ",
-        'get-set'     => "Attributes will be protected and have setters/getters.  ",
-        'doc'         => "Helps to improve code completion on IDEs  ",
-        'relations'   => "Possible relations defined according to convention.  ",
-        'fk'          => "Define any virtual foreign keys.  ",
-        'validations' => "Define possible domain validation according to conventions.  ",
-        'directory=s' => "Base path on which project will be created",
-        'mapcolumn'   => 'Get some code for map columns. [optional]',
-        'abstract'    => 'Abstract Model [optional]'
-    );
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array(
+            'config=s'    => 'Configuration file [optional]',
+            'models=s'    => 'Models directory [optional]',
+            'schema=s'    => 'Name of the schema. [optional]',
+            'namespace=s' => "Model's namespace [optional]",
+            'extends=s'   => 'Models extends [optional]',
+            'force'       => 'Force script to rewrite all the models [optional]',
+            'get-set'     => 'Attributes will be protected and have setters/getters [optional]',
+            'doc'         => 'Helps to improve code completion on IDEs [optional]',
+            'relations'   => 'Possible relations defined according to convention [optional]',
+            'fk'          => 'Define any virtual foreign keys [optional]',
+            'validations' => 'Define possible domain validation according to conventions',
+            'directory=s' => 'Base path on which project will be created [optional]',
+            'mapcolumn'   => 'Get some code for map columns [optional]',
+            'abstract'    => 'Abstract Model [optional]'
+        );
+    }
 
     /**
      * Executes the command
@@ -152,7 +160,7 @@ class AllModels extends Command
      */
     public function getHelp()
     {
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**

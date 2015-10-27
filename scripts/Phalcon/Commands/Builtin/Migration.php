@@ -41,18 +41,25 @@ use Phalcon\Config\Adapter\Yaml as YamlConfig;
  */
 class Migration extends Command
 {
-
-    protected $_possibleParameters = array(
-        'action=s'          => "Generates a Migration [generate|run].",
-        'config=s'          => "Configuration file.",
-        'migrations=s'      => "Migrations directory.",
-        'directory=s'       => "Directory where the project was created.",
-        'table=s'           => "Table to migrate. Default: all.",
-        'version=s'         => "Version to migrate.",
-        'force'             => "Forces to overwrite existing migrations.",
-        'no-auto-increment' => "Disable auto increment (Generating only).",
-        'data=s'            => "Export data [always|oncreate] (Import data when run migration).",
-    );
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array(
+            'action=s'          => 'Generates a Migration [generate|run]',
+            'config=s'          => 'Configuration file',
+            'migrations=s'      => 'Migrations directory',
+            'directory=s'       => 'Directory where the project was created',
+            'table=s'           => 'Table to migrate. Default: all',
+            'version=s'         => 'Version to migrate',
+            'force'             => 'Forces to overwrite existing migrations',
+            'no-auto-increment' => 'Disable auto increment (Generating only)',
+            'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
+        );
+    }
 
     /**
      * Executes the command
@@ -168,7 +175,7 @@ class Migration extends Command
         print Color::colorize('  help', Color::FG_GREEN);
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**

@@ -209,9 +209,10 @@ abstract class Command implements CommandsInterface
     /**
      * Parse the parameters passed to the script.
      *
-     * @param  array             $parameters
-     * @param  array             $possibleAlias
+     * @param  array $parameters    Command parameters
+     * @param  array $possibleAlias Command aliases
      * @return array
+     *
      * @throws CommandsException
      *
      * @todo Refactor
@@ -219,15 +220,7 @@ abstract class Command implements CommandsInterface
     public function parseParameters(array $parameters = array(), $possibleAlias = array())
     {
         if (count($parameters) == 0) {
-            if (isset($this->_possibleParameters)) {
-                $parameters = $this->_possibleParameters;
-            } else {
-                if (!method_exists($this, 'getPossibleParams')) {
-                    throw new CommandsException("Cannot load possible parameters for script: " . get_class($this));
-                }
-
-                $parameters = $this->getPossibleParams();
-            }
+            $parameters = $this->getPossibleParams();
         }
 
         $arguments = array();

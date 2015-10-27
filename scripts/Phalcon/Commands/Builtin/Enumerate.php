@@ -34,7 +34,15 @@ class Enumerate extends Command
 {
     const COMMAND_COLUMN_LEN = 16;
 
-    protected $_possibleParameters = array();
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array();
+    }
 
     /**
      * Executes the command

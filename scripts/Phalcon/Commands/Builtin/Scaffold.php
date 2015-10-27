@@ -36,18 +36,26 @@ use Phalcon\Builder\Scaffold as ScaffoldBuilder;
  */
 class Scaffold extends Command
 {
-    protected $_possibleParameters = array(
-        'table-name=s'      => "Table used as base to generate the scaffold",
-        'schema=s'          => "Name of the schema. [optional]",
-        'get-set'           => "Attributes will be protected and have setters/getters. [optional]",
-        'directory=s'       => "Base path on which project was created [optional]",
-        'template-path=s'   => 'Specify a template path [optional]',
-        'template-engine=s' => 'Define the template engine, default php (php, volt). [optional]',
-        'force'             => "Forces to rewrite generated code if they already exists. [optional]",
-        'trace'             => "Shows the trace of the framework in case of exception. [optional]",
-        'ns-models=s'       => "Model's namespace [optional]",
-        'ns-controllers=s'  => "Controller's namespace [optional]",
-    );
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array(
+            'table-name=s'      => 'Table used as base to generate the scaffold',
+            'schema=s'          => 'Name of the schema [optional]',
+            'get-set'           => 'Attributes will be protected and have setters/getters. [optional]',
+            'directory=s'       => 'Base path on which project was created [optional]',
+            'template-path=s'   => 'Specify a template path [optional]',
+            'template-engine=s' => 'Define the template engine, default php (php, volt) [optional]',
+            'force'             => 'Forces to rewrite generated code if they already exists [optional]',
+            'trace'             => 'Shows the trace of the framework in case of exception [optional]',
+            'ns-models=s'       => "Model's namespace [optional]",
+            'ns-controllers=s'  => "Controller's namespace [optional]",
+        );
+    }
 
     /**
      * Executes the current command
@@ -114,7 +122,7 @@ class Scaffold extends Command
         print Color::colorize('  help', Color::FG_GREEN);
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**

@@ -35,16 +35,24 @@ use Phalcon\Builder\Project as ProjectBuilder;
 */
 class Project extends Command
 {
-    protected $_possibleParameters = array(
-        'name'            => 'Name of the new project',
-        'enable-webtools' => 'Determines if webtools should be enabled [optional]',
-        'directory=s'     => 'Base path on which project will be created [optional]',
-        'type=s'          => 'Type of the application to be generated (cli, micro, simple, modules)',
-        'template-path=s' => 'Specify a template path [optional]',
-        'use-config-ini'  => 'Use a ini file as configuration file [optional]',
-        'trace'           => 'Shows the trace of the framework in case of exception. [optional]',
-        'help'            => 'Shows this help'
-    );
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array(
+            'name'            => 'Name of the new project',
+            'enable-webtools' => 'Determines if webtools should be enabled [optional]',
+            'directory=s'     => 'Base path on which project will be created [optional]',
+            'type=s'          => 'Type of the application to be generated (cli, micro, simple, modules)',
+            'template-path=s' => 'Specify a template path [optional]',
+            'use-config-ini'  => 'Use a ini file as configuration file [optional]',
+            'trace'           => 'Shows the trace of the framework in case of exception [optional]',
+            'help'            => 'Shows this help'
+        );
+    }
 
     /**
      * Executes the current command
@@ -113,7 +121,7 @@ class Project extends Command
         print Color::head('Example') . PHP_EOL;
         print Color::colorize('  phalcon project store simple', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**
