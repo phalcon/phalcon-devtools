@@ -449,7 +449,17 @@ abstract class Command implements CommandsInterface
      */
     public function isReceivedOption($option)
     {
-        return isset($this->_parameters[$option]);
+        if (!is_array($option)) {
+            $option = [$option];
+        }
+
+        foreach ($option as $op) {
+            if (isset($this->_parameters[$op])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
