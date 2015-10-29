@@ -62,12 +62,12 @@ class Model extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $name = $this->getOption(array('name', 1));
 

@@ -55,12 +55,12 @@ class Project extends Command
     }
 
     /**
-     * Executes the current command
+     * {@inheritdoc}
      *
-     * @param  array $parameters
-     * @return boolean
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $projectName = $this->getOption(array('name', 1), null, 'default');
         $projectType = $this->getOption(array('type', 2), null, 'simple');

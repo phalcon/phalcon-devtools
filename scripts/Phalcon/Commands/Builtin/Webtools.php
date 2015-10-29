@@ -49,13 +49,13 @@ class Webtools extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param  array $parameters
+     * @param array $parameters
+     * @return mixed
      * @throws CommandsException
-     * @return void
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $action = $this->getOption(array('action', 1));
         $directory = './';

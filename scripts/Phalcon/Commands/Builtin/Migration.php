@@ -62,12 +62,12 @@ class Migration extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         if ($this->isReceivedOption('table')) {
             $tableName = $this->getOption('table');

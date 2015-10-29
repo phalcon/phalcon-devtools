@@ -45,12 +45,12 @@ class Enumerate extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL;
         foreach ($this->getScript()->getCommands() as $commands) {

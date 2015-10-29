@@ -58,12 +58,12 @@ class Scaffold extends Command
     }
 
     /**
-     * Executes the current command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return boolean
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $name = $this->getOption(array('table-name', 1));
         $templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);

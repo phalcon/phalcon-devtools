@@ -64,13 +64,13 @@ class AllModels extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      * @throws CommandsException
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         if ($this->isReceivedOption('directory')) {
             if (false == $this->path->isAbsolutePath($this->getOption('directory'))) {

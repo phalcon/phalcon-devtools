@@ -35,10 +35,10 @@ interface CommandsInterface
     /**
      * Executes the command
      *
-     * @param $parameters
+     * @param array $parameters
      * @return mixed
      */
-    public function run($parameters);
+    public function run(array $parameters);
 
     /**
      * Returns the command identifier
