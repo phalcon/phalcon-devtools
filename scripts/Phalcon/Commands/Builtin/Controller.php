@@ -94,7 +94,7 @@ class Controller extends Command
     }
 
     /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */

@@ -102,7 +102,7 @@ class Webtools extends Command
     }
 
     /**
-     * Print the help on the usage of the command
+     * {@inheritdoc}
      *
      * @return void
      */

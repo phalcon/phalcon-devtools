@@ -106,7 +106,7 @@ class Scaffold extends Command
     }
 
     /**
-     * Prints help on the usage of the command
+     * {@inheritdoc}
      *
      * @return void
      */
