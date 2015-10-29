@@ -50,12 +50,11 @@ class CommandsListener
         }
 
         $parameters = $command->parseParameters();
+
         if (
             count($parameters) < ($command->getRequiredParams() + 1) ||
-            $command->isReceivedOption('help') ||
-            $command->getOption(1) == 'help' ||
-            $command->isReceivedOption('?') ||
-            $command->getOption(1) == '?'
+            $command->isReceivedOption(['help', '?']) ||
+            in_array($command->getOption(1), ['help', '?'])
         ) {
             $command->getHelp();
 
