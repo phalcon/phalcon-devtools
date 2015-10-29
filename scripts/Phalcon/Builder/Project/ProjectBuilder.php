@@ -37,7 +37,7 @@ abstract class ProjectBuilder
      * Stores variable values depending on parameters
      * @var array
      */
-    protected $variableValues;
+    protected $variableValues = array();
 
     /**
      * Builder options
