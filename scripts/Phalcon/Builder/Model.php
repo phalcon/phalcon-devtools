@@ -58,10 +58,10 @@ class Model extends Component
      * @param array $options Builder options
      * @throws BuilderException
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options)
     {
         if (!isset($options['name'])) {
-            throw new BuilderException("Please, specify the model name");
+            throw new BuilderException('Please, specify the model name');
         }
 
         if (!isset($options['force'])) {
@@ -118,6 +118,12 @@ class Model extends Component
         }
     }
 
+    /**
+     * Module build
+     *
+     * @return mixed
+     * @throws \Phalcon\Builder\BuilderException
+     */
     public function build()
     {
         if (!$this->options->contains('name')) {
@@ -131,10 +137,11 @@ class Model extends Component
         $config = $this->getConfig();
 
         if (!$modelsDir = $this->options->get('modelsDir')) {
-            if (!isset($config->application->modelsDir)) {
+            if (!$config->get('application') || !isset($config->get('application')->modelsDir)) {
                 throw new BuilderException("Builder doesn't know where is the models directory.");
             }
-            $modelsDir = $config->application->modelsDir;
+
+            $modelsDir = $config->get('application')->modelsDir;
         }
 
         $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
