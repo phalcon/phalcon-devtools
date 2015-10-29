@@ -540,7 +540,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * By default all commands must be external
+     * {@inheritdoc}
      *
      * @return boolean
      */

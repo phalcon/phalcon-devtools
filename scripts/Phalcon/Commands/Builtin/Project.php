@@ -92,7 +92,7 @@ class Project extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
+     * {@inheritdoc}
      *
      * @return boolean
      */

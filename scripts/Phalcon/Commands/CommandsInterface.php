@@ -48,7 +48,7 @@ interface CommandsInterface
     public function getCommands();
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
+     * Checks whether the command can be executed outside a Phalcon project.
      *
      * @return boolean
      */

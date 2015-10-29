@@ -109,16 +109,6 @@ class Model extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     *
-     * @return boolean
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
      * {@inheritdoc}
      *
      * @return void

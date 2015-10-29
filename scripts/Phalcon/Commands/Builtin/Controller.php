@@ -86,14 +86,6 @@ class Controller extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
      * {@inheritdoc}
      *
      * @return void
