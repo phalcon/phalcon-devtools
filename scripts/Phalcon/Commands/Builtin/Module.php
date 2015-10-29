@@ -21,6 +21,7 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Commands\Command;
+use Phalcon\Script\Color;
 
 /**
  * Module Command
@@ -65,13 +66,16 @@ class Module extends Command
     }
 
     /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */
     public function getHelp()
     {
+        print Color::head('Help:') . PHP_EOL;
+        print Color::colorize('  Creates a module') . PHP_EOL . PHP_EOL;
 
+        $this->run(array());
     }
 
     /**
@@ -81,7 +85,7 @@ class Module extends Command
      */
     public function getRequiredParams()
     {
-
+        return 1;
     }
 
     /**
