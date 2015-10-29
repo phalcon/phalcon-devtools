@@ -22,6 +22,7 @@ namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Commands\Command;
 use Phalcon\Script\Color;
+use Phalcon\Builder\Module as ModuleBuilder;
 
 /**
  * Module Command
@@ -41,7 +42,15 @@ class Module extends Command
      */
     public function getPossibleParams()
     {
-        return array();
+        return array(
+            'name'            => 'Name of the new module',
+            'namespace=s'     => "Module's namespace [optional]",
+            'output=s'        => 'Folder where modules are located [optional]',
+            'config-type=s'   => 'The config type to be generated (ini, json, php, yaml) [optional]',
+            'template-path=s' => 'Specify a template path [optional]',
+            'help'            => 'Shows this help [optional]',
+
+        );
     }
 
     /**
@@ -52,17 +61,41 @@ class Module extends Command
      */
     public function run(array $parameters)
     {
+        $moduleName   = $this->getOption(array('name', 1));
+        $namespace    = $this->getOption('namespace', null, 'Application');
+        $configType   = $this->getOption('config-type', null, 'php');
+        $modulesDir   = $this->getOption('output');
+        $templatePath = $this->getOption('template-path', null, TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'module');
 
+        $builder = new ModuleBuilder(array(
+            'name'         => $moduleName,
+            'namespace'    => $namespace,
+            'config-type'  => $configType,
+            'templatePath' => $templatePath,
+            'modulesDir'   => $modulesDir
+        ));
+
+        return $builder->build();
     }
 
     /**
-     * Returns the command identifier
+     * {@inheritdoc}
      *
      * @return array
      */
     public function getCommands()
     {
         return array('module', 'create-module');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return boolean
+     */
+    public function canBeExternal()
+    {
+        return false;
     }
 
     /**
@@ -75,26 +108,19 @@ class Module extends Command
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Creates a module') . PHP_EOL . PHP_EOL;
 
-        $this->run(array());
+        print Color::head('Example') . PHP_EOL;
+        print Color::colorize('  phalcon module backend', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */
     public function getRequiredParams()
     {
         return 1;
-    }
-
-    /**
-     * Checks whether the command can be executed outside a Phalcon project
-     *
-     * @return boolean
-     */
-    public function canBeExternal()
-    {
-        return false;
     }
 }
