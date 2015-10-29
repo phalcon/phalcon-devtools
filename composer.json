@@ -19,8 +19,8 @@
         "kherge/box": ">=2.5.2"
     },
     "autoload": {
-        "psr-0" : {
-            "Phalcon" : "scripts/"
+        "psr-4" : {
+            "Phalcon\\" : "scripts/Phalcon/"
         }
     },
     "bin": ["phalcon.php"]
