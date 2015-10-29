@@ -532,7 +532,7 @@ abstract class Command implements CommandsInterface
     /**
      * Returns the processed parameters
      *
-     * @return string
+     * @return array
      */
     public function getParameters()
     {
