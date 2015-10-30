@@ -99,7 +99,7 @@ class Model extends Command
     }
 
     /**
-     * Returns the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -129,7 +129,7 @@ class Model extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return int
      */

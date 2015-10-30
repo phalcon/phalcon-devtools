@@ -82,7 +82,7 @@ class Webtools extends Command
     }
 
     /**
-     * Return the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -115,7 +115,7 @@ class Webtools extends Command
     }
 
     /**
-     * Return the number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

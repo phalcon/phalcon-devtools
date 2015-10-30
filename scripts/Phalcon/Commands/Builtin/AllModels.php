@@ -134,7 +134,7 @@ class AllModels extends Command
     }
 
     /**
-     * Returns the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -154,7 +154,7 @@ class AllModels extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

@@ -550,7 +550,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * Checks whether the command has identifier
+     * {@inheritdoc}
      *
      * @param string $identifier
      *
