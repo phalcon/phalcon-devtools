@@ -103,6 +103,8 @@ $ phalcon commands help
 This command should display something similar to:
 
 ```bash
+$ phalcon list ?
+
 Phalcon DevTools (2.0.9)
 
 Help:
@@ -111,6 +113,7 @@ Help:
 Available commands:
   commands         (alias of: list, enumerate)
   controller       (alias of: create-controller)
+  module           (alias of: create-module)
   model            (alias of: create-model)
   all-models       (alias of: create-all-models)
   project          (alias of: create-project)
@@ -160,4 +163,4 @@ $config = [
 Phalcon Developer Tools is open source software licensed under the [New BSD License][1].
 © Phalcon Framework Team and contributors
 
-[1]: https://github.com/phalcon/phalcon-devtools/blob/master/docs/LICENSE.md
+[1]: docs/LICENSE.md

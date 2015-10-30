@@ -49,13 +49,13 @@ class Webtools extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param  array $parameters
+     * @param array $parameters
+     * @return mixed
      * @throws CommandsException
-     * @return void
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $action = $this->getOption(array('action', 1));
         $directory = './';
@@ -82,7 +82,7 @@ class Webtools extends Command
     }
 
     /**
-     * Return the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -92,17 +92,7 @@ class Webtools extends Command
     }
 
     /**
-     * Check whether the command can be executed outside a Phalcon project
-     *
-     * @return boolean
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Print the help on the usage of the command
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -125,7 +115,7 @@ class Webtools extends Command
     }
 
     /**
-     * Return the number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

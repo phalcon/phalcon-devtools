@@ -62,12 +62,12 @@ class Migration extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         if ($this->isReceivedOption('table')) {
             $tableName = $this->getOption('table');
@@ -138,7 +138,7 @@ class Migration extends Command
     }
 
     /**
-     * Returns the command identifier
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -148,15 +148,7 @@ class Migration extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -179,7 +171,7 @@ class Migration extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

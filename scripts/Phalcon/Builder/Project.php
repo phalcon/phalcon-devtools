@@ -21,7 +21,7 @@
 namespace Phalcon\Builder;
 
 /**
- * Project
+ * Project Builder
  *
  * Builder to create application skeletons
  *
@@ -40,7 +40,7 @@ class Project extends Component
      * Current Project Type
      * @var null
      */
-    private $currentType = null;
+    private $currentType = self::TYPE_SIMPLE;
 
     /**
      * Available Project Types
@@ -52,18 +52,6 @@ class Project extends Component
         self::TYPE_MODULES => '\Phalcon\Builder\Project\Modules',
         self::TYPE_CLI     => '\Phalcon\Builder\Project\Cli',
     );
-
-    /**
-     * Create Builder object
-     *
-     * @param array $options Builder options
-     */
-    public function __construct(array $options = array())
-    {
-        $this->currentType = self::TYPE_SIMPLE;
-
-        parent::__construct($options);
-    }
 
     /**
      * Project build
@@ -86,7 +74,7 @@ class Project extends Component
             throw new BuilderException('Projects cannot be created inside Phalcon projects.');
         }
 
-        $this->currentType = $this->options->get('type', self::TYPE_SIMPLE);
+        $this->currentType = $this->options->get('type');
 
         if (!isset($this->_types[$this->currentType])) {
             throw new BuilderException(sprintf(

@@ -54,12 +54,12 @@ class Controller extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return string
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $controllerName = $this->getOption(array('name', 1));
 
@@ -76,7 +76,7 @@ class Controller extends Command
     }
 
     /**
-     * Returns the command identifier
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -86,15 +86,7 @@ class Controller extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -114,7 +106,7 @@ class Controller extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

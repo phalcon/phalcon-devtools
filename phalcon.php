@@ -66,6 +66,7 @@ try {
     $commandsToEnable = array(
         '\Phalcon\Commands\Builtin\Enumerate',
         '\Phalcon\Commands\Builtin\Controller',
+        '\Phalcon\Commands\Builtin\Module',
         '\Phalcon\Commands\Builtin\Model',
         '\Phalcon\Commands\Builtin\AllModels',
         '\Phalcon\Commands\Builtin\Project',

@@ -62,12 +62,12 @@ class Model extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $name = $this->getOption(array('name', 1));
 
@@ -99,7 +99,7 @@ class Model extends Command
     }
 
     /**
-     * Returns the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -109,17 +109,7 @@ class Model extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     *
-     * @return boolean
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -139,7 +129,7 @@ class Model extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return int
      */

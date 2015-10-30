@@ -13,27 +13,27 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
+use Phalcon\Script\Color;
+use Phalcon\Builder\Module as ModuleBuilder;
 
 /**
- * Enumerate Command
+ * Module Command
+ *
+ * Create a module from command line
  *
  * @package     Phalcon\Commands\Builtin
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Enumerate extends Command
+class Module extends Command
 {
-    const COMMAND_COLUMN_LEN = 16;
-
     /**
      * {@inheritdoc}
      *
@@ -41,7 +41,15 @@ class Enumerate extends Command
      */
     public function getPossibleParams()
     {
-        return array();
+        return array(
+            'name'            => 'Name of the new module',
+            'namespace=s'     => "Module's namespace [optional]",
+            'output=s'        => 'Folder where modules are located [optional]',
+            'config-type=s'   => 'The config type to be generated (ini, json, php, yaml) [optional]',
+            'template-path=s' => 'Specify a template path [optional]',
+            'help'            => 'Shows this help [optional]',
+
+        );
     }
 
     /**
@@ -52,20 +60,21 @@ class Enumerate extends Command
      */
     public function run(array $parameters)
     {
-        print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL;
-        foreach ($this->getScript()->getCommands() as $commands) {
-            $providedCommands = $commands->getCommands();
-            $commandLen = strlen($providedCommands[0]);
+        $moduleName   = $this->getOption(array('name', 1));
+        $namespace    = $this->getOption('namespace', null, 'Application');
+        $configType   = $this->getOption('config-type', null, 'php');
+        $modulesDir   = $this->getOption('output');
+        $templatePath = $this->getOption('template-path', null, TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'module');
 
-            print '  ' . Color::colorize($providedCommands[0], Color::FG_GREEN);
-            unset($providedCommands[0]);
-            if (count($providedCommands)) {
-                $spacer = str_repeat(' ', self::COMMAND_COLUMN_LEN - $commandLen);
-                print $spacer.' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
-            }
-            print PHP_EOL;
-        }
-        print PHP_EOL;
+        $builder = new ModuleBuilder(array(
+            'name'         => $moduleName,
+            'namespace'    => $namespace,
+            'config-type'  => $configType,
+            'templatePath' => $templatePath,
+            'modulesDir'   => $modulesDir
+        ));
+
+        return $builder->build();
     }
 
     /**
@@ -75,7 +84,7 @@ class Enumerate extends Command
      */
     public function getCommands()
     {
-        return array('commands', 'list', 'enumerate');
+        return array('module', 'create-module');
     }
 
     /**
@@ -85,7 +94,7 @@ class Enumerate extends Command
      */
     public function canBeExternal()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -96,9 +105,12 @@ class Enumerate extends Command
     public function getHelp()
     {
         print Color::head('Help:') . PHP_EOL;
-        print Color::colorize('  Lists the commands available in Phalcon devtools') . PHP_EOL . PHP_EOL;
+        print Color::colorize('  Creates a module') . PHP_EOL . PHP_EOL;
 
-        $this->run(array());
+        print Color::head('Example') . PHP_EOL;
+        print Color::colorize('  phalcon module backend', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**
@@ -108,6 +120,6 @@ class Enumerate extends Command
      */
     public function getRequiredParams()
     {
-        return 0;
+        return 1;
     }
 }

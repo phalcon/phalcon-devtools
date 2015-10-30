@@ -449,7 +449,17 @@ abstract class Command implements CommandsInterface
      */
     public function isReceivedOption($option)
     {
-        return isset($this->_parameters[$option]);
+        if (!is_array($option)) {
+            $option = [$option];
+        }
+
+        foreach ($option as $op) {
+            if (isset($this->_parameters[$op])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -522,7 +532,7 @@ abstract class Command implements CommandsInterface
     /**
      * Returns the processed parameters
      *
-     * @return string
+     * @return array
      */
     public function getParameters()
     {
@@ -530,7 +540,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * By default all commands must be external
+     * {@inheritdoc}
      *
      * @return boolean
      */
@@ -540,7 +550,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * Checks whether the command has identifier
+     * {@inheritdoc}
      *
      * @param string $identifier
      *

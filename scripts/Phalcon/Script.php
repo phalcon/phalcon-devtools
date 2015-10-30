@@ -110,6 +110,12 @@ class Script
         return $this->_commands;
     }
 
+    /**
+     * Dispatch the Command
+     *
+     * @param Command $command
+     * @return bool
+     */
     public function dispatch(Command $command)
     {
         // If beforeCommand fails abort

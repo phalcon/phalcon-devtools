@@ -55,16 +55,16 @@ class Project extends Command
     }
 
     /**
-     * Executes the current command
+     * {@inheritdoc}
      *
-     * @param  array $parameters
-     * @return boolean
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $projectName = $this->getOption(array('name', 1), null, 'default');
         $projectType = $this->getOption(array('type', 2), null, 'simple');
-        $projectPath = $this->getOption(array('directory', 3), null, '');
+        $projectPath = $this->getOption(array('directory', 3));
         $templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);
         $enableWebtools = $this->getOption(array('enable-webtools', 4), null, false);
         $useConfigIni = $this->getOption('use-config-ini');
@@ -82,7 +82,7 @@ class Project extends Command
     }
 
     /**
-     * Returns the command identifier
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -92,7 +92,7 @@ class Project extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
+     * {@inheritdoc}
      *
      * @return boolean
      */
@@ -102,7 +102,7 @@ class Project extends Command
     }
 
     /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -125,7 +125,7 @@ class Project extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

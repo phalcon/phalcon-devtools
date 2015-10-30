@@ -64,13 +64,13 @@ class AllModels extends Command
     }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      * @throws CommandsException
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         if ($this->isReceivedOption('directory')) {
             if (false == $this->path->isAbsolutePath($this->getOption('directory'))) {
@@ -134,7 +134,7 @@ class AllModels extends Command
     }
 
     /**
-     * Returns the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -144,17 +144,7 @@ class AllModels extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     *
-     * @return boolean
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -164,7 +154,7 @@ class AllModels extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

@@ -1,0 +1,4 @@
+application:
+    controllersDir: !local /controllers/
+    modelsDir: !local /models/
+    viewsDir: !local /views/

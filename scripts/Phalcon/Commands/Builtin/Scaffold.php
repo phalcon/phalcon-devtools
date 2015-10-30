@@ -58,12 +58,12 @@ class Scaffold extends Command
     }
 
     /**
-     * Executes the current command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return boolean
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $name = $this->getOption(array('table-name', 1));
         $templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);
@@ -86,7 +86,7 @@ class Scaffold extends Command
     }
 
     /**
-     * Returns the command identifier
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -96,17 +96,7 @@ class Scaffold extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     *
-     * @return boolean
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Prints help on the usage of the command
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -126,7 +116,7 @@ class Scaffold extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */
