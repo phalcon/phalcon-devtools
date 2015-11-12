@@ -467,7 +467,7 @@ class Scaffold extends Component
      */
     private function _makeController()
     {
-        $controllerPath = $this->options->controllersDir . $this->options->className . 'Controller.php';
+        $controllerPath = $this->options->get('controllersDir') . $this->options->get('className') . 'Controller.php';
 
         if (file_exists($controllerPath)) {
             if (!$this->options->contains('force')) {
@@ -475,32 +475,54 @@ class Scaffold extends Component
             }
         }
 
-        $code = file_get_contents($this->options->templatePath . '/scaffold/no-forms/Controller.php');
+        $code = file_get_contents($this->options->get('templatePath') . '/scaffold/no-forms/Controller.php');
+        $usesNamespaces = false;
 
-        if ($this->options->contains('controllersNamespace') && $this->checkNamespace($this->options->controllersNamespace)) {
-            $code = str_replace('$namespace$', 'namespace '.$this->options->controllersNamespace.';'.PHP_EOL, $code);
+        if ($this->options->contains('controllersNamespace') && $this->checkNamespace($this->options->get('controllersNamespace'))) {
+            $code = str_replace('$namespace$', 'namespace '.$$this->options->get('controllersNamespace').';'.PHP_EOL, $code);
+            $usesNamespaces = true;
         } else {
             $code = str_replace('$namespace$', ' ', $code);
         }
 
-        $code = str_replace('$useFullyQualifiedModelName$', "use " . ltrim($this->options->modelClass, '\\') . ';', $code);
-        $code = str_replace('$fullyQualifiedModelName$', $this->options->modelClass, $code);
+        if (($this->options->contains('modelsNamespace') && $this->checkNamespace($this->options->get('modelsNamespace')))|| $usesNamespaces) {
+            $code = str_replace('$useFullyQualifiedModelName$', "use " . ltrim($this->options->get('modelClass'), '\\') . ';', $code);
+        } else {
+            $code = str_replace('$useFullyQualifiedModelName$', '', $code);
+        }
 
-        $code = str_replace('$singularVar$', '$' . $this->options->singular, $code);
-        $code = str_replace('$singular$', $this->options->singular, $code);
+        $code = str_replace('$fullyQualifiedModelName$', $this->options->get('modelClass'), $code);
 
-        $code = str_replace('$pluralVar$', '$' . $this->options->plural, $code);
-        $code = str_replace('$plural$', $this->options->plural, $code);
+        $code = str_replace('$singularVar$', '$' . $this->options->get('singular'), $code);
+        $code = str_replace('$singular$', $this->options->get('singular'), $code);
 
-        $code = str_replace('$className$', $this->options->className, $code);
+        $code = str_replace('$pluralVar$', '$' . $this->options->get('plural'), $code);
+        $code = str_replace('$plural$', $this->options->get('plural'), $code);
 
-        $code = str_replace('$assignInputFromRequestCreate$', $this->_captureFilterInput($this->options->singular, $this->options->dataTypes, $this->options->genSettersGetters, $this->options->identityField), $code);
-        $code = str_replace('$assignInputFromRequestUpdate$', $this->_captureFilterInput($this->options->singular, $this->options->dataTypes, $this->options->genSettersGetters, $this->options->identityField), $code);
+        $code = str_replace('$className$', $this->options->get('className'), $code);
 
-        $code = str_replace('$assignTagDefaults$', $this->_assignTagDefaults($this->options->singular, $this->options->dataTypes, $this->options->genSettersGetters), $code);
+        $code = str_replace(
+            '$assignInputFromRequestCreate$',
+            $this->_captureFilterInput($this->options->get('singular'), $this->options->get('dataTypes'), $this->options->get('genSettersGetters'), $this->options->get('identityField')),
+            $code
+        );
 
-        $code = str_replace('$pkVar$', '$' . $this->options->attributes[0], $code);
-        $code = str_replace('$pk$', $this->options->attributes[0], $code);
+        $code = str_replace(
+            '$assignInputFromRequestUpdate$',
+            $this->_captureFilterInput($this->options->get('singular'), $this->options->get('dataTypes'), $this->options->get('genSettersGetters'), $this->options->get('identityField')),
+            $code
+        );
+
+        $code = str_replace(
+            '$assignTagDefaults$',
+            $this->_assignTagDefaults($this->options->get('singular'), $this->options->get('dataTypes'), $this->options->get('genSettersGetters')),
+            $code
+        );
+
+        $attributes = $this->options->get('attributes');
+
+        $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
+        $code = str_replace('$pk$', $attributes[0], $code);
 
         if ($this->isConsole()) {
             echo $controllerPath, PHP_EOL;
