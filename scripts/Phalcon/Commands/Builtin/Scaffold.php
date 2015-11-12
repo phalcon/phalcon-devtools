@@ -70,7 +70,7 @@ class Scaffold extends Command
         $schema = $this->getOption('schema');
         $templateEngine = $this->getOption(array('template-engine'), null, "php");
 
-        $scaffoldBuilder = new scaffoldBuilder(array(
+        $scaffoldBuilder = new ScaffoldBuilder(array(
             'name'                 => $name,
             'schema'               => $schema,
             'force'                => $this->isReceivedOption('force'),
