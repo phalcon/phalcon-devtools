@@ -209,9 +209,10 @@ abstract class Command implements CommandsInterface
     /**
      * Parse the parameters passed to the script.
      *
-     * @param  array             $parameters
-     * @param  array             $possibleAlias
+     * @param  array $parameters    Command parameters
+     * @param  array $possibleAlias Command aliases
      * @return array
+     *
      * @throws CommandsException
      *
      * @todo Refactor
@@ -219,15 +220,7 @@ abstract class Command implements CommandsInterface
     public function parseParameters(array $parameters = array(), $possibleAlias = array())
     {
         if (count($parameters) == 0) {
-            if (isset($this->_possibleParameters)) {
-                $parameters = $this->_possibleParameters;
-            } else {
-                if (!method_exists($this, 'getPossibleParams')) {
-                    throw new CommandsException("Cannot load possible parameters for script: " . get_class($this));
-                }
-
-                $parameters = $this->getPossibleParams();
-            }
+            $parameters = $this->getPossibleParams();
         }
 
         $arguments = array();
@@ -456,7 +449,17 @@ abstract class Command implements CommandsInterface
      */
     public function isReceivedOption($option)
     {
-        return isset($this->_parameters[$option]);
+        if (!is_array($option)) {
+            $option = [$option];
+        }
+
+        foreach ($option as $op) {
+            if (isset($this->_parameters[$op])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -529,7 +532,7 @@ abstract class Command implements CommandsInterface
     /**
      * Returns the processed parameters
      *
-     * @return string
+     * @return array
      */
     public function getParameters()
     {
@@ -537,7 +540,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * By default all commands must be external
+     * {@inheritdoc}
      *
      * @return boolean
      */
@@ -547,7 +550,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * Checks whether the command has identifier
+     * {@inheritdoc}
      *
      * @param string $identifier
      *

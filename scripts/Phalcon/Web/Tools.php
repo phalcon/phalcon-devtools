@@ -217,7 +217,7 @@ class Tools
         if (!extension_loaded('phalcon')) {
             throw new \Exception(
                 "Phalcon extension isn't installed, follow these instructions to install it: " .
-                'http://phalconphp.com/documentation/install'
+                'https://docs.phalconphp.com/en/latest/reference/install.html'
             );
         }
 
@@ -370,20 +370,23 @@ class Tools
      *
      * @param  string     $path
      * @return bool
-     * @throws \Exception if document root cannot be located
+     * @throws Exception if document root cannot be located
      */
     public static function install($path)
     {
         $path = realpath($path) . DIRECTORY_SEPARATOR;
-        $tools = realpath(__DIR__ . '/../../../');
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $path = str_replace("\\", '/', $path);
-            $tools = str_replace("\\", '/', $tools);
+        if (!$tools = getenv('PTOOLSPATH')) {
+            $tools = realpath(__DIR__ . '/../../../');
         }
 
-        if (!is_dir($path . 'public/')) {
-            throw new \Exception('Document root cannot be located');
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $path = str_replace("\\", DIRECTORY_SEPARATOR, $path);
+            $tools = str_replace("\\", DIRECTORY_SEPARATOR, $tools);
+        }
+
+        if (!is_dir($path . 'public' . DIRECTORY_SEPARATOR)) {
+            throw new Exception('Document root cannot be located');
         }
 
         $bootstrap = new Bootstrap();

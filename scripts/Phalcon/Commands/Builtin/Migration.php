@@ -41,26 +41,33 @@ use Phalcon\Config\Adapter\Yaml as YamlConfig;
  */
 class Migration extends Command
 {
-
-    protected $_possibleParameters = array(
-        'action=s'          => "Generates a Migration [generate|run].",
-        'config=s'          => "Configuration file.",
-        'migrations=s'      => "Migrations directory.",
-        'directory=s'       => "Directory where the project was created.",
-        'table=s'           => "Table to migrate. Default: all.",
-        'version=s'         => "Version to migrate.",
-        'force'             => "Forces to overwrite existing migrations.",
-        'no-auto-increment' => "Disable auto increment (Generating only).",
-        'data=s'            => "Export data [always|oncreate] (Import data when run migration).",
-    );
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array(
+            'action=s'          => 'Generates a Migration [generate|run]',
+            'config=s'          => 'Configuration file',
+            'migrations=s'      => 'Migrations directory',
+            'directory=s'       => 'Directory where the project was created',
+            'table=s'           => 'Table to migrate. Default: all',
+            'version=s'         => 'Version to migrate',
+            'force'             => 'Forces to overwrite existing migrations',
+            'no-auto-increment' => 'Disable auto increment (Generating only)',
+            'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
+        );
+    }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         if ($this->isReceivedOption('table')) {
             $tableName = $this->getOption('table');
@@ -131,7 +138,7 @@ class Migration extends Command
     }
 
     /**
-     * Returns the command identifier
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -141,15 +148,7 @@ class Migration extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Prints the help for current command.
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -165,14 +164,14 @@ class Migration extends Command
         print Color::colorize('  migration run', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
-        print Color::colorize('  ?', Color::FG_GREEN);
+        print Color::colorize('  help', Color::FG_GREEN);
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

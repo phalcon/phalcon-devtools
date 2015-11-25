@@ -35,7 +35,7 @@ try {
 
     echo $application->handle()->getContent();
 
-} catch (Exception $e) {
-    echo $e->getMessage();
+} catch (\Exception $e) {
+    echo $e->getMessage() . '<br>';
+    echo '<pre>' . $e->getTraceAsString() . '</pre>';
 }
-

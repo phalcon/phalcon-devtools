@@ -34,15 +34,23 @@ class Enumerate extends Command
 {
     const COMMAND_COLUMN_LEN = 16;
 
-    protected $_possibleParameters = array();
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function getPossibleParams()
+    {
+        return array();
+    }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param $parameters
-     * @return void
+     * @param array $parameters
+     * @return mixed
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL;
         foreach ($this->getScript()->getCommands() as $commands) {
@@ -61,7 +69,7 @@ class Enumerate extends Command
     }
 
     /**
-     * Returns the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -71,7 +79,7 @@ class Enumerate extends Command
     }
 
     /**
-     * Checks whether the command can be executed outside a Phalcon project
+     * {@inheritdoc}
      *
      * @return boolean
      */
@@ -81,7 +89,7 @@ class Enumerate extends Command
     }
 
     /**
-     * Prints help on the usage of the command
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -94,7 +102,7 @@ class Enumerate extends Command
     }
 
     /**
-     * Returns number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

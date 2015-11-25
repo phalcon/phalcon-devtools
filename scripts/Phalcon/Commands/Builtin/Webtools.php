@@ -37,22 +37,25 @@ use Phalcon\Commands\CommandsException;
 class Webtools extends Command
 {
     /**
-     * Possible command parameters
+     * {@inheritdoc}
      *
-     * @var array
+     * @return array
      */
-    protected $_possibleParameters = array(
-        'action=s' => 'Enables/Disables webtools in a project'
-    );
+    public function getPossibleParams()
+    {
+        return array(
+            'action=s' => 'Enables/Disables webtools in a project [enable|disable]'
+        );
+    }
 
     /**
-     * Executes the command
+     * {@inheritdoc}
      *
-     * @param  array $parameters
+     * @param array $parameters
+     * @return mixed
      * @throws CommandsException
-     * @return void
      */
-    public function run($parameters)
+    public function run(array $parameters)
     {
         $action = $this->getOption(array('action', 1));
         $directory = './';
@@ -79,7 +82,7 @@ class Webtools extends Command
     }
 
     /**
-     * Return the commands provided by the command
+     * {@inheritdoc}
      *
      * @return array
      */
@@ -89,17 +92,7 @@ class Webtools extends Command
     }
 
     /**
-     * Check whether the command can be executed outside a Phalcon project
-     *
-     * @return boolean
-     */
-    public function canBeExternal()
-    {
-        return false;
-    }
-
-    /**
-     * Print the help on the usage of the command
+     * {@inheritdoc}
      *
      * @return void
      */
@@ -108,18 +101,21 @@ class Webtools extends Command
         echo Color::head('Help:') . PHP_EOL;
         echo Color::colorize('  Enables/disables webtools in a project') . PHP_EOL . PHP_EOL;
 
-        echo Color::head('Usage:') . PHP_EOL;
-        echo Color::colorize('  webtools [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::head('Usage: Enable webtools') . PHP_EOL;
+        print Color::colorize('  webtools enable', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+        print Color::head('Usage: Disable webtools') . PHP_EOL;
+        print Color::colorize('  webtools disable', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Arguments:') . PHP_EOL;
-        echo Color::colorize('  ?', Color::FG_GREEN);
+        echo Color::colorize('  help', Color::FG_GREEN);
         echo Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
-        $this->printParameters($this->_possibleParameters);
+        $this->printParameters($this->getPossibleParams());
     }
 
     /**
-     * Return the number of required parameters for this command
+     * {@inheritdoc}
      *
      * @return integer
      */

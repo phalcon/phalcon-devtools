@@ -33,7 +33,7 @@ try {
     if (!extension_loaded('phalcon')) {
         throw new Exception(
             "Phalcon extension isn't installed, follow these instructions to install it: " .
-            'http://phalconphp.com/documentation/install'
+            'https://docs.phalconphp.com/en/latest/reference/install.html'
         );
     }
 
@@ -52,9 +52,7 @@ try {
         );
     }
 
-    if (!defined('TEMPLATE_PATH')) {
-        define('TEMPLATE_PATH', __DIR__ . '/templates');
-    }
+    defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', __DIR__ . '/templates');
 
     $vendor = sprintf('Phalcon DevTools (%s)', Version::get());
     print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
@@ -68,6 +66,7 @@ try {
     $commandsToEnable = array(
         '\Phalcon\Commands\Builtin\Enumerate',
         '\Phalcon\Commands\Builtin\Controller',
+        '\Phalcon\Commands\Builtin\Module',
         '\Phalcon\Commands\Builtin\Model',
         '\Phalcon\Commands\Builtin\AllModels',
         '\Phalcon\Commands\Builtin\Project',
@@ -82,7 +81,9 @@ try {
 
     $script->run();
 } catch (PhalconException $e) {
-    print Color::error($e->getMessage()) . PHP_EOL;
+    fwrite(STDERR, Color::error($e->getMessage()) . PHP_EOL);
+    exit(1);
 } catch (Exception $e) {
-    print 'ERROR: ' . $e->getMessage() . PHP_EOL;
+    fwrite(STDERR, 'ERROR: ' . $e->getMessage() . PHP_EOL);
+    exit(1);
 }

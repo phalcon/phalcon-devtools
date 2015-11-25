@@ -1,6 +1,7 @@
 [![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)](https://github.com/phalcon/incubator/devtools)
+[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][1]
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
-[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)](https://github.com/phalcon/phalcon-devtools/blob/master/docs/LICENSE.txt)
+[![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
 
 # Phalcon Devtools
 
@@ -54,13 +55,6 @@ Run the composer installer:
 php composer.phar install
 ```
 
-Create a symbolic link to the phalcon.php script:
-
-```bash
-ln -s ~/devtools/phalcon.php /usr/bin/phalcon
-chmod ugo+x /usr/bin/phalcon
-```
-
 ## Build `.phar`
 
 Install composer and box in a common location or in your project:
@@ -109,7 +103,9 @@ $ phalcon commands help
 This command should display something similar to:
 
 ```bash
-Phalcon DevTools (2.0.8)
+$ phalcon list ?
+
+Phalcon DevTools (2.0.9)
 
 Help:
   Lists the commands available in Phalcon devtools
@@ -117,6 +113,7 @@ Help:
 Available commands:
   commands         (alias of: list, enumerate)
   controller       (alias of: create-controller)
+  module           (alias of: create-module)
   model            (alias of: create-model)
   all-models       (alias of: create-all-models)
   project          (alias of: create-project)
@@ -166,4 +163,4 @@ $config = [
 Phalcon Developer Tools is open source software licensed under the [New BSD License][1].
 © Phalcon Framework Team and contributors
 
-[1]: https://github.com/phalcon/phalcon-devtools/blob/master/docs/LICENSE.md
+[1]: docs/LICENSE.md

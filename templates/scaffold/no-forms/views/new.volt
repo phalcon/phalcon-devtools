@@ -1,25 +1,26 @@
+<div class="row">
+    <nav>
+        <ul class="pager">
+            <li class="previous">{{ link_to("$plural$", "Go Back") }}</li>
+        </ul>
+    </nav>
+</div>
 
-{{ form("$plural$/create", "method":"post") }}
-
-<table width="100%">
-    <tr>
-        <td align="left">{{ link_to("$plural$", "Go Back") }}</td>
-        <td align="right">{{ submit_button("Save") }}</td>
-    </tr>
-</table>
+<div class="page-header">
+    <h1>
+        Create $plural$
+    </h1>
+</div>
 
 {{ content() }}
 
-<div align="center">
-    <h1>Create $plural$</h1>
-</div>
+{{ form("$plural$/create", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
 
-<table>
 $captureFields$
-    <tr>
-        <td></td>
-        <td>{{ submit_button("Save") }}</td>
-    </tr>
-</table>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        {{ submit_button('Save', 'class': 'btn btn-default') }}
+    </div>
+</div>
 
 </form>

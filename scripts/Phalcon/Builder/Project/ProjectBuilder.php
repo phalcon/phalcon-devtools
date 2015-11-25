@@ -37,7 +37,7 @@ abstract class ProjectBuilder
      * Stores variable values depending on parameters
      * @var array
      */
-    protected $variableValues;
+    protected $variableValues = array();
 
     /**
      * Builder options
@@ -123,7 +123,7 @@ abstract class ProjectBuilder
 
             $str = file_get_contents($getFile);
             if ($name) {
-                $namespace = $name;
+                $namespace = ucfirst($name);
                 if (strtolower(trim($name)) == 'default') {
                     $namespace = 'MyDefault';
                 }

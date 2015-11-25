@@ -1,22 +1,21 @@
+<div class="page-header">
+    <h1>
+        Search $plural$
+    </h1>
+    <p>
+        {{ link_to("$plural$/new", "Create $plural$") }}
+    </p>
+</div>
 
 {{ content() }}
 
-<div align="right">
-	{{ link_to("$plural$/new", "Create $plural$") }}
-</div>
+{{ form("$plural$/search", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
 
-{{ form("$plural$/search", "method":"post", "autocomplete" : "off") }}
-
-<div align="center">
-    <h1>Search $plural$</h1>
-</div>
-
-<table>
 $captureFields$
-	<tr>
-		<td></td>
-		<td>{{ submit_button("Search") }}</td>
-	</tr>
-</table>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        {{ submit_button('Search', 'class': 'btn btn-default') }}
+    </div>
+</div>
 
 </form>

@@ -126,14 +126,10 @@ final class Color
     public static function isSupportedShell()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI');
+            return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI') || 'xterm' === getenv('TERM');
         }
 
-        if (!defined('STDOUT')) {
-            return false;
-        }
-
-        return function_exists('posix_isatty') && posix_isatty(STDOUT);
+        return defined('STDOUT') && function_exists('posix_isatty') && posix_isatty(STDOUT);
     }
 
     /**

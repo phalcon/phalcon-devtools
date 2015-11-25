@@ -156,14 +156,17 @@ class Scaffold extends Component
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
-        if ($modelsNamespace && substr($modelsNamespace, -1) !== '\\') {
-            $modelsNamespace .= "\\";
+        $modelName = Text::camelize($name);
+
+        if ($modelsNamespace) {
+            $modelClass = '\\' . trim($modelsNamespace, '\\') . '\\' . $modelName;
+        } else {
+            $modelClass = $modelName;
         }
 
-        $modelName = Text::camelize($name);
-        $modelClass = $modelsNamespace . $modelName;
         $modelPath = $this->options->get('modelsDir') . $modelName.'.php';
-        if (!file_exists($modelPath)) {
+
+        if (!file_exists($modelPath) || $this->options->get('force')) {
             $modelBuilder = new ModelBuilder(array(
                 'name'              => $name,
                 'schema'            => $this->options->get('schema'),
@@ -171,7 +174,8 @@ class Scaffold extends Component
                 'fileName'          => $this->options->get('fileName'),
                 'genSettersGetters' => $this->options->get('genSettersGetters'),
                 'directory'         => $this->options->get('directory'),
-                'force'             => $this->options->get('force')
+                'force'             => $this->options->get('force'),
+                'namespace'         => $this->options->get('modelsNamespace'),
             ));
 
             $modelBuilder->build();
@@ -199,6 +203,7 @@ class Scaffold extends Component
         $this->options->offsetSet('name', strtolower(Text::camelize($single)));
         $this->options->offsetSet('plural', $this->_getPossiblePlural($name));
         $this->options->offsetSet('singular', $this->_getPossibleSingular($name));
+        $this->options->offsetSet('modelClass', $modelClass);
         $this->options->offsetSet('entity', $entity);
         $this->options->offsetSet('setParams', $setParams);
         $this->options->offsetSet('attributes', $attributes);
@@ -320,43 +325,42 @@ class Scaffold extends Component
      */
     private function _makeField($attribute, $dataType, $relationField, $selectDefinition)
     {
-        $code = "\t" . '<tr>' . PHP_EOL .
-                "\t\t" . '<td align="right">' . PHP_EOL .
-                "\t\t\t" . '<label for="' . $attribute . '">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
-                "\t\t" . '</td>' . PHP_EOL .
-                "\t\t" . '<td align="left">';
+        $id = 'field' . Text::camelize($attribute);
+        $code = '<div class="form-group">' . PHP_EOL .
+                "\t" . '<label for="' . $id . '" class="col-sm-2 control-label">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
+                "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
-            $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
-                ', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true)) ?>';
+            $code .= "\t\t" . '<?php echo $this->tag->select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
+                ', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '") ?>';
         } else {
             switch ($dataType) {
                 case 5: // enum
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->selectStatic(array("' . $attribute . '", array())) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->selectStatic(array("' . $attribute . '", array(), "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '")) ?>';
+                    $code .=  "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= PHP_EOL . "\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "number")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "number", "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date", "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= PHP_EOL . "\t\t\t\t" . '<?php echo $this->tag->textArea(array("' . $attribute . '", "cols" => 30, "rows" => 4)) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textArea(array("' . $attribute . '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
                 default:
-                    $code .= PHP_EOL . "\t\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "size" => 30)) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "size" => 30, "class" => "form-control", "id" => "' . $id . '")) ?>';
                     break;
             }
         }
 
-        $code .= PHP_EOL . "\t\t" . '</td>';
-        $code .= PHP_EOL . "\t" . '</tr>' . PHP_EOL;
+        $code .= PHP_EOL . "\t" . '</div>' . PHP_EOL;
+        $code .= '</div>' . PHP_EOL . PHP_EOL;
 
-        return $code;
+        return str_replace("\t", '    ', $code);
     }
 
     /**
@@ -369,43 +373,42 @@ class Scaffold extends Component
      */
     private function _makeFieldVolt($attribute, $dataType, $relationField, $selectDefinition)
     {
-        $code = "\t" . '<tr>' . PHP_EOL .
-                "\t\t" . '<td align="right">' . PHP_EOL .
-                "\t\t\t" . '<label for="' . $attribute . '">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
-                "\t\t" . '</td>' . PHP_EOL .
-                "\t\t" . '<td align="left">';
+        $id = 'field' . Text::camelize($attribute);
+        $code = '<div class="form-group">' . PHP_EOL .
+            "\t" . '<label for="' . $id . '" class="col-sm-2 control-label">' . $this->_getPossibleLabel($attribute) . '</label>' . PHP_EOL .
+            "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
-            $code .= PHP_EOL . "\t\t\t\t" . '{{ select("' . $attribute . '", ' . $selectDefinition[$attribute]['varName'] .
-                ', "using" :[ "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true]) }}';
+            $code .= "\t\t" . '{{ select("' . $attribute . '", ' . $selectDefinition[$attribute]['varName'] .
+                ', "using" :[ "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true], "class" : "form-control", "id" : "' . $id . '") }}';
         } else {
             switch ($dataType) {
                 case 5: // enum
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ select_static("' . $attribute . '", "using": []) }}';
+                    $code .= "\t\t" . '{{ select_static("' . $attribute . '", "using": [], "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '") }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= PHP_EOL . "\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "numeric") }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "type" : "numeric", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_field("' . $attribute . '", "type" : "date") }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "type" : "date", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= PHP_EOL . "\t\t\t\t" . '{{ text_area("' . $attribute . '", "cols": "30", "rows": "4") }}';
+                    $code .= "\t\t" . '{{ text_area("' . $attribute . '", "cols": "30", "rows": "4", "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
                 default:
-                    $code .= PHP_EOL . "\t\t\t" . '{{ text_field("' . $attribute . '", "size" : 30) }}';
+                    $code .= "\t\t" . '{{ text_field("' . $attribute . '", "size" : 30, "class" : "form-control", "id" : "' . $id . '") }}';
                     break;
             }
         }
 
-        $code .= PHP_EOL . "\t\t" . '</td>';
-        $code .= PHP_EOL . "\t" . '</tr>' . PHP_EOL;
+        $code .= PHP_EOL . "\t" . '</div>' . PHP_EOL;
+        $code .= '</div>' . PHP_EOL . PHP_EOL;
 
-        return $code;
+        return str_replace("\t", '    ', $code);
     }
 
     /**
@@ -464,7 +467,7 @@ class Scaffold extends Component
      */
     private function _makeController()
     {
-        $controllerPath = $this->options->controllersDir . $this->options->className . 'Controller.php';
+        $controllerPath = $this->options->get('controllersDir') . $this->options->get('className') . 'Controller.php';
 
         if (file_exists($controllerPath)) {
             if (!$this->options->contains('force')) {
@@ -472,29 +475,54 @@ class Scaffold extends Component
             }
         }
 
-        $code = file_get_contents($this->options->templatePath . '/scaffold/no-forms/Controller.php');
+        $code = file_get_contents($this->options->get('templatePath') . '/scaffold/no-forms/Controller.php');
+        $usesNamespaces = false;
 
-        if ($this->options->contains('controllersNamespace') && $this->checkNamespace($this->options->controllersNamespace)) {
-            $code = str_replace('$namespace$', 'namespace '.$this->options->controllersNamespace.';'.PHP_EOL, $code);
+        if ($this->options->contains('controllersNamespace') && $this->checkNamespace($this->options->get('controllersNamespace'))) {
+            $code = str_replace('$namespace$', 'namespace '.$$this->options->get('controllersNamespace').';'.PHP_EOL, $code);
+            $usesNamespaces = true;
         } else {
             $code = str_replace('$namespace$', ' ', $code);
         }
 
-        $code = str_replace('$singularVar$', '$' . $this->options->singular, $code);
-        $code = str_replace('$singular$', $this->options->singular, $code);
+        if (($this->options->contains('modelsNamespace') && $this->checkNamespace($this->options->get('modelsNamespace')))|| $usesNamespaces) {
+            $code = str_replace('$useFullyQualifiedModelName$', "use " . ltrim($this->options->get('modelClass'), '\\') . ';', $code);
+        } else {
+            $code = str_replace('$useFullyQualifiedModelName$', '', $code);
+        }
 
-        $code = str_replace('$pluralVar$', '$' . $this->options->plural, $code);
-        $code = str_replace('$plural$', $this->options->plural, $code);
+        $code = str_replace('$fullyQualifiedModelName$', $this->options->get('modelClass'), $code);
 
-        $code = str_replace('$className$', $this->options->className, $code);
+        $code = str_replace('$singularVar$', '$' . $this->options->get('singular'), $code);
+        $code = str_replace('$singular$', $this->options->get('singular'), $code);
 
-        $code = str_replace('$assignInputFromRequestCreate$', $this->_captureFilterInput($this->options->singular, $this->options->dataTypes, $this->options->genSettersGetters, $this->options->identityField), $code);
-        $code = str_replace('$assignInputFromRequestUpdate$', $this->_captureFilterInput($this->options->singular, $this->options->dataTypes, $this->options->genSettersGetters, $this->options->identityField), $code);
+        $code = str_replace('$pluralVar$', '$' . $this->options->get('plural'), $code);
+        $code = str_replace('$plural$', $this->options->get('plural'), $code);
 
-        $code = str_replace('$assignTagDefaults$', $this->_assignTagDefaults($this->options->singular, $this->options->dataTypes, $this->options->genSettersGetters), $code);
+        $code = str_replace('$className$', $this->options->get('className'), $code);
 
-        $code = str_replace('$pkVar$', '$' . $this->options->attributes[0], $code);
-        $code = str_replace('$pk$', $this->options->attributes[0], $code);
+        $code = str_replace(
+            '$assignInputFromRequestCreate$',
+            $this->_captureFilterInput($this->options->get('singular'), $this->options->get('dataTypes'), $this->options->get('genSettersGetters'), $this->options->get('identityField')),
+            $code
+        );
+
+        $code = str_replace(
+            '$assignInputFromRequestUpdate$',
+            $this->_captureFilterInput($this->options->get('singular'), $this->options->get('dataTypes'), $this->options->get('genSettersGetters'), $this->options->get('identityField')),
+            $code
+        );
+
+        $code = str_replace(
+            '$assignTagDefaults$',
+            $this->_assignTagDefaults($this->options->get('singular'), $this->options->get('dataTypes'), $this->options->get('genSettersGetters')),
+            $code
+        );
+
+        $attributes = $this->options->get('attributes');
+
+        $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
+        $code = str_replace('$pk$', $attributes[0], $code);
 
         if ($this->isConsole()) {
             echo $controllerPath, PHP_EOL;
@@ -530,7 +558,7 @@ class Scaffold extends Component
                 $code .= '<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
-                $code .= '<div align="center">' . PHP_EOL;
+                $code .= '<div class="row center-block">' . PHP_EOL;
             }
             $code .= "\t" . '<?php echo $this->getContent(); ?>' . PHP_EOL . '</div>';
 
@@ -571,7 +599,7 @@ class Scaffold extends Component
                 $code .= '{{ stylesheet_link("themes/base") }}'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
-                $code .= '<div align="center">' . PHP_EOL;
+                $code .= '<div class="row center-block">' . PHP_EOL;
             }
 
             $code .= "\t" . '{{ content() }}' . PHP_EOL . '</div>';

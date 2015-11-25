@@ -60,6 +60,7 @@ try {
     }
 
 } catch (Exception $e) {
-    echo $e->getMessage();
+    echo $e->getMessage() . PHP_EOL;
+    echo implode(PHP_EOL, $e->getTrace());
     exit(255);
 }

@@ -1,23 +1,28 @@
-{{ content() }}
-{{ form("$plural$/save", "method":"post") }}
-
-<table width="100%">
-    <tr>
-        <td align="left">{{ link_to("$plural$", "Go Back") }}</td>
-        <td align="right">{{ submit_button("Save") }}</td>
-    </tr>
-</table>
-
-<div align="center">
-    <h1>Edit $plural$</h1>
+<div class="row">
+    <nav>
+        <ul class="pager">
+            <li class="previous">{{ link_to("$plural$", "Go Back") }}</li>
+        </ul>
+    </nav>
 </div>
 
-<table>
+<div class="page-header">
+    <h1>
+        Edit $plural$
+    </h1>
+</div>
+
+{{ content() }}
+
+{{ form("$plural$/save", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
+
 $captureFields$
-	<tr>
-		<td>{{ hidden_field("id") }}</td>
-		<td>{{ submit_button("Save") }}</td>
-	</tr>
-</table>
+{{ hidden_field("id") }}
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        {{ submit_button('Send', 'class': 'btn btn-default') }}
+    </div>
+</div>
 
 </form>

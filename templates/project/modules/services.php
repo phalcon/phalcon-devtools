@@ -12,6 +12,7 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+use Phalcon\Flash\Direct as Flash;
 
 /**
  * The FactoryDefault Dependency Injector automatically registers the right services to provide a full stack framework
@@ -95,6 +96,18 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+/**
+ * Register the session flash service with the Twitter Bootstrap classes
+ */
+$di->set('flash', function () {
+    return new Flash(array(
+        'error'   => 'alert alert-danger',
+        'success' => 'alert alert-success',
+        'notice'  => 'alert alert-info',
+        'warning' => 'alert alert-warning'
+    ));
 });
 
 /**

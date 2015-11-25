@@ -21,13 +21,40 @@
 
 namespace Phalcon;
 
+use Phalcon\Config;
+
 class Utils
 {
+    const DB_ADAPTER_POSTGRESQL = 'Postgresql';
+
     public static function camelize($string)
     {
         $stringParts = explode('_', $string);
         $stringParts = array_map('ucfirst', $stringParts);
 
         return implode('', $stringParts);
+    }
+
+    /**
+     * Resolves the DB Schema
+     *
+     * @param \Phalcon\Config $config
+     * @return null|string
+     */
+    public static function resolveDbSchema(Config $config)
+    {
+        if ($config->offsetExists('schema')) {
+            return $config->get('schema');
+        }
+
+        if (self::DB_ADAPTER_POSTGRESQL == $config->get('adapter')) {
+            return  'public';
+        }
+
+        if ($config->offsetExists('dbname')) {
+            return $config->get('dbname');
+        }
+
+        return null;
     }
 }

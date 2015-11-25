@@ -28,6 +28,7 @@ use Phalcon\Generator\Snippet;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Utils;
 use Phalcon\Version\Item as VersionItem;
 
 /**
@@ -188,17 +189,8 @@ class Migration
         $tableDefinition = array();
         $snippet = new Snippet();
 
-        if (self::$_databaseConfig->offsetExists('schema')) {
-            $defaultSchema = self::$_databaseConfig->get('schema');
-        } elseif (self::$_databaseConfig->get('adapter') == 'Postgresql') {
-            $defaultSchema =  'public';
-        } elseif (self::$_databaseConfig->offsetExists('dbname')) {
-            $defaultSchema = self::$_databaseConfig->get('dbname');
-        } else {
-            $defaultSchema = null;
-        }
-
-        $description = self::$_connection->describeColumns($table, $defaultSchema);
+        $defaultSchema = Utils::resolveDbSchema(self::$_databaseConfig);
+        $description   = self::$_connection->describeColumns($table, $defaultSchema);
 
         foreach ($description as $field) {
             /** @var \Phalcon\Db\ColumnInterface $field */
@@ -265,7 +257,7 @@ class Migration
             }
 
             if (null !== ($default = $field->getDefault())) {
-                $fieldDefinition[] = "'default' => '$default'";
+                $fieldDefinition[] = "'default' => \"$default\"";
             }
             //if ($field->isPrimary()) {
             //	$fieldDefinition[] = "'primary' => true";
@@ -313,11 +305,12 @@ class Migration
         $indexesDefinition = array();
         $indexes = self::$_connection->describeIndexes($table, $defaultSchema);
         foreach ($indexes as $indexName => $dbIndex) {
+            /** @var \Phalcon\Db\Index $dbIndex */
             $indexDefinition = array();
             foreach ($dbIndex->getColumns() as $indexColumn) {
                 $indexDefinition[] = "'" . $indexColumn . "'";
             }
-            $indexesDefinition[] = $snippet->getIndexDefinition($indexName, $indexDefinition);
+            $indexesDefinition[] = $snippet->getIndexDefinition($indexName, $indexDefinition, $dbIndex->getType());
         }
 
         $referencesDefinition = array();
@@ -493,8 +486,8 @@ class Migration
      */
     public function morphTable($tableName, $definition)
     {
-        $defaultSchema = self::$_databaseConfig->get('dbname');
-        $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
+        $defaultSchema = Utils::resolveDbSchema(self::$_databaseConfig);
+        $tableExists   = self::$_connection->tableExists($tableName, $defaultSchema);
 
         if (isset($definition['columns'])) {
             if (count($definition['columns']) == 0) {

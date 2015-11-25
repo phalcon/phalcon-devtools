@@ -163,7 +163,7 @@ class Modules extends ProjectBuilder
     }
 
     /**
-     * Create ControllerBase
+     * Create Module
      *
      * @return $this
      */
