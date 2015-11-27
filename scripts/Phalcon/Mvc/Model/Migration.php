@@ -321,8 +321,6 @@ class Migration
                 $columns[] = "'" . $column . "'";
             }
 
-            var_dump($dbReference);
-
             $referencedColumns = array();
             foreach ($dbReference->getReferencedColumns() as $referencedColumn) {
                 $referencedColumns[] = "'" . $referencedColumn . "'";
