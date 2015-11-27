@@ -321,6 +321,8 @@ class Migration
                 $columns[] = "'" . $column . "'";
             }
 
+            var_dump($dbReference);
+
             $referencedColumns = array();
             foreach ($dbReference->getReferencedColumns() as $referencedColumn) {
                 $referencedColumns[] = "'" . $referencedColumn . "'";
@@ -331,6 +333,9 @@ class Migration
             $referenceDefinition[] = "'referencedTable' => '" . $dbReference->getReferencedTable() . "'";
             $referenceDefinition[] = "'columns' => array(" . join(",", $columns) . ")";
             $referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns) . ")";
+            $referenceDefinition[] = "'onUpdate' => '".$dbReference->getOnUpdate()."'";
+            $referenceDefinition[] = "'onDelete' => '".$dbReference->getOnDelete()."'";
+
 
             $referencesDefinition[] = $snippet->getReferenceDefinition($constraintName, $referenceDefinition);
         }
