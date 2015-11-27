@@ -331,6 +331,9 @@ class Migration
             $referenceDefinition[] = "'referencedTable' => '" . $dbReference->getReferencedTable() . "'";
             $referenceDefinition[] = "'columns' => array(" . join(",", $columns) . ")";
             $referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns) . ")";
+            $referenceDefinition[] = "'onUpdate' => '".$dbReference->getOnUpdate()."'";
+            $referenceDefinition[] = "'onDelete' => '".$dbReference->getOnDelete()."'";
+
 
             $referencesDefinition[] = $snippet->getReferenceDefinition($constraintName, $referenceDefinition);
         }
