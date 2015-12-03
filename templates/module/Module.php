@@ -74,5 +74,9 @@ class Module implements ModuleDefinitionInterface
 
             return new $dbAdapter($config);
         };
+		// add default namespace
+		$dispatcher = $di->get('dispatcher');
+		$dispatcher->setDefaultNamespace("@@FQMN@@\Controllers");
+		$di->set('dispatcher', $dispatcher);
     }
 }
