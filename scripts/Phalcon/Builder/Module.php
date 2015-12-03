@@ -93,7 +93,8 @@ class Module extends Component
         if (false == $this->isAbsolutePath($modulesDir)) {
             $modulesDir = $this->path->getRootPath($modulesDir);
         }
-
+        // create modules dir
+		if (!file_exists($modulesDir)) mkdir($modulesDir);
         $this->options->offsetSet('modulesDir', realpath($modulesDir));
         $this->options->offsetSet('templatePath', realpath($templatePath));
         $this->options->offsetSet('projectPath', $this->path->getRootPath());
@@ -120,7 +121,7 @@ class Module extends Component
     {
         $modulesDir = $this->options->get('modulesDir');
         $moduleName = $this->options->get('name');
-
+        
         if (file_exists($modulesDir . DIRECTORY_SEPARATOR . $moduleName)) {
             throw new BuilderException(sprintf(
                 'The Module "%s" already exists in modules dir',

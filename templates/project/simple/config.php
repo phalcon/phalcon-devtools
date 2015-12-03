@@ -12,13 +12,14 @@ return new \Phalcon\Config(array(
         'charset'     => 'utf8',
     ),
     'application' => array(
-        'controllersDir' => APP_PATH . '/app/controllers/',
-        'modelsDir'      => APP_PATH . '/app/models/',
-        'migrationsDir'  => APP_PATH . '/app/migrations/',
-        'viewsDir'       => APP_PATH . '/app/views/',
-        'pluginsDir'     => APP_PATH . '/app/plugins/',
-        'libraryDir'     => APP_PATH . '/app/library/',
-        'cacheDir'       => APP_PATH . '/app/cache/',
+        'controllersDir' => __DIR__ . '/../controllers/',
+        'modelsDir'      => __DIR__ . '/../models/',
+        'modulesDir'     => __DIR__ . '/../modules/',
+        'migrationsDir'  => __DIR__ . '/../migrations/',
+        'viewsDir'       => __DIR__ . '/../views/',
+        'pluginsDir'     => __DIR__ . '/../plugins/',
+        'libraryDir'     => __DIR__ . '/../library/',
+        'cacheDir'       => __DIR__ . '/../cache/',
         'baseUri'        => '/@@name@@/',
     )
 ));
