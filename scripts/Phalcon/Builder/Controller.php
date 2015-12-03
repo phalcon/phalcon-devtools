@@ -78,7 +78,7 @@ class Controller extends Component
         	}
             $this->path->setRootPath($_rootPath.$module. DIRECTORY_SEPARATOR);
         }
-        $namespace = $this->options->get('module').'\Controllers';
+        $namespace = 'Application\\'.$this->options->get('module').'\Controllers';
         if (!$this->options->contains('namespace') && $this->options->contains('module') && $this->checkNamespace($namespace)) {
         	// if namespace is empty and has module
         	$namespace = 'namespace '.$namespace.';'.PHP_EOL.PHP_EOL;

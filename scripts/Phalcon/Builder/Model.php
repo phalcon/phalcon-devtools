@@ -186,7 +186,7 @@ class Model extends Component
             );
         }
 
-        $namespace = $this->options->get('module').'\Models';
+        $namespace = 'Application\\'.$this->options->get('module').'\Models';
         if (!$this->options->contains('namespace') && $this->options->contains('module') && $this->checkNamespace($namespace)) {
         	// if namespace is empty and has module
         	$namespace = 'namespace '.$namespace.';'.PHP_EOL.PHP_EOL;
