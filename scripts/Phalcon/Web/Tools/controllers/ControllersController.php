@@ -50,6 +50,7 @@ class ControllersController extends ControllerBase
             $directory      = $this->request->getPost('directory');
             $namespace      = $this->request->getPost('namespace');
             $baseClass      = $this->request->getPost('baseClass');
+            $module      	= $this->request->getPost('module');
 
             try {
                 $controllerBuilder = new ControllerBuilder(array(
@@ -58,7 +59,8 @@ class ControllersController extends ControllerBase
                     'namespace'      => $namespace,
                     'baseClass'      => $baseClass,
                     'force'          => $force,
-                    'controllersDir' => $this->controllersDir
+                    //'controllersDir' => $this->controllersDir, // auto request
+                	'module'=>$module
                 ));
 
                 $fileName = $controllerBuilder->build();

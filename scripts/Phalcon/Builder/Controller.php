@@ -84,6 +84,8 @@ class Controller extends Component
         	$namespace = 'namespace '.$namespace.';'.PHP_EOL.PHP_EOL;
         }elseif ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
             $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
+        }else{
+        	$namespace = '';
         }
 
         $baseClass = $this->options->get('baseClass', '\Phalcon\Mvc\Controller');
@@ -110,7 +112,6 @@ class Controller extends Component
         }
 
         $controllerPath = rtrim($controllersDir, '\\/') . DIRECTORY_SEPARATOR . $className . "Controller.php";
-
         $code = "<?php\n\n".$namespace."class ".$className."Controller extends ".$baseClass."\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
         $code = str_replace("\t", "    ", $code);
 
