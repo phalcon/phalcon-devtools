@@ -5,6 +5,13 @@
 
 # Phalcon Devtools
 
+## What's we modify?
+* Window phalcon.bat PTOOLSPATH bug
+* Create Project add moduleDir 
+* Create Controller add option --module=s , creates Controller with --module=s
+	* eg. phalcon.bat controller --name=Users --moule=Admin
+
+
 ![Webtools](http://static.phalconphp.com/img/webtools.png)
 
 ## What's Phalcon?
