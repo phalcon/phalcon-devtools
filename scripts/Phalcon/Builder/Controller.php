@@ -89,15 +89,14 @@ class Controller extends Component
         }
 
         $baseClass = $this->options->get('baseClass', '\Phalcon\Mvc\Controller');
+ 
+        $config = $this->getConfig();
+		if (!isset($config->application->controllersDir)) {
+        	throw new BuilderException('Please specify a controller directory.');
+		}
 
-        if (!$controllersDir = $this->options->get('controllersDir')) {
-            $config = $this->getConfig();
-            if (!isset($config->application->controllersDir)) {
-                throw new BuilderException('Please specify a controller directory.');
-            }
-
-            $controllersDir = $config->application->controllersDir;
-        }
+        $controllersDir = $config->application->controllersDir; 
+            
         if (!$this->options->contains('name')) {
             throw new BuilderException('The controller name is required.');
         }

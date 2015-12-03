@@ -133,19 +133,34 @@ class Model extends Component
         if ($this->options->contains('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
-
         $config = $this->getConfig();
-
-        if (!$modelsDir = $this->options->get('modelsDir')) {
-            if (!$config->get('application') || !isset($config->get('application')->modelsDir)) {
-                throw new BuilderException("Builder doesn't know where is the models directory.");
-            }
-
-            $modelsDir = $config->get('application')->modelsDir;
+        
+        // load module path
+        if ($this->options->contains('module')) {
+        	// get module dir
+        	if (!isset($config->application->modulesDir)) {
+        		if (!file_exists($config->application->modulesDir)) mkdir($config->application->modulesDir);
+        		throw new BuilderException('Please specify a modules directory.');
+        	}
+        	$_rootPath = rtrim($config->application->modulesDir, '\\/') . DIRECTORY_SEPARATOR;
+        	$module = $this->options->get('module');
+        	if (!file_exists($_rootPath.$module)){
+        		throw new BuilderException('module not frond.');
+        	}
+        	$this->path->setRootPath($_rootPath.$module. DIRECTORY_SEPARATOR);
+        	$moduleConfig = $this->getConfig();
+        	$config = $config->merge($moduleConfig);
         }
+ 
+		if (!$config->get('application') || !isset($config->get('application')->modelsDir)) {
+        	throw new BuilderException("Builder doesn't know where is the models directory.");
+		}
 
-        $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
-        $modelPath = $modelsDir;
+        $modelsDir = $config->get('application')->modelsDir; 
+
+        $modelPath = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+        if (!file_exists($modelPath)) mkdir($modelPath);
+        
         if (false == $this->isAbsolutePath($modelsDir)) {
             $modelPath = $this->path->getRootPath($modelsDir);
         }
@@ -153,7 +168,6 @@ class Model extends Component
         $methodRawCode = array();
         $className = $this->options->get('className');
         $modelPath .= $className . '.php';
-
         if (file_exists($modelPath) && !$this->options->contains('force')) {
             throw new BuilderException(sprintf(
                 'The model file "%s.php" already exists in models dir',
@@ -172,10 +186,15 @@ class Model extends Component
             );
         }
 
-        $namespace = '';
-        if ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
-            $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
-        }
+        $namespace = $this->options->get('module').'\Models';
+        if (!$this->options->contains('namespace') && $this->options->contains('module') && $this->checkNamespace($namespace)) {
+        	// if namespace is empty and has module
+        	$namespace = 'namespace '.$namespace.';'.PHP_EOL.PHP_EOL;
+        }elseif ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
+        	$namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
+        }else{
+        	$namespace = '';
+        } 
 
         $genDocMethods = $this->options->get('genDocMethods', false);
         $useSettersGetters = $this->options->get('genSettersGetters', false);

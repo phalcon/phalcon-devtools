@@ -21,6 +21,12 @@
         <div class="row">
             <form class="form-horizontal" autocomplete="off" method="post" action="<?php echo $this->url->get("webtools.php?_url=/models/create") ?>">
                 <div class="form-group">
+                    <label for="name" class="col-sm-4 control-label">Module name</label>
+                    <div class="col-sm-8">
+                        <?php echo $this->tag->textField(array('module', 'placeholder' => 'Module name', 'class' => 'form-control', 'id' => 'module')) ?>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="schema" class="col-sm-4 control-label">Schema</label>
                     <div class="col-sm-8">
                         <?php echo $this->tag->textField(array('schema', 'value' => $databaseName,  'placeholder' => 'Database name', 'class' => 'form-control', 'id' => 'schema')) ?>
