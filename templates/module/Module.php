@@ -56,12 +56,9 @@ class Module implements ModuleDefinitionInterface
         /**
          * Setting up the view component
          */
-        $di['view'] = function () use ($config) {
-            $view = new View();
-            $view->setViewsDir($config->get('application')->viewsDir);
-
-            return $view;
-        };
+		$view = $di->get('view');
+		$view->setViewsDir($config->get('application')->viewsDir); 
+		$di->set('view', $view);
 
         /**
          * Database connection is created based in the parameters defined in the configuration file
