@@ -336,6 +336,12 @@ class Model extends Component
 
                 $possibleMethods['getSource'] = true;
 
+                $extends = $this->options->get('extends', '\Phalcon\Mvc\Model');
+                $extendsPath = dirname($modelPath) . '/'. $extends . '.php';
+                if (file_exists($extendsPath)) {
+                    require_once $extendsPath;
+                }
+
                 require $modelPath;
 
                 $linesCode = file($modelPath);
