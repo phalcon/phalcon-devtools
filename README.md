@@ -5,16 +5,6 @@
 
 # Phalcon Devtools
 
-## What's we modify?
-
-> * Window phalcon.bat PTOOLSPATH bug
-> * Create Project add moduleDir 
-> * Create Controller add option --module=s , create Controller with --module=s
-> 	* eg. phalcon.bat controller --name=Users --module=Admin
-> * Create Model add option --module=s , create Model with --module=s
-> 	* eg. phalcon.bat model --name=User --module=Admin
-
-
 ## What's Phalcon?
 
 Phalcon PHP is a web framework delivered as a C extension providing high performance and lower resource consumption.
