@@ -71,7 +71,7 @@ class Controller extends Command
             'namespace' => $this->getOption('namespace'),
             'baseClass' => $this->getOption('base-class'),
             'force' => $this->isReceivedOption('force'),
-        	'module'=>$this->getOption('module'),
+            'module'=>$this->getOption('module'),
         ));
 
         return $controllerBuilder->build();
