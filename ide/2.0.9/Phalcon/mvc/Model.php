@@ -363,8 +363,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * }
      * </code>
      *
-     * @param mixed $parameters 
-     * @param  $array parameters
+     * @param string|array $parameters
      * @return \Phalcon\Mvc\Model\ResultsetInterface 
      */
     public static function find($parameters = null) {}
