@@ -62,7 +62,6 @@ class ScaffoldController extends ControllerBase
         if ($this->request->isPost()) {
             $schema            = $this->request->getPost('schema', 'string');
             $tableName         = $this->request->getPost('tableName', 'string');
-            $version           = $this->request->getPost('version', 'string');
             $templateEngine    = $this->request->getPost('templateEngine');
             $force             = $this->request->getPost('force', 'int');
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
@@ -80,21 +79,23 @@ class ScaffoldController extends ControllerBase
                     'templateEngine'    => $templateEngine,
                     'modelsNamespace'   => $modelsNamespace,
                 ));
-
                 $scaffoldBuilder->build();
 
-                $this->flash->success(sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName)));
+                $message = sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName));
+                $this->flash->success($message);
 
-                return $this->dispatcher->forward(array(
+                $this->dispatcher->forward(array(
                     'controller' => 'scaffold',
                     'action' => 'index'
                 ));
+
+                return;
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }
         }
 
-        return $this->dispatcher->forward(array(
+        $this->dispatcher->forward(array(
             'controller' => 'scaffold',
             'action' => 'index'
         ));
