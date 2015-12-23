@@ -97,7 +97,7 @@ class MigrationsController extends ControllerBase
             }
         }
 
-        return $this->dispatcher->forward(array(
+        $this->dispatcher->forward(array(
             'controller' => 'migrations',
             'action' => 'index'
         ));
@@ -106,8 +106,6 @@ class MigrationsController extends ControllerBase
     public function runAction()
     {
         if ($this->request->isPost()) {
-            $version = '';
-            $exportData = '';
             $force = $this->request->getPost('force', 'int');
 
             try {

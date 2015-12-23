@@ -63,9 +63,10 @@ class ControllersController extends ControllerBase
 
                 $fileName = $controllerBuilder->build();
 
-                $this->flash->success(sprintf('Model "%s" was created successfully', str_replace('.php', '', $fileName)));
+                $message = sprintf('Model "%s" was created successfully', str_replace('.php', '', $fileName));
+                $this->flash->success($message);
 
-                return $this->dispatcher->forward(array(
+                $this->dispatcher->forward(array(
                     'controller' => 'controllers',
                     'action' => 'edit',
                     'params' => array($fileName)
@@ -75,7 +76,7 @@ class ControllersController extends ControllerBase
             }
         }
 
-        return $this->dispatcher->forward(array(
+        $this->dispatcher->forward(array(
             'controller' => 'controllers',
             'action' => 'index'
         ));
@@ -103,10 +104,12 @@ class ControllersController extends ControllerBase
         if (!file_exists($this->controllersDir . $fileName)) {
             $this->flash->error('Controller could not be found.');
 
-            return $this->dispatcher->forward(array(
+            $this->dispatcher->forward(array(
                 'controller' => 'controllers',
                 'action' => 'list'
             ));
+
+            return;
         }
 
         $this->tag->setDefault('code', file_get_contents($this->controllersDir . $fileName));
@@ -127,19 +130,23 @@ class ControllersController extends ControllerBase
             if (!file_exists($this->controllersDir . $fileName)) {
                 $this->flash->error('Controller could not be found.');
 
-                return $this->dispatcher->forward(array(
+                $this->dispatcher->forward(array(
                     'controller' => 'controllers',
                     'action' => 'list'
                 ));
+
+                return;
             }
 
             if (!is_writable($this->controllersDir . $fileName)) {
                 $this->flash->error('Controller file does not have write access.');
 
-                return $this->dispatcher->forward(array(
+                $this->dispatcher->forward(array(
                     'controller' => 'controllers',
                     'action' => 'list'
                 ));
+
+                return;
             }
 
             file_put_contents($this->controllersDir . $fileName, $this->request->getPost('code'));
@@ -147,7 +154,7 @@ class ControllersController extends ControllerBase
             $this->flash->success(sprintf('The controller "%s" was saved successfully.', str_replace('.php', '', $fileName)));
         }
 
-        return $this->dispatcher->forward(array(
+        $this->dispatcher->forward(array(
             'controller' => 'controllers',
             'action' => 'list'
         ));

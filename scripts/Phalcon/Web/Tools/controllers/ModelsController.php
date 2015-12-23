@@ -55,7 +55,7 @@ class ModelsController extends ControllerBase
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
             $foreignKeys       = $this->request->getPost('foreignKeys', 'int');
             $defineRelations   = $this->request->getPost('defineRelations', 'int');
-            $mapcolumn         = $this->request->getPost('mapcolumn', 'int');
+            $mapColumn         = $this->request->getPost('mapcolumn', 'int');
 
             try {
                 $component = '\Phalcon\Builder\Model';
@@ -73,7 +73,7 @@ class ModelsController extends ControllerBase
                     'genSettersGetters'     => $genSettersGetters,
                     'namespace'             => $namespace,
                     'schema'                => $schema,
-                    'mapColumn'             => $mapcolumn
+                    'mapColumn'             => $mapColumn
                 ));
 
                 $modelBuilder->build();
@@ -83,9 +83,11 @@ class ModelsController extends ControllerBase
                         $mList = implode('</strong>, <strong>', $modelBuilder->exist);
 
                         if ($n == 1) {
-                            $notice = 'Model <strong>' . $mList . '</strong> was skipped because it already exists!';
+                            $notice = 'Model <strong>' . $mList . '</strong> '
+                                    . 'was skipped because it already exists!';
                         } else {
-                            $notice = 'Models <strong>' . $mList . '</strong> were skipped because they already exists!';
+                            $notice = 'Models <strong>' . $mList . '</strong> '
+                                    . 'were skipped because they already exists!';
                         }
 
                         $this->flash->notice($notice);
@@ -93,16 +95,19 @@ class ModelsController extends ControllerBase
                 }
 
                 if ($tableName == 'all') {
-                    $this->flash->success('Models were created successfully.');
+                    $message = 'Models were created successfully.';
                 } else {
-                    $this->flash->success(sprintf('Model "%s" was created successfully', Utils::camelize(str_replace('.php', '', $tableName))));
+                    $message = sprintf('Model "%s" was created successfully',
+                                        Utils::camelize(str_replace('.php', '', $tableName)));
                 }
+
+                $this->flash->success($message);
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }
         }
 
-        return $this->dispatcher->forward(array(
+        $this->dispatcher->forward(array(
             'controller' => 'models',
             'action' => 'list'
         ));
@@ -130,7 +135,7 @@ class ModelsController extends ControllerBase
         if (!file_exists($this->modelsDir . $fileName)) {
             $this->flash->error(sprintf('Model %s could not be found.', $this->modelsDir . $fileName));
 
-            return $this->dispatcher->forward(array(
+            $this->dispatcher->forward(array(
                 'controller' => 'models',
                 'action' => 'list'
             ));
@@ -145,33 +150,37 @@ class ModelsController extends ControllerBase
     {
         if ($this->request->isPost()) {
             $fileName = $this->request->getPost('name', 'string');
-
             $fileName = str_replace('..', '', $fileName);
 
             if (!file_exists($this->modelsDir . $fileName)) {
                 $this->flash->error('Model could not be found.');
 
-                return $this->dispatcher->forward(array(
+                $this->dispatcher->forward(array(
                     'controller' => 'models',
                     'action' => 'list'
                 ));
+
+                return;
             }
 
             if (!is_writable($this->modelsDir . $fileName)) {
                 $this->flash->error('Model file does not has write access.');
 
-                return $this->dispatcher->forward(array(
+                $this->dispatcher->forward(array(
                     'controller' => 'models',
                     'action' => 'list'
                 ));
+
+                return;
             }
 
             file_put_contents($this->modelsDir . $fileName, $this->request->getPost('code'));
 
-            $this->flash->success(sprintf('The model "%s" was saved successfully.', str_replace('.php', '', $fileName)));
+            $message = sprintf('The model "%s" was saved successfully.', str_replace('.php', '', $fileName));
+            $this->flash->success($message);
         }
 
-        return $this->dispatcher->forward(array(
+        $this->dispatcher->forward(array(
             'controller' => 'models',
             'action' => 'list'
         ));
