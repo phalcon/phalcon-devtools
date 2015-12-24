@@ -479,7 +479,7 @@ class Scaffold extends Component
         $usesNamespaces = false;
 
         if ($this->options->contains('controllersNamespace') && $this->checkNamespace($this->options->get('controllersNamespace'))) {
-            $code = str_replace('$namespace$', 'namespace '.$$this->options->get('controllersNamespace').';'.PHP_EOL, $code);
+            $code = str_replace('$namespace$', 'namespace ' . $this->options->get('controllersNamespace').';' . PHP_EOL, $code);
             $usesNamespaces = true;
         } else {
             $code = str_replace('$namespace$', ' ', $code);
