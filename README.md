@@ -5,8 +5,6 @@
 
 # Phalcon Devtools
 
-![Webtools](http://static.phalconphp.com/img/webtools.png)
-
 ## What's Phalcon?
 
 Phalcon PHP is a web framework delivered as a C extension providing high performance and lower resource consumption.

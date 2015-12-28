@@ -50,6 +50,7 @@ class Controller extends Command
             'output=s'      => 'Directory where the controller should be created [optional]',
             'base-class=s'  => 'Base class to be inherited by the controller [optional]',
             'force'         => 'Force to rewrite controller [optional]',
+            'module=s'        => 'Module Name .Create File Into Module Dir [optional]',
         );
     }
 
@@ -69,7 +70,8 @@ class Controller extends Command
             'controllersDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
             'baseClass' => $this->getOption('base-class'),
-            'force' => $this->isReceivedOption('force')
+            'force' => $this->isReceivedOption('force'),
+            'module'=>$this->getOption('module'),
         ));
 
         return $controllerBuilder->build();

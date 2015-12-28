@@ -59,26 +59,44 @@ class Controller extends Component
      */
     public function build()
     {
+    	// load root path
         if ($this->options->contains('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
-
-        $namespace = '';
-        if ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
+        // load module path
+        if ($this->options->contains('module')) {
+        	// get module dir
+        	$config = $this->getConfig();
+        	if (!isset($config->application->modulesDir)) {
+        		if (!file_exists($config->application->modulesDir)) mkdir($config->application->modulesDir);
+        		throw new BuilderException('Please specify a modules directory.');
+        	}
+        	$_rootPath = rtrim($config->application->modulesDir, '\\/') . DIRECTORY_SEPARATOR;
+        	$module = $this->options->get('module');
+        	if (!file_exists($_rootPath.$module)){
+        		throw new BuilderException('module not frond.');
+        	}
+            $this->path->setRootPath($_rootPath.$module. DIRECTORY_SEPARATOR);
+        }
+        $namespace = 'Application\\'.$this->options->get('module').'\Controllers';
+        if (!$this->options->contains('namespace') && $this->options->contains('module') && $this->checkNamespace($namespace)) {
+        	// if namespace is empty and has module
+        	$namespace = 'namespace '.$namespace.';'.PHP_EOL.PHP_EOL;
+        }elseif ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
             $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
+        }else{
+        	$namespace = '';
         }
 
         $baseClass = $this->options->get('baseClass', '\Phalcon\Mvc\Controller');
+ 
+        $config = $this->getConfig();
+		if (!isset($config->application->controllersDir)) {
+        	throw new BuilderException('Please specify a controller directory.');
+		}
 
-        if (!$controllersDir = $this->options->get('controllersDir')) {
-            $config = $this->getConfig();
-            if (!isset($config->application->controllersDir)) {
-                throw new BuilderException('Please specify a controller directory.');
-            }
-
-            $controllersDir = $config->application->controllersDir;
-        }
-
+        $controllersDir = $config->application->controllersDir; 
+            
         if (!$this->options->contains('name')) {
             throw new BuilderException('The controller name is required.');
         }
@@ -93,7 +111,6 @@ class Controller extends Component
         }
 
         $controllerPath = rtrim($controllersDir, '\\/') . DIRECTORY_SEPARATOR . $className . "Controller.php";
-
         $code = "<?php\n\n".$namespace."class ".$className."Controller extends ".$baseClass."\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
         $code = str_replace("\t", "    ", $code);
 

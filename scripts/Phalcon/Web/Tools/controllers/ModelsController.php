@@ -56,6 +56,7 @@ class ModelsController extends ControllerBase
             $foreignKeys       = $this->request->getPost('foreignKeys', 'int');
             $defineRelations   = $this->request->getPost('defineRelations', 'int');
             $mapcolumn         = $this->request->getPost('mapcolumn', 'int');
+            $module            = $this->request->getPost('module');
 
             try {
                 $component = '\Phalcon\Builder\Model';
@@ -66,14 +67,15 @@ class ModelsController extends ControllerBase
                 $modelBuilder = new $component(array(
                     'name'                  => $tableName,
                     'force'                 => $force,
-                    'modelsDir'             => $this->modelsDir,
+                    //'modelsDir'             => $this->modelsDir, // auto requests
                     'directory'             => $directory,
                     'foreignKeys'           => $foreignKeys,
                     'defineRelations'       => $defineRelations,
                     'genSettersGetters'     => $genSettersGetters,
                     'namespace'             => $namespace,
                     'schema'                => $schema,
-                    'mapColumn'             => $mapcolumn
+                    'mapColumn'             => $mapcolumn,
+                    'module'             	=> $module
                 ));
 
                 $modelBuilder->build();
