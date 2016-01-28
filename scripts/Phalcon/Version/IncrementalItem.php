@@ -29,7 +29,7 @@ namespace Phalcon\Version;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class IncrementalItem implements ItemInterface
+class Item
 {
     /**
      * @var string
@@ -47,44 +47,26 @@ class IncrementalItem implements ItemInterface
     private $_parts = array();
 
     /**
-     * @var array
+     * @param     $version
+     * @param int $numberParts
      */
-    private $_options = array();
-
-
-    /**
-     * @param string $version String representation of the version
-     * @param array  $options Item specific options
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __construct($version, array $options = [])
+    public function __construct($version, $numberParts = 3)
     {
-        if (1 !== preg_match('#[a-z0-9](\.[a-z0-9]+)*#', $version, $matches)) {
-            throw new \InvalidArgumentException('Wrong version number provided');
-        }
-
-        // Keep options
-        $this->_options = $options;
-
-        // Version partials
-        $numberParts = isset($options['numberParts']) ? $options['numberParts'] : 3;
-
         $n = 9;
         $versionStamp = 0;
-        $version = trim($matches[0]);
+        $version = trim($version);
         $this->_parts = explode('.', $version);
         $nParts = count($this->_parts);
         if ($nParts < $numberParts) {
-            for ($i = $numberParts; $i >= $nParts; $i--) {
+            for ($i = $numberParts; $i>=$nParts; $i--) {
                 $this->_parts[] = '0';
-                $version .= '.0';
+                $version.='.0';
             }
         } else {
             if ($nParts > $numberParts) {
                 for ($i = $nParts; $i <= $numberParts; $i++) {
-                    if (isset($this->_parts[$i - 1])) {
-                        unset($this->_parts[$i - 1]);
+                    if (isset($this->_parts[$i-1])) {
+                        unset($this->_parts[$i-1]);
                     }
                 }
                 $version = join('.', $this->_parts);
@@ -103,23 +85,109 @@ class IncrementalItem implements ItemInterface
     }
 
     /**
-     * Get integer payload of the version
+     * @param $versions Item[]
      *
-     * @return integer
+     * @return array Item[]
      */
-    public function getStamp()
+    public static function sortAsc($versions)
     {
-        return (int) $this->_versionStamp;
+        $sortData = array();
+        foreach ($versions as $version) {
+            $sortData[$version->getStamp()] = $version;
+        }
+        ksort($sortData);
+
+        return array_values($sortData);
     }
 
     /**
-     * Return string representation of the increased minor version
+     * @param $versions Item[]
      *
-     * @param integer $number Increment
+     * @return array
+     */
+    public static function sortDesc($versions)
+    {
+        $sortData = array();
+        foreach ($versions as $version) {
+            $sortData[$version->getStamp()] = $version;
+        }
+        krsort($sortData);
+
+        return array_values($sortData);
+    }
+
+    /**
+     * @param $versions Item[]
+     *
+     * @return \Phalcon\Version\Item
+     */
+    public static function maximum($versions)
+    {
+        if (count($versions) == 0) {
+            return null;
+        }
+
+        $versions = self::sortDesc($versions);
+
+        return $versions[0];
+    }
+
+    /**
+     * Allows to check whether a version is in a range between two values.
+     *
+     * @param  string  $initialVersion
+     * @param  string  $finalVersion
+     * @param  array   $versions Item[]
+     * @return Item[]
+     */
+    public static function between($initialVersion, $finalVersion, $versions)
+    {
+        $versions = self::sortAsc($versions);
+
+        if (!is_object($initialVersion)) {
+            $initialVersion = new self($initialVersion);
+        }
+
+        if (!is_object($finalVersion)) {
+            $finalVersion = new self($finalVersion);
+        }
+
+        $betweenVersions = array();
+        if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
+            return $betweenVersions; // nothing to do
+        }
+
+        if ($initialVersion->getStamp() < $finalVersion->getStamp()) {
+            $versions = self::sortAsc($versions);
+        } else {
+            $versions = self::sortDesc($versions);
+            list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
+        }
+
+        foreach ($versions as $version) {
+            /** @var Item $version */
+            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+                $betweenVersions[] = $version;
+            }
+        }
+
+        return $betweenVersions ;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getStamp()
+    {
+        return $this->_versionStamp;
+    }
+
+    /**
+     * @param $number
      *
      * @return string
      */
-    public function addMinor($number = 1)
+    public function addMinor($number)
     {
         $parts = array_reverse($this->_parts);
         if (isset($parts[0])) {
@@ -130,26 +198,14 @@ class IncrementalItem implements ItemInterface
             }
         }
 
-        return new self(join('.', array_reverse($parts)), $this->_options);
+        return join('.', array_reverse($parts));
     }
 
     /**
-     * Get the string representation of the version
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->_version;
-    }
-
-    /**
-     * Get the string representation of the version
-     *
      * @return string
      */
     public function __toString()
     {
-        return $this->getVersion();
+        return $this->_version;
     }
 }

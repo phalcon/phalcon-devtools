@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -25,13 +25,11 @@ use Phalcon\Db\Adapter;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Script\Color;
-use Phalcon\Version\ItemCollection as VersionCollection;
-use Phalcon\Version\IncrementalItem as IncrementalVersion;
-use Phalcon\Version\ItemInterface;
-use Phalcon\Version\TimestampedItem as TimestampedVersion;
+use Phalcon\Version\Item as VersionItem;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Script\ScriptException;
+use DirectoryIterator;
 
 /**
  * Migrations Class
@@ -43,15 +41,93 @@ use Phalcon\Script\ScriptException;
 class Migrations
 {
     /**
-     * @const string
-     */
-    const MIGRATION_LOG_TABLE = 'phalcon_migrations';
-
-    /**
      * Filename or db connection to store migrations log
      * @var mixed
      */
     private static $_storage;
+
+    /**
+     * Generate migrations
+     *
+     * @param array $options
+     *
+     * @throws \Exception
+     * @todo Refactor
+     */
+    public static function generate(array $options)
+    {
+        $tableName = $options['tableName'];
+        $exportData = $options['exportData'];
+        $migrationsDir = $options['migrationsDir'];
+        $originalVersion = $options['originalVersion'];
+        $force = $options['force'];
+        $config = $options['config'];
+
+        if ($migrationsDir && !file_exists($migrationsDir)) {
+            mkdir($migrationsDir, 0777, true);
+        }
+
+        if ($originalVersion) {
+            if (!preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $originalVersion, $matches)) {
+                throw new \Exception("Version {$originalVersion} is invalid");
+            }
+
+            $originalVersion = $matches[0];
+            $version = new VersionItem($originalVersion, 3);
+            if (file_exists($migrationsDir . DIRECTORY_SEPARATOR . $version) && !$force) {
+                throw new \Exception("Version {$version} is already generated");
+            }
+        } else {
+            $versions = array();
+            $iterator = new DirectoryIterator($migrationsDir);
+            foreach ($iterator as $fileInfo) {
+                if (!$fileInfo->isDir() || $fileInfo->isDot()) {
+                    continue;
+                }
+
+                preg_match('#[a-z0-9](?:\.[a-z0-9]+)+#', $fileInfo->getFilename(), $matches);
+                if (isset($matches[0])) {
+                    $versions[] = new VersionItem($matches[0], 3);
+                }
+            }
+
+            if (count($versions) == 0) {
+                $version = new VersionItem('1.0.0');
+            } else {
+                $version = VersionItem::maximum($versions);
+                $version = $version->addMinor(1);
+            }
+        }
+
+        if (!file_exists($migrationsDir . '/' . $version)) {
+            mkdir($migrationsDir . '/' . $version);
+        }
+
+        if (!isset($config->database)) {
+            throw new \Exception("Cannot load database configuration");
+        }
+
+        ModelMigration::setup($config->database);
+
+        ModelMigration::setSkipAutoIncrement($options['no-ai']);
+        ModelMigration::setMigrationPath($migrationsDir);
+
+        if ($tableName == 'all') {
+            $migrations = ModelMigration::generateAll($version, $exportData);
+            foreach ($migrations as $tableName => $migration) {
+                file_put_contents($migrationsDir . '/' . $version . '/' . $tableName . '.php',
+                    '<?php ' . PHP_EOL . PHP_EOL . $migration);
+            }
+        } else {
+            $migration = ModelMigration::generate($version, $tableName, $exportData);
+            file_put_contents($migrationsDir . '/' . $version . '/' . $tableName . '.php',
+                '<?php ' . PHP_EOL . PHP_EOL . $migration);
+        }
+
+        if (self::isConsole()) {
+            print Color::success('Version ' . $version . ' was successfully generated') . PHP_EOL;
+        }
+    }
 
     /**
      * Check if the script is running on Console mode
@@ -61,108 +137,6 @@ class Migrations
     public static function isConsole()
     {
         return PHP_SAPI == 'cli';
-    }
-
-    /**
-     * Generate migrations
-     *
-     * @param array $options
-     *
-     * @throws \Exception
-     */
-    public static function generate(array $options)
-    {
-        $tableName = $options['tableName'];
-        $exportData = $options['exportData'];
-        $migrationsDir = $options['migrationsDir'];
-        $version = $options['version'];
-        $force = $options['force'];
-        $config = $options['config'];
-
-        // Migrations directory
-        if ($migrationsDir && !file_exists($migrationsDir)) {
-            mkdir($migrationsDir, 0755, true);
-        }
-
-        // Use timestamped version if description is provided
-        if ($descr = $options['descr']) {
-            $version = (string)(int)(microtime(true) * pow(10, 6));
-            VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
-            $versionItem = VersionCollection::createItem($version.'_'.$descr);
-
-            // Elsewhere use old-style incremental versioning
-            // The version is specified
-        } elseif ($version) {
-            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItem = VersionCollection::createItem($version);
-
-            // The version is guessed automatically
-        } else {
-            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItems = array();
-            $iterator = new \DirectoryIterator($migrationsDir);
-            foreach ($iterator as $fileInfo) {
-                if ($fileInfo->isDir() && !$fileInfo->isDot()) {
-                    if (preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileInfo->getFilename(), $matches)) {
-                        $versionItems[] = VersionCollection::createItem($matches[0]);
-                    }
-                }
-            }
-
-            if (!isset($versionItems[0])) {
-                $versionItem = VersionCollection::createItem('1.0.0');
-            } else {
-                /** @var IncrementalVersion $versionItem */
-                $versionItem = VersionCollection::maximum($versionItems);
-                $versionItem = $versionItem->addMinor(1);
-            }
-        }
-
-        // Path to migration dir
-        $migrationPath = $migrationsDir.DIRECTORY_SEPARATOR.$versionItem->getVersion();
-        if (!file_exists($migrationPath)) {
-            mkdir($migrationPath);
-        } elseif (!$force) {
-            throw new \Exception('Version '.$versionItem->getVersion().' already exists');
-        }
-
-        // Try to connect to the DB
-        if (!isset($config->database)) {
-            throw new \Exception('Cannot load database configuration');
-        }
-        ModelMigration::setup($config->database);
-        ModelMigration::setSkipAutoIncrement($options['noAutoIncrement']);
-        ModelMigration::setMigrationPath($migrationsDir);
-
-        $wasMigrated = false;
-        if ($tableName == 'all') {
-            $migrations = ModelMigration::generateAll($versionItem->getStamp(), $exportData);
-            foreach ($migrations as $tableName => $migration) {
-                if ($tableName == self::MIGRATION_LOG_TABLE) {
-                    continue;
-                }
-                $tableFile = $migrationPath.DIRECTORY_SEPARATOR.$tableName.'.php';
-                $wasMigrated = file_put_contents(
-                        $tableFile,
-                        '<?php '.PHP_EOL.PHP_EOL.$migration
-                    ) || $wasMigrated;
-            }
-        } else {
-            $migration = ModelMigration::generate($versionItem->getStamp(), $tableName, $exportData);
-            $tableFile = $migrationPath.DIRECTORY_SEPARATOR.$tableName.'.php';
-            $wasMigrated = !!file_put_contents(
-                $tableFile,
-                '<?php '.PHP_EOL.PHP_EOL.$migration
-            );
-        }
-
-        if (self::isConsole() && $wasMigrated) {
-            print Color::success('Version '.$versionItem->getVersion().' was successfully generated').PHP_EOL;
-        } elseif (self::isConsole()) {
-            print Color::info('Nothing to generate. You should create tables at first.').PHP_EOL;
-        }
-
-        exit(0);
     }
 
     /**
@@ -178,32 +152,24 @@ class Migrations
      */
     public static function run(array $options)
     {
-        // Define versioning type to be used
-        if (true === $options['tsBased']) {
-            VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
-        } else {
-            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-        }
-
-        $migrationsDir = rtrim($options['migrationsDir'], '/');
+        $migrationsDir = $options['migrationsDir'];
         if (!file_exists($migrationsDir)) {
-            throw new ModelException('Migrations directory was not found.');
+            throw new ModelException('Migrations directory could not found.');
         }
 
-        /** @var Config $config */
         $config = $options['config'];
         if (!$config instanceof Config) {
-            throw new ModelException('Internal error. Config should be an instance of \Phalcon\Config');
+            throw new ModelException('Internal error. Config should be instance of \Phalcon\Config');
         }
 
-        // Init ModelMigration
+        // init ModelMigration
         if (!isset($config->database)) {
             throw new ScriptException('Cannot load database configuration');
         }
 
         $finalVersion = null;
         if (isset($options['version']) && $options['version'] !== null) {
-            $finalVersion = VersionCollection::createItem($options['version']);
+            $finalVersion = new VersionItem($options['version']);
         }
 
         $tableName = 'all';
@@ -211,134 +177,56 @@ class Migrations
             $tableName = $options['tableName'];
         }
 
-        // Read all versions
-        $versionItems = array();
-        $iterator = new \DirectoryIterator($migrationsDir);
-        foreach ($iterator as $fileInfo) {
-            if (
-                $fileInfo->isDir()
-                && !$fileInfo->isDot()
-                && VersionCollection::isCorrectVersion($fileInfo->getFilename())
-            ) {
-                $versionItems[] = VersionCollection::createItem($fileInfo->getFilename());
-
-            }
+        $versions = self::scanForVersions($migrationsDir);
+        if (!count($versions)) {
+            throw new ModelException("Migrations were not found at {$migrationsDir}");
         }
 
-        if (!isset($versionItems[0])) {
-            throw new ModelException('Migrations were not found at '.$migrationsDir);
-        }
-
-        // Set default final version
-        if ($finalVersion === null) {
-            $finalVersion = VersionCollection::maximum($versionItems);
+        // set default final version
+        if (!$finalVersion) {
+            $finalVersion = VersionItem::maximum($versions);
         }
 
         ModelMigration::setup($config->database);
         ModelMigration::setMigrationPath($migrationsDir);
+
         self::connectionSetup($options);
 
-        // Everything is up to date
         $initialVersion = self::getCurrentVersion($options);
+
         if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
-            print Color::info('Everything is up to date');
-            exit(0);
+            return; // nothing to do
         }
 
-        // Run migration
-        $versionsBetween = VersionCollection::between($initialVersion, $finalVersion, $versionItems);
-        foreach ($versionsBetween as $versionItem) {
+        // run migration
+        $versionsBetween = VersionItem::between($initialVersion, $finalVersion, $versions);
+        foreach ($versionsBetween as $version) {
             $migrationStartTime = date('"Y-m-d H:i:s"');
             if ($tableName == 'all') {
-                $iterator = new \DirectoryIterator(
-                    $migrationsDir.DIRECTORY_SEPARATOR.$versionItem->getVersion()
-                );
-                foreach ($iterator as $fileInfo) {
-                    if (!$fileInfo->isFile() || !preg_match('/\.php$/i', $fileInfo->getFilename())) {
+                $iterator = new DirectoryIterator($migrationsDir . DIRECTORY_SEPARATOR . $version);
+                foreach ($iterator as $fileinfo) {
+                    if (!$fileinfo->isFile() || 0 !== strcasecmp($fileinfo->getExtension(), 'php')) {
                         continue;
                     }
 
-                    ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'));
+                    $currentTable = $fileinfo->getBasename('.php');
+                    ModelMigration::migrate($initialVersion, $version, $currentTable);
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $versionItem, $tableName);
+                ModelMigration::migrate($initialVersion, $version, $tableName);
             }
 
-            self::setCurrentVersion($options, $versionItem, $migrationStartTime);
-            print Color::success('Version '.$versionItem.' was successfully migrated');
+            self::setCurrentVersion($options, $version, $migrationStartTime);
+            print Color::success('Version ' . $version . ' was successfully migrated');
 
-            $initialVersion = $versionItem;
+            $initialVersion = $version;
         }
     }
 
-    /**
-     * Get current migration version
-     *
-     * @param array $options
-     *
-     * @return ItemInterface
-     */
-    public static function getCurrentVersion(array $options)
+
+    private static function connectionSetup($options)
     {
-        if (
-            isset($options['migrationsInDb'])
-            && (bool)$options['migrationsInDb']
-        ) {
-            /** @var AdapterInterface $connection */
-            $connection = self::$_storage;
-            $lastGoodMigration = $connection->query(
-                'SELECT * FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1;'
-            );
-            if (0 == $lastGoodMigration->numRows()) {
-                return VersionCollection::createItem(null);
-            } else {
-                $lastGoodMigration = $lastGoodMigration->fetchArray();
-
-                return VersionCollection::createItem($lastGoodMigration['version']);
-            }
-        } else {
-            // Get and clean migration
-            $version = file_exists(self::$_storage)
-                ? file_get_contents(self::$_storage)
-                : null;
-            $version = trim($version) ?: null;
-
-            return VersionCollection::createItem($version);
-        }
-    }
-
-    /**
-     * Set current migrated version
-     *
-     * @param array         $options
-     * @param ItemInterface $version
-     * @param string        $startTime
-     */
-    public static function setCurrentVersion(array $options, ItemInterface $version, $startTime = 'NOW()')
-    {
-        if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
-            /** @var AdapterInterface $connection */
-            $connection = self::$_storage;
-            // TODO: TRUNCATE to be removed on refactor
-            $connection->execute('TRUNCATE TABLE `phalcon_migrations`;');
-            $connection->execute(
-                'INSERT INTO `phalcon_migrations` (`version`, `start_time`, `end_time`) VALUES ("'.$version.'", '.$startTime.', NOW());'
-            );
-        } else {
-            file_put_contents(self::$_storage, (string)$version);
-        }
-    }
-
-    /**
-     * Setup connection
-     *
-     * @param array $options
-     *
-     * @throws DbException
-     */
-    private static function connectionSetup(array $options)
-    {
-        if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
+        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
             /** @var Config $database */
             $database = $options['config']['database'];
 
@@ -346,7 +234,7 @@ class Migrations
                 throw new DbException('Unspecified database Adapter in your configuration!');
             }
 
-            $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\'.$database->adapter;
+            $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\' . $database->adapter;
 
             if (!class_exists($adapter)) {
                 throw new DbException('Invalid database Adapter!');
@@ -361,24 +249,78 @@ class Migrations
             }
 
             if (!self::$_storage->tableExists('phalcon_migrations')) {
-                self::$_storage->execute(
-                    "CREATE TABLE `phalcon_migrations` (`version` varchar(50), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL);"
-                );
+                self::$_storage->execute("CREATE TABLE `phalcon_migrations` (`version` varchar(14), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL);");
             }
 
         } else {
             $path = $options['directory'];
 
-            if (is_file($path.'.phalcon')) {
-                unlink($path.'.phalcon');
-                mkdir($path.'.phalcon');
-                chmod($path.'.phalcon', 0775);
-            } elseif (!is_dir($path.'.phalcon')) {
-                mkdir($path.'.phalcon');
-                chmod($path.'.phalcon', 0775);
+            if (is_file($path . '.phalcon')) {
+                unlink($path . '.phalcon');
+                mkdir($path . '.phalcon');
+                chmod($path . '.phalcon', 0775);
+            } elseif (!is_dir($path . '.phalcon')) {
+                mkdir($path . '.phalcon');
+                chmod($path . '.phalcon', 0775);
             }
 
-            self::$_storage = $path.'.phalcon/migration-version';
+            self::$_storage = $path . '.phalcon/migration-version';
         }
+    }
+
+    public static function getCurrentVersion($options)
+    {
+        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+            /** @var AdapterInterface $connection */
+            $connection = self::$_storage;
+            $lastGoodMigration = $connection->query('SELECT * FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1;');
+            if (0 == $lastGoodMigration->numRows()) {
+                return new VersionItem(null);
+            } else {
+                $lastGoodMigration = $lastGoodMigration->fetchArray();
+
+                return new VersionItem($lastGoodMigration['version']);
+            }
+        } else {
+            return new VersionItem(file_exists(self::$_storage) ? file_get_contents(self::$_storage) : null);
+        }
+    }
+
+    public static function setCurrentVersion($options, $version, $startTime = 'NOW()')
+    {
+        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+            /** @var AdapterInterface $connection */
+            $connection = self::$_storage;
+            // TODO: TRUNCATE to be removed on refactor
+            $connection->execute('TRUNCATE TABLE `phalcon_migrations`;');
+            $connection->execute('INSERT INTO `phalcon_migrations` (`version`, `start_time`, `end_time`) VALUES ("' . $version . '", ' . $startTime . ', NOW());');
+        } else {
+            file_put_contents(self::$_storage, (string)$version);
+        }
+
+    /**
+     * Scan for all versions
+     *
+     * @param string $dir Directory to scan
+     * @return array
+     */
+    protected static function scanForVersions($dir)
+    {
+        $versions = array();
+        $iterator = new DirectoryIterator($dir);
+
+        foreach ($iterator as $fileinfo) {
+            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                continue;
+            }
+
+            preg_match('#[a-z0-9](?:\.[a-z0-9]+)+#', $fileinfo->getFilename(), $matches);
+            if (isset($matches[0])) {
+                $versions[] = new VersionItem($matches[0], 3);
+            }
+        }
+
+        return $versions;
+
     }
 }
