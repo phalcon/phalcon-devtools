@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -30,6 +30,7 @@ use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Utils;
 use Phalcon\Version\Item as VersionItem;
+use DirectoryIterator;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -461,14 +462,14 @@ class Migration
 
             // reset the data modifications
             $fromMigration = self::createClass($fromVersion, $tableName);
-            if (!is_null($fromMigration) && method_exists($fromMigration, 'down')) {
+            if (is_object($fromMigration) && method_exists($fromMigration, 'down')) {
                 $fromMigration->down();
             }
 
             // call the last morph function in the previous migration files
             $toMigration = self::createPrevClassWithMorphMethod($toVersion, $tableName);
 
-            if (!is_null($toMigration)) {
+            if (is_object($toMigration)) {
                 if (method_exists($toMigration, 'morph')) {
                     $toMigration->morph();
                 }
@@ -749,11 +750,16 @@ class Migration
     private static function createPrevClassWithMorphMethod(VersionItem $version, $tableName)
     {
         $prevVersions = array();
-        $iterator = new \DirectoryIterator(self::$_migrationPath);
+        $iterator = new DirectoryIterator(self::$_migrationPath);
         foreach ($iterator as $fileinfo) {
-            if ($fileinfo->isDir() && preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileinfo->getFilename(), $matches)) {
+            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                continue;
+            }
+
+            preg_match('#[a-z0-9](?:\.[a-z0-9]+)+#', $fileinfo->getFilename(), $matches);
+            if (isset($matches[0])) {
                 $prevVersion = new VersionItem($matches[0], 3);
-                if (($prevVersion->getStamp() <= $version->getStamp())) {
+                if ($prevVersion->getStamp() <= $version->getStamp()) {
                     $prevVersions[] = $prevVersion;
                 }
             }
@@ -785,7 +791,7 @@ class Migration
             $version = (string)$version;
         }
 
-        $fileName = self::$_migrationPath . $version . '/' . $tableName . '.php';
+        $fileName = self::$_migrationPath . $version . DIRECTORY_SEPARATOR . $tableName . '.php';
         if (!file_exists($fileName)) {
             return null;
         }
