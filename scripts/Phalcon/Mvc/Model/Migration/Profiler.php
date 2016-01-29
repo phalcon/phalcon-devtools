@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,14 +27,10 @@ use Phalcon\Db\Profiler as DbProfiler;
  *
  * Displays transactions made on the database and the times them taken to execute
  *
- * @category    Phalcon
- * @package    Scripts
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license    New BSD License
+ * @package Phalcon\Mvc\Model\Migration
  */
 class Profiler extends DbProfiler
 {
-
     /**
      * @param $profile DbProfiler
      */

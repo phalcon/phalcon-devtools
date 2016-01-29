@@ -37,9 +37,7 @@ use DirectoryIterator;
  *
  * Migrations of DML y DDL over databases
  *
- * @package     Phalcon\Mvc\Model
- * @copyright   Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon\Mvc\Model
  */
 class Migration
 {

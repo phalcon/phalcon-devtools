@@ -34,9 +34,7 @@ use DirectoryIterator;
 /**
  * Migrations Class
  *
- * @package     Phalcon
- * @copyright   Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon
  */
 class Migrations
 {
