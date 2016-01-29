@@ -161,7 +161,7 @@ class Migrations
             $tableName = $options['tableName'];
         }
 
-        $versions = self::scanForVersions($migrationsDir);
+        $versions = ModelMigration::scanForVersions($migrationsDir);
         if (!count($versions)) {
             throw new ModelException("Migrations were not found at {$migrationsDir}");
         }
@@ -218,30 +218,5 @@ class Migrations
 
             $initialVersion = $version;
         }
-    }
-
-    /**
-     * Scan for all versions
-     *
-     * @param string $dir Directory to scan
-     * @return array
-     */
-    protected static function scanForVersions($dir)
-    {
-        $versions = array();
-        $iterator = new DirectoryIterator($dir);
-
-        foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
-                continue;
-            }
-
-            preg_match('#[a-z0-9](?:\.[a-z0-9]+)+#', $fileinfo->getFilename(), $matches);
-            if (isset($matches[0])) {
-                $versions[] = new VersionItem($matches[0], 3);
-            }
-        }
-
-        return $versions;
     }
 }
