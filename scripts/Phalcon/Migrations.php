@@ -195,8 +195,7 @@ class Migrations
                         continue;
                     }
 
-                    $currentTable = $fileinfo->getBasename('.php');
-                    ModelMigration::migrate($initialVersion, $version, $currentTable, $direction);
+                    ModelMigration::migrate($initialVersion, $version, $fileinfo->getBasename('.php'), $direction);
                 }
             } else {
                 ModelMigration::migrate($initialVersion, $version, $tableName, $direction);
