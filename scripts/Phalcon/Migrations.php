@@ -177,7 +177,7 @@ class Migrations
             $tableName = $options['tableName'];
         }
 
-        $versions = self::scanForVersions($migrationsDir);
+        $versions = ModelMigration::scanForVersions($migrationsDir);
         if (!count($versions)) {
             throw new ModelException("Migrations were not found at {$migrationsDir}");
         }
@@ -226,7 +226,6 @@ class Migrations
             $initialVersion = $version;
         }
     }
-
 
     private static function connectionSetup($options)
     {

@@ -755,18 +755,10 @@ class Migration
     private static function createPrevClassWithMorphMethod(VersionItem $toVersion, $tableName)
     {
         $prevVersions = array();
-        $iterator = new DirectoryIterator(self::$_migrationPath);
-        foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
-                continue;
-            }
-
-            preg_match('#[a-z0-9](?:\.[a-z0-9]+)+#', $fileinfo->getFilename(), $matches);
-            if (isset($matches[0])) {
-                $prevVersion = new VersionItem($matches[0], 3);
-                if ($prevVersion->getStamp() <= $toVersion->getStamp()) {
-                    $prevVersions[] = $prevVersion;
-                }
+        $versions = self::scanForVersions(self::$_migrationPath);
+        foreach ($versions as $prevVersion) {
+            if ($prevVersion->getStamp() <= $toVersion->getStamp()) {
+                $prevVersions[] = $prevVersion;
             }
         }
 
@@ -813,5 +805,30 @@ class Migration
         $migration->_version = $version;
 
         return $migration;
+    }
+
+    /**
+     * Scan for all versions
+     *
+     * @param string $dir Directory to scan
+     * @return VersionItem[]
+     */
+    public static function scanForVersions($dir)
+    {
+        $versions = array();
+        $iterator = new DirectoryIterator($dir);
+
+        foreach ($iterator as $fileinfo) {
+            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                continue;
+            }
+
+            preg_match('#[a-z0-9](?:\.[a-z0-9]+)+#', $fileinfo->getFilename(), $matches);
+            if (isset($matches[0])) {
+                $versions[] = new VersionItem($matches[0], 3);
+            }
+        }
+
+        return $versions;
     }
 }
