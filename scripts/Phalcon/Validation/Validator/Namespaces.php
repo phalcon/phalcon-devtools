@@ -4,7 +4,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -38,9 +38,7 @@ use Phalcon\Validation\ValidatorInterface;
  *)));
  *</code>
  *
- * @package     Phalcon\Validation\Validator
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon\Validation\Validator
  */
 class Namespaces extends Validator implements ValidatorInterface
 {
@@ -56,7 +54,7 @@ class Namespaces extends Validator implements ValidatorInterface
     {
         $value = $validation->getValue($field);
 
-        if ($this->isSetOption('allowEmpty') && empty($value)) {
+        if ($this->hasOption('allowEmpty') && empty($value)) {
             return true;
         }
 

@@ -24,9 +24,7 @@ namespace Phalcon\Builder;
  *
  * Builder to create module skeletons
  *
- * @package     Phalcon\Builder
- * @copyright   Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon\Builder
  */
 class Module extends Component
 {
