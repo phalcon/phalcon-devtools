@@ -21,14 +21,10 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
-use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Migrations;
 use Phalcon\Config;
-use Phalcon\Config\Adapter\Ini as IniConfig;
-use Phalcon\Config\Adapter\Json as JsonConfig;
-use Phalcon\Config\Adapter\Yaml as YamlConfig;
 
 /**
  * Migration Command
