@@ -35,7 +35,7 @@ use DirectoryIterator;
  * Migrations Class
  *
  * @package     Phalcon
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @copyright   Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
 class Migrations
@@ -192,6 +192,10 @@ class Migrations
 
         self::connectionSetup($options);
 
+        $direction = ModelMigration::DIRECTION_FORWARD;
+        if ($finalVersion->getStamp() < $initialVersion->getStamp()) {
+            $direction = ModelMigration::DIRECTION_BACK;
+        }
         $initialVersion = self::getCurrentVersion($options);
 
         if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
@@ -210,10 +214,10 @@ class Migrations
                     }
 
                     $currentTable = $fileinfo->getBasename('.php');
-                    ModelMigration::migrate($initialVersion, $version, $currentTable);
+                    ModelMigration::migrate($initialVersion, $version, $currentTable, $direction);
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $version, $tableName);
+                ModelMigration::migrate($initialVersion, $version, $tableName, $direction);
             }
 
             self::setCurrentVersion($options, $version, $migrationStartTime);
