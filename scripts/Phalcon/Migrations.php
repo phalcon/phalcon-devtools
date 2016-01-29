@@ -78,20 +78,9 @@ class Migrations
                 throw new \Exception("Version {$version} is already generated");
             }
         } else {
-            $versions = array();
-            $iterator = new DirectoryIterator($migrationsDir);
-            foreach ($iterator as $fileInfo) {
-                if (!$fileInfo->isDir() || $fileInfo->isDot()) {
-                    continue;
-                }
+            $versions = ModelMigration::scanForVersions($migrationsDir);
 
-                preg_match('#[a-z0-9](?:\.[a-z0-9]+)+#', $fileInfo->getFilename(), $matches);
-                if (isset($matches[0])) {
-                    $versions[] = new VersionItem($matches[0], 3);
-                }
-            }
-
-            if (count($versions) == 0) {
+            if (!count($versions)) {
                 $version = new VersionItem('1.0.0');
             } else {
                 $version = VersionItem::maximum($versions);
@@ -99,8 +88,8 @@ class Migrations
             }
         }
 
-        if (!file_exists($migrationsDir . '/' . $version)) {
-            mkdir($migrationsDir . '/' . $version);
+        if (!file_exists($migrationsDir . DIRECTORY_SEPARATOR . $version)) {
+            mkdir($migrationsDir . DIRECTORY_SEPARATOR . $version);
         }
 
         if (!isset($config->database)) {
