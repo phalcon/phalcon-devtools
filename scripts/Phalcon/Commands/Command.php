@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,7 +34,9 @@ use Phalcon\Config;
 /**
  * Command Class
  *
- * @package Phalcon\Commands
+ * @package     Phalcon\Commands
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 abstract class Command implements CommandsInterface
 {
@@ -132,38 +134,18 @@ abstract class Command implements CommandsInterface
     protected function getConfig($path)
     {
         foreach (array('app/config/', 'config/') as $configPath) {
-            if (file_exists($path . $configPath. "config.ini")) {
-                return new IniConfig($path . $configPath. "/config.ini");
-            } elseif (file_exists($path . $configPath. "/config.php")) {
-                $config = include($path . $configPath. "/config.php");
-                if (is_array($config)) {
-                    $config = new Config($config);
+            foreach (array('ini', 'php', 'json', 'yaml') as $extension) {
+                if (file_exists($path . $configPath . "/config." . $extension)) {
+                    return $this->loadConfig($path . $configPath . "/config." . $extension);
                 }
-
-                return $config;
-            } elseif (file_exists($path . $configPath. "/config.json")) {
-                return new JsonConfig($path . $configPath. "/config.json");
-            } elseif (file_exists($path . $configPath. "/config.yaml")) {
-                return new YamlConfig($path . $configPath. "/config.yaml");
             }
         }
 
         $directory = new \RecursiveDirectoryIterator('.');
         $iterator = new \RecursiveIteratorIterator($directory);
         foreach ($iterator as $f) {
-            if (preg_match('/config\.php$/i', $f->getPathName())) {
-                $config = include($f->getPathName());
-                if (is_array($config)) {
-                    $config = new Config($config);
-                }
-
-                return $config;
-            } elseif (preg_match('/config\.ini$/i', $f->getPathName())) {
-                return new IniConfig($f->getPathName());
-            } elseif (preg_match('/config\.json$/i', $f->getPathName())) {
-                return new JsonConfig($f->getPathName());
-            } elseif (preg_match('/config\.yaml$/i', $f->getPathName())) {
-                return new YamlConfig($f->getPathName());
+            if (preg_match('/config\.(php|ini|json|yaml)$/i', $f->getPathName())) {
+                return $this->loadConfig($f->getPathName());
             }
         }
 
@@ -183,25 +165,33 @@ abstract class Command implements CommandsInterface
     {
         $pathInfo = pathinfo($fileName);
 
-        if (isset($pathInfo['extension'])) {
-            $extension = strtolower(trim($pathInfo['extension']));
-            if ($extension === 'php') {
+        if (!isset($pathInfo['extension'])) {
+            throw new CommandsException("Config file extension not found.");
+        }
+
+        $extension = strtolower(trim($pathInfo['extension']));
+
+        switch ($extension) {
+            case 'php':
                 $config = include($fileName);
                 if (is_array($config)) {
                     $config = new Config($config);
                 }
 
                 return $config;
-            } elseif ($extension === 'ini') {
-                return new IniConfig($fileName);
-            } elseif ($extension === 'json') {
-                return new JsonConfig($fileName);
-            } elseif ($extension === 'yaml') {
-                return new YamlConfig($fileName);
-            }
-        }
 
-        throw new CommandsException("Builder can't locate the configuration file.");
+            case 'ini':
+                return new IniConfig($fileName);
+
+            case 'json':
+                return new JsonConfig($fileName);
+
+            case 'yaml':
+                return new YamlConfig($fileName);
+
+            default:
+                throw new CommandsException("Builder can't locate the configuration file.");
+        }
     }
 
     /**
