@@ -133,8 +133,8 @@ abstract class Command implements CommandsInterface
      */
     protected function getConfig($path)
     {
-        foreach (array('app/config/', 'config/') as $configPath) {
-            foreach (array('ini', 'php', 'json', 'yaml') as $extension) {
+        foreach (['app/config/', 'config/'] as $configPath) {
+            foreach (['ini', 'php', 'json', 'yaml'] as $extension) {
                 if (file_exists($path . $configPath . "/config." . $extension)) {
                     return $this->loadConfig($path . $configPath . "/config." . $extension);
                 }
