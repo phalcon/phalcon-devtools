@@ -375,8 +375,7 @@ abstract class Command implements CommandsInterface
         $result = [];
 
         foreach ($this->_parameters as $param) {
-            $filter = new Filter();
-            $result[] = $filter->sanitize($param, $filters);
+            $result[] = $this->filter($param, $filters);
         }
 
         return $result;
@@ -397,9 +396,7 @@ abstract class Command implements CommandsInterface
             foreach ($option as $optionItem) {
                 if (isset($this->_parameters[$optionItem])) {
                     if ($filters !== null) {
-                        $filter = new Filter();
-
-                        return $filter->sanitize($this->_parameters[$optionItem], $filters);
+                        return $this->filter($this->_parameters[$optionItem], $filters);
                     }
 
                     return $this->_parameters[$optionItem];
@@ -411,9 +408,7 @@ abstract class Command implements CommandsInterface
 
         if (isset($this->_parameters[$option])) {
             if ($filters !== null) {
-                $filter = new Filter();
-
-                return $filter->sanitize($this->_parameters[$option], $filters);
+                return $this->filter($this->_parameters[$option], $filters);
             }
 
             return $this->_parameters[$option];
