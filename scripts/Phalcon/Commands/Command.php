@@ -231,10 +231,10 @@ abstract class Command implements CommandsInterface
                     throw new CommandsException("Invalid definition for the parameter '$parameter'");
                 }
                 if (strlen($parameterParts[0]) == "") {
-                    throw new CommandsException("Invalid definition for the parameter '" . $parameter . "'");
+                    throw new CommandsException("Invalid definition for the parameter '$parameter'");
                 }
                 if (!in_array($parameterParts[1], array('s', 'i', 'l'))) {
-                    throw new CommandsException("Incorrect data type on parameter '" . $parameter . "'");
+                    throw new CommandsException("Incorrect data type on parameter '$parameter'");
                 }
                 $this->_preparedArguments[$parameterParts[0]] = true;
                 $arguments[$parameterParts[0]] = array(
@@ -243,34 +243,15 @@ abstract class Command implements CommandsInterface
                     'data-type' => $parameterParts[1]
                 );
             } else {
-                if (strpos($parameter, "=") !== false) {
-                    $parameterParts = explode("=", $parameter);
-                    if (count($parameterParts) != 2) {
-                        throw new CommandsException("Invalid definition for the parameter '$parameter'");
-                    }
-                    if (strlen($parameterParts[0]) == "") {
-                        throw new CommandsException("Invalid definition for the parameter '$parameter'");
-                    }
-                    if (!in_array($parameterParts[1], array('s', 'i', 'l'))) {
-                        throw new CommandsException("Incorrect data type on parameter '$parameter'");
-                    }
-                    $this->_preparedArguments[$parameterParts[0]] = true;
-                    $arguments[$parameterParts[0]] = array(
-                        'have-option' => true,
-                        'option-required' => false,
-                        'data-type' => $parameterParts[1]
-                    );
-                } else {
-                    if (!preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
-                        throw new CommandsException("Invalid parameter '$parameter'");
-                    }
-
-                    $this->_preparedArguments[$parameter] = true;
-                    $arguments[$parameter] = array(
-                        'have-option'     => false,
-                        'option-required' => false
-                    );
+                if (!preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
+                    throw new CommandsException("Invalid parameter '$parameter'");
                 }
+
+                $this->_preparedArguments[$parameter] = true;
+                $arguments[$parameter] = array(
+                    'have-option'     => false,
+                    'option-required' => false
+                );
             }
         }
 
