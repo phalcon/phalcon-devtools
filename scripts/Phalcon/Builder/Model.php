@@ -214,7 +214,7 @@ class Model extends Component
 
         $table = $this->options->get('name');
         if ($this->options->get('fileName') != $table && !isset($initialize['schema'])) {
-            $initialize[] = $this->snippet->getThisMethod('setSource', '\'' . $table . '\'');
+            $initialize[] = $this->snippet->getThisMethod('setSource', $table);
         }
 
         if (!$db->tableExists($table, $schema)) {
