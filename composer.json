@@ -23,5 +23,10 @@
             "Phalcon\\" : "scripts/Phalcon/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
     "bin": ["phalcon.php"]
 }
