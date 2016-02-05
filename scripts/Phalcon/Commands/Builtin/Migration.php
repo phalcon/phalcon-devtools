@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,23 +21,17 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
-use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Migrations;
 use Phalcon\Config;
-use Phalcon\Config\Adapter\Ini as IniConfig;
-use Phalcon\Config\Adapter\Json as JsonConfig;
-use Phalcon\Config\Adapter\Yaml as YamlConfig;
 
 /**
  * Migration Command
  *
  * Generates/Run a migration
  *
- * @package     Phalcon\Commands\Builtin
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon\Commands\Builtin
  */
 class Migration extends Command
 {

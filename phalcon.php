@@ -43,6 +43,10 @@ try {
         ->registerNamespaces(array('Phalcon' => __DIR__ . '/scripts/'))
         ->register();
 
+    if (file_exists('.phalcon/autoload.php')) {
+        require_once '.phalcon/autoload.php';
+    }
+
     if (Version::getId() < Script::COMPATIBLE_VERSION) {
         throw new Exception(
             sprintf(

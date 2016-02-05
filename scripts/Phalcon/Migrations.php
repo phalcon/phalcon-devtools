@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -26,13 +26,12 @@ use Phalcon\Version\Item as VersionItem;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Script\ScriptException;
+use DirectoryIterator;
 
 /**
  * Migrations Class
  *
- * @package     Phalcon
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon
  */
 class Migrations
 {
@@ -59,26 +58,18 @@ class Migrations
 
         if ($originalVersion) {
             if (!preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $originalVersion, $matches)) {
-                throw new \Exception('Version '.$originalVersion.' is invalid');
+                throw new \Exception("Version {$originalVersion} is invalid");
             }
 
             $originalVersion = $matches[0];
             $version = new VersionItem($originalVersion, 3);
-            if (file_exists($migrationsDir.'/'.$version) && !$force) {
-                throw new \Exception('Version '.$version.' is already generated');
+            if (file_exists($migrationsDir . DIRECTORY_SEPARATOR . $version) && !$force) {
+                throw new \Exception("Version {$version} is already generated");
             }
         } else {
-            $versions = array();
-            $iterator = new \DirectoryIterator($migrationsDir);
-            foreach ($iterator as $fileInfo) {
-                if ($fileInfo->isDir()) {
-                    if (preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileInfo->getFilename(), $matches)) {
-                        $versions[] = new VersionItem($matches[0], 3);
-                    }
-                }
-            }
+            $versions = ModelMigration::scanForVersions($migrationsDir);
 
-            if (count($versions) == 0) {
+            if (!count($versions)) {
                 $version = new VersionItem('1.0.0');
             } else {
                 $version = VersionItem::maximum($versions);
@@ -86,8 +77,8 @@ class Migrations
             }
         }
 
-        if (!file_exists($migrationsDir.'/'.$version)) {
-            mkdir($migrationsDir.'/'.$version);
+        if (!file_exists($migrationsDir . DIRECTORY_SEPARATOR . $version)) {
+            mkdir($migrationsDir . DIRECTORY_SEPARATOR . $version);
         }
 
         if (!isset($config->database)) {
@@ -157,21 +148,13 @@ class Migrations
             $tableName = $options['tableName'];
         }
 
-        // read all versions
-        $versions = array();
-        $iterator = new \DirectoryIterator($migrationsDir);
-        foreach ($iterator as $fileinfo) {
-            if ($fileinfo->isDir() && preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileinfo->getFilename(), $matches)) {
-                $versions[] = new VersionItem($matches[0], 3);
-            }
-        }
-
-        if (count($versions) == 0) {
-            throw new ModelException('Migrations were not found at '.$migrationsDir);
+        $versions = ModelMigration::scanForVersions($migrationsDir);
+        if (!count($versions)) {
+            throw new ModelException("Migrations were not found at {$migrationsDir}");
         }
 
         // set default final version
-        if ($finalVersion === null) {
+        if (!$finalVersion) {
             $finalVersion = VersionItem::maximum($versions);
         }
 
@@ -196,21 +179,24 @@ class Migrations
         ModelMigration::setup($config->database);
         ModelMigration::setMigrationPath($migrationsDir);
 
+        $direction = ModelMigration::DIRECTION_FORWARD;
+        if ($finalVersion->getStamp() < $initialVersion->getStamp()) {
+            $direction = ModelMigration::DIRECTION_BACK;
+        }
         // run migration
         $versionsBetween = VersionItem::between($initialVersion, $finalVersion, $versions);
-        foreach ($versionsBetween as $k => $version) {
-            /** @var \Phalcon\Version\Item $version */
+        foreach ($versionsBetween as $version) {
             if ($tableName == 'all') {
-                $iterator = new \DirectoryIterator($migrationsDir . '/' . $version);
+                $iterator = new DirectoryIterator($migrationsDir . DIRECTORY_SEPARATOR . $version);
                 foreach ($iterator as $fileinfo) {
-                    if (!$fileinfo->isFile() || !preg_match('/\.php$/i', $fileinfo->getFilename())) {
+                    if (!$fileinfo->isFile() || 0 !== strcasecmp($fileinfo->getExtension(), 'php')) {
                         continue;
                     }
 
-                    ModelMigration::migrate($initialVersion, $version, $fileinfo->getBasename('.php'));
+                    ModelMigration::migrate($initialVersion, $version, $fileinfo->getBasename('.php'), $direction);
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $version, $tableName);
+                ModelMigration::migrate($initialVersion, $version, $tableName, $direction);
             }
 
             file_put_contents($migrationFid, (string)$version);

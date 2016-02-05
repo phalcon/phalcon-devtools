@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -29,7 +29,7 @@ class ScaffoldController extends ControllerBase
         $errorMessage = function ($directoryName, $directoryPath) {
             return sprintf(
                 "Sorry, WebTools doesn't know wherethe %s directory is.<br>" .
-                "Please add the valid path for  <code>%s</code> in the <code>application</code> section <code>%s</code>.",
+                "Please add the valid path for  <code>%s</code> in the <code>application</code> section.",
                 $directoryName,
                 $directoryPath
             );
@@ -62,7 +62,6 @@ class ScaffoldController extends ControllerBase
         if ($this->request->isPost()) {
             $schema            = $this->request->getPost('schema', 'string');
             $tableName         = $this->request->getPost('tableName', 'string');
-            $version           = $this->request->getPost('version', 'string');
             $templateEngine    = $this->request->getPost('templateEngine');
             $force             = $this->request->getPost('force', 'int');
             $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
@@ -80,21 +79,23 @@ class ScaffoldController extends ControllerBase
                     'templateEngine'    => $templateEngine,
                     'modelsNamespace'   => $modelsNamespace,
                 ));
-
                 $scaffoldBuilder->build();
 
-                $this->flash->success(sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName)));
+                $message = sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName));
+                $this->flash->success($message);
 
-                return $this->dispatcher->forward(array(
+                $this->dispatcher->forward(array(
                     'controller' => 'scaffold',
                     'action' => 'index'
                 ));
+
+                return;
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             }
         }
 
-        return $this->dispatcher->forward(array(
+        $this->dispatcher->forward(array(
             'controller' => 'scaffold',
             'action' => 'index'
         ));

@@ -16,11 +16,16 @@
         "ext-phalcon": "~2.0"
     },
     "require-dev": {
-        "kherge/box": ">=2.5.2"
+        "kherge/box": "^2.5"
     },
     "autoload": {
         "psr-4" : {
             "Phalcon\\" : "scripts/Phalcon/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
         }
     },
     "bin": ["phalcon.php"]
