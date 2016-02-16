@@ -196,7 +196,7 @@ abstract class Command implements CommandsInterface
                 return new IniConfig($fileName);
             } elseif ($extension === 'json') {
                 return new JsonConfig($fileName);
-            } elseif ($extension === 'json') {
+            } elseif ($extension === 'yaml') {
                 return new YamlConfig($fileName);
             }
         }
