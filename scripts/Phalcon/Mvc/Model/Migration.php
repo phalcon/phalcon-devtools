@@ -214,7 +214,7 @@ class Migration
                 case Column::TYPE_DATETIME:
                     $fieldDefinition[] = "'type' => Column::TYPE_DATETIME";
                     break;
-                case 17: // If so, then Phalcon is support for Column::TYPE_TIMESTAMP constant
+                case Column::TYPE_TIMESTAMP:
                     $fieldDefinition[] = "'type' => Column::TYPE_TIMESTAMP";
                     break;
                 case Column::TYPE_DECIMAL:
