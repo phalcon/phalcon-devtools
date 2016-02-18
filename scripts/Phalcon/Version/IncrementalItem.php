@@ -46,19 +46,33 @@ class IncrementalItem implements ItemInterface
      */
     private $_parts = array();
 
+    /**
+     * @var array
+     */
+    private $_options = array();
+
 
     /**
      * @param string $version String representation of the version
      * @param array  $options Item specific options
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct($version, array $options = [])
     {
+        if (1 !== preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $version, $matches)) {
+            throw new \InvalidArgumentException('Wrong version number provided');
+        }
+
+        // Keep options
+        $this->_options = $options;
+
         // Version partials
         $numberParts = isset($options['numberParts']) ? $options['numberParts'] : 3;
 
         $n = 9;
         $versionStamp = 0;
-        $version = trim($version);
+        $version = trim($matches[0]);
         $this->_parts = explode('.', $version);
         $nParts = count($this->_parts);
         if ($nParts < $numberParts) {
@@ -116,7 +130,7 @@ class IncrementalItem implements ItemInterface
             }
         }
 
-        return join('.', array_reverse($parts));
+        return new self(join('.', array_reverse($parts)), $this->_options);
     }
 
     /**
