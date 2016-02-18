@@ -102,6 +102,7 @@ class Migrations
         ModelMigration::setSkipAutoIncrement($options['no-ai']);
         ModelMigration::setMigrationPath($migrationsDir);
 
+        // Generate
         $isMigrated = false;
         if ($tableName == 'all') {
             $migrations = ModelMigration::generateAll($versionName, $exportData);
@@ -117,8 +118,11 @@ class Migrations
                 && file_put_contents($filename, '<?php '.PHP_EOL.PHP_EOL.$migration);
         }
 
-        if (self::isConsole()) {
-            print Color::success('Version '.$version.' was successfully generated').PHP_EOL;
+        // Print status
+        if ($isMigrated && self::isConsole()) {
+            print Color::success('Version '.$versionName.' was successfully generated').PHP_EOL;
+        } elseif (self::isConsole()) {
+            print Color::success('Nothing to generate (maybe the tables aren\'t created yet)').PHP_EOL;
         }
     }
 
