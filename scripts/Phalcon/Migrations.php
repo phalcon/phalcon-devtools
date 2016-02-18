@@ -195,7 +195,7 @@ class Migrations
         ModelMigration::setMigrationPath($migrationsDir);
 
         self::connectionSetup($options);
-
+        $completedVersions = self::getCompletedVersions($options);
         $initialVersion = self::getCurrentVersion($options);
 
         if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
@@ -300,5 +300,19 @@ class Migrations
         } else {
             file_put_contents(self::$_storage, (string)$version);
         }
+    }
+
+    public static function getCompletedVersions($options)
+    {
+        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+            /** @var AdapterInterface $connection */
+            $connection = self::$_storage;
+            $completedVersions = $connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC;')->fetchAll();
+            $completedVersions = array_map(function($version){return $version['version'];}, $completedVersions);
+        } else {
+            $completedVersions = file(self::$_storage);
+        }
+
+        return array_flip($completedVersions);
     }
 }

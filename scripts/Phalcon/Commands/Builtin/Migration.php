@@ -52,7 +52,7 @@ class Migration extends Command
             'force'             => 'Forces to overwrite existing migrations',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
-            'migrationsInDb'    => 'Keep migrations log in the database table rather than in file',
+            'migrations-in-db'  => 'Keep migrations log in the database table rather than in file',
         );
     }
 
@@ -101,7 +101,7 @@ class Migration extends Command
         }
 
         $migrationsInDb = false;
-        if ($this->isReceivedOption('migrationsInDb')) {
+        if ($this->isReceivedOption('migrations-in-db')) {
             $migrationsInDb = true;
         } elseif (isset($config['application']['migrationsInDb'])) {
             $migrationsInDb = $config['application']['migrationsInDb'];
