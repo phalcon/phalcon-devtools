@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -25,7 +25,9 @@ namespace Phalcon\Version;
  *
  * Allows to manipulate version texts
  *
- * @package Phalcon\Version
+ * @package     Phalcon\Version
+ * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
+ * @license     New BSD License
  */
 class IncrementalItem
 {
@@ -44,27 +46,31 @@ class IncrementalItem
      */
     private $_parts = array();
 
+
     /**
-     * @param     $version
-     * @param int $numberParts
+     * @param string $version
+     * @param array  $options
      */
-    public function __construct($version, $numberParts = 3)
+    public function __construct($version, array $options = [])
     {
+        // Version partials
+        $numberParts = isset($options['numberParts']) ? $options['numberParts'] : 3;
+
         $n = 9;
         $versionStamp = 0;
         $version = trim($version);
         $this->_parts = explode('.', $version);
         $nParts = count($this->_parts);
         if ($nParts < $numberParts) {
-            for ($i = $numberParts; $i>=$nParts; $i--) {
+            for ($i = $numberParts; $i >= $nParts; $i--) {
                 $this->_parts[] = '0';
-                $version.='.0';
+                $version .= '.0';
             }
         } else {
             if ($nParts > $numberParts) {
                 for ($i = $nParts; $i <= $numberParts; $i++) {
-                    if (isset($this->_parts[$i-1])) {
-                        unset($this->_parts[$i-1]);
+                    if (isset($this->_parts[$i - 1])) {
+                        unset($this->_parts[$i - 1]);
                     }
                 }
                 $version = join('.', $this->_parts);
@@ -80,96 +86,6 @@ class IncrementalItem
         }
         $this->_versionStamp = $versionStamp;
         $this->_version = $version;
-    }
-
-    /**
-     * @param $versions Item[]
-     *
-     * @return array Item[]
-     */
-    public static function sortAsc($versions)
-    {
-        $sortData = array();
-        foreach ($versions as $version) {
-            $sortData[$version->getStamp()] = $version;
-        }
-        ksort($sortData);
-
-        return array_values($sortData);
-    }
-
-    /**
-     * @param $versions Item[]
-     *
-     * @return array
-     */
-    public static function sortDesc($versions)
-    {
-        $sortData = array();
-        foreach ($versions as $version) {
-            $sortData[$version->getStamp()] = $version;
-        }
-        krsort($sortData);
-
-        return array_values($sortData);
-    }
-
-    /**
-     * @param $versions Item[]
-     *
-     * @return \Phalcon\Version\Item
-     */
-    public static function maximum($versions)
-    {
-        if (count($versions) == 0) {
-            return null;
-        }
-
-        $versions = self::sortDesc($versions);
-
-        return $versions[0];
-    }
-
-    /**
-     * Allows to check whether a version is in a range between two values.
-     *
-     * @param  string  $initialVersion
-     * @param  string  $finalVersion
-     * @param  array   $versions Item[]
-     * @return Item[]
-     */
-    public static function between($initialVersion, $finalVersion, $versions)
-    {
-        $versions = self::sortAsc($versions);
-
-        if (!is_object($initialVersion)) {
-            $initialVersion = new self($initialVersion);
-        }
-
-        if (!is_object($finalVersion)) {
-            $finalVersion = new self($finalVersion);
-        }
-
-        $betweenVersions = array();
-        if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
-            return $betweenVersions; // nothing to do
-        }
-
-        if ($initialVersion->getStamp() < $finalVersion->getStamp()) {
-            $versions = self::sortAsc($versions);
-        } else {
-            $versions = self::sortDesc($versions);
-            list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
-        }
-
-        foreach ($versions as $version) {
-            /** @var Item $version */
-            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
-                $betweenVersions[] = $version;
-            }
-        }
-
-        return $betweenVersions ;
     }
 
     /**
