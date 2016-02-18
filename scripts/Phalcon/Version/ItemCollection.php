@@ -140,11 +140,13 @@ class ItemCollection
         }
 
         foreach ($versions as $version) {
-            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp(
+                    ) <= $finalVersion->getStamp())
+            ) {
                 $betweenVersions[] = $version;
             }
         }
 
-        return $betweenVersions ;
+        return $betweenVersions;
     }
 }
