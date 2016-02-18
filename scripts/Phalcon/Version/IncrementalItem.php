@@ -60,7 +60,7 @@ class IncrementalItem implements ItemInterface
      */
     public function __construct($version, array $options = [])
     {
-        if (1 !== preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $version, $matches)) {
+        if (1 !== preg_match('#[a-z0-9](\.[a-z0-9]+)*#', $version, $matches)) {
             throw new \InvalidArgumentException('Wrong version number provided');
         }
 

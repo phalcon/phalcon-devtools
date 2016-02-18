@@ -63,20 +63,42 @@ class ItemCollection
     /**
      * Create new version item
      *
-     * @param string $version
-     * @param array  $options
+     * @param null|string $version
+     * @param array       $options
      *
      * @return ItemInterface
      */
-    static function createItem($version, array $options = [])
+    static function createItem($version = null, array $options = [])
     {
         if (self::TYPE_INCREMENTAL === self::$type) {
+            $version = $version ?: '1.0.0';
+
             return new IncrementalItem($version, $options);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
+            $version = $version ?: (string)(int)(microtime(true) * pow(10, 6));
+
             return new TimestampedItem($version, $options);
         }
 
         throw new \LogicException('Could not create an item of unknown type.');
+    }
+
+    /**
+     * Check if provided version is correct
+     *
+     * @param $version
+     *
+     * @return bool
+     */
+    static function isCorrectVersion($version)
+    {
+        if (self::TYPE_INCREMENTAL === self::$type) {
+            return 1 !== preg_match('#[a-z0-9](\.[a-z0-9]+)*#', $version);
+        } elseif (self::TYPE_TIMESTAMPED === self::$type) {
+            return 1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version);
+        }
+
+        return false;
     }
 
     /**
