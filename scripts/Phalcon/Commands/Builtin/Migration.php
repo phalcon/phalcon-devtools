@@ -83,7 +83,7 @@ class Migration extends Command
             $migrationsDir = $path.$this->getOption('migrations');
         } elseif (isset($config['application']['migrationsDir'])) {
             $migrationsDir = $config['application']['migrationsDir'];
-            if (!$this->path->isAbsolutePath($migrationsDir)) {
+            if (!$this->path->isAbsolutePath($mimigrationsDirgrationsDir)) {
                 $migrationsDir = $path.$migrationsDir;
             }
         } elseif (file_exists($path.'app')) {
@@ -110,15 +110,15 @@ class Migration extends Command
         if ($action == 'generate') {
             Migrations::generate(
                 array(
-                    'directory'     => $path,
-                    'tableName'     => $tableName,
-                    'exportData'    => $exportData,
-                    'migrationsDir' => $migrationsDir,
-                    'version'       => $version,
-                    'force'         => $this->isReceivedOption('force'),
-                    'no-ai'         => $this->isReceivedOption('no-auto-increment'),
-                    'config'        => $config,
-                    'descr'         => $descr,
+                    'directory'       => $path,
+                    'tableName'       => $tableName,
+                    'exportData'      => $exportData,
+                    'migrationsDir'   => $migrationsDir,
+                    'version'         => $version,
+                    'force'           => $this->isReceivedOption('force'),
+                    'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
+                    'config'          => $config,
+                    'descr'           => $descr,
                 )
             );
         } else {
@@ -129,7 +129,7 @@ class Migration extends Command
                         'tableName'      => $tableName,
                         'migrationsDir'  => $migrationsDir,
                         'force'          => $this->isReceivedOption('force'),
-                        'ts-based'       => $this->isReceivedOption('ts-based'),
+                        'tsBased'        => $this->isReceivedOption('ts-based'),
                         'config'         => $config,
                         'version'        => $version,
                         'migrationsInDb' => $migrationsInDb,
