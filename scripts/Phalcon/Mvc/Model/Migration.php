@@ -29,7 +29,10 @@ use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Utils;
-use Phalcon\Version\Item as VersionItem;
+use Phalcon\Version\ItemCollection as VersionCollection;
+use Phalcon\Version\IncrementalItem as IncrementalVersion;
+use Phalcon\Version\ItemInterface;
+use Phalcon\Version\TimestampedItem as TimestampedVersion;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -427,16 +430,17 @@ class Migration
     public static function migrate($fromVersion, $toVersion, $tableName)
     {
         if (!is_object($fromVersion)) {
-            $fromVersion = new VersionItem($fromVersion);
+            $fromVersion = VersionCollection::createItem($fromVersion);
         }
 
         if (!is_object($toVersion)) {
-            $toVersion = new VersionItem($toVersion);
+            $toVersion = VersionCollection::createItem($toVersion);
         }
 
         if ($fromVersion->getStamp() == $toVersion->getStamp()) {
             return; // nothing to do
         }
+
 
         if ($fromVersion->getStamp() < $toVersion->getStamp()) {
             $toMigration = self::createClass($toVersion, $tableName);
@@ -450,10 +454,6 @@ class Migration
                 // modify the datasets
                 if (method_exists($toMigration, 'up')) {
                     $toMigration->up();
-                    // we don't need the afterUp function anymore!
-                    //if (method_exists($toMigration, 'afterUp')) {
-                    //    $toMigration->afterUp();
-                    //}
                 }
             }
         } else {
