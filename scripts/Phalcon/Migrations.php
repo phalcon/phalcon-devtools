@@ -60,7 +60,7 @@ class Migrations
      * @param array $options
      *
      * @throws \Exception
-     * @todo Refactor
+     * @todo Refactor so full migrations history is kept in log
      */
     public static function generate(array $options)
     {
@@ -154,8 +154,8 @@ class Migrations
             throw new ModelException('Migrations directory could not found.');
         }
 
-        self::$_config = $config = $options['config'];
-        if (!$config instanceof Config) {
+        self::$_config = $options['config'];
+        if (!self::$_config instanceof Config) {
             throw new ModelException('Internal error. Config should be instance of \Phalcon\Config');
         }
 
@@ -189,11 +189,11 @@ class Migrations
         self::$_migrationFid = $path . '.phalcon/migration-version';
 
         // init ModelMigration
-        if (!isset($config->database)) {
+        if (!is_null(self::$_config->get('database'))) {
             throw new ScriptException('Cannot load database configuration');
         }
 
-        ModelMigration::setup($config->database);
+        ModelMigration::setup(self::$_config->get('database'));
         ModelMigration::setMigrationPath($migrationsDir);
 
         $initialVersion = self::getCurrentVersion();
@@ -212,12 +212,12 @@ class Migrations
         foreach ($versionsBetween as $version) {
             if ($tableName == 'all') {
                 $iterator = new DirectoryIterator($migrationsDir . DIRECTORY_SEPARATOR . $version);
-                foreach ($iterator as $fileinfo) {
-                    if (!$fileinfo->isFile() || 0 !== strcasecmp($fileinfo->getExtension(), 'php')) {
+                foreach ($iterator as $fileInfo) {
+                    if (!$fileInfo->isFile() || 0 !== strcasecmp($fileInfo->getExtension(), 'php')) {
                         continue;
                     }
 
-                    ModelMigration::migrate($initialVersion, $version, $fileinfo->getBasename('.php'), $direction);
+                    ModelMigration::migrate($initialVersion, $version, $fileInfo->getBasename('.php'), $direction);
                 }
             } else {
                 ModelMigration::migrate($initialVersion, $version, $tableName, $direction);
