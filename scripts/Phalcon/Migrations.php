@@ -209,10 +209,11 @@ class Migrations
         foreach ($iterator as $fileInfo) {
             if (
                 $fileInfo->isDir()
-                && !!$fileInfo->isDot()
+                && !$fileInfo->isDot()
                 && VersionCollection::isCorrectVersion($fileInfo->getFilename())
             ) {
                 $versionItems[] = VersionCollection::createItem($fileInfo->getFilename());
+
             }
         }
 
@@ -220,7 +221,7 @@ class Migrations
             throw new ModelException('Migrations were not found at '.$migrationsDir);
         }
 
-        // set default final version
+        // Set default final version
         if ($finalVersion === null) {
             $finalVersion = VersionCollection::maximum($versionItems);
         }
@@ -228,34 +229,35 @@ class Migrations
         ModelMigration::setup($config->database);
         ModelMigration::setMigrationPath($migrationsDir);
         self::connectionSetup($options);
-        $completedVersions = self::getCompletedVersions($options);
+
+        // Everything is up to date
         $initialVersion = self::getCurrentVersion($options);
         if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
-            return; // nothing to do
+            print Color::info('Everything is up to date');
+            exit(0);
         }
 
-        // run migration
-        $versionsBetween = VersionItem::between($initialVersion, $finalVersion, $versions);
-        foreach ($versionsBetween as $k => $version) {
+        // Run migration
+        $versionsBetween = VersionCollection::between($initialVersion, $finalVersion, $versionItems);
+        foreach ($versionsBetween as $versionItem) {
             $migrationStartTime = date('"Y-m-d H:i:s"');
-            /** @var \Phalcon\Version\Item $version */
             if ($tableName == 'all') {
-                $iterator = new \DirectoryIterator($migrationsDir.'/'.$version);
+                $iterator = new \DirectoryIterator($migrationsDir.DIRECTORY_SEPARATOR.$versionItem->getVersion());
                 foreach ($iterator as $fileInfo) {
                     if (!$fileInfo->isFile() || !preg_match('/\.php$/i', $fileInfo->getFilename())) {
                         continue;
                     }
 
-                    ModelMigration::migrate($initialVersion, $version, $fileInfo->getBasename('.php'));
+                    ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'));
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $version, $tableName);
+                ModelMigration::migrate($initialVersion, $versionItem, $tableName);
             }
 
-            self::setCurrentVersion($options, $version, $migrationStartTime);
-            print Color::success('Version '.$version.' was successfully migrated');
+            self::setCurrentVersion($options, $versionItem, $migrationStartTime);
+            print Color::success('Version '.$versionItem.' was successfully migrated');
 
-            $initialVersion = $version;
+            $initialVersion = $versionItem;
         }
     }
 
@@ -286,7 +288,7 @@ class Migrations
             $version = file_exists(self::$_storage)
                 ? file_get_contents(self::$_storage)
                 : null;
-            $version = $version && trim($version) ?: null;
+            $version = trim($version) ?: null;
 
             return VersionCollection::createItem($version);
         }
@@ -365,19 +367,5 @@ class Migrations
 
             self::$_storage = $path.'.phalcon/migration-version';
         }
-    }
-
-    public static function getCompletedVersions($options)
-    {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
-            /** @var AdapterInterface $connection */
-            $connection = self::$_storage;
-            $completedVersions = $connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC;')->fetchAll();
-            $completedVersions = array_map(function($version){return $version['version'];}, $completedVersions);
-        } else {
-            $completedVersions = file(self::$_storage);
-        }
-
-        return array_flip($completedVersions);
     }
 }

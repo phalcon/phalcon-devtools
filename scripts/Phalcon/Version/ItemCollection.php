@@ -71,7 +71,7 @@ class ItemCollection
     static function createItem($version = null, array $options = [])
     {
         if (self::TYPE_INCREMENTAL === self::$type) {
-            $version = $version ?: '1.0.0';
+            $version = $version ?: '0.0.0';
 
             return new IncrementalItem($version, $options);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
@@ -93,9 +93,9 @@ class ItemCollection
     static function isCorrectVersion($version)
     {
         if (self::TYPE_INCREMENTAL === self::$type) {
-            return 1 !== preg_match('#[a-z0-9](\.[a-z0-9]+)*#', $version);
+            return 1 === preg_match('#[a-z0-9](\.[a-z0-9]+)*#', $version);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
-            return 1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version);
+            return 1 === preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version);
         }
 
         return false;
@@ -161,7 +161,7 @@ class ItemCollection
      * @param ItemInterface   $finalVersion
      * @param ItemInterface[] $versions
      *
-     * @return array
+     * @return ItemInterface[]|array
      */
     public static function between(
         ItemInterface $initialVersion,

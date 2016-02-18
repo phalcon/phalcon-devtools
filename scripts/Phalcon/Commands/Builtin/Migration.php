@@ -83,7 +83,7 @@ class Migration extends Command
             $migrationsDir = $path.$this->getOption('migrations');
         } elseif (isset($config['application']['migrationsDir'])) {
             $migrationsDir = $config['application']['migrationsDir'];
-            if (!$this->path->isAbsolutePath($mimigrationsDirgrationsDir)) {
+            if (!$this->path->isAbsolutePath($migrationsDir)) {
                 $migrationsDir = $path.$migrationsDir;
             }
         } elseif (file_exists($path.'app')) {
