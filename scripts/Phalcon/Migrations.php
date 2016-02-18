@@ -59,7 +59,9 @@ class Migrations
 
         // Timestamp-base versioning
         if ($descr) {
-            var_dump('foo!');
+            $version = (string)(int)(microtime(true) * pow(10, 6));
+            $cleanDescr = trim(preg_replace('#[^0-9a-z]+#', '_', strtolower($descr)), '_');
+            $versionName = sprintf('%s_%s', $version, $cleanDescr);
 
         // Old-style versioning with explict given version
         } elseif ($version) {
@@ -67,24 +69,25 @@ class Migrations
                 throw new \Exception("Version {$version} is invalid");
             }
             $versionItem = new VersionItem($matches[0], 3);
-            $version = $versionItem->getVersion();
+            $versionName = (string) $versionItem->getVersion();
             if (file_exists($migrationsDir.DIRECTORY_SEPARATOR.$version) && !$force) {
-                throw new \Exception("Version {$version)} is already generated");
+                throw new \Exception("Version {$version} is already generated");
             }
 
-        // Old-style versioning with generated version
+            // Old-style versioning with generated version
         } else {
             $versionItems = ModelMigration::scanForVersions($migrationsDir);
-
             if (!count($versionItems)) {
                 $versionItem = new VersionItem('1.0.0');
-                $version = $versionItem->getVersion();
+                $versionName = (string) $versionItem->getVersion();
             } else {
                 $versionItem = VersionItem::maximum($versionItems);
-                $version = $versionItem->addMinor(1);
+                $versionName = (string) $versionItem->addMinor(1);
             }
+
         }
 
+        // Create directory for current migration files
         if (!file_exists($migrationsDir.DIRECTORY_SEPARATOR.$version)) {
             mkdir($migrationsDir.DIRECTORY_SEPARATOR.$version);
         }
