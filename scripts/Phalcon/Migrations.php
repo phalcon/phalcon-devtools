@@ -254,30 +254,27 @@ class Migrations
         if ($database->adapter == 'Mysql') {
             self::$_connection->query('SET FOREIGN_KEY_CHECKS=0');
         }
+
+        if (!self::$_connection->tableExists('phalcon_migrations')) {
+            self::$_connection->execute('CREATE TABLE `phalcon_migrations` (`version` VARCHAR(14) NOT NULL, `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT "0000-00-00 00:00:00" ) DEFAULT CHARSET = utf8;');
+        }
     }
 
     public static function getCurrentVersion()
     {
         if (!is_null(self::$_config->get('migrationsLog')) && ('database' == self::$_config->get('migrationsLog'))) {
-            self::connSetup(self::$_config->get('database'));
+            if (is_null(self::$_connection)) {
+                self::connSetup(self::$_config->get('database'));
+            }
 
-            if (!self::$_connection->tableExists('phalcon_migrations')) {
-                self::$_connection->execute('CREATE TABLE `phalcon_migrations` (`version` VARCHAR(14) NOT NULL, `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT "0000-00-00 00:00:00" ) DEFAULT CHARSET = utf8;');
+            $initialVersion = self::$_connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1;');
+            if (0 == $initialVersion->numRows()) {
                 self::$_connection->execute('INSERT INTO `phalcon_migrations` (`version`) VALUES ("0.0.0");');
                 $initialVersion = new VersionItem('0.0.0');
             } else {
-                $initialVersion = self::$_connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1;');
-                if (0 == $initialVersion->numRows()) {
-                    self::$_connection->execute('INSERT INTO `phalcon_migrations` (`version`) VALUES ("0.0.0");');
-                    $initialVersion = new VersionItem('0.0.0');
-                } else {
-                    $initialVersion = $initialVersion->fetch();
-                    $initialVersion = new VersionItem($initialVersion['version']);
-                }
+                $initialVersion = $initialVersion->fetch();
+                $initialVersion = new VersionItem($initialVersion['version']);
             }
-
-            self::$_connection->execute('UPDATE `phalcon_migrations` SET `start_time`=NOW()  WHERE `version`="' . (string)$initialVersion . '" LIMIT 1;');
-
         } else {
             $initialVersion = new VersionItem(file_exists(self::$_migrationFid) ? file_get_contents(self::$_migrationFid) : null);
         }
@@ -287,8 +284,12 @@ class Migrations
 
     public static function setCurrentVersion($lastVersion, $currentVersion)
     {
+        if (is_null(self::$_connection)) {
+            self::connSetup(self::$_config->get('database'));
+        }
+
         if (!is_null(self::$_config->get('migrationsLog')) && ('database' == self::$_config->get('migrationsLog'))) {
-            self::$_connection->execute('UPDATE `phalcon_migrations` SET `version`="' . (string)$currentVersion . '", `end_time`=NOW()  WHERE `version`="' . (string)$lastVersion . '" LIMIT 1;');
+            self::$_connection->execute('UPDATE `phalcon_migrations` SET `version`="' . (string)$currentVersion . '" WHERE `version`="' . (string)$lastVersion . '" LIMIT 1;');
         } else {
             file_put_contents(self::$_migrationFid, (string)$currentVersion);
         }
