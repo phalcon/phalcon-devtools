@@ -49,7 +49,8 @@ class Migration extends Command
             'directory=s'       => 'Directory where the project was created',
             'table=s'           => 'Table to migrate. Default: all',
             'version=s'         => 'Version to migrate',
-            'descr=s'           => 'Migration version description (new-style migration naming)',
+            'descr=s'           => 'Migration description for generate (new-style migration naming)',
+            'new'               => 'New-style migration indicator for run action',
             'force'             => 'Forces to overwrite existing migrations',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
@@ -121,7 +122,7 @@ class Migration extends Command
                     'force'         => $this->isReceivedOption('force'),
                     'config'        => $config,
                     'version'       => $version,
-                    'descr'         => $descr,
+                    'new'           => $this->isReceivedOption('new'),
                 )
             );
         }

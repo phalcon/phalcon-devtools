@@ -27,6 +27,7 @@ use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Script\ScriptException;
 use DirectoryIterator;
+use Phalcon\Version\TimestampItem;
 
 /**
  * Migrations Class
@@ -35,6 +36,16 @@ use DirectoryIterator;
  */
 class Migrations
 {
+    /**
+     * Check if the script is running on Console mode
+     *
+     * @return boolean
+     */
+    public static function isConsole()
+    {
+        return PHP_SAPI == 'cli';
+    }
+
     /**
      * Generate migrations
      *
@@ -127,16 +138,6 @@ class Migrations
     }
 
     /**
-     * Check if the script is running on Console mode
-     *
-     * @return boolean
-     */
-    public static function isConsole()
-    {
-        return PHP_SAPI == 'cli';
-    }
-
-    /**
      * Run migrations
      *
      * @param array $options
@@ -148,6 +149,7 @@ class Migrations
     public static function run(array $options)
     {
         $path = $options['directory'];
+        $isTimestampedVersion = !!$options['new']; // New timestamp based version naming
 
         $migrationsDir = $options['migrationsDir'];
         if (!file_exists($migrationsDir)) {
@@ -159,15 +161,20 @@ class Migrations
             throw new ModelException('Internal error. Config should be instance of \Phalcon\Config');
         }
 
-        $finalVersion = null;
-        if (isset($options['version']) && $options['version'] !== null) {
-            $finalVersion = new VersionItem($options['version']);
-        }
-
         $tableName = 'all';
         if (isset($options['tableName'])) {
             $tableName = $options['tableName'];
         }
+
+        // Limitary version
+        $finalVersion = null;
+        if ($isTimestampedVersion) {
+            $finalVersion = new TimestampItem($options['version']);
+        } elseif (!$isTimestampedVersion && isset($options['version']) && $options['version'] !== null) {
+            $finalVersion = new VersionItem($options['version']);
+        }
+
+        var_dump($finalVersion->isFullVersion());
 
         $versions = ModelMigration::scanForVersions($migrationsDir);
         if (!count($versions)) {
