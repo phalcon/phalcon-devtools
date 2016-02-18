@@ -31,8 +31,9 @@ interface ItemInterface
 {
     /**
      * @param string $version String representation of the version
+     * @param array  $options Item specific options
      */
-    public function __construct($version);
+    public function __construct($version, array $options = []);
 
     /**
      * Get integer payload of the version

@@ -13,7 +13,9 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Ivan Zinovyev <vanyazin@gmail.com>                            |
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Ivan Zinovyev <vanyazin@gmail.com>                            |
   +------------------------------------------------------------------------+
 */
 
@@ -57,7 +59,13 @@ class ItemCollection
      */
     public static function sortAsc(array $versions)
     {
+        $sortData = array();
+        foreach ($versions as $version) {
+            $sortData[$version->getStamp()] = $version;
+        }
+        ksort($sortData);
 
+        return array_values($sortData);
     }
 
     /**
@@ -69,7 +77,13 @@ class ItemCollection
      */
     public static function sortDesc(array $versions)
     {
+        $sortData = array();
+        foreach ($versions as $version) {
+            $sortData[$version->getStamp()] = $version;
+        }
+        krsort($sortData);
 
+        return array_values($sortData);
     }
 
     /**
@@ -77,19 +91,24 @@ class ItemCollection
      *
      * @param array $versions
      *
-     * @return ItemInterface
+     * @return null|ItemInterface
      */
     public static function maximum(array $versions)
     {
+        if (count($versions) == 0) {
+            return null;
+        }
+        $versions = self::sortDesc($versions);
 
+        return $versions[0];
     }
 
     /**
      * Get all the versions between two limitary version items
      *
-     * @param ItemInterface $initialVersion
-     * @param ItemInterface $finalVersion
-     * @param array         $versions
+     * @param ItemInterface   $initialVersion
+     * @param ItemInterface   $finalVersion
+     * @param ItemInterface[] $versions
      *
      * @return array
      */
@@ -98,6 +117,34 @@ class ItemCollection
         ItemInterface $finalVersion,
         array $versions
     ) {
+        $versions = self::sortAsc($versions);
 
+        if (!is_object($initialVersion)) {
+            $initialVersion = new self($initialVersion);
+        }
+
+        if (!is_object($finalVersion)) {
+            $finalVersion = new self($finalVersion);
+        }
+
+        $betweenVersions = array();
+        if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
+            return $betweenVersions; // nothing to do
+        }
+
+        if ($initialVersion->getStamp() < $finalVersion->getStamp()) {
+            $versions = self::sortAsc($versions);
+        } else {
+            $versions = self::sortDesc($versions);
+            list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
+        }
+
+        foreach ($versions as $version) {
+            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+                $betweenVersions[] = $version;
+            }
+        }
+
+        return $betweenVersions ;
     }
 }
