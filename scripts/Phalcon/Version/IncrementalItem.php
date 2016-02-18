@@ -29,7 +29,7 @@ namespace Phalcon\Version;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Item
+class IncrementalItem
 {
     /**
      * @var string
