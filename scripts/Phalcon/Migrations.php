@@ -48,38 +48,45 @@ class Migrations
         $tableName = $options['tableName'];
         $exportData = $options['exportData'];
         $migrationsDir = $options['migrationsDir'];
-        $originalVersion = $options['originalVersion'];
+        $version = $options['version'];
+        $descr = $options['descr'];
         $force = $options['force'];
         $config = $options['config'];
 
-
         if ($migrationsDir && !file_exists($migrationsDir)) {
-            mkdir($migrationsDir, 0777, true);
+            mkdir($migrationsDir, 0755, true);
         }
 
-        if ($originalVersion) {
-            if (!preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $originalVersion, $matches)) {
-                throw new \Exception("Version {$originalVersion} is invalid");
+        // Timestamp-base versioning
+        if ($descr) {
+            var_dump('foo!');
+
+        // Old-style versioning with explict given version
+        } elseif ($version) {
+            if (!preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $version, $matches)) {
+                throw new \Exception("Version {$version} is invalid");
+            }
+            $versionItem = new VersionItem($matches[0], 3);
+            $version = $versionItem->getVersion();
+            if (file_exists($migrationsDir.DIRECTORY_SEPARATOR.$version) && !$force) {
+                throw new \Exception("Version {$version)} is already generated");
             }
 
-            $originalVersion = $matches[0];
-            $version = new VersionItem($originalVersion, 3);
-            if (file_exists($migrationsDir . DIRECTORY_SEPARATOR . $version) && !$force) {
-                throw new \Exception("Version {$version} is already generated");
-            }
+        // Old-style versioning with generated version
         } else {
-            $versions = ModelMigration::scanForVersions($migrationsDir);
+            $versionItems = ModelMigration::scanForVersions($migrationsDir);
 
-            if (!count($versions)) {
-                $version = new VersionItem('1.0.0');
+            if (!count($versionItems)) {
+                $versionItem = new VersionItem('1.0.0');
+                $version = $versionItem->getVersion();
             } else {
-                $version = VersionItem::maximum($versions);
-                $version = $version->addMinor(1);
+                $versionItem = VersionItem::maximum($versionItems);
+                $version = $versionItem->addMinor(1);
             }
         }
 
-        if (!file_exists($migrationsDir . DIRECTORY_SEPARATOR . $version)) {
-            mkdir($migrationsDir . DIRECTORY_SEPARATOR . $version);
+        if (!file_exists($migrationsDir.DIRECTORY_SEPARATOR.$version)) {
+            mkdir($migrationsDir.DIRECTORY_SEPARATOR.$version);
         }
 
         if (!isset($config->database)) {
@@ -94,7 +101,10 @@ class Migrations
         if ($tableName == 'all') {
             $migrations = ModelMigration::generateAll($version, $exportData);
             foreach ($migrations as $tableName => $migration) {
-                file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
+                file_put_contents(
+                    $migrationsDir.'/'.$version.'/'.$tableName.'.php',
+                    '<?php '.PHP_EOL.PHP_EOL.$migration
+                );
             }
         } else {
             $migration = ModelMigration::generate($version, $tableName, $exportData);
@@ -188,7 +198,7 @@ class Migrations
         $versionsBetween = VersionItem::between($initialVersion, $finalVersion, $versions);
         foreach ($versionsBetween as $version) {
             if ($tableName == 'all') {
-                $iterator = new DirectoryIterator($migrationsDir . DIRECTORY_SEPARATOR . $version);
+                $iterator = new DirectoryIterator($migrationsDir.DIRECTORY_SEPARATOR.$version);
                 foreach ($iterator as $fileinfo) {
                     if (!$fileinfo->isFile() || 0 !== strcasecmp($fileinfo->getExtension(), 'php')) {
                         continue;
@@ -201,7 +211,7 @@ class Migrations
             }
 
             file_put_contents($migrationFid, (string)$version);
-            print Color::success('Version ' . $version . ' was successfully migrated');
+            print Color::success('Version '.$version.' was successfully migrated');
 
             $initialVersion = $version;
         }

@@ -202,8 +202,16 @@ class Item
     /**
      * @return string
      */
-    public function __toString()
+    public function getVersion()
     {
         return $this->_version;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getVersion();
     }
 }

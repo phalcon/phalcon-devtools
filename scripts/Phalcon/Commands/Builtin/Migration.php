@@ -112,20 +112,18 @@ class Migration extends Command
                     'descr'         => $descr,
                 )
             );
-        } else {
-            if ($action == 'run') {
-                Migrations::run(
-                    array(
-                        'directory'     => $path,
-                        'tableName'     => $tableName,
-                        'migrationsDir' => $migrationsDir,
-                        'force'         => $this->isReceivedOption('force'),
-                        'config'        => $config,
-                        'version'       => $version,
-                        'descr'         => $descr,
-                    )
-                );
-            }
+        } elseif ($action == 'run') {
+            Migrations::run(
+                array(
+                    'directory'     => $path,
+                    'tableName'     => $tableName,
+                    'migrationsDir' => $migrationsDir,
+                    'force'         => $this->isReceivedOption('force'),
+                    'config'        => $config,
+                    'version'       => $version,
+                    'descr'         => $descr,
+                )
+            );
         }
     }
 
