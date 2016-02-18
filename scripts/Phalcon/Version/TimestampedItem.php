@@ -20,12 +20,12 @@
 namespace Phalcon\Version;
 
 /**
- * Class TimestampedVersion.
+ * Class TimestampedItem.
  * The version prefixed by timestamp value
  *
  * @package Phalcon\Version
  */
-class TimestampedVersion implements ItemInterface
+class TimestampedItem implements ItemInterface
 {
     /**
      * @var string

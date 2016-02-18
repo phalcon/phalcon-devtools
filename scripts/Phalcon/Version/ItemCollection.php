@@ -73,7 +73,7 @@ class ItemCollection
         if (self::TYPE_INCREMENTAL === self::$type) {
             return new IncrementalItem($version, $options);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
-            return new TimestampedVersion($version, $options);
+            return new TimestampedItem($version, $options);
         }
 
         throw new \LogicException('Could not create an item of unknown type.');

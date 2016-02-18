@@ -25,7 +25,9 @@ use Phalcon\Db\Adapter;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Script\Color;
-use Phalcon\Version\Item as VersionItem;
+use Phalcon\Version\ItemCollection as VersionItemCollection;
+use Phalcon\Version\IncrementalItem as IncrementalVersion;
+use Phalcon\Version\TimestampedItem as TimestampedVersion;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Script\ScriptException;
@@ -58,17 +60,24 @@ class Migrations
         $tableName = $options['tableName'];
         $exportData = $options['exportData'];
         $migrationsDir = $options['migrationsDir'];
-        $originalVersion = $options['originalVersion'];
+        $version = $options['version'];
         $force = $options['force'];
         $config = $options['config'];
 
         if ($migrationsDir && !file_exists($migrationsDir)) {
-            mkdir($migrationsDir, 0777, true);
+            mkdir($migrationsDir, 0755, true);
         }
 
-        if ($originalVersion) {
-            if (!preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $originalVersion, $matches)) {
-                throw new \Exception('Version ' . $originalVersion . ' is invalid');
+        // Use timestamped version if description is provided
+        if (isset($options['descr'])) {
+            $version = (string)(int)(microtime(true) * pow(10, 6));
+            ItemCollection::
+
+        // Elsewhere use old-style incremental versioning
+        // If the version is specified
+        } elseif ($version) {
+            if (!preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $version, $matches)) {
+                throw new \Exception('Version ' . $version . ' is invalid');
             }
 
             $originalVersion = $matches[0];
@@ -76,6 +85,9 @@ class Migrations
             if (file_exists($migrationsDir . '/' . $version) && !$force) {
                 throw new \Exception('Version ' . $version . ' is already generated');
             }
+
+        // Elsewhere use old-style incremental versioning
+        // If the version is guessed automatically
         } else {
             $versions = array();
             $iterator = new \DirectoryIterator($migrationsDir);
