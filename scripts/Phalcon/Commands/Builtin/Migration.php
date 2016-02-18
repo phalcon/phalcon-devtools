@@ -21,14 +21,10 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Builder;
-use Phalcon\Builder\BuilderException;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Migrations;
 use Phalcon\Config;
-use Phalcon\Config\Adapter\Ini as IniConfig;
-use Phalcon\Config\Adapter\Json as JsonConfig;
-use Phalcon\Config\Adapter\Yaml as YamlConfig;
 
 /**
  * Migration Command
@@ -58,6 +54,7 @@ class Migration extends Command
             'force'             => 'Forces to overwrite existing migrations',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
+            'migrationsInDb'    => 'Keep migrations log in the database table rather than in file',
         );
     }
 
@@ -89,20 +86,27 @@ class Migration extends Command
         }
 
         if ($this->isReceivedOption('migrations')) {
-            $migrationsDir = $path.$this->getOption('migrations');
+            $migrationsDir = $path . $this->getOption('migrations');
         } elseif (isset($config['application']['migrationsDir'])) {
             $migrationsDir = $config['application']['migrationsDir'];
             if (!$this->path->isAbsolutePath($migrationsDir)) {
                 $migrationsDir = $path . $migrationsDir;
             }
         } else {
-            if (file_exists($path.'app')) {
-                $migrationsDir = $path.'app/migrations';
-            } elseif (file_exists($path.'apps')) {
-                $migrationsDir = $path.'apps/migrations';
+            if (file_exists($path . 'app')) {
+                $migrationsDir = $path . 'app/migrations';
+            } elseif (file_exists($path . 'apps')) {
+                $migrationsDir = $path . 'apps/migrations';
             } else {
-                $migrationsDir = $path.'migrations';
+                $migrationsDir = $path . 'migrations';
             }
+        }
+
+        $migrationsInDb = false;
+        if ($this->isReceivedOption('migrationsInDb')) {
+            $migrationsInDb = true;
+        } elseif (isset($config['application']['migrationsInDb'])) {
+            $migrationsInDb = $config['application']['migrationsInDb'];
         }
 
         $exportData = $this->getOption('data');
@@ -121,17 +125,18 @@ class Migration extends Command
                 'originalVersion' => $originalVersion,
                 'force'           => $this->isReceivedOption('force'),
                 'no-ai'           => $this->isReceivedOption('no-auto-increment'),
-                'config'          => $config
+                'config'          => $config,
             ));
         } else {
             if ($action == 'run') {
                 Migrations::run(array(
-                    'directory'     => $path,
-                    'tableName'     => $tableName,
-                    'migrationsDir' => $migrationsDir,
-                    'force'         => $this->isReceivedOption('force'),
-                    'config'        => $config,
-                    'version'       => $version,
+                    'directory'      => $path,
+                    'tableName'      => $tableName,
+                    'migrationsDir'  => $migrationsDir,
+                    'force'          => $this->isReceivedOption('force'),
+                    'config'         => $config,
+                    'version'        => $version,
+                    'migrationsInDb' => $migrationsInDb,
                 ));
             }
         }
