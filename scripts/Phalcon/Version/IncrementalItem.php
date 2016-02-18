@@ -29,7 +29,7 @@ namespace Phalcon\Version;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class IncrementalItem
+class IncrementalItem implements ItemInterface
 {
     /**
      * @var string
@@ -48,8 +48,8 @@ class IncrementalItem
 
 
     /**
-     * @param string $version
-     * @param array  $options
+     * @param string $version String representation of the version
+     * @param array  $options Item specific options
      */
     public function __construct($version, array $options = [])
     {
@@ -89,7 +89,9 @@ class IncrementalItem
     }
 
     /**
-     * @return int|string
+     * Get integer payload of the version
+     *
+     * @return integer
      */
     public function getStamp()
     {
@@ -97,11 +99,13 @@ class IncrementalItem
     }
 
     /**
-     * @param $number
+     * Return string representation of the increased minor version
+     *
+     * @param integer $number Increment
      *
      * @return string
      */
-    public function addMinor($number)
+    public function addMinor($number = 1)
     {
         $parts = array_reverse($this->_parts);
         if (isset($parts[0])) {
@@ -116,10 +120,22 @@ class IncrementalItem
     }
 
     /**
+     * Get the string representation of the version
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->_version;
+    }
+
+    /**
+     * Get the string representation of the version
+     *
      * @return string
      */
     public function __toString()
     {
-        return $this->_version;
+        return $this->getVersion();
     }
 }
