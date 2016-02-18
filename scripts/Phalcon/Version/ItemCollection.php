@@ -43,12 +43,41 @@ class ItemCollection
      *
      * @const int
      */
-    const TYPE_TIMESTAMP = 2;
+    const TYPE_TIMESTAMPED = 2;
 
     /**
      * @var int
      */
     static $type = self::TYPE_INCREMENTAL;
+
+    /**
+     * Set collection type
+     *
+     * @param int $type
+     */
+    static function setType($type)
+    {
+        self::$type = $type;
+    }
+
+    /**
+     * Create new version item
+     *
+     * @param string $version
+     * @param array  $options
+     *
+     * @return ItemInterface
+     */
+    static function createItem($version, array $options = [])
+    {
+        if (self::TYPE_INCREMENTAL === self::$type) {
+            return new IncrementalItem($version, $options);
+        } elseif (self::TYPE_TIMESTAMPED === self::$type) {
+            return new TimestampedVersion($version, $options);
+        }
+
+        throw new \LogicException('Could not create an item of unknown type.');
+    }
 
     /**
      * Sort items in the ascending order
@@ -120,11 +149,11 @@ class ItemCollection
         $versions = self::sortAsc($versions);
 
         if (!is_object($initialVersion)) {
-            $initialVersion = new self($initialVersion);
+            $initialVersion = self::createItem($initialVersion);
         }
 
         if (!is_object($finalVersion)) {
-            $finalVersion = new self($finalVersion);
+            $finalVersion = self::createItem($finalVersion);
         }
 
         $betweenVersions = array();
@@ -140,8 +169,9 @@ class ItemCollection
         }
 
         foreach ($versions as $version) {
-            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp(
-                    ) <= $finalVersion->getStamp())
+            if (
+                ($version->getStamp() >= $initialVersion->getStamp())
+                && ($version->getStamp() <= $finalVersion->getStamp())
             ) {
                 $betweenVersions[] = $version;
             }
