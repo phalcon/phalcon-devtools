@@ -27,7 +27,7 @@ namespace Phalcon\Version;
  *
  * @package Phalcon\Version
  */
-class Item
+class IncrementalItem
 {
     /**
      * @var string
