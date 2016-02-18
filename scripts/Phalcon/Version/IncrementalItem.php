@@ -95,7 +95,7 @@ class IncrementalItem implements ItemInterface
      */
     public function getStamp()
     {
-        return $this->_versionStamp;
+        return (int) $this->_versionStamp;
     }
 
     /**
