@@ -50,7 +50,7 @@ class Migration extends Command
             'table=s'           => 'Table to migrate. Default: all',
             'version=s'         => 'Version to migrate',
             'descr=s'           => 'Migration description for generate (new-style migration naming)',
-            'new'               => 'New-style migration indicator for run action',
+            'ts-based'          => 'Use timestamp based version naming',
             'force'             => 'Forces to overwrite existing migrations',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
@@ -122,7 +122,7 @@ class Migration extends Command
                     'force'         => $this->isReceivedOption('force'),
                     'config'        => $config,
                     'version'       => $version,
-                    'new'           => $this->isReceivedOption('new'),
+                    'tsBased'       => $this->isReceivedOption('ts-based'),
                 )
             );
         }

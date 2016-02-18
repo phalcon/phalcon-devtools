@@ -114,10 +114,10 @@ class Migrations
         ModelMigration::setMigrationPath($migrationsDir);
 
         // Generate
-        $isMigrated = false;
+        $wasGenerated = false;
         if ($tableName == 'all') {
             $migrations = ModelMigration::generateAll($versionName, $exportData);
-            $isMigrated = !!$migrations;
+            $wasGenerated = !!$migrations;
             foreach ($migrations as $tableName => $migration) {
                 $filename = $currentMigrationDir.DIRECTORY_SEPARATOR.$tableName.'.php';
                 file_put_contents($filename, '<?php '.PHP_EOL.PHP_EOL.$migration);
@@ -125,15 +125,15 @@ class Migrations
         } else {
             $migration = ModelMigration::generate($versionName, $tableName, $exportData);
             $filename = $currentMigrationDir.DIRECTORY_SEPARATOR.$tableName.'.php';
-            $isMigrated = !!$migration
+            $wasGenerated = !!$migration
                 && file_put_contents($filename, '<?php '.PHP_EOL.PHP_EOL.$migration);
         }
 
         // Print status
-        if ($isMigrated && self::isConsole()) {
+        if ($wasGenerated && self::isConsole()) {
             print Color::success('Version '.$versionName.' was successfully generated').PHP_EOL;
         } elseif (self::isConsole()) {
-            print Color::success('Nothing to generate (maybe the tables aren\'t created yet)').PHP_EOL;
+            print Color::info('Nothing to generate (maybe the tables aren\'t created yet)').PHP_EOL;
         }
     }
 
@@ -149,13 +149,14 @@ class Migrations
     public static function run(array $options)
     {
         $path = $options['directory'];
-        $isTimestampedVersion = !!$options['new']; // New timestamp based version naming
+        $tsBased = !!$options['tsBased']; // New timestamp based version naming
 
         $migrationsDir = $options['migrationsDir'];
         if (!file_exists($migrationsDir)) {
             throw new ModelException('Migrations directory could not found.');
         }
 
+        /** @var Config $config */
         $config = $options['config'];
         if (!$config instanceof Config) {
             throw new ModelException('Internal error. Config should be instance of \Phalcon\Config');
@@ -166,36 +167,44 @@ class Migrations
             $tableName = $options['tableName'];
         }
 
-        // Limitary version
+        // Limitary version number
         $finalVersion = null;
-        if ($isTimestampedVersion) {
+        if ($tsBased && null !== $options['version']) {
             $finalVersion = new TimestampItem($options['version']);
-        } elseif (!$isTimestampedVersion && isset($options['version']) && $options['version'] !== null) {
+        } elseif (!$tsBased && null !== $options['version']) {
             $finalVersion = new VersionItem($options['version']);
-        }
+        };
 
-        var_dump($finalVersion->isFullVersion());
-
-        $versions = ModelMigration::scanForVersions($migrationsDir);
-        if (!count($versions)) {
+        // Try to load migrations
+        $versionItems = ModelMigration::scanForVersions($migrationsDir, $tsBased);
+        if (!count($versionItems)) {
             throw new ModelException("Migrations were not found at {$migrationsDir}");
         }
 
-        // set default final version
+        // Set default final version
         if (!$finalVersion) {
-            $finalVersion = VersionItem::maximum($versions);
+            $finalVersion = VersionItem::maximum($versionItems);
         }
 
-        // read current version
+        // Read the current version
         if (is_file($path.'.phalcon')) {
             unlink($path.'.phalcon');
             mkdir($path.'.phalcon');
         }
 
-        $migrationFid = $path.'.phalcon/migration-version';
-        $initialVersion = new VersionItem(file_exists($migrationFid) ? file_get_contents($migrationFid) : null);
+        $migrationIndexFile = $path.'.phalcon/migration-version';
+        $initialVersion = (is_file($migrationIndexFile) && $index = (int)file_get_contents($migrationIndexFile))
+            ? $index
+            : "0"
+        ;
+        $initialVersionItem= null;
+        if ($tsBased) {
+            $initialVersionItem = new TimestampItem($initialVersion);
+        } elseif (!$tsBased) {
+            $initialVersionItem = new VersionItem($initialVersion);
+        }
 
-        if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
+        if (!$initialVersionItem && $initialVersionItem->getStamp() == $initialVersionItem->getStamp()) {
             return; // nothing to do
         }
 
@@ -206,13 +215,18 @@ class Migrations
 
         ModelMigration::setup($config->database);
         ModelMigration::setMigrationPath($migrationsDir);
-
         $direction = ModelMigration::DIRECTION_FORWARD;
-        if ($finalVersion->getStamp() < $initialVersion->getStamp()) {
+
+        if ($finalVersion->getStamp() < $initialVersionItem->getStamp()) {
             $direction = ModelMigration::DIRECTION_BACK;
         }
-        // run migration
-        $versionsBetween = VersionItem::between($initialVersion, $finalVersion, $versions);
+
+        // Run migration
+        $isMigrated = false;
+        $versionsBetween = $tsBased
+            ? TimestampItem::between($initialVersion, $finalVersion, $versionItems)
+            : VersionItem::between($initialVersion, $finalVersion, $versionItems)
+        ;
         foreach ($versionsBetween as $version) {
             if ($tableName == 'all') {
                 $iterator = new DirectoryIterator($migrationsDir.DIRECTORY_SEPARATOR.$version);
@@ -221,16 +235,33 @@ class Migrations
                         continue;
                     }
 
-                    ModelMigration::migrate($initialVersion, $version, $fileinfo->getBasename('.php'), $direction);
+                    // Migrate
+                    ModelMigration::migrate(
+                        $initialVersion,
+                        $version,
+                        $fileinfo->getBasename('.php'),
+                        $direction,
+                        $tsBased
+                    );
+                    $isMigrated = true;
                 }
             } else {
                 ModelMigration::migrate($initialVersion, $version, $tableName, $direction);
             }
 
-            file_put_contents($migrationFid, (string)$version);
-            print Color::success('Version '.$version.' was successfully migrated');
+            // Save last migration version
+            file_put_contents($migrationIndexFile, (string)$version);
 
+            // Print status
+            if (self::isConsole()) {
+                print Color::success('Version '.$version.' was successfully migrated').PHP_EOL;
+            }
             $initialVersion = $version;
         }
+
+        if (false === $isMigrated) {
+            print Color::info('Nothing to migrate. Everything is up to date').PHP_EOL;
+        }
+        exit(0);
     }
 }

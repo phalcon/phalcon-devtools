@@ -49,8 +49,23 @@ class TimestampItem
      */
     public function __construct($version)
     {
-        $this->_parts = explode('_', $version, 2);
+        if (!self::isCorrectVersion($version)) {
+            throw new \InvalidArgumentException('Wrong version name!');
+        }
+        $this->_version = $version;
+        $this->_parts = explode('_', $this->_version, 2);
         $this->_isFullVersion = isset($this->_parts[1]);
+    }
+
+    /**
+     * Check is provided version is correct
+     *
+     * @param string $version Migration version
+     * @return boolean
+     */
+    public static function isCorrectVersion($version)
+    {
+        return 1 === preg_match('#^[\d]+(_{1}[a-z0-9]+)*$#', $version);
     }
 
     /**
@@ -165,8 +180,8 @@ class TimestampItem
             list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
         }
 
+        /** @var TimestampItem $version */
         foreach ($versions as $version) {
-            /** @var Item $version */
             if (
                 ($version->getVersionNumber() >= $initialVersion->getVersionNumber())
                 && ($version->getVersionNumber() <= $finalVersion->getVersionNumber())
