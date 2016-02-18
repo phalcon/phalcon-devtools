@@ -63,13 +63,13 @@ class Migrations
             $cleanDescr = trim(preg_replace('#[^0-9a-z]+#', '_', strtolower($descr)), '_');
             $versionName = sprintf('%s_%s', $version, $cleanDescr);
 
-        // Old-style versioning with explict given version
+            // Old-style versioning with explict given version
         } elseif ($version) {
             if (!preg_match('/[a-z0-9](\.[a-z0-9]+)*/', $version, $matches)) {
                 throw new \Exception("Version {$version} is invalid");
             }
             $versionItem = new VersionItem($matches[0], 3);
-            $versionName = (string) $versionItem->getVersion();
+            $versionName = (string)$versionItem->getVersion();
             if (file_exists($migrationsDir.DIRECTORY_SEPARATOR.$version) && !$force) {
                 throw new \Exception("Version {$version} is already generated");
             }
@@ -79,39 +79,42 @@ class Migrations
             $versionItems = ModelMigration::scanForVersions($migrationsDir);
             if (!count($versionItems)) {
                 $versionItem = new VersionItem('1.0.0');
-                $versionName = (string) $versionItem->getVersion();
+                $versionName = (string)$versionItem->getVersion();
             } else {
                 $versionItem = VersionItem::maximum($versionItems);
-                $versionName = (string) $versionItem->addMinor(1);
+                $versionName = (string)$versionItem->addMinor(1);
             }
 
         }
 
         // Create directory for current migration files
-        if (!file_exists($migrationsDir.DIRECTORY_SEPARATOR.$version)) {
-            mkdir($migrationsDir.DIRECTORY_SEPARATOR.$version);
+        $currentMigrationDir = $migrationsDir.DIRECTORY_SEPARATOR.$versionName;
+        if (!file_exists($currentMigrationDir)) {
+            mkdir($currentMigrationDir);
         }
 
+        // Try to connect to the DB
         if (!isset($config->database)) {
             throw new \Exception("Cannot load database configuration");
         }
 
         ModelMigration::setup($config->database);
-
         ModelMigration::setSkipAutoIncrement($options['no-ai']);
         ModelMigration::setMigrationPath($migrationsDir);
 
+        $isMigrated = false;
         if ($tableName == 'all') {
-            $migrations = ModelMigration::generateAll($version, $exportData);
+            $migrations = ModelMigration::generateAll($versionName, $exportData);
+            $isMigrated = !!$migrations;
             foreach ($migrations as $tableName => $migration) {
-                file_put_contents(
-                    $migrationsDir.'/'.$version.'/'.$tableName.'.php',
-                    '<?php '.PHP_EOL.PHP_EOL.$migration
-                );
+                $filename = $currentMigrationDir.DIRECTORY_SEPARATOR.$tableName.'.php';
+                file_put_contents($filename, '<?php '.PHP_EOL.PHP_EOL.$migration);
             }
         } else {
-            $migration = ModelMigration::generate($version, $tableName, $exportData);
-            file_put_contents($migrationsDir.'/'.$version.'/'.$tableName.'.php', '<?php '.PHP_EOL.PHP_EOL.$migration);
+            $migration = ModelMigration::generate($versionName, $tableName, $exportData);
+            $filename = $currentMigrationDir.DIRECTORY_SEPARATOR.$tableName.'.php';
+            $isMigrated = !!$migration
+                && file_put_contents($filename, '<?php '.PHP_EOL.PHP_EOL.$migration);
         }
 
         if (self::isConsole()) {
