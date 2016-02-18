@@ -740,26 +740,30 @@ class Migration
     /**
      * Find the last morph function in the previous migration files
      *
-     * @param VersionItem $version
+     * @param ItemInterface $version
      * @param string $tableName
      * @return null|\Phalcon\Mvc\Model\Migration
      *
      * @throws Exception
      */
-    private static function createPrevClassWithMorphMethod(VersionItem $version, $tableName)
+    private static function createPrevClassWithMorphMethod(ItemInterface $version, $tableName)
     {
         $prevVersions = array();
         $iterator = new \DirectoryIterator(self::$_migrationPath);
         foreach ($iterator as $fileinfo) {
-            if ($fileinfo->isDir() && preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileinfo->getFilename(), $matches)) {
-                $prevVersion = new VersionItem($matches[0], 3);
+            if (
+                $fileinfo->isDir()
+                && !$fileinfo->isDot()
+                && VersionCollection::isCorrectVersion($fileinfo->getFilename())
+            ) {
+                $prevVersion = VersionCollection::createItem($fileinfo->getFilename());
                 if (($prevVersion->getStamp() <= $version->getStamp())) {
                     $prevVersions[] = $prevVersion;
                 }
             }
         }
 
-        $prevVersions = VersionItem::sortDesc($prevVersions);
+        $prevVersions = VersionCollection::sortDesc($prevVersions);
         foreach ($prevVersions as $prevVersion) {
             $migration = self::createClass($prevVersion, $tableName);
             if (!is_null($migration) && method_exists($migration, 'morph')) {
@@ -773,7 +777,7 @@ class Migration
     /**
      * Create migration object for specified version
      *
-     * @param \Phalcon\Version\Item|string $version
+     * @param ItemInterface|string $version
      * @param string $tableName
      * @return null|\Phalcon\Mvc\Model\Migration
      *
@@ -782,7 +786,7 @@ class Migration
     private static function createClass($version, $tableName)
     {
         if (is_object($version)) {
-            $version = (string)$version;
+            $version = (string) $version->getStamp();
         }
 
         $fileName = self::$_migrationPath . $version . '/' . $tableName . '.php';

@@ -43,6 +43,11 @@ use Phalcon\Script\ScriptException;
 class Migrations
 {
     /**
+     * @const string
+     */
+    const MIGRATION_LOG_TABLE = 'phalcon_migrations';
+
+    /**
      * Filename or db connection to store migrations log
      * @var mixed
      */
@@ -133,6 +138,9 @@ class Migrations
         if ($tableName == 'all') {
             $migrations = ModelMigration::generateAll($versionItem->getStamp(), $exportData);
             foreach ($migrations as $tableName => $migration) {
+                if ($tableName == self::MIGRATION_LOG_TABLE) {
+                    continue;
+                }
                 $tableFile = $migrationPath.DIRECTORY_SEPARATOR.$tableName.'.php';
                 $wasMigrated = file_put_contents(
                         $tableFile,
@@ -177,7 +185,7 @@ class Migrations
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
 
-        $migrationsDir = $options['migrationsDir'];
+        $migrationsDir = rtrim($options['migrationsDir'], '/');
         if (!file_exists($migrationsDir)) {
             throw new ModelException('Migrations directory was not found.');
         }
@@ -242,7 +250,9 @@ class Migrations
         foreach ($versionsBetween as $versionItem) {
             $migrationStartTime = date('"Y-m-d H:i:s"');
             if ($tableName == 'all') {
-                $iterator = new \DirectoryIterator($migrationsDir.DIRECTORY_SEPARATOR.$versionItem->getVersion());
+                $iterator = new \DirectoryIterator(
+                    $migrationsDir.DIRECTORY_SEPARATOR.$versionItem->getVersion()
+                );
                 foreach ($iterator as $fileInfo) {
                     if (!$fileInfo->isFile() || !preg_match('/\.php$/i', $fileInfo->getFilename())) {
                         continue;
@@ -270,7 +280,10 @@ class Migrations
      */
     public static function getCurrentVersion(array $options)
     {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+        if (
+            isset($options['migrationsInDb'])
+            && (bool)$options['migrationsInDb']
+        ) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
             $lastGoodMigration = $connection->query(
@@ -303,7 +316,7 @@ class Migrations
      */
     public static function setCurrentVersion(array $options, ItemInterface $version, $startTime = 'NOW()')
     {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+        if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
             // TODO: TRUNCATE to be removed on refactor
@@ -325,7 +338,7 @@ class Migrations
      */
     private static function connectionSetup(array $options)
     {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+        if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var Config $database */
             $database = $options['config']['database'];
 
@@ -349,7 +362,7 @@ class Migrations
 
             if (!self::$_storage->tableExists('phalcon_migrations')) {
                 self::$_storage->execute(
-                    "CREATE TABLE `phalcon_migrations` (`version` varchar(14), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL);"
+                    "CREATE TABLE `phalcon_migrations` (`version` varchar(50), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL);"
                 );
             }
 
