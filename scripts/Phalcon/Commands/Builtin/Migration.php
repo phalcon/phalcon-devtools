@@ -101,15 +101,15 @@ class Migration extends Command
         if ($action == 'generate') {
             Migrations::generate(
                 array(
-                    'directory'       => $path,
-                    'tableName'       => $tableName,
-                    'exportData'      => $exportData,
-                    'migrationsDir'   => $migrationsDir,
-                    'originalVersion' => $version,
-                    'force'           => $this->isReceivedOption('force'),
-                    'no-ai'           => $this->isReceivedOption('no-auto-increment'),
-                    'config'          => $config,
-                    'descr'           => $descr,
+                    'directory'     => $path,
+                    'tableName'     => $tableName,
+                    'exportData'    => $exportData,
+                    'migrationsDir' => $migrationsDir,
+                    'version'       => $version,
+                    'force'         => $this->isReceivedOption('force'),
+                    'no-ai'         => $this->isReceivedOption('no-auto-increment'),
+                    'config'        => $config,
+                    'descr'         => $descr,
                 )
             );
         } else {

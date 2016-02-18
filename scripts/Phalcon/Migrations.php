@@ -52,6 +52,7 @@ class Migrations
         $force = $options['force'];
         $config = $options['config'];
 
+
         if ($migrationsDir && !file_exists($migrationsDir)) {
             mkdir($migrationsDir, 0777, true);
         }
