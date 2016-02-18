@@ -49,6 +49,7 @@ class Migration extends Command
             'directory=s'       => 'Directory where the project was created',
             'table=s'           => 'Table to migrate. Default: all',
             'version=s'         => 'Version to migrate',
+            'name=s'            => 'Migration version description (Will generate timestamp 3prefixed name)',
             'force'             => 'Forces to overwrite existing migrations',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
@@ -100,10 +101,8 @@ class Migration extends Command
         }
 
         $exportData = $this->getOption('data');
-        $originalVersion = $this->getOption('version');
-
+        $name = $this->getOption('name');
         $action = $this->getOption(array('action', 1));
-
         $version = $this->getOption('version');
 
         if ($action == 'generate') {
@@ -112,7 +111,7 @@ class Migration extends Command
                 'tableName'       => $tableName,
                 'exportData'      => $exportData,
                 'migrationsDir'   => $migrationsDir,
-                'originalVersion' => $originalVersion,
+                'originalVersion' => $version,
                 'force'           => $this->isReceivedOption('force'),
                 'no-ai'           => $this->isReceivedOption('no-auto-increment'),
                 'config'          => $config
