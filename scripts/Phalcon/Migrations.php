@@ -49,8 +49,8 @@ class Migrations
     protected static $_config;
 
     /**
-     * Configuration holder
-     * @var \Phalcon\Config
+     * Migration version file name
+     * @var string
      */
     protected static $_migrationFid;
 
