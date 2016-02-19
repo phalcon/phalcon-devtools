@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -71,7 +71,7 @@ class ControllersController extends ControllerBase
                     'action' => 'edit',
                     'params' => array($fileName)
                 ));
-                
+
                 return;
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());

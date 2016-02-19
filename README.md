@@ -97,12 +97,12 @@ chmod ugo+x /usr/bin/phalcon
 To get a list of available commands just execute following:
 
 ```bash
-$ phalcon commands help
+phalcon commands help
 ```
 
 This command should display something similar to:
 
-```bash
+```sh
 $ phalcon list ?
 
 Phalcon DevTools (2.0.9)
