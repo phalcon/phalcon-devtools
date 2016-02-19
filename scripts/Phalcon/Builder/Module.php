@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -24,9 +24,7 @@ namespace Phalcon\Builder;
  *
  * Builder to create module skeletons
  *
- * @package     Phalcon\Builder
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon\Builder
  */
 class Module extends Component
 {
@@ -52,8 +50,6 @@ class Module extends Component
     public function __construct(array $options)
     {
         parent::__construct($options);
-
-
     }
 
     /**
@@ -68,11 +64,9 @@ class Module extends Component
             throw new BuilderException('Please, specify the model name');
         }
 
-        $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__)
-            . 'templates' . DIRECTORY_SEPARATOR . 'module';
-
-        if ($this->options->contains('templatePath')) {
-            $templatePath = $this->options->get('templatePath');
+        if (!$templatePath = $this->options->get('templatePath')) {
+            $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__)
+                . 'templates' . DIRECTORY_SEPARATOR . 'module';
         }
 
         if ($this->options->contains('directory')) {
