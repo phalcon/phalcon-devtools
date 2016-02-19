@@ -539,7 +539,7 @@ class Migration
         }
 
         $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
-        $className = Text::camelize($tableName).'Migration_'.$classVersion;
+        $className = Text::camelize($tableName).'Migration_'.$version->getStamp();
 
         include_once $fileName;
         if (!class_exists($className)) {
