@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -32,13 +32,12 @@ use Phalcon\Version\TimestampedItem as TimestampedVersion;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Script\ScriptException;
+use DirectoryIterator;
 
 /**
  * Migrations Class
  *
- * @package     Phalcon
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon
  */
 class Migrations
 {
@@ -99,18 +98,11 @@ class Migrations
             // The version is guessed automatically
         } else {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItems = array();
-            $iterator = new \DirectoryIterator($migrationsDir);
-            foreach ($iterator as $fileInfo) {
-                if ($fileInfo->isDir() && !$fileInfo->isDot()) {
-                    if (preg_match('/[a-z0-9](\.[a-z0-9]+)+/', $fileInfo->getFilename(), $matches)) {
-                        $versionItems[] = VersionCollection::createItem($matches[0]);
-                    }
-                }
-            }
+            $versionItems = ModelMigration::scanForVersions($migrationsDir);
 
             if (!isset($versionItems[0])) {
                 $versionItem = VersionCollection::createItem('1.0.0');
+
             } else {
                 /** @var IncrementalVersion $versionItem */
                 $versionItem = VersionCollection::maximum($versionItems);
@@ -211,20 +203,7 @@ class Migrations
             $tableName = $options['tableName'];
         }
 
-        // Read all versions
-        $versionItems = array();
-        $iterator = new \DirectoryIterator($migrationsDir);
-        foreach ($iterator as $fileInfo) {
-            if (
-                $fileInfo->isDir()
-                && !$fileInfo->isDot()
-                && VersionCollection::isCorrectVersion($fileInfo->getFilename())
-            ) {
-                $versionItems[] = VersionCollection::createItem($fileInfo->getFilename());
-
-            }
-        }
-
+        $versionItems = ModelMigration::scanForVersions($migrationsDir);
         if (!isset($versionItems[0])) {
             throw new ModelException('Migrations were not found at '.$migrationsDir);
         }
@@ -239,11 +218,15 @@ class Migrations
         self::connectionSetup($options);
 
         // Everything is up to date
+        $direction = ModelMigration::DIRECTION_FORWARD;
         $initialVersion = self::getCurrentVersion($options);
         if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
             print Color::info('Everything is up to date');
             exit(0);
+        } elseif ($finalVersion->getStamp() < $initialVersion->getStamp()) {
+            $direction = ModelMigration::DIRECTION_BACK;
         }
+
 
         // Run migration
         $versionsBetween = VersionCollection::between($initialVersion, $finalVersion, $versionItems);
@@ -254,14 +237,14 @@ class Migrations
                     $migrationsDir.DIRECTORY_SEPARATOR.$versionItem->getVersion()
                 );
                 foreach ($iterator as $fileInfo) {
-                    if (!$fileInfo->isFile() || !preg_match('/\.php$/i', $fileInfo->getFilename())) {
+                    if (!$fileInfo->isFile() || 0 !== strcasecmp($fileInfo->getExtension(), 'php')) {
                         continue;
                     }
 
-                    ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'));
+                    ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'), $direction);
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $versionItem, $tableName);
+                ModelMigration::migrate($initialVersion, $versionItem, $tableName, $direction);
             }
 
             self::setCurrentVersion($options, $versionItem, $migrationStartTime);

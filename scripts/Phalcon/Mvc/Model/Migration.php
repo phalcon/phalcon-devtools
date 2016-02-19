@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -33,18 +33,21 @@ use Phalcon\Version\ItemCollection as VersionCollection;
 use Phalcon\Version\IncrementalItem as IncrementalVersion;
 use Phalcon\Version\ItemInterface;
 use Phalcon\Version\TimestampedItem as TimestampedVersion;
+use Phalcon\Version\Item as VersionItem;
+use DirectoryIterator;
 
 /**
  * Phalcon\Mvc\Model\Migration
  *
  * Migrations of DML y DDL over databases
  *
- * @package     Phalcon\Mvc\Model
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package Phalcon\Mvc\Model
  */
 class Migration
 {
+    const DIRECTION_FORWARD = 1;
+    const DIRECTION_BACK = -1;
+
     /**
      * Migration database connection
      * @var \Phalcon\Db\AdapterInterface
@@ -433,7 +436,7 @@ class Migration
         return $classData;
     }
 
-    public static function migrate($fromVersion, $toVersion, $tableName)
+    public static function migrate($fromVersion, $toVersion, $tableName, $direction = self::DIRECTION_FORWARD)
     {
         if (!is_object($fromVersion)) {
             $fromVersion = VersionCollection::createItem($fromVersion);
@@ -443,14 +446,14 @@ class Migration
             $toVersion = VersionCollection::createItem($toVersion);
         }
 
-        if ($fromVersion->getStamp() == $toVersion->getStamp()) {
+        if ($fromVersion->getStamp() == $toVersion->getStamp() && self::DIRECTION_FORWARD == $direction) {
             return; // nothing to do
         }
 
         if ($fromVersion->getStamp() < $toVersion->getStamp()) {
             $toMigration = self::createClass($toVersion, $tableName);
-            
-            if (!is_null($toMigration)) {
+
+            if (is_object($toMigration)) {
                 // morph the table structure
                 if (method_exists($toMigration, 'morph')) {
                     $toMigration->morph();
@@ -459,6 +462,9 @@ class Migration
                 // modify the datasets
                 if (method_exists($toMigration, 'up')) {
                     $toMigration->up();
+                    if (method_exists($toMigration, 'afterUp')) {
+                        $toMigration->afterUp();
+                    }
                 }
             }
         } else {
@@ -466,54 +472,77 @@ class Migration
 
             // reset the data modifications
             $fromMigration = self::createClass($fromVersion, $tableName);
-            if (!is_null($fromMigration) && method_exists($fromMigration, 'down')) {
+            if (is_object($fromMigration) && method_exists($fromMigration, 'down')) {
                 $fromMigration->down();
+
+                if (method_exists($fromMigration, 'afterDown')) {
+                    $fromMigration->afterDown();
+                }
             }
 
             // call the last morph function in the previous migration files
             $toMigration = self::createPrevClassWithMorphMethod($toVersion, $tableName);
 
-            if (!is_null($toMigration)) {
+            if (is_object($toMigration)) {
                 if (method_exists($toMigration, 'morph')) {
                     $toMigration->morph();
                 }
-            } else {
-                self::$_connection->dropTable($tableName);
             }
         }
     }
 
     /**
+     * Scan for all versions
+     *
+     * @param string $dir Directory to scan
+     *
+     * @return ItemInterface[]
+     */
+    public static function scanForVersions($dir)
+    {
+        $versions = array();
+        $iterator = new DirectoryIterator($dir);
+
+        foreach ($iterator as $fileinfo) {
+            $filename = $fileinfo->getFilename();
+            if (
+                !$fileinfo->isDir()
+                || $fileinfo->isDot()
+                || !VersionCollection::isCorrectVersion($filename)
+            ) {
+                continue;
+            }
+
+            $versions[] = VersionCollection::createItem($filename);
+        }
+
+        return $versions;
+    }
+
+    /**
      * Find the last morph function in the previous migration files
      *
-     * @param ItemInterface $version
+     * @param ItemInterface $toVersion
      * @param string        $tableName
      *
-     * @return null|\Phalcon\Mvc\Model\Migration
-     *
+     * @return null|Migration
      * @throws Exception
+     * @internal param ItemInterface $version
      */
-    private static function createPrevClassWithMorphMethod(ItemInterface $version, $tableName)
+    private static function createPrevClassWithMorphMethod(ItemInterface $toVersion, $tableName)
     {
         $prevVersions = array();
-        $iterator = new \DirectoryIterator(self::$_migrationPath);
-        foreach ($iterator as $fileinfo) {
-            if (
-                $fileinfo->isDir()
-                && !$fileinfo->isDot()
-                && VersionCollection::isCorrectVersion($fileinfo->getFilename())
-            ) {
-                $prevVersion = VersionCollection::createItem($fileinfo->getFilename());
-                if (($prevVersion->getStamp() <= $version->getStamp())) {
-                    $prevVersions[] = $prevVersion;
-                }
+        $versions = self::scanForVersions(self::$_migrationPath);
+        foreach ($versions as $prevVersion) {
+            if ($prevVersion->getStamp() <= $toVersion->getStamp()) {
+                $prevVersions[] = $prevVersion;
             }
         }
 
         $prevVersions = VersionCollection::sortDesc($prevVersions);
         foreach ($prevVersions as $prevVersion) {
             $migration = self::createClass($prevVersion, $tableName);
-            if (!is_null($migration) && method_exists($migration, 'morph')) {
+            if (is_object($migration) && method_exists($migration, 'morph')) {
                 return $migration;
             }
         }
