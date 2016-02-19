@@ -77,7 +77,7 @@ class Migrations
                 throw new \Exception('Version ' . $version . ' is already generated');
             }
         } else {
-            $versions = array();
+            $versions = [];
             $iterator = new \DirectoryIterator($migrationsDir);
             foreach ($iterator as $fileInfo) {
                 if ($fileInfo->isDir()) {
@@ -202,8 +202,21 @@ class Migrations
             return; // nothing to do
         }
 
+        if ($initialVersion->getStamp() < $finalVersion->getStamp()) {
+            $versions = VersionItem::sortAsc($versions);
+            $initialVersion = $versions[0];
+        } else {
+            $versions = VersionItem::sortDesc($versions);
+            $initialVersion = $versions[0];
+        }
+
         // run migration
         $versionsBetween = VersionItem::between($initialVersion, $finalVersion, $versions);
+        var_dump([
+            '$completedVersions' => $completedVersions,
+            '$versionsBetween' => $versionsBetween,
+        ]);die();
+
         foreach ($versionsBetween as $k => $version) {
             $migrationStartTime = date('"Y-m-d H:i:s"');
             /** @var \Phalcon\Version\Item $version */
@@ -229,7 +242,7 @@ class Migrations
 
     private static function connectionSetup($options)
     {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+        if (isset($options['migrationsLog']) && (bool)$options['migrationsLog']) {
             /** @var Config $database */
             $database = $options['config']['database'];
 
@@ -273,7 +286,7 @@ class Migrations
 
     public static function getCurrentVersion($options)
     {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+        if (isset($options['migrationsLog']) && (bool)$options['migrationsLog']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
             $lastGoodMigration = $connection->query('SELECT * FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1;');
@@ -291,7 +304,7 @@ class Migrations
 
     public static function setCurrentVersion($options, $version, $startTime = 'NOW()')
     {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+        if (isset($options['migrationsLog']) && (bool)$options['migrationsLog']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
             // TODO: TRUNCATE to be removed on refactor
@@ -304,11 +317,13 @@ class Migrations
 
     public static function getCompletedVersions($options)
     {
-        if (isset($options['config']['application']['migrationsInDb']) && (bool)$options['config']['application']['migrationsInDb']) {
+        if (isset($options['migrationsLog']) && (bool)$options['migrationsLog']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
             $completedVersions = $connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC;')->fetchAll();
-            $completedVersions = array_map(function($version){return $version['version'];}, $completedVersions);
+            $completedVersions = array_map(function ($version) {
+                return $version['version'];
+            }, $completedVersions);
         } else {
             $completedVersions = file(self::$_storage);
         }

@@ -54,7 +54,7 @@ class Migration extends Command
             'force'             => 'Forces to overwrite existing migrations',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
-            'migrations-in-db'  => 'Keep migrations log in the database table rather than in file',
+            'migrations-log'    => 'Keep migrations log in the database table rather than in file',
         );
     }
 
@@ -102,11 +102,11 @@ class Migration extends Command
             }
         }
 
-        $migrationsInDb = false;
-        if ($this->isReceivedOption('migrations-in-db')) {
-            $migrationsInDb = true;
-        } elseif (isset($config['application']['migrationsInDb'])) {
-            $migrationsInDb = $config['application']['migrationsInDb'];
+        $migrationsLog = false;
+        if ($this->isReceivedOption('migrations-log')) {
+            $migrationsLog = true;
+        } elseif (isset($config['migrationsLog']) && ('database' === $config['migrationsLog'])) {
+            $migrationsLog = $config['migrationsLog'];
         }
 
         $exportData = $this->getOption('data');
@@ -136,7 +136,7 @@ class Migration extends Command
                     'force'          => $this->isReceivedOption('force'),
                     'config'         => $config,
                     'version'        => $version,
-                    'migrationsInDb' => $migrationsInDb,
+                    'migrationsLog'  => $migrationsLog,
                 ));
             }
         }
