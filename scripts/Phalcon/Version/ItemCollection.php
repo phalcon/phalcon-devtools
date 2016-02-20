@@ -93,7 +93,7 @@ class ItemCollection
     static function isCorrectVersion($version)
     {
         if (self::TYPE_INCREMENTAL === self::$type) {
-            return 1 === preg_match('#[a-z0-9](\.[a-z0-9]+)*#', $version);
+            return 1 === preg_match('#[0-9]+(\.[z0-9]+)+#', $version);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
             return 1 === preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version);
         }
