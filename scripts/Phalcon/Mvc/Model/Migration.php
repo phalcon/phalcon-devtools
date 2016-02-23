@@ -436,7 +436,7 @@ class Migration
             $toVersion = new VersionItem($toVersion);
         }
 
-        if ($fromVersion->getStamp() == $toVersion->getStamp() && self::DIRECTION_FORWARD == $direction) {
+        if ($fromVersion->getStamp() == $toVersion->getStamp()) {
             return; // nothing to do
         }
 
