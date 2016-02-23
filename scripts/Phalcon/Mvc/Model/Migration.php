@@ -550,7 +550,7 @@ class Migration
                         }
 
                         if ($changed == true) {
-                            self::$_connection->modifyColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);
+                            self::$_connection->modifyColumn($tableName, $tableColumn->getSchemaName(), $tableColumn, $tableColumn);
                         }
                     }
                 }
