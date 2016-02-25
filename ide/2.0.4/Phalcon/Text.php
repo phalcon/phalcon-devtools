@@ -152,7 +152,6 @@ abstract class Text
      */
     public static function concat() {}
 
-<<<<<<< HEAD
     /**
      * Generates random text in accordance with the template
      * <code>
@@ -169,6 +168,4 @@ abstract class Text
      */
     public static function dynamic($text, $leftDelimiter = "{", $rightDelimiter = "}", $separator = "|") {}
 
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }

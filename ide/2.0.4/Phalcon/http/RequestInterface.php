@@ -177,16 +177,10 @@ interface RequestInterface
      * Check if HTTP method match any of the passed methods
      *
      * @param string|array $methods 
-<<<<<<< HEAD
      * @param bool $strict 
      * @return boolean 
      */
     public function isMethod($methods, $strict = false);
-=======
-     * @return boolean 
-     */
-    public function isMethod($methods);
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Checks whether HTTP method is POST. if $_SERVER['REQUEST_METHOD']=='POST'
@@ -242,7 +236,7 @@ interface RequestInterface
      * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
      *
      * @param bool $onlySuccessful 
-     * @return \Phalcon\Http\Request\FileInterface 
+     * @return \Phalcon\Http\Request\FileInterface[] 
      */
     public function getUploadedFiles($onlySuccessful = false);
 

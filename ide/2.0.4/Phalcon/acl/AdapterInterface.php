@@ -136,14 +136,14 @@ interface AdapterInterface
     /**
      * Return an array with every role registered in the list
      *
-     * @return RoleInterface 
+     * @return RoleInterface[] 
      */
     public function getRoles();
 
     /**
      * Return an array with every resource registered in the list
      *
-     * @return ResourceInterface 
+     * @return ResourceInterface[] 
      */
     public function getResources();
 

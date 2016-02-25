@@ -98,7 +98,7 @@ interface GroupInterface
     /**
      * Returns the routes added to the group
      *
-     * @return \Phalcon\Mvc\Router\RouteInterface 
+     * @return RouteInterface[] 
      */
     public function getRoutes();
 

@@ -33,7 +33,7 @@ interface ValidatorInterface
      *
      * @param string $key 
      * @param mixed $defaultValue 
-     * @return variable 
+     * @return mixed 
      */
     public function getOption($key, $defaultValue = null);
 

@@ -34,7 +34,7 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
     /**
      * Returns the complete group of messages produced in the validation
      *
-     * @return Message 
+     * @return Message[] 
      */
     public function getMessages() {}
 

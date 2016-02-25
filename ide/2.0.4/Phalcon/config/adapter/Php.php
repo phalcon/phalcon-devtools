@@ -16,11 +16,7 @@ namespace Phalcon\Config\Adapter;
  * 'password' => 'cheetah',
  * 'dbname' => 'test_db'
  * ),
-<<<<<<< HEAD
  * 'phalcon' => array(
-=======
- * phalcon' => array(
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * 'controllersDir' => '../app/controllers/',
  * 'modelsDir' => '../app/models/',
  * 'viewsDir' => '../app/views/'
