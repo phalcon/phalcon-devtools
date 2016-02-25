@@ -214,7 +214,7 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
     /**
      * Returns the error messages produced by a batch operation
      *
-     * @return \Phalcon\Mvc\Model\MessageInterface 
+     * @return \Phalcon\Mvc\Model\MessageInterface[] 
      */
     public function getMessages() {}
 

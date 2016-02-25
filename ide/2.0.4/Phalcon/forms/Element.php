@@ -118,7 +118,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Returns the validators registered for the element
      *
-     * @return \Phalcon\Validation\ValidatorInterface 
+     * @return ValidatorInterface[] 
      */
     public function getValidators() {}
 

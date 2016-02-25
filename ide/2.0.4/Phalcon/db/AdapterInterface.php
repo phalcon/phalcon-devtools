@@ -458,7 +458,7 @@ interface AdapterInterface
      *
      * @param string $table 
      * @param string $schema 
-     * @return IndexInterface 
+     * @return IndexInterface[] 
      */
     public function describeIndexes($table, $schema = null);
 
@@ -467,7 +467,7 @@ interface AdapterInterface
      *
      * @param string $table 
      * @param string $schema 
-     * @return ReferenceInterface 
+     * @return ReferenceInterface[] 
      */
     public function describeReferences($table, $schema = null);
 
@@ -552,7 +552,7 @@ interface AdapterInterface
      *
      * @param string $table 
      * @param string $schema 
-     * @return ColumnInterface 
+     * @return ColumnInterface[] 
      */
     public function describeColumns($table, $schema = null);
 

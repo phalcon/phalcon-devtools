@@ -116,7 +116,6 @@ class Dump
      */
     public function variables() {}
 
-<<<<<<< HEAD
     /**
      * Returns an JSON string of information about a single variable.
      * <code>
@@ -132,6 +131,4 @@ class Dump
      */
     public function toJson($variable) {}
 
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }

@@ -92,7 +92,6 @@ class Column implements \Phalcon\Db\ColumnInterface
      */
     const TYPE_LONGBLOB = 13;
 
-<<<<<<< HEAD
     /**
      * Big integer abstract type
      */
@@ -107,17 +106,6 @@ class Column implements \Phalcon\Db\ColumnInterface
      * Jsonb abstract type
      */
     const TYPE_JSONB = 16;
-=======
-	/**
-	 * Longblob abstract data type
-	 */
-	const TYPE_JSON = 14;
-
-	/**
-	 * Longblob abstract data type
-	 */
-	const TYPE_JSONB = 15;
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Bind Type Null
@@ -135,14 +123,11 @@ class Column implements \Phalcon\Db\ColumnInterface
     const BIND_PARAM_STR = 2;
 
     /**
-<<<<<<< HEAD
      * Bind Type Blob
      */
     const BIND_PARAM_BLOB = 3;
 
     /**
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Bind Type Bool
      */
     const BIND_PARAM_BOOL = 5;

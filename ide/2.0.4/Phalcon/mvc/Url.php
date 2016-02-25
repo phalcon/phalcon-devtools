@@ -4,11 +4,7 @@ namespace Phalcon\Mvc;
 
 /**
  * Phalcon\Mvc\Url
-<<<<<<< HEAD
  * This components helps in the generation of: URIs, URLs and Paths
-=======
- * This components aids in the generation of: URIs, URLs and Paths
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * <code>
  * //Generate a URL appending the URI to the base URI
  * echo $url->get('products/edit/1');
@@ -109,7 +105,6 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
      * //Generate a URL appending the URI to the base URI
      * echo $url->get('products/edit/1');
      * //Generate a URL for a predefined route
-<<<<<<< HEAD
      * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2015'));
      * </code>
      *
@@ -131,23 +126,6 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
      * </code>
      *
      * @param mixed $uri 
-=======
-     * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
-     * </code>
-     *
-     * @param string|array $uri 
-     * @param array|object $args Optional arguments to be appended to the query string
-     * @param bool $local 
-     * @param bool $$local 
-     * @return string 
-     */
-    public function get($uri = null, $args = null, $local = null) {}
-
-    /**
-     * Generates a URL for a static resource
-     *
-     * @param string|array $uri 
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * @return string 
      */
     public function getStatic($uri = null) {}

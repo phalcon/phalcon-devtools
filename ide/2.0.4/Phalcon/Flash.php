@@ -22,12 +22,9 @@ abstract class Flash
     protected $_automaticHtml = true;
 
 
-<<<<<<< HEAD
     protected $_messages;
 
 
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
     /**
      * Phalcon\Flash constructor
      *
@@ -114,12 +111,9 @@ abstract class Flash
      */
     public function outputMessage($type, $message) {}
 
-<<<<<<< HEAD
     /**
      * Clears accumulated messages when implicit flush is disabled
      */
     public function clear() {}
 
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }

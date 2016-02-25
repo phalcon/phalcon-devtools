@@ -4,7 +4,6 @@ namespace Phalcon\Mvc;
 
 /**
  * Phalcon\Mvc\Router
-<<<<<<< HEAD
  * Phalcon\Mvc\Router is the standard framework router. Routing is the
  * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
  * decomposing it into parameters to determine which module, controller, and
@@ -13,16 +12,6 @@ namespace Phalcon\Mvc;
  * $router = new Router();
  * $router->add(
  * "/documentation/{chapter}/{name}\.{type:[a-z]+}",
-=======
- * <p>Phalcon\Mvc\Router is the standard framework router. Routing is the
- * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
- * decomposing it into parameters to determine which module, controller, and
- * action of that controller should receive the request</p>
- * <code>
- * $router = new Router();
- * $router->add(
- * "/documentation/{chapter}/{name}.{type:[a-z]+}",
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * array(
  * "controller" => "documentation",
  * "action"     => "show"
@@ -32,11 +21,7 @@ namespace Phalcon\Mvc;
  * echo $router->getControllerName();
  * </code>
  */
-<<<<<<< HEAD
 class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\RouterInterface, \Phalcon\Events\EventsAwareInterface
-=======
-class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\RouterInterface
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 {
 
     const URI_SOURCE_GET_URL = 0;
@@ -45,7 +30,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     const URI_SOURCE_SERVER_REQUEST_URI = 1;
 
 
-<<<<<<< HEAD
     const POSITION_FIRST = 0;
 
 
@@ -58,11 +42,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     protected $_eventsManager;
 
 
-=======
-    protected $_dependencyInjector;
-
-
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
     protected $_uriSource;
 
 
@@ -136,7 +115,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function getDI() {}
 
     /**
-<<<<<<< HEAD
      * Sets the events manager
      *
      * @param mixed $eventsManager 
@@ -151,8 +129,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function getEventsManager() {}
 
     /**
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Get rewrite info. This info is read from $_GET['_url']. This returns '/' if the rewrite information cannot be read
      *
      * @return string 
@@ -248,141 +224,89 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     /**
      * Adds a route to the router without any HTTP constraint
      * <code>
-<<<<<<< HEAD
      * use Phalcon\Mvc\Router;
      * $router->add('/about', 'About::index');
      * $router->add('/about', 'About::index', ['GET', 'POST']);
      * $router->add('/about', 'About::index', ['GET', 'POST'], Router::POSITION_FIRST);
-=======
-     * $router->add('/about', 'About::index');
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * </code>
      *
      * @param string $pattern 
      * @param mixed $paths 
      * @param mixed $httpMethods 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function add($pattern, $paths = null, $httpMethods = null, $position = Router::POSITION_LAST) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function add($pattern, $paths = null, $httpMethods = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Adds a route to the router that only match if the HTTP method is GET
      *
      * @param string $pattern 
      * @param mixed $paths 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function addGet($pattern, $paths = null, $position = null) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function addGet($pattern, $paths = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Adds a route to the router that only match if the HTTP method is POST
      *
      * @param string $pattern 
      * @param mixed $paths 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function addPost($pattern, $paths = null, $position = null) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function addPost($pattern, $paths = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Adds a route to the router that only match if the HTTP method is PUT
      *
      * @param string $pattern 
      * @param mixed $paths 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function addPut($pattern, $paths = null, $position = null) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function addPut($pattern, $paths = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Adds a route to the router that only match if the HTTP method is PATCH
      *
      * @param string $pattern 
      * @param mixed $paths 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function addPatch($pattern, $paths = null, $position = null) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function addPatch($pattern, $paths = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Adds a route to the router that only match if the HTTP method is DELETE
      *
      * @param string $pattern 
      * @param mixed $paths 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function addDelete($pattern, $paths = null, $position = null) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function addDelete($pattern, $paths = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Add a route to the router that only match if the HTTP method is OPTIONS
      *
      * @param string $pattern 
      * @param mixed $paths 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function addOptions($pattern, $paths = null, $position = null) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function addOptions($pattern, $paths = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Adds a route to the router that only match if the HTTP method is HEAD
      *
      * @param string $pattern 
      * @param mixed $paths 
-<<<<<<< HEAD
      * @param mixed $position 
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
     public function addHead($pattern, $paths = null, $position = null) {}
-=======
-     * @return \Phalcon\Mvc\Router\RouteInterface 
-     */
-    public function addHead($pattern, $paths = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Mounts a group of routes in the router
@@ -464,7 +388,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     /**
      * Returns all the routes defined in the router
      *
-     * @return \Phalcon\Mvc\Router\RouteInterface 
+     * @return RouteInterface[] 
      */
     public function getRoutes() {}
 
