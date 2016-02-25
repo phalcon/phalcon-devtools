@@ -286,6 +286,10 @@ class Migrations
      */
     private static function connectionSetup($options)
     {
+        if (self::$_storage) {
+            return;
+        }
+
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var Config $database */
             $database = $options['config']['database'];
@@ -336,6 +340,8 @@ class Migrations
      */
     public static function getCurrentVersion($options)
     {
+        self::connectionSetup($options);
+
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
@@ -367,6 +373,8 @@ class Migrations
      */
     public static function addCurrentVersion($options, $version, $startTime = 'NOW()')
     {
+        self::connectionSetup($options);
+
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
@@ -388,6 +396,8 @@ class Migrations
      */
     public static function removeCurrentVersion($options, $version)
     {
+        self::connectionSetup($options);
+
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
@@ -409,6 +419,8 @@ class Migrations
      */
     public static function getCompletedVersions($options)
     {
+        self::connectionSetup($options);
+
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
