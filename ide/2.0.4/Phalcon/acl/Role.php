@@ -32,6 +32,8 @@ class Role implements \Phalcon\Acl\RoleInterface
 
     /**
      * Role name
+     *
+     * @return string 
      */
     public function __toString() {}
 

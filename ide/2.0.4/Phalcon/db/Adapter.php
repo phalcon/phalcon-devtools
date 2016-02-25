@@ -150,11 +150,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param array $bindTypes 
      * @return array 
      */
-<<<<<<< HEAD
     public function fetchOne($sqlQuery, $fetchMode = Db::FETCH_ASSOC, $bindParams = null, $bindTypes = null) {}
-=======
-    public function fetchOne($sqlQuery, $fetchMode = Db::FETCH_BOTH, $bindParams = null, $bindTypes = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Dumps the complete result of a query into an array
@@ -180,11 +176,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param array $bindTypes 
      * @return array 
      */
-<<<<<<< HEAD
     public function fetchAll($sqlQuery, $fetchMode = Db::FETCH_ASSOC, $bindParams = null, $bindTypes = null) {}
-=======
-    public function fetchAll($sqlQuery, $fetchMode = 2, $bindParams = null, $bindTypes = null) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Returns the n'th field of first row in a SQL query result
@@ -193,11 +185,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
      * print_r($robotsCount);
      * //Getting name of last edited robot
-<<<<<<< HEAD
      * $robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc", 1);
-=======
-     * $robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc");
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * print_r($robot);
      * </code>
      *
@@ -211,21 +199,13 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Inserts data into a table using custom RBDM SQL syntax
      * <code>
-<<<<<<< HEAD
      * // Inserting a new robot
-=======
-     * //Inserting a new robot
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * $success = $connection->insert(
      * "robots",
      * array("Astro Boy", 1952),
      * array("name", "year")
      * );
-<<<<<<< HEAD
      * // Next SQL sentence is sent to the database system
-=======
-     * //Next SQL sentence is sent to the database system
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * </code>
      *
@@ -240,16 +220,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 
     /**
      * Inserts data into a table using custom RBDM SQL syntax
-<<<<<<< HEAD
      * <code>
      * //Inserting a new robot
      * $success = $connection->insertAsDict(
-=======
-     * Another, more convenient syntax
-     * <code>
-     * //Inserting a new robot
-     * $success = $connection->insert(
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * "robots",
      * array(
      * "name" => "Astro Boy",
@@ -590,7 +563,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @return	Phalcon\Db\Index[]
      * @param string $table 
      * @param mixed $schema 
-     * @return Index 
+     * @return Index[] 
      */
     public function describeIndexes($table, $schema = null) {}
 
@@ -602,7 +575,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      *
      * @param string $table 
      * @param string $schema 
-     * @return Reference 
+     * @return Reference[] 
      */
     public function describeReferences($table, $schema = null) {}
 
@@ -680,7 +653,6 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     public function getDefaultIdValue() {}
 
     /**
-<<<<<<< HEAD
      * Returns the default value to make the RBDM use the default value declared in the table definition
      * <code>
      * //Inserting a new robot with a valid default value for the column 'year'
@@ -696,8 +668,6 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     public function getDefaultValue() {}
 
     /**
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Check whether the database system requires a sequence to produce auto-numeric values
      *
      * @return bool 

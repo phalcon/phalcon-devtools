@@ -41,7 +41,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
      *
      * @param string $table 
      * @param string $schema 
-     * @return \Phalcon\Db\Column 
+     * @return Column[] 
      */
     public function describeColumns($table, $schema = null) {}
 

@@ -32,6 +32,8 @@ class Resource
 
     /**
      * Resource name
+     *
+     * @return string 
      */
     public function __toString() {}
 

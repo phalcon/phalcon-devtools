@@ -36,11 +36,4 @@ class Csv extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\Adapt
      */
     public function exists($index) {}
 
-
-<<<<<<< HEAD
-     function zephir_init_properties_Phalcon_Translate_Adapter_Csv() {}
-=======
-     function zephir_init_properties() {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
-
 }

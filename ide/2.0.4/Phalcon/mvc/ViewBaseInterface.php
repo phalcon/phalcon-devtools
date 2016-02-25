@@ -74,7 +74,6 @@ interface ViewBaseInterface
      */
     public function getContent();
 
-<<<<<<< HEAD
     /**
      * Renders a partial view
      *
@@ -84,6 +83,4 @@ interface ViewBaseInterface
      */
     public function partial($partialPath, $params = null);
 
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }

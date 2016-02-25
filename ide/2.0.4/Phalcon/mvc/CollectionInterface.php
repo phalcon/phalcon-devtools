@@ -52,25 +52,6 @@ interface CollectionInterface
     public function getConnection();
 
     /**
-<<<<<<< HEAD
-=======
-     * Reads an attribute value by its name
-     *
-     * @param string $attribute 
-     * @return mixed 
-     */
-    public function readAttribute($attribute);
-
-    /**
-     * Writes an attribute value by its name
-     *
-     * @param string $attribute 
-     * @param mixed $value 
-     */
-    public function writeAttribute($attribute, $value);
-
-    /**
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Returns a cloned collection
      *
      * @param mixed $collection 
@@ -106,7 +87,7 @@ interface CollectionInterface
     /**
      * Returns all the validation messages
      *
-     * @return \Phalcon\Mvc\Model\MessageInterface 
+     * @return MessageInterface[] 
      */
     public function getMessages();
 

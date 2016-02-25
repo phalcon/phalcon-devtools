@@ -4,11 +4,7 @@ namespace Phalcon\Assets\Inline;
 
 /**
  * Phalcon\Assets\Inline\Css
-<<<<<<< HEAD
  * Represents an inlined CSS
-=======
- * Represents inline CSS
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  */
 class Css extends \Phalcon\Assets\Inline
 {

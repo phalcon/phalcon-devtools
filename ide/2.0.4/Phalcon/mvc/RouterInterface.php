@@ -189,7 +189,7 @@ interface RouterInterface
     /**
      * Return all the routes defined in the router
      *
-     * @return \Phalcon\Mvc\Router\RouteInterface 
+     * @return RouteInterface[] 
      */
     public function getRoutes();
 

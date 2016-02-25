@@ -171,7 +171,7 @@ class Di implements \Phalcon\DiInterface
     /**
      * Return the services registered in the DI
      *
-     * @return \Phalcon\Di\Service 
+     * @return Service[] 
      */
     public function getServices() {}
 

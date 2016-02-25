@@ -4,15 +4,9 @@ namespace Phalcon\Http;
 
 /**
  * Phalcon\Http\Request
-<<<<<<< HEAD
  * Encapsulates request information for easy and secure access from application controllers.
  * The request object is a simple value object that is passed between the dispatcher and controller classes.
  * It packages the HTTP request environment.
-=======
- * <p>Encapsulates request information for easy and secure access from application controllers.</p>
- * <p>The request object is a simple value object that is passed between the dispatcher and controller classes.
- * It packages the HTTP request environment.</p>
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
  * <code>
  * $request = new \Phalcon\Http\Request();
  * if ($request->isPost() == true) {
@@ -286,7 +280,6 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     public function getUserAgent() {}
 
     /**
-<<<<<<< HEAD
      * Checks if a method is a valid HTTP method
      *
      * @param string $method 
@@ -303,14 +296,6 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * @return bool 
      */
     public function isMethod($methods, $strict = false) {}
-=======
-     * Check if HTTP method match any of the passed methods
-     *
-     * @param mixed $methods 
-     * @return bool 
-     */
-    public function isMethod($methods) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Checks whether HTTP method is POST. if _SERVER["REQUEST_METHOD"]==="POST"
@@ -382,7 +367,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * Gets attached files as Phalcon\Http\Request\File instances
      *
      * @param bool $onlySuccessful 
-     * @return \Phalcon\Http\Request\File 
+     * @return File[] 
      */
     public function getUploadedFiles($onlySuccessful = false) {}
 
@@ -455,7 +440,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     /**
      * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
      *
-     * @return variable 
+     * @return mixed 
      */
     public function getClientCharsets() {}
 
