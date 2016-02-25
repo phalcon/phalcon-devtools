@@ -7,11 +7,7 @@ namespace Phalcon\Mvc;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-<<<<<<< HEAD
 abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
-=======
-abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 {
 
     const OP_NONE = 0;
@@ -167,11 +163,7 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
     /**
      * Reads an attribute value by its name
      * <code>
-<<<<<<< HEAD
      * echo $robot->readAttribute('name');
-=======
-     * echo robot->readAttribute('name');
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * </code>
      *
      * @param string $attribute 
@@ -182,11 +174,7 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
     /**
      * Writes an attribute value by its name
      * <code>
-<<<<<<< HEAD
      * $robot->writeAttribute('name', 'Rosey');
-=======
-     * robot->writeAttribute('name', 'Rosey');
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * </code>
      *
      * @param string $attribute 
@@ -325,7 +313,6 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
     /**
      * Returns all the validation messages
      * <code>
-<<<<<<< HEAD
      * $robot = new Robots();
      * $robot->type = 'mechanical';
      * $robot->name = 'Astro Boy';
@@ -333,15 +320,6 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * if ($robot->save() == false) {
      * echo "Umh, We can't store robots right now ";
      * foreach ($robot->getMessages() as message) {
-=======
-     * robot = new Robots();
-     * robot->type = 'mechanical';
-     * robot->name = 'Astro Boy';
-     * robot->year = 1952;
-     * if (robot->save() == false) {
-     * echo "Umh, We can't store robots right now ";
-     * foreach (robot->getMessages() as message) {
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * echo message;
      * }
      * } else {
@@ -349,7 +327,7 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * }
      * </code>
      *
-     * @return \Phalcon\Mvc\Model\MessageInterface 
+     * @return MessageInterface[] 
      */
     public function getMessages() {}
 
@@ -361,15 +339,9 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * {
      * public function beforeSave()
      * {
-<<<<<<< HEAD
      * if ($this->name == 'Peter') {
      * message = new Message("Sorry, but a robot cannot be named Peter");
      * $this->appendMessage(message);
-=======
-     * if (this->name == 'Peter') {
-     * message = new Message("Sorry, but a robot cannot be named Peter");
-     * this->appendMessage(message);
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * }
      * }
      * }
@@ -398,7 +370,6 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * Allows to query the first record that match the specified conditions
      * <code>
      * //What's the first robot in the robots table?
-<<<<<<< HEAD
      * $robot = Robots::findFirst();
      * echo "The robot name is ", $robot->name, "\n";
      * //What's the first mechanical robot in robots table?
@@ -412,21 +383,6 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * "order" => array("name" => 1)
      * ));
      * echo "The first virtual robot name is ", $robot->name, "\n";
-=======
-     * robot = Robots::findFirst();
-     * echo "The robot name is ", robot->name, "\n";
-     * //What's the first mechanical robot in robots table?
-     * robot = Robots::findFirst(array(
-     * array("type" => "mechanical")
-     * ));
-     * echo "The first mechanical robot name is ", robot->name, "\n";
-     * //Get first virtual robot ordered by name
-     * robot = Robots::findFirst(array(
-     * array("type" => "mechanical"),
-     * "order" => array("name" => 1)
-     * ));
-     * echo "The first virtual robot name is ", robot->name, "\n";
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * </code>
      *
      * @param array $parameters 
@@ -438,22 +394,14 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * Allows to query a set of records that match the specified conditions
      * <code>
      * //How many robots are there?
-<<<<<<< HEAD
      * $robots = Robots::find();
      * echo "There are ", count($robots), "\n";
      * //How many mechanical robots are there?
      * $robots = Robots::find(array(
-=======
-     * robots = Robots::find();
-     * echo "There are ", count(robots), "\n";
-     * //How many mechanical robots are there?
-     * robots = Robots::find(array(
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * array("type" => "mechanical")
      * ));
      * echo "There are ", count(robots), "\n";
      * //Get and print virtual robots ordered by name
-<<<<<<< HEAD
      * $robots = Robots::findFirst(array(
      * array("type" => "virtual"),
      * "order" => array("name" => 1)
@@ -463,28 +411,12 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * }
      * //Get first 100 virtual robots ordered by name
      * $robots = Robots::find(array(
-=======
-     * robots = Robots::findFirst(array(
-     * array("type" => "virtual"),
-     * "order" => array("name" => 1)
-     * ));
-     * foreach (robots as robot) {
-     * echo robot->name, "\n";
-     * }
-     * //Get first 100 virtual robots ordered by name
-     * robots = Robots::find(array(
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * array("type" => "virtual"),
      * "order" => array("name" => 1),
      * "limit" => 100
      * ));
-<<<<<<< HEAD
      * foreach ($robots as $robot) {
      * echo $robot->name, "\n";
-=======
-     * foreach (robots as robot) {
-     * echo robot->name, "\n";
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * }
      * </code>
      *
@@ -516,13 +448,8 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * Allows to perform a summatory group for a column in the collection
      *
      * @param string $field 
-<<<<<<< HEAD
      * @param mixed $conditions 
      * @param mixed $finalize 
-=======
-     * @param array $conditions 
-     * @param string $finalize 
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * @return array 
      */
     public static function summatory($field, $conditions = null, $finalize = null) {}
@@ -530,17 +457,10 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
     /**
      * Deletes a model instance. Returning true on success or false otherwise.
      * <code>
-<<<<<<< HEAD
      * $robot = Robots::findFirst();
      * $robot->delete();
      * foreach (Robots::find() as $robot) {
      * $robot->delete();
-=======
-     * robot = Robots::findFirst();
-     * robot->delete();
-     * foreach (Robots::find() as robot) {
-     * robot->delete();
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * }
      * </code>
      *
@@ -549,7 +469,6 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
     public function delete() {}
 
     /**
-<<<<<<< HEAD
      * Sets up a behavior in a collection
      *
      * @param mixed $behavior 
@@ -567,11 +486,6 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      * Returns the instance as an array representation
      * <code>
      * print_r($robot->toArray());
-=======
-     * Returns the instance as an array representation
-     * <code>
-     * print_r(robot->to[]);
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * </code>
      *
      * @return array 
@@ -592,21 +506,4 @@ abstract class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\
      */
     public function unserialize($data) {}
 
-<<<<<<< HEAD
-=======
-    /**
-     * Sets up a behavior in a collection
-     *
-     * @param mixed $behavior 
-     */
-    protected function addBehavior(\Phalcon\Mvc\Collection\BehaviorInterface $behavior) {}
-
-    /**
-     * Skips the current operation forcing a success state
-     *
-     * @param bool $skip 
-     */
-    public function skipOperation($skip) {}
-
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }

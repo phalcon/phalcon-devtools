@@ -73,7 +73,7 @@ class Collection implements \Iterator, \Countable
     /**
      * Returns the internal annotations as an array
      *
-     * @return \Phalcon\Annotations\Annotation 
+     * @return Annotation[] 
      */
     public function getAnnotations() {}
 
@@ -89,7 +89,7 @@ class Collection implements \Iterator, \Countable
      * Returns all the annotations that match a name
      *
      * @param string $name 
-     * @return \Phalcon\Annotations\Annotation 
+     * @return Annotation[] 
      */
     public function getAll($name) {}
 

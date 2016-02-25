@@ -226,16 +226,10 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      *
      * @param mixed $content 
      * @param int $jsonOptions 
-<<<<<<< HEAD
      * @param mixed $depth 
      * @return \Phalcon\Http\Response 
      */
     public function setJsonContent($content, $jsonOptions = 0, $depth = 512) {}
-=======
-     * @return \Phalcon\Http\Response 
-     */
-    public function setJsonContent($content, $jsonOptions = 0) {}
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 
     /**
      * Appends a string to the HTTP response body

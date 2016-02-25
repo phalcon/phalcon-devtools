@@ -39,7 +39,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
      *
      * @param string $table 
      * @param string $schema 
-     * @return \Phalcon\Db\Column 
+     * @return Column[] 
      */
     public function describeColumns($table, $schema = null) {}
 
@@ -51,7 +51,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
      * @return	Phalcon\Db\IndexInterface[]
      * @param mixed $table 
      * @param mixed $schema 
-     * @return \Phalcon\Db\IndexInterface 
+     * @return IndexInterface[] 
      */
     public function describeIndexes($table, $schema = null) {}
 
@@ -63,7 +63,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
      * @return	Phalcon\Db\ReferenceInterface[]
      * @param mixed $table 
      * @param mixed $schema 
-     * @return \Phalcon\Db\ReferenceInterface 
+     * @return ReferenceInterface[] 
      */
     public function describeReferences($table, $schema = null) {}
 
@@ -74,7 +74,6 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
      */
     public function useExplicitIdValue() {}
 
-<<<<<<< HEAD
     /**
      * Returns the default value to make the RBDM use the default value declared in the table definition
      * <code>
@@ -90,6 +89,4 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
      */
     public function getDefaultValue() {}
 
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 }

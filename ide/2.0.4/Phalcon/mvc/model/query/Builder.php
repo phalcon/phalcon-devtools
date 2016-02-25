@@ -279,11 +279,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
-<<<<<<< HEAD
      * @return Builder 
-=======
-     * @return \Phalcon\Mvc\Model\Query\Builder 
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function betweenWhere($expr, $minimum, $maximum) {}
 
@@ -296,11 +292,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
-<<<<<<< HEAD
      * @return Builder 
-=======
-     * @return \Phalcon\Mvc\Model\Query\Builder 
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      */
     public function notBetweenWhere($expr, $minimum, $maximum) {}
 
@@ -366,7 +358,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function having($having) {}
 
     /**
-<<<<<<< HEAD
      * Sets a FOR UPDATE clause
      * <code>
      * $builder->forUpdate(true);
@@ -378,8 +369,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function forUpdate($forUpdate) {}
 
     /**
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Return the current having clause
      *
      * @return string|array 

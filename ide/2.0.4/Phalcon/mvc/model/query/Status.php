@@ -49,7 +49,7 @@ class Status implements \Phalcon\Mvc\Model\Query\StatusInterface
     /**
      * Returns the messages produced because of a failed operation
      *
-     * @return \Phalcon\Mvc\Model\MessageInterface 
+     * @return \Phalcon\Mvc\Model\MessageInterface[] 
      */
     public function getMessages() {}
 

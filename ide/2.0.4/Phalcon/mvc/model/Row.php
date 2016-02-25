@@ -7,11 +7,7 @@ namespace Phalcon\Mvc\Model;
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-<<<<<<< HEAD
 class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInterface, \ArrayAccess
-=======
-class Row implements \ArrayAccess, \Phalcon\Mvc\Model\ResultInterface
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
 {
 
     /**
@@ -55,7 +51,6 @@ class Row implements \ArrayAccess, \Phalcon\Mvc\Model\ResultInterface
     public function offsetUnset($offset) {}
 
     /**
-<<<<<<< HEAD
      * Reads an attribute value by its name
      * <code>
      * echo $robot->readAttribute('name');
@@ -78,8 +73,6 @@ class Row implements \ArrayAccess, \Phalcon\Mvc\Model\ResultInterface
     public function writeAttribute($attribute, $value) {}
 
     /**
-=======
->>>>>>> 5cd73180ea748c3d5e180a24610161d9730cd146
      * Returns the instance as an array representation
      *
      * @return array 
