@@ -91,11 +91,22 @@ class Migration extends Command
             $migrationsDir = $path . 'migrations';
         }
 
+        // keep migrations log in db
+        // either "log-in-db" option or "logInDb" config variable from "application" block
         $migrationsInDb = false;
         if ($this->isReceivedOption('log-in-db')) {
             $migrationsInDb = true;
         } elseif (isset($config['application']['logInDb'])) {
             $migrationsInDb = $config['application']['logInDb'];
+        }
+
+        // migrations naming is timestamp-based rather than traditional, dotted versions
+        // either "ts-based" option or "migrationsTsBased" config variable from "application" block
+        $migrationsTsBased = false;
+        if ($this->isReceivedOption('ts-based')) {
+            $migrationsTsBased = true;
+        } elseif (isset($config['application']['migrationsTsBased'])) {
+            $migrationsTsBased = $config['application']['migrationsTsBased'];
         }
 
         $tableName = $this->isReceivedOption('table') ? $this->getOption('table') : 'all';
@@ -123,7 +134,7 @@ class Migration extends Command
                     'tableName'      => $tableName,
                     'migrationsDir'  => $migrationsDir,
                     'force'          => $this->isReceivedOption('force'),
-                    'tsBased'        => $this->isReceivedOption('ts-based'),
+                    'tsBased'        => $migrationsTsBased,
                     'config'         => $config,
                     'version'        => $version,
                     'migrationsInDb' => $migrationsInDb,
