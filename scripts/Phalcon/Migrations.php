@@ -231,12 +231,12 @@ class Migrations
 
         if ($initialVersion->getStamp() < $finalVersion->getStamp()) {
             // If we migrate up, we should go from the beginning to run some migrations which may have been missed
-            $versionItems = VersionCollection::sortAsc($versionItems);
-            $initialVersion = $versionItems[0];
+            $versionItemsTmp = VersionCollection::sortAsc(array_merge($versionItems, [$initialVersion]));
+            $initialVersion = $versionItemsTmp[0];
         } else {
             // If we migrate downs, we should go from the last migration to revert some migrations which may have been missed
-            $versionItems = VersionCollection::sortDesc($versionItems);
-            $initialVersion = $versionItems[0];
+            $versionItemsTmp = VersionCollection::sortDesc(array_merge($versionItems, [$initialVersion]));
+            $initialVersion = $versionItemsTmp[0];
         }
 
         // Run migration
