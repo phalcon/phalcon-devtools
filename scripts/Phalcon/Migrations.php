@@ -278,6 +278,91 @@ class Migrations
     }
 
     /**
+     * List migrations along with statuses
+     *
+     * @param array $options
+     *
+     * @throws Exception
+     * @throws ModelException
+     * @throws ScriptException
+     *
+     */
+    public static function listAll(array $options)
+    {
+        // Define versioning type to be used
+        if (true === $options['tsBased']) {
+            VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
+        } else {
+            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
+        }
+
+        $migrationsDir = rtrim($options['migrationsDir'], '/');
+        if (!file_exists($migrationsDir)) {
+            throw new ModelException('Migrations directory was not found.');
+        }
+
+        /** @var Config $config */
+        $config = $options['config'];
+        if (!$config instanceof Config) {
+            throw new ModelException('Internal error. Config should be an instance of \Phalcon\Config');
+        }
+
+        // Init ModelMigration
+        if (!isset($config->database)) {
+            throw new ScriptException('Cannot load database configuration');
+        }
+
+        $finalVersion = null;
+        if (isset($options['version']) && $options['version'] !== null) {
+            $finalVersion = VersionCollection::createItem($options['version']);
+        }
+
+        $versionItems = ModelMigration::scanForVersions($migrationsDir);
+
+        if (!isset($versionItems[0])) {
+            throw new ModelException('Migrations were not found at ' . $migrationsDir);
+        }
+
+        // Set default final version
+        if ($finalVersion === null) {
+            $finalVersion = VersionCollection::maximum($versionItems);
+        }
+
+        ModelMigration::setup($config->database);
+        ModelMigration::setMigrationPath($migrationsDir);
+        self::connectionSetup($options);
+        $initialVersion = self::getCurrentVersion($options);
+        $completedVersions = self::getCompletedVersions($options);
+
+        if ($finalVersion->getStamp() < $initialVersion->getStamp()) {
+            $direction = ModelMigration::DIRECTION_BACK;
+            $versionItems = VersionCollection::sortDesc($versionItems);
+        } else {
+            $direction = ModelMigration::DIRECTION_FORWARD;
+            $versionItems = VersionCollection::sortAsc($versionItems);
+        }
+
+        foreach ($versionItems as $versionItem) {
+            if ((ModelMigration::DIRECTION_FORWARD == $direction) && isset($completedVersions[(string)$versionItem])) {
+                print Color::success('Version ' . (string)$versionItem . ' was already applied');
+                continue;
+            } elseif ((ModelMigration::DIRECTION_BACK == $direction) && !isset($completedVersions[(string)$versionItem])) {
+                print Color::success('Version ' . (string)$versionItem . ' was already rolled back');
+                continue;
+            }
+
+            if (ModelMigration::DIRECTION_FORWARD == $direction) {
+                print Color::error('Version ' . (string)$versionItem . ' was not applied');
+                continue;
+            } elseif (ModelMigration::DIRECTION_BACK == $direction) {
+                print Color::error('Version ' . (string)$versionItem . ' was not rolled back');
+                continue;
+            }
+
+        }
+    }
+
+    /**
      * Initialize migrations log storage
      *
      * @param array $options Applications options
