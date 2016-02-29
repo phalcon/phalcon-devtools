@@ -115,20 +115,21 @@ class Migration extends Command
         $action = $this->getOption(['action', 1]);
         $version = $this->getOption('version');
 
-        if ($action == 'generate') {
-            Migrations::generate([
-                'directory'       => $path,
-                'tableName'       => $tableName,
-                'exportData'      => $exportData,
-                'migrationsDir'   => $migrationsDir,
-                'version'         => $version,
-                'force'           => $this->isReceivedOption('force'),
-                'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
-                'config'          => $config,
-                'descr'           => $descr,
-            ]);
-        } else {
-            if ($action == 'run') {
+        switch ($action) {
+            case 'generate':
+                Migrations::generate([
+                    'directory'       => $path,
+                    'tableName'       => $tableName,
+                    'exportData'      => $exportData,
+                    'migrationsDir'   => $migrationsDir,
+                    'version'         => $version,
+                    'force'           => $this->isReceivedOption('force'),
+                    'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
+                    'config'          => $config,
+                    'descr'           => $descr,
+                ]);
+                break;
+            case 'run':
                 Migrations::run([
                     'directory'      => $path,
                     'tableName'      => $tableName,
@@ -139,7 +140,19 @@ class Migration extends Command
                     'version'        => $version,
                     'migrationsInDb' => $migrationsInDb,
                 ]);
-            }
+                break;
+            case 'list':
+                Migrations::listAll([
+                    'directory'      => $path,
+                    'tableName'      => $tableName,
+                    'migrationsDir'  => $migrationsDir,
+                    'force'          => $this->isReceivedOption('force'),
+                    'tsBased'        => $migrationsTsBased,
+                    'config'         => $config,
+                    'version'        => $version,
+                    'migrationsInDb' => $migrationsInDb,
+                ]);
+                break;
         }
     }
 
@@ -168,6 +181,9 @@ class Migration extends Command
 
         print Color::head('Usage: Run a Migration') . PHP_EOL;
         print Color::colorize('  migration run', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+        print Color::head('Usage: List all available migrations') . PHP_EOL;
+        print Color::colorize('  migration list', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
         print Color::colorize('  help', Color::FG_GREEN);
