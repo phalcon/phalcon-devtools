@@ -259,7 +259,6 @@ class Migrations
                     if (!$fileInfo->isFile() || 0 !== strcasecmp($fileInfo->getExtension(), 'php')) {
                         continue;
                     }
-
                     ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'), $direction);
                 }
             } else {
@@ -313,7 +312,7 @@ class Migrations
             }
 
             if (!self::$_storage->tableExists('phalcon_migrations')) {
-                self::$_storage->execute("CREATE TABLE `phalcon_migrations` (`version` varchar(14), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL);");
+                self::$_storage->execute("CREATE TABLE `phalcon_migrations` (`version` VARCHAR(255), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL);");
             }
 
         } else {
