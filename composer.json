@@ -12,11 +12,11 @@
         }
     ],
     "require": {
-        "php": ">=5.3.9",
-        "ext-phalcon": "~2.0"
+        "php": ">=5.4",
+        "ext-phalcon": "~2.1"
     },
     "require-dev": {
-        "kherge/box": "^2.5"
+        "kherge/box": "^2.6"
     },
     "autoload": {
         "psr-4" : {
@@ -25,7 +25,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "2.1.x-dev"
         }
     },
     "bin": ["phalcon.php"]
