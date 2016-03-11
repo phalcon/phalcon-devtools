@@ -141,8 +141,7 @@ interface ModelInterface
     /**
      * Allows to query a set of records that match the specified conditions
      *
-     * @param mixed $parameters 
-     * @param  $array parameters
+     * @param  array $parameters
      * @return \Phalcon\Mvc\Model\ResultsetInterface 
      */
     public static function find($parameters = null);
@@ -319,5 +318,4 @@ interface ModelInterface
      * Reset a model instance data
      */
     public function reset();
-
 }
