@@ -229,7 +229,7 @@ class Migrations
             $direction = ModelMigration::DIRECTION_BACK;
         }
 
-        if ($initialVersion->getStamp() < $finalVersion->getStamp()) {
+        if (ModelMigration::DIRECTION_FORWARD == $direction) {
             // If we migrate up, we should go from the beginning to run some migrations which may have been missed
             $versionItemsTmp = VersionCollection::sortAsc(array_merge($versionItems, [$initialVersion]));
             $initialVersion = $versionItemsTmp[0];
@@ -248,6 +248,9 @@ class Migrations
             } elseif ((ModelMigration::DIRECTION_BACK == $direction) && !isset($completedVersions[(string)$versionItem])) {
                 print Color::info('Version ' . (string)$versionItem . ' was already rolled back');
                 continue;
+            }
+            if ($versionItem->getVersion() === $finalVersion->getVersion() && ModelMigration::DIRECTION_BACK == $direction) {
+                break;
             }
 
             $migrationStartTime = date('"Y-m-d H:i:s"');
