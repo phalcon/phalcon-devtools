@@ -27,8 +27,6 @@ class Utils
 {
     const DB_ADAPTER_POSTGRESQL = 'Postgresql';
 
-    const DB_ADAPTER_SQLITE = 'Sqlite';
-
     /**
      * Converts the underscore_notation to the UpperCamelCase
      *
@@ -45,7 +43,7 @@ class Utils
 
     /**
      * Converts the underscore_notation to the lowerCamelCase
-     *
+     * 
      * @param string $string
      * @return string
      */
@@ -67,13 +65,7 @@ class Utils
         }
 
         if (self::DB_ADAPTER_POSTGRESQL == $config->get('adapter')) {
-            return 'public';
-        }
-
-        if (self::DB_ADAPTER_SQLITE == $config->get('adapter')) {
-            // SQLite only supports the current database, unless one is
-            // attached. This is not the case, so don't return a schema.
-            return null;
+            return  'public';
         }
 
         if ($config->offsetExists('dbname')) {
