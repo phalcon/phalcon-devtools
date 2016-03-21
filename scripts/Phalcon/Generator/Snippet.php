@@ -19,6 +19,8 @@
 
 namespace Phalcon\Generator;
 
+use Phalcon\Utils;
+
 /**
  * Snippet Class
  *
@@ -281,11 +283,11 @@ EOD;
     }
 
     /**
-     * @param \Phalcon\Db\Column[] $fields
-     *
+     * @param \Phalcon\Db\ColumnInterface[] $fields
+     * @param bool                 $camelize
      * @return string
      */
-    public function getColumnMap($fields)
+    public function getColumnMap($fields, $camelize = false)
     {
         $template = <<<EOD
     /**
@@ -305,7 +307,7 @@ EOD;
         $contents = array();
         foreach ($fields as $field) {
             $name = $field->getName();
-            $contents[] = sprintf('\'%s\' => \'%s\'', $name, $name);
+            $contents[] = sprintf('\'%s\' => \'%s\'', $name, $camelize ? Utils::lowerCamelize($name) : $name);
         }
 
         return PHP_EOL.sprintf($template, join(",\n            ", $contents)).PHP_EOL;

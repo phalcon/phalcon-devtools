@@ -62,6 +62,10 @@ class Model extends Component
             throw new BuilderException('Please, specify the model name');
         }
 
+        if (!isset($options['camelize'])) {
+            $options['camelize'] = false;
+        }
+
         if (!isset($options['force'])) {
             $options['force'] = false;
         }
@@ -237,9 +241,9 @@ class Model extends Component
                 $columns = $reference->getColumns();
                 $initialize[] = $this->snippet->getRelation(
                     'hasMany',
-                    $refColumns[0],
+                    $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                     $entityNamespace . Utils::camelize($tableName),
-                    $columns[0],
+                    $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
                     "array('alias' => '" . Utils::camelize($tableName) . "')"
                 );
             }
@@ -255,61 +259,11 @@ class Model extends Component
             $columns = $reference->getColumns();
             $initialize[] = $this->snippet->getRelation(
                 'belongsTo',
-                $columns[0],
+                $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
                 $entityNamespace . Utils::camelize($reference->getReferencedTable()),
-                $refColumns[0],
+                $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                 "array('alias' => '" . Utils::camelize($reference->getReferencedTable()) . "')"
             );
-        }
-
-        if ($this->options->has('hasMany')) {
-            if (count($this->options->get('hasMany'))) {
-                foreach ($this->options->get('hasMany') as $relation) {
-                    if (!is_string($relation['fields'])) {
-                        continue;
-                    }
-
-                    $entityName = $relation['camelizedName'];
-                    $entityNamespace = '';
-                    if ($this->options->contains('namespace')) {
-                        $entityNamespace = $this->options->get('namespace')."\\";
-                        $relation['options']['alias'] = $entityName;
-                    }
-
-                    $initialize[] = $this->snippet->getRelation(
-                        'hasMany',
-                        $relation['fields'],
-                        $entityNamespace . $entityName,
-                        $relation['relationFields'],
-                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"]->toArray() : null)
-                    );
-                }
-            }
-        }
-
-        if ($this->options->has('belongsTo')) {
-            if (count($this->options->get('belongsTo'))) {
-                foreach ($this->options->get('belongsTo') as $relation) {
-                    if (!is_string($relation['fields'])) {
-                        continue;
-                    }
-
-                    $entityName = Utils::camelize($relation['referencedModel']);
-                    $entityNamespace = '';
-                    if ($this->options->contains('namespace')) {
-                        $entityNamespace = $this->options->get('namespace')."\\";
-                        $relation['options']['alias'] = $entityName;
-                    }
-
-                    $initialize[] = $this->snippet->getRelation(
-                        'belongsTo',
-                        $relation['fields'],
-                        $entityNamespace . $entityName,
-                        $relation['relationFields'],
-                        $this->snippet->getRelationOptions(isset($relation['options']) ? $relation["options"]->toArray() : null)
-                    );
-                }
-            }
         }
 
         $alreadyInitialized  = false;
@@ -400,6 +354,11 @@ class Model extends Component
         $validations = array();
         foreach ($fields as $field) {
             if ($field->getType() === Column::TYPE_CHAR) {
+                if ($this->options->get('camelize')) {
+                    $fieldName = Utils::lowerCamelize($field->getName());
+                } else {
+                    $fieldName = $field->getName();
+                }
                 $domain = array();
                 if (preg_match('/\((.*)\)/', $field->getType(), $matches)) {
                     foreach (explode(',', $matches[1]) as $item) {
@@ -408,11 +367,16 @@ class Model extends Component
                 }
                 if (count($domain)) {
                     $varItems = join(', ', $domain);
-                    $validations[] = $this->snippet->getValidateInclusion($field->getName(), $varItems);
+                    $validations[] = $this->snippet->getValidateInclusion($fieldName, $varItems);
                 }
             }
             if ($field->getName() == 'email') {
-                $validations[] = $this->snippet->getValidateEmail($field->getName());
+                if ($this->options->get('camelize')) {
+                    $fieldName = Utils::lowerCamelize($field->getName());
+                } else {
+                    $fieldName = $field->getName();
+                }
+                $validations[] = $this->snippet->getValidateEmail($fieldName);
                 $uses[] = $this->snippet->getUseAs('Phalcon\Mvc\Model\Validator\Email', 'Email');
             }
         }
@@ -442,19 +406,20 @@ class Model extends Component
                 continue;
             }
             $type = $this->getPHPType($field->getType());
+            $fieldName = $this->options->get('camelize') ? Utils::lowerCamelize($field->getName()) : $field->getName();
             if ($useSettersGetters) {
-                $attributes[] = $this->snippet->getAttributes($type, 'protected', $field->getName());
-                $methodName = Utils::camelize($field->getName());
+                $attributes[] = $this->snippet->getAttributes($type, 'protected', $fieldName);
+                $methodName   = Utils::camelize($field->getName());
 
-                $setters[] = $this->snippet->getSetter($field->getName(), $type, $methodName);
+                $setters[] = $this->snippet->getSetter($fieldName, $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
-                    $getters[] = $this->snippet->getGetterMap($field->getName(), $type, $methodName, $this->_typeMap[$type]);
+                    $getters[] = $this->snippet->getGetterMap($fieldName, $type, $methodName, $this->_typeMap[$type]);
                 } else {
-                    $getters[] = $this->snippet->getGetter($field->getName(), $type, $methodName);
+                    $getters[] = $this->snippet->getGetter($fieldName, $type, $methodName);
                 }
             } else {
-                $attributes[] = $this->snippet->getAttributes($type, 'public', $field->getName());
+                $attributes[] = $this->snippet->getAttributes($type, 'public', $fieldName);
             }
         }
 
@@ -502,7 +467,7 @@ class Model extends Component
         }
 
         if ($this->options->contains('mapColumn') && false == $alreadyColumnMapped) {
-            $content .= $this->snippet->getColumnMap($fields);
+            $content .= $this->snippet->getColumnMap($fields, $this->options->get('camelize'));
         }
 
         $useDefinition = '';
