@@ -400,7 +400,7 @@ class Migrations
             }
 
             if (!self::$_storage->tableExists('phalcon_migrations')) {
-                self::$_storage->execute("CREATE TABLE `phalcon_migrations` (`version` VARCHAR(255), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL);");
+                self::$_storage->execute("CREATE TABLE `phalcon_migrations` (`version` VARCHAR(255), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL)");
             }
 
         } else {
@@ -432,7 +432,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $lastGoodMigration = $connection->query('SELECT * FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1;');
+            $lastGoodMigration = $connection->query('SELECT * FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1');
             if (0 == $lastGoodMigration->numRows()) {
                 return VersionCollection::createItem(null);
             } else {
@@ -465,7 +465,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $connection->execute('INSERT INTO `phalcon_migrations` (`version`, `start_time`, `end_time`) VALUES ("' . $version . '", ' . $startTime . ', NOW());');
+            $connection->execute('INSERT INTO `phalcon_migrations` (`version`, `start_time`, `end_time`) VALUES ("' . $version . '", ' . $startTime . ', NOW())');
         } else {
             $currentVersions = self::getCompletedVersions($options);
             $currentVersions[(string)$version] = 1;
@@ -488,7 +488,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $connection->execute('DELETE FROM `phalcon_migrations` WHERE version="' . $version . '" LIMIT 1;');
+            $connection->execute('DELETE FROM `phalcon_migrations` WHERE version="' . $version . '" LIMIT 1');
         } else {
             $currentVersions = self::getCompletedVersions($options);
             unset($currentVersions[(string)$version]);
@@ -511,7 +511,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $completedVersions = $connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC;')->fetchAll();
+            $completedVersions = $connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC')->fetchAll();
             $completedVersions = array_map(function ($version) {
                 return $version['version'];
             }, $completedVersions);
