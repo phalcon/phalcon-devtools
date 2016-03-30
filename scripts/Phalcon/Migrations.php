@@ -458,14 +458,19 @@ class Migrations
      * @param string $version Migration version to store
      * @param string $startTime Migration start timestamp
      */
-    public static function addCurrentVersion($options, $version, $startTime = 'NOW()')
+    public static function addCurrentVersion($options, $version, $startTime = null)
     {
         self::connectionSetup($options);
+
+        if ($startTime === null) {
+            $startTime = date('"Y-m-d H:i:s"');
+        }
+        $endTime = date('"Y-m-d H:i:s"');
 
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $connection->execute('INSERT INTO `phalcon_migrations` (`version`, `start_time`, `end_time`) VALUES ("' . $version . '", ' . $startTime . ', NOW())');
+            $connection->execute('INSERT INTO `phalcon_migrations` (`version`, `start_time`, `end_time`) VALUES ("' . $version . '", ' . $startTime . ', ' . $endTime . ')');
         } else {
             $currentVersions = self::getCompletedVersions($options);
             $currentVersions[(string)$version] = 1;
