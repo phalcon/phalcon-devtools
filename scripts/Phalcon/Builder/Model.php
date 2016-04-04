@@ -169,7 +169,11 @@ class Model extends Component
                 "Please specify a config variable [database][adapter]"
             );
         }
-
+        
+        if (isset($config->devtools->loader)) {
+            require $config->devtools->loader;
+        }
+        
         $namespace = '';
         if ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
             $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
