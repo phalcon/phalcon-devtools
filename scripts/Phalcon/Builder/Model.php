@@ -175,7 +175,7 @@ class Model extends Component
         }
 
         if (isset($config->devtools->loader)) {
-            require $config->devtools->loader;
+            require_once $config->devtools->loader;
         }
 
         $namespace = '';
