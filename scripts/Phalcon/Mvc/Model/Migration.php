@@ -839,7 +839,7 @@ class Migration
         while (($line = fgets($batchHandler)) !== false) {
             $values = array_map(
                 function ($value) {
-                    return trim($value, "'");
+                    return '' === $value || null === $value ? null : trim($value, "'");
                 },
                 explode('|', rtrim($line))
             );
