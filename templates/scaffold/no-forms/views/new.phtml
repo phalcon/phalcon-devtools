@@ -7,7 +7,7 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(array("$plural$", "Go Back")) ?></li>
+            <li class="previous"><?php echo $this->tag->linkTo(["$plural$", "Go Back"]) ?></li>
         </ul>
     </nav>
 </div>
@@ -22,18 +22,18 @@
 
 <?php
     echo $this->tag->form(
-        array(
+        [
             "$plural$/create",
             "autocomplete" => "off",
             "class" => "form-horizontal"
-        )
+        ]
     );
 ?>
 
 $captureFields$
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <?php echo $this->tag->submitButton(array("Save", "class" => "btn btn-default")) ?>
+        <?php echo $this->tag->submitButton(["Save", "class" => "btn btn-default"]) ?>
     </div>
 </div>
 

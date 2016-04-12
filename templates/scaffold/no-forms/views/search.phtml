@@ -9,8 +9,8 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(array("$plural$/index", "Go Back")); ?></li>
-            <li class="next"><?php echo $this->tag->linkTo(array("$plural$/new", "Create ")); ?></li>
+            <li class="previous"><?php echo $this->tag->linkTo(["$plural$/index", "Go Back"]); ?></li>
+            <li class="next"><?php echo $this->tag->linkTo(["$plural$/new", "Create "]); ?></li>
         </ul>
     </nav>
 </div>
@@ -34,8 +34,8 @@
         <?php foreach ($page->items as $singularVar$): ?>
             <tr>
     $rowColumns$
-                <td><?php echo $this->tag->linkTo(array("$plural$/edit/" . $singularVar$->$pk$, "Edit")); ?></td>
-                <td><?php echo $this->tag->linkTo(array("$plural$/delete/" . $singularVar$->$pk$, "Delete")); ?></td>
+                <td><?php echo $this->tag->linkTo(["$plural$/edit/" . $singularVar$->$pk$, "Edit"]); ?></td>
+                <td><?php echo $this->tag->linkTo(["$plural$/delete/" . $singularVar$->$pk$, "Delete"]); ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

@@ -37,20 +37,20 @@ $di->setShared('view', function () use ($config) {
 
     $view->setViewsDir($config->application->viewsDir);
 
-    $view->registerEngines(array(
+    $view->registerEngines([
         '.volt' => function ($view, $di) use ($config) {
 
             $volt = new VoltEngine($view, $di);
 
-            $volt->setOptions(array(
+            $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,
                 'compiledSeparator' => '_'
-            ));
+            ]);
 
             return $volt;
         },
         '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
-    ));
+    ]);
 
     return $view;
 });
@@ -79,12 +79,12 @@ $di->setShared('modelsMetadata', function () {
  * Register the session flash service with the Twitter Bootstrap classes
  */
 $di->set('flash', function () {
-    return new Flash(array(
+    return new Flash([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
         'notice'  => 'alert alert-info',
         'warning' => 'alert alert-warning'
-    ));
+    ]);
 });
 
 /**

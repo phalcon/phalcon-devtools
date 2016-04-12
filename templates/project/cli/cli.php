@@ -27,7 +27,7 @@ $console = new ConsoleApp($di);
 /**
  * Process the console arguments
  */
-$arguments = array();
+$arguments = [];
 
 foreach ($argv as $k => $arg) {
     if ($k == 1) {
