@@ -9,7 +9,7 @@
         Search $plural$
     </h1>
     <p>
-        <?php echo $this->tag->linkTo(array("$plural$/new", "Create $plural$")) ?>
+        <?php echo $this->tag->linkTo(["$plural$/new", "Create $plural$"]) ?>
     </p>
 </div>
 
@@ -17,18 +17,18 @@
 
 <?php
     echo $this->tag->form(
-        array(
+        [
             "$plural$/search",
             "autocomplete" => "off",
             "class" => "form-horizontal"
-        )
+        ]
     );
 ?>
 
 $captureFields$
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <?php echo $this->tag->submitButton(array("Search", "class" => "btn btn-default")) ?>
+        <?php echo $this->tag->submitButton(["Search", "class" => "btn btn-default"]) ?>
     </div>
 </div>
 
