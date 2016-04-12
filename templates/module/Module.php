@@ -20,10 +20,10 @@ class Module implements ModuleDefinitionInterface
     {
         $loader = new Loader();
 
-        $loader->registerNamespaces(array(
+        $loader->registerNamespaces([
             '@@FQMN@@\Controllers' => __DIR__ . '/controllers/',
             '@@FQMN@@\Models'      => __DIR__ . '/models/'
-        ));
+        ]);
 
         $loader->register();
     }
