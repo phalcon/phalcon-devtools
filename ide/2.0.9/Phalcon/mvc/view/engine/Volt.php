@@ -98,6 +98,6 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
      * @param string $name 
      * @param array $arguments 
      */
-    public function callMacro($name, $arguments) {}
+    public function callMacro($name, array $arguments) {}
 
 }
