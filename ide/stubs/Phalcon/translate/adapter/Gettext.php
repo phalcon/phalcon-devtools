@@ -145,7 +145,7 @@ class Gettext extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\A
      *
      * @param array $options 
      */
-    protected function prepareOptions($options) {}
+    private function prepareOptions($options) {}
 
     /**
      * Gets default options

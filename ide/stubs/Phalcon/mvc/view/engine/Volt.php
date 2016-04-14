@@ -97,8 +97,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
      *
      * @param string $name 
      * @param array $arguments 
-     * @return mixed 
      */
-    public function callMacro($name, $arguments = array()) {}
+    public function callMacro($name, $arguments) {}
 
 }

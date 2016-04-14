@@ -6,7 +6,7 @@ namespace Phalcon\Logger\Formatter;
  * Phalcon\Logger\Formatter\Line
  * Formats messages using an one-line string
  */
-class Line extends \Phalcon\Logger\Formatter
+class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface
 {
     /**
      * Default date format

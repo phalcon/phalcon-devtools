@@ -6,7 +6,7 @@ namespace Phalcon\Logger\Formatter;
  * Phalcon\Logger\Formatter\Firephp
  * Formats messages so that they can be sent to FirePHP
  */
-class Firephp extends \Phalcon\Logger\Formatter
+class Firephp extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface
 {
 
     protected $_showBacktrace = true;

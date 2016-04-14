@@ -305,7 +305,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * ));
      * </code>
      *
-     * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row $base 
+     * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row $base 
      * @param array $data 
      * @param array $columnMap 
      * @param int $dirtyState 
@@ -605,7 +605,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * </code>
      *
      * @param mixed $filter 
-     * @return \Phalcon\Mvc\Model\Message\MessageInterface[]
+     * @return MessageInterface[] 
      */
     public function getMessages($filter = null) {}
 
@@ -1136,24 +1136,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param mixed $value 
      */
     public function __set($property, $value) {}
-
-    /**
-     * Check for, and attempt to use, possible setter.
-     *
-     * @param string $property 
-     * @param mixed $value 
-     * @return string 
-     */
-    protected final function _possibleSetter($property, $value) {}
-
-    /**
-     * Check whether a property is declared private or protected.
-     * This is a stop-gap because we do not want to have to declare all properties.
-     *
-     * @param string $property 
-     * @return boolean 
-     */
-    protected final function _isVisible($property) {}
 
     /**
      * Magic method to get related records using the relation alias as a property
