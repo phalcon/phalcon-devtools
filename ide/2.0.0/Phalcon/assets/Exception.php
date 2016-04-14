@@ -1,8 +1,0 @@
-<?php
-
-namespace Phalcon\Assets;
-
-class Exception extends \Phalcon\Exception
-{
-
-}
