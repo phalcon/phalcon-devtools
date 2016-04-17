@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\Model\Behavior;
  * Instead of permanently delete a record it marks the record as
  * deleted changing the value of a flag column
  */
-class SoftDelete extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
+class SoftDelete extends \Phalcon\Mvc\Model\Behavior
 {
 
     /**

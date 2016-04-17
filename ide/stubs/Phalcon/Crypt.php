@@ -43,10 +43,7 @@ class Crypt implements \Phalcon\CryptInterface
     protected $_padding = 0;
 
 
-    protected $_mode = "cbc";
-
-
-    protected $_cipher = "rijndael-256";
+    protected $_cipher = "aes-256-cfb";
 
 
     /**
@@ -71,21 +68,6 @@ class Crypt implements \Phalcon\CryptInterface
      * @return string 
      */
     public function getCipher() {}
-
-    /**
-     * Sets the encrypt/decrypt mode
-     *
-     * @param string $mode 
-     * @return Crypt 
-     */
-    public function setMode($mode) {}
-
-    /**
-     * Returns the current encryption mode
-     *
-     * @return string 
-     */
-    public function getMode() {}
 
     /**
      * Sets the encryption key
@@ -169,17 +151,10 @@ class Crypt implements \Phalcon\CryptInterface
     public function decryptBase64($text, $key = null, $safe = false) {}
 
     /**
-     * Returns a list of available cyphers
+     * Returns a list of available ciphers
      *
      * @return array 
      */
     public function getAvailableCiphers() {}
-
-    /**
-     * Returns a list of available modes
-     *
-     * @return array 
-     */
-    public function getAvailableModes() {}
 
 }

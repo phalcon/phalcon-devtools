@@ -10,13 +10,6 @@ interface AdapterInterface
 {
 
     /**
-     * Constructor for Phalcon\Db\Adapter
-     *
-     * @param array $descriptor 
-     */
-    public function __construct($descriptor);
-
-    /**
      * Returns the first row in a SQL query result
      *
      * @param string $sqlQuery 

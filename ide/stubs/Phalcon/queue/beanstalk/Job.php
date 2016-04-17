@@ -89,7 +89,7 @@ class Job
     public function kick() {}
 
     /**
-     * Get stats of the job.
+     * Gives statistical information about the specified job if it exists.
      *
      * @return bool|array 
      */

@@ -152,6 +152,17 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     public function setExpires(\DateTime $datetime) {}
 
     /**
+     * Sets Last-Modified header
+     * <code>
+     * $this->response->setLastModified(new DateTime());
+     * </code>
+     *
+     * @param mixed $datetime 
+     * @return Response 
+     */
+    public function setLastModified(\DateTime $datetime) {}
+
+    /**
      * Sets Cache headers to use HTTP cache
      * <code>
      * $this->response->setCache(60);
@@ -228,14 +239,15 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets HTTP response body. The parameter is automatically converted to JSON
+     * and also sets default header: Content-Type: "application/json; charset=UTF-8"
      * <code>
      * $response->setJsonContent(array("status" => "OK"));
      * </code>
      *
      * @param mixed $content 
      * @param int $jsonOptions 
-     * @param mixed $depth 
-     * @return \Phalcon\Http\Response 
+     * @param int $depth 
+     * @return Response 
      */
     public function setJsonContent($content, $jsonOptions = 0, $depth = 512) {}
 

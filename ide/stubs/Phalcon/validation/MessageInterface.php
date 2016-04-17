@@ -10,15 +10,6 @@ interface MessageInterface
 {
 
     /**
-     * Phalcon\Validation\Message constructor
-     *
-     * @param string $message 
-     * @param string $field 
-     * @param string $type 
-     */
-    public function __construct($message, $field = null, $type = null);
-
-    /**
      * Sets message type
      *
      * @param string $type 

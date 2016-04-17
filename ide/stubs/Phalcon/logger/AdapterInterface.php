@@ -13,14 +13,14 @@ interface AdapterInterface
      * Sets the message formatter
      *
      * @param mixed $formatter 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
-    public function setFormatter(\Phalcon\Logger\FormatterInterface $formatter);
+    public function setFormatter(FormatterInterface $formatter);
 
     /**
      * Returns the internal formatter
      *
-     * @return \Phalcon\Logger\FormatterInterface 
+     * @return FormatterInterface 
      */
     public function getFormatter();
 
@@ -28,7 +28,7 @@ interface AdapterInterface
      * Filters the logs sent to the handlers to be greater or equals than a specific level
      *
      * @param int $level 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function setLogLevel($level);
 
@@ -45,28 +45,28 @@ interface AdapterInterface
      * @param mixed $type 
      * @param mixed $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter1 
+     * @return AdapterInterface 
      */
     public function log($type, $message = null, $context = null);
 
     /**
      * Starts a transaction
      *
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function begin();
 
     /**
      * Commits the internal transaction
      *
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function commit();
 
     /**
      * Rollbacks the internal transaction
      *
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function rollback();
 
@@ -82,7 +82,7 @@ interface AdapterInterface
      *
      * @param string $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function debug($message, $context = null);
 
@@ -91,7 +91,7 @@ interface AdapterInterface
      *
      * @param string $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function error($message, $context = null);
 
@@ -100,7 +100,7 @@ interface AdapterInterface
      *
      * @param string $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function info($message, $context = null);
 
@@ -109,7 +109,7 @@ interface AdapterInterface
      *
      * @param string $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function notice($message, $context = null);
 
@@ -118,7 +118,7 @@ interface AdapterInterface
      *
      * @param string $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function warning($message, $context = null);
 
@@ -127,7 +127,7 @@ interface AdapterInterface
      *
      * @param string $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function alert($message, $context = null);
 
@@ -136,7 +136,7 @@ interface AdapterInterface
      *
      * @param string $message 
      * @param array $context 
-     * @return \Phalcon\Logger\Adapter 
+     * @return AdapterInterface 
      */
     public function emergency($message, $context = null);
 

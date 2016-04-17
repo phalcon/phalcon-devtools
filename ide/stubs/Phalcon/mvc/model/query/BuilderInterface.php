@@ -9,12 +9,11 @@ namespace Phalcon\Mvc\Model\Query;
 interface BuilderInterface
 {
 
-    /**
-     * Phalcon\Mvc\Model\Query\Builder
-     *
-     * @param array $params 
-     */
-    public function __construct($params = null);
+    const OPERATOR_OR = "or";
+
+
+    const OPERATOR_AND = "and";
+
 
     /**
      * Sets the columns to be queried
@@ -132,9 +131,10 @@ interface BuilderInterface
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
+     * @param string $operator 
      * @return \Phalcon\Mvc\Model\Query\Builder 
      */
-    public function betweenWhere($expr, $minimum, $maximum);
+    public function betweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND);
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions
@@ -142,27 +142,30 @@ interface BuilderInterface
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
+     * @param string $operator 
      * @return \Phalcon\Mvc\Model\Query\Builder 
      */
-    public function notBetweenWhere($expr, $minimum, $maximum);
+    public function notBetweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND);
 
     /**
      * Appends an IN condition to the current conditions
      *
      * @param string $expr 
      * @param array $values 
+     * @param string $operator 
      * @return BuilderInterface 
      */
-    public function inWhere($expr, $values);
+    public function inWhere($expr, $values, $operator = BuilderInterface::OPERATOR_AND);
 
     /**
      * Appends a NOT IN condition to the current conditions
      *
      * @param string $expr 
      * @param array $values 
+     * @param string $operator 
      * @return BuilderInterface 
      */
-    public function notInWhere($expr, $values);
+    public function notInWhere($expr, $values, $operator = BuilderInterface::OPERATOR_AND);
 
     /**
      * Return the conditions for the query

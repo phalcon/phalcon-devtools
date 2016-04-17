@@ -50,7 +50,7 @@ class Syslog extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
     /**
      * Closes the logger
      *
-     * @return boolean 
+     * @return bool 
      */
     public function close() {}
 

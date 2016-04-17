@@ -40,7 +40,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     protected $_connection;
 
 
-    protected $_errorMessages;
+    protected $_errorMessages = array();
 
 
     static protected $_reserved;
@@ -352,11 +352,45 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     public function appendMessage(\Phalcon\Mvc\Model\MessageInterface $message) {}
 
     /**
+     * Shared Code for CU Operations
+     * Prepares Collection
+     */
+    protected function prepareCU() {}
+
+    /**
      * Creates/Updates a collection based on the values in the attributes
      *
      * @return bool 
      */
     public function save() {}
+
+    /**
+     * Creates a collection based on the values in the attributes
+     *
+     * @return bool 
+     */
+    public function create() {}
+
+    /**
+     * Creates a document based on the values in the attributes, if not found by criteria
+     * Preferred way to avoid duplication is to create index on attribute
+     * $robot = new Robot();
+     * $robot->name = "MyRobot";
+     * $robot->type = "Droid";
+     * //create only if robot with same name and type does not exist
+     * $robot->createIfNotExist( array( "name", "type" ) );
+     *
+     * @param array $criteria 
+     * @return bool 
+     */
+    public function createIfNotExist($criteria) {}
+
+    /**
+     * Creates/Updates a collection based on the values in the attributes
+     *
+     * @return bool 
+     */
+    public function update() {}
 
     /**
      * Find a document by its id (_id)

@@ -23,7 +23,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  * </code>
  */
-class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Libmemcached extends \Phalcon\Session\Adapter
 {
 
     protected $_libmemcached = null;

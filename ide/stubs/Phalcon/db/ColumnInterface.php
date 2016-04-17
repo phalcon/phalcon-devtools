@@ -10,14 +10,6 @@ interface ColumnInterface
 {
 
     /**
-     * Phalcon\Db\ColumnInterface constructor
-     *
-     * @param string $columnName 
-     * @param array $definition 
-     */
-    public function __construct($columnName, $definition);
-
-    /**
      * Returns schema's table related to column
      *
      * @return string 

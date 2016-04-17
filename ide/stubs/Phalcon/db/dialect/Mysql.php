@@ -6,7 +6,7 @@ namespace Phalcon\Db\Dialect;
  * Phalcon\Db\Dialect\Mysql
  * Generates database specific SQL for the MySQL RDBMS
  */
-class MySQL extends \Phalcon\Db\Dialect
+class Mysql extends \Phalcon\Db\Dialect
 {
 
     protected $_escapeChar = "`";

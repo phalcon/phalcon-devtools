@@ -6,7 +6,7 @@ namespace Phalcon\Logger\Formatter;
  * Phalcon\Logger\Formatter\Json
  * Formats messages using JSON encoding
  */
-class Json extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface
+class Json extends \Phalcon\Logger\Formatter
 {
 
     /**

@@ -45,6 +45,16 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
     public function _connect() {}
 
     /**
+     * Add servers to memcache pool
+     *
+     * @param string $host 
+     * @param int $port 
+     * @param bool $persistent 
+     * @return bool 
+     */
+    public function addServers($host, $port, $persistent = false) {}
+
+    /**
      * Returns a cached content
      *
      * @param int|string $keyName 

@@ -364,7 +364,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      *
      * @return string|null 
      */
-    public function getOrder() {}
+    public function getOrderBy() {}
 
     /**
      * Returns the group clause in the criteria

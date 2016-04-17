@@ -220,7 +220,7 @@ abstract class Adapter
      * @param int $quality 
      * @return Adapter 
      */
-    public function save($file = null, $quality = 100) {}
+    public function save($file = null, $quality = -1) {}
 
     /**
      * Render the image and return the binary string

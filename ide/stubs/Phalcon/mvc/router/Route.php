@@ -36,6 +36,9 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
     protected $_beforeMatch;
 
 
+    protected $_match;
+
+
     protected $_group;
 
 
@@ -119,8 +122,20 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
      * Sets a callback that is called if the route is matched.
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
+     * <code>
+     * $router->add('/login', array(
+     * 'module'     => 'admin',
+     * 'controller' => 'session'
+     * ))->beforeMatch(function ($uri, $route) {
+     * // Check if the request was made with Ajax
+     * if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'xmlhttprequest') {
+     * return false;
+     * }
+     * return true;
+     * });
+     * </code>
      *
-     * @param callable $callback 
+     * @param mixed $callback 
      * @return Route 
      */
     public function beforeMatch($callback) {}
@@ -131,6 +146,26 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
      * @return callable 
      */
     public function getBeforeMatch() {}
+
+    /**
+     * Allows to set a callback to handle the request directly in the route
+     * <code>
+     * $router->add("/help", array())->match(function () {
+     * return $this->getResponse()->redirect('https://support.google.com/', true);
+     * });
+     * </code>
+     *
+     * @param mixed $callback 
+     * @return Route 
+     */
+    public function match($callback) {}
+
+    /**
+     * Returns the 'match' callback if any
+     *
+     * @return callable 
+     */
+    public function getMatch() {}
 
     /**
      * Returns the route's id

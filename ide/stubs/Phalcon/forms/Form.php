@@ -15,7 +15,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
     protected $_entity;
 
 
-    protected $_options;
+    protected $_options = array();
 
 
     protected $_data;
@@ -56,7 +56,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * Sets the form's action
      *
      * @param string $action 
-     * @return \Phalcon\Forms\Form 
+     * @return Form 
      */
     public function setAction($action) {}
 
@@ -72,7 +72,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      *
      * @param string $option 
      * @param mixed $value 
-     * @return \Phalcon\Forms\Form 
+     * @return Form 
      */
     public function setUserOption($option, $value) {}
 
@@ -104,7 +104,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * Sets the entity related to the model
      *
      * @param object $entity 
-     * @return \Phalcon\Forms\Form 
+     * @return Form 
      */
     public function setEntity($entity) {}
 
@@ -128,7 +128,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * @param array $data 
      * @param object $entity 
      * @param array $whitelist 
-     * @return \Phalcon\Forms\Form 
+     * @return Form 
      */
     public function bind($data, $entity, $whitelist = null) {}
 
@@ -137,7 +137,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      *
      * @param array $data 
      * @param object $entity 
-     * @return boolean 
+     * @return bool 
      */
     public function isValid($data = null, $entity = null) {}
 
@@ -161,19 +161,17 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * Check if messages were generated for a specific element
      *
      * @param string $name 
-     * @return boolean 
+     * @return bool 
      */
     public function hasMessagesFor($name) {}
 
     /**
      * Adds an element to the form
      *
-     * @param \Phalcon\Forms\ElementInterface $element 
+     * @param mixed $element 
      * @param string $postion 
      * @param bool $type 
-     * @param string $$postion 
-     * @param bool $$type If $type is TRUE, the element wile add before $postion, else is after
-     * @return \Phalcon\Forms\Form 
+     * @return Form 
      */
     public function add(\Phalcon\Forms\ElementInterface $element, $postion = null, $type = null) {}
 
@@ -215,7 +213,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * Gets a value from the internal related entity or from the default value
      *
      * @param string $name 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function getValue($name) {}
 
@@ -239,7 +237,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * Clears every element in the form to its default value
      *
      * @param array $fields 
-     * @return \Phalcon\Forms\Form 
+     * @return Form 
      */
     public function clear($fields = null) {}
 

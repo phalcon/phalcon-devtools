@@ -443,4 +443,11 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      */
     public function parse($viewCode) {}
 
+    /**
+     * Gets the final path with VIEW
+     *
+     * @param string $path 
+     */
+    protected function getFinalPath($path) {}
+
 }

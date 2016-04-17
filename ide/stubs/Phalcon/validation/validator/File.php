@@ -29,4 +29,13 @@ class File extends \Phalcon\Validation\Validator
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 
+    /**
+     * Check on empty
+     *
+     * @param mixed $validation 
+     * @param string $field 
+     * @return bool 
+     */
+    public function isAllowEmpty(\Phalcon\Validation $validation, $field) {}
+
 }

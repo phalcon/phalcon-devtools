@@ -94,7 +94,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
     public function getControllerClass() {}
 
     /**
-     * Returns the lastest dispatched controller
+     * Returns the latest dispatched controller
      *
      * @return \Phalcon\Mvc\ControllerInterface 
      */

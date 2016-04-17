@@ -57,7 +57,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     protected $_action = null;
 
 
-    protected $_params;
+    protected $_params = array();
 
 
     protected $_routes;
@@ -84,7 +84,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     protected $_defaultAction;
 
 
-    protected $_defaultParams;
+    protected $_defaultParams = array();
 
 
     protected $_removeExtraSlashes;
