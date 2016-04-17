@@ -8,6 +8,7 @@ namespace Phalcon\Security;
  * Provides secure random number generator which is suitable for generating
  * session key in HTTP cookies, etc.
  * It supports following secure random number generators:
+ * - random_bytes (PHP 7)
  * - libsodium
  * - openssl
  * - /dev/urandom
@@ -68,7 +69,7 @@ class Random
      * $random = new \Phalcon\Security\Random();
      * $bytes = $random->bytes();
      * var_dump(bin2hex($bytes));
-     * // possible ouput: string(32) "00f6c04b144b41fad6a59111c126e1ee"
+     * // possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
      * </code>
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read

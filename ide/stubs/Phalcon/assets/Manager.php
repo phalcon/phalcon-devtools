@@ -245,4 +245,12 @@ class Manager
      */
     public function getCollections() {}
 
+    /**
+     * Returns true or false if collection exists
+     *
+     * @param string $id 
+     * @return bool 
+     */
+    public function exists($id) {}
+
 }

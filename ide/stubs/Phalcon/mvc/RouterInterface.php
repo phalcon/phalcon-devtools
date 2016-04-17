@@ -166,7 +166,7 @@ interface RouterInterface
     public function getParams();
 
     /**
-     * Returns the route that matchs the handled URI
+     * Returns the route that matches the handled URI
      *
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
@@ -180,7 +180,7 @@ interface RouterInterface
     public function getMatches();
 
     /**
-     * Check if the router macthes any of the defined routes
+     * Check if the router matches any of the defined routes
      *
      * @return bool 
      */

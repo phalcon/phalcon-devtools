@@ -13,7 +13,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  * </code>
  */
-class Files extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Files extends \Phalcon\Session\Adapter
 {
 
 }

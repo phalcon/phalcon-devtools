@@ -9,6 +9,9 @@ namespace Phalcon\Mvc\Model\MetaData;
 class Memory extends \Phalcon\Mvc\Model\MetaData
 {
 
+    protected $_metaData = array();
+
+
     /**
      * Phalcon\Mvc\Model\MetaData\Memory constructor
      *

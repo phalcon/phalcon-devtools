@@ -9,10 +9,10 @@ namespace Phalcon\Validation\Message;
 class Group implements \Countable, \ArrayAccess, \Iterator
 {
 
-    protected $_position;
+    protected $_position = 0;
 
 
-    protected $_messages;
+    protected $_messages = array();
 
 
     /**

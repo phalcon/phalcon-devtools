@@ -85,20 +85,13 @@ class Manager implements \Phalcon\Events\ManagerInterface
     public function detachAll($type = null) {}
 
     /**
-     * Alias of detachAll
-     *
-     * @param string $type 
-     */
-    public function dettachAll($type = null) {}
-
-    /**
      * Internal handler to call a queue of events
      *
      * @param \SplPriorityQueue|array $queue 
      * @param \Phalcon\Events\Event $event 
      * @return mixed 
      */
-    public final function fireQueue($queue, \Phalcon\Events\Event $event) {}
+    public final function fireQueue($queue, EventInterface $event) {}
 
     /**
      * Fires an event in the events manager causing the active listeners to be notified about it

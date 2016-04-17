@@ -477,4 +477,9 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      */
     public function getSql() {}
 
+    /**
+     * Destroys the internal PHQL cache
+     */
+    public static function clean() {}
+
 }

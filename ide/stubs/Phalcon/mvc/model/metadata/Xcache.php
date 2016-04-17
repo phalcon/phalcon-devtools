@@ -23,6 +23,9 @@ class Xcache extends \Phalcon\Mvc\Model\MetaData
     protected $_ttl = 172800;
 
 
+    protected $_metaData = array();
+
+
     /**
      * Phalcon\Mvc\Model\MetaData\Xcache constructor
      *

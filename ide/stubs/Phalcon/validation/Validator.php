@@ -27,7 +27,7 @@ abstract class Validator implements \Phalcon\Validation\ValidatorInterface
      * @param string $key 
      * @return bool 
      */
-    public function isSetOption($key) {}
+    deprecated public function isSetOption($key) {}
 
     /**
      * Checks if an option is defined

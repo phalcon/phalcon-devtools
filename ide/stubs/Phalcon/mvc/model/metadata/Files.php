@@ -17,6 +17,9 @@ class Files extends \Phalcon\Mvc\Model\MetaData
     protected $_metaDataDir = "./";
 
 
+    protected $_metaData = array();
+
+
     /**
      * Phalcon\Mvc\Model\MetaData\Files constructor
      *

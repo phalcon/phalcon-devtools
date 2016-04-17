@@ -90,7 +90,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     protected $_partialsDir = "";
 
 
-    protected $_viewsDir;
+    protected $_viewsDirs;
 
 
     protected $_templatesBefore;
@@ -153,9 +153,17 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     public function __construct($options = null) {}
 
     /**
-     * Sets the views directory. Depending of your platform, always add a trailing slash or backslash
+     * Checks if a path is absolute or not
      *
-     * @param string $viewsDir 
+     * @param string $path 
+     */
+    protected final function _isAbsolutePath($path) {}
+
+    /**
+     * Sets the views directory. Depending of your platform,
+     * always add a trailing slash or backslash
+     *
+     * @param mixed $viewsDir 
      * @return View 
      */
     public function setViewsDir($viewsDir) {}
@@ -163,12 +171,13 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Gets views directory
      *
-     * @return string 
+     * @return string|array 
      */
     public function getViewsDir() {}
 
     /**
-     * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+     * Sets the layouts sub-directory. Must be a directory under the views directory.
+     * Depending of your platform, always add a trailing slash or backslash
      * <code>
      * $view->setLayoutsDir('../common/layouts/');
      * </code>
@@ -186,7 +195,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     public function getLayoutsDir() {}
 
     /**
-     * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+     * Sets a partials sub-directory. Must be a directory under the views directory.
+     * Depending of your platform, always add a trailing slash or backslash
      * <code>
      * $view->setPartialsDir('../common/partials/');
      * </code>
@@ -450,12 +460,13 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Choose a different view to render instead of last-controller/last-action
      * <code>
-     * class ProductsController extends \Phalcon\Mvc\Controller
+     * use Phalcon\Mvc\Controller;
+     * class ProductsController extends Controller
      * {
      * public function saveAction()
      * {
-     * //Do some save stuff...
-     * //Then show the list view
+     * // Do some save stuff...
+     * // Then show the list view
      * $this->view->pick("products/list");
      * }
      * }
@@ -637,5 +648,12 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * @return boolean 
      */
     public function __isset($key) {}
+
+    /**
+     * Gets views directories
+     *
+     * @return array 
+     */
+    protected function getViewsDirs() {}
 
 }

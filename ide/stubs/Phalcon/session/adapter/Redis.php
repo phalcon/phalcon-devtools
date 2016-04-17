@@ -21,7 +21,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  * </code>
  */
-class Redis extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Redis extends \Phalcon\Session\Adapter
 {
 
     protected $_redis = null;

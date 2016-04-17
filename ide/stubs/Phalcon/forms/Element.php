@@ -24,7 +24,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     protected $_attributes;
 
 
-    protected $_validators;
+    protected $_validators = array();
 
 
     protected $_filters;
@@ -55,7 +55,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Returns the parent form to the element
      *
-     * @return ElementInterface 
+     * @return Form 
      */
     public function getForm() {}
 
@@ -127,7 +127,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * according to the element parameters
      *
      * @param array $attributes 
-     * @param boolean $useChecked 
+     * @param bool $useChecked 
      * @return array 
      */
     public function prepareAttributes($attributes = null, $useChecked = false) {}
@@ -187,7 +187,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * Sets options for the element
      *
      * @param array $options 
-     * @return \Phalcon\Forms\ElementInterface 
+     * @return ElementInterface 
      */
     public function setUserOptions($options) {}
 
