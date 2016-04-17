@@ -10,13 +10,6 @@ interface ManagerInterface
 {
 
     /**
-     * Phalcon\Mvc\Model\Transaction\Manager
-     *
-     * @param mixed $dependencyInjector 
-     */
-    public function __construct(\Phalcon\DiInterface $dependencyInjector = null);
-
-    /**
      * Checks whether manager has an active transaction
      *
      * @return bool 

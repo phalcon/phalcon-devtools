@@ -10,17 +10,6 @@ interface RelationInterface
 {
 
     /**
-     * Phalcon\Mvc\Model\Relation constructor
-     *
-     * @param int $type 
-     * @param string $referencedModel 
-     * @param string|array $fields 
-     * @param string|array $referencedFields 
-     * @param array $options 
-     */
-    public function __construct($type, $referencedModel, $fields, $referencedFields, $options = null);
-
-    /**
      * Sets the intermediate model dat for has-*-through relations
      *
      * @param string|array $intermediateFields 
@@ -70,6 +59,14 @@ interface RelationInterface
      * @return string|array 
      */
     public function getOptions();
+
+    /**
+     * Returns an option by the specified name
+     * If the option doesn't exist null is returned
+     *
+     * @param string $name 
+     */
+    public function getOption($name);
 
     /**
      * Check whether the relation act as a foreign key

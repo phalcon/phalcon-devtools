@@ -33,7 +33,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     protected $_action;
 
 
-    protected $_params;
+    protected $_params = array();
 
 
     protected $_defaultModule = null;
@@ -45,7 +45,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     protected $_defaultAction = null;
 
 
-    protected $_defaultParams;
+    protected $_defaultParams = array();
 
 
     protected $_routes;
@@ -167,7 +167,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Returns the route that matchs the handled URI
      *
-     * @return \Phalcon\Cli\Router\Route 
+     * @return RouteInterface 
      */
     public function getMatchedRoute() {}
 
@@ -204,7 +204,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * Returns a route object by its name
      *
      * @param string $name 
-     * @return bool|\Phalcon\Cli\Router\Route 
+     * @return bool|RouteInterface 
      */
     public function getRouteByName($name) {}
 

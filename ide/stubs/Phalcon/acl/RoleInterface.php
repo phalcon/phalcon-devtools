@@ -10,14 +10,6 @@ interface RoleInterface
 {
 
     /**
-     * Phalcon\Acl\Role constructor
-     *
-     * @param string $name 
-     * @param string $description 
-     */
-    public function __construct($name, $description = null);
-
-    /**
      * Returns the role name
      *
      * @return string 

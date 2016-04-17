@@ -15,11 +15,17 @@ class Multiple
     protected $_formatter;
 
 
+    protected $_logLevel;
+
+
 
     public function getLoggers() {}
 
 
     public function getFormatter() {}
+
+
+    public function getLogLevel() {}
 
     /**
      * Pushes a logger to the logger tail
@@ -34,6 +40,13 @@ class Multiple
      * @param mixed $formatter 
      */
     public function setFormatter(\Phalcon\Logger\FormatterInterface $formatter) {}
+
+    /**
+     * Sets a global level
+     *
+     * @param int $level 
+     */
+    public function setLogLevel($level) {}
 
     /**
      * Sends a message to each registered logger

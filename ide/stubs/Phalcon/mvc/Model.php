@@ -28,7 +28,7 @@ namespace Phalcon\Mvc;
  * }
  * </code>
  */
-abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
+abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable, \JsonSerializable
 {
 
     const OP_NONE = 0;
@@ -94,10 +94,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Phalcon\Mvc\Model constructor
      *
+     * @param mixed $data 
      * @param mixed $dependencyInjector 
      * @param mixed $modelsManager 
      */
-    public final function __construct(\Phalcon\DiInterface $dependencyInjector = null, \Phalcon\Mvc\Model\ManagerInterface $modelsManager = null) {}
+    public final function __construct($data = null, \Phalcon\DiInterface $dependencyInjector = null, \Phalcon\Mvc\Model\ManagerInterface $modelsManager = null) {}
 
     /**
      * Sets the dependency injection container
@@ -522,8 +523,9 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Appends a customized message on the validation process
      * <code>
-     * use \Phalcon\Mvc\Model\Message as Message;
-     * class Robots extends \Phalcon\Mvc\Model
+     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\Message as Message;
+     * class Robots extends Model
      * {
      * public function beforeSave()
      * {
@@ -543,32 +545,33 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Executes validators on every validation call
      * <code>
-     * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-     * class Subscriptors extends \Phalcon\Mvc\Model
+     * use Phalcon\Mvc\Model;
+     * use Phalcon\Validation;
+     * use Phalcon\Validation\Validator\ExclusionIn;
+     * class Subscriptors extends Model
      * {
      * public function validation()
      * {
-     * $this->validate(new ExclusionIn(array(
-     * 'field' => 'status',
+     * $validator = new Validation();
+     * $validator->add('status', new ExclusionIn(array(
      * 'domain' => array('A', 'I')
      * )));
-     * if ($this->validationHasFailed() == true) {
-     * return false;
-     * }
+     * return $this->validate($validator);
      * }
      * }
      * </code>
      *
      * @param mixed $validator 
-     * @return Model 
+     * @return bool 
      */
-    protected function validate(Model\ValidatorInterface $validator) {}
+    protected function validate(\Phalcon\ValidationInterface $validator) {}
 
     /**
      * Check whether validation process has generated any messages
      * <code>
+     * use Phalcon\Mvc\Model;
      * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-     * class Subscriptors extends \Phalcon\Mvc\Model
+     * class Subscriptors extends Model
      * {
      * public function validation()
      * {
@@ -615,21 +618,21 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @return bool 
      */
-    protected function _checkForeignKeysRestrict() {}
+    protected final function _checkForeignKeysRestrict() {}
 
     /**
      * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
      *
      * @return bool 
      */
-    protected function _checkForeignKeysReverseCascade() {}
+    protected final function _checkForeignKeysReverseCascade() {}
 
     /**
      * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
      *
      * @return bool 
      */
-    protected function _checkForeignKeysReverseRestrict() {}
+    protected final function _checkForeignKeysReverseRestrict() {}
 
     /**
      * Executes internal hooks before save a record
@@ -1138,6 +1141,24 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function __set($property, $value) {}
 
     /**
+     * Check for, and attempt to use, possible setter.
+     *
+     * @param string $property 
+     * @param mixed $value 
+     * @return string 
+     */
+    protected final function _possibleSetter($property, $value) {}
+
+    /**
+     * Check whether a property is declared private or protected.
+     * This is a stop-gap because we do not want to have to declare all properties.
+     *
+     * @param string $property 
+     * @return boolean 
+     */
+    protected final function _isVisible($property) {}
+
+    /**
      * Magic method to get related records using the relation alias as a property
      *
      * @param string $property 
@@ -1188,6 +1209,16 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @return array 
      */
     public function toArray($columns = null) {}
+
+    /**
+     * Serializes the object for json_encode
+     * <code>
+     * echo json_encode($robot);
+     * </code>
+     *
+     * @return array 
+     */
+    public function jsonSerialize() {}
 
     /**
      * Enables/disables options in the ORM

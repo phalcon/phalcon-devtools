@@ -10,13 +10,6 @@ interface BehaviorInterface
 {
 
     /**
-     * Phalcon\Mvc\Model\Behavior
-     *
-     * @param array $options 
-     */
-    public function __construct($options = null);
-
-    /**
      * This method receives the notifications from the EventsManager
      *
      * @param string $type 

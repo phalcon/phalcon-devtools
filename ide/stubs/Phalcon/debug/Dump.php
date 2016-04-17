@@ -22,7 +22,7 @@ class Dump
     protected $_detailed = false;
 
 
-    protected $_methods = null;
+    protected $_methods = array();
 
 
     protected $_styles;

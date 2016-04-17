@@ -20,7 +20,7 @@ abstract class Adapter
      *
      * @var array
      */
-    protected $_queue;
+    protected $_queue = array();
 
     /**
      * Formatter

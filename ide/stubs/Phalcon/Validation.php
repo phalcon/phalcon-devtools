@@ -6,7 +6,7 @@ namespace Phalcon;
  * Phalcon\Validation
  * Allows to validate data using custom or built-in validators
  */
-class Validation extends \Phalcon\Di\Injectable
+class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationInterface
 {
 
     protected $_data;
@@ -15,7 +15,7 @@ class Validation extends \Phalcon\Di\Injectable
     protected $_entity;
 
 
-    protected $_validators;
+    protected $_validators = array();
 
 
     protected $_filters;
@@ -106,6 +106,13 @@ class Validation extends \Phalcon\Di\Injectable
     public function getValidators() {}
 
     /**
+     * Sets the bound entity
+     *
+     * @param object $entity 
+     */
+    public function setEntity($entity) {}
+
+    /**
      * Returns the bound entity
      *
      * @return object 
@@ -175,5 +182,14 @@ class Validation extends \Phalcon\Di\Injectable
      * @return mixed 
      */
     public function getValue($field) {}
+
+    /**
+     * Internal validations, if it returns true, then skip the current validator
+     *
+     * @param string $field 
+     * @param mixed $validator 
+     * @return bool 
+     */
+    protected function preChecking($field, \Phalcon\Validation\ValidatorInterface $validator) {}
 
 }

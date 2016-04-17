@@ -495,7 +495,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
      * @param string $method 
      * @param mixed $record 
      * @param mixed $parameters 
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false 
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false 
      */
     public function getRelationRecords(\Phalcon\Mvc\Model\RelationInterface $relation, $method, \Phalcon\Mvc\ModelInterface $record, $parameters = null) {}
 
@@ -672,5 +672,10 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
      * @return array 
      */
     public function getNamespaceAliases() {}
+
+    /**
+     * Destroys the current PHQL cache
+     */
+    public function __destruct() {}
 
 }

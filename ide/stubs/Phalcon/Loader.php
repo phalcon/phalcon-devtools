@@ -32,13 +32,10 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     protected $_checkedPath = null;
 
 
-    protected $_prefixes = null;
-
-
     protected $_classes = null;
 
 
-    protected $_extensions;
+    protected $_extensions = array("php");
 
 
     protected $_namespaces = null;
@@ -49,11 +46,6 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
 
     protected $_registered = false;
 
-
-    /**
-     * Phalcon\Loader constructor
-     */
-    public function __construct() {}
 
     /**
      * Sets the events manager
@@ -94,29 +86,17 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     public function registerNamespaces($namespaces, $merge = false) {}
 
     /**
+     * @param array $namespace 
+     * @return array 
+     */
+    protected function prepareNamespace($namespace) {}
+
+    /**
      * Returns the namespaces currently registered in the autoloader
      *
      * @return array 
      */
     public function getNamespaces() {}
-
-    /**
-     * Register directories in which "not found" classes could be found
-     *
-     * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
-     * @param array $prefixes 
-     * @param bool $merge 
-     * @return Loader 
-     */
-    public function registerPrefixes($prefixes, $merge = false) {}
-
-    /**
-     * Returns the prefixes currently registered in the autoloader
-     *
-     * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
-     * @return array 
-     */
-    public function getPrefixes() {}
 
     /**
      * Register directories in which "not found" classes could be found

@@ -53,7 +53,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      *
      * @param array $options 
      */
-    public function __construct($options = null) {}
+    public function __construct($options = array()) {}
 
     /**
      * Sets views directory. Depending of your platform, always add a trailing slash or backslash

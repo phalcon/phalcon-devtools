@@ -25,21 +25,6 @@ interface CryptInterface
     public function getCipher();
 
     /**
-     * Sets the encrypt/decrypt mode
-     *
-     * @param string $mode 
-     * @return CryptInterface 
-     */
-    public function setMode($mode);
-
-    /**
-     * Returns the current encryption mode
-     *
-     * @return string 
-     */
-    public function getMode();
-
-    /**
      * Sets the encryption key
      *
      * @param string $key 
@@ -96,12 +81,5 @@ interface CryptInterface
      * @return array 
      */
     public function getAvailableCiphers();
-
-    /**
-     * Returns a list of available modes
-     *
-     * @return array 
-     */
-    public function getAvailableModes();
 
 }

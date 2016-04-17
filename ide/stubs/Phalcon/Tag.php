@@ -54,6 +54,12 @@ class Tag
     static protected $_documentTitle = null;
 
 
+    static protected $_documentAppendTitle = null;
+
+
+    static protected $_documentPrependTitle = null;
+
+
     static protected $_documentTitleSeparator = null;
 
 

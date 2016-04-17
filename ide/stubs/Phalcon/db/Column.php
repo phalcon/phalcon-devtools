@@ -173,7 +173,7 @@ class Column implements \Phalcon\Db\ColumnInterface
      *
      * @var int
      */
-    protected $_typeReference;
+    protected $_typeReference = -1;
 
     /**
      * Column data type values

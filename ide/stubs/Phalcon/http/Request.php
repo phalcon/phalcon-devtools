@@ -31,6 +31,17 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     protected $_putCache;
 
 
+    protected $_httpMethodParameterOverride = false;
+
+
+
+    public function getHttpMethodParameterOverride() {}
+
+    /**
+     * @param mixed $httpMethodParameterOverride 
+     */
+    public function setHttpMethodParameterOverride($httpMethodParameterOverride) {}
+
     /**
      * Sets the dependency injector
      *
@@ -273,6 +284,11 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 
     /**
      * Gets HTTP method which request has been made
+     * If the X-HTTP-Method-Override header is set, and if the method is a POST,
+     * then it is used to determine the "real" intended HTTP method.
+     * The _method request parameter can also be used to determine the HTTP method,
+     * but only if setHttpMethodParameterOverride(true) has been called.
+     * The method is always an uppercased string.
      *
      * @return string 
      */

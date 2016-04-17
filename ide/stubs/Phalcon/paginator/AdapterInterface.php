@@ -10,13 +10,6 @@ interface AdapterInterface
 {
 
     /**
-     * Phalcon\Paginator\AdapterInterface constructor
-     *
-     * @param array $config 
-     */
-    public function __construct($config);
-
-    /**
      * Set the current page number
      *
      * @param int $page 

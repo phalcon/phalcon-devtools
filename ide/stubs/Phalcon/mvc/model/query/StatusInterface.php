@@ -10,14 +10,6 @@ interface StatusInterface
 {
 
     /**
-     * Phalcon\Mvc\Model\Query\Status
-     *
-     * @param bool $success 
-     * @param mixed $model 
-     */
-    public function __construct($success, \Phalcon\Mvc\ModelInterface $model);
-
-    /**
      * Returns the model which executed the action
      *
      * @return \Phalcon\Mvc\ModelInterface 

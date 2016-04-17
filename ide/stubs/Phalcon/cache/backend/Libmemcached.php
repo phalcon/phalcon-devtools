@@ -4,8 +4,8 @@ namespace Phalcon\Cache\Backend;
 
 /**
  * Phalcon\Cache\Backend\Libmemcached
- * Allows to cache output fragments, PHP data or raw data to a libmemcached backend
- * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
+ * Allows to cache output fragments, PHP data or raw data to a libmemcached backend.
+ * Per default persistent memcached connection pools are used.
  * <code>
  * // Cache data for 2 days
  * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
@@ -115,6 +115,14 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 
     /**
      * Immediately invalidates all existing items.
+     * Memcached does not support flush() per default. If you require flush() support, set $config["statsKey"].
+     * All modified keys are stored in "statsKey". Note: statsKey has a negative performance impact.
+     * <code>
+     * $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, ["statsKey" => "_PHCM"]);
+     * $cache->save('my-data', array(1, 2, 3, 4, 5));
+     * //'my-data' and all other used keys are deleted
+     * $cache->flush();
+     * </code>
      *
      * @return bool 
      */
