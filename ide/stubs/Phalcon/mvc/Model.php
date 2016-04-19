@@ -384,7 +384,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * </code>
      *
      * @param string|array $parameters 
-     * @return static 
+     * @return static|bool
      */
     public static function findFirst($parameters = null) {}
 
