@@ -142,6 +142,11 @@ class Model extends Component
             $modelsDir = $config->get('application')->modelsDir;
         }
 
+        // Adjust modelsDir when called from outside of project dir
+        if ($this->isConsole() && substr($modelsDir, 0, 3) === '../') {
+            $modelsDir = ltrim($modelsDir, './');
+        }
+
         $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
         $modelPath = $modelsDir;
         if (false == $this->isAbsolutePath($modelsDir)) {
