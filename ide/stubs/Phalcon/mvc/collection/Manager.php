@@ -118,6 +118,14 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
     public function setConnectionService(\Phalcon\Mvc\CollectionInterface $model, $connectionService) {}
 
     /**
+     * Gets a connection service for a specific model
+     *
+     * @param mixed $model 
+     * @return string 
+     */
+    public function getConnectionService(\Phalcon\Mvc\CollectionInterface $model) {}
+
+    /**
      * Sets whether a model must use implicit objects ids
      *
      * @param mixed $model 

@@ -214,7 +214,7 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
     /**
      * Returns the error messages produced by a batch operation
      *
-     * @return \Phalcon\Mvc\Model\MessageInterface[] 
+     * @return MessageInterface[] 
      */
     public function getMessages() {}
 
@@ -251,7 +251,8 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
     public function filter($filter) {}
 
     /**
-     * Returns serialised model objects as array for json_encode. Calls jsonSerialize on each object if present
+     * Returns serialised model objects as array for json_encode.
+     * Calls jsonSerialize on each object if present
      * <code>
      * $robots = Robots::find();
      * echo json_encode($robots);

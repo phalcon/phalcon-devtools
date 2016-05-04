@@ -473,4 +473,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      */
     public function getQuery() {}
 
+    /**
+     * Automatically escapes identifiers but only if they need to be escaped.
+     *
+     * @param string $identifier 
+     * @return string 
+     */
+    final public function autoescape($identifier) {}
+
 }
