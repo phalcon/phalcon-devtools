@@ -645,7 +645,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * </code>
      *
      * @param string $key 
-     * @return boolean 
+     * @return bool 
      */
     public function __isset($key) {}
 

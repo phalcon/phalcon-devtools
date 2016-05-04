@@ -575,13 +575,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function validation()
      * {
-     * $this->validate(new ExclusionIn(array(
-     * 'field' => 'status',
+     * $validator = new Validation();
+     * $validator->validate('status', new ExclusionIn(array(
      * 'domain' => array('A', 'I')
-     * )));
-     * if ($this->validationHasFailed() == true) {
-     * return false;
-     * }
+     * ));
+     * return $this->validate($validator);
      * }
      * }
      * </code>
