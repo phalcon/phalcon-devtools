@@ -34,7 +34,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require": {
-        "phalcon/devtools": "dev-master"
+        "phalcon/devtools": "^2.0"
     }
 }
 ```
@@ -105,7 +105,7 @@ This command should display something similar to:
 ```sh
 $ phalcon list ?
 
-Phalcon DevTools (2.0.9)
+Phalcon DevTools (2.0.11)
 
 Help:
   Lists the commands available in Phalcon devtools
