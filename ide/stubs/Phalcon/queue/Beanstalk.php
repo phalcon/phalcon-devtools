@@ -43,7 +43,7 @@ class Beanstalk
     /**
      * Inserts jobs into the queue
      *
-     * @param string $data 
+     * @param mixed $data 
      * @param array $options 
      * @return string|bool 
      */

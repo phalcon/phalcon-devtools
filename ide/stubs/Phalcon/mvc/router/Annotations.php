@@ -21,9 +21,6 @@ class Annotations extends \Phalcon\Mvc\Router
     protected $_handlers;
 
 
-    protected $_processed = false;
-
-
     protected $_controllerSuffix = "Controller";
 
 

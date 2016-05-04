@@ -62,4 +62,16 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
      */
     public function describeIndexes($table, $schema = null) {}
 
+    /**
+     * Lists table references
+     * <code>
+     * print_r($connection->describeReferences('robots_parts'));
+     * </code>
+     *
+     * @param string $table 
+     * @param string $schema 
+     * @return Reference[] 
+     */
+    public function describeReferences($table, $schema = null) {}
+
 }

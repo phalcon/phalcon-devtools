@@ -92,7 +92,7 @@ class File implements \Phalcon\Http\Request\FileInterface
     public function getName() {}
 
     /**
-     * Returns the temporal name of the uploaded file
+     * Returns the temporary name of the uploaded file
      *
      * @return string 
      */

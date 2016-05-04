@@ -129,7 +129,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
      * Composite one image onto another
      *
      * @param mixed $image 
-     * @param Adapter $$mask mask Image instance
      */
     protected function _mask(\Phalcon\Image\Adapter $image) {}
 
@@ -191,8 +190,9 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
     /**
      * Sets the limit for a particular resource in megabytes
      *
-     * @param int $type Refer to the list of resourcetype constants (@see http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes.)
-     * @param int $limit The resource limit. The unit depends on the type of the resource being limited.
+     * @link http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes
+     * @param int $type 
+     * @param int $limit 
      */
     public function setResourceLimit($type, $limit) {}
 
