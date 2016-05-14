@@ -27,12 +27,31 @@ class Utils
 {
     const DB_ADAPTER_POSTGRESQL = 'Postgresql';
 
+    const DB_ADAPTER_SQLITE = 'Sqlite';
+
+    /**
+     * Converts the underscore_notation to the UpperCamelCase
+     *
+     * @param string $string
+     * @return string
+     */
     public static function camelize($string)
     {
         $stringParts = explode('_', $string);
         $stringParts = array_map('ucfirst', $stringParts);
 
         return implode('', $stringParts);
+    }
+
+    /**
+     * Converts the underscore_notation to the lowerCamelCase
+     *
+     * @param string $string
+     * @return string
+     */
+    public static function lowerCamelize($string)
+    {
+        return lcfirst(self::camelize($string));
     }
 
     /**
@@ -48,7 +67,13 @@ class Utils
         }
 
         if (self::DB_ADAPTER_POSTGRESQL == $config->get('adapter')) {
-            return  'public';
+            return 'public';
+        }
+
+        if (self::DB_ADAPTER_SQLITE == $config->get('adapter')) {
+            // SQLite only supports the current database, unless one is
+            // attached. This is not the case, so don't return a schema.
+            return null;
         }
 
         if ($config->offsetExists('dbname')) {
