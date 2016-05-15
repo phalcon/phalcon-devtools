@@ -79,6 +79,9 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     protected $_actionSuffix = "Action";
 
 
+    protected $_previousNamespaceName = null;
+
+
     protected $_previousHandlerName = null;
 
 

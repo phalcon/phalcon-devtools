@@ -602,12 +602,12 @@ class Tag
     /**
      * Builds a SCRIPT[type="javascript"] tag
      * <code>
-     * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js", false);
+     * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false);
      * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
      * </code>
      * Volt syntax:
      * <code>
-     * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js", false) }}
+     * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false) }}
      * {{ javascript_include("javascript/jquery.js") }}
      * </code>
      *
