@@ -19,6 +19,8 @@
 
 namespace Phalcon\Builder;
 
+use SplFileInfo;
+
 /**
  * Module Builder
  *
@@ -88,7 +90,7 @@ class Module extends Component
             $modulesDir = $this->path->getRootPath($modulesDir);
         }
 
-        $this->options->offsetSet('modulesDir', realpath($modulesDir));
+        $this->options->offsetSet('modulesDir', $modulesDir);
         $this->options->offsetSet('templatePath', realpath($templatePath));
         $this->options->offsetSet('projectPath', $this->path->getRootPath());
 
@@ -122,10 +124,39 @@ class Module extends Component
             ));
         }
 
-        mkdir($modulesDir . DIRECTORY_SEPARATOR . $moduleName, 0777, true);
+        $modulesPath = new SplFileInfo($modulesDir);
+        $modulePath  = $modulesDir. DIRECTORY_SEPARATOR . $moduleName;
 
-        foreach ($this->moduleDirectories as $dir) {
-            mkdir($modulesDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . $dir, 0777, true);
+        try {
+            if ($modulesPath->isFile() && !$modulesPath->isDir()) {
+                throw new BuilderException(
+                    sprintf(
+                        "Builder expects a directory for 'modulesDir'. But %s is a file.",
+                        $modulesPath->getPathname()
+                    )
+                );
+            } elseif ($modulesPath->isReadable() && !mkdir($modulePath, 0777, true)) {
+                throw new BuilderException("Unable to create module directory. Check permissions.");
+            }
+
+            foreach ($this->moduleDirectories as $dir) {
+                $path = $modulePath . DIRECTORY_SEPARATOR . $dir;
+                if (!mkdir($path, 0777, true)) {
+                    throw new BuilderException(
+                        sprintf(
+                            "Unable to create %s directory. Check permissions.",
+                            $path
+                        )
+                    );
+                }
+            }
+
+        } catch (\Exception $e) {
+            throw new BuilderException(
+                $e->getMessage(),
+                $e->getCode(),
+                ($e instanceof BuilderException ? null : $e)
+            );
         }
 
         return $this;
