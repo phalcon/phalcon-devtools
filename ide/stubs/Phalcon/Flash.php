@@ -84,7 +84,7 @@ abstract class Flash
      * $flash->success('The process was finished successfully');
      * </code>
      *
-     * @param string $message 
+     * @param mixed $message 
      * @return string 
      */
     public function success($message) {}
