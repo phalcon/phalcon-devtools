@@ -305,7 +305,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * ));
      * </code>
      *
-     * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row $base 
+     * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row $base 
      * @param array $data 
      * @param array $columnMap 
      * @param int $dirtyState 
