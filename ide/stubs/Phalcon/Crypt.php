@@ -105,22 +105,24 @@ class Crypt implements \Phalcon\CryptInterface
     /**
      * Pads texts before encryption
      *
-     * @see http://www.di-mgt.com.au/cryptopad.html
+     * @link http://www.di-mgt.com.au/cryptopad.html
      * @param string $text 
      * @param string $mode 
      * @param int $blockSize 
      * @param int $paddingType 
+     * @return string 
      */
     protected function _cryptPadText($text, $mode, $blockSize, $paddingType) {}
 
     /**
-     * Removes padding @a padding_type from @a text
-     * If the function detects that the text was not padded, it will return it unmodified
+     * Removes $paddingType padding from text
+     * If the method detects that the text was not padded, it will return it unmodified
      *
      * @param string $text Message to be unpadded
      * @param string $mode Encryption mode; unpadding is applied only in CBC or ECB mode
      * @param int $blockSize Cipher block size
      * @param int $paddingType Padding scheme
+     * @return string 
      */
     protected function _cryptUnpadText($text, $mode, $blockSize, $paddingType) {}
 
