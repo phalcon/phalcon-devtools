@@ -8,7 +8,6 @@ namespace Phalcon\Db;
  */
 interface ResultInterface
 {
-
     /**
      * Phalcon\Db\Result\Pdo constructor
      *
@@ -24,7 +23,7 @@ interface ResultInterface
      * Allows to executes the statement again. Some database systems don't support scrollable cursors,
      * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
      *
-     * @return boolean 
+     * @return boolean
      */
     public function execute();
 
@@ -32,7 +31,7 @@ interface ResultInterface
      * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
      * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
      *
-     * @return mixed 
+     * @return mixed
      */
     public function fetch();
 
@@ -40,7 +39,7 @@ interface ResultInterface
      * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
      * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
      *
-     * @return mixed 
+     * @return mixed
      */
     public function fetchArray();
 
@@ -48,37 +47,38 @@ interface ResultInterface
      * Returns an array of arrays containing all the records in the result
      * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
      *
-     * @return array 
+     * @return array
      */
     public function fetchAll();
 
     /**
-     * Gets number of rows returned by a resultset
+     * Gets number of rows returned by a result set
      *
-     * @return int 
+     * @return int
      */
     public function numRows();
 
     /**
-     * Moves internal resultset cursor to another position letting us to fetch a certain row
+     * Moves internal result set cursor to another position letting us to fetch a certain row
      *
-     * @param int $number 
+     * @param int $number
      */
     public function dataSeek($number);
 
     /**
-     * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
+     * Changes the fetching mode affecting \Phalcon\Db\Result\Pdo::fetch()
      *
-     * @param int $fetchMode 
-     * @return bool 
+     * @param int         $fetchMode
+     * @param string|null class name if \Phalcon\Db::FETCH_CLASS
+     *
+     * @return bool
      */
-    public function setFetchMode($fetchMode);
+    public function setFetchMode($fetchMode, $className = null);
 
     /**
      * Gets the internal PDO result object
      *
-     * @return \PDOStatement 
+     * @return \PDOStatement
      */
     public function getInternalResult();
-
 }
