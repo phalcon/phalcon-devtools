@@ -9,7 +9,7 @@ namespace Phalcon\Db;
 interface ResultInterface
 {
     /**
-     * Phalcon\Db\Result\Pdo constructor
+     * \Phalcon\Db\Result\Pdo constructor
      *
      * @param \Phalcon\Db\AdapterInterface $connection 
      * @param \PDOStatement $result 
