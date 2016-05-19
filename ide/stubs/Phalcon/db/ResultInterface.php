@@ -68,12 +68,11 @@ interface ResultInterface
     /**
      * Changes the fetching mode affecting \Phalcon\Db\Result\Pdo::fetch()
      *
-     * @param int         $fetchMode
-     * @param string|null class name if \Phalcon\Db::FETCH_CLASS
+     * @param int $fetchMode
      *
      * @return bool
      */
-    public function setFetchMode($fetchMode, $className = null);
+    public function setFetchMode($fetchMode);
 
     /**
      * Gets the internal PDO result object
