@@ -350,7 +350,6 @@ interface AdapterInterface
      * Call it when you need to restore a database connection
      *
      * @param mixed $descriptor 
-     * @param  $array descriptor
      * @return  
      */
     public function connect($descriptor = null);
