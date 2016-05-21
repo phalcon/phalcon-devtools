@@ -605,7 +605,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * </code>
      *
      * @param mixed $filter 
-     * @return \Phalcon\Mvc\Model\Message\MessageInterface[] 
+     * @return \Phalcon\Mvc\Model\Message\MessageInterface[]
      */
     public function getMessages($filter = null) {}
 

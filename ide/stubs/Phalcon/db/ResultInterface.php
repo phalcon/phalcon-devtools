@@ -8,8 +8,9 @@ namespace Phalcon\Db;
  */
 interface ResultInterface
 {
+
     /**
-     * \Phalcon\Db\Result\Pdo constructor
+     * Phalcon\Db\Result\Pdo constructor
      *
      * @param \Phalcon\Db\AdapterInterface $connection 
      * @param \PDOStatement $result 
@@ -52,25 +53,24 @@ interface ResultInterface
     public function fetchAll();
 
     /**
-     * Gets number of rows returned by a result set
+     * Gets number of rows returned by a resultset
      *
      * @return int
      */
     public function numRows();
 
     /**
-     * Moves internal result set cursor to another position letting us to fetch a certain row
+     * Moves internal resultset cursor to another position letting us to fetch a certain row
      *
      * @param int $number
      */
     public function dataSeek($number);
 
     /**
-     * Changes the fetching mode affecting \Phalcon\Db\Result\Pdo::fetch()
+     * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
      *
-     * @param int $fetchMode
-     *
-     * @return bool
+     * @param int $fetchMode 
+     * @return bool 
      */
     public function setFetchMode($fetchMode);
 
