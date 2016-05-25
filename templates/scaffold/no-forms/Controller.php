@@ -113,7 +113,7 @@ class $className$Controller extends ControllerBase
 
             $this->dispatcher->forward([
                 'controller' => "$plural$",
-                'action' => 'new
+                'action' => 'new'
             ]);
 
             return;
