@@ -252,6 +252,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function rightJoin($model, $conditions = null, $alias = null) {}
 
     /**
+     * Return join parts of the query
+     *
+     * @return array 
+     */
+    public function getJoins() {}
+
+    /**
      * Sets the query conditions
      * <code>
      * $builder->where(100);
