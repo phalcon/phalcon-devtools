@@ -44,6 +44,9 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     protected $_directories = null;
 
 
+    protected $_files = null;
+
+
     protected $_registered = false;
 
 
@@ -115,6 +118,23 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     public function getDirs() {}
 
     /**
+     * Registers files that are "non-classes" hence need a "require". This is very useful for including files that only
+     * have functions
+     *
+     * @param array $files 
+     * @param bool $merge 
+     * @return Loader 
+     */
+    public function registerFiles($files, $merge = false) {}
+
+    /**
+     * Returns the files currently registered in the autoloader
+     *
+     * @return array 
+     */
+    public function getFiles() {}
+
+    /**
      * Register classes and their locations
      *
      * @param array $classes 
@@ -143,6 +163,11 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @return Loader 
      */
     public function unregister() {}
+
+    /**
+     * Checks if a file exists and then adds the file by doing virtual require
+     */
+    public function loadFiles() {}
 
     /**
      * Autoloads the registered classes

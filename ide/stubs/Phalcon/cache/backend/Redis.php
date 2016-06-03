@@ -7,20 +7,22 @@ namespace Phalcon\Cache\Backend;
  * Allows to cache output fragments, PHP data or raw data to a redis backend
  * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
  * <code>
+ * use Phalcon\Cache\Backend\Redis;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
- * "lifetime" => 172800
- * ));
- * //Create the Cache setting redis connection options
- * $cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+ * $frontCache = new FrontData([
+ * 'lifetime' => 172800
+ * ]);
+ * // Create the Cache setting redis connection options
+ * $cache = new Redis($frontCache, [
  * 'host' => 'localhost',
  * 'port' => 6379,
  * 'auth' => 'foobared',
  * 'persistent' => false
- * ));
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
- * //Get data
+ * ]);
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * // Get data
  * $data = $cache->get('my-data');
  * </code>
  */
@@ -61,6 +63,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
      * @param string $content 
      * @param long $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 

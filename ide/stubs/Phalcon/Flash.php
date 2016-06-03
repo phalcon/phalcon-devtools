@@ -28,31 +28,31 @@ abstract class Flash
     /**
      * Phalcon\Flash constructor
      *
-     * @param mixed $cssClasses
+     * @param mixed $cssClasses 
      */
     public function __construct($cssClasses = null) {}
 
     /**
      * Set whether the output must be implicitly flushed to the output or returned as string
      *
-     * @param bool $implicitFlush
-     * @return \Phalcon\FlashInterface
+     * @param bool $implicitFlush 
+     * @return \Phalcon\FlashInterface 
      */
     public function setImplicitFlush($implicitFlush) {}
 
     /**
      * Set if the output must be implicitly formatted with HTML
      *
-     * @param bool $automaticHtml
-     * @return \Phalcon\FlashInterface
+     * @param bool $automaticHtml 
+     * @return \Phalcon\FlashInterface 
      */
     public function setAutomaticHtml($automaticHtml) {}
 
     /**
      * Set an array with CSS classes to format the messages
      *
-     * @param array $cssClasses
-     * @return \Phalcon\FlashInterface
+     * @param array $cssClasses 
+     * @return \Phalcon\FlashInterface 
      */
     public function setCssClasses($cssClasses) {}
 
@@ -62,8 +62,8 @@ abstract class Flash
      * $flash->error('This is an error');
      * </code>
      *
-     * @param mixed $message
-     * @return string
+     * @param mixed $message 
+     * @return string 
      */
     public function error($message) {}
 
@@ -73,8 +73,8 @@ abstract class Flash
      * $flash->notice('This is an information');
      * </code>
      *
-     * @param mixed $message
-     * @return string
+     * @param mixed $message 
+     * @return string 
      */
     public function notice($message) {}
 
@@ -84,8 +84,8 @@ abstract class Flash
      * $flash->success('The process was finished successfully');
      * </code>
      *
-     * @param mixed $message
-     * @return string
+     * @param mixed $message 
+     * @return string 
      */
     public function success($message) {}
 
@@ -95,8 +95,8 @@ abstract class Flash
      * $flash->warning('Hey, this is important');
      * </code>
      *
-     * @param mixed $message
-     * @return string
+     * @param mixed $message 
+     * @return string 
      */
     public function warning($message) {}
 
@@ -106,9 +106,9 @@ abstract class Flash
      * $flash->outputMessage('error', message);
      * </code>
      *
-     * @param string $type
-     * @param string|array $message
-     * @return string|void
+     * @param string $type 
+     * @param string|array $message 
+     * @return string|void 
      */
     public function outputMessage($type, $message) {}
 
