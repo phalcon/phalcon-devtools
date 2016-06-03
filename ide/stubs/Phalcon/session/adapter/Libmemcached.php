@@ -69,6 +69,7 @@ class Libmemcached extends \Phalcon\Session\Adapter
      *
      * @param string $sessionId 
      * @param string $data 
+     * @return bool 
      */
     public function write($sessionId, $data) {}
 

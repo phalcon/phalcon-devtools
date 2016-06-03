@@ -6,18 +6,20 @@ namespace Phalcon\Cache\Backend;
  * Phalcon\Cache\Backend\File
  * Allows to cache output fragments using a file backend
  * <code>
- * //Cache the file for 2 days
- * $frontendOptions = array(
+ * use Phalcon\Cache\Backend\File;
+ * use Phalcon\Cache\Frontend\Output as FrontOutput;
+ * // Cache the file for 2 days
+ * $frontendOptions = [
  * 'lifetime' => 172800
- * );
- * //Create a output cache
- * $frontCache = \Phalcon\Cache\Frontend\Output($frontOptions);
- * //Set the cache directory
- * $backendOptions = array(
+ * ];
+ * // Create a output cache
+ * $frontCache = FrontOutput($frontOptions);
+ * // Set the cache directory
+ * $backendOptions = [
  * 'cacheDir' => '../app/cache/'
- * );
- * //Create the File backend
- * $cache = new \Phalcon\Cache\Backend\File($frontCache, $backendOptions);
+ * ];
+ * // Create the File backend
+ * $cache = new File($frontCache, $backendOptions);
  * $content = $cache->start('my-cache');
  * if ($content === null) {
  * echo '<h1>', time(), '</h1>';
@@ -63,6 +65,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
      * @param string $content 
      * @param int $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 
