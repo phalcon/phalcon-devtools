@@ -61,6 +61,6 @@ try {
 
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
-    echo implode(PHP_EOL, $e->getTrace());
+    echo $e->getTraceAsString() . PHP_EOL;
     exit(255);
 }
