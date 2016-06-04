@@ -34,7 +34,9 @@ $di->setShared('router', function () {
 /**
  * The URL component is used to generate all kinds of URLs in the application
  */
-$di->setShared('url', function () use ($config) {
+$di->setShared('url', function () {
+    $config = $this->getConfig();
+
     $url = new UrlResolver();
     $url->setBaseUri($config->application->baseUri);
 
@@ -44,17 +46,18 @@ $di->setShared('url', function () use ($config) {
 /**
  * Setting up the view component
  */
-$di->setShared('view', function () use ($config) {
-
+$di->setShared('view', function () {
+    $config = $this->getConfig();
+ 
     $view = new View();
 
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt' => function ($view, $di) use ($config) {
+        '.volt' => function ($view, $di) {
+            $config = $this->getConfig();
 
             $volt = new VoltEngine($view, $di);
-
             $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,
                 'compiledSeparator' => '_'
@@ -71,7 +74,9 @@ $di->setShared('view', function () use ($config) {
 /**
  * Database connection is created based in the parameters defined in the configuration file
  */
-$di->setShared('db', function () use ($config) {
+$di->setShared('db', function () {
+    $config = $this->getConfig();
+
     $dbConfig = $config->database->toArray();
     $adapter = $dbConfig['adapter'];
     unset($dbConfig['adapter']);
@@ -113,7 +118,7 @@ $di->set('flash', function () {
 /**
 * Set the default namespace for dispatcher
 */
-$di->setShared('dispatcher', function() use ($di) {
+$di->setShared('dispatcher', function() {
     $dispatcher = new Phalcon\Mvc\Dispatcher();
     $dispatcher->setDefaultNamespace('@@namespace@@\Frontend\Controllers');
     return $dispatcher;
