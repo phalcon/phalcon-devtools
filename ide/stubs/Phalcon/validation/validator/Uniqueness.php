@@ -19,6 +19,14 @@ namespace Phalcon\Validation\Validator;
  * 'attribute' => 'nick'
  * ]));
  * </code>
+ * In model:
+ * <code>
+ * $validator->add('username', new UniquenessValidator());
+ * </code>
+ * Combination of fields in model:
+ * <code>
+ * $validator->add(['firstName', 'lastName'], new UniquenessValidator());
+ * </code>
  */
 class Uniqueness extends \Phalcon\Validation\Validator
 {
@@ -30,14 +38,14 @@ class Uniqueness extends \Phalcon\Validation\Validator
      * Executes the validation
      *
      * @param mixed $validation 
-     * @param string $field 
+     * @param mixed $field 
      * @return bool 
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 
     /**
      * @param mixed $validation 
-     * @param string $field 
+     * @param mixed $field 
      * @return bool 
      */
     protected function isUniqueness(\Phalcon\Validation $validation, $field) {}

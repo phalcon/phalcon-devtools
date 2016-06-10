@@ -19,6 +19,7 @@ namespace Phalcon\Cache\Backend;
  * 'port' => 6379,
  * 'auth' => 'foobared',
  * 'persistent' => false
+ * 'index' => 0,
  * ]);
  * // Cache arbitrary data
  * $cache->save('my-data', [1, 2, 3, 4, 5]);
@@ -52,7 +53,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
      *
      * @param int|string $keyName 
      * @param long $lifetime 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
@@ -71,7 +72,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
      * Deletes a value from the cache by its key
      *
      * @param int|string $keyName 
-     * @return boolean 
+     * @return bool 
      */
     public function delete($keyName) {}
 
@@ -97,7 +98,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
      *
      * @param string $keyName 
      * @param long $value 
-     * @return long 
+     * @return int 
      */
     public function increment($keyName = null, $value = null) {}
 
@@ -106,7 +107,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
      *
      * @param string $keyName 
      * @param long $value 
-     * @return long 
+     * @return int 
      */
     public function decrement($keyName = null, $value = null) {}
 

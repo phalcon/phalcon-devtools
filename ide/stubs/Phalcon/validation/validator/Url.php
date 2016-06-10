@@ -7,9 +7,15 @@ namespace Phalcon\Validation\Validator;
  * Checks if a value has a url format
  * <code>
  * use Phalcon\Validation\Validator\Url as UrlValidator;
- * $validator->add('url', new UrlValidator(array(
+ * $validator->add('url', new UrlValidator([
  * 'message' => ':field must be a url'
- * )));
+ * ]));
+ * $validator->add(['url', 'homepage'], new UrlValidator([
+ * 'message' => [
+ * 'url' => 'url must be a url',
+ * 'homepage' => 'homepage must be a url'
+ * ]
+ * ]));
  * </code>
  */
 class Url extends \Phalcon\Validation\Validator
