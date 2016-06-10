@@ -15,6 +15,7 @@ namespace Phalcon\Session\Adapter;
  * 'persistent' => false,
  * 'lifetime'   => 3600,
  * 'prefix'     => 'my_'
+ * 'index'      => 1,
  * ]);
  * $session->start();
  * $session->set('var', 'some-value');

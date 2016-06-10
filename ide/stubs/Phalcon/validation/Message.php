@@ -25,7 +25,7 @@ class Message implements \Phalcon\Validation\MessageInterface
      * Phalcon\Validation\Message constructor
      *
      * @param string $message 
-     * @param string $field 
+     * @param mixed $field 
      * @param string $type 
      * @param int $code 
      */
@@ -64,7 +64,7 @@ class Message implements \Phalcon\Validation\MessageInterface
     /**
      * Sets field name related to message
      *
-     * @param string $field 
+     * @param mixed $field 
      * @return Message 
      */
     public function setField($field) {}
@@ -72,7 +72,7 @@ class Message implements \Phalcon\Validation\MessageInterface
     /**
      * Returns field name related to message
      *
-     * @return string 
+     * @return mixed 
      */
     public function getField() {}
 

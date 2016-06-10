@@ -7,9 +7,15 @@ namespace Phalcon\Validation\Validator;
  * Check for alphanumeric character(s)
  * <code>
  * use Phalcon\Validation\Validator\Alnum as AlnumValidator;
- * $validator->add('username', new AlnumValidator(array(
+ * $validator->add('username', new AlnumValidator([
  * 'message' => ':field must contain only alphanumeric characters'
- * )));
+ * ]));
+ * $validator->add(['username', 'name'], new AlnumValidator([
+ * 'message' => [
+ * 'username' => 'username must contain only alphanumeric characters',
+ * 'name' => 'name must contain only alphanumeric characters'
+ * ]
+ * ]));
  * </code>
  */
 class Alnum extends \Phalcon\Validation\Validator

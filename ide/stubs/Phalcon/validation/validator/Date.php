@@ -11,6 +11,16 @@ namespace Phalcon\Validation\Validator;
  * 'format' => 'd-m-Y',
  * 'message' => 'The date is invalid'
  * ]));
+ * $validator->add(['date','anotherDate'], new DateValidator([
+ * 'format' => [
+ * 'date' => 'd-m-Y',
+ * 'anotherDate' => 'Y-m-d'
+ * ],
+ * 'message' => [
+ * 'date' => 'The date is invalid',
+ * 'anotherDate' => 'The another date is invalid'
+ * ]
+ * ]));
  * </code>
  */
 class Date extends \Phalcon\Validation\Validator
