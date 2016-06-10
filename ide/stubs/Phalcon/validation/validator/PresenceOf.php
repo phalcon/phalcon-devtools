@@ -7,9 +7,15 @@ namespace Phalcon\Validation\Validator;
  * Validates that a value is not null or empty string
  * <code>
  * use Phalcon\Validation\Validator\PresenceOf;
- * $validator->add('name', new PresenceOf(array(
+ * $validator->add('name', new PresenceOf([
  * 'message' => 'The name is required'
- * )));
+ * ]));
+ * $validator->add(['name', 'email'], new PresenceOf([
+ * 'message' => [
+ * 'name' => 'The name is required',
+ * 'email' => 'The email is required'
+ * ]
+ * ]));
  * </code>
  */
 class PresenceOf extends \Phalcon\Validation\Validator

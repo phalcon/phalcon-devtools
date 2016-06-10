@@ -18,6 +18,9 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     protected $_validators = array();
 
 
+    protected $_uniquenessValidatorsCombinedFields;
+
+
     protected $_filters;
 
 
@@ -57,7 +60,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Adds a validator to a field
      *
-     * @param string $field 
+     * @param mixed $field 
      * @param mixed $validator 
      * @return Validation 
      */
@@ -66,7 +69,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Alias of `add` method
      *
-     * @param string $field 
+     * @param mixed $field 
      * @param mixed $validator 
      * @return Validation 
      */
@@ -75,7 +78,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Adds the validators to a field
      *
-     * @param string $field 
+     * @param mixed $field 
      * @param array $validators 
      * @return Validation 
      */
@@ -186,7 +189,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Internal validations, if it returns true, then skip the current validator
      *
-     * @param string $field 
+     * @param mixed $field 
      * @param mixed $validator 
      * @return bool 
      */
