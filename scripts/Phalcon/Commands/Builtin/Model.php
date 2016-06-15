@@ -56,7 +56,8 @@ class Model extends Command
             'camelize'        => 'Properties is in camelCase [optional]',
             'trace'           => 'Shows the trace of the framework in case of exception [optional]',
             'mapcolumn'       => 'Get some code for map columns [optional]',
-            'abstract'        => 'Abstract Model [optional]'
+            'abstract'        => 'Abstract Model [optional]',
+            'annotate'        => 'Annotate Attributes [optional]'
         );
     }
 
@@ -91,7 +92,8 @@ class Model extends Command
                 'camelize'          => $this->isReceivedOption('camelize'),
                 'force'             => $this->isReceivedOption('force'),
                 'mapColumn'         => $this->isReceivedOption('mapcolumn'),
-                'abstract'          => $this->isReceivedOption('abstract')
+                'abstract'          => $this->isReceivedOption('abstract'),
+                'annotate'          => $this->isReceivedOption('annotate')
             )
         );
 
