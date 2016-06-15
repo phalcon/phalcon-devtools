@@ -78,6 +78,10 @@ class Model extends Component
             $options['abstract'] = false;
         }
 
+        if (!isset($options['annotate'])) {
+            $options['annotate'] = false;
+        }
+
         if ($options['abstract']) {
             $options['className'] = 'Abstract' . $options['className'];
         }
@@ -448,7 +452,7 @@ class Model extends Component
             }
             $type = $this->getPHPType($field->getType());
             if ($useSettersGetters) {
-                $attributes[] = $this->snippet->getAttributes($type, 'protected', $field->getName());
+                $attributes[] = $this->snippet->getAttributes($type, 'protected', $field, $this->options->has( 'annotate' ));
                 $methodName = Utils::camelize($field->getName());
 
                 $setters[] = $this->snippet->getSetter($field->getName(), $type, $methodName);
@@ -459,7 +463,7 @@ class Model extends Component
                     $getters[] = $this->snippet->getGetter($field->getName(), $type, $methodName);
                 }
             } else {
-                $attributes[] = $this->snippet->getAttributes($type, 'public', $field->getName());
+                $attributes[] = $this->snippet->getAttributes($type, 'public', $field, $this->options->has( 'annotate' ));
             }
         }
 
