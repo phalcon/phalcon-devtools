@@ -6,12 +6,14 @@ namespace Phalcon\Cache\Backend;
  * Phalcon\Cache\Backend\Memory
  * Stores content in memory. Data is lost when the request is finished
  * <code>
- * //Cache data
- * $frontCache = new \Phalcon\Cache\Frontend\Data();
- * $cache = new \Phalcon\Cache\Backend\Memory($frontCache);
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
- * //Get data
+ * use Phalcon\Cache\Backend\Memory;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
+ * // Cache data
+ * $frontCache = new FrontData();
+ * $cache = new Memory($frontCache);
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * // Get data
  * $data = $cache->get('my-data');
  * </code>
  */
@@ -38,6 +40,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
      * @param string $content 
      * @param long $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 

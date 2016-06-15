@@ -25,6 +25,9 @@ class Escaper implements \Phalcon\EscaperInterface
     protected $_htmlQuoteType = 3;
 
 
+    protected $_doubleEncode = true;
+
+
     /**
      * Sets the encoding to be used by the escaper
      * <code>
@@ -51,6 +54,16 @@ class Escaper implements \Phalcon\EscaperInterface
      * @param int $quoteType 
      */
     public function setHtmlQuoteType($quoteType) {}
+
+    /**
+     * Sets the double_encode to be used by the escaper
+     * <code>
+     * $escaper->setDoubleEncode(false);
+     * </code>
+     *
+     * @param bool $doubleEncode 
+     */
+    public function setDoubleEncode($doubleEncode) {}
 
     /**
      * Detect the character encoding of a string to be handled by an encoder
