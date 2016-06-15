@@ -79,7 +79,7 @@ try {
         '\Phalcon\Commands\Builtin\Webtools'
     );
 
-	$script->loadUserScripts();
+    $script->loadUserScripts();
 
     foreach ($commandsToEnable as $command) {
         $script->attach(new $command($script, $eventsManager));
