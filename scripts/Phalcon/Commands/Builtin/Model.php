@@ -55,7 +55,8 @@ class Model extends Command
             'force'           => 'Rewrite the model [optional]',
             'trace'           => 'Shows the trace of the framework in case of exception [optional]',
             'mapcolumn'       => 'Get some code for map columns [optional]',
-            'abstract'        => 'Abstract Model [optional]'
+            'abstract'        => 'Abstract Model [optional]',
+            'annotate'        => 'Annotate Attributes [optional]'
         );
     }
 
@@ -89,7 +90,8 @@ class Model extends Command
                 'excludeFields'     => $this->getOption('excludefields'),
                 'force'             => $this->isReceivedOption('force'),
                 'mapColumn'         => $this->isReceivedOption('mapcolumn'),
-                'abstract'          => $this->isReceivedOption('abstract')
+                'abstract'          => $this->isReceivedOption('abstract'),
+                'annotate'          => $this->isReceivedOption('annotate')
             )
         );
 

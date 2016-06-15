@@ -155,9 +155,27 @@ EOD;
         return $templateValidationFailed;
     }
 
-    public function getAttributes($type, $visibility, $fieldName)
+    public function getAttributes($type, $visibility, \Phalcon\Db\ColumnInterface $field, $annotate = false)
     {
-        $templateAttributes = <<<EOD
+        if ($annotate) {
+            $templateAttributes = <<<EOD
+    /**
+     *
+     * @var %s%s%s
+     * @Column(type="%s"%s, nullable=%s)
+     */
+    %s \$%s;
+EOD;
+
+            return PHP_EOL . sprintf($templateAttributes,
+                $type,
+                $field->isPrimary() ? PHP_EOL . '     * @Primary' : '',
+                $field->isAutoIncrement() ? PHP_EOL . '     * @Identity' : '',
+                $type,
+                $field->getSize() ? ', length=' . $field->getSize() : '',
+                $field->isNotNull() ? 'false' : 'true', $visibility, $field->getName()) . PHP_EOL;
+        } else {
+            $templateAttributes = <<<EOD
     /**
      *
      * @var %s
@@ -165,7 +183,8 @@ EOD;
     %s \$%s;
 EOD;
 
-        return PHP_EOL.sprintf($templateAttributes, $type, $visibility, $fieldName).PHP_EOL;
+            return PHP_EOL . sprintf($templateAttributes, $type, $visibility, $field->getName()) . PHP_EOL;
+        }
     }
 
     public function getGetterMap($fieldName, $type, $setterName, $typeMap)
