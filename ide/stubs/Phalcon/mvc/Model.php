@@ -311,7 +311,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param array $columnMap 
      * @param int $dirtyState 
      * @param boolean $keepSnapshots 
-     * @return \Phalcon\Mvc\Model 
+     * @return Model 
      */
     public static function cloneResultMap($base, $data, $columnMap, $dirtyState = 0, $keepSnapshots = null) {}
 
