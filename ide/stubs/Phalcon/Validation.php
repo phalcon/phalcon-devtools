@@ -18,7 +18,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     protected $_validators = array();
 
 
-    protected $_uniquenessValidatorsCombinedFields;
+    protected $_combinedFieldsValidators;
 
 
     protected $_filters;
