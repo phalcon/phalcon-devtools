@@ -28,7 +28,7 @@ namespace Phalcon\Validation\Validator;
  * $validator->add(['firstName', 'lastName'], new UniquenessValidator());
  * </code>
  */
-class Uniqueness extends \Phalcon\Validation\Validator
+class Uniqueness extends \Phalcon\Validation\CombinedFieldsValidator
 {
 
     private $columnMap = null;
