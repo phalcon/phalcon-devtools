@@ -4,7 +4,7 @@ namespace Phalcon\Db;
 
 /**
  * Phalcon\Db\RawValue
- * This class allows to insert/update raw data without quoting or formating.
+ * This class allows to insert/update raw data without quoting or formatting.
  * The next example shows how to use the MySQL now() function as a field value.
  * <code>
  * $subscriber = new Subscribers();
@@ -16,7 +16,7 @@ namespace Phalcon\Db;
 class RawValue
 {
     /**
-     * Raw value without quoting or formating
+     * Raw value without quoting or formatting
      *
      * @var string
      */
@@ -24,14 +24,14 @@ class RawValue
 
 
     /**
-     * Raw value without quoting or formating
+     * Raw value without quoting or formatting
      *
      * @return string 
      */
     public function getValue() {}
 
     /**
-     * Raw value without quoting or formating
+     * Raw value without quoting or formatting
      *
      * @return string 
      */

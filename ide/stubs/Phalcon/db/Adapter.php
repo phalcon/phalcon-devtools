@@ -197,7 +197,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     public function fetchColumn($sqlQuery, $placeholders = null, $column = 0) {}
 
     /**
-     * Inserts data into a table using custom RBDM SQL syntax
+     * Inserts data into a table using custom RDBMS SQL syntax
      * <code>
      * // Inserting a new robot
      * $success = $connection->insert(

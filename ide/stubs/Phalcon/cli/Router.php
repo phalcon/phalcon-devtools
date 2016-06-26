@@ -151,21 +151,21 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     public function getTaskName() {}
 
     /**
-     * Returns proccesed action name
+     * Returns processed action name
      *
      * @return string 
      */
     public function getActionName() {}
 
     /**
-     * Returns proccesed extra params
+     * Returns processed extra params
      *
      * @return array 
      */
     public function getParams() {}
 
     /**
-     * Returns the route that matchs the handled URI
+     * Returns the route that matches the handled URI
      *
      * @return RouteInterface 
      */

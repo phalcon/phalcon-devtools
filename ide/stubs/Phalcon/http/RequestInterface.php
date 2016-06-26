@@ -145,11 +145,18 @@ interface RequestInterface
     public function getServerName();
 
     /**
-     * Gets information about schema, host and port used by the request
+     * Gets host name used by the request
      *
      * @return string 
      */
     public function getHttpHost();
+
+    /**
+     * Gets information about the port on which the request is made
+     *
+     * @return int 
+     */
+    public function getPort();
 
     /**
      * Gets most possibly client IPv4 Address. This methods search in $_SERVER['REMOTE_ADDR'] and optionally in $_SERVER['HTTP_X_FORWARDED_FOR']
@@ -223,6 +230,27 @@ interface RequestInterface
      * @return bool 
      */
     public function isOptions();
+
+    /**
+     * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
+     *
+     * @return bool 
+     */
+    public function isPurge();
+
+    /**
+     * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
+     *
+     * @return bool 
+     */
+    public function isTrace();
+
+    /**
+     * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
+     *
+     * @return bool 
+     */
+    public function isConnect();
 
     /**
      * Checks whether request include attached files

@@ -82,7 +82,7 @@ interface RouterInterface
     public function getParams();
 
     /**
-     * Returns the route that matchs the handled URI
+     * Returns the route that matches the handled URI
      *
      * @return \Phalcon\Cli\Router\RouteInterface 
      */
