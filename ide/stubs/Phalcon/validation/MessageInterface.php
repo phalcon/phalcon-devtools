@@ -62,7 +62,7 @@ interface MessageInterface
     public function __toString();
 
     /**
-     * Magic __set_state helps to recover messsages from serialization
+     * Magic __set_state helps to recover messages from serialization
      *
      * @param array $message 
      * @return MessageInterface 

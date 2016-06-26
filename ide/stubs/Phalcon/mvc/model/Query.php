@@ -138,7 +138,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     public function getUniqueRow() {}
 
     /**
-     * Replaces the model's name to its source name in a qualifed-name expression
+     * Replaces the model's name to its source name in a qualified-name expression
      *
      * @param array $expr 
      * @return array 

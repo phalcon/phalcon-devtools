@@ -34,6 +34,9 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     protected $_httpMethodParameterOverride = false;
 
 
+    protected $_strictHostCheck = false;
+
+
 
     public function getHttpMethodParameterOverride() {}
 
@@ -261,11 +264,53 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     public function getServerName() {}
 
     /**
-     * Gets information about schema, host and port used by the request
+     * Gets host name used by the request.
+     * `Request::getHttpHost` trying to find host name in following order:
+     * - `$_SERVER['HTTP_HOST']`
+     * - `$_SERVER['SERVER_NAME']`
+     * - `$_SERVER['SERVER_ADDR']`
+     * Optionally `Request::getHttpHost` validates and clean host name.
+     * The `Request::$_strictHostCheck` can be used to validate host name.
+     * Note: validation and cleaning have a negative performance impact because they use regular expressions.
+     * <code>
+     * use Phalcon\Http\Request;
+     * $request = new Request;
+     * $_SERVER['HTTP_HOST'] = 'example.com';
+     * $request->getHttpHost(); // example.com
+     * $_SERVER['HTTP_HOST'] = 'example.com:8080';
+     * $request->getHttpHost(); // example.com:8080
+     * $request->setStrictHostCheck(true);
+     * $_SERVER['HTTP_HOST'] = 'ex=am~ple.com';
+     * $request->getHttpHost(); // UnexpectedValueException
+     * $_SERVER['HTTP_HOST'] = 'ExAmPlE.com';
+     * $request->getHttpHost(); // example.com
+     * </code>
      *
      * @return string 
      */
     public function getHttpHost() {}
+
+    /**
+     * Sets if the `Request::getHttpHost` method must be use strict validation of host name or not
+     *
+     * @param bool $flag 
+     * @return Request 
+     */
+    public function setStrictHostCheck($flag = true) {}
+
+    /**
+     * Checks if the `Request::getHttpHost` method will be use strict validation of host name or not
+     *
+     * @return bool 
+     */
+    public function isStrictHostCheck() {}
+
+    /**
+     * Gets information about the port on which the request is made.
+     *
+     * @return int 
+     */
+    public function getPort() {}
 
     /**
      * Gets HTTP URI which request has been made
@@ -367,6 +412,27 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * @return bool 
      */
     public function isOptions() {}
+
+    /**
+     * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
+     *
+     * @return bool 
+     */
+    public function isPurge() {}
+
+    /**
+     * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
+     *
+     * @return bool 
+     */
+    public function isTrace() {}
+
+    /**
+     * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
+     *
+     * @return bool 
+     */
+    public function isConnect() {}
 
     /**
      * Checks whether request include attached files

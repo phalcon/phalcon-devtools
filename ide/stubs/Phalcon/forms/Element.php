@@ -283,7 +283,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     public function clear() {}
 
     /**
-     * Magic method __toString renders the widget without atttributes
+     * Magic method __toString renders the widget without attributes
      *
      * @return string 
      */

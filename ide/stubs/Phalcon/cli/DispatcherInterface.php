@@ -38,7 +38,7 @@ interface DispatcherInterface extends \Phalcon\DispatcherInterface
     public function getTaskName();
 
     /**
-     * Returns the lastest dispatched controller
+     * Returns the latest dispatched controller
      *
      * @return TaskInterface 
      */

@@ -725,7 +725,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * $robot = new Robots();
      * $robot->create(array(
      * 'type' => 'mechanical',
-     * 'name' => 'Astroy Boy',
+     * 'name' => 'Astro Boy',
      * 'year' => 1952
      * ));
      * </code>
