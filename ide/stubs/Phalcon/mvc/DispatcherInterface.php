@@ -38,7 +38,7 @@ interface DispatcherInterface extends \Phalcon\DispatcherInterface
     public function getControllerName();
 
     /**
-     * Returns the lastest dispatched controller
+     * Returns the latest dispatched controller
      *
      * @return \Phalcon\Mvc\ControllerInterface 
      */

@@ -30,7 +30,7 @@ interface AdapterInterface
     public function fetchAll($sqlQuery, $fetchMode = 2, $placeholders = null);
 
     /**
-     * Inserts data into a table using custom RBDM SQL syntax
+     * Inserts data into a table using custom RDBMS SQL syntax
      *
      * @param mixed $table 
      * @param array $values 
@@ -43,7 +43,7 @@ interface AdapterInterface
     public function insert($table, $values, $fields = null, $dataTypes = null);
 
     /**
-     * Updates data on a table using custom RBDM SQL syntax
+     * Updates data on a table using custom RDBMS SQL syntax
      *
      * @param mixed $table 
      * @param mixed $fields 
@@ -57,7 +57,7 @@ interface AdapterInterface
     public function update($table, $fields, $values, $whereCondition = null, $dataTypes = null);
 
     /**
-     * Deletes data from a table using custom RBDM SQL syntax
+     * Deletes data from a table using custom RDBMS SQL syntax
      *
      * @param string $table 
      * @param string $whereCondition 
