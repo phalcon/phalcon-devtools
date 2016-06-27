@@ -8,9 +8,19 @@
     "authors": [
         {
             "name": "Phalcon Team",
-            "email": "team@phalconphp.com"
+            "email": "team@phalconphp.com",
+            "homepage": "https://phalconphp.com/en/team"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/phalcon/phalcon-devtools/graphs/contributors"
         }
     ],
+    "support": {
+        "issues": "https://github.com/phalcon/phalcon-devtools/issues",
+        "source": "https://github.com/phalcon/phalcon-devtools",
+        "forum": "https://forum.phalconphp.com/"
+    },
     "require": {
         "php": ">=5.4",
         "ext-phalcon": "^2.1"
