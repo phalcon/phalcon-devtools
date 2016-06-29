@@ -28,9 +28,8 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
      * Returns a cached content
      *
      * @param string $keyName 
-     * @param long $lifetime 
-     * @param  $string|long keyName
-     * @return mixed 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
