@@ -42,19 +42,17 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
     /**
      * Phalcon\Cache\Backend\File constructor
      *
-     * @param	Phalcon\Cache\FrontendInterface frontend
-     * @param	array options
      * @param mixed $frontend 
-     * @param mixed $options 
+     * @param array $options 
      */
-    public function __construct(\Phalcon\Cache\FrontendInterface $frontend, $options = null) {}
+    public function __construct(\Phalcon\Cache\FrontendInterface $frontend, $options) {}
 
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
+     * @param string $keyName 
      * @param int $lifetime 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
@@ -131,7 +129,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
      * Set whether to use the safekey or not
      *
      * @param bool $useSafeKey 
-     * @return this 
+     * @return File 
      */
     public function useSafeKey($useSafeKey) {}
 

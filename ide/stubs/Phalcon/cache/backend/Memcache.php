@@ -59,9 +59,9 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
-     * @param long $lifetime 
-     * @return mixed 
+     * @param string $keyName 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 

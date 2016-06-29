@@ -56,7 +56,7 @@ interface ViewBaseInterface
     /**
      * Cache the actual view render to certain level
      *
-     * @param boolean|array $options 
+     * @param mixed $options 
      */
     public function cache($options = true);
 
