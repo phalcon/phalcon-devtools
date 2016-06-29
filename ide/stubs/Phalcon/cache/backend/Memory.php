@@ -26,10 +26,9 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
     /**
      * Returns a cached content
      *
-     * @param mixed $keyName 
-     * @param long $lifetime 
-     * @param  $string keyName
-     * @return mixed 
+     * @param string $keyName 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 

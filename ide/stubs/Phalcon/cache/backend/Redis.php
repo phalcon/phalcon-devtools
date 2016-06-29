@@ -51,8 +51,8 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
-     * @param long $lifetime 
+     * @param string $keyName 
+     * @param int $lifetime 
      * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}

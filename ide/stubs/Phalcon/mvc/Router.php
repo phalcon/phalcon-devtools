@@ -365,7 +365,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function getParams() {}
 
     /**
-     * Returns the route that matchs the handled URI
+     * Returns the route that matches the handled URI
      *
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
@@ -379,7 +379,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function getMatches() {}
 
     /**
-     * Checks if the router macthes any of the defined routes
+     * Checks if the router matches any of the defined routes
      *
      * @return bool 
      */

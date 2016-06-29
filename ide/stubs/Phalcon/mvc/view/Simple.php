@@ -6,10 +6,12 @@ namespace Phalcon\Mvc\View;
  * Phalcon\Mvc\View\Simple
  * This component allows to render views without hierarchical levels
  * <code>
- * $view = new \Phalcon\Mvc\View\Simple();
- * echo $view->render('templates/my-view', array('content' => $html));
- * //or with filename with extension
- * echo $view->render('templates/my-view.volt', array('content' => $html));
+ * use Phalcon\Mvc\View\Simple as View;
+ * $view = new View();
+ * // Render a view
+ * echo $view->render('templates/my-view', ['some' => $param]);
+ * // Or with filename with extension
+ * echo $view->render('templates/my-view.volt', ['parameter' => $here]);
  * </code>
  */
 class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInterface
@@ -26,7 +28,9 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     protected $_viewParams;
 
-
+    /**
+     * @var \Phalcon\Mvc\View\EngineInterface[]|false
+     */
     protected $_engines = false;
 
 
@@ -72,11 +76,11 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Register templating engines
      * <code>
-     * $this->view->registerEngines(array(
-     * ".phtml" => "Phalcon\Mvc\View\Engine\Php",
-     * ".volt" => "Phalcon\Mvc\View\Engine\Volt",
-     * ".mhtml" => "MyCustomEngine"
-     * ));
+     * $this->view->registerEngines([
+     * '.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+     * '.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+     * '.mhtml' => 'MyCustomEngine'
+     * ]);
      * </code>
      *
      * @param array $engines 
@@ -127,7 +131,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * Sets the cache options
      *
      * @param array $options 
-     * @return \Phalcon\Mvc\View\Simple 
+     * @return Simple 
      */
     public function setCacheOptions($options) {}
 
@@ -155,7 +159,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Cache the actual view render to certain level
      * <code>
-     * $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
+     * $this->view->cache(['key' => 'my-key', 'lifetime' => 86400]);
      * </code>
      *
      * @param mixed $options 
@@ -178,7 +182,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Set all the render params
      * <code>
-     * $this->view->setVars(array('products' => $products));
+     * $this->view->setVars(['products' => $products]);
      * </code>
      *
      * @param array $params 
@@ -203,7 +207,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * Returns a parameter previously set in the view
      *
      * @param string $key 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function getVar($key) {}
 
@@ -257,7 +261,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * </code>
      *
      * @param string $key 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function __get($key) {}
 

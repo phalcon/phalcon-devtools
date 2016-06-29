@@ -70,9 +70,9 @@ interface BackendInterface
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
+     * @param string $keyName 
      * @param int $lifetime 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null);
 
