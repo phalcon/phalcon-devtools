@@ -8,12 +8,16 @@ namespace Phalcon\Http;
  * The request object is a simple value object that is passed between the dispatcher and controller classes.
  * It packages the HTTP request environment.
  * <code>
- * $request = new \Phalcon\Http\Request();
- * if ($request->isPost() == true) {
- * if ($request->isAjax() == true) {
+ * use Phalcon\Http\Request;
+ * $request = new Request();
+ * if ($request->isPost()) {
+ * if ($request->isAjax()) {
  * echo 'Request was made using POST and AJAX';
  * }
  * }
+ * $request->getServer('HTTP_HOST'); // retrieve SERVER variables
+ * $request->getMethod();            // GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, PURGE, TRACE, CONNECT
+ * $request->getLanguages();         // an array of languages the client accepts
  * </code>
  */
 class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAwareInterface
@@ -119,12 +123,12 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * Gets variable from $_GET superglobal applying filters if needed
      * If no parameters are given the $_GET superglobal is returned
      * <code>
-     * //Returns value from $_GET["id"] without sanitizing
-     * $id = $request->getQuery("id");
-     * //Returns value from $_GET["id"] with sanitizing
-     * $id = $request->getQuery("id", "int");
-     * //Returns value from $_GET["id"] with a default value
-     * $id = $request->getQuery("id", null, 150);
+     * // Returns value from $_GET['id'] without sanitizing
+     * $id = $request->getQuery('id');
+     * // Returns value from $_GET['id'] with sanitizing
+     * $id = $request->getQuery('id', 'int');
+     * // Returns value from $_GET['id'] with a default value
+     * $id = $request->getQuery('id', null, 150);
      * </code>
      *
      * @param string $name 
