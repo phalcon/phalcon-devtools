@@ -96,7 +96,7 @@ interface RouterInterface
     public function getMatches();
 
     /**
-     * Check if the router macthes any of the defined routes
+     * Check if the router matches any of the defined routes
      *
      * @return bool 
      */
