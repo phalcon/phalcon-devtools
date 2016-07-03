@@ -33,7 +33,9 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      */
     protected $_engines = false;
 
-
+    /**
+     * @var array|null
+     */
     protected $_registeredEngines;
 
 
@@ -49,7 +51,9 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     protected $_cacheOptions;
 
 
-
+    /**
+     * @return array|null 
+     */
     public function getRegisteredEngines() {}
 
     /**
@@ -114,16 +118,16 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Renders a partial view
      * <code>
-     * //Show a partial inside another view
+     * // Show a partial inside another view
      * $this->partial('shared/footer');
      * </code>
      * <code>
-     * //Show a partial inside another view with parameters
-     * $this->partial('shared/footer', array('content' => $html));
+     * // Show a partial inside another view with parameters
+     * $this->partial('shared/footer', ['content' => $html]);
      * </code>
      *
      * @param string $partialPath 
-     * @param array $params 
+     * @param mixed $params 
      */
     public function partial($partialPath, $params = null) {}
 
