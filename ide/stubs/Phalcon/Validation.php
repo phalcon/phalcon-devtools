@@ -46,7 +46,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
      *
      * @param array $validators 
      */
-    public function __construct($validators = null) {}
+    public function __construct(array $validators = null) {}
 
     /**
      * Validate a set of data according to a set of rules
@@ -82,7 +82,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
      * @param array $validators 
      * @return Validation 
      */
-    public function rules($field, $validators) {}
+    public function rules($field, array $validators) {}
 
     /**
      * Adds filters to the field
@@ -128,7 +128,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
      * @param array $messages 
      * @return array 
      */
-    public function setDefaultMessages($messages = array()) {}
+    public function setDefaultMessages(array $messages = array()) {}
 
     /**
      * Get default message for validator type
@@ -150,7 +150,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
      *
      * @param array $labels 
      */
-    public function setLabels($labels) {}
+    public function setLabels(array $labels) {}
 
     /**
      * Get label for field

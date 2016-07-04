@@ -43,7 +43,7 @@ interface ValidationInterface
      * @param array $validators 
      * @return Validation 
      */
-    public function rules($field, $validators);
+    public function rules($field, array $validators);
 
     /**
      * Adds filters to the field
@@ -79,7 +79,7 @@ interface ValidationInterface
      *
      * @param array $messages 
      */
-    public function setDefaultMessages($messages = array());
+    public function setDefaultMessages(array $messages = array());
 
     /**
      * Get default message for validator type
@@ -100,7 +100,7 @@ interface ValidationInterface
      *
      * @param array $labels 
      */
-    public function setLabels($labels);
+    public function setLabels(array $labels);
 
     /**
      * Get label for field

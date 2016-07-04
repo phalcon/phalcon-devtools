@@ -29,7 +29,7 @@ class Model extends \Phalcon\Paginator\Adapter implements \Phalcon\Paginator\Ada
      *
      * @param array $config 
      */
-    public function __construct($config) {}
+    public function __construct(array $config) {}
 
     /**
      * Returns a slice of the resultset to show in the pagination

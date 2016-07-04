@@ -89,7 +89,7 @@ class Tag
      * @param array $params 
      * @return EscaperInterface 
      */
-    public static function getEscaper($params) {}
+    public static function getEscaper(array $params) {}
 
     /**
      * Renders parameters keeping order in their HTML attributes
@@ -98,7 +98,7 @@ class Tag
      * @param array $attributes 
      * @return string 
      */
-    public static function renderAttributes($code, $attributes) {}
+    public static function renderAttributes($code, array $attributes) {}
 
     /**
      * Sets the dependency injector container.
@@ -161,7 +161,7 @@ class Tag
      * @param array $values 
      * @param bool $merge 
      */
-    public static function setDefaults($values, $merge = false) {}
+    public static function setDefaults(array $values, $merge = false) {}
 
     /**
      * Alias of Phalcon\Tag::setDefault

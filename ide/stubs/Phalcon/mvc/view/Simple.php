@@ -61,7 +61,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      *
      * @param array $options 
      */
-    public function __construct($options = array()) {}
+    public function __construct(array $options = array()) {}
 
     /**
      * Sets views directory. Depending of your platform, always add a trailing slash or backslash
@@ -89,7 +89,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      *
      * @param array $engines 
      */
-    public function registerEngines($engines) {}
+    public function registerEngines(array $engines) {}
 
     /**
      * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
@@ -137,7 +137,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * @param array $options 
      * @return Simple 
      */
-    public function setCacheOptions($options) {}
+    public function setCacheOptions(array $options) {}
 
     /**
      * Returns the cache options
@@ -193,7 +193,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * @param bool $merge 
      * @return Simple 
      */
-    public function setVars($params, $merge = true) {}
+    public function setVars(array $params, $merge = true) {}
 
     /**
      * Set a single view parameter

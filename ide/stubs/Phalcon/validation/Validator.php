@@ -17,7 +17,7 @@ abstract class Validator implements \Phalcon\Validation\ValidatorInterface
      *
      * @param array $options 
      */
-    public function __construct($options = null) {}
+    public function __construct(array $options = null) {}
 
     /**
      * Checks if an option has been defined

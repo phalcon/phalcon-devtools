@@ -288,7 +288,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface, \Phalcon
      * @param mixed $model 
      * @param array $attributes 
      */
-    public function setAutomaticCreateAttributes(\Phalcon\Mvc\ModelInterface $model, $attributes) {}
+    public function setAutomaticCreateAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes) {}
 
     /**
      * Set the attributes that must be ignored from the UPDATE SQL generation
@@ -299,7 +299,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface, \Phalcon
      * @param mixed $model 
      * @param array $attributes 
      */
-    public function setAutomaticUpdateAttributes(\Phalcon\Mvc\ModelInterface $model, $attributes) {}
+    public function setAutomaticUpdateAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes) {}
 
     /**
      * Set the attributes that allow empty string values
@@ -310,7 +310,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface, \Phalcon
      * @param mixed $model 
      * @param array $attributes 
      */
-    public function setEmptyStringAttributes(\Phalcon\Mvc\ModelInterface $model, $attributes) {}
+    public function setEmptyStringAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes) {}
 
     /**
      * Returns attributes allow empty strings

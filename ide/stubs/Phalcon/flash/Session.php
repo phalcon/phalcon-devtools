@@ -24,7 +24,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface
      * @param array $messages 
      * @return array 
      */
-    protected function _setSessionMessages($messages) {}
+    protected function _setSessionMessages(array $messages) {}
 
     /**
      * Adds a message to the session flasher

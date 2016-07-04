@@ -45,7 +45,7 @@ class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
      * @param int $time 
      * @param array $context 
      */
-    public function logInternal($message, $type, $time, $context) {}
+    public function logInternal($message, $type, $time, array $context) {}
 
     /**
      * Closes the logger

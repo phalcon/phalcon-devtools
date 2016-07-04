@@ -266,7 +266,7 @@ class Memory extends \Phalcon\Acl\Adapter
      * @param array $parameters 
      * @return bool 
      */
-    public function isAllowed($roleName, $resourceName, $access, $parameters = null) {}
+    public function isAllowed($roleName, $resourceName, $access, array $parameters = null) {}
 
     /**
      * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY) for no arguments provided in isAllowed action if there exists func for accessKey

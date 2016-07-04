@@ -49,7 +49,7 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
      *
      * @param array $options 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Get internal options

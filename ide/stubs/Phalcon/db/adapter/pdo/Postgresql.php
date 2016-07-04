@@ -54,7 +54,7 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
      * @param array $definition 
      * @return bool 
      */
-    public function createTable($tableName, $schemaName, $definition) {}
+    public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Modifies a table column based on a definition

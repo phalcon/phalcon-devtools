@@ -17,7 +17,7 @@ class NativeArray extends \Phalcon\Translate\Adapter implements \Phalcon\Transla
      *
      * @param array $options 
      */
-    public function __construct($options) {}
+    public function __construct(array $options) {}
 
     /**
      * Returns the translation related to the given key

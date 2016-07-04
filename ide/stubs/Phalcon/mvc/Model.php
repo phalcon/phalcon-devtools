@@ -294,7 +294,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param array $whiteList 
      * @return \Phalcon\Mvc\Model 
      */
-    public function assign($data, $dataColumnMap = null, $whiteList = null) {}
+    public function assign(array $data, $dataColumnMap = null, $whiteList = null) {}
 
     /**
      * Assigns values to a model from an array returning a new model.
@@ -313,7 +313,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param boolean $keepSnapshots 
      * @return Model 
      */
-    public static function cloneResultMap($base, $data, $columnMap, $dirtyState = 0, $keepSnapshots = null) {}
+    public static function cloneResultMap($base, array $data, $columnMap, $dirtyState = 0, $keepSnapshots = null) {}
 
     /**
      * Returns an hydrated result based on the data and the column map
@@ -323,7 +323,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param int $hydrationMode 
      * @return mixed 
      */
-    public static function cloneResultMapHydrate($data, $columnMap, $hydrationMode) {}
+    public static function cloneResultMapHydrate(array $data, $columnMap, $hydrationMode) {}
 
     /**
      * Assigns values to a model from an array returning a new model
@@ -341,7 +341,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param \Phalcon\Mvc\ModelInterface $$base 
      * @return \Phalcon\Mvc\ModelInterface 
      */
-    public static function cloneResult(ModelInterface $base, $data, $dirtyState = 0) {}
+    public static function cloneResult(ModelInterface $base, array $data, $dirtyState = 0) {}
 
     /**
      * Allows to query a set of records that match the specified conditions
@@ -825,7 +825,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function skipAttributes($attributes) {}
+    protected function skipAttributes(array $attributes) {}
 
     /**
      * Sets a list of attributes that must be skipped from the
@@ -843,7 +843,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function skipAttributesOnCreate($attributes) {}
+    protected function skipAttributesOnCreate(array $attributes) {}
 
     /**
      * Sets a list of attributes that must be skipped from the
@@ -861,7 +861,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function skipAttributesOnUpdate($attributes) {}
+    protected function skipAttributesOnUpdate(array $attributes) {}
 
     /**
      * Sets a list of attributes that must be skipped from the
@@ -879,7 +879,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function allowEmptyStringValues($attributes) {}
+    protected function allowEmptyStringValues(array $attributes) {}
 
     /**
      * Setup a 1-1 relation between two models
@@ -1030,7 +1030,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param array $data 
      * @param array $columnMap 
      */
-    public function setSnapshotData($data, $columnMap = null) {}
+    public function setSnapshotData(array $data, $columnMap = null) {}
 
     /**
      * Checks if the object has internal snapshot data
@@ -1223,7 +1223,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $options 
      */
-    public static function setup($options) {}
+    public static function setup(array $options) {}
 
     /**
      * Reset a model instance data

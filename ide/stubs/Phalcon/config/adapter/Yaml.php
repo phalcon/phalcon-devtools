@@ -36,6 +36,6 @@ class Yaml extends \Phalcon\Config
      * @param string $filePath 
      * @param array $callbacks 
      */
-    public function __construct($filePath, $callbacks = null) {}
+    public function __construct($filePath, array $callbacks = null) {}
 
 }

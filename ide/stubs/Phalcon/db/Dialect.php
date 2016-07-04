@@ -100,7 +100,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    public final function getColumnList($columnList, $escapeChar = null, $bindCounts = null) {}
+    public final function getColumnList(array $columnList, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve Column expressions
@@ -120,7 +120,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    public function getSqlExpression($expression, $escapeChar = null, $bindCounts = null) {}
+    public function getSqlExpression(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Transform an intermediate representation of a schema/table into a database system valid expression
@@ -137,7 +137,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param array $definition 
      * @return string 
      */
-    public function select($definition) {}
+    public function select(array $definition) {}
 
     /**
      * Checks whether the platform supports savepoints
@@ -185,7 +185,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionScalar($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionScalar(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve object expressions
@@ -195,7 +195,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionObject($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionObject(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve qualified expressions
@@ -204,7 +204,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param string $escapeChar 
      * @return string 
      */
-    protected final function getSqlExpressionQualified($expression, $escapeChar = null) {}
+    protected final function getSqlExpressionQualified(array $expression, $escapeChar = null) {}
 
     /**
      * Resolve binary operations expressions
@@ -214,7 +214,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionBinaryOperations($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionBinaryOperations(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve unary operations expressions
@@ -224,7 +224,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionUnaryOperations($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionUnaryOperations(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve function calls
@@ -234,7 +234,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionFunctionCall($expression, $escapeChar = null, $bindCounts) {}
+    protected final function getSqlExpressionFunctionCall(array $expression, $escapeChar = null, $bindCounts) {}
 
     /**
      * Resolve Lists
@@ -244,7 +244,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionList($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionList(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve
@@ -253,7 +253,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param string $escapeChar 
      * @return string 
      */
-    protected final function getSqlExpressionAll($expression, $escapeChar = null) {}
+    protected final function getSqlExpressionAll(array $expression, $escapeChar = null) {}
 
     /**
      * Resolve CAST of values
@@ -263,7 +263,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionCastValue($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionCastValue(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve CONVERT of values encodings
@@ -273,7 +273,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionConvertValue($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionConvertValue(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve CASE expressions
@@ -283,7 +283,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionCase($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionCase(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve a FROM clause
@@ -332,7 +332,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
      * @param mixed $bindCounts 
      * @return string 
      */
-    protected final function getSqlExpressionHaving($expression, $escapeChar = null, $bindCounts = null) {}
+    protected final function getSqlExpressionHaving(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
      * Resolve a ORDER BY clause

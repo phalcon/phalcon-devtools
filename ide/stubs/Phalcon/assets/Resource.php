@@ -129,7 +129,7 @@ class Resource
      * @param array $attributes 
      * @return Resource 
      */
-    public function setAttributes($attributes) {}
+    public function setAttributes(array $attributes) {}
 
     /**
      * Sets a target uri for the generated HTML

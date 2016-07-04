@@ -70,7 +70,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @param array $extensions 
      * @return Loader 
      */
-    public function setExtensions($extensions) {}
+    public function setExtensions(array $extensions) {}
 
     /**
      * Returns the file extensions registered in the loader
@@ -86,13 +86,13 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @param bool $merge 
      * @return Loader 
      */
-    public function registerNamespaces($namespaces, $merge = false) {}
+    public function registerNamespaces(array $namespaces, $merge = false) {}
 
     /**
      * @param array $namespace 
      * @return array 
      */
-    protected function prepareNamespace($namespace) {}
+    protected function prepareNamespace(array $namespace) {}
 
     /**
      * Returns the namespaces currently registered in the autoloader
@@ -108,7 +108,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @param bool $merge 
      * @return Loader 
      */
-    public function registerDirs($directories, $merge = false) {}
+    public function registerDirs(array $directories, $merge = false) {}
 
     /**
      * Returns the directories currently registered in the autoloader
@@ -125,7 +125,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @param bool $merge 
      * @return Loader 
      */
-    public function registerFiles($files, $merge = false) {}
+    public function registerFiles(array $files, $merge = false) {}
 
     /**
      * Returns the files currently registered in the autoloader
@@ -141,7 +141,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @param bool $merge 
      * @return Loader 
      */
-    public function registerClasses($classes, $merge = false) {}
+    public function registerClasses(array $classes, $merge = false) {}
 
     /**
      * Returns the class-map currently registered in the autoloader

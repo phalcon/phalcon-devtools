@@ -40,7 +40,7 @@ class Memcache extends \Phalcon\Session\Adapter
      *
      * @param array $options 
      */
-    public function __construct($options = array()) {}
+    public function __construct(array $options = array()) {}
 
     /**
      * @return bool 

@@ -35,7 +35,7 @@ class QueryBuilder extends \Phalcon\Paginator\Adapter implements \Phalcon\Pagina
      *
      * @param array $config 
      */
-    public function __construct($config) {}
+    public function __construct(array $config) {}
 
     /**
      * Get the current page number

@@ -91,7 +91,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * @param array $options 
      * @return Form 
      */
-    public function setUserOptions($options) {}
+    public function setUserOptions(array $options) {}
 
     /**
      * Returns the options for the element
@@ -130,7 +130,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * @param array $whitelist 
      * @return Form 
      */
-    public function bind($data, $entity, $whitelist = null) {}
+    public function bind(array $data, $entity, $whitelist = null) {}
 
     /**
      * Validates the form
@@ -199,7 +199,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * @param array $attributes 
      * @return string 
      */
-    public function label($name, $attributes = null) {}
+    public function label($name, array $attributes = null) {}
 
     /**
      * Returns a label for an element

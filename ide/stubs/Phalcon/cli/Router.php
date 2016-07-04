@@ -115,7 +115,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * @param array $defaults 
      * @return Router 
      */
-    public function setDefaults($defaults) {}
+    public function setDefaults(array $defaults) {}
 
     /**
      * Handles routing information received from command-line arguments
