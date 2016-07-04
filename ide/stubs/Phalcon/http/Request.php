@@ -152,7 +152,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * @param bool $noRecursive 
      * @return mixed 
      */
-    protected final function getHelper($source, $name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false) {}
+    protected final function getHelper(array $source, $name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false) {}
 
     /**
      * Gets variable from $_SERVER superglobal
@@ -474,7 +474,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * @param string $prefix 
      * @return array 
      */
-    protected final function smoothFiles($names, $types, $tmp_names, $sizes, $errors, $prefix) {}
+    protected final function smoothFiles(array $names, array $types, array $tmp_names, array $sizes, array $errors, $prefix) {}
 
     /**
      * Returns the available headers in the request
@@ -506,7 +506,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * @param string $name 
      * @return string 
      */
-    protected final function _getBestQuality($qualityParts, $name) {}
+    protected final function _getBestQuality(array $qualityParts, $name) {}
 
     /**
      * Gets content type which request has been made

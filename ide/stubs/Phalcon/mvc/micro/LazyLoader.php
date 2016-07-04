@@ -15,6 +15,9 @@ class LazyLoader
     protected $_definition;
 
 
+
+    public function getDefinition() {}
+
     /**
      * Phalcon\Mvc\Micro\LazyLoader constructor
      *

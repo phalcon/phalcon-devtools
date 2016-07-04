@@ -137,6 +137,6 @@ class Message implements \Phalcon\Mvc\Model\MessageInterface
      * @param array $message 
      * @return Message 
      */
-    public static function __set_state($message) {}
+    public static function __set_state(array $message) {}
 
 }

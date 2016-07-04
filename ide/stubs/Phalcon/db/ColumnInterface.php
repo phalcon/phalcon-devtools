@@ -134,6 +134,6 @@ interface ColumnInterface
      * @param array $data 
      * @return ColumnInterface 
      */
-    public static function __set_state($data);
+    public static function __set_state(array $data);
 
 }

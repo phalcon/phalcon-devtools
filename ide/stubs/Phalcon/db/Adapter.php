@@ -103,7 +103,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      *
      * @param array $descriptor 
      */
-    public function __construct($descriptor) {}
+    public function __construct(array $descriptor) {}
 
     /**
      * Sets the event manager
@@ -216,7 +216,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param  $array dataTypes
      * @return  
      */
-    public function insert($table, $values, $fields = null, $dataTypes = null) {}
+    public function insert($table, array $values, $fields = null, $dataTypes = null) {}
 
     /**
      * Inserts data into a table using custom RBDM SQL syntax
@@ -396,7 +396,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param array $definition 
      * @return bool 
      */
-    public function createTable($tableName, $schemaName, $definition) {}
+    public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Drops a table from a schema/database
@@ -416,7 +416,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param mixed $schemaName 
      * @return bool 
      */
-    public function createView($viewName, $definition, $schemaName = null) {}
+    public function createView($viewName, array $definition, $schemaName = null) {}
 
     /**
      * Drops a view

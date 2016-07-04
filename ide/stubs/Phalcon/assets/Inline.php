@@ -68,6 +68,6 @@ class Inline
      * @param array $attributes 
      * @return Inline 
      */
-    public function setAttributes($attributes) {}
+    public function setAttributes(array $attributes) {}
 
 }

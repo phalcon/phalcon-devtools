@@ -54,7 +54,7 @@ class Gettext extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\A
      *
      * @param array $options 
      */
-    public function __construct($options) {}
+    public function __construct(array $options) {}
 
     /**
      * Returns the translation related to the given key
@@ -145,7 +145,7 @@ class Gettext extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\A
      *
      * @param array $options 
      */
-    protected function prepareOptions($options) {}
+    protected function prepareOptions(array $options) {}
 
     /**
      * Gets default options

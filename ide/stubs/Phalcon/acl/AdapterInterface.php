@@ -127,7 +127,7 @@ interface AdapterInterface
      * @param array $parameters 
      * @return bool 
      */
-    public function isAllowed($roleName, $resourceName, $access, $parameters = null);
+    public function isAllowed($roleName, $resourceName, $access, array $parameters = null);
 
     /**
      * Returns the role which the list is checking if it's allowed to certain resource/access

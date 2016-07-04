@@ -119,7 +119,7 @@ class Reference implements \Phalcon\Db\ReferenceInterface
      * @param string $name 
      * @param array $definition 
      */
-    public function __construct($name, $definition) {}
+    public function __construct($name, array $definition) {}
 
     /**
      * Restore a Phalcon\Db\Reference object from export
@@ -127,6 +127,6 @@ class Reference implements \Phalcon\Db\ReferenceInterface
      * @param array $data 
      * @return Reference 
      */
-    public static function __set_state($data) {}
+    public static function __set_state(array $data) {}
 
 }

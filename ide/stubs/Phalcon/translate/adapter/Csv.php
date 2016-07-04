@@ -17,7 +17,7 @@ class Csv extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\Adapt
      *
      * @param array $options 
      */
-    public function __construct($options) {}
+    public function __construct(array $options) {}
 
     /**
      * Load translates from file

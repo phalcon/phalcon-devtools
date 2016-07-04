@@ -189,7 +189,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $document 
      * @return CollectionInterface 
      */
-    public static function cloneResult(CollectionInterface $collection, $document) {}
+    public static function cloneResult(CollectionInterface $collection, array $document) {}
 
     /**
      * Returns a collection resultset
@@ -383,7 +383,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $criteria 
      * @return bool 
      */
-    public function createIfNotExist($criteria) {}
+    public function createIfNotExist(array $criteria) {}
 
     /**
      * Creates/Updates a collection based on the values in the attributes
@@ -422,7 +422,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $parameters 
      * @return array 
      */
-    public static function findFirst($parameters = null) {}
+    public static function findFirst(array $parameters = null) {}
 
     /**
      * Allows to query a set of records that match the specified conditions
@@ -457,7 +457,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $parameters 
      * @return array 
      */
-    public static function find($parameters = null) {}
+    public static function find(array $parameters = null) {}
 
     /**
      * Perform a count over a collection
@@ -468,7 +468,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $parameters 
      * @return array 
      */
-    public static function count($parameters = null) {}
+    public static function count(array $parameters = null) {}
 
     /**
      * Perform an aggregation using the Mongo aggregation framework
@@ -476,7 +476,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $parameters 
      * @return array 
      */
-    public static function aggregate($parameters = null) {}
+    public static function aggregate(array $parameters = null) {}
 
     /**
      * Allows to perform a summatory group for a column in the collection

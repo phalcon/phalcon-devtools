@@ -40,7 +40,7 @@ interface AdapterInterface
      * @param  $array dataTypes
      * @return  
      */
-    public function insert($table, $values, $fields = null, $dataTypes = null);
+    public function insert($table, array $values, $fields = null, $dataTypes = null);
 
     /**
      * Updates data on a table using custom RDBMS SQL syntax
@@ -129,7 +129,7 @@ interface AdapterInterface
      * @param array $definition 
      * @return bool 
      */
-    public function createTable($tableName, $schemaName, $definition);
+    public function createTable($tableName, $schemaName, array $definition);
 
     /**
      * Drops a table from a schema/database
@@ -149,7 +149,7 @@ interface AdapterInterface
      * @param string $schemaName 
      * @return bool 
      */
-    public function createView($viewName, $definition, $schemaName = null);
+    public function createView($viewName, array $definition, $schemaName = null);
 
     /**
      * Drops a view

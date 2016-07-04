@@ -127,7 +127,7 @@ class Oracle extends \Phalcon\Db\Dialect
      * @param array $definition 
      * @return string 
      */
-    public function createTable($tableName, $schemaName, $definition) {}
+    public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Generates SQL to drop a table
@@ -147,7 +147,7 @@ class Oracle extends \Phalcon\Db\Dialect
      * @param string $schemaName 
      * @return string 
      */
-    public function createView($viewName, $definition, $schemaName = null) {}
+    public function createView($viewName, array $definition, $schemaName = null) {}
 
     /**
      * Generates SQL to drop a view

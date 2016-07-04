@@ -35,7 +35,7 @@ class Manager
      * @param array $options 
      * @return Manager 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Returns the manager options
