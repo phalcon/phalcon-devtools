@@ -94,7 +94,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Cli\DispatcherI
      *
      * @param array $options 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Get dispatched options
@@ -108,6 +108,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Cli\DispatcherI
      * @param string $actionMethod 
      * @param array $params 
      */
-    public function callActionMethod($handler, $actionMethod, $params = array()) {}
+    public function callActionMethod($handler, $actionMethod, array $params = array()) {}
 
 }

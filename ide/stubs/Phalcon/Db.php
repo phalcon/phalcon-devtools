@@ -91,6 +91,6 @@ abstract class Db
      *
      * @param array $options 
      */
-    public static function setup($options) {}
+    public static function setup(array $options) {}
 
 }

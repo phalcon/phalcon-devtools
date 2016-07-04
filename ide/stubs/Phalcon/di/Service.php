@@ -95,7 +95,7 @@ class Service implements \Phalcon\Di\ServiceInterface
      * @param array $parameter 
      * @return Service 
      */
-    public function setParameter($position, $parameter) {}
+    public function setParameter($position, array $parameter) {}
 
     /**
      * Returns a parameter in a specific position
@@ -118,6 +118,6 @@ class Service implements \Phalcon\Di\ServiceInterface
      * @param array $attributes 
      * @return Service 
      */
-    public static function __set_state($attributes) {}
+    public static function __set_state(array $attributes) {}
 
 }

@@ -55,7 +55,7 @@ class Multiple
      * @param mixed $message 
      * @param array $context 
      */
-    public function log($type, $message = null, $context = null) {}
+    public function log($type, $message = null, array $context = null) {}
 
     /**
      * Sends/Writes an critical message to the log
@@ -63,7 +63,7 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function critical($message, $context = null) {}
+    public function critical($message, array $context = null) {}
 
     /**
      * Sends/Writes an emergency message to the log
@@ -71,7 +71,7 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function emergency($message, $context = null) {}
+    public function emergency($message, array $context = null) {}
 
     /**
      * Sends/Writes a debug message to the log
@@ -79,7 +79,7 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function debug($message, $context = null) {}
+    public function debug($message, array $context = null) {}
 
     /**
      * Sends/Writes an error message to the log
@@ -87,7 +87,7 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function error($message, $context = null) {}
+    public function error($message, array $context = null) {}
 
     /**
      * Sends/Writes an info message to the log
@@ -95,7 +95,7 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function info($message, $context = null) {}
+    public function info($message, array $context = null) {}
 
     /**
      * Sends/Writes a notice message to the log
@@ -103,7 +103,7 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function notice($message, $context = null) {}
+    public function notice($message, array $context = null) {}
 
     /**
      * Sends/Writes a warning message to the log
@@ -111,7 +111,7 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function warning($message, $context = null) {}
+    public function warning($message, array $context = null) {}
 
     /**
      * Sends/Writes an alert message to the log
@@ -119,6 +119,6 @@ class Multiple
      * @param string $message 
      * @param array $context 
      */
-    public function alert($message, $context = null) {}
+    public function alert($message, array $context = null) {}
 
 }

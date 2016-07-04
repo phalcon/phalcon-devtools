@@ -34,7 +34,7 @@ class NativeArray extends \Phalcon\Paginator\Adapter implements \Phalcon\Paginat
      *
      * @param array $config 
      */
-    public function __construct($config) {}
+    public function __construct(array $config) {}
 
     /**
      * Returns a slice of the resultset to show in the pagination

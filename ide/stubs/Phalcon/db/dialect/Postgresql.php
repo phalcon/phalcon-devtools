@@ -118,7 +118,7 @@ class Postgresql extends \Phalcon\Db\Dialect
      * @param array $definition 
      * @return string|array 
      */
-    public function createTable($tableName, $schemaName, $definition) {}
+    public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Generates SQL to drop a view
@@ -138,7 +138,7 @@ class Postgresql extends \Phalcon\Db\Dialect
      * @param string $schemaName 
      * @return string 
      */
-    public function createView($viewName, $definition, $schemaName = null) {}
+    public function createView($viewName, array $definition, $schemaName = null) {}
 
     /**
      * Generates SQL to drop a view
@@ -234,6 +234,6 @@ class Postgresql extends \Phalcon\Db\Dialect
      * @param array $definition 
      * @return string 
      */
-    protected function _getTableOptions($definition) {}
+    protected function _getTableOptions(array $definition) {}
 
 }

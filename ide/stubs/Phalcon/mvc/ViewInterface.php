@@ -141,7 +141,7 @@ interface ViewInterface extends \Phalcon\Mvc\ViewBaseInterface
      *
      * @param array $engines 
      */
-    public function registerEngines($engines);
+    public function registerEngines(array $engines);
 
     /**
      * Executes render process from dispatching data

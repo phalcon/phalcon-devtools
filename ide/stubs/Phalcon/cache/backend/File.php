@@ -45,7 +45,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
      * @param mixed $frontend 
      * @param array $options 
      */
-    public function __construct(\Phalcon\Cache\FrontendInterface $frontend, $options) {}
+    public function __construct(\Phalcon\Cache\FrontendInterface $frontend, array $options) {}
 
     /**
      * Returns a cached content

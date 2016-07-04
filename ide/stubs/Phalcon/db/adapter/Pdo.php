@@ -33,7 +33,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
      *
      * @param array $descriptor 
      */
-    public function __construct($descriptor) {}
+    public function __construct(array $descriptor) {}
 
     /**
      * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
@@ -82,7 +82,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
      * @param array $dataTypes 
      * @return \PDOStatement 
      */
-    public function executePrepared(\PDOStatement $statement, $placeholders, $dataTypes) {}
+    public function executePrepared(\PDOStatement $statement, array $placeholders, $dataTypes) {}
 
     /**
      * Sends SQL statements to the database server returning the success state.
@@ -168,7 +168,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
      * @param array $params 
      * @return array 
      */
-    public function convertBoundParams($sql, $params = array()) {}
+    public function convertBoundParams($sql, array $params = array()) {}
 
     /**
      * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement

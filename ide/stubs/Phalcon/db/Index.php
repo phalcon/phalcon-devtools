@@ -60,7 +60,7 @@ class Index implements \Phalcon\Db\IndexInterface
      * @param array $columns 
      * @param mixed $type 
      */
-    public function __construct($name, $columns, $type = null) {}
+    public function __construct($name, array $columns, $type = null) {}
 
     /**
      * Restore a Phalcon\Db\Index object from export
@@ -68,6 +68,6 @@ class Index implements \Phalcon\Db\IndexInterface
      * @param array $data 
      * @return Index 
      */
-    public static function __set_state($data) {}
+    public static function __set_state(array $data) {}
 
 }

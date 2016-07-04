@@ -38,7 +38,7 @@ class Firephp extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\Adapter
      * @param int $time 
      * @param array $context 
      */
-    public function logInternal($message, $type, $time, $context) {}
+    public function logInternal($message, $type, $time, array $context) {}
 
     /**
      * Closes the logger

@@ -44,7 +44,7 @@ class Libmemcached extends \Phalcon\Session\Adapter
      * @throws \Phalcon\Session\Exception
      * @param array $options 
      */
-    public function __construct($options) {}
+    public function __construct(array $options) {}
 
     /**
      * @return bool 

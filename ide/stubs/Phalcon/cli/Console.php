@@ -28,14 +28,14 @@ class Console extends \Phalcon\Application
      *
      * @param array $modules 
      */
-    deprecated public function addModules($modules) {}
+    deprecated public function addModules(array $modules) {}
 
     /**
      * Handle the whole command-line tasks
      *
      * @param array $arguments 
      */
-    public function handle($arguments = null) {}
+    public function handle(array $arguments = null) {}
 
     /**
      * Set an specific argument
@@ -45,6 +45,6 @@ class Console extends \Phalcon\Application
      * @param bool $shift 
      * @return Console 
      */
-    public function setArgument($arguments = null, $str = true, $shift = true) {}
+    public function setArgument(array $arguments = null, $str = true, $shift = true) {}
 
 }

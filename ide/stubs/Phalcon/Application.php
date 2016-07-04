@@ -68,7 +68,7 @@ abstract class Application extends \Phalcon\Di\Injectable implements \Phalcon\Ev
      * @param bool $merge 
      * @return Application 
      */
-    public function registerModules($modules, $merge = false) {}
+    public function registerModules(array $modules, $merge = false) {}
 
     /**
      * Return the modules registered in the application

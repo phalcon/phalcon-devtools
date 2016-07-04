@@ -84,7 +84,7 @@ class Beanstalk
      *
      * @param array $options 
      */
-    public function __construct($options = null) {}
+    public function __construct(array $options = null) {}
 
     /**
      * Makes a connection to the Beanstalkd server
@@ -100,7 +100,7 @@ class Beanstalk
      * @param array $options 
      * @return int|bool 
      */
-    public function put($data, $options = null) {}
+    public function put($data, array $options = null) {}
 
     /**
      * Reserves/locks a ready job from the specified tube.

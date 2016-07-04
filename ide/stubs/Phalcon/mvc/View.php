@@ -345,7 +345,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * @param bool $merge 
      * @return View 
      */
-    public function setVars($params, $merge = true) {}
+    public function setVars(array $params, $merge = true) {}
 
     /**
      * Set a single view parameter
@@ -433,7 +433,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * @param array $engines 
      * @return View 
      */
-    public function registerEngines($engines) {}
+    public function registerEngines(array $engines) {}
 
     /**
      * Checks whether view exists

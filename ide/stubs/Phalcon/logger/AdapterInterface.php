@@ -47,7 +47,7 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function log($type, $message = null, $context = null);
+    public function log($type, $message = null, array $context = null);
 
     /**
      * Starts a transaction
@@ -84,7 +84,7 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function debug($message, $context = null);
+    public function debug($message, array $context = null);
 
     /**
      * Sends/Writes an error message to the log
@@ -93,7 +93,7 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function error($message, $context = null);
+    public function error($message, array $context = null);
 
     /**
      * Sends/Writes an info message to the log
@@ -102,7 +102,7 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function info($message, $context = null);
+    public function info($message, array $context = null);
 
     /**
      * Sends/Writes a notice message to the log
@@ -111,7 +111,7 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function notice($message, $context = null);
+    public function notice($message, array $context = null);
 
     /**
      * Sends/Writes a warning message to the log
@@ -120,7 +120,7 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function warning($message, $context = null);
+    public function warning($message, array $context = null);
 
     /**
      * Sends/Writes an alert message to the log
@@ -129,7 +129,7 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function alert($message, $context = null);
+    public function alert($message, array $context = null);
 
     /**
      * Sends/Writes an emergency message to the log
@@ -138,6 +138,6 @@ interface AdapterInterface
      * @param array $context 
      * @return AdapterInterface 
      */
-    public function emergency($message, $context = null);
+    public function emergency($message, array $context = null);
 
 }

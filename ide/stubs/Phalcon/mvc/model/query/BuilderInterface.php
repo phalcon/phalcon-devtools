@@ -162,7 +162,7 @@ interface BuilderInterface
      * @param string $operator 
      * @return BuilderInterface 
      */
-    public function inWhere($expr, $values, $operator = BuilderInterface::OPERATOR_AND);
+    public function inWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND);
 
     /**
      * Appends a NOT IN condition to the current conditions
@@ -172,7 +172,7 @@ interface BuilderInterface
      * @param string $operator 
      * @return BuilderInterface 
      */
-    public function notInWhere($expr, $values, $operator = BuilderInterface::OPERATOR_AND);
+    public function notInWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND);
 
     /**
      * Return the conditions for the query

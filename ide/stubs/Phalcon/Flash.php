@@ -108,7 +108,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
      * @param array $cssClasses 
      * @return \Phalcon\FlashInterface 
      */
-    public function setCssClasses($cssClasses) {}
+    public function setCssClasses(array $cssClasses) {}
 
     /**
      * Shows a HTML error message

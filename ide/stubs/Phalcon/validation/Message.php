@@ -104,6 +104,6 @@ class Message implements \Phalcon\Validation\MessageInterface
      * @param array $message 
      * @return Message 
      */
-    public static function __set_state($message) {}
+    public static function __set_state(array $message) {}
 
 }

@@ -105,7 +105,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * @param \Phalcon\Validation\ValidatorInterface[]  
      * @return \Phalcon\Forms\ElementInterface 
      */
-    public function addValidators($validators, $merge = true) {}
+    public function addValidators(array $validators, $merge = true) {}
 
     /**
      * Adds a validator to the element
@@ -130,7 +130,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * @param bool $useChecked 
      * @return array 
      */
-    public function prepareAttributes($attributes = null, $useChecked = false) {}
+    public function prepareAttributes(array $attributes = null, $useChecked = false) {}
 
     /**
      * Sets a default attribute for the element
@@ -156,7 +156,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * @param array $attributes 
      * @return ElementInterface 
      */
-    public function setAttributes($attributes) {}
+    public function setAttributes(array $attributes) {}
 
     /**
      * Returns the default attributes for the element
@@ -189,7 +189,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * @param array $options 
      * @return ElementInterface 
      */
-    public function setUserOptions($options) {}
+    public function setUserOptions(array $options) {}
 
     /**
      * Returns the options for the element

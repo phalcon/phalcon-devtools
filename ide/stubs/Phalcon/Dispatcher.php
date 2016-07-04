@@ -315,7 +315,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
      * @param string $actionMethod 
      * @param array $params 
      */
-    public function callActionMethod($handler, $actionMethod, $params = array()) {}
+    public function callActionMethod($handler, $actionMethod, array $params = array()) {}
 
     /**
      * Set empty properties to their defaults (where defaults are available)

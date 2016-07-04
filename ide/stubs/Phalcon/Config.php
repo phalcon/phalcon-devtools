@@ -32,7 +32,7 @@ class Config implements \ArrayAccess, \Countable
      *
      * @param array $arrayConfig 
      */
-    public function __construct($arrayConfig = null) {}
+    public function __construct(array $arrayConfig = null) {}
 
     /**
      * Allows to check whether an attribute is defined using the array-syntax
@@ -132,7 +132,7 @@ class Config implements \ArrayAccess, \Countable
      * @param array $data 
      * @return Config 
      */
-    public static function __set_state($data) {}
+    public static function __set_state(array $data) {}
 
     /**
      * Helper method for merge configs (forwarding nested config instance)
