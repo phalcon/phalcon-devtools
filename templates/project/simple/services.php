@@ -5,7 +5,6 @@
  * @var \Phalcon\Config $config
  */
 
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -14,9 +13,25 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 
 /**
- * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
+ * Shared configuration service
  */
-$di = new FactoryDefault();
+$di->setShared('config', function () {
+    return @@configLoader@@;
+});
+
+/**
+ * Shared loader service
+ */
+$di->setShared('loader', function () {
+    $config = $this->getConfig();
+
+    /**
+     * Include Autoloader
+     */
+    include APP_PATH . '/app/config/loader.php';
+
+    return $loader;
+});
 
 /**
  * The URL component is used to generate all kind of urls in the application
@@ -63,7 +78,7 @@ $di->setShared('view', function () {
  */
 $di->setShared('db', function () {
     $config = $this->getConfig();
- 
+
     $dbConfig = $config->database->toArray();
     $adapter = $dbConfig['adapter'];
     unset($dbConfig['adapter']);
