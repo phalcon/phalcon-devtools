@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
 error_reporting(E_ALL);
@@ -8,10 +9,7 @@ define('APP_PATH', realpath('..'));
 
 try {
 
-    /**
-     * Read the configuration
-     */
-    $config = @@configLoader@@;
+    $di = new FactoryDefault();
 
     /**
      * Include Services
@@ -19,9 +17,9 @@ try {
     include APP_PATH . '/config/services.php';
 
     /**
-     * Include Autoloader
+     * Call the autoloader service.  We don't need to keep the results.
      */
-    include APP_PATH . '/config/loader.php';
+    $di->getLoader();
 
     /**
      * Starting the application

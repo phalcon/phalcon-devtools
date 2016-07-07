@@ -7,9 +7,27 @@
 
 use Phalcon\Mvc\View\Simple as View;
 use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Di\FactoryDefault;
 
-$di = new FactoryDefault();
+/**
+ * Shared configuration service
+ */
+$di->setShared('config', function () {
+    return @@configLoader@@;
+});
+
+/**
+ * Shared loader service
+ */
+$di->setShared('loader', function () {
+    $config = $this->getConfig();
+
+    /**
+     * Include Autoloader
+     */
+    include APP_PATH . '/config/loader.php';
+
+    return $loader;
+});
 
 /**
  * Sets the view component
