@@ -1,6 +1,14 @@
 <?php
 
 return new \Phalcon\Config([
+    'database' => [
+      'adapter'     => 'Mysql',
+      'host'        => 'localhost',
+      'username'    => 'root',
+      'password'    => '',
+      'dbname'      => 'test',
+      'charset'     => 'utf8',
+    ],
     'version' => '1.0',
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
@@ -9,9 +10,9 @@ define('APP_PATH', realpath('..'));
 try {
 
     /**
-     * Read the configuration
+     * The FactoryDefault Dependency Injector automatically registers the right services to provide a full stack framework
      */
-    $config = @@configLoader@@;
+    $di = new FactoryDefault();
 
     /**
      * Include services
