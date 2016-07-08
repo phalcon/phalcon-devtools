@@ -1,10 +1,4 @@
 <?php
-/**
- * Local variables
- *
- * @var \Phalcon\Config $config
- * @var \Phalcon\Di\FactoryDefault\Cli $di
- */
 
 /**
  * Shared configuration service
