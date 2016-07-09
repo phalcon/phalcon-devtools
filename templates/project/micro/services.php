@@ -1,9 +1,4 @@
 <?php
-/**
- * Services are globally registered in this file
- *
- * @var \Phalcon\Config $config
- */
 
 use Phalcon\Mvc\View\Simple as View;
 use Phalcon\Mvc\Url as UrlResolver;
