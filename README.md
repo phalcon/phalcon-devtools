@@ -166,7 +166,7 @@ foreach ($databaseConfigurations as $databaseConfiguration) {
     $options = [
         'directory' => $locksDirectory,
         'tableName' => 'all',
-        'migrationsDir' => $migrationsDirectory . $databaseConfiguration->dbname, // separate dirs for every db
+        'migrationsDir' => $migrationsDirectory . '/' . $databaseConfiguration->dbname, // separate dirs for every db
         'config' => $databaseConfiguration,
         'isMultipleDatabases' => 1
     ];
