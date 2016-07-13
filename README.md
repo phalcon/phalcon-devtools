@@ -158,6 +158,23 @@ $config = [
 ];
 ```
 
+## Multiple databases migration
+
+In a Task or something else you should use configuration like this:
+```
+foreach ($databaseConfigurations as $databaseConfiguration) {
+    $options = [
+        'directory' => $locksDirectory,
+        'tableName' => 'all',
+        'migrationsDir' => $migrationsDirectory . $databaseConfiguration->dbname, // separate dirs for every db
+        'config' => $databaseConfiguration,
+        'isMultipleDatabases' => 1
+    ];
+    Phalcon\Migrations::run($options);
+}
+```
+Dev tools will create separate version files (``.phalcon/migration-version-{dbname}``) for each database.
+
 ## License
 
 Phalcon Developer Tools is open source software licensed under the [New BSD License][1].
