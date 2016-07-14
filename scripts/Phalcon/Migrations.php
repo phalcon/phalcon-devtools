@@ -167,7 +167,7 @@ class Migrations
         $migrationFid = $path.'.phalcon/migration-version';
 
         if (isset($options['isMultipleDatabases']) && $options['isMultipleDatabases']) {
-            $migrationFid .= '-'.$options['config']->dbname;
+            $migrationFid .= '-'.$options['config']['database']->dbname;
         }
 
         $initialVersion = new VersionItem(file_exists($migrationFid) ? file_get_contents($migrationFid) : null);
