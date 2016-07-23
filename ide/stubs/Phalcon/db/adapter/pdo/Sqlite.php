@@ -6,10 +6,8 @@ namespace Phalcon\Db\Adapter\Pdo;
  * Phalcon\Db\Adapter\Pdo\Sqlite
  * Specific functions for the Sqlite database system
  * <code>
- * $config = array(
- * "dbname" => "/tmp/test.sqlite"
- * );
- * $connection = new \Phalcon\Db\Adapter\Pdo\Sqlite($config);
+ * use Phalcon\Db\Adapter\Pdo\Sqlite;
+ * $connection = new Sqlite(['dbname' => '/tmp/test.sqlite']);
  * </code>
  */
 class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
@@ -25,11 +23,10 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
      * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
      * Call it when you need to restore a database connection.
      *
-     * @param mixed $descriptor 
-     * @param array $$descriptor 
-     * @return boolean 
+     * @param array $descriptor 
+     * @return bool 
      */
-    public function connect($descriptor = null) {}
+    public function connect(array $descriptor = null) {}
 
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table

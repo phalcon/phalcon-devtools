@@ -29,8 +29,8 @@ interface ResponseInterface
      * Overwrites a header in the response
      *
      * @param string $name 
-     * @param string $value 
-     * @return \Phalcon\Http\ResponseInterface 
+     * @param mixed $value 
+     * @return ResponseInterface 
      */
     public function setHeader($name, $value);
 
@@ -74,12 +74,20 @@ interface ResponseInterface
     public function setContentType($contentType, $charset = null);
 
     /**
+     * Sets the response content-length
+     *
+     * @param int $contentLength 
+     * @return ResponseInterface 
+     */
+    public function setContentLength($contentLength);
+
+    /**
      * Redirect by HTTP to another action or URL
      *
-     * @param string $location 
-     * @param boolean $externalRedirect 
+     * @param mixed $location 
+     * @param bool $externalRedirect 
      * @param int $statusCode 
-     * @return \Phalcon\Http\ResponseInterface 
+     * @return ResponseInterface 
      */
     public function redirect($location = null, $externalRedirect = false, $statusCode = 302);
 
@@ -97,16 +105,16 @@ interface ResponseInterface
      * response->setJsonContent(array("status" => "OK"));
      * </code>
      *
-     * @param string $content 
-     * @return \Phalcon\Http\ResponseInterface 
+     * @param mixed $content 
+     * @return ResponseInterface 
      */
     public function setJsonContent($content);
 
     /**
      * Appends a string to the HTTP response body
      *
-     * @param string $content 
-     * @return \Phalcon\Http\ResponseInterface 
+     * @param mixed $content 
+     * @return ResponseInterface 
      */
     public function appendContent($content);
 
@@ -142,7 +150,7 @@ interface ResponseInterface
      * Sets an attached file to be sent at the end of the request
      *
      * @param string $filePath 
-     * @param string $attachmentName 
+     * @param mixed $attachmentName 
      * @return ResponseInterface 
      */
     public function setFileToSend($filePath, $attachmentName = null);

@@ -169,11 +169,11 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
      * Adds an element to the form
      *
      * @param mixed $element 
-     * @param string $postion 
+     * @param string $position 
      * @param bool $type 
      * @return Form 
      */
-    public function add(\Phalcon\Forms\ElementInterface $element, $postion = null, $type = null) {}
+    public function add(\Phalcon\Forms\ElementInterface $element, $position = null, $type = null) {}
 
     /**
      * Renders a specific item in the form
