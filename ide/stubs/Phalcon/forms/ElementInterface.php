@@ -92,7 +92,7 @@ interface ElementInterface
      * according to the element's parameters
      *
      * @param array $attributes 
-     * @param boolean $useChecked 
+     * @param bool $useChecked 
      * @return array 
      */
     public function prepareAttributes(array $attributes = null, $useChecked = false);
