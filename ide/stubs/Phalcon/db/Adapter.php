@@ -17,10 +17,8 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 
     /**
      * Descriptor used to connect to a database
-     *
-     * @var \stdClass
      */
-    protected $_descriptor;
+    protected $_descriptor = array();
 
     /**
      * Name of the dialect used

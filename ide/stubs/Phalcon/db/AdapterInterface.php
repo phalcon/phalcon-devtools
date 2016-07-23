@@ -3,7 +3,7 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Mysql
+ * Phalcon\Db\AdapterInterface
  * Interface for Phalcon\Db adapters
  */
 interface AdapterInterface
@@ -339,14 +339,13 @@ interface AdapterInterface
     public function getDialect();
 
     /**
-     * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+     * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
      * Call it when you need to restore a database connection
      *
-     * @param mixed $descriptor 
-     * @param  $array descriptor
-     * @return  
+     * @param array $descriptor 
+     * @return bool 
      */
-    public function connect($descriptor = null);
+    public function connect(array $descriptor = null);
 
     /**
      * Sends SQL statements to the database server returning the success state.

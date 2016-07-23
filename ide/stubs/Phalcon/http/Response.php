@@ -38,9 +38,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Phalcon\Http\Response constructor
      *
-     * @param string $content 
-     * @param int $code 
-     * @param string $status 
+     * @param mixed $content 
+     * @param mixed $code 
+     * @param mixed $status 
      */
     public function __construct($content = null, $code = null, $status = null) {}
 
@@ -117,8 +117,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * </code>
      *
      * @param string $name 
-     * @param string $value 
-     * @return \Phalcon\Http\Response 
+     * @param mixed $value 
+     * @return Response 
      */
     public function setHeader($name, $value) {}
 
@@ -188,10 +188,21 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * </code>
      *
      * @param string $contentType 
-     * @param string $charset 
-     * @return \Phalcon\Http\Response 
+     * @param mixed $charset 
+     * @return Response 
      */
     public function setContentType($contentType, $charset = null) {}
+
+    /**
+     * Sets the response content-length
+     * <code>
+     * $response->setContentLength(2048);
+     * </code>
+     *
+     * @param int $contentLength 
+     * @return Response 
+     */
+    public function setContentLength($contentLength) {}
 
     /**
      * Set a custom ETag
@@ -219,10 +230,10 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * ));
      * </code>
      *
-     * @param string|array $location 
-     * @param boolean $externalRedirect 
+     * @param mixed $location 
+     * @param bool $externalRedirect 
      * @param int $statusCode 
-     * @return \Phalcon\Http\Response 
+     * @return Response 
      */
     public function redirect($location = null, $externalRedirect = false, $statusCode = 302) {}
 
@@ -254,8 +265,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Appends a string to the HTTP response body
      *
-     * @param string $content 
-     * @return \Phalcon\Http\Response 
+     * @param mixed $content 
+     * @return Response 
      */
     public function appendContent($content) {}
 
@@ -298,9 +309,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * Sets an attached file to be sent at the end of the request
      *
      * @param string $filePath 
-     * @param string $attachmentName 
+     * @param mixed $attachmentName 
      * @param mixed $attachment 
-     * @return \Phalcon\Http\Response 
+     * @return Response 
      */
     public function setFileToSend($filePath, $attachmentName = null, $attachment = true) {}
 

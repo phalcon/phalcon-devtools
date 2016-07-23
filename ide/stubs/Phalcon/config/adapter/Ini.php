@@ -55,4 +55,12 @@ class Ini extends \Phalcon\Config
      */
     protected function _parseIniString($path, $value) {}
 
+    /**
+     * We have to cast values manually because parse_ini_file() has a poor implementation.
+     *
+     * @param mixed $ini The array casted by `parse_ini_file`
+     * @return bool|null|double|int|string 
+     */
+    private function _cast($ini) {}
+
 }

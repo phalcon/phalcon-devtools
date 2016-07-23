@@ -6,19 +6,23 @@ namespace Phalcon\Db\Adapter;
  * Phalcon\Db\Adapter\Pdo
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
  * <code>
- * $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
- * 'host' => '192.168.0.11',
+ * use Phalcon\Db\Adapter\Pdo\Mysql;
+ * $config = [
+ * 'host'     => 'localhost',
+ * 'dbname'   => 'blog',
+ * 'port'     => 3306,
  * 'username' => 'sigma',
- * 'password' => 'secret',
- * 'dbname' => 'blog',
- * 'port' => '3306'
- * ));
+ * 'password' => 'secret'
+ * ];
+ * $connection = new Mysql($config);
  * </code>
  */
 abstract class Pdo extends \Phalcon\Db\Adapter
 {
     /**
      * PDO Handler
+     *
+     * @var \Pdo
      */
     protected $_pdo;
 
@@ -36,25 +40,26 @@ abstract class Pdo extends \Phalcon\Db\Adapter
     public function __construct(array $descriptor) {}
 
     /**
-     * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
-     * Call it when you need to restore a database connection
+     * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
+     * Call it when you need to restore a database connection.
      * <code>
-     * //Make a connection
-     * $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
-     * 'host' => '192.168.0.11',
+     * use Phalcon\Db\Adapter\Pdo\Mysql;
+     * // Make a connection
+     * $connection = new Mysql([
+     * 'host'     => 'localhost',
      * 'username' => 'sigma',
      * 'password' => 'secret',
-     * 'dbname' => 'blog',
-     * ));
-     * //Reconnect
+     * 'dbname'   => 'blog',
+     * 'port'     => 3306,
+     * ]);
+     * // Reconnect
      * $connection->connect();
      * </code>
      *
-     * @param mixed $descriptor 
-     * @param  $array descriptor
-     * @return  
+     * @param array $descriptor 
+     * @return bool 
      */
-    public function connect($descriptor = null) {}
+    public function connect(array $descriptor = null) {}
 
     /**
      * Returns a PDO prepared statement to be executed with 'executePrepared'

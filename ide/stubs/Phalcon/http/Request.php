@@ -229,14 +229,28 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      *
      * @return bool 
      */
-    public function isSoapRequested() {}
+    public function isSoap() {}
+
+    /**
+     * Alias of isSoap(). It will be deprecated in future versions
+     *
+     * @return bool 
+     */
+    deprecated public function isSoapRequested() {}
 
     /**
      * Checks whether request has been made using any secure layer
      *
      * @return bool 
      */
-    public function isSecureRequest() {}
+    public function isSecure() {}
+
+    /**
+     * Alias of isSecure(). It will be deprecated in future versions
+     *
+     * @return bool 
+     */
+    deprecated public function isSecureRequest() {}
 
     /**
      * Gets HTTP raw request body
