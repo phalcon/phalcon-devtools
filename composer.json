@@ -22,8 +22,8 @@
         "forum": "https://forum.phalconphp.com/"
     },
     "require": {
-        "php": ">=5.4",
-        "ext-phalcon": "^2.1"
+        "php": ">=5.5",
+        "ext-phalcon": "^3.0"
     },
     "require-dev": {
         "kherge/box": "^2.7"
@@ -35,7 +35,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.1.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     },
     "bin": ["phalcon.php"]

@@ -13,8 +13,8 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 5.4
-* Phalcon >= 2.1.0
+* PHP >= 5.5
+* Phalcon >= 3.0.0
 
 ## Installing via Composer
 
@@ -100,7 +100,7 @@ This command should display something similar to:
 ```sh
 $ phalcon list ?
 
-Phalcon DevTools (2.1.0)
+Phalcon DevTools (3.0.0)
 
 Help:
   Lists the commands available in Phalcon devtools
