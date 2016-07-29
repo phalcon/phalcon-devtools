@@ -394,29 +394,44 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
 
     /**
      * Find a document by its id (_id)
+     * <code>
+     * // Find user by using \MongoId object
+     * $user = Users::findById(new \MongoId('545eb081631d16153a293a66'));
+     * // Find user by using id as sting
+     * $user = Users::findById('45cbc4a0e4123f6920000002');
+     * // Validate input
+     * if ($user = Users::findById($_POST['id'])) {
+     * // ...
+     * }
+     * </code>
      *
-     * @param string|\MongoId $id 
-     * @return \Phalcon\Mvc\Collection 
+     * @param mixed $id 
+     * @return null|Collection 
      */
     public static function findById($id) {}
 
     /**
      * Allows to query the first record that match the specified conditions
      * <code>
-     * //What's the first robot in the robots table?
+     * // What's the first robot in the robots table?
      * $robot = Robots::findFirst();
-     * echo "The robot name is ", $robot->name, "\n";
-     * //What's the first mechanical robot in robots table?
-     * $robot = Robots::findFirst(array(
-     * array("type" => "mechanical")
-     * ));
-     * echo "The first mechanical robot name is ", $robot->name, "\n";
-     * //Get first virtual robot ordered by name
-     * $robot = Robots::findFirst(array(
-     * array("type" => "mechanical"),
-     * "order" => array("name" => 1)
-     * ));
-     * echo "The first virtual robot name is ", $robot->name, "\n";
+     * echo 'The robot name is ', $robot->name, "\n";
+     * // What's the first mechanical robot in robots table?
+     * $robot = Robots::findFirst([
+     * ['type' => 'mechanical']
+     * ]);
+     * echo 'The first mechanical robot name is ', $robot->name, "\n";
+     * // Get first virtual robot ordered by name
+     * $robot = Robots::findFirst([
+     * ['type' => 'mechanical'],
+     * 'order' => ['name' => 1]
+     * ]);
+     * echo 'The first virtual robot name is ', $robot->name, "\n";
+     * // Get first robot by id (_id)
+     * $robot = Robots::findFirst([
+     * ['_id' => new \MongoId('45cbc4a0e4123f6920000002')]
+     * ]);
+     * echo 'The robot id is ', $robot->_id, "\n";
      * </code>
      *
      * @param array $parameters 

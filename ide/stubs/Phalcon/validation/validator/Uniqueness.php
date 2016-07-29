@@ -27,6 +27,16 @@ namespace Phalcon\Validation\Validator;
  * <code>
  * $validator->add(['firstName', 'lastName'], new UniquenessValidator());
  * </code>
+ * It is possible to convert values before validation. This is useful in
+ * situations where values need to be converted to do the database lookup:
+ * <code>
+ * $validator->add('username', new UniquenessValidator([
+ * 'convert' => function (array $values) {
+ * $values['username'] = strtolower($values['username']);
+ * return $values;
+ * }
+ * ]));
+ * </code>
  */
 class Uniqueness extends \Phalcon\Validation\CombinedFieldsValidator
 {
