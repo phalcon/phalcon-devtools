@@ -10,7 +10,7 @@ interface CollectionInterface
 {
 
     /**
-     * Sets a value for the _id propery, creates a MongoId object if needed
+     * Sets a value for the _id property, creates a MongoId object if needed
      *
      * @param mixed $id 
      */
@@ -58,7 +58,7 @@ interface CollectionInterface
      * @param array $document 
      * @return CollectionInterface 
      */
-    public static function cloneResult(CollectionInterface $collection, $document);
+    public static function cloneResult(CollectionInterface $collection, array $document);
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
@@ -119,7 +119,7 @@ interface CollectionInterface
      * @param array $parameters 
      * @return array 
      */
-    public static function findFirst($parameters = null);
+    public static function findFirst(array $parameters = null);
 
     /**
      * Allows to query a set of records that match the specified conditions
@@ -128,7 +128,7 @@ interface CollectionInterface
      * @param  $array parameters
      * @return array 
      */
-    public static function find($parameters = null);
+    public static function find(array $parameters = null);
 
     /**
      * Perform a count over a collection
@@ -136,7 +136,7 @@ interface CollectionInterface
      * @param array $parameters 
      * @return array 
      */
-    public static function count($parameters = null);
+    public static function count(array $parameters = null);
 
     /**
      * Deletes a model instance. Returning true on success or false otherwise

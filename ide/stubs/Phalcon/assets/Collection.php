@@ -223,7 +223,7 @@ class Collection implements \Countable, \Iterator
      * @param array $attributes 
      * @return Collection 
      */
-    public function setAttributes($attributes) {}
+    public function setAttributes(array $attributes) {}
 
     /**
      * Sets an array of filters in the collection
@@ -231,7 +231,7 @@ class Collection implements \Countable, \Iterator
      * @param array $filters 
      * @return Collection 
      */
-    public function setFilters($filters) {}
+    public function setFilters(array $filters) {}
 
     /**
      * Sets the target local

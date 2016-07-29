@@ -53,9 +53,11 @@ class Model extends Command
             'directory=s'     => 'Base path on which project is located [optional]',
             'output=s'        => 'Folder where models are located [optional]',
             'force'           => 'Rewrite the model [optional]',
+            'camelize'        => 'Properties is in camelCase [optional]',
             'trace'           => 'Shows the trace of the framework in case of exception [optional]',
             'mapcolumn'       => 'Get some code for map columns [optional]',
-            'abstract'        => 'Abstract Model [optional]'
+            'abstract'        => 'Abstract Model [optional]',
+            'annotate'        => 'Annotate Attributes [optional]'
         );
     }
 
@@ -87,9 +89,11 @@ class Model extends Command
                 'modelsDir'         => $this->getOption('output'),
                 'extends'           => $this->getOption('extends'),
                 'excludeFields'     => $this->getOption('excludefields'),
+                'camelize'          => $this->isReceivedOption('camelize'),
                 'force'             => $this->isReceivedOption('force'),
                 'mapColumn'         => $this->isReceivedOption('mapcolumn'),
-                'abstract'          => $this->isReceivedOption('abstract')
+                'abstract'          => $this->isReceivedOption('abstract'),
+                'annotate'          => $this->isReceivedOption('annotate')
             )
         );
 

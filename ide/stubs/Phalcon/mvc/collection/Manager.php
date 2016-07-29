@@ -42,6 +42,17 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
     protected $_behaviors;
 
 
+    protected $_serviceName = "mongo";
+
+
+
+    public function getServiceName() {}
+
+    /**
+     * @param mixed $serviceName 
+     */
+    public function setServiceName($serviceName) {}
+
     /**
      * Sets the DependencyInjector container
      *
@@ -82,8 +93,7 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
      * Returns a custom events manager related to a model
      *
      * @param mixed $model 
-     * @param \Phalcon\Mvc\CollectionInterface $$model 
-     * @return \Phalcon\Events\ManagerInterface 
+     * @return mixed|null 
      */
     public function getCustomEventsManager(\Phalcon\Mvc\CollectionInterface $model) {}
 

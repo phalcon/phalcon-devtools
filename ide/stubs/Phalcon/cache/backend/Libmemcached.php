@@ -4,28 +4,32 @@ namespace Phalcon\Cache\Backend;
 
 /**
  * Phalcon\Cache\Backend\Libmemcached
- * Allows to cache output fragments, PHP data or raw data to a libmemcached backend
- * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
+ * Allows to cache output fragments, PHP data or raw data to a libmemcached backend.
+ * Per default persistent memcached connection pools are used.
  * <code>
+ * use Phalcon\Cache\Backend\Libmemcached;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
- * "lifetime" => 172800
- * ));
- * //Create the Cache setting memcached connection options
- * $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, array(
- * "servers" => array(
- * array('host' => 'localhost',
+ * $frontCache = new FrontData([
+ * 'lifetime' => 172800
+ * ]);
+ * // Create the Cache setting memcached connection options
+ * $cache = new Libmemcached($frontCache, [
+ * 'servers' => [
+ * [
+ * 'host' => 'localhost',
  * 'port' => 11211,
- * 'weight' => 1),
- * ),
- * "client" => array(
- * Memcached::OPT_HASH => Memcached::HASH_MD5,
- * Memcached::OPT_PREFIX_KEY => 'prefix.',
- * )
- * ));
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
- * //Get data
+ * 'weight' => 1
+ * ],
+ * ],
+ * 'client' => [
+ * \Memcached::OPT_HASH => Memcached::HASH_MD5,
+ * \Memcached::OPT_PREFIX_KEY => 'prefix.',
+ * ]
+ * ]);
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * // Get data
  * $data = $cache->get('my-data');
  * </code>
  */
@@ -53,9 +57,9 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
-     * @param long $lifetime 
-     * @return mixed 
+     * @param string $keyName 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
@@ -66,6 +70,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
      * @param string $content 
      * @param long $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 
@@ -115,6 +120,14 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 
     /**
      * Immediately invalidates all existing items.
+     * Memcached does not support flush() per default. If you require flush() support, set $config["statsKey"].
+     * All modified keys are stored in "statsKey". Note: statsKey has a negative performance impact.
+     * <code>
+     * $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, ["statsKey" => "_PHCM"]);
+     * $cache->save('my-data', array(1, 2, 3, 4, 5));
+     * //'my-data' and all other used keys are deleted
+     * $cache->flush();
+     * </code>
      *
      * @return bool 
      */

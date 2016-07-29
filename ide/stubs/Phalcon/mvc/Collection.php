@@ -40,7 +40,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     protected $_connection;
 
 
-    protected $_errorMessages;
+    protected $_errorMessages = array();
 
 
     static protected $_reserved;
@@ -189,7 +189,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $document 
      * @return CollectionInterface 
      */
-    public static function cloneResult(CollectionInterface $collection, $document) {}
+    public static function cloneResult(CollectionInterface $collection, array $document) {}
 
     /**
      * Returns a collection resultset
@@ -352,6 +352,12 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     public function appendMessage(\Phalcon\Mvc\Model\MessageInterface $message) {}
 
     /**
+     * Shared Code for CU Operations
+     * Prepares Collection
+     */
+    protected function prepareCU() {}
+
+    /**
      * Creates/Updates a collection based on the values in the attributes
      *
      * @return bool 
@@ -359,36 +365,79 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     public function save() {}
 
     /**
-     * Find a document by its id (_id)
+     * Creates a collection based on the values in the attributes
      *
-     * @param string|\MongoId $id 
-     * @return \Phalcon\Mvc\Collection 
+     * @return bool 
+     */
+    public function create() {}
+
+    /**
+     * Creates a document based on the values in the attributes, if not found by criteria
+     * Preferred way to avoid duplication is to create index on attribute
+     * $robot = new Robot();
+     * $robot->name = "MyRobot";
+     * $robot->type = "Droid";
+     * //create only if robot with same name and type does not exist
+     * $robot->createIfNotExist( array( "name", "type" ) );
+     *
+     * @param array $criteria 
+     * @return bool 
+     */
+    public function createIfNotExist(array $criteria) {}
+
+    /**
+     * Creates/Updates a collection based on the values in the attributes
+     *
+     * @return bool 
+     */
+    public function update() {}
+
+    /**
+     * Find a document by its id (_id)
+     * <code>
+     * // Find user by using \MongoId object
+     * $user = Users::findById(new \MongoId('545eb081631d16153a293a66'));
+     * // Find user by using id as sting
+     * $user = Users::findById('45cbc4a0e4123f6920000002');
+     * // Validate input
+     * if ($user = Users::findById($_POST['id'])) {
+     * // ...
+     * }
+     * </code>
+     *
+     * @param mixed $id 
+     * @return null|Collection 
      */
     public static function findById($id) {}
 
     /**
      * Allows to query the first record that match the specified conditions
      * <code>
-     * //What's the first robot in the robots table?
+     * // What's the first robot in the robots table?
      * $robot = Robots::findFirst();
-     * echo "The robot name is ", $robot->name, "\n";
-     * //What's the first mechanical robot in robots table?
-     * $robot = Robots::findFirst(array(
-     * array("type" => "mechanical")
-     * ));
-     * echo "The first mechanical robot name is ", $robot->name, "\n";
-     * //Get first virtual robot ordered by name
-     * $robot = Robots::findFirst(array(
-     * array("type" => "mechanical"),
-     * "order" => array("name" => 1)
-     * ));
-     * echo "The first virtual robot name is ", $robot->name, "\n";
+     * echo 'The robot name is ', $robot->name, "\n";
+     * // What's the first mechanical robot in robots table?
+     * $robot = Robots::findFirst([
+     * ['type' => 'mechanical']
+     * ]);
+     * echo 'The first mechanical robot name is ', $robot->name, "\n";
+     * // Get first virtual robot ordered by name
+     * $robot = Robots::findFirst([
+     * ['type' => 'mechanical'],
+     * 'order' => ['name' => 1]
+     * ]);
+     * echo 'The first virtual robot name is ', $robot->name, "\n";
+     * // Get first robot by id (_id)
+     * $robot = Robots::findFirst([
+     * ['_id' => new \MongoId('45cbc4a0e4123f6920000002')]
+     * ]);
+     * echo 'The robot id is ', $robot->_id, "\n";
      * </code>
      *
      * @param array $parameters 
      * @return array 
      */
-    public static function findFirst($parameters = null) {}
+    public static function findFirst(array $parameters = null) {}
 
     /**
      * Allows to query a set of records that match the specified conditions
@@ -423,7 +472,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $parameters 
      * @return array 
      */
-    public static function find($parameters = null) {}
+    public static function find(array $parameters = null) {}
 
     /**
      * Perform a count over a collection
@@ -434,7 +483,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $parameters 
      * @return array 
      */
-    public static function count($parameters = null) {}
+    public static function count(array $parameters = null) {}
 
     /**
      * Perform an aggregation using the Mongo aggregation framework
@@ -442,7 +491,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @param array $parameters 
      * @return array 
      */
-    public static function aggregate($parameters = null) {}
+    public static function aggregate(array $parameters = null) {}
 
     /**
      * Allows to perform a summatory group for a column in the collection

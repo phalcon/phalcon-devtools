@@ -10,13 +10,6 @@ interface ManagerInterface
 {
 
     /**
-     * Phalcon\Mvc\Model\Transaction\Manager
-     *
-     * @param mixed $dependencyInjector 
-     */
-    public function __construct(\Phalcon\DiInterface $dependencyInjector = null);
-
-    /**
      * Checks whether manager has an active transaction
      *
      * @return bool 
@@ -37,7 +30,7 @@ interface ManagerInterface
     public function rollbackPendent();
 
     /**
-     * Commmits active transactions within the manager
+     * Commits active transactions within the manager
      */
     public function commit();
 
@@ -57,7 +50,7 @@ interface ManagerInterface
     public function notifyRollback(\Phalcon\Mvc\Model\TransactionInterface $transaction);
 
     /**
-     * Notifies the manager about a commited transaction
+     * Notifies the manager about a committed transaction
      *
      * @param mixed $transaction 
      */

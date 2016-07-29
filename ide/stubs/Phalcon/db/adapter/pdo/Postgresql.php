@@ -6,13 +6,15 @@ namespace Phalcon\Db\Adapter\Pdo;
  * Phalcon\Db\Adapter\Pdo\Postgresql
  * Specific functions for the Postgresql database system
  * <code>
- * $config = array(
- * "host" => "192.168.0.11",
- * "dbname" => "blog",
- * "username" => "postgres",
- * "password" => ""
- * );
- * $connection = new \Phalcon\Db\Adapter\Pdo\Postgresql($config);
+ * use Phalcon\Db\Adapter\Pdo\Postgresql;
+ * $config = [
+ * 'host'     => 'localhost',
+ * 'dbname'   => 'blog',
+ * 'port'     => 5432,
+ * 'username' => 'postgres',
+ * 'password' => 'secret'
+ * ];
+ * $connection = new Postgresql($config);
  * </code>
  */
 class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
@@ -28,11 +30,10 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
      * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
      * Call it when you need to restore a database connection.
      *
-     * @param mixed $descriptor 
-     * @param array $$descriptor 
-     * @return boolean 
+     * @param array $descriptor 
+     * @return bool 
      */
-    public function connect($descriptor = null) {}
+    public function connect(array $descriptor = null) {}
 
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
@@ -54,7 +55,7 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
      * @param array $definition 
      * @return bool 
      */
-    public function createTable($tableName, $schemaName, $definition) {}
+    public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Modifies a table column based on a definition

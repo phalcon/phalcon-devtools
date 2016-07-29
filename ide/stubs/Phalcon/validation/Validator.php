@@ -15,25 +15,25 @@ abstract class Validator implements \Phalcon\Validation\ValidatorInterface
     /**
      * Phalcon\Validation\Validator constructor
      *
-     * @param array $options 
+     * @param array $options
      */
-    public function __construct($options = null) {}
+    public function __construct(array $options = null) {}
 
     /**
-     * Checks if an option is defined
+     * Checks if an option has been defined
      *
      * @deprecated since 2.1.0
      * @see \Phalcon\Validation\Validator::hasOption()
-     * @param string $key 
-     * @return bool 
+     * @param string $key
+     * @return bool
      */
     public function isSetOption($key) {}
 
     /**
      * Checks if an option is defined
      *
-     * @param string $key 
-     * @return bool 
+     * @param string $key
+     * @return bool
      */
     public function hasOption($key) {}
 
@@ -41,26 +41,26 @@ abstract class Validator implements \Phalcon\Validation\ValidatorInterface
      * Returns an option in the validator's options
      * Returns null if the option hasn't set
      *
-     * @param string $key 
-     * @param mixed $defaultValue 
-     * @return mixed 
+     * @param string $key
+     * @param mixed $defaultValue
+     * @return mixed
      */
     public function getOption($key, $defaultValue = null) {}
 
     /**
      * Sets an option in the validator
      *
-     * @param string $key 
-     * @param mixed $value 
+     * @param string $key
+     * @param mixed $value
      */
     public function setOption($key, $value) {}
 
     /**
      * Executes the validation
      *
-     * @param mixed $validation 
-     * @param string $attribute 
-     * @return bool 
+     * @param mixed $validation
+     * @param string $attribute
+     * @return bool
      */
     abstract public function validate(\Phalcon\Validation $validation, $attribute);
 

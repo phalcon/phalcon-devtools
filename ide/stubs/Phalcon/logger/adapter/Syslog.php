@@ -45,12 +45,12 @@ class Syslog extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
      * @param array $context 
      * @param array $$context 
      */
-    public function logInternal($message, $type, $time, $context) {}
+    public function logInternal($message, $type, $time, array $context) {}
 
     /**
      * Closes the logger
      *
-     * @return boolean 
+     * @return bool 
      */
     public function close() {}
 

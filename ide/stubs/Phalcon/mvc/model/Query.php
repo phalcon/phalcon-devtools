@@ -138,12 +138,12 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     public function getUniqueRow() {}
 
     /**
-     * Replaces the model's name to its source name in a qualifed-name expression
+     * Replaces the model's name to its source name in a qualified-name expression
      *
      * @param array $expr 
      * @return array 
      */
-    protected final function _getQualified($expr) {}
+    protected final function _getQualified(array $expr) {}
 
     /**
      * Resolves a expression in a single call argument
@@ -151,7 +151,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param array $argument 
      * @return array 
      */
-    protected final function _getCallArgument($argument) {}
+    protected final function _getCallArgument(array $argument) {}
 
     /**
      * Resolves a expression in a single call argument
@@ -159,7 +159,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param array $expr 
      * @return array 
      */
-    protected final function _getCaseExpression($expr) {}
+    protected final function _getCaseExpression(array $expr) {}
 
     /**
      * Resolves a expression in a single call argument
@@ -167,7 +167,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param array $expr 
      * @return array 
      */
-    protected final function _getFunctionCall($expr) {}
+    protected final function _getFunctionCall(array $expr) {}
 
     /**
      * Resolves an expression from its intermediate code into a string
@@ -185,7 +185,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param array $column 
      * @return array 
      */
-    protected final function _getSelectColumn($column) {}
+    protected final function _getSelectColumn(array $column) {}
 
     /**
      * Resolves a table in a SELECT statement checking if the model exists
@@ -260,7 +260,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param array $group 
      * @return array 
      */
-    protected final function _getGroupClause($group) {}
+    protected final function _getGroupClause(array $group) {}
 
     /**
      * Returns a processed limit clause for a SELECT statement
@@ -268,7 +268,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param array $limitClause 
      * @return array 
      */
-    protected final function _getLimitClause($limitClause) {}
+    protected final function _getLimitClause(array $limitClause) {}
 
     /**
      * Analyzes a SELECT intermediate code and produces an array to be executed later
@@ -407,7 +407,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param bool $merge 
      * @return Query 
      */
-    public function setBindParams($bindParams, $merge = false) {}
+    public function setBindParams(array $bindParams, $merge = false) {}
 
     /**
      * Returns default bind params
@@ -423,7 +423,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param bool $merge 
      * @return Query 
      */
-    public function setBindTypes($bindTypes, $merge = false) {}
+    public function setBindTypes(array $bindTypes, $merge = false) {}
 
     /**
      * Set SHARED LOCK clause
@@ -446,7 +446,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @param array $intermediate 
      * @return Query 
      */
-    public function setIntermediate($intermediate) {}
+    public function setIntermediate(array $intermediate) {}
 
     /**
      * Returns the intermediate representation of the PHQL statement
@@ -476,5 +476,10 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
      * @return array 
      */
     public function getSql() {}
+
+    /**
+     * Destroys the internal PHQL cache
+     */
+    public static function clean() {}
 
 }

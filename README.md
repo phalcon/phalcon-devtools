@@ -1,11 +1,11 @@
+# Phalcon Devtools
+
 [![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)](https://github.com/phalcon/incubator/devtools)
 [![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][1]
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
 [![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
 
-# Phalcon Devtools
-
-![Webtools](http://static.phalconphp.com/img/webtools.png)
+![Phalcon WebTools](http://i.imgur.com/v3MzIDn.png?1)
 
 ## What's Phalcon?
 
@@ -18,8 +18,8 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 5.3.9
-* Phalcon >= 2.0.0
+* PHP >= 5.5
+* Phalcon >= 3.0.0
 
 ## Installing via Composer
 
@@ -34,7 +34,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require": {
-        "phalcon/devtools": "^2.0"
+        "phalcon/devtools": "dev-master"
     }
 }
 ```
@@ -105,7 +105,7 @@ This command should display something similar to:
 ```sh
 $ phalcon list ?
 
-Phalcon DevTools (2.0.11)
+Phalcon DevTools (3.0.0)
 
 Help:
   Lists the commands available in Phalcon devtools

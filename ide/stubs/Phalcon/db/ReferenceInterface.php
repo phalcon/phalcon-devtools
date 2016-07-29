@@ -10,14 +10,6 @@ interface ReferenceInterface
 {
 
     /**
-     * Phalcon\Db\ReferenceInterface constructor
-     *
-     * @param string $referenceName 
-     * @param array $definition 
-     */
-    public function __construct($referenceName, $definition);
-
-    /**
      * Gets the index name
      *
      * @return string 
@@ -79,6 +71,6 @@ interface ReferenceInterface
      * @param array $data 
      * @return ReferenceInterface 
      */
-    public static function __set_state($data);
+    public static function __set_state(array $data);
 
 }

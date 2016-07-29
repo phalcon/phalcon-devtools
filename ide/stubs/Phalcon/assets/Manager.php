@@ -35,7 +35,7 @@ class Manager
      * @param array $options 
      * @return Manager 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Returns the manager options
@@ -244,5 +244,13 @@ class Manager
      * @return Collection[] 
      */
     public function getCollections() {}
+
+    /**
+     * Returns true or false if collection exists
+     *
+     * @param string $id 
+     * @return bool 
+     */
+    public function exists($id) {}
 
 }

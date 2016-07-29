@@ -55,7 +55,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     protected $_actionName = null;
 
 
-    protected $_params;
+    protected $_params = array();
 
 
     protected $_returnedValue = null;
@@ -79,16 +79,17 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     protected $_actionSuffix = "Action";
 
 
+    protected $_previousNamespaceName = null;
+
+
     protected $_previousHandlerName = null;
 
 
     protected $_previousActionName = null;
 
 
-    /**
-     * Phalcon\Dispatcher constructor
-     */
-    public function __construct() {}
+    protected $_modelBinding = false;
+
 
     /**
      * Sets the dependency injector
@@ -124,6 +125,13 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
      * @param string $actionSuffix 
      */
     public function setActionSuffix($actionSuffix) {}
+
+    /**
+     * Gets the default action suffix
+     *
+     * @return string 
+     */
+    public function getActionSuffix() {}
 
     /**
      * Sets the module where the controller is (only informative)
@@ -221,6 +229,14 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     public function getParam($param, $filters = null, $defaultValue = null) {}
 
     /**
+     * Check if a param exists
+     *
+     * @param mixed $param 
+     * @return boolean 
+     */
+    public function hasParam($param) {}
+
+    /**
      * Returns the current method to be/executed in the dispatcher
      *
      * @return string 
@@ -242,11 +258,18 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     public function setReturnedValue($value) {}
 
     /**
-     * Returns value returned by the lastest dispatched action
+     * Returns value returned by the latest dispatched action
      *
      * @return mixed 
      */
     public function getReturnedValue() {}
+
+    /**
+     * Enable/Disable model binding during dispatch
+     *
+     * @param boolean $value 
+     */
+    public function setModelBinding($value) {}
 
     /**
      * Dispatches a handle action taking into account the routing parameters
@@ -254,6 +277,13 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
      * @return object 
      */
     public function dispatch() {}
+
+    /**
+     * Dispatches a handle action taking into account the routing parameters
+     *
+     * @return object 
+     */
+    protected function _dispatch() {}
 
     /**
      * Forwards the execution flow to another controller/action
@@ -279,6 +309,13 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
      * @return string 
      */
     public function getHandlerClass() {}
+
+    /**
+     * @param mixed $handler 
+     * @param string $actionMethod 
+     * @param array $params 
+     */
+    public function callActionMethod($handler, $actionMethod, array $params = array()) {}
 
     /**
      * Set empty properties to their defaults (where defaults are available)

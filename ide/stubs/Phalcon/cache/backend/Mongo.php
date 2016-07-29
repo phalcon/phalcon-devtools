@@ -6,19 +6,21 @@ namespace Phalcon\Cache\Backend;
  * Phalcon\Cache\Backend\Mongo
  * Allows to cache output fragments, PHP data or raw data to a MongoDb backend
  * <code>
+ * use Phalcon\Cache\Backend\Mongo;
+ * use Phalcon\Cache\Frontend\Base64;
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Base64(array(
- * "lifetime" => 172800
- * ));
- * //Create a MongoDB cache
- * $cache = new \Phalcon\Cache\Backend\Mongo($frontCache, array(
+ * $frontCache = new Base64([
+ * 'lifetime' => 172800
+ * ]);
+ * // Create a MongoDB cache
+ * $cache = new Mongo($frontCache, [
  * 'server' => "mongodb://localhost",
  * 'db' => 'caches',
  * 'collection' => 'images'
- * ));
- * //Cache arbitrary data
+ * ]);
+ * // Cache arbitrary data
  * $cache->save('my-data', file_get_contents('some-image.jpg'));
- * //Get data
+ * // Get data
  * $data = $cache->get('my-data');
  * </code>
  */
@@ -46,9 +48,9 @@ class Mongo extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
-     * @param long $lifetime 
-     * @return mixed 
+     * @param string $keyName 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
@@ -59,6 +61,7 @@ class Mongo extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
      * @param string $content 
      * @param long $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 

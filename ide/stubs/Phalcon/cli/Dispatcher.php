@@ -17,7 +17,7 @@ namespace Phalcon\Cli;
  * $handle = dispatcher->dispatch();
  * </code>
  */
-class Dispatcher extends \Phalcon\Dispatcher
+class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Cli\DispatcherInterface
 {
 
     protected $_handlerSuffix = "Task";
@@ -29,13 +29,8 @@ class Dispatcher extends \Phalcon\Dispatcher
     protected $_defaultAction = "main";
 
 
-    protected $_options;
+    protected $_options = array();
 
-
-    /**
-     * Phalcon\Cli\Dispatcher constructor
-     */
-    public function __construct() {}
 
     /**
      * Sets the default task suffix
@@ -83,14 +78,14 @@ class Dispatcher extends \Phalcon\Dispatcher
     /**
      * Returns the lastest dispatched controller
      *
-     * @return \Phalcon\Cli\Task 
+     * @return TaskInterface 
      */
     public function getLastTask() {}
 
     /**
      * Returns the active task in the dispatcher
      *
-     * @return \Phalcon\Cli\Task 
+     * @return TaskInterface 
      */
     public function getActiveTask() {}
 
@@ -99,7 +94,7 @@ class Dispatcher extends \Phalcon\Dispatcher
      *
      * @param array $options 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Get dispatched options
@@ -107,5 +102,12 @@ class Dispatcher extends \Phalcon\Dispatcher
      * @return array 
      */
     public function getOptions() {}
+
+    /**
+     * @param mixed $handler 
+     * @param string $actionMethod 
+     * @param array $params 
+     */
+    public function callActionMethod($handler, $actionMethod, array $params = array()) {}
 
 }

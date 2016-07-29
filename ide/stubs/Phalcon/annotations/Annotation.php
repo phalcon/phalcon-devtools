@@ -35,7 +35,7 @@ class Annotation
      *
      * @param array $reflectionData 
      */
-    public function __construct($reflectionData) {}
+    public function __construct(array $reflectionData) {}
 
     /**
      * Returns the annotation's name
@@ -50,7 +50,7 @@ class Annotation
      * @param array $expr 
      * @return mixed 
      */
-    public function getExpression($expr) {}
+    public function getExpression(array $expr) {}
 
     /**
      * Returns the expression arguments without resolving

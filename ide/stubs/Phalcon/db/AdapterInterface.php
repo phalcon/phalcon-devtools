@@ -3,18 +3,11 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Mysql
+ * Phalcon\Db\AdapterInterface
  * Interface for Phalcon\Db adapters
  */
 interface AdapterInterface
 {
-
-    /**
-     * Constructor for Phalcon\Db\Adapter
-     *
-     * @param array $descriptor 
-     */
-    public function __construct($descriptor);
 
     /**
      * Returns the first row in a SQL query result
@@ -37,7 +30,7 @@ interface AdapterInterface
     public function fetchAll($sqlQuery, $fetchMode = 2, $placeholders = null);
 
     /**
-     * Inserts data into a table using custom RBDM SQL syntax
+     * Inserts data into a table using custom RDBMS SQL syntax
      *
      * @param mixed $table 
      * @param array $values 
@@ -47,10 +40,10 @@ interface AdapterInterface
      * @param  $array dataTypes
      * @return  
      */
-    public function insert($table, $values, $fields = null, $dataTypes = null);
+    public function insert($table, array $values, $fields = null, $dataTypes = null);
 
     /**
-     * Updates data on a table using custom RBDM SQL syntax
+     * Updates data on a table using custom RDBMS SQL syntax
      *
      * @param mixed $table 
      * @param mixed $fields 
@@ -64,7 +57,7 @@ interface AdapterInterface
     public function update($table, $fields, $values, $whereCondition = null, $dataTypes = null);
 
     /**
-     * Deletes data from a table using custom RBDM SQL syntax
+     * Deletes data from a table using custom RDBMS SQL syntax
      *
      * @param string $table 
      * @param string $whereCondition 
@@ -136,7 +129,7 @@ interface AdapterInterface
      * @param array $definition 
      * @return bool 
      */
-    public function createTable($tableName, $schemaName, $definition);
+    public function createTable($tableName, $schemaName, array $definition);
 
     /**
      * Drops a table from a schema/database
@@ -156,7 +149,7 @@ interface AdapterInterface
      * @param string $schemaName 
      * @return bool 
      */
-    public function createView($viewName, $definition, $schemaName = null);
+    public function createView($viewName, array $definition, $schemaName = null);
 
     /**
      * Drops a view
@@ -346,13 +339,13 @@ interface AdapterInterface
     public function getDialect();
 
     /**
-     * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+     * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
      * Call it when you need to restore a database connection
      *
-     * @param mixed $descriptor 
-     * @return  
+     * @param array $descriptor 
+     * @return bool 
      */
-    public function connect($descriptor = null);
+    public function connect(array $descriptor = null);
 
     /**
      * Sends SQL statements to the database server returning the success state.

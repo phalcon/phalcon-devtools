@@ -6,7 +6,7 @@ namespace Phalcon\Db\Dialect;
  * Phalcon\Db\Dialect\Mysql
  * Generates database specific SQL for the MySQL RDBMS
  */
-class MySQL extends \Phalcon\Db\Dialect
+class Mysql extends \Phalcon\Db\Dialect
 {
 
     protected $_escapeChar = "`";
@@ -118,7 +118,7 @@ class MySQL extends \Phalcon\Db\Dialect
      * @param array $definition 
      * @return string 
      */
-    public function createTable($tableName, $schemaName, $definition) {}
+    public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Generates SQL to drop a table
@@ -138,7 +138,7 @@ class MySQL extends \Phalcon\Db\Dialect
      * @param string $schemaName 
      * @return string 
      */
-    public function createView($viewName, $definition, $schemaName = null) {}
+    public function createView($viewName, array $definition, $schemaName = null) {}
 
     /**
      * Generates SQL to drop a view
@@ -236,6 +236,6 @@ class MySQL extends \Phalcon\Db\Dialect
      * @param array $definition 
      * @return string 
      */
-    protected function _getTableOptions($definition) {}
+    protected function _getTableOptions(array $definition) {}
 
 }

@@ -28,7 +28,7 @@ namespace Phalcon\Mvc;
  * }
  * </code>
  */
-abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
+abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable, \JsonSerializable
 {
 
     const OP_NONE = 0;
@@ -94,10 +94,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Phalcon\Mvc\Model constructor
      *
+     * @param mixed $data 
      * @param mixed $dependencyInjector 
      * @param mixed $modelsManager 
      */
-    public final function __construct(\Phalcon\DiInterface $dependencyInjector = null, \Phalcon\Mvc\Model\ManagerInterface $modelsManager = null) {}
+    public final function __construct($data = null, \Phalcon\DiInterface $dependencyInjector = null, \Phalcon\Mvc\Model\ManagerInterface $modelsManager = null) {}
 
     /**
      * Sets the dependency injection container
@@ -293,7 +294,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param array $whiteList 
      * @return \Phalcon\Mvc\Model 
      */
-    public function assign($data, $dataColumnMap = null, $whiteList = null) {}
+    public function assign(array $data, $dataColumnMap = null, $whiteList = null) {}
 
     /**
      * Assigns values to a model from an array returning a new model.
@@ -310,9 +311,9 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param array $columnMap 
      * @param int $dirtyState 
      * @param boolean $keepSnapshots 
-     * @return \Phalcon\Mvc\Model 
+     * @return Model 
      */
-    public static function cloneResultMap($base, $data, $columnMap, $dirtyState = 0, $keepSnapshots = null) {}
+    public static function cloneResultMap($base, array $data, $columnMap, $dirtyState = 0, $keepSnapshots = null) {}
 
     /**
      * Returns an hydrated result based on the data and the column map
@@ -322,7 +323,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param int $hydrationMode 
      * @return mixed 
      */
-    public static function cloneResultMapHydrate($data, $columnMap, $hydrationMode) {}
+    public static function cloneResultMapHydrate(array $data, $columnMap, $hydrationMode) {}
 
     /**
      * Assigns values to a model from an array returning a new model
@@ -340,7 +341,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param \Phalcon\Mvc\ModelInterface $$base 
      * @return \Phalcon\Mvc\ModelInterface 
      */
-    public static function cloneResult(ModelInterface $base, $data, $dirtyState = 0) {}
+    public static function cloneResult(ModelInterface $base, array $data, $dirtyState = 0) {}
 
     /**
      * Allows to query a set of records that match the specified conditions
@@ -522,8 +523,9 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Appends a customized message on the validation process
      * <code>
-     * use \Phalcon\Mvc\Model\Message as Message;
-     * class Robots extends \Phalcon\Mvc\Model
+     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\Message as Message;
+     * class Robots extends Model
      * {
      * public function beforeSave()
      * {
@@ -543,42 +545,41 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Executes validators on every validation call
      * <code>
-     * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-     * class Subscriptors extends \Phalcon\Mvc\Model
+     * use Phalcon\Mvc\Model;
+     * use Phalcon\Validation;
+     * use Phalcon\Validation\Validator\ExclusionIn;
+     * class Subscriptors extends Model
      * {
      * public function validation()
      * {
-     * $this->validate(new ExclusionIn(array(
-     * 'field' => 'status',
+     * $validator = new Validation();
+     * $validator->add('status', new ExclusionIn(array(
      * 'domain' => array('A', 'I')
      * )));
-     * if ($this->validationHasFailed() == true) {
-     * return false;
-     * }
+     * return $this->validate($validator);
      * }
      * }
      * </code>
      *
      * @param mixed $validator 
-     * @return Model 
+     * @return bool 
      */
-    protected function validate(Model\ValidatorInterface $validator) {}
+    protected function validate(\Phalcon\ValidationInterface $validator) {}
 
     /**
      * Check whether validation process has generated any messages
      * <code>
+     * use Phalcon\Mvc\Model;
      * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-     * class Subscriptors extends \Phalcon\Mvc\Model
+     * class Subscriptors extends Model
      * {
      * public function validation()
      * {
-     * $this->validate(new ExclusionIn(array(
-     * 'field' => 'status',
+     * $validator = new Validation();
+     * $validator->validate('status', new ExclusionIn(array(
      * 'domain' => array('A', 'I')
-     * )));
-     * if ($this->validationHasFailed() == true) {
-     * return false;
-     * }
+     * ));
+     * return $this->validate($validator);
      * }
      * }
      * </code>
@@ -605,7 +606,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * </code>
      *
      * @param mixed $filter 
-     * @return \Phalcon\Mvc\Model\Message\MessageInterface[]
+     * @return MessageInterface[] 
      */
     public function getMessages($filter = null) {}
 
@@ -615,21 +616,21 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @return bool 
      */
-    protected function _checkForeignKeysRestrict() {}
+    protected final function _checkForeignKeysRestrict() {}
 
     /**
      * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
      *
      * @return bool 
      */
-    protected function _checkForeignKeysReverseCascade() {}
+    protected final function _checkForeignKeysReverseCascade() {}
 
     /**
      * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
      *
      * @return bool 
      */
-    protected function _checkForeignKeysReverseRestrict() {}
+    protected final function _checkForeignKeysReverseRestrict() {}
 
     /**
      * Executes internal hooks before save a record
@@ -724,7 +725,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * $robot = new Robots();
      * $robot->create(array(
      * 'type' => 'mechanical',
-     * 'name' => 'Astroy Boy',
+     * 'name' => 'Astro Boy',
      * 'year' => 1952
      * ));
      * </code>
@@ -824,7 +825,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function skipAttributes($attributes) {}
+    protected function skipAttributes(array $attributes) {}
 
     /**
      * Sets a list of attributes that must be skipped from the
@@ -842,7 +843,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function skipAttributesOnCreate($attributes) {}
+    protected function skipAttributesOnCreate(array $attributes) {}
 
     /**
      * Sets a list of attributes that must be skipped from the
@@ -860,7 +861,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function skipAttributesOnUpdate($attributes) {}
+    protected function skipAttributesOnUpdate(array $attributes) {}
 
     /**
      * Sets a list of attributes that must be skipped from the
@@ -878,7 +879,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param array $attributes 
      */
-    protected function allowEmptyStringValues($attributes) {}
+    protected function allowEmptyStringValues(array $attributes) {}
 
     /**
      * Setup a 1-1 relation between two models
@@ -1029,7 +1030,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param array $data 
      * @param array $columnMap 
      */
-    public function setSnapshotData($data, $columnMap = null) {}
+    public function setSnapshotData(array $data, $columnMap = null) {}
 
     /**
      * Checks if the object has internal snapshot data
@@ -1208,11 +1209,21 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function toArray($columns = null) {}
 
     /**
+     * Serializes the object for json_encode
+     * <code>
+     * echo json_encode($robot);
+     * </code>
+     *
+     * @return array 
+     */
+    public function jsonSerialize() {}
+
+    /**
      * Enables/disables options in the ORM
      *
      * @param array $options 
      */
-    public static function setup($options) {}
+    public static function setup(array $options) {}
 
     /**
      * Reset a model instance data

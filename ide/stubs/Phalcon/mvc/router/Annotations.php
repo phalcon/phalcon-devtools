@@ -18,7 +18,7 @@ namespace Phalcon\Mvc\Router;
 class Annotations extends \Phalcon\Mvc\Router
 {
 
-    protected $_handlers;
+    protected $_handlers = array();
 
 
     protected $_controllerSuffix = "Controller";

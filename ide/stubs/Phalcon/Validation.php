@@ -6,7 +6,7 @@ namespace Phalcon;
  * Phalcon\Validation
  * Allows to validate data using custom or built-in validators
  */
-class Validation extends \Phalcon\Di\Injectable
+class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationInterface
 {
 
     protected $_data;
@@ -15,7 +15,10 @@ class Validation extends \Phalcon\Di\Injectable
     protected $_entity;
 
 
-    protected $_validators;
+    protected $_validators = array();
+
+
+    protected $_combinedFieldsValidators;
 
 
     protected $_filters;
@@ -43,7 +46,7 @@ class Validation extends \Phalcon\Di\Injectable
      *
      * @param array $validators 
      */
-    public function __construct($validators = null) {}
+    public function __construct(array $validators = null) {}
 
     /**
      * Validate a set of data according to a set of rules
@@ -57,7 +60,7 @@ class Validation extends \Phalcon\Di\Injectable
     /**
      * Adds a validator to a field
      *
-     * @param string $field 
+     * @param mixed $field 
      * @param mixed $validator 
      * @return Validation 
      */
@@ -66,7 +69,7 @@ class Validation extends \Phalcon\Di\Injectable
     /**
      * Alias of `add` method
      *
-     * @param string $field 
+     * @param mixed $field 
      * @param mixed $validator 
      * @return Validation 
      */
@@ -75,11 +78,11 @@ class Validation extends \Phalcon\Di\Injectable
     /**
      * Adds the validators to a field
      *
-     * @param string $field 
+     * @param mixed $field 
      * @param array $validators 
      * @return Validation 
      */
-    public function rules($field, $validators) {}
+    public function rules($field, array $validators) {}
 
     /**
      * Adds filters to the field
@@ -106,6 +109,13 @@ class Validation extends \Phalcon\Di\Injectable
     public function getValidators() {}
 
     /**
+     * Sets the bound entity
+     *
+     * @param object $entity 
+     */
+    public function setEntity($entity) {}
+
+    /**
      * Returns the bound entity
      *
      * @return object 
@@ -118,7 +128,7 @@ class Validation extends \Phalcon\Di\Injectable
      * @param array $messages 
      * @return array 
      */
-    public function setDefaultMessages($messages = array()) {}
+    public function setDefaultMessages(array $messages = array()) {}
 
     /**
      * Get default message for validator type
@@ -140,7 +150,7 @@ class Validation extends \Phalcon\Di\Injectable
      *
      * @param array $labels 
      */
-    public function setLabels($labels) {}
+    public function setLabels(array $labels) {}
 
     /**
      * Get label for field
@@ -175,5 +185,14 @@ class Validation extends \Phalcon\Di\Injectable
      * @return mixed 
      */
     public function getValue($field) {}
+
+    /**
+     * Internal validations, if it returns true, then skip the current validator
+     *
+     * @param mixed $field 
+     * @param mixed $validator 
+     * @return bool 
+     */
+    protected function preChecking($field, \Phalcon\Validation\ValidatorInterface $validator) {}
 
 }

@@ -105,7 +105,7 @@ interface ModelInterface
      * @param array $columnMap 
      * @return \Phalcon\Mvc\Model 
      */
-    public function assign($data, $dataColumnMap = null, $whiteList = null);
+    public function assign(array $data, $dataColumnMap = null, $whiteList = null);
 
     /**
      * Assigns values to a model from an array returning a new model
@@ -117,7 +117,7 @@ interface ModelInterface
      * @param boolean $keepSnapshots 
      * @return \Phalcon\Mvc\Model 
      */
-    public static function cloneResultMap($base, $data, $columnMap, $dirtyState = 0, $keepSnapshots = null);
+    public static function cloneResultMap($base, array $data, $columnMap, $dirtyState = 0, $keepSnapshots = null);
 
     /**
      * Assigns values to a model from an array returning a new model
@@ -127,7 +127,7 @@ interface ModelInterface
      * @param int $dirtyState 
      * @return \Phalcon\Mvc\ModelInterface 
      */
-    public static function cloneResult(\Phalcon\Mvc\ModelInterface $base, $data, $dirtyState = 0);
+    public static function cloneResult(\Phalcon\Mvc\ModelInterface $base, array $data, $dirtyState = 0);
 
     /**
      * Returns an hydrated result based on the data and the column map
@@ -136,7 +136,7 @@ interface ModelInterface
      * @param array $columnMap 
      * @param int $hydrationMode 
      */
-    public static function cloneResultMapHydrate($data, $columnMap, $hydrationMode);
+    public static function cloneResultMapHydrate(array $data, $columnMap, $hydrationMode);
 
     /**
      * Allows to query a set of records that match the specified conditions
@@ -313,7 +313,7 @@ interface ModelInterface
      * @param array $data 
      * @param array $columnMap 
      */
-    public function setSnapshotData($data, $columnMap = null);
+    public function setSnapshotData(array $data, $columnMap = null);
 
     /**
      * Reset a model instance data

@@ -27,24 +27,29 @@ abstract class Text
     /**
      * Converts strings to camelize style
      * <code>
-     * echo Phalcon\Text::camelize('coco_bongo'); //CocoBongo
+     * echo Phalcon\Text::camelize('coco_bongo'); // CocoBongo
+     * echo Phalcon\Text::camelize('co_co-bon_go', '-'); // Co_coBon_go
+     * echo Phalcon\Text::camelize('co_co-bon_go', '_-'); // CoCoBonGo
      * </code>
      *
      * @param string $str 
+     * @param mixed $delimiter 
      * @return string 
      */
-    public static function camelize($str) {}
+    public static function camelize($str, $delimiter = null) {}
 
     /**
      * Uncamelize strings which are camelized
      * <code>
-     * echo Phalcon\Text::uncamelize('CocoBongo'); //coco_bongo
+     * echo Phalcon\Text::uncamelize('CocoBongo'); // coco_bongo
+     * echo Phalcon\Text::uncamelize('CocoBongo', '-'); // coco-bongo
      * </code>
      *
      * @param string $str 
+     * @param mixed $delimiter 
      * @return string 
      */
-    public static function uncamelize($str) {}
+    public static function uncamelize($str, $delimiter = null) {}
 
     /**
      * Adds a number to a string or increment that number if it already is defined
@@ -158,6 +163,7 @@ abstract class Text
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Bob
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Jon
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hello my name is a Bob
+     * echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", '[', ']', '/'); // Hello my name is a Zyxep
      * </code>
      *
      * @param string $text 

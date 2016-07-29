@@ -54,6 +54,12 @@ class Tag
     static protected $_documentTitle = null;
 
 
+    static protected $_documentAppendTitle = null;
+
+
+    static protected $_documentPrependTitle = null;
+
+
     static protected $_documentTitleSeparator = null;
 
 
@@ -83,7 +89,7 @@ class Tag
      * @param array $params 
      * @return EscaperInterface 
      */
-    public static function getEscaper($params) {}
+    public static function getEscaper(array $params) {}
 
     /**
      * Renders parameters keeping order in their HTML attributes
@@ -92,7 +98,7 @@ class Tag
      * @param array $attributes 
      * @return string 
      */
-    public static function renderAttributes($code, $attributes) {}
+    public static function renderAttributes($code, array $attributes) {}
 
     /**
      * Sets the dependency injector container.
@@ -155,7 +161,7 @@ class Tag
      * @param array $values 
      * @param bool $merge 
      */
-    public static function setDefaults($values, $merge = false) {}
+    public static function setDefaults(array $values, $merge = false) {}
 
     /**
      * Alias of Phalcon\Tag::setDefault
@@ -596,12 +602,12 @@ class Tag
     /**
      * Builds a SCRIPT[type="javascript"] tag
      * <code>
-     * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
+     * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false);
      * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
      * </code>
      * Volt syntax:
      * <code>
-     * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false) }}
+     * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false) }}
      * {{ javascript_include("javascript/jquery.js") }}
      * </code>
      *

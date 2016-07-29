@@ -43,8 +43,8 @@ class JQuery implements InstallerInterface
         if (!is_dir($jsJqueryDir)) {
             mkdir($jsJqueryDir, 0777, true);
             touch($jsJqueryDir . '/index.html');
-            copy($jqueryRoot . '/jquery-2.1.4.min.js', $jsJqueryDir . '/jquery-2.1.4.min.js');
-            copy($jqueryRoot . '/jquery-2.1.4.min.map', $jsJqueryDir . '/jquery-2.1.4.min.map');
+            copy($jqueryRoot . '/jquery-2.2.2.min.js', $jsJqueryDir . '/jquery-2.2.2.min.js');
+            copy($jqueryRoot . '/jquery-2.2.2.min.map', $jsJqueryDir . '/jquery-2.2.2.min.map');
         }
 
         return $this;
@@ -62,8 +62,8 @@ class JQuery implements InstallerInterface
 
         $installed = array(
             // Files:
-            $js . '/jquery/jquery-2.1.4.min.map',
-            $js . '/jquery/jquery-2.1.4.min.js',
+            $js . '/jquery/jquery-2.2.2.min.map',
+            $js . '/jquery/jquery-2.2.2.min.js',
             $js . '/jquery/index.html',
 
             // Sub-directories:

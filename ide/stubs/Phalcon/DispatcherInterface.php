@@ -17,6 +17,13 @@ interface DispatcherInterface
     public function setActionSuffix($actionSuffix);
 
     /**
+     * Gets the default action suffix
+     *
+     * @return string 
+     */
+    public function getActionSuffix();
+
+    /**
      * Sets the default namespace
      *
      * @param string $defaultNamespace 
@@ -90,6 +97,14 @@ interface DispatcherInterface
     public function getParam($param, $filters = null);
 
     /**
+     * Check if a param exists
+     *
+     * @param mixed $param 
+     * @return boolean 
+     */
+    public function hasParam($param);
+
+    /**
      * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
      *
      * @return bool 
@@ -97,7 +112,7 @@ interface DispatcherInterface
     public function isFinished();
 
     /**
-     * Returns value returned by the lastest dispatched action
+     * Returns value returned by the latest dispatched action
      *
      * @return mixed 
      */

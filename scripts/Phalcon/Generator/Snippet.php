@@ -19,6 +19,8 @@
 
 namespace Phalcon\Generator;
 
+use Phalcon\Utils;
+
 /**
  * Snippet Class
  *
@@ -155,9 +157,29 @@ EOD;
         return $templateValidationFailed;
     }
 
-    public function getAttributes($type, $visibility, $fieldName)
+    public function getAttributes($type, $visibility, \Phalcon\Db\ColumnInterface $field, $annotate = false, $customFieldName = null)
     {
-        $templateAttributes = <<<EOD
+        $fieldName = $customFieldName ?: $field->getName();
+
+        if ($annotate) {
+            $templateAttributes = <<<EOD
+    /**
+     *
+     * @var %s%s%s
+     * @Column(type="%s"%s, nullable=%s)
+     */
+    %s \$%s;
+EOD;
+
+            return PHP_EOL.sprintf($templateAttributes,
+                $type,
+                $field->isPrimary() ? PHP_EOL.'     * @Primary' : '',
+                $field->isAutoIncrement() ? PHP_EOL.'     * @Identity' : '',
+                $type,
+                $field->getSize() ? ', length=' . $field->getSize() : '',
+                $field->isNotNull() ? 'false' : 'true', $visibility, $fieldName).PHP_EOL;
+        } else {
+            $templateAttributes = <<<EOD
     /**
      *
      * @var %s
@@ -165,7 +187,8 @@ EOD;
     %s \$%s;
 EOD;
 
-        return PHP_EOL.sprintf($templateAttributes, $type, $visibility, $fieldName).PHP_EOL;
+            return PHP_EOL.sprintf($templateAttributes, $type, $visibility, $fieldName).PHP_EOL;
+        }
     }
 
     public function getGetterMap($fieldName, $type, $setterName, $typeMap)
@@ -281,11 +304,11 @@ EOD;
     }
 
     /**
-     * @param \Phalcon\Db\Column[] $fields
-     *
+     * @param \Phalcon\Db\ColumnInterface[] $fields
+     * @param bool                 $camelize
      * @return string
      */
-    public function getColumnMap($fields)
+    public function getColumnMap($fields, $camelize = false)
     {
         $template = <<<EOD
     /**
@@ -305,7 +328,7 @@ EOD;
         $contents = array();
         foreach ($fields as $field) {
             $name = $field->getName();
-            $contents[] = sprintf('\'%s\' => \'%s\'', $name, $name);
+            $contents[] = sprintf('\'%s\' => \'%s\'', $name, $camelize ? Utils::lowerCamelize($name) : $name);
         }
 
         return PHP_EOL.sprintf($template, join(",\n            ", $contents)).PHP_EOL;

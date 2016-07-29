@@ -106,7 +106,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      *
      * @param array $options 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Sets a single compiler option
@@ -208,7 +208,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $expr 
      * @return string 
      */
-    public function attributeReader($expr) {}
+    public function attributeReader(array $expr) {}
 
     /**
      * Resolves function intermediate code into PHP function calls
@@ -216,7 +216,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $expr 
      * @return string 
      */
-    public function functionCall($expr) {}
+    public function functionCall(array $expr) {}
 
     /**
      * Resolves filter intermediate code into a valid PHP expression
@@ -225,7 +225,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param string $left 
      * @return string 
      */
-    public function resolveTest($test, $left) {}
+    public function resolveTest(array $test, $left) {}
 
     /**
      * Resolves filter intermediate code into PHP function calls
@@ -234,7 +234,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param string $left 
      * @return string 
      */
-    final protected function resolveFilter($filter, $left) {}
+    final protected function resolveFilter(array $filter, $left) {}
 
     /**
      * Resolves an expression node in an AST volt tree
@@ -242,7 +242,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $expr 
      * @return string 
      */
-    final public function expression($expr) {}
+    final public function expression(array $expr) {}
 
     /**
      * Compiles a block of statements
@@ -259,7 +259,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param bool $extendsMode 
      * @return string 
      */
-    public function compileForeach($statement, $extendsMode = false) {}
+    public function compileForeach(array $statement, $extendsMode = false) {}
 
     /**
      * Generates a 'forelse' PHP code
@@ -275,7 +275,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param bool $extendsMode 
      * @return string 
      */
-    public function compileIf($statement, $extendsMode = false) {}
+    public function compileIf(array $statement, $extendsMode = false) {}
 
     /**
      * Compiles a "elseif" statement returning PHP code
@@ -283,7 +283,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $statement 
      * @return string 
      */
-    public function compileElseIf($statement) {}
+    public function compileElseIf(array $statement) {}
 
     /**
      * Compiles a "cache" statement returning PHP code
@@ -292,7 +292,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param bool $extendsMode 
      * @return string 
      */
-    public function compileCache($statement, $extendsMode = false) {}
+    public function compileCache(array $statement, $extendsMode = false) {}
 
     /**
      * Compiles a "set" statement returning PHP code
@@ -300,7 +300,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $statement 
      * @return string 
      */
-    public function compileSet($statement) {}
+    public function compileSet(array $statement) {}
 
     /**
      * Compiles a "do" statement returning PHP code
@@ -308,7 +308,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $statement 
      * @return string 
      */
-    public function compileDo($statement) {}
+    public function compileDo(array $statement) {}
 
     /**
      * Compiles a "return" statement returning PHP code
@@ -316,7 +316,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $statement 
      * @return string 
      */
-    public function compileReturn($statement) {}
+    public function compileReturn(array $statement) {}
 
     /**
      * Compiles a "autoescape" statement returning PHP code
@@ -325,7 +325,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param bool $extendsMode 
      * @return string 
      */
-    public function compileAutoEscape($statement, $extendsMode) {}
+    public function compileAutoEscape(array $statement, $extendsMode) {}
 
     /**
      * Compiles a '{{' '}}' statement returning PHP code
@@ -334,7 +334,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param boolean $extendsMode 
      * @return string 
      */
-    public function compileEcho($statement) {}
+    public function compileEcho(array $statement) {}
 
     /**
      * Compiles a 'include' statement returning PHP code
@@ -342,7 +342,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param array $statement 
      * @return string 
      */
-    public function compileInclude($statement) {}
+    public function compileInclude(array $statement) {}
 
     /**
      * Compiles macros
@@ -351,7 +351,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param bool $extendsMode 
      * @return string 
      */
-    public function compileMacro($statement, $extendsMode) {}
+    public function compileMacro(array $statement, $extendsMode) {}
 
     /**
      * Compiles calls to macros
@@ -360,7 +360,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param boolean $extendsMode 
      * @return string 
      */
-    public function compileCall($statement, $extendsMode) {}
+    public function compileCall(array $statement, $extendsMode) {}
 
     /**
      * Traverses a statement list compiling each of its nodes
@@ -369,7 +369,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @param bool $extendsMode 
      * @return string 
      */
-    final protected function _statementList($statements, $extendsMode = false) {}
+    final protected function _statementList(array $statements, $extendsMode = false) {}
 
     /**
      * Compiles a Volt source code returning a PHP plain version
@@ -442,5 +442,12 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * @return array 
      */
     public function parse($viewCode) {}
+
+    /**
+     * Gets the final path with VIEW
+     *
+     * @param string $path 
+     */
+    protected function getFinalPath($path) {}
 
 }

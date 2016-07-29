@@ -23,7 +23,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  * </code>
  */
-class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Libmemcached extends \Phalcon\Session\Adapter
 {
 
     protected $_libmemcached = null;
@@ -44,7 +44,7 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
      * @throws \Phalcon\Session\Exception
      * @param array $options 
      */
-    public function __construct($options) {}
+    public function __construct(array $options) {}
 
     /**
      * @return bool 
@@ -69,6 +69,7 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
      *
      * @param string $sessionId 
      * @param string $data 
+     * @return bool 
      */
     public function write($sessionId, $data) {}
 

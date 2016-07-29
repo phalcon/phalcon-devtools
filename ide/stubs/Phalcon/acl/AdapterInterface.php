@@ -24,6 +24,20 @@ interface AdapterInterface
     public function getDefaultAction();
 
     /**
+     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY) for no arguments provided in isAllowed action if there exists func for accessKey
+     *
+     * @param int $defaultAccess 
+     */
+    public function setNoArgumentsDefaultAction($defaultAccess);
+
+    /**
+     * Returns the default ACL access level for no arguments provided in isAllowed action if there exists func for accessKey
+     *
+     * @return int 
+     */
+    public function getNoArgumentsDefaultAction();
+
+    /**
      * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
      *
      * @param mixed $role 
@@ -90,8 +104,9 @@ interface AdapterInterface
      * @param string $roleName 
      * @param string $resourceName 
      * @param mixed $access 
+     * @param mixed $func 
      */
-    public function allow($roleName, $resourceName, $access);
+    public function allow($roleName, $resourceName, $access, $func = null);
 
     /**
      * Deny access to a role on a resource
@@ -99,18 +114,20 @@ interface AdapterInterface
      * @param string $roleName 
      * @param string $resourceName 
      * @param mixed $access 
+     * @param mixed $func 
      */
-    public function deny($roleName, $resourceName, $access);
+    public function deny($roleName, $resourceName, $access, $func = null);
 
     /**
      * Check whether a role is allowed to access an action from a resource
      *
-     * @param string $roleName 
-     * @param string $resourceName 
+     * @param mixed $roleName 
+     * @param mixed $resourceName 
      * @param mixed $access 
+     * @param array $parameters 
      * @return bool 
      */
-    public function isAllowed($roleName, $resourceName, $access);
+    public function isAllowed($roleName, $resourceName, $access, array $parameters = null);
 
     /**
      * Returns the role which the list is checking if it's allowed to certain resource/access

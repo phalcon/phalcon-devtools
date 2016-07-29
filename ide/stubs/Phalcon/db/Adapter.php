@@ -17,10 +17,8 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 
     /**
      * Descriptor used to connect to a database
-     *
-     * @var \stdClass
      */
-    protected $_descriptor;
+    protected $_descriptor = array();
 
     /**
      * Name of the dialect used
@@ -103,7 +101,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      *
      * @param array $descriptor 
      */
-    public function __construct($descriptor) {}
+    public function __construct(array $descriptor) {}
 
     /**
      * Sets the event manager
@@ -197,7 +195,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     public function fetchColumn($sqlQuery, $placeholders = null, $column = 0) {}
 
     /**
-     * Inserts data into a table using custom RBDM SQL syntax
+     * Inserts data into a table using custom RDBMS SQL syntax
      * <code>
      * // Inserting a new robot
      * $success = $connection->insert(
@@ -216,7 +214,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param  $array dataTypes
      * @return  
      */
-    public function insert($table, $values, $fields = null, $dataTypes = null) {}
+    public function insert($table, array $values, $fields = null, $dataTypes = null) {}
 
     /**
      * Inserts data into a table using custom RBDM SQL syntax
@@ -285,7 +283,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * Another, more convenient syntax
      * <code>
      * //Updating existing robot
-     * $success = $connection->update(
+     * $success = $connection->updateAsDict(
      * "robots",
      * array(
      * "name" => "New Astro Boy"
@@ -396,7 +394,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param array $definition 
      * @return bool 
      */
-    public function createTable($tableName, $schemaName, $definition) {}
+    public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Drops a table from a schema/database
@@ -416,7 +414,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @param mixed $schemaName 
      * @return bool 
      */
-    public function createView($viewName, $definition, $schemaName = null) {}
+    public function createView($viewName, array $definition, $schemaName = null) {}
 
     /**
      * Drops a view

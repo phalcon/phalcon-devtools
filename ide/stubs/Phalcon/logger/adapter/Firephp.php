@@ -8,18 +8,18 @@ namespace Phalcon\Logger\Adapter;
  * <code>
  * use Phalcon\Logger\Adapter\Firephp;
  * use Phalcon\Logger;
- * $logger = new Firephp("");
- * $logger->log(Logger::ERROR, "This is an error");
- * $logger->error("This is another error");
+ * $logger = new Firephp();
+ * $logger->log(Logger::ERROR, 'This is an error');
+ * $logger->error('This is another error');
  * </code>
  */
 class Firephp extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
 {
 
-    static private $_initialized;
+    private $_initialized = false;
 
 
-    static private $_index;
+    private $_index = 1;
 
 
     /**
@@ -32,13 +32,12 @@ class Firephp extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\Adapter
     /**
      * Writes the log to the stream itself
      *
-     * @link http://www.firephp.org/Wiki/Reference/Protocol
      * @param string $message 
      * @param int $type 
      * @param int $time 
      * @param array $context 
      */
-    public function logInternal($message, $type, $time, $context) {}
+    public function logInternal($message, $type, $time, array $context) {}
 
     /**
      * Closes the logger

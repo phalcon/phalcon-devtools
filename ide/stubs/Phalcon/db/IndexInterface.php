@@ -10,15 +10,6 @@ interface IndexInterface
 {
 
     /**
-     * Phalcon\Db\Index constructor
-     *
-     * @param string $indexName 
-     * @param array $columns 
-     * @param string $type 
-     */
-    public function __construct($indexName, $columns, $type = null);
-
-    /**
      * Gets the index name
      *
      * @return string 
@@ -45,6 +36,6 @@ interface IndexInterface
      * @param array $data 
      * @return IndexInterface 
      */
-    public static function __set_state($data);
+    public static function __set_state(array $data);
 
 }

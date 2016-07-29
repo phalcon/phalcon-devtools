@@ -31,7 +31,7 @@ interface CriteriaInterface
      * @param array $bindParams 
      * @return CriteriaInterface 
      */
-    public function bind($bindParams);
+    public function bind(array $bindParams);
 
     /**
      * Sets the bind types in the criteria
@@ -40,7 +40,7 @@ interface CriteriaInterface
      * @param array $bindTypes 
      * @return CriteriaInterface 
      */
-    public function bindTypes($bindTypes);
+    public function bindTypes(array $bindTypes);
 
     /**
      * Sets the conditions parameter in the criteria
@@ -147,7 +147,7 @@ interface CriteriaInterface
      * @param array $values 
      * @return CriteriaInterface 
      */
-    public function inWhere($expr, $values);
+    public function inWhere($expr, array $values);
 
     /**
      * Appends a NOT IN condition to the current conditions
@@ -159,7 +159,7 @@ interface CriteriaInterface
      * @param array $values 
      * @return CriteriaInterface 
      */
-    public function notInWhere($expr, $values);
+    public function notInWhere($expr, array $values);
 
     /**
      * Returns the conditions parameter in the criteria
@@ -190,7 +190,7 @@ interface CriteriaInterface
      *
      * @return string|null 
      */
-    public function getOrder();
+    public function getOrderBy();
 
     /**
      * Returns all the parameters defined in the criteria

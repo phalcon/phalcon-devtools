@@ -15,13 +15,14 @@ namespace Phalcon\Session\Adapter;
  * 'persistent' => false,
  * 'lifetime'   => 3600,
  * 'prefix'     => 'my_'
+ * 'index'      => 1,
  * ]);
  * $session->start();
  * $session->set('var', 'some-value');
  * echo $session->get('var');
  * </code>
  */
-class Redis extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Redis extends \Phalcon\Session\Adapter
 {
 
     protected $_redis = null;
@@ -41,7 +42,7 @@ class Redis extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adapter
      *
      * @param array $options 
      */
-    public function __construct($options = array()) {}
+    public function __construct(array $options = array()) {}
 
     /**
      * {@inheritdoc}
@@ -70,6 +71,7 @@ class Redis extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adapter
      *
      * @param string $sessionId 
      * @param string $data 
+     * @return bool 
      */
     public function write($sessionId, $data) {}
 

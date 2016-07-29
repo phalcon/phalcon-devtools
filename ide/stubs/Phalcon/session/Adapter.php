@@ -6,7 +6,7 @@ namespace Phalcon\Session;
  * Phalcon\Session\Adapter
  * Base class for Phalcon\Session adapters
  */
-abstract class Adapter
+abstract class Adapter implements \Phalcon\Session\AdapterInterface
 {
 
     const SESSION_ACTIVE = 2;
@@ -49,7 +49,7 @@ abstract class Adapter
      *
      * @param array $options 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Get internal options
@@ -168,10 +168,9 @@ abstract class Adapter
     public function destroy($removeData = false) {}
 
     /**
-     * Returns the status of the current session. For PHP 5.3 this function will always return SESSION_NONE
+     * Returns the status of the current session.
      * <code>
      * var_dump($session->status());
-     * // PHP 5.4 and above will give meaningful messages, 5.3 gets SESSION_NONE always
      * if ($session->status() !== $session::SESSION_ACTIVE) {
      * $session->start();
      * }

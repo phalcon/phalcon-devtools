@@ -9,7 +9,7 @@ namespace Phalcon;
 class Debug
 {
 
-    protected $_uri = "//static.phalconphp.com/www/debug/2.0.0/";
+    protected $_uri = "//static.phalconphp.com/www/debug/3.0.x/";
 
 
     protected $_theme = "default";
@@ -125,7 +125,7 @@ class Debug
      * @param mixed $n 
      * @return string|null 
      */
-    protected function _getArrayDump($argument, $n = 0) {}
+    protected function _getArrayDump(array $argument, $n = 0) {}
 
     /**
      * Produces an string representation of a variable
@@ -169,7 +169,7 @@ class Debug
      * @param int $n 
      * @param array $trace 
      */
-    protected final function showTraceItem($n, $trace) {}
+    protected final function showTraceItem($n, array $trace) {}
 
     /**
      * Throws an exception when a notice or warning is raised

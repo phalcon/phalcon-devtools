@@ -32,13 +32,10 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     protected $_checkedPath = null;
 
 
-    protected $_prefixes = null;
-
-
     protected $_classes = null;
 
 
-    protected $_extensions;
+    protected $_extensions = array("php");
 
 
     protected $_namespaces = null;
@@ -47,13 +44,11 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     protected $_directories = null;
 
 
+    protected $_files = null;
+
+
     protected $_registered = false;
 
-
-    /**
-     * Phalcon\Loader constructor
-     */
-    public function __construct() {}
 
     /**
      * Sets the events manager
@@ -75,7 +70,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @param array $extensions 
      * @return Loader 
      */
-    public function setExtensions($extensions) {}
+    public function setExtensions(array $extensions) {}
 
     /**
      * Returns the file extensions registered in the loader
@@ -91,7 +86,13 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @param bool $merge 
      * @return Loader 
      */
-    public function registerNamespaces($namespaces, $merge = false) {}
+    public function registerNamespaces(array $namespaces, $merge = false) {}
+
+    /**
+     * @param array $namespace 
+     * @return array 
+     */
+    protected function prepareNamespace(array $namespace) {}
 
     /**
      * Returns the namespaces currently registered in the autoloader
@@ -103,29 +104,11 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     /**
      * Register directories in which "not found" classes could be found
      *
-     * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
-     * @param array $prefixes 
-     * @param bool $merge 
-     * @return Loader 
-     */
-    public function registerPrefixes($prefixes, $merge = false) {}
-
-    /**
-     * Returns the prefixes currently registered in the autoloader
-     *
-     * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
-     * @return array 
-     */
-    public function getPrefixes() {}
-
-    /**
-     * Register directories in which "not found" classes could be found
-     *
      * @param array $directories 
      * @param bool $merge 
      * @return Loader 
      */
-    public function registerDirs($directories, $merge = false) {}
+    public function registerDirs(array $directories, $merge = false) {}
 
     /**
      * Returns the directories currently registered in the autoloader
@@ -135,13 +118,30 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     public function getDirs() {}
 
     /**
+     * Registers files that are "non-classes" hence need a "require". This is very useful for including files that only
+     * have functions
+     *
+     * @param array $files 
+     * @param bool $merge 
+     * @return Loader 
+     */
+    public function registerFiles(array $files, $merge = false) {}
+
+    /**
+     * Returns the files currently registered in the autoloader
+     *
+     * @return array 
+     */
+    public function getFiles() {}
+
+    /**
      * Register classes and their locations
      *
      * @param array $classes 
      * @param bool $merge 
      * @return Loader 
      */
-    public function registerClasses($classes, $merge = false) {}
+    public function registerClasses(array $classes, $merge = false) {}
 
     /**
      * Returns the class-map currently registered in the autoloader
@@ -163,6 +163,11 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
      * @return Loader 
      */
     public function unregister() {}
+
+    /**
+     * Checks if a file exists and then adds the file by doing virtual require
+     */
+    public function loadFiles() {}
 
     /**
      * Autoloads the registered classes

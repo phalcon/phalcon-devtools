@@ -7,19 +7,21 @@ namespace Phalcon\Cache\Backend;
  * Allows to cache output fragments, PHP data or raw data to a memcache backend
  * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
  * <code>
+ * use Phalcon\Cache\Backend\Memcache;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
- * "lifetime" => 172800
- * ));
- * //Create the Cache setting memcached connection options
- * $cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
+ * $frontCache = new FrontData([
+ * 'lifetime' => 172800
+ * ]);
+ * // Create the Cache setting memcached connection options
+ * $cache = new Memcache($frontCache, [
  * 'host' => 'localhost',
  * 'port' => 11211,
  * 'persistent' => false
- * ));
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
- * //Get data
+ * ]);
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * // Get data
  * $data = $cache->get('my-data');
  * </code>
  */
@@ -45,11 +47,21 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
     public function _connect() {}
 
     /**
+     * Add servers to memcache pool
+     *
+     * @param string $host 
+     * @param int $port 
+     * @param bool $persistent 
+     * @return bool 
+     */
+    public function addServers($host, $port, $persistent = false) {}
+
+    /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
-     * @param long $lifetime 
-     * @return mixed 
+     * @param string $keyName 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
@@ -60,6 +72,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
      * @param string $content 
      * @param long $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 

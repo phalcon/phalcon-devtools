@@ -100,6 +100,20 @@ class Memory extends \Phalcon\Acl\Adapter
      */
     protected $_accessList;
 
+    /**
+     * Function List
+     *
+     * @var mixed
+     */
+    protected $_func;
+
+    /**
+     * Default action for no arguments is allow
+     *
+     * @var mixed
+     */
+    protected $_noArgumentsDefaultAction = Acl::ALLOW;
+
 
     /**
      * Phalcon\Acl\Adapter\Memory constructor
@@ -114,7 +128,7 @@ class Memory extends \Phalcon\Acl\Adapter
      * $acl->addRole('administrator', 'consultant');
      * </code>
      *
-     * @param mixed $role 
+     * @param RoleInterface|string $role 
      * @param array|string $accessInherits 
      * @return bool 
      */
@@ -189,8 +203,9 @@ class Memory extends \Phalcon\Acl\Adapter
      * @param string $resourceName 
      * @param mixed $access 
      * @param mixed $action 
+     * @param mixed $func 
      */
-    protected function _allowOrDeny($roleName, $resourceName, $access, $action) {}
+    protected function _allowOrDeny($roleName, $resourceName, $access, $action, $func = null) {}
 
     /**
      * Allow access to a role on a resource
@@ -210,8 +225,9 @@ class Memory extends \Phalcon\Acl\Adapter
      * @param string $roleName 
      * @param string $resourceName 
      * @param mixed $access 
+     * @param mixed $func 
      */
-    public function allow($roleName, $resourceName, $access) {}
+    public function allow($roleName, $resourceName, $access, $func = null) {}
 
     /**
      * Deny access to a role on a resource
@@ -231,8 +247,9 @@ class Memory extends \Phalcon\Acl\Adapter
      * @param string $roleName 
      * @param string $resourceName 
      * @param mixed $access 
+     * @param mixed $func 
      */
-    public function deny($roleName, $resourceName, $access) {}
+    public function deny($roleName, $resourceName, $access, $func = null) {}
 
     /**
      * Check whether a role is allowed to access an action from a resource
@@ -243,12 +260,27 @@ class Memory extends \Phalcon\Acl\Adapter
      * $acl->isAllowed('guests', '*', 'edit');
      * </code>
      *
-     * @param string $roleName 
-     * @param string $resourceName 
+     * @param mixed $roleName 
+     * @param mixed $resourceName 
      * @param string $access 
+     * @param array $parameters 
      * @return bool 
      */
-    public function isAllowed($roleName, $resourceName, $access) {}
+    public function isAllowed($roleName, $resourceName, $access, array $parameters = null) {}
+
+    /**
+     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY) for no arguments provided in isAllowed action if there exists func for accessKey
+     *
+     * @param int $defaultAccess 
+     */
+    public function setNoArgumentsDefaultAction($defaultAccess) {}
+
+    /**
+     * Returns the default ACL access level for no arguments provided in isAllowed action if there exists func for accessKey
+     *
+     * @return int 
+     */
+    public function getNoArgumentsDefaultAction() {}
 
     /**
      * Return an array with every role registered in the list

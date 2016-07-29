@@ -4,20 +4,24 @@ use Phalcon\Di\FactoryDefault\Cli as CliDi;
 use Phalcon\Cli\Console as ConsoleApp;
 
 /**
- * Read auto-loader
- */
-include __DIR__ . '/config/loader.php';
-
-/**
- * Read the configuration
- */
-$config = include __DIR__ . '/config/config.php';
-
-/**
  * Read the services
  */
 $di = new CliDi();
+
+/**
+ * Include Services
+ */
 include __DIR__ . '/config/services.php';
+
+/**
+ * Call the autoloader service.  We don't need to keep the results.
+ */
+$di->getLoader();
+
+/**
+ * Get the configuration
+ */
+$config = $di->getConfig();
 
 /**
  * Create a console application
@@ -27,7 +31,7 @@ $console = new ConsoleApp($di);
 /**
  * Process the console arguments
  */
-$arguments = array();
+$arguments = [];
 
 foreach ($argv as $k => $arg) {
     if ($k == 1) {
@@ -61,6 +65,6 @@ try {
 
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
-    echo implode(PHP_EOL, $e->getTrace());
+    echo $e->getTraceAsString() . PHP_EOL;
     exit(255);
 }

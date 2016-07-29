@@ -42,38 +42,32 @@ class Migration extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'action=s'          => 'Generates a Migration [generate|run]',
             'config=s'          => 'Configuration file',
             'migrations=s'      => 'Migrations directory',
             'directory=s'       => 'Directory where the project was created',
             'table=s'           => 'Table to migrate. Default: all',
             'version=s'         => 'Version to migrate',
-            'force'             => 'Forces to overwrite existing migrations',
-            'no-auto-increment' => 'Disable auto increment (Generating only)',
+            'descr=s'           => 'Migration description (used for timestamp based migration)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
-        );
+            'force'             => 'Forces to overwrite existing migrations',
+            'ts-based'          => 'Timestamp based migration version',
+            'log-in-db'         => 'Keep migrations log in the database table rather than in file',
+            'no-auto-increment' => 'Disable auto increment (Generating only)',
+        ];
     }
 
     /**
      * {@inheritdoc}
      *
      * @param array $parameters
+     *
      * @return mixed
      */
     public function run(array $parameters)
     {
-        if ($this->isReceivedOption('table')) {
-            $tableName = $this->getOption('table');
-        } else {
-            $tableName = 'all';
-        }
-
-        $path = '';
-        if ($this->isReceivedOption('directory')) {
-            $path = $this->getOption('directory');
-        }
-
+        $path = $this->isReceivedOption('directory') ? $this->getOption('directory') : '';
         $path = realpath($path) . DIRECTORY_SEPARATOR;
 
         if ($this->isReceivedOption('config')) {
@@ -83,51 +77,82 @@ class Migration extends Command
         }
 
         if ($this->isReceivedOption('migrations')) {
-            $migrationsDir = $path.$this->getOption('migrations');
+            $migrationsDir = $path . $this->getOption('migrations');
         } elseif (isset($config['application']['migrationsDir'])) {
             $migrationsDir = $config['application']['migrationsDir'];
             if (!$this->path->isAbsolutePath($migrationsDir)) {
                 $migrationsDir = $path . $migrationsDir;
             }
+        } elseif (file_exists($path . 'app')) {
+            $migrationsDir = $path . 'app/migrations';
+        } elseif (file_exists($path . 'apps')) {
+            $migrationsDir = $path . 'apps/migrations';
         } else {
-            if (file_exists($path.'app')) {
-                $migrationsDir = $path.'app/migrations';
-            } elseif (file_exists($path.'apps')) {
-                $migrationsDir = $path.'apps/migrations';
-            } else {
-                $migrationsDir = $path.'migrations';
-            }
+            $migrationsDir = $path . 'migrations';
         }
 
+        // keep migrations log in db
+        // either "log-in-db" option or "logInDb" config variable from "application" block
+        $migrationsInDb = false;
+        if ($this->isReceivedOption('log-in-db')) {
+            $migrationsInDb = true;
+        } elseif (isset($config['application']['logInDb'])) {
+            $migrationsInDb = $config['application']['logInDb'];
+        }
+
+        // migrations naming is timestamp-based rather than traditional, dotted versions
+        // either "ts-based" option or "migrationsTsBased" config variable from "application" block
+        $migrationsTsBased = false;
+        if ($this->isReceivedOption('ts-based')) {
+            $migrationsTsBased = true;
+        } elseif (isset($config['application']['migrationsTsBased'])) {
+            $migrationsTsBased = $config['application']['migrationsTsBased'];
+        }
+
+        $tableName = $this->isReceivedOption('table') ? $this->getOption('table') : 'all';
+        $descr = $this->getOption('descr');
         $exportData = $this->getOption('data');
-        $originalVersion = $this->getOption('version');
-
-        $action = $this->getOption(array('action', 1));
-
+        $action = $this->getOption(['action', 1]);
         $version = $this->getOption('version');
 
-        if ($action == 'generate') {
-            Migrations::generate(array(
-                'directory'       => $path,
-                'tableName'       => $tableName,
-                'exportData'      => $exportData,
-                'migrationsDir'   => $migrationsDir,
-                'originalVersion' => $originalVersion,
-                'force'           => $this->isReceivedOption('force'),
-                'no-ai'           => $this->isReceivedOption('no-auto-increment'),
-                'config'          => $config
-            ));
-        } else {
-            if ($action == 'run') {
-                Migrations::run(array(
-                    'directory'     => $path,
-                    'tableName'     => $tableName,
-                    'migrationsDir' => $migrationsDir,
-                    'force'         => $this->isReceivedOption('force'),
-                    'config'        => $config,
-                    'version'       => $version,
-                ));
-            }
+        switch ($action) {
+            case 'generate':
+                Migrations::generate([
+                    'directory'       => $path,
+                    'tableName'       => $tableName,
+                    'exportData'      => $exportData,
+                    'migrationsDir'   => $migrationsDir,
+                    'version'         => $version,
+                    'force'           => $this->isReceivedOption('force'),
+                    'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
+                    'config'          => $config,
+                    'descr'           => $descr,
+                ]);
+                break;
+            case 'run':
+                Migrations::run([
+                    'directory'      => $path,
+                    'tableName'      => $tableName,
+                    'migrationsDir'  => $migrationsDir,
+                    'force'          => $this->isReceivedOption('force'),
+                    'tsBased'        => $migrationsTsBased,
+                    'config'         => $config,
+                    'version'        => $version,
+                    'migrationsInDb' => $migrationsInDb,
+                ]);
+                break;
+            case 'list':
+                Migrations::listAll([
+                    'directory'      => $path,
+                    'tableName'      => $tableName,
+                    'migrationsDir'  => $migrationsDir,
+                    'force'          => $this->isReceivedOption('force'),
+                    'tsBased'        => $migrationsTsBased,
+                    'config'         => $config,
+                    'version'        => $version,
+                    'migrationsInDb' => $migrationsInDb,
+                ]);
+                break;
         }
     }
 
@@ -138,7 +163,7 @@ class Migration extends Command
      */
     public function getCommands()
     {
-        return array('migration', 'create-migration');
+        return ['migration', 'create-migration'];
     }
 
     /**
@@ -156,6 +181,9 @@ class Migration extends Command
 
         print Color::head('Usage: Run a Migration') . PHP_EOL;
         print Color::colorize('  migration run', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+
+        print Color::head('Usage: List all available migrations') . PHP_EOL;
+        print Color::colorize('  migration list', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
         print Color::colorize('  help', Color::FG_GREEN);

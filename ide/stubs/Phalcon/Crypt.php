@@ -43,10 +43,7 @@ class Crypt implements \Phalcon\CryptInterface
     protected $_padding = 0;
 
 
-    protected $_mode = "cbc";
-
-
-    protected $_cipher = "rijndael-256";
+    protected $_cipher = "aes-256-cfb";
 
 
     /**
@@ -73,21 +70,6 @@ class Crypt implements \Phalcon\CryptInterface
     public function getCipher() {}
 
     /**
-     * Sets the encrypt/decrypt mode
-     *
-     * @param string $mode 
-     * @return Crypt 
-     */
-    public function setMode($mode) {}
-
-    /**
-     * Returns the current encryption mode
-     *
-     * @return string 
-     */
-    public function getMode() {}
-
-    /**
      * Sets the encryption key
      *
      * @param string $key 
@@ -105,24 +87,22 @@ class Crypt implements \Phalcon\CryptInterface
     /**
      * Pads texts before encryption
      *
-     * @link http://www.di-mgt.com.au/cryptopad.html
+     * @see http://www.di-mgt.com.au/cryptopad.html
      * @param string $text 
      * @param string $mode 
      * @param int $blockSize 
      * @param int $paddingType 
-     * @return string 
      */
     protected function _cryptPadText($text, $mode, $blockSize, $paddingType) {}
 
     /**
-     * Removes $paddingType padding from text
-     * If the method detects that the text was not padded, it will return it unmodified
+     * Removes padding @a padding_type from @a text
+     * If the function detects that the text was not padded, it will return it unmodified
      *
      * @param string $text Message to be unpadded
      * @param string $mode Encryption mode; unpadding is applied only in CBC or ECB mode
      * @param int $blockSize Cipher block size
      * @param int $paddingType Padding scheme
-     * @return string 
      */
     protected function _cryptUnpadText($text, $mode, $blockSize, $paddingType) {}
 
@@ -171,17 +151,10 @@ class Crypt implements \Phalcon\CryptInterface
     public function decryptBase64($text, $key = null, $safe = false) {}
 
     /**
-     * Returns a list of available cyphers
+     * Returns a list of available ciphers
      *
      * @return array 
      */
     public function getAvailableCiphers() {}
-
-    /**
-     * Returns a list of available modes
-     *
-     * @return array 
-     */
-    public function getAvailableModes() {}
 
 }

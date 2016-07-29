@@ -29,6 +29,9 @@ class Libmemcached extends \Phalcon\Mvc\Model\MetaData
     protected $_memcache = null;
 
 
+    protected $_metaData = array();
+
+
     /**
      * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
      *

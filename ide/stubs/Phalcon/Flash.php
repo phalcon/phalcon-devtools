@@ -10,7 +10,7 @@ namespace Phalcon;
  * $flash->error("Cannot open the file");
  * </code>
  */
-abstract class Flash
+abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
 {
 
     protected $_cssClasses;
@@ -22,6 +22,15 @@ abstract class Flash
     protected $_automaticHtml = true;
 
 
+    protected $_escaperService = null;
+
+
+    protected $_autoescape = true;
+
+
+    protected $_dependencyInjector = null;
+
+
     protected $_messages;
 
 
@@ -31,6 +40,51 @@ abstract class Flash
      * @param mixed $cssClasses 
      */
     public function __construct($cssClasses = null) {}
+
+    /**
+     * Returns the autoescape mode in generated html
+     *
+     * @return bool 
+     */
+    public function getAutoescape() {}
+
+    /**
+     * Set the autoescape mode in generated html
+     *
+     * @param bool $autoescape 
+     * @return Flash 
+     */
+    public function setAutoescape($autoescape) {}
+
+    /**
+     * Returns the Escaper Service
+     *
+     * @return EscaperInterface 
+     */
+    public function getEscaperService() {}
+
+    /**
+     * Sets the Escaper Service
+     *
+     * @param mixed $escaperService 
+     * @return Flash 
+     */
+    public function setEscaperService(EscaperInterface $escaperService) {}
+
+    /**
+     * Sets the dependency injector
+     *
+     * @param mixed $dependencyInjector 
+     * @return Flash 
+     */
+    public function setDI(DiInterface $dependencyInjector) {}
+
+    /**
+     * Returns the internal dependency injector
+     *
+     * @return DiInterface 
+     */
+    public function getDI() {}
 
     /**
      * Set whether the output must be implicitly flushed to the output or returned as string
@@ -54,7 +108,7 @@ abstract class Flash
      * @param array $cssClasses 
      * @return \Phalcon\FlashInterface 
      */
-    public function setCssClasses($cssClasses) {}
+    public function setCssClasses(array $cssClasses) {}
 
     /**
      * Shows a HTML error message

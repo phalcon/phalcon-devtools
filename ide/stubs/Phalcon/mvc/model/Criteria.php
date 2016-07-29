@@ -72,7 +72,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param bool $merge 
      * @return Criteria 
      */
-    public function bind($bindParams, $merge = false) {}
+    public function bind(array $bindParams, $merge = false) {}
 
     /**
      * Sets the bind types in the criteria
@@ -81,7 +81,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param array $bindTypes 
      * @return Criteria 
      */
-    public function bindTypes($bindTypes) {}
+    public function bindTypes(array $bindTypes) {}
 
     /**
      * Sets SELECT DISTINCT / SELECT ALL flag
@@ -238,7 +238,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param array $values 
      * @return Criteria 
      */
-    public function inWhere($expr, $values) {}
+    public function inWhere($expr, array $values) {}
 
     /**
      * Appends a NOT IN condition to the current conditions
@@ -250,7 +250,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param array $values 
      * @return Criteria 
      */
-    public function notInWhere($expr, $values) {}
+    public function notInWhere($expr, array $values) {}
 
     /**
      * Adds the conditions parameter to the criteria
@@ -326,7 +326,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param array $cache 
      * @return Criteria 
      */
-    public function cache($cache) {}
+    public function cache(array $cache) {}
 
     /**
      * Returns the conditions parameter in the criteria
@@ -364,7 +364,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      *
      * @return string|null 
      */
-    public function getOrder() {}
+    public function getOrderBy() {}
 
     /**
      * Returns the group clause in the criteria
@@ -392,7 +392,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * @param string $operator 
      * @return Criteria 
      */
-    public static function fromInput(\Phalcon\DiInterface $dependencyInjector, $modelName, $data, $operator = "AND") {}
+    public static function fromInput(\Phalcon\DiInterface $dependencyInjector, $modelName, array $data, $operator = "AND") {}
 
     /**
      * Executes a find using the parameters built with the criteria

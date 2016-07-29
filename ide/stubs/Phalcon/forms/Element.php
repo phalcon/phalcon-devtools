@@ -24,7 +24,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     protected $_attributes;
 
 
-    protected $_validators;
+    protected $_validators = array();
 
 
     protected $_filters;
@@ -55,7 +55,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Returns the parent form to the element
      *
-     * @return ElementInterface 
+     * @return Form 
      */
     public function getForm() {}
 
@@ -105,7 +105,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * @param \Phalcon\Validation\ValidatorInterface[]  
      * @return \Phalcon\Forms\ElementInterface 
      */
-    public function addValidators($validators, $merge = true) {}
+    public function addValidators(array $validators, $merge = true) {}
 
     /**
      * Adds a validator to the element
@@ -127,10 +127,10 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * according to the element parameters
      *
      * @param array $attributes 
-     * @param boolean $useChecked 
+     * @param bool $useChecked 
      * @return array 
      */
-    public function prepareAttributes($attributes = null, $useChecked = false) {}
+    public function prepareAttributes(array $attributes = null, $useChecked = false) {}
 
     /**
      * Sets a default attribute for the element
@@ -156,7 +156,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * @param array $attributes 
      * @return ElementInterface 
      */
-    public function setAttributes($attributes) {}
+    public function setAttributes(array $attributes) {}
 
     /**
      * Returns the default attributes for the element
@@ -187,9 +187,9 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
      * Sets options for the element
      *
      * @param array $options 
-     * @return \Phalcon\Forms\ElementInterface 
+     * @return ElementInterface 
      */
-    public function setUserOptions($options) {}
+    public function setUserOptions(array $options) {}
 
     /**
      * Returns the options for the element
@@ -283,7 +283,7 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     public function clear() {}
 
     /**
-     * Magic method __toString renders the widget without atttributes
+     * Magic method __toString renders the widget without attributes
      *
      * @return string 
      */

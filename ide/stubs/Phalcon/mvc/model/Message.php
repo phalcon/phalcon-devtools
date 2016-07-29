@@ -11,12 +11,12 @@ namespace Phalcon\Mvc\Model;
  * {
  * public function beforeSave()
  * {
- * if (this->name == 'Peter') {
- * text = "A robot cannot be named Peter";
- * field = "name";
- * type = "InvalidValue";
- * message = new Message(text, field, type);
- * this->appendMessage(message);
+ * if ($this->name == 'Peter') {
+ * $text = "A robot cannot be named Peter";
+ * $field = "name";
+ * $type = "InvalidValue";
+ * $message = new Message($text, $field, $type);
+ * $this->appendMessage($message);
  * }
  * }
  * }
@@ -37,6 +37,9 @@ class Message implements \Phalcon\Mvc\Model\MessageInterface
     protected $_model;
 
 
+    protected $_code;
+
+
     /**
      * Phalcon\Mvc\Model\Message constructor
      *
@@ -44,8 +47,9 @@ class Message implements \Phalcon\Mvc\Model\MessageInterface
      * @param string|array $field 
      * @param string $type 
      * @param \Phalcon\Mvc\ModelInterface $model 
+     * @param int|null $code 
      */
-    public function __construct($message, $field = null, $type = null, $model = null) {}
+    public function __construct($message, $field = null, $type = null, $model = null, $code = null) {}
 
     /**
      * Sets message type
@@ -99,11 +103,26 @@ class Message implements \Phalcon\Mvc\Model\MessageInterface
     public function setModel(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
+     * Sets code for the message
+     *
+     * @param int $code 
+     * @return Message 
+     */
+    public function setCode($code) {}
+
+    /**
      * Returns the model that produced the message
      *
      * @return \Phalcon\Mvc\ModelInterface 
      */
     public function getModel() {}
+
+    /**
+     * Returns the message code
+     *
+     * @return int 
+     */
+    public function getCode() {}
 
     /**
      * Magic __toString method returns verbose message
@@ -118,6 +137,6 @@ class Message implements \Phalcon\Mvc\Model\MessageInterface
      * @param array $message 
      * @return Message 
      */
-    public static function __set_state($message) {}
+    public static function __set_state(array $message) {}
 
 }

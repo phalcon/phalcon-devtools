@@ -58,6 +58,13 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
     public function getControllerName() {}
 
     /**
+     * Gets previous dispatched namespace name
+     *
+     * @return string 
+     */
+    public function getPreviousNamespaceName() {}
+
+    /**
      * Gets previous dispatched controller name
      *
      * @return string 
@@ -94,7 +101,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
     public function getControllerClass() {}
 
     /**
-     * Returns the lastest dispatched controller
+     * Returns the latest dispatched controller
      *
      * @return \Phalcon\Mvc\ControllerInterface 
      */

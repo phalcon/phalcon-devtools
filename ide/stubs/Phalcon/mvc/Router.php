@@ -9,12 +9,13 @@ namespace Phalcon\Mvc;
  * decomposing it into parameters to determine which module, controller, and
  * action of that controller should receive the request
  * <code>
+ * use Phalcon\Mvc\Router;
  * $router = new Router();
  * $router->add(
- * "/documentation/{chapter}/{name}\.{type:[a-z]+}",
- * array(
- * "controller" => "documentation",
- * "action"     => "show"
+ * '/documentation/{chapter}/{name}\.{type:[a-z]+}',
+ * [
+ * 'controller' => 'documentation',
+ * 'action'     => 'show'
  * )
  * );
  * $router->handle();
@@ -57,7 +58,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     protected $_action = null;
 
 
-    protected $_params;
+    protected $_params = array();
 
 
     protected $_routes;
@@ -84,7 +85,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     protected $_defaultAction;
 
 
-    protected $_defaultParams;
+    protected $_defaultParams = array();
 
 
     protected $_removeExtraSlashes;
@@ -190,16 +191,16 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
      * Sets an array of default paths. If a route is missing a path the router will use the defined here
      * This method must not be used to set a 404 route
      * <code>
-     * $router->setDefaults(array(
+     * $router->setDefaults([
      * 'module' => 'common',
      * 'action' => 'index'
-     * ));
+     * ]);
      * </code>
      *
      * @param array $defaults 
      * @return RouterInterface 
      */
-    public function setDefaults($defaults) {}
+    public function setDefaults(array $defaults) {}
 
     /**
      * Returns an array of default parameters
@@ -211,9 +212,9 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     /**
      * Handles routing information received from the rewrite engine
      * <code>
-     * //Read the info from the rewrite engine
+     * // Read the info from the rewrite engine
      * $router->handle();
-     * //Manually passing an URL
+     * // Manually passing an URL
      * $router->handle('/posts/edit/1');
      * </code>
      *
@@ -309,6 +310,36 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function addHead($pattern, $paths = null, $position = Router::POSITION_LAST) {}
 
     /**
+     * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+     *
+     * @param string $pattern 
+     * @param mixed $paths 
+     * @param mixed $position 
+     * @return \Phalcon\Mvc\Router\RouteInterface 
+     */
+    public function addPurge($pattern, $paths = null, $position = Router::POSITION_LAST) {}
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is TRACE
+     *
+     * @param string $pattern 
+     * @param mixed $paths 
+     * @param mixed $position 
+     * @return \Phalcon\Mvc\Router\RouteInterface 
+     */
+    public function addTrace($pattern, $paths = null, $position = Router::POSITION_LAST) {}
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is CONNECT
+     *
+     * @param string $pattern 
+     * @param mixed $paths 
+     * @param mixed $position 
+     * @return \Phalcon\Mvc\Router\RouteInterface 
+     */
+    public function addConnect($pattern, $paths = null, $position = Router::POSITION_LAST) {}
+
+    /**
      * Mounts a group of routes in the router
      *
      * @param mixed $group 
@@ -365,7 +396,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function getParams() {}
 
     /**
-     * Returns the route that matchs the handled URI
+     * Returns the route that matches the handled URI
      *
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
@@ -379,7 +410,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function getMatches() {}
 
     /**
-     * Checks if the router macthes any of the defined routes
+     * Checks if the router matches any of the defined routes
      *
      * @return bool 
      */

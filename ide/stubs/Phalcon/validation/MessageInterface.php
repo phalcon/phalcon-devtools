@@ -10,15 +10,6 @@ interface MessageInterface
 {
 
     /**
-     * Phalcon\Validation\Message constructor
-     *
-     * @param string $message 
-     * @param string $field 
-     * @param string $type 
-     */
-    public function __construct($message, $field = null, $type = null);
-
-    /**
      * Sets message type
      *
      * @param string $type 
@@ -71,11 +62,11 @@ interface MessageInterface
     public function __toString();
 
     /**
-     * Magic __set_state helps to recover messsages from serialization
+     * Magic __set_state helps to recover messages from serialization
      *
      * @param array $message 
      * @return MessageInterface 
      */
-    public static function __set_state($message);
+    public static function __set_state(array $message);
 
 }

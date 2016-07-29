@@ -6,16 +6,18 @@ namespace Phalcon\Cache\Backend;
  * Phalcon\Cache\Backend\Xcache
  * Allows to cache output fragments, PHP data and raw data using an XCache backend
  * <code>
- * //Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
+ * use Phalcon\Cache\Backend\Xcache;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
+ * // Cache data for 2 days
+ * $frontCache = new FrontData([
  * 'lifetime' => 172800
- * ));
- * $cache = new \Phalcon\Cache\Backend\Xcache($frontCache, array(
+ * ]);
+ * $cache = new Xcache($frontCache, [
  * 'prefix' => 'app-data'
- * ));
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
- * //Get data
+ * ]);
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * // Get data
  * $data = $cache->get('my-data');
  * </code>
  */
@@ -33,9 +35,9 @@ class Xcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
-     * @param long $lifetime 
-     * @return mixed 
+     * @param string $keyName 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
@@ -46,6 +48,7 @@ class Xcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
      * @param string $content 
      * @param long $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 

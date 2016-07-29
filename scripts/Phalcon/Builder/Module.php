@@ -150,7 +150,6 @@ class Module extends Component
                     );
                 }
             }
-
         } catch (\Exception $e) {
             throw new BuilderException(
                 $e->getMessage(),

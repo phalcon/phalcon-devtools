@@ -6,14 +6,15 @@ namespace Phalcon\Http\Request;
  * Phalcon\Http\Request\File
  * Provides OO wrappers to the $_FILES superglobal
  * <code>
- * class PostsController extends \Phalcon\Mvc\Controller
+ * use Phalcon\Mvc\Controller;
+ * class PostsController extends Controller
  * {
  * public function uploadAction()
  * {
- * //Check if the user has uploaded files
+ * // Check if the user has uploaded files
  * if ($this->request->hasFiles() == true) {
- * //Print the real file names and their sizes
- * foreach ($this->request->getUploadedFiles() as $file){
+ * // Print the real file names and their sizes
+ * foreach ($this->request->getUploadedFiles() as $file) {
  * echo $file->getName(), " ", $file->getSize(), "\n";
  * }
  * }
@@ -75,7 +76,7 @@ class File implements \Phalcon\Http\Request\FileInterface
      * @param array $file 
      * @param mixed $key 
      */
-    public function __construct($file, $key = null) {}
+    public function __construct(array $file, $key = null) {}
 
     /**
      * Returns the file size of the uploaded file

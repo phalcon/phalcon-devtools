@@ -70,9 +70,9 @@ interface BackendInterface
     /**
      * Returns a cached content
      *
-     * @param int|string $keyName 
+     * @param string $keyName 
      * @param int $lifetime 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null);
 
@@ -83,6 +83,7 @@ interface BackendInterface
      * @param string $content 
      * @param int $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true);
 

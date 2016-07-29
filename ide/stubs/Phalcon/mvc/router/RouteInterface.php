@@ -10,15 +10,6 @@ interface RouteInterface
 {
 
     /**
-     * Phalcon\Mvc\Router\Route constructor
-     *
-     * @param string $pattern 
-     * @param mixed $paths 
-     * @param mixed $httpMethods 
-     */
-    public function __construct($pattern, $paths = null, $httpMethods = null);
-
-    /**
      * Sets a hostname restriction to the route
      *
      * @param string $hostname 

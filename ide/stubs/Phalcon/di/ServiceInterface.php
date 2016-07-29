@@ -10,15 +10,6 @@ interface ServiceInterface
 {
 
     /**
-     * Phalcon\Di\ServiceInterface
-     *
-     * @param string $name 
-     * @param mixed $definition 
-     * @param boolean $shared 
-     */
-    public function __construct($name, $definition, $shared = false);
-
-    /**
      * Returns the service's name
      *
      * @param string  
@@ -69,7 +60,7 @@ interface ServiceInterface
      * @param array $parameter 
      * @return ServiceInterface 
      */
-    public function setParameter($position, $parameter);
+    public function setParameter($position, array $parameter);
 
     /**
      * Restore the interal state of a service
@@ -77,6 +68,6 @@ interface ServiceInterface
      * @param array $attributes 
      * @return ServiceInterface 
      */
-    public static function __set_state($attributes);
+    public static function __set_state(array $attributes);
 
 }

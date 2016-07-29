@@ -6,25 +6,8 @@ namespace Phalcon\Flash;
  * Phalcon\Flash\Session
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
-class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAwareInterface
+class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface
 {
-
-    protected $_dependencyInjector;
-
-
-    /**
-     * Sets the dependency injector
-     *
-     * @param mixed $dependencyInjector 
-     */
-    public function setDI(\Phalcon\DiInterface $dependencyInjector) {}
-
-    /**
-     * Returns the internal dependency injector
-     *
-     * @return \Phalcon\DiInterface 
-     */
-    public function getDI() {}
 
     /**
      * Returns the messages stored in session
@@ -41,7 +24,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
      * @param array $messages 
      * @return array 
      */
-    protected function _setSessionMessages($messages) {}
+    protected function _setSessionMessages(array $messages) {}
 
     /**
      * Adds a message to the session flasher

@@ -252,6 +252,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function rightJoin($model, $conditions = null, $alias = null) {}
 
     /**
+     * Return join parts of the query
+     *
+     * @return array 
+     */
+    public function getJoins() {}
+
+    /**
      * Sets the query conditions
      * <code>
      * $builder->where(100);
@@ -303,9 +310,10 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
+     * @param string $operator 
      * @return Builder 
      */
-    public function betweenWhere($expr, $minimum, $maximum) {}
+    public function betweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {}
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions
@@ -316,9 +324,10 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $expr 
      * @param mixed $minimum 
      * @param mixed $maximum 
+     * @param string $operator 
      * @return Builder 
      */
-    public function notBetweenWhere($expr, $minimum, $maximum) {}
+    public function notBetweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {}
 
     /**
      * Appends an IN condition to the current conditions
@@ -328,9 +337,10 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      *
      * @param string $expr 
      * @param array $values 
+     * @param string $operator 
      * @return Builder 
      */
-    public function inWhere($expr, $values) {}
+    public function inWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {}
 
     /**
      * Appends a NOT IN condition to the current conditions
@@ -340,9 +350,10 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      *
      * @param string $expr 
      * @param array $values 
+     * @param string $operator 
      * @return Builder 
      */
-    public function notInWhere($expr, $values) {}
+    public function notInWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {}
 
     /**
      * Return the conditions for the query
@@ -468,5 +479,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @return \Phalcon\Mvc\Model\QueryInterface 
      */
     public function getQuery() {}
+
+    /**
+     * Automatically escapes identifiers but only if they need to be escaped.
+     *
+     * @param string $identifier 
+     * @return string 
+     */
+    final public function autoescape($identifier) {}
 
 }

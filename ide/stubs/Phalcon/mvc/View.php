@@ -8,14 +8,15 @@ namespace Phalcon\Mvc;
  * That is, it exists to help keep the view script separate from the model and controller scripts.
  * It provides a system of helpers, output filters, and variable escaping.
  * <code>
- * //Setting views directory
- * $view = new \Phalcon\Mvc\View();
+ * use Phalcon\Mvc\View;
+ * $view = new View();
+ * // Setting views directory
  * $view->setViewsDir('app/views/');
  * $view->start();
- * //Shows recent posts view (app/views/posts/recent.phtml)
+ * // Shows recent posts view (app/views/posts/recent.phtml)
  * $view->render('posts', 'recent');
  * $view->finish();
- * //Printing views output
+ * // Printing views output
  * echo $view->getContent();
  * </code>
  */
@@ -90,7 +91,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     protected $_partialsDir = "";
 
 
-    protected $_viewsDir;
+    protected $_viewsDirs;
 
 
     protected $_templatesBefore;
@@ -128,7 +129,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     protected $_cacheLevel = 0;
 
 
-    protected $_activeRenderPath;
+    protected $_activeRenderPaths;
 
 
     protected $_disabled = false;
@@ -153,9 +154,17 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     public function __construct($options = null) {}
 
     /**
-     * Sets the views directory. Depending of your platform, always add a trailing slash or backslash
+     * Checks if a path is absolute or not
      *
-     * @param string $viewsDir 
+     * @param string $path 
+     */
+    protected final function _isAbsolutePath($path) {}
+
+    /**
+     * Sets the views directory. Depending of your platform,
+     * always add a trailing slash or backslash
+     *
+     * @param mixed $viewsDir 
      * @return View 
      */
     public function setViewsDir($viewsDir) {}
@@ -163,12 +172,13 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Gets views directory
      *
-     * @return string 
+     * @return string|array 
      */
     public function getViewsDir() {}
 
     /**
-     * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+     * Sets the layouts sub-directory. Must be a directory under the views directory.
+     * Depending of your platform, always add a trailing slash or backslash
      * <code>
      * $view->setLayoutsDir('../common/layouts/');
      * </code>
@@ -186,7 +196,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     public function getLayoutsDir() {}
 
     /**
-     * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+     * Sets a partials sub-directory. Must be a directory under the views directory.
+     * Depending of your platform, always add a trailing slash or backslash
      * <code>
      * $view->setPartialsDir('../common/partials/');
      * </code>
@@ -236,12 +247,12 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Disables a specific level of rendering
      * <code>
-     * //Render all levels except ACTION level
+     * // Render all levels except ACTION level
      * $this->view->disableLevel(View::LEVEL_ACTION_VIEW);
      * </code>
      *
-     * @param int|array $level 
-     * @return \Phalcon\Mvc\View 
+     * @param mixed $level 
+     * @return View 
      */
     public function disableLevel($level) {}
 
@@ -285,8 +296,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Sets a template before the controller layout
      *
-     * @param string|array $templateBefore 
-     * @return \Phalcon\Mvc\View 
+     * @param mixed $templateBefore 
+     * @return View 
      */
     public function setTemplateBefore($templateBefore) {}
 
@@ -300,8 +311,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Sets a "template after" controller layout
      *
-     * @param string|array $templateAfter 
-     * @return \Phalcon\Mvc\View 
+     * @param mixed $templateAfter 
+     * @return View 
      */
     public function setTemplateAfter($templateAfter) {}
 
@@ -320,21 +331,21 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      *
      * @param string $key 
      * @param mixed $value 
-     * @return \Phalcon\Mvc\View 
+     * @return View 
      */
     public function setParamToView($key, $value) {}
 
     /**
      * Set all the render params
      * <code>
-     * $this->view->setVars(array('products' => $products));
+     * $this->view->setVars(['products' => $products]);
      * </code>
      *
      * @param array $params 
-     * @param boolean $merge 
-     * @return \Phalcon\Mvc\View 
+     * @param bool $merge 
+     * @return View 
      */
-    public function setVars($params, $merge = true) {}
+    public function setVars(array $params, $merge = true) {}
 
     /**
      * Set a single view parameter
@@ -344,7 +355,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      *
      * @param string $key 
      * @param mixed $value 
-     * @return \Phalcon\Mvc\View 
+     * @return View 
      */
     public function setVar($key, $value) {}
 
@@ -352,7 +363,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * Returns a parameter previously set in the view
      *
      * @param string $key 
-     * @return mixed 
      */
     public function getVar($key) {}
 
@@ -413,17 +423,17 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Register templating engines
      * <code>
-     * $this->view->registerEngines(array(
-     * ".phtml" => "Phalcon\Mvc\View\Engine\Php",
-     * ".volt"  => "Phalcon\Mvc\View\Engine\Volt",
-     * ".mhtml" => "MyCustomEngine"
-     * ));
+     * $this->view->registerEngines([
+     * '.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+     * '.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+     * '.mhtml' => 'MyCustomEngine'
+     * ]);
      * </code>
      *
      * @param array $engines 
      * @return View 
      */
-    public function registerEngines($engines) {}
+    public function registerEngines(array $engines) {}
 
     /**
      * Checks whether view exists
@@ -436,7 +446,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Executes render process from dispatching data
      * <code>
-     * //Shows recent posts view (app/views/posts/recent.phtml)
+     * // Shows recent posts view (app/views/posts/recent.phtml)
      * $view->start()->render('posts', 'recent')->finish();
      * </code>
      *
@@ -450,35 +460,36 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Choose a different view to render instead of last-controller/last-action
      * <code>
-     * class ProductsController extends \Phalcon\Mvc\Controller
+     * use Phalcon\Mvc\Controller;
+     * class ProductsController extends Controller
      * {
      * public function saveAction()
      * {
-     * //Do some save stuff...
-     * //Then show the list view
+     * // Do some save stuff...
+     * // Then show the list view
      * $this->view->pick("products/list");
      * }
      * }
      * </code>
      *
-     * @param string|array $renderView 
-     * @return \Phalcon\Mvc\View 
+     * @param mixed $renderView 
+     * @return View 
      */
     public function pick($renderView) {}
 
     /**
      * Renders a partial view
      * <code>
-     * //Retrieve the contents of a partial
+     * // Retrieve the contents of a partial
      * echo $this->getPartial('shared/footer');
      * </code>
      * <code>
-     * //Retrieve the contents of a partial with arguments
-     * echo $this->getPartial('shared/footer', array('content' => $html));
+     * // Retrieve the contents of a partial with arguments
+     * echo $this->getPartial('shared/footer', ['content' => $html]);
      * </code>
      *
      * @param string $partialPath 
-     * @param array $params 
+     * @param mixed $params 
      * @return string 
      */
     public function getPartial($partialPath, $params = null) {}
@@ -486,23 +497,23 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Renders a partial view
      * <code>
-     * //Show a partial inside another view
+     * // Show a partial inside another view
      * $this->partial('shared/footer');
      * </code>
      * <code>
-     * //Show a partial inside another view with parameters
-     * $this->partial('shared/footer', array('content' => $html));
+     * // Show a partial inside another view with parameters
+     * $this->partial('shared/footer', ['content' => $html]);
      * </code>
      *
      * @param string $partialPath 
-     * @param array $params 
+     * @param mixed $params 
      */
     public function partial($partialPath, $params = null) {}
 
     /**
      * Perform the automatic rendering returning the output as a string
      * <code>
-     * $template = $this->view->getRender('products', 'show', array('products' => $products));
+     * $template = $this->view->getRender('products', 'show', ['products' => $products]);
      * </code>
      *
      * @param string $controllerName 
@@ -544,11 +555,11 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Cache the actual view render to certain level
      * <code>
-     * $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
+     * $this->view->cache(['key' => 'my-key', 'lifetime' => 86400]);
      * </code>
      *
-     * @param boolean|array $options 
-     * @return \Phalcon\Mvc\View 
+     * @param mixed $options 
+     * @return View 
      */
     public function cache($options = true) {}
 
@@ -571,9 +582,9 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     public function getContent() {}
 
     /**
-     * Returns the path of the view that is currently rendered
+     * Returns the path (or paths) of the views that are currently rendered
      *
-     * @return string 
+     * @return string|array 
      */
     public function getActiveRenderPath() {}
 
@@ -616,7 +627,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * </code>
      *
      * @param string $key 
-     * @return mixed 
+     * @return mixed|null 
      */
     public function __get($key) {}
 
@@ -634,8 +645,15 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * </code>
      *
      * @param string $key 
-     * @return boolean 
+     * @return bool 
      */
     public function __isset($key) {}
+
+    /**
+     * Gets views directories
+     *
+     * @return array 
+     */
+    protected function getViewsDirs() {}
 
 }

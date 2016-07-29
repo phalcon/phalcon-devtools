@@ -6,16 +6,18 @@ namespace Phalcon\Cache\Backend;
  * Phalcon\Cache\Backend\Apc
  * Allows to cache output fragments, PHP data and raw data using an APC backend
  * <code>
- * //Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
+ * use Phalcon\Cache\Backend\Apc;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
+ * // Cache data for 2 days
+ * $frontCache = new FrontData([
  * 'lifetime' => 172800
- * ));
- * $cache = new \Phalcon\Cache\Backend\Apc($frontCache, array(
+ * ]);
+ * $cache = new Apc($frontCache, [
  * 'prefix' => 'app-data'
- * ));
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
- * //Get data
+ * ]);
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * // Get data
  * $data = $cache->get('my-data');
  * </code>
  */
@@ -26,9 +28,8 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
      * Returns a cached content
      *
      * @param string $keyName 
-     * @param long $lifetime 
-     * @param  $string|long keyName
-     * @return mixed 
+     * @param int $lifetime 
+     * @return mixed|null 
      */
     public function get($keyName, $lifetime = null) {}
 
@@ -39,6 +40,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
      * @param string $content 
      * @param long $lifetime 
      * @param boolean $stopBuffer 
+     * @return bool 
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true) {}
 

@@ -22,7 +22,7 @@ class Dump
     protected $_detailed = false;
 
 
-    protected $_methods = null;
+    protected $_methods = array();
 
 
     protected $_styles;
@@ -42,7 +42,7 @@ class Dump
      * @param array $styles 
      * @param boolean $detailed debug object's private and protected properties
      */
-    public function __construct($styles = null, $detailed = false) {}
+    public function __construct(array $styles = null, $detailed = false) {}
 
     /**
      * Alias of variables() method

@@ -173,7 +173,7 @@ class Column implements \Phalcon\Db\ColumnInterface
      *
      * @var int
      */
-    protected $_typeReference;
+    protected $_typeReference = -1;
 
     /**
      * Column data type values
@@ -312,7 +312,7 @@ class Column implements \Phalcon\Db\ColumnInterface
      * @param string $name 
      * @param array $definition 
      */
-    public function __construct($name, $definition) {}
+    public function __construct($name, array $definition) {}
 
     /**
      * Returns true if number column is unsigned
@@ -376,7 +376,7 @@ class Column implements \Phalcon\Db\ColumnInterface
      * @param array $data 
      * @return Column 
      */
-    public static function __set_state($data) {}
+    public static function __set_state(array $data) {}
 
     /**
      * Check whether column has default value

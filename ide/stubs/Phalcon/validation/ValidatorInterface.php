@@ -12,16 +12,6 @@ interface ValidatorInterface
     /**
      * Checks if an option is defined
      *
-     * @deprecated since 2.1.0
-     * @see \Phalcon\Validation\Validator::hasOption()
-     * @param string $key 
-     * @return bool 
-     */
-    public function isSetOption($key);
-
-    /**
-     * Checks if an option is defined
-     *
      * @param string $key 
      * @return bool 
      */

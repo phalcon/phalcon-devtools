@@ -23,7 +23,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
      *
      * @param array $options 
      */
-    public function setOptions($options) {}
+    public function setOptions(array $options) {}
 
     /**
      * Return Volt's options
@@ -90,7 +90,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
      * @param array $value 
      * @return array 
      */
-    public function sort($value) {}
+    public function sort(array $value) {}
 
     /**
      * Checks if a macro is defined and calls it
@@ -99,6 +99,6 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
      * @param array $arguments 
      * @return mixed 
      */
-    public function callMacro($name, $arguments = array()) {}
+    public function callMacro($name, array $arguments = array()) {}
 
 }

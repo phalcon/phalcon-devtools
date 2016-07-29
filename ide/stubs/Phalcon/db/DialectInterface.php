@@ -40,7 +40,7 @@ interface DialectInterface
      * @param array $definition 
      * @return string 
      */
-    public function select($definition);
+    public function select(array $definition);
 
     /**
      * Gets a list of columns
@@ -48,7 +48,7 @@ interface DialectInterface
      * @param array $columnList 
      * @return string 
      */
-    public function getColumnList($columnList);
+    public function getColumnList(array $columnList);
 
     /**
      * Gets the column name in RDBMS
@@ -156,7 +156,7 @@ interface DialectInterface
      * @param array $definition 
      * @return string 
      */
-    public function createTable($tableName, $schemaName, $definition);
+    public function createTable($tableName, $schemaName, array $definition);
 
     /**
      * Generates SQL to create a view
@@ -166,7 +166,7 @@ interface DialectInterface
      * @param string $schemaName 
      * @return string 
      */
-    public function createView($viewName, $definition, $schemaName = null);
+    public function createView($viewName, array $definition, $schemaName = null);
 
     /**
      * Generates SQL to drop a table

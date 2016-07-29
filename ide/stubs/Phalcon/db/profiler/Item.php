@@ -63,7 +63,7 @@ class Item
      *
      * @param array $sqlVariables 
      */
-    public function setSqlVariables($sqlVariables) {}
+    public function setSqlVariables(array $sqlVariables) {}
 
     /**
      * SQL variables related to the profile
@@ -77,7 +77,7 @@ class Item
      *
      * @param array $sqlBindTypes 
      */
-    public function setSqlBindTypes($sqlBindTypes) {}
+    public function setSqlBindTypes(array $sqlBindTypes) {}
 
     /**
      * SQL bind types related to the profile

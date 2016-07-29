@@ -1,4 +1,5 @@
 <?php
+use Phalcon\Di\FactoryDefault;
 
 error_reporting(E_ALL);
 
@@ -7,19 +8,19 @@ define('APP_PATH', realpath('..'));
 try {
 
     /**
-     * Read the configuration
+     * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
      */
-    $config = @@configLoader@@;
-
-    /**
-     * Read auto-loader
-     */
-    include APP_PATH . "/app/config/loader.php";
+    $di = new FactoryDefault();
 
     /**
      * Read services
      */
     include APP_PATH . "/app/config/services.php";
+
+    /**
+     * Call the autoloader service.  We don't need to keep the results.
+     */
+    $di->getLoader();
 
     /**
      * Handle the request

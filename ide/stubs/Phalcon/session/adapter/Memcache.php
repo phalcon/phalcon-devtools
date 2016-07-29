@@ -20,7 +20,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  * </code>
  */
-class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Memcache extends \Phalcon\Session\Adapter
 {
 
     protected $_memcache = null;
@@ -40,7 +40,7 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
      *
      * @param array $options 
      */
-    public function __construct($options = array()) {}
+    public function __construct(array $options = array()) {}
 
     /**
      * @return bool 
@@ -65,6 +65,7 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
      *
      * @param string $sessionId 
      * @param string $data 
+     * @return bool 
      */
     public function write($sessionId, $data) {}
 

@@ -33,7 +33,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     protected $_action;
 
 
-    protected $_params;
+    protected $_params = array();
 
 
     protected $_defaultModule = null;
@@ -45,7 +45,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     protected $_defaultAction = null;
 
 
-    protected $_defaultParams;
+    protected $_defaultParams = array();
 
 
     protected $_routes;
@@ -115,7 +115,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * @param array $defaults 
      * @return Router 
      */
-    public function setDefaults($defaults) {}
+    public function setDefaults(array $defaults) {}
 
     /**
      * Handles routing information received from command-line arguments
@@ -151,23 +151,23 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     public function getTaskName() {}
 
     /**
-     * Returns proccesed action name
+     * Returns processed action name
      *
      * @return string 
      */
     public function getActionName() {}
 
     /**
-     * Returns proccesed extra params
+     * Returns processed extra params
      *
      * @return array 
      */
     public function getParams() {}
 
     /**
-     * Returns the route that matchs the handled URI
+     * Returns the route that matches the handled URI
      *
-     * @return \Phalcon\Cli\Router\Route 
+     * @return RouteInterface 
      */
     public function getMatchedRoute() {}
 
@@ -179,7 +179,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     public function getMatches() {}
 
     /**
-     * Checks if the router macthes any of the defined routes
+     * Checks if the router matches any of the defined routes
      *
      * @return bool 
      */
@@ -204,7 +204,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * Returns a route object by its name
      *
      * @param string $name 
-     * @return bool|\Phalcon\Cli\Router\Route 
+     * @return bool|RouteInterface 
      */
     public function getRouteByName($name) {}
 

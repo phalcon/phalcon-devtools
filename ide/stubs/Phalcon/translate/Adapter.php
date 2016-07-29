@@ -17,7 +17,7 @@ abstract class Adapter
     /**
      * @param array $options 
      */
-    public function __construct($options) {}
+    public function __construct(array $options) {}
 
     /**
      * @param mixed $interpolator 

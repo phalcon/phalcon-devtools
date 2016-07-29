@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\Model;
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInterface, \ArrayAccess
+class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInterface, \ArrayAccess, \JsonSerializable
 {
 
     /**
@@ -78,5 +78,12 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
      * @return array 
      */
     public function toArray() {}
+
+    /**
+     * Serializes the object for json_encode
+     *
+     * @return array 
+     */
+    public function jsonSerialize() {}
 
 }

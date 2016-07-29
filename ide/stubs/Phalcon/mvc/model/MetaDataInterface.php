@@ -82,7 +82,7 @@ interface MetaDataInterface
     public function getPrimaryKeyAttributes(\Phalcon\Mvc\ModelInterface $model);
 
     /**
-     * Returns an arrau of fields which are not part of the primary key
+     * Returns an array of fields which are not part of the primary key
      *
      * @param \Phalcon\Mvc\ModelInterface $model 
      * @return array 
@@ -151,7 +151,7 @@ interface MetaDataInterface
      * @param mixed $model 
      * @param array $attributes 
      */
-    public function setAutomaticCreateAttributes(\Phalcon\Mvc\ModelInterface $model, $attributes);
+    public function setAutomaticCreateAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes);
 
     /**
      * Set the attributes that must be ignored from the UPDATE SQL generation
@@ -159,7 +159,7 @@ interface MetaDataInterface
      * @param mixed $model 
      * @param array $attributes 
      */
-    public function setAutomaticUpdateAttributes(\Phalcon\Mvc\ModelInterface $model, $attributes);
+    public function setAutomaticUpdateAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes);
 
     /**
      * Set the attributes that allow empty string values
@@ -167,7 +167,7 @@ interface MetaDataInterface
      * @param mixed $model 
      * @param array $attributes 
      */
-    public function setEmptyStringAttributes(\Phalcon\Mvc\ModelInterface $model, $attributes);
+    public function setEmptyStringAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes);
 
     /**
      * Returns attributes allow empty strings

@@ -35,7 +35,7 @@ interface RouterInterface
      *
      * @param array $defaults 
      */
-    public function setDefaults($defaults);
+    public function setDefaults(array $defaults);
 
     /**
      * Handles routing information received from the rewrite engine
@@ -118,6 +118,33 @@ interface RouterInterface
     public function addHead($pattern, $paths = null);
 
     /**
+     * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+     *
+     * @param string $pattern 
+     * @param mixed $paths 
+     * @return \Phalcon\Mvc\Router\RouteInterface 
+     */
+    public function addPurge($pattern, $paths = null);
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is TRACE
+     *
+     * @param string $pattern 
+     * @param mixed $paths 
+     * @return \Phalcon\Mvc\Router\RouteInterface 
+     */
+    public function addTrace($pattern, $paths = null);
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is CONNECT
+     *
+     * @param string $pattern 
+     * @param mixed $paths 
+     * @return \Phalcon\Mvc\Router\RouteInterface 
+     */
+    public function addConnect($pattern, $paths = null);
+
+    /**
      * Mounts a group of routes in the router
      *
      * @param mixed $group 
@@ -166,7 +193,7 @@ interface RouterInterface
     public function getParams();
 
     /**
-     * Returns the route that matchs the handled URI
+     * Returns the route that matches the handled URI
      *
      * @return \Phalcon\Mvc\Router\RouteInterface 
      */
@@ -180,7 +207,7 @@ interface RouterInterface
     public function getMatches();
 
     /**
-     * Check if the router macthes any of the defined routes
+     * Check if the router matches any of the defined routes
      *
      * @return bool 
      */

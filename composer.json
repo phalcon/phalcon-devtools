@@ -8,12 +8,22 @@
     "authors": [
         {
             "name": "Phalcon Team",
-            "email": "team@phalconphp.com"
+            "email": "team@phalconphp.com",
+            "homepage": "https://phalconphp.com/en/team"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/phalcon/phalcon-devtools/graphs/contributors"
         }
     ],
+    "support": {
+        "issues": "https://github.com/phalcon/phalcon-devtools/issues",
+        "source": "https://github.com/phalcon/phalcon-devtools",
+        "forum": "https://forum.phalconphp.com/"
+    },
     "require": {
-        "php": ">=5.3.9",
-        "ext-phalcon": "^2.0"
+        "php": ">=5.5",
+        "ext-phalcon": "^3.0"
     },
     "require-dev": {
         "kherge/box": "^2.7"
@@ -25,7 +35,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     },
     "bin": ["phalcon.php"]
