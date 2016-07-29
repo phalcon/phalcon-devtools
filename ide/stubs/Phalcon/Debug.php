@@ -9,7 +9,7 @@ namespace Phalcon;
 class Debug
 {
 
-    protected $_uri = "//static.phalconphp.com/www/debug/2.0.0/";
+    protected $_uri = "//static.phalconphp.com/www/debug/3.0.x/";
 
 
     protected $_theme = "default";

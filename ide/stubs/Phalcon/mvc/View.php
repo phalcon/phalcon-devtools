@@ -129,7 +129,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     protected $_cacheLevel = 0;
 
 
-    protected $_activeRenderPath;
+    protected $_activeRenderPaths;
 
 
     protected $_disabled = false;
@@ -582,9 +582,9 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     public function getContent() {}
 
     /**
-     * Returns the path of the view that is currently rendered
+     * Returns the path (or paths) of the views that are currently rendered
      *
-     * @return string 
+     * @return string|array 
      */
     public function getActiveRenderPath() {}
 
