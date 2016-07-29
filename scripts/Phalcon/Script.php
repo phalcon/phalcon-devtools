@@ -36,10 +36,10 @@ use DirectoryIterator;
 class Script
 {
     /**
-     * Phalcon 2.0.0
+     * Phalcon 3.0.0
      * @type int
      */
-    const COMPATIBLE_VERSION = 2000023;
+    const COMPATIBLE_VERSION = 3000040;
 
     const DOC_DOWNLOAD_URL = 'http://phalconphp.com/download';
 
