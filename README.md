@@ -1,5 +1,10 @@
 # Phalcon Devtools
 
+[![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)](https://github.com/phalcon/incubator/devtools)
+[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][1]
+[![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
+[![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
+
 ![Phalcon WebTools](http://i.imgur.com/v3MzIDn.png?1)
 
 ## What's Phalcon?
