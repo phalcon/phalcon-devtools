@@ -1,5 +1,4 @@
 <?php
-
 namespace @@namespace@@\Frontend;
 
 use Phalcon\DiInterface;
