@@ -53,13 +53,15 @@ class Module implements ModuleDefinitionInterface
         /**
          * Database connection is created based in the parameters defined in the configuration file
          */
-        $di['db'] = function () use ($config) {
-            $config = $config->database->toArray();
+        $di['db'] = function () {
+            $config = $this->getConfig();
 
-            $dbAdapter = '\Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
-            unset($config['adapter']);
+            $dbConfig = $config->database->toArray();
 
-            return new $dbAdapter($config);
+            $dbAdapter = '\Phalcon\Db\Adapter\Pdo\\' . $dbConfig['adapter'];
+            unset($dbConfig['adapter']);
+
+            return new $dbAdapter($dbConfig);
         };
     }
 }
