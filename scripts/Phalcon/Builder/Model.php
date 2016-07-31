@@ -39,10 +39,10 @@ class Model extends Component
      * Map of scalar data objects
      * @var array
      */
-    private $_typeMap = array(
+    private $_typeMap = [
         //'Date' => 'Date',
         //'Decimal' => 'Decimal'
-    );
+    ];
 
     /**
      * Snippet component

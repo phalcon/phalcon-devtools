@@ -165,7 +165,7 @@ class Scaffold extends Component
         $modelPath = $this->options->get('modelsDir') . $modelName.'.php';
 
         if (!file_exists($modelPath) || $this->options->get('force')) {
-            $modelBuilder = new ModelBuilder(array(
+            $modelBuilder = new ModelBuilder([
                 'name'              => $name,
                 'schema'            => $this->options->get('schema'),
                 'className'         => $this->options->get('className'),
@@ -174,7 +174,7 @@ class Scaffold extends Component
                 'directory'         => $this->options->get('directory'),
                 'force'             => $this->options->get('force'),
                 'namespace'         => $this->options->get('modelsNamespace'),
-            ));
+            ]);
 
             $modelBuilder->build();
         }
@@ -192,8 +192,8 @@ class Scaffold extends Component
         $identityField = $metaData->getIdentityField($entity);
         $primaryKeys = $metaData->getPrimaryKeyAttributes($entity);
 
-        $setParams = array();
-        $selectDefinition = array();
+        $setParams = [];
+        $selectDefinition = [];
 
         $relationField = '';
 
@@ -210,8 +210,8 @@ class Scaffold extends Component
         $this->options->offsetSet('identityField', $identityField);
         $this->options->offsetSet('relationField', $relationField);
         $this->options->offsetSet('selectDefinition', $selectDefinition);
-        $this->options->offsetSet('autocompleteFields', array());
-        $this->options->offsetSet('belongsToDefinitions', array());
+        $this->options->offsetSet('autocompleteFields', []);
+        $this->options->offsetSet('belongsToDefinitions', []);
 
         // Build Controller
         $this->_makeController();

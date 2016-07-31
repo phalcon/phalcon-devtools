@@ -36,7 +36,7 @@ class Modules extends ProjectBuilder
      * Project directories
      * @var array
      */
-    protected $projectDirectories = array(
+    protected $projectDirectories = [
         'apps/',
         'apps/frontend',
         'apps/frontend/views',
@@ -54,7 +54,7 @@ class Modules extends ProjectBuilder
         'public/files',
         'public/js',
         '.phalcon'
-    );
+    ];
 
     /**
      * Create indexController file
@@ -68,12 +68,12 @@ class Modules extends ProjectBuilder
             $namespace = 'MyDefault';
         }
 
-        $builder = new ControllerBuilder(array(
+        $builder = new ControllerBuilder([
             'name'           => 'index',
             'controllersDir' => $this->options->get('projectPath') . 'apps/frontend/controllers/',
             'namespace'      => ucfirst($namespace) . '\Frontend\Controllers',
             'baseClass'      => 'ControllerBase'
-        ));
+        ]);
 
         $builder->build();
 

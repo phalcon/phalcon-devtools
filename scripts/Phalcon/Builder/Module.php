@@ -30,18 +30,18 @@ use SplFileInfo;
  */
 class Module extends Component
 {
-    protected $moduleDirectories = array(
+    protected $moduleDirectories = [
         'config',
         'controllers',
         'models',
         'views',
-    );
+    ];
 
     /**
      * Stores variable values depending on parameters
      * @var array
      */
-    protected $variableValues = array();
+    protected $variableValues = [];
 
     /**
      * Create Builder object
@@ -228,7 +228,7 @@ class Module extends Component
      */
     protected function getVariableValues()
     {
-        $variableValuesResult = array();
+        $variableValuesResult = [];
         $variablesJsonFile = $this->options->get('templatePath') . DIRECTORY_SEPARATOR . 'variables.json';
 
         if (file_exists($variablesJsonFile)) {

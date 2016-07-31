@@ -47,10 +47,10 @@ class Path
      */
     public function getConfig($type = null)
     {
-        $types = array('php' => true, 'ini' => true);
+        $types = ['php' => true, 'ini' => true];
         $type  = isset($types[$type]) ? $type : 'ini';
 
-        foreach (array('app/config/', 'config/', 'apps/config/', 'apps/frontend/config/') as $configPath) {
+        foreach (['app/config/', 'config/', 'apps/config/', 'apps/frontend/config/'] as $configPath) {
             if ('ini' == $type && file_exists($this->rootPath . $configPath . 'config.ini')) {
                 return new ConfigIni($this->rootPath . $configPath . 'config.ini');
             } else {
