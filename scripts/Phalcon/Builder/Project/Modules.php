@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          David Schissler <eduar@phalconphp.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -37,16 +38,21 @@ class Modules extends ProjectBuilder
      * @var array
      */
     protected $projectDirectories = [
-        'apps/',
-        'apps/frontend',
-        'apps/frontend/views',
-        'apps/frontend/config',
-        'apps/frontend/models',
-        'apps/frontend/migrations',
-        'apps/frontend/controllers',
-        'apps/frontend/views/index',
-        'apps/frontend/views/layouts',
-        'config/',
+        'app/',
+        'app/config',
+        'app/common',
+        'app/common/models',
+        'app/common/library',
+        'app/modules',
+        'app/modules/frontend',
+        'app/modules/frontend/views',
+        'app/modules/frontend/models',
+        'app/modules/frontend/controllers',
+        'app/modules/frontend/views/index',
+        'app/modules/frontend/views/layouts',
+        'app/modules/cli',
+        'app/modules/cli/migrations',
+        'app/modules/cli/tasks',
         'public',
         'public/img',
         'public/css',
@@ -70,12 +76,30 @@ class Modules extends ProjectBuilder
 
         $builder = new ControllerBuilder([
             'name'           => 'index',
-            'controllersDir' => $this->options->get('projectPath') . 'apps/frontend/controllers/',
-            'namespace'      => ucfirst($namespace) . '\Frontend\Controllers',
+            'controllersDir' => $this->options->get('projectPath') . 'app/modules/frontend/controllers/',
+            'namespace'      => ucfirst($namespace) . '\Modules\Frontend\Controllers',
             'baseClass'      => 'ControllerBase'
         ]);
 
         $builder->build();
+
+        return $this;
+    }
+
+    /**
+     * Create Default Tasks
+     *
+     * @return $this
+     */
+    private function createDefaultTasks()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/modules/MainTask.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/cli/tasks/MainTask.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/VersionTask.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/cli/tasks/VersionTask.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
@@ -119,18 +143,18 @@ class Modules extends ProjectBuilder
     private function createIndexViewFiles()
     {
         $getFile = $this->options->get('templatePath') . '/project/modules/views/index.phtml';
-        $putFile = $this->options->get('projectPath') . 'apps/frontend/views/index.phtml';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index.phtml';
         $this->generateFile($getFile, $putFile);
 
         $getFile = $this->options->get('templatePath') . '/project/modules/views/index/index.phtml';
-        $putFile = $this->options->get('projectPath') . 'apps/frontend/views/index/index.phtml';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index/index.phtml';
         $this->generateFile($getFile, $putFile);
 
         return $this;
     }
 
     /**
-     * Creates the configuration
+     * Creates the app/modulesuration
      *
      * @return $this
      */
@@ -139,7 +163,27 @@ class Modules extends ProjectBuilder
         $type = $this->options->contains('useConfigIni') ? 'ini' : 'php';
 
         $getFile = $this->options->get('templatePath') . '/project/modules/config.' . $type;
-        $putFile = $this->options->get('projectPath') . 'apps/frontend/config/config.' . $type;
+        $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/loader.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/routes.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/routes.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/services.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/services.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/services_web.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/services_web.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/services_cli.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/services_cli.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
@@ -153,7 +197,7 @@ class Modules extends ProjectBuilder
     private function createControllerBase()
     {
         $getFile = $this->options->get('templatePath') . '/project/modules/ControllerBase.php';
-        $putFile = $this->options->get('projectPath') . 'apps/frontend/controllers/ControllerBase.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/controllers/ControllerBase.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
@@ -164,37 +208,42 @@ class Modules extends ProjectBuilder
      *
      * @return $this
      */
-    private function createModule()
+    private function createModules()
     {
-        $getFile = $this->options->get('templatePath') . '/project/modules/Module.php';
-        $putFile = $this->options->get('projectPath') . 'apps/frontend/Module.php';
+        $getFile = $this->options->get('templatePath') . '/project/modules/Module_web.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/Module.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/Module_cli.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/cli/Module.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
 
     /**
-     * Create Bootstrap file by default of application
+     * Create application bootstrap files for cli and web environments
      *
      * @return $this
      */
-    private function createBootstrapFile()
+    private function createBootstrapFiles()
     {
+        $getFile = $this->options->get('templatePath') . '/project/modules/bootstrap_web.php';
+        $putFile = $this->options->get('projectPath') . 'app/bootstrap_web.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
         $getFile = $this->options->get('templatePath') . '/project/modules/index.php';
         $putFile = $this->options->get('projectPath') . 'public/index.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/modules/services.php';
-        $putFile = $this->options->get('projectPath') . 'config/services.php';
+        $getFile = $this->options->get('templatePath') . '/project/modules/bootstrap_cli.php';
+        $putFile = $this->options->get('projectPath') . 'app/bootstrap_cli.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/modules/modules.php';
-        $putFile = $this->options->get('projectPath') . 'config/modules.php';
+        $getFile = $this->options->get('templatePath') . '/project/modules/launcher';
+        $putFile = $this->options->get('projectPath') . 'run';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        $getFile = $this->options->get('templatePath') . '/project/modules/routes.php';
-        $putFile = $this->options->get('projectPath') . 'config/routes.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+        chmod($putFile, 0755);
 
         return $this;
     }
@@ -224,10 +273,11 @@ class Modules extends ProjectBuilder
             ->buildDirectories()
             ->getVariableValues()
             ->createConfig()
-            ->createBootstrapFile()
+            ->createBootstrapFiles()
             ->createHtaccessFiles()
             ->createControllerBase()
-            ->createModule()
+            ->createDefaultTasks()
+            ->createModules()
             ->createIndexViewFiles()
             ->createControllerFile()
             ->createHtrouterFile();
