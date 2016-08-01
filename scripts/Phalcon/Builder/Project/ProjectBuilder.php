@@ -35,7 +35,7 @@ abstract class ProjectBuilder
      * Stores variable values depending on parameters
      * @var array
      */
-    protected $variableValues = array();
+    protected $variableValues = [];
 
     /**
      * Builder options
@@ -47,7 +47,7 @@ abstract class ProjectBuilder
      * Project directories
      * @var array
      */
-    protected $projectDirectories = array();
+    protected $projectDirectories = [];
 
     public function __construct(Options $options)
     {
@@ -80,7 +80,7 @@ abstract class ProjectBuilder
      */
     protected function getVariableValues()
     {
-        $variableValuesResult = array();
+        $variableValuesResult = [];
         $variablesJsonFile =
             $this->options->get('templatePath') . DIRECTORY_SEPARATOR
             . 'project' . DIRECTORY_SEPARATOR

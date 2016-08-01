@@ -33,7 +33,7 @@ class Micro extends ProjectBuilder
      * Project directories
      * @var array
      */
-    protected $projectDirectories = array(
+    protected $projectDirectories = [
         'config',
         'models',
         'views',
@@ -45,7 +45,7 @@ class Micro extends ProjectBuilder
         'public/files',
         'public/js',
         '.phalcon'
-    );
+    ];
 
     /**
      * Create .htaccess files by default of application

@@ -1,12 +1,10 @@
 <?php
-
-namespace @@namespace@@\Frontend;
+namespace @@namespace@@\Modules\Frontend;
 
 use Phalcon\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\ModuleDefinitionInterface;
-@@iniConfigImport@@
 
 class Module implements ModuleDefinitionInterface
 {
@@ -17,12 +15,11 @@ class Module implements ModuleDefinitionInterface
      */
     public function registerAutoloaders(DiInterface $di = null)
     {
-
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            '@@namespace@@\Frontend\Controllers' => __DIR__ . '/controllers/',
-            '@@namespace@@\Frontend\Models' => __DIR__ . '/models/',
+            '@@namespace@@\Modules\Frontend\Controllers' => __DIR__ . '/controllers/',
+            '@@namespace@@\Modules\Frontend\Models' => __DIR__ . '/models/',
         ]);
 
         $loader->register();
@@ -36,30 +33,13 @@ class Module implements ModuleDefinitionInterface
     public function registerServices(DiInterface $di)
     {
         /**
-         * Read configuration
-         */
-        $config = @@configLoader@@;
-
-        /**
          * Setting up the view component
          */
-        $di['view'] = function () {
+        $di->set('view', function () {
             $view = new View();
             $view->setViewsDir(__DIR__ . '/views/');
 
             return $view;
-        };
-
-        /**
-         * Database connection is created based in the parameters defined in the configuration file
-         */
-        $di['db'] = function () use ($config) {
-            $config = $config->database->toArray();
-
-            $dbAdapter = '\Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
-            unset($config['adapter']);
-
-            return new $dbAdapter($config);
-        };
+        });
     }
 }

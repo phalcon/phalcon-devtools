@@ -38,7 +38,7 @@ class Controller extends Component
      * @param array $options Builder options
      * @throws BuilderException
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         if (!isset($options['name'])) {
             throw new BuilderException('Please specify the controller name.');

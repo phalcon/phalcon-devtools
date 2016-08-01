@@ -44,12 +44,12 @@ class Project extends Component
      * Available Project Types
      * @var array
      */
-    private $_types = array(
+    private $_types = [
         self::TYPE_MICRO   => '\Phalcon\Builder\Project\Micro',
         self::TYPE_SIMPLE  => '\Phalcon\Builder\Project\Simple',
         self::TYPE_MODULES => '\Phalcon\Builder\Project\Modules',
         self::TYPE_CLI     => '\Phalcon\Builder\Project\Cli',
-    );
+    ];
 
     /**
      * Project build
