@@ -60,57 +60,57 @@ class Tools
      *
      * @var array
      */
-    private static $options = array(
-        'index' => array(
+    private static $options = [
+        'index' => [
             'caption' => 'Home',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Welcome'
-                )
-            )
-        ),
-        'controllers' => array(
+                ]
+            ]
+        ],
+        'controllers' => [
             'caption' => 'Controllers',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate',
-                ),
-                'list' => array(
+                ],
+                'list' => [
                     'caption' => 'List',
-                )
-            )
-        ),
-        'models' => array(
+                ]
+            ]
+        ],
+        'models' => [
             'caption' => 'Models',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate'
-                ),
-                'list' => array(
+                ],
+                'list' => [
                     'caption' => 'List',
-                )
-            )
-        ),
-        'scaffold' => array(
+                ]
+            ]
+        ],
+        'scaffold' => [
             'caption' => 'Scaffold',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate'
-                )
-            )
-        ),
-        'migrations' => array(
+                ]
+            ]
+        ],
+        'migrations' => [
             'caption' => 'Migrations',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate'
-                ),
-                'run' => array(
+                ],
+                'run' => [
                     'caption' => 'Run'
-                )
-            )
-        )
-    );
+                ]
+            ]
+        ]
+    ];
 
     /**
      * Print navigation menu of the given controller
@@ -229,12 +229,12 @@ class Tools
 
         $basePath = dirname(getcwd());
         // Dirs for search config file
-        $configDirs = array(
+        $configDirs = [
             $basePath . '/config/',
             $basePath . '/app/config/',
             $basePath . '/apps/frontend/config/',
             $basePath . '/apps/backend/config/',
-        );
+        ];
 
         $config = null;
 
@@ -270,14 +270,14 @@ class Tools
 
         $loader = new Loader();
 
-        $loader->registerDirs(array(
+        $loader->registerDirs([
             $path . '/scripts/',
             $path . '/scripts/Phalcon/Web/Tools/controllers/'
-        ));
+        ]);
 
-        $loader->registerNamespaces(array(
+        $loader->registerNamespaces([
             'Phalcon' => $path . '/scripts/'
-        ));
+        ]);
 
         $loader->register();
 
@@ -321,12 +321,12 @@ class Tools
             });
 
             $di->setShared('flash', function () {
-                return new Flash(array(
+                return new Flash([
                     'error'   => 'alert alert-danger',
                     'success' => 'alert alert-success',
                     'notice'  => 'alert alert-info',
                     'warning' => 'alert alert-warning'
-                ));
+                ]);
             });
 
             $di->setShared('db', function () {

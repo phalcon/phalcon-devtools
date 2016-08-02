@@ -11,20 +11,6 @@ $di->setShared('config', function () {
 });
 
 /**
- * Shared loader service
- */
-$di->setShared('loader', function () {
-    $config = $this->getConfig();
-
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/config/loader.php';
-
-    return $loader;
-});
-
-/**
  * Sets the view component
  */
 $di->setShared('view', function () {

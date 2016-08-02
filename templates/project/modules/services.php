@@ -11,20 +11,6 @@ $di->setShared('config', function () {
 });
 
 /**
- * Shared configuration service
- */
-$di->setShared('loader', function () {
-    $config = $this->getConfig();
-
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/config/loader.php';
-
-    return $loader;
-});
-
-/**
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->setShared('db', function () {

@@ -20,7 +20,7 @@
             <div class="form-group disabled">
                 <label for="oldVersion" class="col-sm-2 control-label">Current Version</label>
                 <div class="col-sm-4">
-                    <?php echo $this->tag->textField(array('oldVersion', 'value' => $version,  'disabled' => 'disabled', 'class' => 'form-control', 'id' => 'oldVersion')) ?>
+                    <?php echo $this->tag->textField(['oldVersion', 'value' => $version,  'disabled' => 'disabled', 'class' => 'form-control', 'id' => 'oldVersion']) ?>
                 </div>
                 <div class="col-sm-4 text-right">
                     <button type="submit" class="btn btn-danger btn-lg">Run</button>

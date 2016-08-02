@@ -15,20 +15,6 @@ $di->setShared('config', function () {
 });
 
 /**
- * Shared loader service
- */
-$di->setShared('loader', function () {
-    $config = $this->getConfig();
-
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/app/config/loader.php';
-
-    return $loader;
-});
-
-/**
  * The URL component is used to generate all kind of urls in the application
  */
 $di->setShared('url', function () {
@@ -50,10 +36,10 @@ $di->setShared('view', function () {
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt' => function ($view, $di) {
+        '.volt' => function ($view) {
             $config = $this->getConfig();
 
-            $volt = new VoltEngine($view, $di);
+            $volt = new VoltEngine($view, $this);
 
             $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,

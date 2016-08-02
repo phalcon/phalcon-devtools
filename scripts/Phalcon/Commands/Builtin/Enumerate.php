@@ -39,7 +39,7 @@ class Enumerate extends Command
      */
     public function getPossibleParams()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -73,7 +73,7 @@ class Enumerate extends Command
      */
     public function getCommands()
     {
-        return array('commands', 'list', 'enumerate');
+        return ['commands', 'list', 'enumerate'];
     }
 
     /**
@@ -96,7 +96,7 @@ class Enumerate extends Command
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Lists the commands available in Phalcon devtools') . PHP_EOL . PHP_EOL;
 
-        $this->run(array());
+        $this->run([]);
     }
 
     /**

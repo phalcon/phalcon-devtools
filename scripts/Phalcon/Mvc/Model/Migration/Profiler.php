@@ -36,7 +36,7 @@ class Profiler extends DbProfiler
      */
     public function beforeStartProfile($profile)
     {
-        echo $profile->getInitialTime() , ': ' , str_replace(array( "\n", "\t" ), " ", $profile->getSQLStatement());
+        echo $profile->getInitialTime() , ': ' , str_replace([ "\n", "\t" ], " ", $profile->getSQLStatement());
     }
 
     /**

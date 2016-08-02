@@ -3,25 +3,28 @@
 use Phalcon\Di\FactoryDefault\Cli as CliDi;
 use Phalcon\Cli\Console as ConsoleApp;
 
+define('APP_PATH', realpath(__DIR__));
+
 /**
- * Read the services
+ * The FactoryDefault Dependency Injector automatically registers the services that
+ * provide a full stack framework. These default services can be overidden with custom ones.
  */
 $di = new CliDi();
 
 /**
  * Include Services
  */
-include __DIR__ . '/config/services.php';
+include APP_PATH . '/config/services.php';
 
 /**
- * Call the autoloader service.  We don't need to keep the results.
- */
-$di->getLoader();
-
-/**
- * Get the configuration
+ * Get config service for use in inline setup below
  */
 $config = $di->getConfig();
+
+/**
+ * Include Autoloader
+ */
+include APP_PATH . '/config/loader.php';
 
 /**
  * Create a console application

@@ -2,6 +2,6 @@
 
 $loader = new \Phalcon\Loader();
 $loader->registerDirs([
-    __DIR__ . '/../tasks'
+    APP_PATH . '/tasks'
 ]);
 $loader->register();

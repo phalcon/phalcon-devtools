@@ -329,28 +329,28 @@ class Scaffold extends Component
                 "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
-            $code .= "\t\t" . '<?php echo $this->tag->select(array("' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
-                ', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '") ?>';
+            $code .= "\t\t" . '<?php echo $this->tag->select(["' . $attribute . '", $' . $selectDefinition[$attribute]['varName'] .
+                ', "using" => "' . $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] . '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"] ?>';
         } else {
             switch ($dataType) {
                 case 5: // enum
-                    $code .= "\t\t" . '<?php echo $this->tag->selectStatic(array("' . $attribute . '", array(), "class" => "form-control", "id" => "' . $id . '")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->selectStatic(["' . $attribute . '", [], "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .=  "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "class" => "form-control", "id" => "' . $id . '")) ?>';
+                    $code .=  "\t\t" . '<?php echo $this->tag->textField(["' . $attribute . '", "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "number", "class" => "form-control", "id" => "' . $id . '")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute . '", "type" => "number", "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "type" => "date", "class" => "form-control", "id" => "' . $id . '")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute . '", "type" => "date", "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= "\t\t" . '<?php echo $this->tag->textArea(array("' . $attribute . '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textArea(["' . $attribute . '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 default:
-                    $code .= "\t\t" . '<?php echo $this->tag->textField(array("' . $attribute . '", "size" => 30, "class" => "form-control", "id" => "' . $id . '")) ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute . '", "size" => 30, "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
             }
         }

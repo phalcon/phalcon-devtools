@@ -157,7 +157,7 @@ class Migration
      */
     public static function generateAll($version, $exportData = null)
     {
-        $classDefinition = array();
+        $classDefinition = [];
         if (self::$_databaseConfig->adapter == 'Postgresql') {
             $tables = self::$_connection->listTables(
                 isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public'
@@ -196,9 +196,9 @@ class Migration
     public static function generate($version, $table, $exportData = null)
     {
         $oldColumn = null;
-        $allFields = array();
-        $numericFields = array();
-        $tableDefinition = array();
+        $allFields = [];
+        $numericFields = [];
+        $tableDefinition = [];
         $snippet = new Snippet();
 
         $defaultSchema = Utils::resolveDbSchema(self::$_databaseConfig);
@@ -206,7 +206,7 @@ class Migration
 
         foreach ($description as $field) {
             /** @var \Phalcon\Db\ColumnInterface $field */
-            $fieldDefinition = array();
+            $fieldDefinition = [];
             switch ($field->getType()) {
                 case Column::TYPE_INTEGER:
                     $fieldDefinition[] = "'type' => Column::TYPE_INTEGER";
@@ -314,42 +314,42 @@ class Migration
             $allFields[] = "'".$field->getName()."'";
         }
 
-        $indexesDefinition = array();
+        $indexesDefinition = [];
         $indexes = self::$_connection->describeIndexes($table, $defaultSchema);
         foreach ($indexes as $indexName => $dbIndex) {
             /** @var \Phalcon\Db\Index $dbIndex */
-            $indexDefinition = array();
+            $indexDefinition = [];
             foreach ($dbIndex->getColumns() as $indexColumn) {
                 $indexDefinition[] = "'".$indexColumn."'";
             }
             $indexesDefinition[] = $snippet->getIndexDefinition($indexName, $indexDefinition, $dbIndex->getType());
         }
 
-        $referencesDefinition = array();
+        $referencesDefinition = [];
         $references = self::$_connection->describeReferences($table, $defaultSchema);
         foreach ($references as $constraintName => $dbReference) {
-            $columns = array();
+            $columns = [];
             foreach ($dbReference->getColumns() as $column) {
                 $columns[] = "'".$column."'";
             }
 
-            $referencedColumns = array();
+            $referencedColumns = [];
             foreach ($dbReference->getReferencedColumns() as $referencedColumn) {
                 $referencedColumns[] = "'".$referencedColumn."'";
             }
 
-            $referenceDefinition = array();
+            $referenceDefinition = [];
             $referenceDefinition[] = "'referencedSchema' => '".$dbReference->getReferencedSchema()."'";
             $referenceDefinition[] = "'referencedTable' => '".$dbReference->getReferencedTable()."'";
-            $referenceDefinition[] = "'columns' => array(".join(",", $columns).")";
-            $referenceDefinition[] = "'referencedColumns' => array(".join(",", $referencedColumns).")";
+            $referenceDefinition[] = "'columns' => [".join(",", $columns)."]";
+            $referenceDefinition[] = "'referencedColumns' => [".join(",", $referencedColumns)."]";
             $referenceDefinition[] = "'onUpdate' => '".$dbReference->getOnUpdate()."'";
             $referenceDefinition[] = "'onDelete' => '".$dbReference->getOnDelete()."'";
 
             $referencesDefinition[] = $snippet->getReferenceDefinition($constraintName, $referenceDefinition);
         }
 
-        $optionsDefinition = array();
+        $optionsDefinition = [];
         $tableOptions = self::$_connection->tableOptions($table, $defaultSchema);
         foreach ($tableOptions as $optionName => $optionValue) {
             if (self::$_skipAI && strtoupper($optionName) == "AUTO_INCREMENT") {
@@ -410,7 +410,7 @@ class Migration
             $cursor = self::$_connection->query('SELECT * FROM '.$table);
             $cursor->setFetchMode(Db::FETCH_ASSOC);
             while ($row = $cursor->fetchArray()) {
-                $data = array();
+                $data = [];
                 foreach ($row as $key => $value) {
                     if (isset($numericFields[$key])) {
                         if ($value === '' || is_null($value)) {
@@ -500,7 +500,7 @@ class Migration
      */
     public static function scanForVersions($dir)
     {
-        $versions = array();
+        $versions = [];
         $iterator = new DirectoryIterator($dir);
 
         foreach ($iterator as $fileinfo) {
@@ -531,7 +531,7 @@ class Migration
      */
     private static function createPrevClassWithMorphMethod(ItemInterface $toVersion, $tableName)
     {
-        $prevVersions = array();
+        $prevVersions = [];
         $versions = self::scanForVersions(self::$_migrationPath);
         foreach ($versions as $prevVersion) {
             if ($prevVersion->getStamp() <= $toVersion->getStamp()) {
@@ -599,7 +599,7 @@ class Migration
                 throw new DbException('Table must have at least one column');
             }
 
-            $fields = array();
+            $fields = [];
             foreach ($definition['columns'] as $tableColumn) {
                 if (!is_object($tableColumn)) {
                     throw new DbException('Table must have at least one column');
@@ -612,7 +612,7 @@ class Migration
             }
 
             if ($tableExists == true) {
-                $localFields = array();
+                $localFields = [];
                 /**
                  * @var \Phalcon\Db\ColumnInterface[] $description
                  * @var \Phalcon\Db\ColumnInterface[] $localFields
@@ -669,19 +669,19 @@ class Migration
 
         if (isset($definition['references'])) {
             if ($tableExists == true) {
-                $references = array();
+                $references = [];
                 foreach ($definition['references'] as $tableReference) {
                     $references[$tableReference->getName()] = $tableReference;
                 }
 
-                $localReferences = array();
+                $localReferences = [];
                 $activeReferences = self::$_connection->describeReferences($tableName, $defaultSchema);
                 foreach ($activeReferences as $activeReference) {
-                    $localReferences[$activeReference->getName()] = array(
+                    $localReferences[$activeReference->getName()] = [
                         'referencedTable'   => $activeReference->getReferencedTable(),
                         'columns'           => $activeReference->getColumns(),
                         'referencedColumns' => $activeReference->getReferencedColumns(),
-                    );
+                    ];
                 }
 
                 foreach ($definition['references'] as $tableReference) {
@@ -762,12 +762,12 @@ class Migration
 
         if (isset($definition['indexes'])) {
             if ($tableExists == true) {
-                $indexes = array();
+                $indexes = [];
                 foreach ($definition['indexes'] as $tableIndex) {
                     $indexes[$tableIndex->getName()] = $tableIndex;
                 }
 
-                $localIndexes = array();
+                $localIndexes = [];
                 $actualIndexes = self::$_connection->describeIndexes($tableName, $defaultSchema);
                 foreach ($actualIndexes as $actualIndex) {
                     $localIndexes[$actualIndex->getName()] = $actualIndex->getColumns();

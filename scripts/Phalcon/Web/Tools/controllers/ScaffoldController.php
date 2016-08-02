@@ -45,13 +45,13 @@ class ScaffoldController extends ControllerBase
 
         $this->listTables();
 
-        $this->view->setVars(array(
+        $this->view->setVars([
             'directory'       => dirname(getcwd()),
-            'templateEngines' => array(
+            'templateEngines' => [
                 'volt' => 'volt',
                 'php'  => 'php',
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
@@ -69,7 +69,7 @@ class ScaffoldController extends ControllerBase
             $modelsNamespace   = $this->request->getPost('modelsNamespace', 'trim');
 
             try {
-                $scaffoldBuilder = new Scaffold(array(
+                $scaffoldBuilder = new Scaffold([
                     'name'              => $tableName,
                     'schema'            => $schema,
                     'force'             => $force,
@@ -78,16 +78,16 @@ class ScaffoldController extends ControllerBase
                     'templatePath'      => TEMPLATE_PATH,
                     'templateEngine'    => $templateEngine,
                     'modelsNamespace'   => $modelsNamespace,
-                ));
+                ]);
                 $scaffoldBuilder->build();
 
                 $message = sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName));
                 $this->flash->success($message);
 
-                $this->dispatcher->forward(array(
+                $this->dispatcher->forward([
                     'controller' => 'scaffold',
                     'action' => 'index'
-                ));
+                ]);
 
                 return;
             } catch (BuilderException $e) {
@@ -95,9 +95,9 @@ class ScaffoldController extends ControllerBase
             }
         }
 
-        $this->dispatcher->forward(array(
+        $this->dispatcher->forward([
             'controller' => 'scaffold',
             'action' => 'index'
-        ));
+        ]);
     }
 }

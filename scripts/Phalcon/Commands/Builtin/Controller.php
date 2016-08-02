@@ -41,14 +41,14 @@ class Controller extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'name=s'        => 'Controller name',
             'namespace=s'   => "Controller's namespace [option]",
             'directory=s'   => 'Base path on which project is located [optional]',
             'output=s'      => 'Directory where the controller should be created [optional]',
             'base-class=s'  => 'Base class to be inherited by the controller [optional]',
             'force'         => 'Force to rewrite controller [optional]',
-        );
+        ];
     }
 
     /**
@@ -59,16 +59,16 @@ class Controller extends Command
      */
     public function run(array $parameters)
     {
-        $controllerName = $this->getOption(array('name', 1));
+        $controllerName = $this->getOption(['name', 1]);
 
-        $controllerBuilder = new ControllerBuilder(array(
+        $controllerBuilder = new ControllerBuilder([
             'name' => $controllerName,
             'directory' => $this->getOption('directory'),
             'controllersDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
             'baseClass' => $this->getOption('base-class'),
             'force' => $this->isReceivedOption('force')
-        ));
+        ]);
 
         return $controllerBuilder->build();
     }
@@ -80,7 +80,7 @@ class Controller extends Command
      */
     public function getCommands()
     {
-        return array('controller', 'create-controller');
+        return ['controller', 'create-controller'];
     }
 
     /**
