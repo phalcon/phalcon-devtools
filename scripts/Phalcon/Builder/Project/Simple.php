@@ -39,7 +39,6 @@ class Simple extends ProjectBuilder
      */
     protected $projectDirectories = [
         'app',
-        'app/cache',
         'app/views',
         'app/config',
         'app/models',
@@ -47,6 +46,7 @@ class Simple extends ProjectBuilder
         'app/migrations',
         'app/views/index',
         'app/views/layouts',
+        'cache',
         'public',
         'public/img',
         'public/css',

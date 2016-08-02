@@ -5,7 +5,8 @@ use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
 
-define('APP_PATH', realpath(__DIR__));
+define('BASE_PATH', dirname(__DIR__));
+define('APP_PATH', BASE_PATH . '/app');
 
 try {
 
