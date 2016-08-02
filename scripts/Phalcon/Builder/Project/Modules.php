@@ -154,7 +154,7 @@ class Modules extends ProjectBuilder
     }
 
     /**
-     * Creates the app/modulesuration
+     * Creates the app/configuration
      *
      * @return $this
      */
