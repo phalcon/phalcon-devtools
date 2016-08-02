@@ -36,10 +36,10 @@ $di->setShared('view', function () {
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt' => function ($view, $di) {
+        '.volt' => function ($view) {
             $config = $this->getConfig();
 
-            $volt = new VoltEngine($view, $di);
+            $volt = new VoltEngine($view, $this);
 
             $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,
