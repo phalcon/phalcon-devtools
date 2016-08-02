@@ -23,7 +23,7 @@ $di->setShared('loader', function () {
     /**
      * Include Autoloader
      */
-    include APP_PATH . '/app/config/loader.php';
+    include APP_PATH . '/config/loader.php';
 
     return $loader;
 });

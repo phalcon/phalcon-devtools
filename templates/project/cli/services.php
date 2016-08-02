@@ -4,7 +4,7 @@
  * Shared configuration service
  */
 $di->setShared('config', function () {
-    return include __DIR__ . '/config.php';
+    return include APP_PATH . '/config/config.php';
 });
 
 /**
@@ -16,7 +16,7 @@ $di->setShared('loader', function () {
     /**
      * Include Autoloader
      */
-    include __DIR__ . '/loader.php';
+    include APP_PATH . '/config/loader.php';
 
     return $loader;
 });

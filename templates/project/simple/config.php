@@ -1,6 +1,6 @@
 <?php
 
-defined('APP_PATH') || define('APP_PATH', realpath('.'));
+defined('APP_PATH') || define('APP_PATH', realpath('..'));
 
 return new \Phalcon\Config([
     'database' => [
@@ -12,13 +12,13 @@ return new \Phalcon\Config([
         'charset'     => 'utf8',
     ],
     'application' => [
-        'controllersDir' => APP_PATH . '/app/controllers/',
-        'modelsDir'      => APP_PATH . '/app/models/',
-        'migrationsDir'  => APP_PATH . '/app/migrations/',
-        'viewsDir'       => APP_PATH . '/app/views/',
-        'pluginsDir'     => APP_PATH . '/app/plugins/',
-        'libraryDir'     => APP_PATH . '/app/library/',
-        'cacheDir'       => APP_PATH . '/app/cache/',
+        'controllersDir' => APP_PATH . '/controllers/',
+        'modelsDir'      => APP_PATH . '/models/',
+        'migrationsDir'  => APP_PATH . '/migrations/',
+        'viewsDir'       => APP_PATH . '/views/',
+        'pluginsDir'     => APP_PATH . '/plugins/',
+        'libraryDir'     => APP_PATH . '/library/',
+        'cacheDir'       => APP_PATH . '/cache/',
         'baseUri'        => '/@@name@@/',
     ]
 ]);

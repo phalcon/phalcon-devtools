@@ -3,6 +3,8 @@
 use Phalcon\Di\FactoryDefault\Cli as CliDi;
 use Phalcon\Cli\Console as ConsoleApp;
 
+define('APP_PATH', realpath(__DIR__));
+
 /**
  * Read the services
  */
@@ -11,7 +13,7 @@ $di = new CliDi();
 /**
  * Include Services
  */
-include __DIR__ . '/config/services.php';
+include APP_PATH . '/config/services.php';
 
 /**
  * Call the autoloader service.  We don't need to keep the results.
