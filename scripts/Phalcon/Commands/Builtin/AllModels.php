@@ -43,7 +43,7 @@ class AllModels extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'config=s'    => 'Configuration file [optional]',
             'models=s'    => 'Models directory [optional]',
             'schema=s'    => 'Name of the schema. [optional]',
@@ -58,7 +58,7 @@ class AllModels extends Command
             'directory=s' => 'Base path on which project will be created [optional]',
             'mapcolumn'   => 'Get some code for map columns [optional]',
             'abstract'    => 'Abstract Model [optional]'
-        );
+        ];
     }
 
     /**
@@ -112,7 +112,7 @@ class AllModels extends Command
             $modelsDir = $this->path->getRootPath($modelsDir);
         }
 
-        $modelBuilder = new AllModelsBuilder(array(
+        $modelBuilder = new AllModelsBuilder([
             'force' => $this->isReceivedOption('force'),
             'config' => $config,
             'schema' => $this->getOption('schema'),
@@ -126,7 +126,7 @@ class AllModels extends Command
             'modelsDir' => $modelsDir,
             'mapColumn' => $this->isReceivedOption('mapcolumn'),
             'abstract' => $this->isReceivedOption('abstract')
-        ));
+        ]);
 
         $modelBuilder->build();
     }
@@ -138,7 +138,7 @@ class AllModels extends Command
      */
     public function getCommands()
     {
-        return array('all-models', 'create-all-models');
+        return ['all-models', 'create-all-models'];
     }
 
     /**

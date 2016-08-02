@@ -39,7 +39,7 @@ class Module extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'name'            => 'Name of the new module',
             'namespace=s'     => "Module's namespace [optional]",
             'output=s'        => 'Folder where modules are located [optional]',
@@ -47,7 +47,7 @@ class Module extends Command
             'template-path=s' => 'Specify a template path [optional]',
             'help'            => 'Shows this help [optional]',
 
-        );
+        ];
     }
 
     /**
@@ -58,19 +58,19 @@ class Module extends Command
      */
     public function run(array $parameters)
     {
-        $moduleName   = $this->getOption(array('name', 1));
+        $moduleName   = $this->getOption(['name', 1]);
         $namespace    = $this->getOption('namespace', null, 'Application');
         $configType   = $this->getOption('config-type', null, 'php');
         $modulesDir   = $this->getOption('output');
         $templatePath = $this->getOption('template-path', null, TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'module');
 
-        $builder = new ModuleBuilder(array(
+        $builder = new ModuleBuilder([
             'name'         => $moduleName,
             'namespace'    => $namespace,
             'config-type'  => $configType,
             'templatePath' => $templatePath,
             'modulesDir'   => $modulesDir
-        ));
+        ]);
 
         return $builder->build();
     }
@@ -82,7 +82,7 @@ class Module extends Command
      */
     public function getCommands()
     {
-        return array('module', 'create-module');
+        return ['module', 'create-module'];
     }
 
     /**

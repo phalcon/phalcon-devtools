@@ -156,7 +156,7 @@ class Model extends Component
             $modelPath = $this->path->getRootPath($modelsDir);
         }
 
-        $methodRawCode = array();
+        $methodRawCode = [];
         $className = $this->options->get('className');
         $modelPath .= $className . '.php';
 
@@ -205,14 +205,14 @@ class Model extends Component
         }
 
         // An array for use statements
-        $uses = array();
+        $uses = [];
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
         /** @var \Phalcon\Db\Adapter\Pdo $db */
         $db = new $adapterName($configArray);
 
-        $initialize = array();
+        $initialize = [];
 
         if ($this->options->contains('schema')) {
             $schema = $this->options->get('schema');
@@ -252,7 +252,7 @@ class Model extends Component
                     $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                     $entityNamespace . Utils::camelize($tableName),
                     $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
-                    "array('alias' => '" . Utils::camelize($tableName) . "')"
+                    "['alias' => '" . Utils::camelize($tableName) . "']"
                 );
             }
         }
@@ -270,7 +270,7 @@ class Model extends Component
                 $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
                 $entityNamespace . Utils::camelize($reference->getReferencedTable()),
                 $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
-                "array('alias' => '" . Utils::camelize($reference->getReferencedTable()) . "')"
+                "['alias' => '" . Utils::camelize($reference->getReferencedTable()) . "']"
             );
         }
 
@@ -283,7 +283,7 @@ class Model extends Component
 
         if (file_exists($modelPath)) {
             try {
-                $possibleMethods = array();
+                $possibleMethods = [];
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
                         /** @var \Phalcon\Db\Column $field */
@@ -359,7 +359,7 @@ class Model extends Component
             }
         }
 
-        $validations = array();
+        $validations = [];
         foreach ($fields as $field) {
             if ($field->getType() === Column::TYPE_CHAR) {
                 if ($this->options->get('camelize')) {
@@ -367,7 +367,7 @@ class Model extends Component
                 } else {
                     $fieldName = $field->getName();
                 }
-                $domain = array();
+                $domain = [];
                 if (preg_match('/\((.*)\)/', $field->getType(), $matches)) {
                     foreach (explode(',', $matches[1]) as $item) {
                         $domain[] = $item;
@@ -396,7 +396,7 @@ class Model extends Component
         $extends = $this->options->get('extends', '\Phalcon\Mvc\Model');
 
         // Check if there have been any excluded fields
-        $exclude = array();
+        $exclude = [];
         if ($this->options->contains('excludeFields')) {
             $keys = explode(',', $this->options->get('excludeFields'));
             if (count($keys) > 0) {
@@ -406,9 +406,9 @@ class Model extends Component
             }
         }
 
-        $attributes = array();
-        $setters = array();
-        $getters = array();
+        $attributes = [];
+        $setters = [];
+        $getters = [];
         foreach ($fields as $field) {
             if (array_key_exists(strtolower($field->getName()), $exclude)) {
                 continue;

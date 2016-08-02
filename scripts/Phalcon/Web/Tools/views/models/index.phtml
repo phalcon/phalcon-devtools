@@ -23,28 +23,28 @@
                 <div class="form-group">
                     <label for="schema" class="col-sm-4 control-label">Schema</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->textField(array('schema', 'value' => $databaseName,  'placeholder' => 'Database name', 'class' => 'form-control', 'id' => 'schema')) ?>
+                        <?php echo $this->tag->textField(['schema', 'value' => $databaseName,  'placeholder' => 'Database name', 'class' => 'form-control', 'id' => 'schema']) ?>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="tableName" class="col-sm-4 control-label">Table name</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->selectStatic(array('tableName', 'class' => 'form-control', 'id' => 'tableName'), $tables); ?>
+                        <?php echo $this->tag->selectStatic(['tableName', 'class' => 'form-control', 'id' => 'tableName'], $tables); ?>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="namespace" class="col-sm-4 control-label">Namespace</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->textField(array('namespace', 'placeholder' => 'eg. My\Awesome\Namespace', 'class' => 'form-control', 'id' => 'namespace')) ?>
+                        <?php echo $this->tag->textField(['namespace', 'placeholder' => 'eg. My\Awesome\Namespace', 'class' => 'form-control', 'id' => 'namespace']) ?>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="directory" class="col-sm-4 control-label">Project Root</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->textField(array('directory', 'value' => $directory, 'placeholder' => 'Absolute path to the project', 'class' => 'form-control', 'id' => 'directory')) ?>
+                        <?php echo $this->tag->textField(['directory', 'value' => $directory, 'placeholder' => 'Absolute path to the project', 'class' => 'form-control', 'id' => 'directory']) ?>
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@
                     <div class="col-sm-offset-4 col-sm-8">
                         <div class="checkbox">
                             <label for="genSettersGetters">
-                                <?php echo $this->tag->checkField(array('genSettersGetters', 'id' => 'genSettersGetters', 'value' => 1)) ?> Add setters and getters
+                                <?php echo $this->tag->checkField(['genSettersGetters', 'id' => 'genSettersGetters', 'value' => 1]) ?> Add setters and getters
                             </label>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                     <div class="col-sm-offset-4 col-sm-8">
                         <div class="checkbox">
                             <label for="foreignKeys">
-                                <?php echo $this->tag->checkField(array('foreignKeys', 'id' => 'foreignKeys', 'value' => 1)) ?> Set Foreign Keys
+                                <?php echo $this->tag->checkField(['foreignKeys', 'id' => 'foreignKeys', 'value' => 1]) ?> Set Foreign Keys
                             </label>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                     <div class="col-sm-offset-4 col-sm-8">
                         <div class="checkbox">
                             <label for="defineRelations">
-                                <?php echo $this->tag->checkField(array('defineRelations', 'id' => 'defineRelations', 'value' => 1)) ?> Define Relations
+                                <?php echo $this->tag->checkField(['defineRelations', 'id' => 'defineRelations', 'value' => 1]) ?> Define Relations
                             </label>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                     <div class="col-sm-offset-4 col-sm-8">
                         <div class="checkbox">
                             <label for="mapcolumn">
-                                <?php echo $this->tag->checkField(array('mapcolumn', 'id' => 'mapcolumn', 'value' => 1)) ?> Generate map columns
+                                <?php echo $this->tag->checkField(['mapcolumn', 'id' => 'mapcolumn', 'value' => 1]) ?> Generate map columns
                             </label>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                     <div class="col-sm-offset-4 col-sm-8">
                         <div class="checkbox">
                             <label for="force">
-                                <?php echo $this->tag->checkField(array('force', 'id' => 'force', 'value' => 1)) ?> Force
+                                <?php echo $this->tag->checkField(['force', 'id' => 'force', 'value' => 1]) ?> Force
                             </label>
                         </div>
                     </div>

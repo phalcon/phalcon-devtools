@@ -40,7 +40,7 @@ class Project extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'name'            => 'Name of the new project',
             'enable-webtools' => 'Determines if webtools should be enabled [optional]',
             'directory=s'     => 'Base path on which project will be created [optional]',
@@ -49,7 +49,7 @@ class Project extends Command
             'use-config-ini'  => 'Use a ini file as configuration file [optional]',
             'trace'           => 'Shows the trace of the framework in case of exception [optional]',
             'help'            => 'Shows this help'
-        );
+        ];
     }
 
     /**
@@ -60,21 +60,21 @@ class Project extends Command
      */
     public function run(array $parameters)
     {
-        $projectName = $this->getOption(array('name', 1), null, 'default');
-        $projectType = $this->getOption(array('type', 2), null, 'simple');
-        $projectPath = $this->getOption(array('directory', 3));
-        $templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);
-        $enableWebtools = $this->getOption(array('enable-webtools', 4), null, false);
+        $projectName = $this->getOption(['name', 1], null, 'default');
+        $projectType = $this->getOption(['type', 2], null, 'simple');
+        $projectPath = $this->getOption(['directory', 3]);
+        $templatePath = $this->getOption(['template-path'], null, TEMPLATE_PATH);
+        $enableWebtools = $this->getOption(['enable-webtools', 4], null, false);
         $useConfigIni = $this->getOption('use-config-ini');
 
-        $builder = new ProjectBuilder(array(
+        $builder = new ProjectBuilder([
             'name'           => $projectName,
             'type'           => $projectType,
             'directory'      => $projectPath,
             'enableWebTools' => $enableWebtools,
             'templatePath'   => $templatePath,
             'useConfigIni'   => $useConfigIni
-        ));
+        ]);
 
         return $builder->build();
     }
@@ -86,7 +86,7 @@ class Project extends Command
      */
     public function getCommands()
     {
-        return array('project', 'create-project');
+        return ['project', 'create-project'];
     }
 
     /**

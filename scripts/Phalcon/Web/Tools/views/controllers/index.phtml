@@ -21,28 +21,28 @@
                 <div class="form-group">
                     <label for="name" class="col-sm-4 control-label">Controller name</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->textField(array('name', 'placeholder' => 'Class name', 'class' => 'form-control', 'id' => 'name')) ?>
+                        <?php echo $this->tag->textField(['name', 'placeholder' => 'Class name', 'class' => 'form-control', 'id' => 'name']) ?>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="namespace" class="col-sm-4 control-label">Namespace</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->textField(array('namespace', 'placeholder' => 'eg. My\Awesome\Namespace', 'class' => 'form-control', 'id' => 'namespace')) ?>
+                        <?php echo $this->tag->textField(['namespace', 'placeholder' => 'eg. My\Awesome\Namespace', 'class' => 'form-control', 'id' => 'namespace']) ?>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="baseClass" class="col-sm-4 control-label">Base class</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->textField(array('baseClass', 'placeholder' => 'eg. BaseController', 'class' => 'form-control', 'id' => 'baseClass')) ?>
+                        <?php echo $this->tag->textField(['baseClass', 'placeholder' => 'eg. BaseController', 'class' => 'form-control', 'id' => 'baseClass']) ?>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="directory" class="col-sm-4 control-label">Project Root</label>
                     <div class="col-sm-8">
-                        <?php echo $this->tag->textField(array('directory', 'placeholder' => 'Absolute path to the project', 'value' => $directory, 'class' => 'form-control', 'id' => 'directory')) ?>
+                        <?php echo $this->tag->textField(['directory', 'placeholder' => 'Absolute path to the project', 'value' => $directory, 'class' => 'form-control', 'id' => 'directory']) ?>
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@
                     <div class="col-sm-offset-4 col-sm-8">
                         <div class="checkbox">
                             <label for="force">
-                                <?php echo $this->tag->checkField(array('force', 'id' => 'force', 'value' => 1)) ?> Force
+                                <?php echo $this->tag->checkField(['force', 'id' => 'force', 'value' => 1]) ?> Force
                             </label>
                         </div>
                     </div>
