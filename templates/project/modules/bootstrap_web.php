@@ -10,7 +10,8 @@ define('APP_PATH', realpath(__DIR__));
 try {
 
     /**
-     * The FactoryDefault Dependency Injector automatically registers the right services to provide a full stack framework
+     * The FactoryDefault Dependency Injector automatically registers the services that
+     * provide a full stack framework. These default services can be overidden with custom ones.
      */
     $di = new FactoryDefault();
 
@@ -20,9 +21,19 @@ try {
     require APP_PATH . '/config/services.php';
 
     /**
-     * Include web specific services
+     * Include web environment specific services
      */
     require APP_PATH . '/config/services_web.php';
+
+    /**
+     * Get config service for use in inline setup below
+     */
+    $config = $di->getConfig();
+
+    /**
+     * Include Autoloader
+     */
+    include APP_PATH . '/config/loader.php';
 
     /**
      * Handle the request

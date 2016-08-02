@@ -15,20 +15,6 @@ $di->setShared('config', function () {
 });
 
 /**
- * Shared loader service
- */
-$di->setShared('loader', function () {
-    $config = $this->getConfig();
-
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/config/loader.php';
-
-    return $loader;
-});
-
-/**
  * The URL component is used to generate all kind of urls in the application
  */
 $di->setShared('url', function () {
