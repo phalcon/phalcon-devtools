@@ -53,6 +53,8 @@ class Modules extends ProjectBuilder
         'app/modules/cli',
         'app/modules/cli/migrations',
         'app/modules/cli/tasks',
+        'cache',
+        'cache/volt',
         'public',
         'public/img',
         'public/css',
@@ -142,12 +144,12 @@ class Modules extends ProjectBuilder
      */
     private function createIndexViewFiles()
     {
-        $getFile = $this->options->get('templatePath') . '/project/modules/views/index.phtml';
-        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index.phtml';
+        $getFile = $this->options->get('templatePath') . '/project/modules/views/index.volt';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index.volt';
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/modules/views/index/index.phtml';
-        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index/index.phtml';
+        $getFile = $this->options->get('templatePath') . '/project/modules/views/index/index.volt';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index/index.volt';
         $this->generateFile($getFile, $putFile);
 
         return $this;
