@@ -33,34 +33,6 @@ $di->setShared('url', function () {
 });
 
 /**
- * Setting up the view component
- */
-$di->setShared('view', function () {
-    $config = $this->getConfig();
-
-    $view = new View();
-
-    $view->setViewsDir($config->application->viewsDir);
-
-    $view->registerEngines([
-        '.volt' => function ($view) {
-            $config = $this->getConfig();
-
-            $volt = new VoltEngine($view, $this);
-            $volt->setOptions([
-                'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
-            ]);
-
-            return $volt;
-        },
-        '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
-    ]);
-
-    return $view;
-});
-
-/**
  * Starts the session the first time some component requests the session service
  */
 $di->setShared('session', function () {
