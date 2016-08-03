@@ -22,12 +22,21 @@
 error_reporting(E_ALL);
 
 use Phalcon\Script;
+use Phalcon\Loader;
 use Phalcon\Version;
 use Phalcon\Script\Color;
+use Phalcon\Commands\Builtin\Model;
+use Phalcon\Commands\Builtin\Module;
+use Phalcon\Commands\Builtin\Project;
+use Phalcon\Commands\Builtin\Scaffold;
 use Phalcon\Commands\CommandsListener;
-use Phalcon\Loader;
-use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Commands\Builtin\Webtools;
+use Phalcon\Commands\Builtin\AllModels;
+use Phalcon\Commands\Builtin\Migration;
+use Phalcon\Commands\Builtin\Enumerate;
+use Phalcon\Commands\Builtin\Controller;
 use Phalcon\Exception as PhalconException;
+use Phalcon\Events\Manager as EventsManager;
 
 try {
     if (!extension_loaded('phalcon')) {
@@ -67,17 +76,17 @@ try {
 
     $script = new Script($eventsManager);
 
-    $commandsToEnable = array(
-        '\Phalcon\Commands\Builtin\Enumerate',
-        '\Phalcon\Commands\Builtin\Controller',
-        '\Phalcon\Commands\Builtin\Module',
-        '\Phalcon\Commands\Builtin\Model',
-        '\Phalcon\Commands\Builtin\AllModels',
-        '\Phalcon\Commands\Builtin\Project',
-        '\Phalcon\Commands\Builtin\Scaffold',
-        '\Phalcon\Commands\Builtin\Migration',
-        '\Phalcon\Commands\Builtin\Webtools'
-    );
+    $commandsToEnable = [
+        Enumerate::class,
+        Controller::class,
+        Module::class,
+        Model::class,
+        AllModels::class,
+        Project::class,
+        Scaffold::class,
+        Migration::class,
+        Webtools::class,
+    ];
 
     $script->loadUserScripts();
 
