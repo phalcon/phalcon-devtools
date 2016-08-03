@@ -29,7 +29,7 @@ namespace Phalcon\Version;
  * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
  * @license     New BSD License
  */
-class Item
+class IncrementalItem
 {
     /**
      * @var string
@@ -85,9 +85,9 @@ class Item
     }
 
     /**
-     * @param $versions Item[]
+     * @param $versions ItemInterface[]
      *
-     * @return array Item[]
+     * @return array ItemInterface[]
      */
     public static function sortAsc($versions)
     {
@@ -101,7 +101,7 @@ class Item
     }
 
     /**
-     * @param $versions Item[]
+     * @param $versions ItemInterface[]
      *
      * @return array
      */
@@ -117,9 +117,9 @@ class Item
     }
 
     /**
-     * @param $versions Item[]
+     * @param $versions ItemInterface[]
      *
-     * @return \Phalcon\Version\Item
+     * @return ItemInterface
      */
     public static function maximum($versions)
     {
@@ -137,8 +137,8 @@ class Item
      *
      * @param  string  $initialVersion
      * @param  string  $finalVersion
-     * @param  array   $versions Item[]
-     * @return Item[]
+     * @param  ItemInterface[] $versions
+     * @return ItemInterface[]
      */
     public static function between($initialVersion, $finalVersion, $versions)
     {
@@ -165,7 +165,7 @@ class Item
         }
 
         foreach ($versions as $version) {
-            /** @var Item $version */
+            /** @var ItemInterface $version */
             if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
                 $betweenVersions[] = $version;
             }

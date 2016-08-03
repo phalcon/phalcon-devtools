@@ -22,19 +22,16 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db;
 use Phalcon\Text;
-use Phalcon\Migrations;
+use Phalcon\Utils;
+use DirectoryIterator;
 use Phalcon\Db\Column;
+use Phalcon\Migrations;
 use Phalcon\Generator\Snippet;
+use Phalcon\Version\ItemInterface;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Utils;
 use Phalcon\Version\ItemCollection as VersionCollection;
-use Phalcon\Version\IncrementalItem as IncrementalVersion;
-use Phalcon\Version\ItemInterface;
-use Phalcon\Version\TimestampedItem as TimestampedVersion;
-use Phalcon\Version\Item as VersionItem;
-use DirectoryIterator;
 
 /**
  * Phalcon\Mvc\Model\Migration
