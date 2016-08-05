@@ -4,6 +4,7 @@ namespace @@namespace@@\Modules\Frontend;
 use Phalcon\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 
 class Module implements ModuleDefinitionInterface
@@ -41,8 +42,8 @@ class Module implements ModuleDefinitionInterface
             $view->setViewsDir(__DIR__ . '/views/');
 
             $view->registerEngines([
-                '.volt'  => 'voltService',
-                '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
+                '.volt'  => 'voltShared',
+                '.phtml' => PhpEngine::class
             ]);
 
             return $view;
