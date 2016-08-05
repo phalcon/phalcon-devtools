@@ -44,10 +44,17 @@ $di->set('voltService', function ($view) {
     $config = $this->getConfig();
 
     $volt = new VoltEngine($view, $this);
-
     $volt->setOptions([
-        'compiledPath'      => $config->application->cacheDir,
-        'compiledSeparator' => '_'
+        'compiledPath' => function($templatePath) use ($config) {
+
+            // Makes the view path into a portable fragment
+            $templateFrag = str_replace($config->application->appDir, '', $templatePath);
+
+            // Replace '/' with a safe '%%'
+            $templateFrag = str_replace('/', '%%', $templateFrag);
+
+            return $config->application->cacheDir . 'volt/' . $templateFrag . '.php';
+        }
     ]);
 
     return $volt;
