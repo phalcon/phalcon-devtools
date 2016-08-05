@@ -13,6 +13,7 @@ return new \Phalcon\Config([
         'charset'     => 'utf8',
     ],
     'application' => [
+        'appDir'         => APP_PATH . '/',
         'controllersDir' => APP_PATH . '/controllers/',
         'modelsDir'      => APP_PATH . '/models/',
         'migrationsDir'  => APP_PATH . '/migrations/',

@@ -16,6 +16,7 @@ return new \Phalcon\Config([
     ],
 
     'application' => [
+        'appDir'         => APP_PATH . '/',
         'modelsDir'      => APP_PATH . '/common/models/',
         'migrationsDir'  => APP_PATH . '/migrations/',
         'cacheDir'       => BASE_PATH . '/cache/',
