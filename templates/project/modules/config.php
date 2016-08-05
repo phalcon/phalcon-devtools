@@ -1,5 +1,8 @@
 <?php
 
+defined('BASE_PATH') || define('BASE_PATH', realpath('../..'));
+defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
+
 return new \Phalcon\Config([
     'version' => '1.0',
 
