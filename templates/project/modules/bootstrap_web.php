@@ -45,10 +45,7 @@ try {
      * Register application modules
      */
     $application->registerModules([
-        'frontend' => [
-            'className' => '@@namespace@@\Modules\Frontend\Module',
-            'path' => APP_PATH . '/modules/frontend/Module.php'
-        ],
+        'frontend' => ['className' => '@@namespace@@\Modules\Frontend\Module'],
     ]);
 
     /**
