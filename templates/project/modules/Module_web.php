@@ -41,7 +41,8 @@ class Module implements ModuleDefinitionInterface
             $view->setViewsDir(__DIR__ . '/views/');
 
             $view->registerEngines([
-                '.volt'  => 'voltShared'
+                '.volt'  => 'voltShared',
+                '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
             ]);
 
             return $view;
