@@ -37,6 +37,7 @@ class Module implements ModuleDefinitionInterface
          */
         $di->set('view', function () {
             $view = new View();
+            $view->setDI($this);
             $view->setViewsDir(__DIR__ . '/views/');
 
             $view->registerEngines([

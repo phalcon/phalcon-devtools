@@ -33,6 +33,7 @@ $di->setShared('view', function () {
     $config = $this->getConfig();
 
     $view = new View();
+    $view->setDI($this);
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
