@@ -146,21 +146,23 @@ $ phalcon webtools --action=enable
 
 ## Database adapter
 
-Should add 'adapter' parameter in your db config file (if you use not Mysql database). For PostgreSql will be
+Should add `adapter` parameter in your `db` config file (if you use not Mysql database).
+
+For PostgreSql it will be something like:
 
 ```php
 $config = [
-  "host"     => "localhost",
-  "dbname"   => "my_db_name",
-  "username" => "my_db_user",
-  "password" => "my_db_user_password",
-  "adapter"  => "Postgresql"
+  'host'     => 'localhost',
+  'dbname'   => 'my_db_name',
+  'username' => 'my_db_user',
+  'password' => 'my_db_user_password',
+  'adapter'  => 'Postgresql'
 ];
 ```
 
 ## License
 
-Phalcon Developer Tools is open source software licensed under the [New BSD License][1].
+Phalcon Developer Tools is open source software licensed under the [New BSD License][1].<br>
 © Phalcon Framework Team and contributors
 
 [1]: docs/LICENSE.md
