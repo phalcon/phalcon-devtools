@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,12 +21,17 @@ namespace Phalcon\Version;
 
 /**
  * Class TimestampedItem.
+ *
  * The version prefixed by timestamp value
  *
- * @package Phalcon\Version
+ * @package   Phalcon\Version
+ * @copyright Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
+ * @license   New BSD License
  */
 class TimestampedItem implements ItemInterface
 {
+    use VersionAwareTrait;
+
     /**
      * @var string
      */
@@ -87,25 +92,5 @@ class TimestampedItem implements ItemInterface
     public function getDescription()
     {
         return $this->isFullVersion() ? $this->_parts[1] : '';
-    }
-
-    /**
-     * Get the string representation of the version
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->_version;
-    }
-
-    /**
-     * Get the string representation of the version
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getVersion();
     }
 }
