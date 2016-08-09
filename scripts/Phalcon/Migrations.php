@@ -21,17 +21,16 @@
 
 namespace Phalcon;
 
-use Phalcon\Db\Adapter;
-use Phalcon\Db\AdapterInterface;
-use Phalcon\Db\Exception as DbException;
+use DirectoryIterator;
 use Phalcon\Script\Color;
-use Phalcon\Version\ItemCollection as VersionCollection;
-use Phalcon\Version\IncrementalItem as IncrementalVersion;
+use Phalcon\Db\AdapterInterface;
 use Phalcon\Version\ItemInterface;
+use Phalcon\Script\ScriptException;
+use Phalcon\Db\Exception as DbException;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Mvc\Model\Exception as ModelException;
-use Phalcon\Script\ScriptException;
-use DirectoryIterator;
+use Phalcon\Version\ItemCollection as VersionCollection;
+use Phalcon\Version\IncrementalItem as IncrementalVersion;
 
 /**
  * Migrations Class
@@ -255,7 +254,7 @@ class Migrations
 
             $migrationStartTime = date('"Y-m-d H:i:s"');
             if ($tableName == 'all') {
-                $iterator = new \DirectoryIterator(
+                $iterator = new DirectoryIterator(
                     $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion()
                 );
                 foreach ($iterator as $fileInfo) {
