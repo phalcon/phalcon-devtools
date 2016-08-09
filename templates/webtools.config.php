@@ -27,7 +27,8 @@
  *          192.168.0.1 or SUBNET 192., 10.0.2., 86.84.124.
  */
 defined('PTOOLS_IP') || define('PTOOLS_IP', '192.168.');
-defined('APP_PATH') || define('APP_PATH', realpath('..'));
+defined('BASE_PATH') || define('BASE_PATH', realpath('..'));
+defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
 
