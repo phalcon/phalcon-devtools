@@ -34,17 +34,17 @@ Create the composer.json file as follows:
 ```json
 {
     "require": {
-        "phalcon/devtools": "dev-master"
+        "phalcon/devtools": "~3.0.0"
     }
 }
 ```
 
-If you are still using Phalcon 1.3.x, create a composer.json with the following instead:
+If you are still using Phalcon 2.0.x, create a `composer.json` with the following instead:
 
 ```json
 {
     "require": {
-        "phalcon/devtools": "1.3.*@dev"
+        "phalcon/devtools": "^2.0"
     }
 }
 ```
@@ -84,7 +84,7 @@ cd phalcon-devtools
 ```
 
 This method requires a little bit more of setup. Probably the best way would be to symlink
-the phalcon.php to a directory in your PATH, so you can issue phalcon commands in each directory
+the `phalcon.php` to a directory in your `PATH`, so you can issue phalcon commands in each directory
 where a phalcon project resides.
 
 ```bash
@@ -120,28 +120,6 @@ Available commands:
   scaffold         (alias of: create-scaffold)
   migration        (alias of: create-migration)
   webtools         (alias of: create-webtools)
-```
-
-## Update WebTools from old version
-
-Please remove manually directories:
-
-* `public/css/bootstrap`
-* `public/css/codemirror`
-* `public/js/bootstrap`
-* `public/img/bootstrap`
-* `public/js/codemirror`
-* `public/js/jquery`
-
-and files:
-
-* `public/webtools.config.php`
-* `public/webtools.php`
-
-and just run form your project root:
-
-```bash
-$ phalcon webtools --action=enable
 ```
 
 ## Database adapter
