@@ -373,7 +373,7 @@ class Migration
             $classData .= $snippet->getMigrationDefinition('options', $optionsDefinition);
         }
 
-        $classData .= "            )\n        );\n    }\n";
+        $classData .= "            ]\n        );\n    }\n";
 
         // up()
         $classData .= $snippet->getMigrationUp();
