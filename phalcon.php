@@ -19,8 +19,6 @@
   +------------------------------------------------------------------------+
 */
 
-error_reporting(E_ALL);
-
 use Phalcon\Script;
 use Phalcon\Loader;
 use Phalcon\Version;
