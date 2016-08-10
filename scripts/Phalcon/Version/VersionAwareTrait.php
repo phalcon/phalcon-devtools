@@ -13,40 +13,41 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Ivan Zinovyev <vanyazin@gmail.com>                            |
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Version;
 
 /**
- * Interface VersionItemInterface.
- * Common interface to manipulate version items.
+ * \Phalcon\Version\VersionAwareTrait
+ *
+ * @property string $_version
  *
  * @package   Phalcon\Version
  * @copyright Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
  * @license   New BSD License
  */
-interface ItemInterface
+trait VersionAwareTrait
 {
     /**
-     * Get integer payload of the version
+     * Get the string representation of the version
      *
-     * @return integer
+     * @return string
      */
-    public function getStamp();
+    public function getVersion()
+    {
+        return $this->_version;
+    }
 
     /**
      * Get the string representation of the version
      *
      * @return string
      */
-    public function getVersion();
-
-    /**
-     * Get the string representation of the version
-     *
-     * @return string
-     */
-    public function __toString();
+    public function __toString()
+    {
+        return $this->getVersion();
+    }
 }

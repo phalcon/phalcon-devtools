@@ -5,12 +5,14 @@ use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
 
-define('APP_PATH', realpath(__DIR__));
+define('BASE_PATH', dirname(__DIR__));
+define('APP_PATH', BASE_PATH . '/app');
 
 try {
 
     /**
-     * The FactoryDefault Dependency Injector automatically registers the right services to provide a full stack framework
+     * The FactoryDefault Dependency Injector automatically registers the services that
+     * provide a full stack framework. These default services can be overidden with custom ones.
      */
     $di = new FactoryDefault();
 
@@ -20,9 +22,19 @@ try {
     require APP_PATH . '/config/services.php';
 
     /**
-     * Include web specific services
+     * Include web environment specific services
      */
     require APP_PATH . '/config/services_web.php';
+
+    /**
+     * Get config service for use in inline setup below
+     */
+    $config = $di->getConfig();
+
+    /**
+     * Include Autoloader
+     */
+    include APP_PATH . '/config/loader.php';
 
     /**
      * Handle the request
@@ -33,10 +45,7 @@ try {
      * Register application modules
      */
     $application->registerModules([
-        'frontend' => [
-            'className' => '@@namespace@@\Modules\Frontend\Module',
-            'path' => APP_PATH . '/modules/frontend/Module.php'
-        ],
+        'frontend' => ['className' => '@@namespace@@\Modules\Frontend\Module'],
     ]);
 
     /**

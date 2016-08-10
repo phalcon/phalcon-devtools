@@ -1,5 +1,8 @@
 <?php
 
+defined('BASE_PATH') || define('BASE_PATH', realpath('../..'));
+defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
+
 return new \Phalcon\Config([
     'version' => '1.0',
 
@@ -13,8 +16,10 @@ return new \Phalcon\Config([
     ],
 
     'application' => [
+        'appDir'         => APP_PATH . '/',
         'modelsDir'      => APP_PATH . '/common/models/',
         'migrationsDir'  => APP_PATH . '/migrations/',
+        'cacheDir'       => BASE_PATH . '/cache/',
         'baseUri'        => '/@@name@@/'
     ],
 

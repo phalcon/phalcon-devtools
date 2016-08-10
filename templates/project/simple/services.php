@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
@@ -12,20 +13,6 @@ use Phalcon\Flash\Direct as Flash;
  */
 $di->setShared('config', function () {
     return @@configLoader@@;
-});
-
-/**
- * Shared loader service
- */
-$di->setShared('loader', function () {
-    $config = $this->getConfig();
-
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/app/config/loader.php';
-
-    return $loader;
 });
 
 /**
@@ -47,13 +34,14 @@ $di->setShared('view', function () {
     $config = $this->getConfig();
 
     $view = new View();
+    $view->setDI($this);
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt' => function ($view, $di) {
+        '.volt' => function ($view) {
             $config = $this->getConfig();
 
-            $volt = new VoltEngine($view, $di);
+            $volt = new VoltEngine($view, $this);
 
             $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,
@@ -62,7 +50,8 @@ $di->setShared('view', function () {
 
             return $volt;
         },
-        '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
+        '.phtml' => PhpEngine::class
+
     ]);
 
     return $view;
@@ -74,14 +63,18 @@ $di->setShared('view', function () {
 $di->setShared('db', function () {
     $config = $this->getConfig();
 
-    $dbConfig = $config->database->toArray();
-    $adapter = $dbConfig['adapter'];
-    unset($dbConfig['adapter']);
+    $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
+    $connection = new $class([
+        'host'     => $config->database->host,
+        'username' => $config->database->username,
+        'password' => $config->database->password,
+        'dbname'   => $config->database->dbname,
+        'charset'  => $config->database->charset
+    ]);
 
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
-
-    return new $class($dbConfig);
+    return $connection;
 });
+
 
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise

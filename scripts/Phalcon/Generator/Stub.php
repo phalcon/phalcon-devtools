@@ -111,7 +111,7 @@ class Stub
      */
     protected function _exportDefinition(\ReflectionClass $reflectionClass)
     {
-        $definition = array($this->_removeNamespace($reflectionClass));
+        $definition = [$this->_removeNamespace($reflectionClass)];
 
         if ($reflectionClass->isInterface()) {
             array_unshift($definition, 'interface');
@@ -160,7 +160,7 @@ class Stub
     protected function _exportClassConstants(\ReflectionClass $reflectionClass)
     {
         $constants = $reflectionClass->getConstants();
-        $all = array();
+        $all = [];
 
         if (!empty($constants)) {
             foreach ($constants as $name => $value) {
@@ -190,7 +190,7 @@ class Stub
         $output = '';
 
         foreach ($properties as $property) {
-            $doc = array("\t/**");
+            $doc = ["\t/**"];
             if ($property->isStatic()) {
                 $doc[] = sprintf("\t * @static");
             }
@@ -198,7 +198,7 @@ class Stub
             $doc[] = "\t */\n";
             $output .= implode("\n", $doc);
 
-            $var = array();
+            $var = [];
             if ($property->isPrivate()) {
                 $var[] = 'private';
             } elseif ($property->isProtected()) {
@@ -233,8 +233,8 @@ class Stub
         $output = '';
 
         foreach ($methods as $method) {
-            $doc = array("\t/**");
-            $func = array();
+            $doc = ["\t/**"];
+            $func = [];
 
             if ($method->isFinal()) {
                 $doc[] = sprintf("\t * @final");
@@ -256,7 +256,7 @@ class Stub
 
             $func[] = 'function';
 
-            $params = array();
+            $params = [];
 
             foreach ($method->getParameters() as $parameter) {
                 $name = $parameter->getName();
@@ -304,9 +304,9 @@ class Stub
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir), \RecursiveIteratorIterator::CHILD_FIRST);
 
         foreach ($iterator as $path) {
-            if ($path->isDir() && !in_array($path->getFileName(), array('.', '..'))) {
+            if ($path->isDir() && !in_array($path->getFileName(), ['.', '..'])) {
                 rmdir($path->getPathName());
-            } elseif ($path->isFile() && !in_array($path->getFileName(), array('.', '..'))) {
+            } elseif ($path->isFile() && !in_array($path->getFileName(), ['.', '..'])) {
                 unlink($path->getPathName());
             }
         }

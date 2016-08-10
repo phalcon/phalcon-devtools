@@ -2,6 +2,8 @@
 
 use Phalcon\Loader;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
+use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+
 
 /**
  * Shared configuration service
@@ -11,32 +13,21 @@ $di->setShared('config', function () {
 });
 
 /**
- * Shared configuration service
- */
-$di->setShared('loader', function () {
-    $config = $this->getConfig();
-
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/config/loader.php';
-
-    return $loader;
-});
-
-/**
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->setShared('db', function () {
     $config = $this->getConfig();
 
-    $dbConfig = $config->database->toArray();
-    $adapter = $dbConfig['adapter'];
-    unset($dbConfig['adapter']);
+    $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
+    $connection = new $class([
+        'host'     => $config->database->host,
+        'username' => $config->database->username,
+        'password' => $config->database->password,
+        'dbname'   => $config->database->dbname,
+        'charset'  => $config->database->charset
+    ]);
 
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
-
-    return new $class($dbConfig);
+    return $connection;
 });
 
 /**
@@ -44,4 +35,27 @@ $di->setShared('db', function () {
  */
 $di->setShared('modelsMetadata', function () {
     return new MetaDataAdapter();
+});
+
+/**
+ * Configure the Volt service for rendering .volt templates
+ */
+$di->setShared('voltShared', function ($view) {
+    $config = $this->getConfig();
+
+    $volt = new VoltEngine($view, $this);
+    $volt->setOptions([
+        'compiledPath' => function($templatePath) use ($config) {
+
+            // Makes the view path into a portable fragment
+            $templateFrag = str_replace($config->application->appDir, '', $templatePath);
+
+            // Replace '/' with a safe '%%'
+            $templateFrag = str_replace('/', '%%', $templateFrag);
+
+            return $config->application->cacheDir . 'volt/' . $templateFrag . '.php';
+        }
+    ]);
+
+    return $volt;
 });

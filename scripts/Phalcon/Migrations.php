@@ -257,7 +257,7 @@ class Migrations
 
             $migrationStartTime = date("'Y-m-d H:i:s'");
             if ($tableName == 'all') {
-                $iterator = new \DirectoryIterator(
+                $iterator = new DirectoryIterator(
                     $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion()
                 );
                 foreach ($iterator as $fileInfo) {

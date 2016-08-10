@@ -40,6 +40,7 @@ class Cli extends ProjectBuilder
         'app',
         'app/config',
         'app/tasks',
+        'app/models',
         '.phalcon',
     ];
 
@@ -74,8 +75,8 @@ class Cli extends ProjectBuilder
      */
     private function createBootstrapFiles()
     {
-        $getFile = $this->options->get('templatePath') . '/project/cli/cli.php';
-        $putFile = $this->options->get('projectPath') . 'app/cli.php';
+        $getFile = $this->options->get('templatePath') . '/project/cli/bootstrap.php';
+        $putFile = $this->options->get('projectPath') . 'app/bootstrap.php';
         $this->generateFile($getFile, $putFile);
 
         return $this;

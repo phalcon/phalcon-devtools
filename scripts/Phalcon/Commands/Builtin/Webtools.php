@@ -41,9 +41,9 @@ class Webtools extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'action=s' => 'Enables/Disables webtools in a project [enable|disable]'
-        );
+        ];
     }
 
     /**
@@ -55,7 +55,7 @@ class Webtools extends Command
      */
     public function run(array $parameters)
     {
-        $action = $this->getOption(array('action', 1));
+        $action = $this->getOption(['action', 1]);
         $directory = './';
 
         if ($action == 'enable') {
@@ -86,7 +86,7 @@ class Webtools extends Command
      */
     public function getCommands()
     {
-        return array('webtools', 'create-webtools');
+        return ['webtools', 'create-webtools'];
     }
 
     /**
