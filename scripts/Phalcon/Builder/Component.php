@@ -52,7 +52,7 @@ abstract class Component
      *
      * @param array $options Builder options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         $this->options = new Options($options);
         $this->path = new Path(realpath('.') . DIRECTORY_SEPARATOR);
@@ -62,14 +62,14 @@ abstract class Component
     {
         $validation = new Validation();
 
-        $validation->add('namespace', new Namespaces(array(
+        $validation->add('namespace', new Namespaces([
             'allowEmpty' => true
-        )));
+        ]));
 
-        $messages = $validation->validate(array('namespace' => $namespace));
+        $messages = $validation->validate(['namespace' => $namespace]);
 
         if (count($messages)) {
-            $errors = array();
+            $errors = [];
             foreach ($messages as $message) {
                 $errors[] = $message->getMessage();
             }

@@ -21,17 +21,19 @@
 
 namespace Phalcon;
 
+use DirectoryIterator;
 use Phalcon\Db\Adapter;
 use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Column;
 use Phalcon\Db\Exception as DbException;
-use Phalcon\Script\Color;
-use Phalcon\Version\ItemCollection as VersionCollection;
-use Phalcon\Version\IncrementalItem as IncrementalVersion;
-use Phalcon\Version\ItemInterface;
-use Phalcon\Mvc\Model\Migration as ModelMigration;
+use Phalcon\Db\Index;
 use Phalcon\Mvc\Model\Exception as ModelException;
+use Phalcon\Mvc\Model\Migration as ModelMigration;
+use Phalcon\Script\Color;
 use Phalcon\Script\ScriptException;
-use DirectoryIterator;
+use Phalcon\Version\IncrementalItem as IncrementalVersion;
+use Phalcon\Version\ItemCollection as VersionCollection;
+use Phalcon\Version\ItemInterface;
 
 /**
  * Migrations Class
@@ -41,13 +43,13 @@ use DirectoryIterator;
 class Migrations
 {
     /**
-     * @const string
+     * @var string migrations log table name
      */
-    const MIGRATION_LOG_TABLE = 'phalcon_migrations';
+    public static $migration_log_table = 'phalcon_migrations';
 
     /**
      * Filename or db connection to store migrations log
-     * @var mixed
+     * @var mixed|Adapter\Pdo
      */
     private static $_storage;
 
@@ -253,7 +255,7 @@ class Migrations
                 break;
             }
 
-            $migrationStartTime = date('"Y-m-d H:i:s"');
+            $migrationStartTime = date("'Y-m-d H:i:s'");
             if ($tableName == 'all') {
                 $iterator = new \DirectoryIterator(
                     $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion()
@@ -400,7 +402,35 @@ class Migrations
             }
 
             if (!self::$_storage->tableExists('phalcon_migrations')) {
-                self::$_storage->execute("CREATE TABLE `phalcon_migrations` (`version` VARCHAR(255), `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' NOT NULL)");
+                self::$_storage->createTable(self::$migration_log_table, null, [
+                    'columns' => [
+                        new Column(
+                            'version',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 255,
+                                'notNull' => true,
+                            ]
+                        ),
+                        new Column(
+                            'start_time',
+                            [
+                                'type' => Column::TYPE_TIMESTAMP,
+                                'notNull' => true,
+                                'default' => 'CURRENT_TIMESTAMP',
+                            ]
+                        ),
+                        new Column(
+                            'end_time',
+                            [
+                                'type' => 'TIMESTAMP NOT NULL DEFAULT NOW()',
+                            ]
+                        )
+                    ],
+                    'indexes' => [
+                        new Index('idx_' . self::$migration_log_table . '_version', ['version'])
+                    ]
+                ]);
             }
 
         } else {
@@ -416,6 +446,10 @@ class Migrations
             }
 
             self::$_storage = $path . '.phalcon/migration-version';
+
+            if (!file_exists(self::$_storage)) {
+                touch(self::$_storage);
+            }
         }
     }
 
@@ -432,7 +466,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $lastGoodMigration = $connection->query('SELECT * FROM `phalcon_migrations` ORDER BY `version` DESC LIMIT 1');
+            $lastGoodMigration = $connection->query('SELECT * FROM phalcon_migrations ORDER BY version DESC LIMIT 1');
             if (0 == $lastGoodMigration->numRows()) {
                 return VersionCollection::createItem(null);
             } else {
@@ -463,14 +497,14 @@ class Migrations
         self::connectionSetup($options);
 
         if ($startTime === null) {
-            $startTime = date('"Y-m-d H:i:s"');
+            $startTime = date("'Y-m-d H:i:s'");
         }
-        $endTime = date('"Y-m-d H:i:s"');
+        $endTime = date("'Y-m-d H:i:s'");
 
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $connection->execute('INSERT INTO `phalcon_migrations` (`version`, `start_time`, `end_time`) VALUES ("' . $version . '", ' . $startTime . ', ' . $endTime . ')');
+            $connection->insert(self::$migration_log_table, [$version, $startTime, $endTime], ['version', 'start_time', 'end_time']);
         } else {
             $currentVersions = self::getCompletedVersions($options);
             $currentVersions[(string)$version] = 1;
@@ -493,7 +527,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $connection->execute('DELETE FROM `phalcon_migrations` WHERE version="' . $version . '" LIMIT 1');
+            $connection->execute('DELETE FROM phalcon_migrations WHERE version=\'' . $version . '\' LIMIT 1');
         } else {
             $currentVersions = self::getCompletedVersions($options);
             unset($currentVersions[(string)$version]);
@@ -516,12 +550,12 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $completedVersions = $connection->query('SELECT `version` FROM `phalcon_migrations` ORDER BY `version` DESC')->fetchAll();
+            $completedVersions = $connection->query('SELECT version FROM phalcon_migrations ORDER BY version DESC')->fetchAll();
             $completedVersions = array_map(function ($version) {
                 return $version['version'];
             }, $completedVersions);
         } else {
-            $completedVersions = file(self::$_storage);
+            $completedVersions = file(self::$_storage, FILE_IGNORE_NEW_LINES);
         }
 
         return array_flip($completedVersions);

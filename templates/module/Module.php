@@ -36,11 +36,6 @@ class Module implements ModuleDefinitionInterface
     public function registerServices(DiInterface $di)
     {
         /**
-         * Read common configuration
-         */
-         $config = $di->has('config') ? $di->getShared('config') : null;
-
-        /**
          * Try to load local configuration
          */
         if (file_exists(@@configName@@)) {
@@ -56,7 +51,9 @@ class Module implements ModuleDefinitionInterface
         /**
          * Setting up the view component
          */
-        $di['view'] = function () use ($config) {
+        $di['view'] = function () {
+            $config = $this->getConfig();
+
             $view = new View();
             $view->setViewsDir($config->get('application')->viewsDir);
 
@@ -66,13 +63,15 @@ class Module implements ModuleDefinitionInterface
         /**
          * Database connection is created based in the parameters defined in the configuration file
          */
-        $di['db'] = function () use ($config) {
-            $config = $config->database->toArray();
+        $di['db'] = function () {
+            $config = $this->getConfig();
 
-            $dbAdapter = '\Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
+            $dbConfig = $config->database->toArray();
+
+            $dbAdapter = '\Phalcon\Db\Adapter\Pdo\\' . $dbConfig['adapter'];
             unset($config['adapter']);
 
-            return new $dbAdapter($config);
+            return new $dbAdapter($dbConfig);
         };
     }
 }

@@ -36,12 +36,12 @@ class Cli extends ProjectBuilder
      * Project directories
      * @var array
      */
-    protected $projectDirectories = array(
+    protected $projectDirectories = [
         'app',
         'app/config',
         'app/tasks',
         '.phalcon',
-    );
+    ];
 
     /**
      * Creates the configuration
