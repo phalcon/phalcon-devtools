@@ -116,7 +116,7 @@ class Migrations
         if (!file_exists($migrationPath)) {
             mkdir($migrationPath);
         } elseif (!$force) {
-            throw new \InvalidArgumentException('Version ' . $versionItem->getVersion() . ' already exists');
+            throw new \LogicException('Version ' . $versionItem->getVersion() . ' already exists');
         }
 
         // Try to connect to the DB
