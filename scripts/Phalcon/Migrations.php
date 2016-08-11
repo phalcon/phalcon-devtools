@@ -21,19 +21,19 @@
 
 namespace Phalcon;
 
-use DirectoryIterator;
-use Phalcon\Db\Adapter;
-use Phalcon\Db\AdapterInterface;
-use Phalcon\Db\Column;
-use Phalcon\Db\Exception as DbException;
 use Phalcon\Db\Index;
+use DirectoryIterator;
+use Phalcon\Db\Column;
+use Phalcon\Db\Adapter;
+use Phalcon\Script\Color;
+use Phalcon\Db\AdapterInterface;
+use Phalcon\Version\ItemInterface;
+use Phalcon\Script\ScriptException;
+use Phalcon\Db\Exception as DbException;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
-use Phalcon\Script\Color;
-use Phalcon\Script\ScriptException;
 use Phalcon\Version\IncrementalItem as IncrementalVersion;
 use Phalcon\Version\ItemCollection as VersionCollection;
-use Phalcon\Version\ItemInterface;
 
 /**
  * Migrations Class
@@ -42,10 +42,7 @@ use Phalcon\Version\ItemInterface;
  */
 class Migrations
 {
-    /**
-     * @var string migrations log table name
-     */
-    public static $migration_log_table = 'phalcon_migrations';
+    const MIGRATION_LOG_TABLE = 'phalcon_migrations';
 
     /**
      * Filename or db connection to store migrations log
@@ -402,7 +399,7 @@ class Migrations
             }
 
             if (!self::$_storage->tableExists('phalcon_migrations')) {
-                self::$_storage->createTable(self::$migration_log_table, null, [
+                self::$_storage->createTable(self::MIGRATION_LOG_TABLE, null, [
                     'columns' => [
                         new Column(
                             'version',
@@ -428,7 +425,7 @@ class Migrations
                         )
                     ],
                     'indexes' => [
-                        new Index('idx_' . self::$migration_log_table . '_version', ['version'])
+                        new Index('idx_' . self::MIGRATION_LOG_TABLE . '_version', ['version'])
                     ]
                 ]);
             }
@@ -504,7 +501,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $connection->insert(self::$migration_log_table, [$version, $startTime, $endTime], ['version', 'start_time', 'end_time']);
+            $connection->insert(self::MIGRATION_LOG_TABLE, [$version, $startTime, $endTime], ['version', 'start_time', 'end_time']);
         } else {
             $currentVersions = self::getCompletedVersions($options);
             $currentVersions[(string)$version] = 1;
