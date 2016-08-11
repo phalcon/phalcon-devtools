@@ -220,7 +220,7 @@ class Model extends Component
             $schema = Utils::resolveDbSchema($config->database);
         }
 
-        if ($schema && $schema != $config->database->dbname) {
+        if ($schema) {
             $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
         }
 
