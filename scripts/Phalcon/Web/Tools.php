@@ -302,8 +302,7 @@ class Tools
 
             $di->setShared('config', $config);
 
-            $di->setShared('url', function () {
-                $config = $this->getConfig();
+            $di->setShared('url', function () use ($config) {
 
                 $url = new Url();
 
@@ -329,8 +328,7 @@ class Tools
                 ]);
             });
 
-            $di->setShared('db', function () {
-                $config = $this->getConfig();
+            $di->setShared('db', function () use ($config) {
 
                 if (isset($config->database->adapter)) {
                     $adapter = $config->database->adapter;
