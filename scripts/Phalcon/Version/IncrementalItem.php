@@ -200,7 +200,8 @@ class IncrementalItem implements ItemInterface
             }
         }
 
-        return join('.', array_reverse($parts));
+        $this->_version = join('.', array_reverse($parts));
+		    return $this;
     }
 
     /**
