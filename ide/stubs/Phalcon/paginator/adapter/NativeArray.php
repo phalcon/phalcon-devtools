@@ -6,18 +6,19 @@ namespace Phalcon\Paginator\Adapter;
  * Phalcon\Paginator\Adapter\NativeArray
  * Pagination using a PHP array as source of data
  * <code>
- * $paginator = new \Phalcon\Paginator\Adapter\NativeArray(
- * array(
- * "data"  => array(
- * array('id' => 1, 'name' => 'Artichoke'),
- * array('id' => 2, 'name' => 'Carrots'),
- * array('id' => 3, 'name' => 'Beet'),
- * array('id' => 4, 'name' => 'Lettuce'),
- * array('id' => 5, 'name' => '')
- * ),
- * "limit" => 2,
- * "page"  => $currentPage
- * )
+ * use Phalcon\Paginator\Adapter\NativeArray;
+ * $paginator = new NativeArray(
+ * [
+ * 'data'  => array(
+ * ['id' => 1, 'name' => 'Artichoke'],
+ * ['id' => 2, 'name' => 'Carrots'],
+ * ['id' => 3, 'name' => 'Beet'],
+ * ['id' => 4, 'name' => 'Lettuce'],
+ * ['id' => 5, 'name' => '']
+ * ],
+ * 'limit' => 2,
+ * 'page'  => $currentPage,
+ * ]
  * );
  * </code>
  */

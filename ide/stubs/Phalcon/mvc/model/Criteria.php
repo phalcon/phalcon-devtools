@@ -9,11 +9,11 @@ namespace Phalcon\Mvc\Model;
  * using an object-oriented interface.
  * <code>
  * $robots = Robots::query()
- * ->where("type = :type:")
- * ->andWhere("year < 2000")
- * ->bind(array("type" => "mechanical"))
+ * ->where('type = :type:')
+ * ->andWhere('year < 2000')
+ * ->bind(['type' => 'mechanical'])
  * ->limit(5, 10)
- * ->orderBy("name")
+ * ->orderBy('name')
  * ->execute();
  * </code>
  */

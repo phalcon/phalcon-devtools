@@ -26,24 +26,24 @@ class Console extends \Phalcon\Application
      * ));
      * </code>
      *
-     * @param array $modules
+     * @param array $modules 
      */
     public function addModules(array $modules) {}
 
     /**
      * Handle the whole command-line tasks
      *
-     * @param array $arguments
+     * @param array $arguments 
      */
     public function handle(array $arguments = null) {}
 
     /**
      * Set an specific argument
      *
-     * @param array $arguments
-     * @param bool $str
-     * @param bool $shift
-     * @return Console
+     * @param array $arguments 
+     * @param bool $str 
+     * @param bool $shift 
+     * @return Console 
      */
     public function setArgument(array $arguments = null, $str = true, $shift = true) {}
 

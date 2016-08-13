@@ -206,6 +206,18 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     public function setModelSource(\Phalcon\Mvc\ModelInterface $model, $source) {}
 
     /**
+     * Check whether a model property is declared as public.
+     * <code>
+     * $isPublic = $manager->isVisibleModelProperty(new Robots(), 'name');
+     * </code>
+     *
+     * @param mixed $model 
+     * @param string $property 
+     * @return bool 
+     */
+    public final function isVisibleModelProperty(\Phalcon\Mvc\ModelInterface $model, $property) {}
+
+    /**
      * Returns the mapped source for a model
      *
      * @param mixed $model 

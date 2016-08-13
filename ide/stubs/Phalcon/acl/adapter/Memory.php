@@ -285,14 +285,14 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Return an array with every role registered in the list
      *
-     * @return Role[] 
+     * @return RoleInterface[] 
      */
     public function getRoles() {}
 
     /**
      * Return an array with every resource registered in the list
      *
-     * @return Resource[] 
+     * @return ResourceInterface[] 
      */
     public function getResources() {}
 
