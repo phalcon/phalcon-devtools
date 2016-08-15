@@ -28,7 +28,7 @@
  */
 defined('PTOOLS_IP') || define('PTOOLS_IP', '192.168.');
 defined('BASE_PATH') || define('BASE_PATH', realpath('..'));
-defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
+defined('APP_PATH') || define('APP_PATH', BASE_PATH . DIRECTORY_SEPARATOR . 'app');
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
 
