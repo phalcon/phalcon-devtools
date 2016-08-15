@@ -302,9 +302,7 @@ class Tools
 
             $di->setShared('config', $config);
 
-            $di->setShared('url', function () {
-                $config = $this->getConfig();
-
+            $di->setShared('url', function () use ($config) {
                 $url = new Url();
 
                 if (isset($config->application->baseUri)) {
@@ -329,9 +327,7 @@ class Tools
                 ]);
             });
 
-            $di->setShared('db', function () {
-                $config = $this->getConfig();
-
+            $di->setShared('db', function () use ($config) {
                 if (isset($config->database->adapter)) {
                     $adapter = $config->database->adapter;
                 } else {
@@ -399,10 +395,10 @@ class Tools
         $jQuery = new JQuery();
         $jQuery->install($path);
 
-        copy($tools . '/webtools.php', $path . 'public/webtools.php');
+        copy($tools . DIRECTORY_SEPARATOR . 'webtools.php', $path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
 
         if (!file_exists($configPath = $path . 'public/webtools.config.php')) {
-            $template = file_get_contents(TEMPLATE_PATH . '/webtools.config.php');
+            $template = file_get_contents(TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'webtools.config.php');
             $code = str_replace('@@PATH@@', $tools, $template);
 
             file_put_contents($configPath, $code);
@@ -426,7 +422,7 @@ class Tools
             $path = str_replace("\\", '/', $path);
         }
 
-        if (!is_dir($path . 'public/')) {
+        if (!is_dir($path . 'public')) {
             throw new \Exception('Document root cannot be located');
         }
 
@@ -441,12 +437,12 @@ class Tools
         $jQuery->uninstall($path);
 
 
-        if (is_file($path . 'public/webtools.config.php')) {
-            unlink($path . 'public/webtools.config.php');
+        if (is_file($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.config.php')) {
+            unlink($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.config.php');
         }
 
-        if (is_file($path . 'public/webtools.php')) {
-            unlink($path . 'public/webtools.php');
+        if (is_file($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php')) {
+            unlink($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
         }
 
         return true;
