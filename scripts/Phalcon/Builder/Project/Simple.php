@@ -43,6 +43,7 @@ class Simple extends ProjectBuilder
         'app/config',
         'app/models',
         'app/controllers',
+        'app/library',
         'app/migrations',
         'app/views/index',
         'app/views/layouts',
