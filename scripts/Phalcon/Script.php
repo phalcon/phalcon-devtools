@@ -41,7 +41,7 @@ class Script
      */
     const COMPATIBLE_VERSION = 3000040;
 
-    const DOC_DOWNLOAD_URL = 'http://phalconphp.com/download';
+    const DOC_DOWNLOAD_URL = 'https://phalconphp.com/download';
 
     /**
      * Events Manager
