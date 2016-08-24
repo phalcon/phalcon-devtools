@@ -4,14 +4,15 @@ namespace Phalcon\Paginator\Adapter;
 
 /**
  * Phalcon\Paginator\Adapter\Model
- * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base
+ * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base.
  * <code>
- * $paginator = new \Phalcon\Paginator\Adapter\Model(
- * array(
- * "data"  => Robots::find(),
- * "limit" => 25,
- * "page"  => $currentPage
- * )
+ * use Phalcon\Paginator\Adapter\Model;
+ * $paginator = new Model(
+ * [
+ * 'data'  => Robots::find(),
+ * 'limit' => 25,
+ * 'page'  => $currentPage
+ * ]
  * );
  * $paginate = $paginator->getPaginate();
  * </code>
@@ -34,7 +35,7 @@ class Model extends \Phalcon\Paginator\Adapter implements \Phalcon\Paginator\Ada
     /**
      * Returns a slice of the resultset to show in the pagination
      *
-     * @return \stdclass 
+     * @return \stdClass 
      */
     public function getPaginate() {}
 

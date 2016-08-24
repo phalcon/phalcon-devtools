@@ -161,7 +161,7 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
     public function getConnection(\Phalcon\Mvc\CollectionInterface $model) {}
 
     /**
-     * Receives events generated in the models and dispatches them to a events-manager if available
+     * Receives events generated in the models and dispatches them to an events-manager if available
      * Notify the behaviors that are listening in the model
      *
      * @param string $eventName 
@@ -170,9 +170,9 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
     public function notifyEvent($eventName, \Phalcon\Mvc\CollectionInterface $model) {}
 
     /**
-     * Dispatch a event to the listeners and behaviors
+     * Dispatch an event to the listeners and behaviors
      * This method expects that the endpoint listeners/behaviors returns true
-     * meaning that a least one was implemented
+     * meaning that at least one was implemented
      *
      * @param mixed $model 
      * @param string $eventName 

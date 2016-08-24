@@ -55,7 +55,7 @@ interface BuilderInterface
     public function getFrom();
 
     /**
-     * Adds a INNER join to the query
+     * Adds an INNER join to the query
      *
      * @param string $model 
      * @param string $conditions 
@@ -65,7 +65,7 @@ interface BuilderInterface
     public function join($model, $conditions = null, $alias = null);
 
     /**
-     * Adds a INNER join to the query
+     * Adds an INNER join to the query
      *
      * @param string $model 
      * @param string $conditions 
@@ -123,7 +123,7 @@ interface BuilderInterface
     public function andWhere($conditions, $bindParams = null, $bindTypes = null);
 
     /**
-     * Appends a condition to the current conditions using a OR operator
+     * Appends a condition to the current conditions using an OR operator
      *
      * @param string $conditions 
      * @param array $bindParams 
@@ -182,7 +182,7 @@ interface BuilderInterface
     public function getWhere();
 
     /**
-     * Sets a ORDER BY condition clause
+     * Sets an ORDER BY condition clause
      *
      * @param string $orderBy 
      * @return \Phalcon\Mvc\Model\Query\BuilderInterface 

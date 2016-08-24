@@ -90,7 +90,7 @@ class Collection implements \Countable, \Iterator
     public function add(\Phalcon\Assets\Resource $resource) {}
 
     /**
-     * Adds a inline code to the collection
+     * Adds an inline code to the collection
      *
      * @param mixed $code 
      * @return Collection 
@@ -109,7 +109,7 @@ class Collection implements \Countable, \Iterator
     public function addCss($path, $local = null, $filter = true, $attributes = null) {}
 
     /**
-     * Adds a inline CSS to the collection
+     * Adds an inline CSS to the collection
      *
      * @param string $content 
      * @param bool $filter 
@@ -130,7 +130,7 @@ class Collection implements \Countable, \Iterator
     public function addJs($path, $local = null, $filter = true, $attributes = null) {}
 
     /**
-     * Adds a inline javascript to the collection
+     * Adds an inline javascript to the collection
      *
      * @param string $content 
      * @param bool $filter 

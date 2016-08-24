@@ -81,7 +81,7 @@ class Gettext extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\A
      * @param string $msgid1 
      * @param string $msgid2 
      * @param int $count 
-     * @param array $placeholders 
+     * @param mixed $placeholders 
      * @param string $domain 
      * @return string 
      */
@@ -113,11 +113,11 @@ class Gettext extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\A
      * Sets the path for a domain
      * <code>
      * // Set the directory path
-     * $gettext->setDirectory("/path/to/the/messages");
+     * $gettext->setDirectory('/path/to/the/messages');
      * // Set the domains and directories path
      * $gettext->setDirectory([
-     * "messages" => "/path/to/the/messages",
-     * "another" => "/path/to/the/another"
+     * 'messages' => '/path/to/the/messages',
+     * 'another'  => '/path/to/the/another'
      * ]);
      * </code>
      *
@@ -152,6 +152,6 @@ class Gettext extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\A
      *
      * @return array 
      */
-    private function getOptionsDefault() {}
+    protected function getOptionsDefault() {}
 
 }

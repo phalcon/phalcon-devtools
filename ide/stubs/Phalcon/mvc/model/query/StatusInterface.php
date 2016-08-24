@@ -17,9 +17,9 @@ interface StatusInterface
     public function getModel();
 
     /**
-     * Returns the messages produced by a operation failed
+     * Returns the messages produced by an operation failed
      *
-     * @return \Phalcon\Mvc\Model\MessageInterface[] 
+     * @return MessageInterface[] 
      */
     public function getMessages();
 
