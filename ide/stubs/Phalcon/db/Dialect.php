@@ -113,7 +113,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
     public final function getSqlColumn($column, $escapeChar = null, $bindCounts = null) {}
 
     /**
-     * Transforms an intermediate representation for a expression into a database system valid expression
+     * Transforms an intermediate representation for an expression into a database system valid expression
      *
      * @param array $expression 
      * @param string $escapeChar 
@@ -335,7 +335,7 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
     protected final function getSqlExpressionHaving(array $expression, $escapeChar = null, $bindCounts = null) {}
 
     /**
-     * Resolve a ORDER BY clause
+     * Resolve an ORDER BY clause
      *
      * @param mixed $expression 
      * @param string $escapeChar 

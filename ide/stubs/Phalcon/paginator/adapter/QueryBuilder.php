@@ -6,15 +6,18 @@ namespace Phalcon\Paginator\Adapter;
  * Phalcon\Paginator\Adapter\QueryBuilder
  * Pagination using a PHQL query builder as source of data
  * <code>
+ * use Phalcon\Paginator\Adapter\QueryBuilder;
  * $builder = $this->modelsManager->createBuilder()
  * ->columns('id, name')
  * ->from('Robots')
  * ->orderBy('name');
- * $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
- * "builder" => $builder,
- * "limit"=> 20,
- * "page" => 1
- * ));
+ * $paginator = new QueryBuilder(
+ * [
+ * 'builder' => $builder,
+ * 'limit'   => 20,
+ * 'page'    => 1,
+ * ]
+ * );
  * </code>
  */
 class QueryBuilder extends \Phalcon\Paginator\Adapter implements \Phalcon\Paginator\AdapterInterface

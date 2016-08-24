@@ -55,7 +55,7 @@ abstract class Validator
     public function getOption($option, $defaultValue = "") {}
 
     /**
-     * Check whether a option has been defined in the validator options
+     * Check whether an option has been defined in the validator options
      *
      * @param string $option 
      * @return bool 

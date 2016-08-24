@@ -186,7 +186,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function getFrom() {}
 
     /**
-     * Adds a INNER join to the query
+     * Adds an INNER join to the query
      * <code>
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->join('Robots');
@@ -207,7 +207,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function join($model, $conditions = null, $alias = null, $type = null) {}
 
     /**
-     * Adds a INNER join to the query
+     * Adds an INNER join to the query
      * <code>
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->innerJoin('Robots');
@@ -288,7 +288,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function andWhere($conditions, $bindParams = null, $bindTypes = null) {}
 
     /**
-     * Appends a condition to the current conditions using a OR operator
+     * Appends a condition to the current conditions using an OR operator
      * <code>
      * $builder->orWhere('name = "Peter"');
      * $builder->orWhere('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
@@ -363,7 +363,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function getWhere() {}
 
     /**
-     * Sets a ORDER BY condition clause
+     * Sets an ORDER BY condition clause
      * <code>
      * $builder->orderBy('Robots.name');
      * $builder->orderBy(array('1', 'Robots.name'));
@@ -411,7 +411,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     public function getHaving() {}
 
     /**
-     * Sets a LIMIT clause, optionally a offset clause
+     * Sets a LIMIT clause, optionally an offset clause
      * <code>
      * $builder->limit(100);
      * $builder->limit(100, 20);
