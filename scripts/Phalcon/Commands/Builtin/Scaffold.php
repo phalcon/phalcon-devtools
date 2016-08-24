@@ -41,7 +41,7 @@ class Scaffold extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'table-name=s'      => 'Table used as base to generate the scaffold',
             'schema=s'          => 'Name of the schema [optional]',
             'get-set'           => 'Attributes will be protected and have setters/getters. [optional]',
@@ -52,7 +52,7 @@ class Scaffold extends Command
             'trace'             => 'Shows the trace of the framework in case of exception [optional]',
             'ns-models=s'       => "Model's namespace [optional]",
             'ns-controllers=s'  => "Controller's namespace [optional]",
-        );
+        ];
     }
 
     /**
@@ -63,12 +63,12 @@ class Scaffold extends Command
      */
     public function run(array $parameters)
     {
-        $name = $this->getOption(array('table-name', 1));
-        $templatePath = $this->getOption(array('template-path'), null, TEMPLATE_PATH);
+        $name = $this->getOption(['table-name', 1]);
+        $templatePath = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $schema = $this->getOption('schema');
-        $templateEngine = $this->getOption(array('template-engine'), null, "php");
+        $templateEngine = $this->getOption(['template-engine'], null, "php");
 
-        $scaffoldBuilder = new ScaffoldBuilder(array(
+        $scaffoldBuilder = new ScaffoldBuilder([
             'name'                 => $name,
             'schema'               => $schema,
             'force'                => $this->isReceivedOption('force'),
@@ -78,7 +78,7 @@ class Scaffold extends Command
             'templateEngine'       => $templateEngine,
             'modelsNamespace'      => $this->getOption('ns-models'),
             'controllersNamespace' => $this->getOption('ns-controllers'),
-        ));
+        ]);
 
         return $scaffoldBuilder->build();
     }
@@ -90,7 +90,7 @@ class Scaffold extends Command
      */
     public function getCommands()
     {
-        return array('scaffold', 'create-scaffold');
+        return ['scaffold', 'create-scaffold'];
     }
 
     /**

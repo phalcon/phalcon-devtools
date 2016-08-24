@@ -89,7 +89,7 @@ interface ManagerInterface
     public function getConnection(\Phalcon\Mvc\CollectionInterface $model);
 
     /**
-     * Receives events generated in the models and dispatches them to a events-manager if available
+     * Receives events generated in the models and dispatches them to an events-manager if available
      * Notify the behaviors that are listening in the model
      *
      * @param string $eventName 

@@ -6,7 +6,7 @@ return new \Phalcon\Config([
       'host'        => 'localhost',
       'username'    => 'root',
       'password'    => '',
-      'dbname'      => 'test',
+      'dbname'      => '@@name@@',
       'charset'     => 'utf8',
     ],
     'version' => '1.0',

@@ -37,16 +37,17 @@ class Simple extends ProjectBuilder
      * Project directories
      * @var array
      */
-    protected $projectDirectories = array(
+    protected $projectDirectories = [
         'app',
-        'app/cache',
         'app/views',
         'app/config',
         'app/models',
         'app/controllers',
+        'app/library',
         'app/migrations',
         'app/views/index',
         'app/views/layouts',
+        'cache',
         'public',
         'public/img',
         'public/css',
@@ -54,7 +55,7 @@ class Simple extends ProjectBuilder
         'public/files',
         'public/js',
         '.phalcon'
-    );
+    ];
 
     /**
      * Create indexController file
@@ -63,12 +64,12 @@ class Simple extends ProjectBuilder
      */
     private function createControllerFile()
     {
-        $builder = new ControllerBuilder(array(
+        $builder = new ControllerBuilder([
             'name'           => 'index',
             'directory'      => $this->options->get('projectPath') ,
             'controllersDir' => $this->options->get('projectPath')  . 'app/controllers',
             'baseClass'      => 'ControllerBase'
-        ));
+        ]);
 
         $builder->build();
 

@@ -24,6 +24,13 @@ namespace Phalcon\Config\Adapter;
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  * </code>
+ * PHP constants may also be parsed in the ini file, so if you define a constant
+ * as an ini value before calling the constructor, the constant's value will be
+ * integrated into the results. To use it this way you must specify the optional
+ * second parameter as INI_SCANNER_NORMAL when calling the constructor:
+ * <code>
+ * $config = new Phalcon\Config\Adapter\Ini("path/config-with-constants.ini", INI_SCANNER_NORMAL);
+ * </code>
  */
 class Ini extends \Phalcon\Config
 {
@@ -32,8 +39,9 @@ class Ini extends \Phalcon\Config
      * Phalcon\Config\Adapter\Ini constructor
      *
      * @param string $filePath 
+     * @param mixed $mode 
      */
-    public function __construct($filePath) {}
+    public function __construct($filePath, $mode = null) {}
 
     /**
      * Build multidimensional array from string

@@ -36,9 +36,9 @@ class ModelsController extends ControllerBase
             );
         }
 
-        $this->view->setVars(array(
+        $this->view->setVars([
             'directory' => dirname(getcwd())
-        ));
+        ]);
     }
 
     /**
@@ -63,7 +63,7 @@ class ModelsController extends ControllerBase
                     $component = '\Phalcon\Builder\AllModels';
                 }
 
-                $modelBuilder = new $component(array(
+                $modelBuilder = new $component([
                     'name'                  => $tableName,
                     'force'                 => $force,
                     'modelsDir'             => $this->modelsDir,
@@ -74,7 +74,7 @@ class ModelsController extends ControllerBase
                     'namespace'             => $namespace,
                     'schema'                => $schema,
                     'mapColumn'             => $mapColumn
-                ));
+                ]);
 
                 $modelBuilder->build();
 
@@ -107,18 +107,18 @@ class ModelsController extends ControllerBase
             }
         }
 
-        $this->dispatcher->forward(array(
+        $this->dispatcher->forward([
             'controller' => 'models',
             'action' => 'list'
-        ));
+        ]);
     }
 
     public function listAction()
     {
-        $this->view->setVars(array(
+        $this->view->setVars([
             'modelsDir' => $this->modelsDir,
             'fileOwner' => $this->fileOwner
-        ));
+        ]);
     }
 
     /**
@@ -135,10 +135,10 @@ class ModelsController extends ControllerBase
         if (!file_exists($this->modelsDir . $fileName)) {
             $this->flash->error(sprintf('Model %s could not be found.', $this->modelsDir . $fileName));
 
-            $this->dispatcher->forward(array(
+            $this->dispatcher->forward([
                 'controller' => 'models',
                 'action' => 'list'
-            ));
+            ]);
         }
 
         $this->tag->setDefault('code', file_get_contents($this->modelsDir . $fileName));
@@ -155,10 +155,10 @@ class ModelsController extends ControllerBase
             if (!file_exists($this->modelsDir . $fileName)) {
                 $this->flash->error('Model could not be found.');
 
-                $this->dispatcher->forward(array(
+                $this->dispatcher->forward([
                     'controller' => 'models',
                     'action' => 'list'
-                ));
+                ]);
 
                 return;
             }
@@ -166,10 +166,10 @@ class ModelsController extends ControllerBase
             if (!is_writable($this->modelsDir . $fileName)) {
                 $this->flash->error('Model file does not has write access.');
 
-                $this->dispatcher->forward(array(
+                $this->dispatcher->forward([
                     'controller' => 'models',
                     'action' => 'list'
-                ));
+                ]);
 
                 return;
             }
@@ -180,9 +180,9 @@ class ModelsController extends ControllerBase
             $this->flash->success($message);
         }
 
-        $this->dispatcher->forward(array(
+        $this->dispatcher->forward([
             'controller' => 'models',
             'action' => 'list'
-        ));
+        ]);
     }
 }

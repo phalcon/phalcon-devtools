@@ -33,11 +33,12 @@ class Micro extends ProjectBuilder
      * Project directories
      * @var array
      */
-    protected $projectDirectories = array(
-        'config',
-        'models',
-        'views',
-        'migrations',
+    protected $projectDirectories = [
+        'app',
+        'app/config',
+        'app/models',
+        'app/views',
+        'app/migrations',
         'public',
         'public/img',
         'public/css',
@@ -45,7 +46,7 @@ class Micro extends ProjectBuilder
         'public/files',
         'public/js',
         '.phalcon'
-    );
+    ];
 
     /**
      * Create .htaccess files by default of application
@@ -86,11 +87,11 @@ class Micro extends ProjectBuilder
     private function createIndexViewFiles()
     {
         $getFile = $this->options->get('templatePath') . '/project/micro/views/index.phtml';
-        $putFile = $this->options->get('projectPath').'views/index.phtml';
+        $putFile = $this->options->get('projectPath').'app/views/index.phtml';
         $this->generateFile($getFile, $putFile);
 
         $getFile = $this->options->get('templatePath') . '/project/micro/views/404.phtml';
-        $putFile = $this->options->get('projectPath').'views/404.phtml';
+        $putFile = $this->options->get('projectPath').'app/views/404.phtml';
         $this->generateFile($getFile, $putFile);
 
         return $this;
@@ -106,19 +107,19 @@ class Micro extends ProjectBuilder
         $type = $this->options->contains('useConfigIni') ? 'ini' : 'php';
 
         $getFile = $this->options->get('templatePath') . '/project/micro/config.' . $type;
-        $putFile = $this->options->get('projectPath') . 'config/config.' . $type;
+        $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/micro/services.php';
-        $putFile = $this->options->get('projectPath') . 'config/services.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/services.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/micro/loader.php';
-        $putFile = $this->options->get('projectPath') . 'config/loader.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/micro/app.php';
-        $putFile = $this->options->get('projectPath') . 'app.php';
+        $putFile = $this->options->get('projectPath') . 'app/app.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;

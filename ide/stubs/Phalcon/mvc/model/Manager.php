@@ -37,6 +37,9 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     protected $_aliases;
 
+
+    protected $_modelVisibility = array();
+
     /**
      * Has many relations
      */
@@ -206,6 +209,18 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     public function setModelSource(\Phalcon\Mvc\ModelInterface $model, $source) {}
 
     /**
+     * Check whether a model property is declared as public.
+     * <code>
+     * $isPublic = $manager->isVisibleModelProperty(new Robots(), 'name');
+     * </code>
+     *
+     * @param mixed $model 
+     * @param string $property 
+     * @return bool 
+     */
+    public final function isVisibleModelProperty(\Phalcon\Mvc\ModelInterface $model, $property) {}
+
+    /**
      * Returns the mapped source for a model
      *
      * @param mixed $model 
@@ -304,7 +319,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     public function _getConnectionService(\Phalcon\Mvc\ModelInterface $model, $connectionServices) {}
 
     /**
-     * Receives events generated in the models and dispatches them to a events-manager if available
+     * Receives events generated in the models and dispatches them to an events-manager if available
      * Notify the behaviors that are listening in the model
      *
      * @param string $eventName 
@@ -313,7 +328,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     public function notifyEvent($eventName, \Phalcon\Mvc\ModelInterface $model) {}
 
     /**
-     * Dispatch a event to the listeners and behaviors
+     * Dispatch an event to the listeners and behaviors
      * This method expects that the endpoint listeners/behaviors returns true
      * meaning that a least one was implemented
      *

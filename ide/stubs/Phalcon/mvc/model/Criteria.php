@@ -9,11 +9,11 @@ namespace Phalcon\Mvc\Model;
  * using an object-oriented interface.
  * <code>
  * $robots = Robots::query()
- * ->where("type = :type:")
- * ->andWhere("year < 2000")
- * ->bind(array("type" => "mechanical"))
+ * ->where('type = :type:')
+ * ->andWhere('year < 2000')
+ * ->bind(['type' => 'mechanical'])
  * ->limit(5, 10)
- * ->orderBy("name")
+ * ->orderBy('name')
  * ->execute();
  * </code>
  */
@@ -103,7 +103,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function columns($columns) {}
 
     /**
-     * Adds a INNER join to the query
+     * Adds an INNER join to the query
      * <code>
      * $criteria->join('Robots');
      * $criteria->join('Robots', 'r.id = RobotsParts.robots_id');
@@ -120,7 +120,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function join($model, $conditions = null, $alias = null, $type = null) {}
 
     /**
-     * Adds a INNER join to the query
+     * Adds an INNER join to the query
      * <code>
      * $criteria->innerJoin('Robots');
      * $criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id');

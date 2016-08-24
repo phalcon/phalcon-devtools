@@ -346,27 +346,26 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Allows to query a set of records that match the specified conditions
      * <code>
-     * //How many robots are there?
+     * // How many robots are there?
      * $robots = Robots::find();
-     * echo "There are ", count($robots), "\n";
-     * //How many mechanical robots are there?
+     * echo 'There are ', count($robots), "\n";
+     * // How many mechanical robots are there?
      * $robots = Robots::find("type='mechanical'");
-     * echo "There are ", count($robots), "\n";
-     * //Get and print virtual robots ordered by name
-     * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+     * echo 'There are ', count($robots), "\n";
+     * // Get and print virtual robots ordered by name
+     * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
      * foreach ($robots as $robot) {
      * echo $robot->name, "\n";
      * }
-     * //Get first 100 virtual robots ordered by name
-     * $robots = Robots::find(array("type='virtual'", "order" => "name", "limit" => 100));
+     * // Get first 100 virtual robots ordered by name
+     * $robots = Robots::find(["type='virtual'", 'order' => 'name', 'limit' => 100]);
      * foreach ($robots as $robot) {
      * echo $robot->name, "\n";
      * }
      * </code>
      *
      * @param mixed $parameters 
-     * @param  $array parameters
-     * @return \Phalcon\Mvc\Model\ResultsetInterface 
+     * @return ResultsetInterface 
      */
     public static function find($parameters = null) {}
 
@@ -435,7 +434,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function count($parameters = null) {}
 
     /**
-     * Allows to calculate a summatory on a column that match the specified conditions
+     * Allows to calculate a sum on a column that match the specified conditions
      * <code>
      * //How much are all robots?
      * $sum = Robots::sum(array('column' => 'price'));
@@ -712,7 +711,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function save($data = null, $whiteList = null) {}
 
     /**
-     * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
+     * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
      * Returning true on success or false otherwise.
      * <code>
      * //Creating a new robot
@@ -737,7 +736,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function create($data = null, $whiteList = null) {}
 
     /**
-     * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
+     * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
      * Returning true on success or false otherwise.
      * <code>
      * //Updating a robot name
@@ -1146,15 +1145,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @return string 
      */
     protected final function _possibleSetter($property, $value) {}
-
-    /**
-     * Check whether a property is declared private or protected.
-     * This is a stop-gap because we do not want to have to declare all properties.
-     *
-     * @param string $property 
-     * @return boolean 
-     */
-    protected final function _isVisible($property) {}
 
     /**
      * Magic method to get related records using the relation alias as a property

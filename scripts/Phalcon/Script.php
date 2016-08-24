@@ -41,7 +41,7 @@ class Script
      */
     const COMPATIBLE_VERSION = 3000040;
 
-    const DOC_DOWNLOAD_URL = 'http://phalconphp.com/download';
+    const DOC_DOWNLOAD_URL = 'https://phalconphp.com/download';
 
     /**
      * Events Manager
@@ -64,7 +64,7 @@ class Script
      */
     public function __construct(EventsManager $eventsManager)
     {
-        $this->_commands = array();
+        $this->_commands = [];
         $this->_eventsManager = $eventsManager;
     }
 
@@ -152,13 +152,13 @@ class Script
         }
 
         // Check for alternatives
-        $available = array();
+        $available = [];
         foreach ($this->_commands as $command) {
             $providedCommands = $command->getCommands();
             foreach ($providedCommands as $alias) {
                 $soundex = soundex($alias);
                 if (!isset($available[$soundex])) {
-                    $available[$soundex] = array();
+                    $available[$soundex] = [];
                 }
 
                 $available[$soundex][] = $alias;

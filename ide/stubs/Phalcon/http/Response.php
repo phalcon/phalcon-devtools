@@ -141,7 +141,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     public function resetHeaders() {}
 
     /**
-     * Sets a Expires header to use HTTP cache
+     * Sets an Expires header in the response that allows to use the HTTP cache
      * <code>
      * $this->response->setExpires(new DateTime());
      * </code>

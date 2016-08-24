@@ -146,7 +146,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     protected final function _getQualified(array $expr) {}
 
     /**
-     * Resolves a expression in a single call argument
+     * Resolves an expression in a single call argument
      *
      * @param array $argument 
      * @return array 
@@ -154,7 +154,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     protected final function _getCallArgument(array $argument) {}
 
     /**
-     * Resolves a expression in a single call argument
+     * Resolves an expression in a single call argument
      *
      * @param array $expr 
      * @return array 
@@ -162,7 +162,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     protected final function _getCaseExpression(array $expr) {}
 
     /**
-     * Resolves a expression in a single call argument
+     * Resolves an expression in a single call argument
      *
      * @param array $expr 
      * @return array 

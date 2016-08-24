@@ -42,7 +42,7 @@ class Model extends Command
      */
     public function getPossibleParams()
     {
-        return array(
+        return [
             'name=s'          => 'Table name',
             'schema=s'        => 'Name of the schema [optional]',
             'namespace=s'     => "Model's namespace [optional]",
@@ -58,7 +58,7 @@ class Model extends Command
             'mapcolumn'       => 'Get some code for map columns [optional]',
             'abstract'        => 'Abstract Model [optional]',
             'annotate'        => 'Annotate Attributes [optional]'
-        );
+        ];
     }
 
     /**
@@ -69,7 +69,7 @@ class Model extends Command
      */
     public function run(array $parameters)
     {
-        $name = $this->getOption(array('name', 1));
+        $name = $this->getOption(['name', 1]);
 
         $className = Text::camelize(isset($parameters[1]) ? $parameters[1] : $name);
         $fileName = Text::uncamelize($className);
@@ -77,7 +77,7 @@ class Model extends Command
         $schema = $this->getOption('schema');
 
         $modelBuilder = new ModelBuilder(
-            array(
+            [
                 'name'              => $name,
                 'schema'            => $schema,
                 'className'         => $className,
@@ -94,7 +94,7 @@ class Model extends Command
                 'mapColumn'         => $this->isReceivedOption('mapcolumn'),
                 'abstract'          => $this->isReceivedOption('abstract'),
                 'annotate'          => $this->isReceivedOption('annotate')
-            )
+            ]
         );
 
         $modelBuilder->build();
@@ -107,7 +107,7 @@ class Model extends Command
      */
     public function getCommands()
     {
-        return array('model', 'create-model');
+        return ['model', 'create-model'];
     }
 
     /**

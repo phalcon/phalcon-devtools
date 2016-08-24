@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -25,9 +25,9 @@ namespace Phalcon\Version;
  * Class ItemCollection.
  * The item collection lets you to work with an abstract ItemInterface.
  *
- * @package     Phalcon\Version
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package   Phalcon\Version
+ * @copyright Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
+ * @license   New BSD License
  */
 class ItemCollection
 {
@@ -73,9 +73,9 @@ class ItemCollection
         if (self::TYPE_INCREMENTAL === self::$type) {
             $version = $version ?: '0.0.0';
 
-            return new IncrementalItem($version, $options);
+            return new IncrementalItem($version);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
-            $version = $version ?: '00000000';
+            $version = $version ?: '000';
 
             return new TimestampedItem($version, $options);
         }

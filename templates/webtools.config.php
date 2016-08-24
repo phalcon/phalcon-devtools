@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,7 +27,8 @@
  *          192.168.0.1 or SUBNET 192., 10.0.2., 86.84.124.
  */
 defined('PTOOLS_IP') || define('PTOOLS_IP', '192.168.');
-defined('APP_PATH') || define('APP_PATH', realpath('..'));
+defined('BASE_PATH') || define('BASE_PATH', realpath('..'));
+defined('APP_PATH') || define('APP_PATH', BASE_PATH . DIRECTORY_SEPARATOR . 'app');
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
 

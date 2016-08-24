@@ -68,7 +68,7 @@ class Manager
     public function addCss($path, $local = true, $filter = true, $attributes = null) {}
 
     /**
-     * Adds a inline Css to the 'css' collection
+     * Adds an inline Css to the 'css' collection
      *
      * @param string $content 
      * @param mixed $filter 
@@ -93,7 +93,7 @@ class Manager
     public function addJs($path, $local = true, $filter = true, $attributes = null) {}
 
     /**
-     * Adds a inline javascript to the 'js' collection
+     * Adds an inline javascript to the 'js' collection
      *
      * @param string $content 
      * @param mixed $filter 
@@ -115,7 +115,7 @@ class Manager
     public function addResourceByType($type, \Phalcon\Assets\Resource $resource) {}
 
     /**
-     * Adds a inline code by its type
+     * Adds an inline code by its type
      *
      * @param string $type 
      * @param mixed $code 

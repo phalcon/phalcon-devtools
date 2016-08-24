@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,9 +34,9 @@ use Phalcon\Config;
 /**
  * Command Class
  *
- * @package     Phalcon\Commands
- * @copyright   Copyright (c) 2011-2015 Phalcon Team (team@phalconphp.com)
- * @license     New BSD License
+ * @package   Phalcon\Commands
+ * @copyright Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
+ * @license   New BSD License
  */
 abstract class Command implements CommandsInterface
 {
@@ -62,13 +62,13 @@ abstract class Command implements CommandsInterface
      * Parameters received by the script.
      * @var array
      */
-    protected $_parameters = array();
+    protected $_parameters = [];
 
     /**
      * Possible prepared arguments.
      * @var array
      */
-    protected $_preparedArguments = array();
+    protected $_preparedArguments = [];
 
     protected $path;
 
@@ -205,13 +205,13 @@ abstract class Command implements CommandsInterface
      *
      * @todo Refactor
      */
-    public function parseParameters(array $parameters = array(), $possibleAlias = array())
+    public function parseParameters(array $parameters = [], $possibleAlias = [])
     {
         if (count($parameters) == 0) {
             $parameters = $this->getPossibleParams();
         }
 
-        $arguments = array();
+        $arguments = [];
         foreach ($parameters as $parameter => $description) {
             if (strpos($parameter, "=") !== false) {
                 $parameterParts = explode("=", $parameter);
@@ -221,31 +221,31 @@ abstract class Command implements CommandsInterface
                 if (strlen($parameterParts[0]) == "") {
                     throw new CommandsException("Invalid definition for the parameter '$parameter'");
                 }
-                if (!in_array($parameterParts[1], array('s', 'i', 'l'))) {
+                if (!in_array($parameterParts[1], ['s', 'i', 'l'])) {
                     throw new CommandsException("Incorrect data type on parameter '$parameter'");
                 }
                 $this->_preparedArguments[$parameterParts[0]] = true;
-                $arguments[$parameterParts[0]] = array(
+                $arguments[$parameterParts[0]] = [
                     'have-option' => true,
                     'option-required' => true,
                     'data-type' => $parameterParts[1]
-                );
+                ];
             } else {
                 if (!preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
                     throw new CommandsException("Invalid parameter '$parameter'");
                 }
 
                 $this->_preparedArguments[$parameter] = true;
-                $arguments[$parameter] = array(
+                $arguments[$parameter] = [
                     'have-option'     => false,
                     'option-required' => false
-                );
+                ];
             }
         }
 
         $param = '';
         $paramName = '';
-        $receivedParams = array();
+        $receivedParams = [];
         $numberArguments = count($_SERVER['argv']);
 
         for ($i = 1; $i < $numberArguments; $i++) {

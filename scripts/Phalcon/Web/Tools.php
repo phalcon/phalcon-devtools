@@ -60,57 +60,57 @@ class Tools
      *
      * @var array
      */
-    private static $options = array(
-        'index' => array(
+    private static $options = [
+        'index' => [
             'caption' => 'Home',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Welcome'
-                )
-            )
-        ),
-        'controllers' => array(
+                ]
+            ]
+        ],
+        'controllers' => [
             'caption' => 'Controllers',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate',
-                ),
-                'list' => array(
+                ],
+                'list' => [
                     'caption' => 'List',
-                )
-            )
-        ),
-        'models' => array(
+                ]
+            ]
+        ],
+        'models' => [
             'caption' => 'Models',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate'
-                ),
-                'list' => array(
+                ],
+                'list' => [
                     'caption' => 'List',
-                )
-            )
-        ),
-        'scaffold' => array(
+                ]
+            ]
+        ],
+        'scaffold' => [
             'caption' => 'Scaffold',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate'
-                )
-            )
-        ),
-        'migrations' => array(
+                ]
+            ]
+        ],
+        'migrations' => [
             'caption' => 'Migrations',
-            'options' => array(
-                'index' => array(
+            'options' => [
+                'index' => [
                     'caption' => 'Generate'
-                ),
-                'run' => array(
+                ],
+                'run' => [
                     'caption' => 'Run'
-                )
-            )
-        )
-    );
+                ]
+            ]
+        ]
+    ];
 
     /**
      * Print navigation menu of the given controller
@@ -229,12 +229,12 @@ class Tools
 
         $basePath = dirname(getcwd());
         // Dirs for search config file
-        $configDirs = array(
+        $configDirs = [
             $basePath . '/config/',
             $basePath . '/app/config/',
             $basePath . '/apps/frontend/config/',
             $basePath . '/apps/backend/config/',
-        );
+        ];
 
         $config = null;
 
@@ -270,14 +270,14 @@ class Tools
 
         $loader = new Loader();
 
-        $loader->registerDirs(array(
+        $loader->registerDirs([
             $path . '/scripts/',
             $path . '/scripts/Phalcon/Web/Tools/controllers/'
-        ));
+        ]);
 
-        $loader->registerNamespaces(array(
+        $loader->registerNamespaces([
             'Phalcon' => $path . '/scripts/'
-        ));
+        ]);
 
         $loader->register();
 
@@ -319,16 +319,15 @@ class Tools
             });
 
             $di->setShared('flash', function () {
-                return new Flash(array(
+                return new Flash([
                     'error'   => 'alert alert-danger',
                     'success' => 'alert alert-success',
                     'notice'  => 'alert alert-info',
                     'warning' => 'alert alert-warning'
-                ));
+                ]);
             });
 
             $di->setShared('db', function () use ($config) {
-
                 if (isset($config->database->adapter)) {
                     $adapter = $config->database->adapter;
                 } else {
@@ -396,10 +395,10 @@ class Tools
         $jQuery = new JQuery();
         $jQuery->install($path);
 
-        copy($tools . '/webtools.php', $path . 'public/webtools.php');
+        copy($tools . DIRECTORY_SEPARATOR . 'webtools.php', $path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
 
         if (!file_exists($configPath = $path . 'public/webtools.config.php')) {
-            $template = file_get_contents(TEMPLATE_PATH . '/webtools.config.php');
+            $template = file_get_contents(TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'webtools.config.php');
             $code = str_replace('@@PATH@@', $tools, $template);
 
             file_put_contents($configPath, $code);
@@ -423,7 +422,7 @@ class Tools
             $path = str_replace("\\", '/', $path);
         }
 
-        if (!is_dir($path . 'public/')) {
+        if (!is_dir($path . 'public')) {
             throw new \Exception('Document root cannot be located');
         }
 
@@ -438,12 +437,12 @@ class Tools
         $jQuery->uninstall($path);
 
 
-        if (is_file($path . 'public/webtools.config.php')) {
-            unlink($path . 'public/webtools.config.php');
+        if (is_file($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.config.php')) {
+            unlink($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.config.php');
         }
 
-        if (is_file($path . 'public/webtools.php')) {
-            unlink($path . 'public/webtools.php');
+        if (is_file($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php')) {
+            unlink($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
         }
 
         return true;

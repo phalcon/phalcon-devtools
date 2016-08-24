@@ -193,7 +193,7 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
     public function get($name) {}
 
     /**
-     * Generate the label of a element added to the form including HTML
+     * Generate the label of an element added to the form including HTML
      *
      * @param string $name 
      * @param array $attributes 

@@ -69,11 +69,11 @@ EOD;
         $templateValidateInclusion = <<<EOD
         \$this->validate(
             new InclusionIn(
-                array(
+                [
                     'field'    => '%s',
-                    'domain'   => array(%s),
+                    'domain'   => [%s],
                     'required' => true,
-                )
+                ]
             )
         );
 EOD;
@@ -114,7 +114,7 @@ EOD;
         if (!empty($namespace)) {
             $namespace = str_replace('namespace ', '', $namespace);
             $namespace = str_replace(';', '', $namespace);
-            $namespace = str_replace(array("\r", "\n"), '', $namespace);
+            $namespace = str_replace(["\r", "\n"], '', $namespace);
 
             $namespace = PHP_EOL . ' * @package ' . $namespace;
         }
@@ -135,10 +135,10 @@ EOD;
         $templateValidateEmail = <<<EOD
         \$this->validate(
             new Email(
-                array(
+                [
                     'field'    => '%s',
                     'required' => true,
-                )
+                ]
             )
         );
 EOD;
@@ -287,7 +287,7 @@ EOD;
             return 'NULL';
         }
 
-        $values = array();
+        $values = [];
         foreach ($options as $name => $val) {
             if (is_bool($val)) {
                 $val = $val ? 'true':'false';
@@ -298,7 +298,7 @@ EOD;
             $values[] = sprintf('\'%s\' => %s', $name, $val);
         }
 
-        $syntax = 'array('. join(',', $values). ')';
+        $syntax = '['. join(',', $values). ']';
 
         return $syntax;
     }
@@ -319,13 +319,13 @@ EOD;
      */
     public function columnMap()
     {
-        return array(
+        return [
             %s
-        );
+        ];
     }
 EOD;
 
-        $contents = array();
+        $contents = [];
         foreach ($fields as $field) {
             $name = $field->getName();
             $contents[] = sprintf('\'%s\' => \'%s\'', $name, $camelize ? Utils::lowerCamelize($name) : $name);
@@ -354,7 +354,7 @@ class %s extends Migration
      */
     public function morph()
     {
-        \$this->morphTable('%s', array(
+        \$this->morphTable('%s', [
 %s
 EOD;
         return sprintf($template, $className, $className, $table, $this->getMigrationDefinition('columns', $tableDefinition));
@@ -395,9 +395,9 @@ EOD;
     public function getMigrationBatchInsert($table, $allFields)
     {
         $template = <<<EOD
-        \$this->batchInsert('%s', array(
+        \$this->batchInsert('%s', [
                 %s
-            )
+            ]
         );
 EOD;
         return sprintf($template, $table, join(",\n                ", $allFields));
@@ -414,9 +414,9 @@ EOD;
      */
      public function afterCreateTable()
      {
-        \$this->batchInsert('%s', array(
+        \$this->batchInsert('%s', [
                 %s
-            )
+            ]
         );
      }
 EOD;
@@ -434,9 +434,9 @@ EOD;
     public function getMigrationDefinition($name, $definition)
     {
         $template = <<<EOD
-                '%s' => array(
+                '%s' => [
                     %s
-                ),
+                ],
 
 EOD;
         return sprintf($template, $name, join(",\n                    ", $definition));
@@ -447,9 +447,9 @@ EOD;
         $template = <<<EOD
 new Column(
                         '%s',
-                        array(
+                        [
                             %s
-                        )
+                        ]
                     )
 EOD;
 
@@ -459,7 +459,7 @@ EOD;
     public function getIndexDefinition($indexName, $indexDefinition, $indexType = null)
     {
         $template = <<<EOD
-new Index('%s', array(%s), %s)
+new Index('%s', [%s], %s)
 EOD;
 
         return sprintf($template, $indexName, join(", ", $indexDefinition), $indexType ? "'$indexType'" : 'null');
@@ -470,9 +470,9 @@ EOD;
         $template = <<<EOD
 new Reference(
                         '%s',
-                        array(
+                        [
                             %s
-                        )
+                        ]
                     )
 EOD;
 

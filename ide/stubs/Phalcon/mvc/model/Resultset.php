@@ -9,13 +9,13 @@ namespace Phalcon\Mvc\Model;
  * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
  * serializing.
  * <code>
- * //Using a standard foreach
- * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+ * // Using a standard foreach
+ * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
  * foreach ($robots as robot) {
  * echo robot->name, "\n";
  * }
- * //Using a while
- * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+ * // Using a while
+ * $robots = Robots::find(["type='virtual'", 'order' => 'name');
  * $robots->rewind();
  * while ($robots->valid()) {
  * $robot = $robots->current();
@@ -79,7 +79,6 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
      *
      * @param \Phalcon\Db\ResultInterface|false $result 
      * @param \Phalcon\Cache\BackendInterface $cache 
-     * @param array $columnTypes 
      */
     public function __construct($result, \Phalcon\Cache\BackendInterface $cache = null) {}
 
