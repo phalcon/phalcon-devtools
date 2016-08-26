@@ -75,7 +75,7 @@ class ItemCollection
 
             return new IncrementalItem($version);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
-            $version = $version ?: '000';
+            $version = $version ?: '0000000_0';
 
             return new TimestampedItem($version, $options);
         }
