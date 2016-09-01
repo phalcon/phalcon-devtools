@@ -24,10 +24,13 @@ $di->setShared('router', function () {
  * The URL component is used to generate all kinds of URLs in the application
  */
 $di->setShared('url', function () {
-    $config = $this->getConfig();
+    $scriptName = $this->getRequest()
+        ->getServer('SCRIPT_NAME');
+
+    $baseUri = preg_replace('/public\/index.php$/', '', $scriptName);
 
     $url = new UrlResolver();
-    $url->setBaseUri($config->application->baseUri);
+    $url->setBaseUri($baseUri);
 
     return $url;
 });
