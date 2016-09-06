@@ -49,7 +49,7 @@ alter_profile(){
 
 check_install(){
 	if [ -z "$PTOOLSPATH" ]; then
-		if [ `echo $0 | grep "bash"`=="bash" ]; then ## bash check (linux/osx)
+		if [ `echo $0 | grep "bash"` == "bash" ]; then ## bash check (linux/osx)
 			echo "Phalcon Developer Tools Installer"
 			echo "Make sure phalcon.sh is in the same dir as phalcon.php and that you are running this with sudo or as root."
 			echo "Installing Devtools..."
