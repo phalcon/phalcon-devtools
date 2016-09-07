@@ -350,7 +350,7 @@ class Tools
 
             $app = new Application();
 
-            $app->setDi($di);
+            $app->setDI($di);
 
             echo $app->handle()->getContent();
         } catch (Exception $e) {
@@ -395,7 +395,7 @@ class Tools
         $jQuery = new JQuery();
         $jQuery->install($path);
 
-        copy($tools . DIRECTORY_SEPARATOR . 'webtools.php', $path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
+        copy(rtrim($tools, '\\/') . DIRECTORY_SEPARATOR . 'webtools.php', $path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
 
         if (!file_exists($configPath = $path . 'public/webtools.config.php')) {
             $template = file_get_contents(TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'webtools.config.php');
