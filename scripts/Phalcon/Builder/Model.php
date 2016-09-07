@@ -20,11 +20,13 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Db\Column;
 use Phalcon\Utils;
+use ReflectionClass;
+use Phalcon\Db\Column;
+use Phalcon\Validation;
 use ReflectionException;
 use Phalcon\Generator\Snippet;
-use ReflectionClass;
+use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
 
 /**
  * ModelBuilderComponent
@@ -386,11 +388,11 @@ class Model extends Component
                     $fieldName = $field->getName();
                 }
                 $validations[] = $this->snippet->getValidateEmail($fieldName);
-                $uses[] = $this->snippet->getUseAs('Phalcon\Mvc\Model\Validator\Email', 'Email');
+                $uses[] = $this->snippet->getUseAs(EmailValidator::class, 'EmailValidator');
             }
         }
         if (count($validations)) {
-            $validations[] = $this->snippet->getValidationFailed();
+            $validations[] = $this->snippet->getValidationEnd();
         }
 
         // Check if there has been an extender class
@@ -433,6 +435,7 @@ class Model extends Component
         $validationsCode = '';
         if ($alreadyValidations == false && count($validations) > 0) {
             $validationsCode = $this->snippet->getValidationsMethod($validations);
+            $uses[] = $this->snippet->getUse(Validation::class);
         }
 
         $initCode = '';
@@ -479,7 +482,11 @@ class Model extends Component
 
         $useDefinition = '';
         if (!empty($uses)) {
-            $useDefinition = join('', $uses) . PHP_EOL . PHP_EOL;
+            usort($uses, function ($a, $b) {
+                return strlen($a) - strlen($b);
+            });
+
+            $useDefinition = join("\n", $uses) . PHP_EOL . PHP_EOL;
         }
 
         $abstract = ($this->options->contains('abstract') ? 'abstract ' : '');

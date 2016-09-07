@@ -90,6 +90,8 @@ EOD;
      */
     public function validation()
     {
+        \$validator = new Validation();
+
 %s
     }
 EOD;
@@ -133,11 +135,12 @@ EOD;
     public function getValidateEmail($fieldName)
     {
         $templateValidateEmail = <<<EOD
-        \$this->validate(
-            new Email(
+        \$validator->add(
+            '%s',
+            new EmailValidator(
                 [
-                    'field'    => '%s',
-                    'required' => true,
+                    'model'   => \$this,
+                    'message' => 'Please enter a correct email address',
                 ]
             )
         );
@@ -145,14 +148,10 @@ EOD;
         return sprintf($templateValidateEmail, $fieldName).PHP_EOL.PHP_EOL;
     }
 
-    public function getValidationFailed()
+    public function getValidationEnd()
     {
         $templateValidationFailed = <<<EOD
-        if (\$this->validationHasFailed() == true) {
-            return false;
-        }
-
-        return true;
+        return \$this->validate(\$validator);
 EOD;
         return $templateValidationFailed;
     }
