@@ -5,7 +5,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,7 +20,6 @@
 */
 
 use Phalcon\Script;
-use Phalcon\Loader;
 use Phalcon\Version;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Builtin\Model;
@@ -37,33 +36,7 @@ use Phalcon\Exception as PhalconException;
 use Phalcon\Events\Manager as EventsManager;
 
 try {
-    if (!extension_loaded('phalcon')) {
-        throw new Exception(
-            "Phalcon extension isn't installed, follow these instructions to install it: " .
-            'https://docs.phalconphp.com/en/latest/reference/install.html'
-        );
-    }
-
-    $loader = new Loader();
-    $loader
-        ->registerDirs(array(__DIR__ . '/scripts/'))
-        ->registerNamespaces(array('Phalcon' => __DIR__ . '/scripts/'))
-        ->register();
-
-    if (file_exists('.phalcon/autoload.php')) {
-        require_once '.phalcon/autoload.php';
-    }
-
-    if (Version::getId() < Script::COMPATIBLE_VERSION) {
-        throw new Exception(
-            sprintf(
-                "Your Phalcon version isn't compatible with Developer Tools, download the latest at: %s",
-                Script::DOC_DOWNLOAD_URL
-            )
-        );
-    }
-
-    defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', __DIR__ . '/templates');
+    require dirname(__FILE__) . '/bootstrap/autoload.php';
 
     $vendor = sprintf('Phalcon DevTools (%s)', Version::get());
     print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
