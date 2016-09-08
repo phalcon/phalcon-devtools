@@ -40,34 +40,34 @@ defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_TIME', microtime(true))
 defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_MEMORY', memory_get_usage());
 
 /**
- * @const DEVTOOLS_ROOT Current Devtools root path.
+ * @const PTOOLSPATH Current Devtools root path.
  */
-defined('DEVTOOLS_ROOT') || define('DEVTOOLS_ROOT', dirname(dirname(__FILE__)));
+defined('PTOOLSPATH') || define('PTOOLSPATH', dirname(dirname(__FILE__)));
 
 /**
  * @const TEMPLATE_PATH Devtools templates path.
  */
-defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', DEVTOOLS_ROOT . '/templates');
+defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . '/templates');
 
 /**
  * Register Devtools classes.
  */
-(new Loader)->registerDirs([DEVTOOLS_ROOT . '/scripts/'])
-    ->registerNamespaces(['Phalcon' => DEVTOOLS_ROOT . '/scripts/'])
+(new Loader)->registerDirs([PTOOLSPATH . '/scripts/'])
+    ->registerNamespaces(['Phalcon' => PTOOLSPATH . '/scripts/'])
     ->register();
 
 /**
  * Register the Composer autoloader (if any)
  */
-if (file_exists(DEVTOOLS_ROOT . '/vendor/autoload.php')) {
-    require_once DEVTOOLS_ROOT . '/vendor/autoload.php';
+if (file_exists(PTOOLSPATH . '/vendor/autoload.php')) {
+    require_once PTOOLSPATH . '/vendor/autoload.php';
 }
 
 /**
  * Register the custom loader (if any)
  */
-if (file_exists(DEVTOOLS_ROOT . '/.phalcon/autoload.php')) {
-    require_once DEVTOOLS_ROOT . '/.phalcon/autoload.php';
+if (file_exists(PTOOLSPATH . '/.phalcon/autoload.php')) {
+    require_once PTOOLSPATH . '/.phalcon/autoload.php';
 }
 
 if (Version::getId() < Script::COMPATIBLE_VERSION) {
