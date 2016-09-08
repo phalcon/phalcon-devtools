@@ -326,7 +326,8 @@ class Migrations
         $versionItems = ModelMigration::scanForVersions($migrationsDir);
 
         if (!isset($versionItems[0])) {
-            throw new ModelException('Migrations were not found at ' . $migrationsDir);
+            print Color::info('Migrations were not found at ' . $migrationsDir);
+            return;
         }
 
         // Set default final version
