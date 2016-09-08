@@ -254,6 +254,10 @@ class Tools
                 $config = new YamlConfig($configPath . 'config.yaml');
 
                 break;
+            } elseif (file_exists($configPath . 'config.yml')) {
+                $config = new YamlConfig($configPath . 'config.yml');
+
+                break;
             } elseif (file_exists($configPath . 'config.json')) {
                 $config = new JsonConfig($configPath . 'config.json');
 
