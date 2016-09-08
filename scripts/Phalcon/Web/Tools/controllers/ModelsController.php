@@ -19,19 +19,24 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
-use Phalcon\Builder\BuilderException;
 use Phalcon\Utils;
+use Phalcon\Builder\Model;
+use Phalcon\Builder\AllModels;
+use Phalcon\Builder\BuilderException;
 
 class ModelsController extends ControllerBase
 {
     public function indexAction()
     {
+        if ($this->dispatcher->wasForwarded()) {
+            return;
+        }
+
         $this->listTables(true);
 
         if (!$this->modelsDir) {
             $this->flash->error(
-                "Sorry, WebTools doesn't know where is the models directory. <br>" .
+                "Sorry, WebTools doesn't know where the models directory is. <br>" .
                 "Please add to <code>application</code> section <code>modelsDir</code> param with valid path."
             );
         }
@@ -58,11 +63,12 @@ class ModelsController extends ControllerBase
             $mapColumn         = $this->request->getPost('mapcolumn', 'int');
 
             try {
-                $component = '\Phalcon\Builder\Model';
+                $component = Model::class;
                 if ($tableName == 'all') {
-                    $component = '\Phalcon\Builder\AllModels';
+                    $component = AllModels::class;
                 }
 
+                /** @var  Model|AllModels $modelBuilder */
                 $modelBuilder = new $component([
                     'name'                  => $tableName,
                     'force'                 => $force,

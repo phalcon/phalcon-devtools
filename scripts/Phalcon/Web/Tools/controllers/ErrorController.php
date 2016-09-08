@@ -16,6 +16,8 @@ class ErrorController extends Controller
 
     public function error403Action()
     {
+        $this->response->setStatusCode(403);
+
         $this->view->setVars([
             'code'        => 403,
             'headMessage' => 'Forbidden',
