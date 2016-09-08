@@ -40,9 +40,9 @@ defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_TIME', microtime(true))
 defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_MEMORY', memory_get_usage());
 
 /**
- * @const PTOOLSPATH Current Devtools root path.
+ * @const PTOOLSPATH The path to the Phalcon Developers Tools.
  */
-defined('PTOOLSPATH') || define('PTOOLSPATH', dirname(dirname(__FILE__)));
+defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(getenv('PTOOLSPATH') ?: dirname(dirname(__FILE__)), '\\/'));
 
 /**
  * @const TEMPLATE_PATH Devtools templates path.
