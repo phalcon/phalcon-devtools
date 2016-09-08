@@ -1,11 +1,12 @@
 # Phalcon Devtools
 
-[![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)](https://github.com/phalcon/incubator/devtools)
+[![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)][:devtools:]
 [![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][1]
-[![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
-[![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
+[![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
+[![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)][:packagist:]
 
-![Phalcon WebTools](http://i.imgur.com/v3MzIDn.png?1)
+![Phalcon WebTools](https://cloud.githubusercontent.com/assets/1256298/18365669/4d9f4f62-761c-11e6-80d6-b1d077edf9e4.png)
+
 
 ## What's Phalcon?
 
@@ -34,7 +35,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require": {
-        "phalcon/devtools": "~3.0.0"
+        "phalcon/devtools": "~3.0.2"
     }
 }
 ```
@@ -143,4 +144,6 @@ $config = [
 Phalcon Developer Tools is open source software licensed under the [New BSD License][1].<br>
 © Phalcon Framework Team and contributors
 
+[:packagist:]: https://packagist.org/packages/phalcon/devtools
+[:devtools:]: https://github.com/phalcon/incubator/devtools
 [1]: docs/LICENSE.md
