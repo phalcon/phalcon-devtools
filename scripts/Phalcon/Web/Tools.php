@@ -20,16 +20,16 @@
 
 namespace Phalcon\Web;
 
-use Phalcon\Mvc\Application;
-use Phalcon\Flash\Direct as Flash;
-use Phalcon\Mvc\Url;
 use Phalcon\Loader;
-use Phalcon\Exception;
-use Phalcon\Version;
 use Phalcon\Script;
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Mvc\View;
 use Phalcon\Config;
+use Phalcon\Mvc\Url;
+use Phalcon\Version;
+use Phalcon\Mvc\View;
+use Phalcon\Exception;
+use Phalcon\Mvc\Application;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Flash\Direct as Flash;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;

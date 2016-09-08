@@ -70,7 +70,16 @@ class ControllerBase extends Controller
      */
     public function initialize()
     {
-        $this->checkAccess();
+        try {
+            $this->checkAccess();
+        } catch (Exception $e) {
+            $this->dispatcher->forward([
+                'controller' => 'error',
+                'action'     => 'error403'
+            ]);
+
+            return;
+        }
 
         $this->path = new Path();
 
@@ -107,7 +116,13 @@ class ControllerBase extends Controller
             return true;
         }
 
-        throw new Exception('WebTools can only be used on the local machine (Your IP: ' . $ip . ') or you can make changes in webtools.config.php file to allow IP or NET');
+        throw new Exception(
+            sprintf(
+                'WebTools can only be used on the local machine (Your IP: %s) ' .
+                'or you can make changes in webtools.config.php file to allow IP or NET',
+                $ip
+            )
+        );
     }
 
     /**
@@ -178,7 +193,7 @@ class ControllerBase extends Controller
 
         $dirs = array('modelsDir', 'controllersDir', 'migrationsDir');
         $this->path->setRootPath(dirname($_SERVER["SCRIPT_FILENAME"]));
-        $projectPath = $this->path->getRootPAth();
+        $projectPath = $this->path->getRootPath();
 
         foreach ($dirs as $dirName) {
             if (isset($config[$dirName]) && $config[$dirName]) {
