@@ -106,7 +106,7 @@ This command should display something similar to:
 ```sh
 $ phalcon list ?
 
-Phalcon DevTools (3.0.0)
+Phalcon DevTools (3.0.2)
 
 Help:
   Lists the commands available in Phalcon devtools
