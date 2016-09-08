@@ -21,8 +21,6 @@
 
 namespace Phalcon;
 
-use Phalcon\Config;
-
 class Utils
 {
     const DB_ADAPTER_POSTGRESQL = 'Postgresql';
@@ -57,7 +55,7 @@ class Utils
     /**
      * Resolves the DB Schema
      *
-     * @param \Phalcon\Config $config
+     * @param Config $config
      * @return null|string
      */
     public static function resolveDbSchema(Config $config)

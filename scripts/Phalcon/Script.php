@@ -179,28 +179,40 @@ class Script
     public function loadUserScripts()
     {
         if (file_exists('.phalcon/project.ini')) {
-            $config = parse_ini_file('.phalcon/project.ini');
+            return;
+        }
 
-            if (isset($config['scripts'])) {
-                foreach (explode(',', $config['scripts']) as $directory) {
-                    if (!is_dir($directory)) {
-                        throw new ScriptException("Cannot load user scripts in directory '" . $directory . "'");
-                    }
+        $config = parse_ini_file('.phalcon/project.ini');
 
-                    $iterator = new DirectoryIterator($directory);
-                    foreach ($iterator as $item) {
-                        if (!$item->isDir()) {
-                            require $item->getPathName();
+        if (!isset($config['scripts'])) {
+            return;
+        }
 
-                            $className = preg_replace('/\.php$/', '', $item->getBaseName());
-                            if (!class_exists($className)) {
-                                throw new ScriptException("Expecting class '" . $className . "' to be located at '" . $item->getPathName() . '"');
-                            }
+        foreach (explode(',', $config['scripts']) as $directory) {
+            if (!is_dir($directory)) {
+                throw new ScriptException("Cannot load user scripts in directory '" . $directory . "'");
+            }
 
-                            $this->attach(new $className($this, $this->_eventsManager));
-                        }
-                    }
+            $iterator = new DirectoryIterator($directory);
+            foreach ($iterator as $item) {
+                if ($item->isDir() || $item->isDot()) {
+                    continue;
                 }
+
+                require $item->getPathname();
+
+                $className = preg_replace('/\.php$/', '', $item->getBasename());
+                if (!class_exists($className)) {
+                    throw new ScriptException(
+                        sprintf(
+                            "Expecting class '%s' to be located at '%s'",
+                            $className,
+                            $item->getPathname()
+                        )
+                    );
+                }
+
+                $this->attach(new $className($this, $this->_eventsManager));
             }
         }
     }
