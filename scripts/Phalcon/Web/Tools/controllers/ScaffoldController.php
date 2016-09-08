@@ -26,9 +26,13 @@ class ScaffoldController extends ControllerBase
 {
     public function indexAction()
     {
+        if ($this->dispatcher->wasForwarded()) {
+            return;
+        }
+
         $errorMessage = function ($directoryName, $directoryPath) {
             return sprintf(
-                "Sorry, WebTools doesn't know wherethe %s directory is.<br>" .
+                "Sorry, WebTools doesn't know where the %s directory is.<br>" .
                 "Please add the valid path for  <code>%s</code> in the <code>application</code> section.",
                 $directoryName,
                 $directoryPath

@@ -53,9 +53,13 @@ class MigrationsController extends ControllerBase
 
     public function indexAction()
     {
+        if ($this->dispatcher->wasForwarded()) {
+            return;
+        }
+
         if (!$this->migrationsDir) {
             $this->flash->error(
-                "Sorry, WebTools doesn't know where is the migrations directory. <br>" .
+                "Sorry, WebTools doesn't know where the migrations directory is. <br>" .
                 "Please add to <code>application</code> section <code>migrationsDir</code> param with real path."
             );
         }
