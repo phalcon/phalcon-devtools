@@ -37,6 +37,10 @@ alter_profile(){
 		echo "$PTOOLSVAR" >> $HOME/.bashrc
 		echo "$PATHVAR" >> $HOME/.bashrc
 		source $HOME/.bashrc
+	elif [ -e $HOME/.zshrc ]; then
+		echo "$PTOOLSVAR" >> $HOME/.zshrc
+		echo "$PATHVAR" >> $HOME/.zshrc
+		source $HOME/.bashrc
 	else
 		echo "No bash profile detected. Environment vars might disappear on console restart!"
 	fi
