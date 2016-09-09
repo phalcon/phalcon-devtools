@@ -155,15 +155,9 @@ class Migration
     public static function generateAll($version, $exportData = null)
     {
         $classDefinition = [];
-        if (self::$_databaseConfig->adapter == 'Postgresql') {
-            $tables = self::$_connection->listTables(
-                isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public'
-            );
-        } else {
-            $tables = self::$_connection->listTables();
-        }
+        $schema = Utils::resolveDbSchema(self::$_databaseConfig);
 
-        foreach ($tables as $table) {
+        foreach (self::$_connection->listTables($schema) as $table) {
             $classDefinition[$table] = self::generate($version, $table, $exportData);
         }
 
