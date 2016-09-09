@@ -194,7 +194,7 @@ class IncrementalItem implements ItemInterface
 
         $parts = array_reverse($parts);
 
-        $this->normalizeParts($parts)
+        $this->setParts($parts)
             ->regenerateVersionStamp();
 
         $this->_version = join('.', $parts);
@@ -235,7 +235,7 @@ class IncrementalItem implements ItemInterface
         return $this;
     }
 
-    protected function normalizeParts(array $parts)
+    protected function setParts(array $parts)
     {
         $this->_parts = array_map(function ($v) {
             return strval($v);
