@@ -131,7 +131,7 @@ class Migrations
 
         $wasMigrated = false;
         if ($tableName === 'all') {
-            $migrations = ModelMigration::generateAll($versionItem->getStamp(), $exportData);
+            $migrations = ModelMigration::generateAll($versionItem, $exportData);
             foreach ($migrations as $tableName => $migration) {
                 if ($tableName === self::MIGRATION_LOG_TABLE) {
                     continue;
@@ -143,7 +143,7 @@ class Migrations
                     ) || $wasMigrated;
             }
         } else {
-            $migration = ModelMigration::generate($versionItem->getStamp(), $tableName, $exportData);
+            $migration = ModelMigration::generate($versionItem, $tableName, $exportData);
             $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
             $wasMigrated = !!file_put_contents(
                 $tableFile,
