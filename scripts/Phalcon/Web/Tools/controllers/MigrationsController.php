@@ -18,12 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Migrations;
 use Phalcon\Web\Tools;
+use Phalcon\Migrations;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Web\Tools\Traits\DatabaseAware;
 
 class MigrationsController extends ControllerBase
 {
+    use DatabaseAware;
+
     protected function _prepareVersions()
     {
         if (!$this->migrationsDir) {
@@ -31,12 +34,11 @@ class MigrationsController extends ControllerBase
             return;
         }
 
-        $folders = array();
-
+        $folders = [];
         $iterator = new DirectoryIterator($this->migrationsDir);
         foreach ($iterator as $fileinfo) {
             if (!$fileinfo->isDot()) {
-                $folders[$fileinfo->getFileName()] = $fileinfo->getFileName();
+                $folders[$fileinfo->getFilename()] = $fileinfo->getFilename();
             }
         }
 
@@ -73,6 +75,10 @@ class MigrationsController extends ControllerBase
      */
     public function generateAction()
     {
+        if ($this->dispatcher->wasForwarded()) {
+            return;
+        }
+
         if ($this->request->isPost()) {
             $exportData = '';
 
@@ -101,10 +107,10 @@ class MigrationsController extends ControllerBase
             }
         }
 
-        $this->dispatcher->forward(array(
+        $this->response->redirect([
             'controller' => 'migrations',
-            'action' => 'index'
-        ));
+            'action'     => 'index'
+        ]);
     }
 
     public function runAction()

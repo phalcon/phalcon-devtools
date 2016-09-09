@@ -20,9 +20,9 @@
 */
 
 use Phalcon\Web\Tools;
+use Phalcon\Exception;
 use Phalcon\Builder\Path;
 use Phalcon\Mvc\Controller;
-use Phalcon\Exception;
 
 /**
  * @property \Phalcon\Flash\Direct flash
@@ -125,40 +125,7 @@ class ControllerBase extends Controller
         );
     }
 
-    /**
-     * List database tables
-     *
-     * @param  bool $all
-     * @return void
-     */
-    protected function listTables($all = false)
-    {
-        $config = Tools::getConfig();
-        $connection = Tools::getConnection();
-
-        if ($all) {
-            $tables = array('all' => 'All');
-        } else {
-            $tables = array();
-        }
-
-        $dbTables = $connection->listTables();
-        foreach ($dbTables as $dbTable) {
-            $tables[$dbTable] = $dbTable;
-        }
-
-        $this->view->tables = $tables;
-
-        $this->view->databaseName = $config->database->dbname;
-
-        if ($this->migrationsDir) {
-            $this->view->migrationsDir = $this->migrationsDir;
-        } else {
-            $this->view->migrationsDir = null;
-        }
-    }
-
-    /**
+     /**
      * Check if IP address for securing Phalcon Developers Tools area matches
      * the given
      *
