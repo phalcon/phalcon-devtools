@@ -46,44 +46,36 @@ class IncrementalItem implements ItemInterface
     /**
      * @var array
      */
-    private $_parts = array();
+    private $_parts = [];
 
     /**
-     * @param     $version
-     * @param int $numberParts
+     * @param string $version
+     * @param int    $numberParts
      */
     public function __construct($version, $numberParts = 3)
     {
-        $n = 2;
-        $versionStamp = 0;
         $version = trim($version);
         $this->_parts = explode('.', $version);
         $nParts = count($this->_parts);
+
         if ($nParts < $numberParts) {
-            for ($i = $numberParts; $i>=$nParts; $i--) {
+            for ($i = $numberParts; $i >= $nParts; $i--) {
                 $this->_parts[] = '0';
                 $version.='.0';
             }
-        } else {
-            if ($nParts > $numberParts) {
-                for ($i = $nParts; $i <= $numberParts; $i++) {
-                    if (isset($this->_parts[$i-1])) {
-                        unset($this->_parts[$i-1]);
-                    }
+        } elseif ($nParts > $numberParts) {
+            for ($i = $nParts; $i <= $numberParts; $i++) {
+                if (isset($this->_parts[$i-1])) {
+                    unset($this->_parts[$i-1]);
                 }
-                $version = join('.', $this->_parts);
             }
+
+            $version = join('.', $this->_parts);
         }
-        foreach ($this->_parts as $part) {
-            if (is_numeric($part)) {
-                $versionStamp += $part * pow(10, $n);
-            } else {
-                $versionStamp += ord($part) * pow(10, $n);
-            }
-            $n -= 1;
-        }
-        $this->_versionStamp = $versionStamp;
+
         $this->_version = $version;
+
+        $this->regenerateVersionStamp();
     }
 
     /**
@@ -93,7 +85,7 @@ class IncrementalItem implements ItemInterface
      */
     public static function sortAsc($versions)
     {
-        $sortData = array();
+        $sortData = [];
         foreach ($versions as $version) {
             $sortData[$version->getStamp()] = $version;
         }
@@ -109,7 +101,7 @@ class IncrementalItem implements ItemInterface
      */
     public static function sortDesc($versions)
     {
-        $sortData = array();
+        $sortData = [];
         foreach ($versions as $version) {
             $sortData[$version->getStamp()] = $version;
         }
@@ -154,7 +146,7 @@ class IncrementalItem implements ItemInterface
             $finalVersion = new self($finalVersion);
         }
 
-        $betweenVersions = array();
+        $betweenVersions = [];
         if ($initialVersion->getStamp() == $finalVersion->getStamp()) {
             return $betweenVersions; // nothing to do
         }
@@ -163,7 +155,7 @@ class IncrementalItem implements ItemInterface
             $versions = self::sortAsc($versions);
         } else {
             $versions = self::sortDesc($versions);
-            list($initialVersion, $finalVersion) = array($finalVersion, $initialVersion);
+            list($initialVersion, $finalVersion) = [$finalVersion, $initialVersion];
         }
 
         foreach ($versions as $version) {
@@ -200,7 +192,13 @@ class IncrementalItem implements ItemInterface
             }
         }
 
-        $this->_version = join('.', array_reverse($parts));
+        $parts = array_reverse($parts);
+
+        $this->normalizeParts($parts)
+            ->regenerateVersionStamp();
+
+        $this->_version = join('.', $parts);
+
         return $this;
     }
 
@@ -217,4 +215,32 @@ class IncrementalItem implements ItemInterface
         return $this->_version;
     }
 
+    protected function regenerateVersionStamp()
+    {
+        $n = 2;
+        $versionStamp = 0;
+
+        foreach ($this->_parts as $part) {
+            if (is_numeric($part)) {
+                $versionStamp += $part * pow(10, $n);
+            } else {
+                $versionStamp += ord($part) * pow(10, $n);
+            }
+
+            $n -= 1;
+        }
+
+        $this->_versionStamp = $versionStamp;
+
+        return $this;
+    }
+
+    protected function normalizeParts(array $parts)
+    {
+        $this->_parts = array_map(function ($v) {
+            return strval($v);
+        }, $parts);
+
+        return $this;
+    }
 }
