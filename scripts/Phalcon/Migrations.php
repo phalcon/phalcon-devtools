@@ -21,6 +21,7 @@
 
 namespace Phalcon;
 
+use Phalcon\Config;
 use Phalcon\Db\Index;
 use DirectoryIterator;
 use Phalcon\Db\Column;
@@ -187,7 +188,7 @@ class Migrations
         /** @var Config $config */
         $config = $options['config'];
         if (!$config instanceof Config) {
-            throw new ModelException('Internal error. Config should be an instance of \Phalcon\Config');
+            throw new ModelException('Internal error. Config should be an instance of ' . Config::class);
         }
 
         // Init ModelMigration
@@ -312,17 +313,12 @@ class Migrations
         /** @var Config $config */
         $config = $options['config'];
         if (!$config instanceof Config) {
-            throw new ModelException('Internal error. Config should be an instance of \Phalcon\Config');
+            throw new ModelException('Internal error. Config should be an instance of ' . Config::class);
         }
 
         // Init ModelMigration
         if (!isset($config->database)) {
             throw new ScriptException('Cannot load database configuration');
-        }
-
-        $finalVersion = null;
-        if (isset($options['version']) && $options['version'] !== null) {
-            $finalVersion = VersionCollection::createItem($options['version']);
         }
 
         $versionItems = ModelMigration::scanForVersions($migrationsDir);
@@ -332,43 +328,28 @@ class Migrations
             return;
         }
 
-        // Set default final version
-        if ($finalVersion === null) {
-            $finalVersion = VersionCollection::maximum($versionItems);
-        }
-
         ModelMigration::setup($config->database);
         ModelMigration::setMigrationPath($migrationsDir);
         self::connectionSetup($options);
-        $initialVersion = self::getCurrentVersion($options);
+
         $completedVersions = self::getCompletedVersions($options);
+        $versionItems = VersionCollection::sortDesc($versionItems);
 
-        if ($finalVersion->getStamp() < $initialVersion->getStamp()) {
-            $direction = ModelMigration::DIRECTION_BACK;
-            $versionItems = VersionCollection::sortDesc($versionItems);
-        } else {
-            $direction = ModelMigration::DIRECTION_FORWARD;
-            $versionItems = VersionCollection::sortAsc($versionItems);
-        }
-
+        $report = [];
         foreach ($versionItems as $versionItem) {
-            if ((ModelMigration::DIRECTION_FORWARD === $direction) && isset($completedVersions[(string)$versionItem])) {
-                print Color::success('Version ' . (string)$versionItem . ' was already applied');
-                continue;
-            } elseif ((ModelMigration::DIRECTION_BACK === $direction) && !isset($completedVersions[(string)$versionItem])) {
-                print Color::success('Version ' . (string)$versionItem . ' was already rolled back');
-                continue;
-            }
-
-            if (ModelMigration::DIRECTION_FORWARD === $direction) {
-                print Color::error('Version ' . (string)$versionItem . ' was not applied');
-                continue;
-            } elseif (ModelMigration::DIRECTION_BACK === $direction) {
-                print Color::error('Version ' . (string)$versionItem . ' was not rolled back');
-                continue;
-            }
-
+            $versionNumber = $versionItem->getVersion();
+            $report[] = sprintf("│ %-25s │ %12s │", $versionNumber, isset($completedVersions[$versionNumber]) ? 'Y' : 'N');
         }
+
+        $header = sprintf("│ %-25s │ %12s │", 'Version', 'Was applied');
+        $report[] = '├' . str_repeat('─', 27) . '┼'. str_repeat('─', 14) . '┤';
+        $report[] = $header;
+
+        $report = array_reverse($report);
+
+        echo '┌' . str_repeat('─', 27) . '┬'. str_repeat('─', 14) . '┐' . PHP_EOL;
+        echo join(PHP_EOL, $report) . PHP_EOL;
+        echo '└' . str_repeat('─', 27) . '┴'. str_repeat('─', 14) . '┘'. PHP_EOL . PHP_EOL;
     }
 
     /**
