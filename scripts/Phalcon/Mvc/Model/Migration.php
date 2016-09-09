@@ -147,12 +147,12 @@ class Migration
     /**
      * Generates all the class migration definitions for certain database setup
      *
-     * @param  string $version
-     * @param  string $exportData
+     * @param  ItemInterface $version
+     * @param  string        $exportData
      *
      * @return array
      */
-    public static function generateAll($version, $exportData = null)
+    public static function generateAll(ItemInterface $version, $exportData = null)
     {
         $classDefinition = [];
         $schema = Utils::resolveDbSchema(self::$_databaseConfig);
@@ -177,14 +177,14 @@ class Migration
     /**
      * Generate specified table migration
      *
-     * @param      $version
-     * @param      $table
-     * @param null $exportData
+     * @param ItemInterface $version
+     * @param string        $table
+     * @param mixed         $exportData
      *
      * @return string
      * @throws \Phalcon\Db\Exception
      */
-    public static function generate($version, $table, $exportData = null)
+    public static function generate(ItemInterface $version, $table, $exportData = null)
     {
         $oldColumn = null;
         $allFields = [];
@@ -349,7 +349,7 @@ class Migration
             $optionsDefinition[] = "'".strtoupper($optionName)."' => '".$optionValue."'";
         }
 
-        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
+        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version->getStamp());
         $className = Text::camelize($table).'Migration_'.$classVersion;
 
         // morph()
@@ -397,8 +397,8 @@ class Migration
 
         // dump data
         if ($exportData == 'always' || $exportData == 'oncreate') {
-            $fileHandler = fopen(self::$_migrationPath.$version.'/'.$table.'.dat', 'w');
-            $cursor = self::$_connection->query('SELECT * FROM '.$table);
+            $fileHandler = fopen(self::$_migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
+            $cursor = self::$_connection->query('SELECT * FROM '. self::$_connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
             while ($row = $cursor->fetchArray()) {
                 $data = [];
