@@ -178,7 +178,7 @@ class Script
 
     public function loadUserScripts()
     {
-        if (file_exists('.phalcon/project.ini')) {
+        if (!file_exists('.phalcon/project.ini')) {
             return;
         }
 
