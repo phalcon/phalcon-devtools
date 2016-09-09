@@ -69,6 +69,8 @@ class Migrations
      * @param array $options
      *
      * @throws \Exception
+     * @throws \LogicException
+     * @throws \RuntimeException
      */
     public static function generate(array $options)
     {
@@ -85,7 +87,7 @@ class Migrations
         }
 
         // Use timestamped version if description is provided
-        if ($descr = $options['descr']) {
+        if (isset($options['descr']) && $descr = $options['descr']) {
             $version = (string)(int)(microtime(true) * pow(10, 6));
             VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
             $versionItem = VersionCollection::createItem($version . '_' . $descr);

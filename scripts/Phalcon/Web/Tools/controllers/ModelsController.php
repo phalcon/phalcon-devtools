@@ -23,9 +23,12 @@ use Phalcon\Utils;
 use Phalcon\Builder\Model;
 use Phalcon\Builder\AllModels;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Web\Tools\Traits\DatabaseAware;
 
 class ModelsController extends ControllerBase
 {
+    use DatabaseAware;
+
     public function indexAction()
     {
         if ($this->dispatcher->wasForwarded()) {

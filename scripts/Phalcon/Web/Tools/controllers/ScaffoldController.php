@@ -18,12 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Builder\BuilderException;
-use Phalcon\Builder\Scaffold;
 use Phalcon\Utils;
+use Phalcon\Builder\Scaffold;
+use Phalcon\Builder\BuilderException;
+use Phalcon\Web\Tools\Traits\DatabaseAware;
 
 class ScaffoldController extends ControllerBase
 {
+    use DatabaseAware;
+
     public function indexAction()
     {
         if ($this->dispatcher->wasForwarded()) {
