@@ -21,7 +21,6 @@
 
 namespace Phalcon;
 
-use Phalcon\Config;
 use Phalcon\Db\Index;
 use DirectoryIterator;
 use Phalcon\Db\Column;
@@ -180,7 +179,7 @@ class Migrations
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
 
-        $migrationsDir = rtrim($options['migrationsDir'], '/');
+        $migrationsDir = rtrim($options['migrationsDir'], '\\/');
         if (!file_exists($migrationsDir)) {
             throw new ModelException('Migrations directory was not found.');
         }
@@ -461,10 +460,12 @@ class Migrations
             }
         } else {
             // Get and clean migration
-            $version = file_exists(self::$_storage)
-                ? file_get_contents(self::$_storage)
-                : null;
-            $version = trim($version) ?: null;
+            $version = file_exists(self::$_storage) ? file_get_contents(self::$_storage) : null;
+
+            if ($version = trim($version) ?: null) {
+                $version = preg_split('/\r\n|\r|\n/', $version, -1, PREG_SPLIT_NO_EMPTY);
+                $version = array_pop($version);
+            }
 
             return VersionCollection::createItem($version);
         }
