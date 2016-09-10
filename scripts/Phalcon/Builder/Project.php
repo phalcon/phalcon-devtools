@@ -20,6 +20,11 @@
 
 namespace Phalcon\Builder;
 
+use Phalcon\Builder\Project\Cli;
+use Phalcon\Builder\Project\Micro;
+use Phalcon\Builder\Project\Simple;
+use Phalcon\Builder\Project\Modules;
+
 /**
  * Project Builder
  *
@@ -45,10 +50,10 @@ class Project extends Component
      * @var array
      */
     private $_types = [
-        self::TYPE_MICRO   => '\Phalcon\Builder\Project\Micro',
-        self::TYPE_SIMPLE  => '\Phalcon\Builder\Project\Simple',
-        self::TYPE_MODULES => '\Phalcon\Builder\Project\Modules',
-        self::TYPE_CLI     => '\Phalcon\Builder\Project\Cli',
+        self::TYPE_MICRO   => Micro::class,
+        self::TYPE_SIMPLE  => Simple::class,
+        self::TYPE_MODULES => Modules::class,
+        self::TYPE_CLI     => Cli::class,
     ];
 
     /**
