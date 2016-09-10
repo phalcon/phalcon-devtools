@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -33,6 +33,8 @@ use Phalcon\Web\Tools;
  */
 class Simple extends ProjectBuilder
 {
+    use ProjectAware;
+
     /**
      * Project directories
      * @var array
@@ -172,20 +174,6 @@ class Simple extends ProjectBuilder
     {
         $getFile = $this->options->get('templatePath') . '/project/simple/index.php';
         $putFile = $this->options->get('projectPath') . 'public/index.php';
-        $this->generateFile($getFile, $putFile);
-
-        return $this;
-    }
-
-    /**
-     * Create .htrouter.php file
-     *
-     * @return $this
-     */
-    private function createHtrouterFile()
-    {
-        $getFile = $this->options->get('templatePath') . '/project/simple/.htrouter.php';
-        $putFile = $this->options->get('projectPath') . '.htrouter.php';
         $this->generateFile($getFile, $putFile);
 
         return $this;

@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,14 +15,14 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          David Schissler <eduar@phalconphp.com>                        |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Builder\Project;
 
-use Phalcon\Builder\Controller as ControllerBuilder;
 use Phalcon\Web\Tools;
+use Phalcon\Builder\Controller as ControllerBuilder;
 
 /**
  * Multi-Module
@@ -33,6 +33,8 @@ use Phalcon\Web\Tools;
  */
 class Modules extends ProjectBuilder
 {
+    use ProjectAware;
+
     /**
      * Project directories
      * @var array
@@ -246,20 +248,6 @@ class Modules extends ProjectBuilder
         $putFile = $this->options->get('projectPath') . 'run';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
         chmod($putFile, 0755);
-
-        return $this;
-    }
-
-    /**
-     * Create .htrouter.php file
-     *
-     * @return $this
-     */
-    private function createHtrouterFile()
-    {
-        $getFile = $this->options->get('templatePath') . '/project/modules/.htrouter.php';
-        $putFile = $this->options->get('projectPath') . '.htrouter.php';
-        $this->generateFile($getFile, $putFile);
 
         return $this;
     }
