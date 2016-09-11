@@ -79,6 +79,16 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV
  */
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
+/**
+ * @const HOSTNAME The current hostname.
+ */
+defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
+
+/**
+ * @const PTOOLS_VERSION The Phalcon Developers Tools version.
+ */
+define('PTOOLS_VERSION', '3.0.2');
+
 if (ENV_DEVELOPMENT === APPLICATION_ENV) {
     error_reporting(E_ALL);
 
