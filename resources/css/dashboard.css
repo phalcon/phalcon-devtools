@@ -1,0 +1,42 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.logo-lg strong {
+    font-weight: 500;
+}
+
+.user-panel > .info > p {
+    font-weight: 400;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    font-size: 13px;
+}
+
+.main-footer strong {
+    font-weight: 500;
+}
+
+.main-footer .pull-right.hidden-xs {
+    color: #afafaf;
+}
+
+form#widget-form .box-header {
+    width: 100%;
+    padding-bottom: 0;
+}
+
+form#widget-form .box-title {
+    width: 100%;
+}
+
+form input#widget-form-title {
+    font-size: 1em;
+}
+
+form input#widget-form-title:focus {
+    border-color: #00c0ef;
+}
