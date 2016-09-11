@@ -472,14 +472,18 @@ class Bootstrap
 
                 $volt = new VoltEngine($view, $di);
                 $config = $this->getShared('config');
+
+                $appCacheDir = $config->get('application', new Config)->get('cacheDir');
                 $defaultCacheDir = sys_get_temp_dir() . DS . 'phalcon' . DS . 'volt';
 
-
+                $voltConfig = null;
                 if ($config->offsetExists('volt')) {
                     $voltConfig = $config->get('volt');
                 } elseif ($config->offsetExists('view')) {
                     $voltConfig = $config->get('view');
-                } else {
+                }
+
+                if (!$voltConfig instanceof Config) {
                     $voltConfig = new Config([
                         'compiledExt'  => '.php',
                         'separator'    => '_',
@@ -488,7 +492,7 @@ class Bootstrap
                     ]);
                 }
 
-                $compiledPath = function ($templatePath) use ($voltConfig, $basePath, $defaultCacheDir) {
+                $compiledPath = function ($templatePath) use ($voltConfig, $basePath, $appCacheDir, $defaultCacheDir) {
                     /**
                      * @var DiInterface $this
                      * @var Config $voltConfig
@@ -501,7 +505,7 @@ class Bootstrap
                     );
 
                     $filename = basename($filename, '.volt') . $voltConfig->get('compiledExt', '.php');
-                    $cacheDir = $voltConfig->get('cacheDir');
+                    $cacheDir = $voltConfig->get('cacheDir', $appCacheDir);
 
                     if (!$cacheDir || !is_dir($cacheDir) || !is_writable($cacheDir)) {
                         $cacheDir = $defaultCacheDir;
@@ -514,7 +518,6 @@ class Bootstrap
 
                     return rtrim($cacheDir, '\\/') . DS . $filename;
                 };
-
 
                 $options = [
                     'compiledPath'  => $voltConfig->get('compiledPath', $compiledPath),
@@ -558,7 +561,7 @@ class Bootstrap
                 $view
                     ->setViewsDir($viewsDir)
                     ->setLayoutsDir('layouts' . DS)
-                    ->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);;
+                    ->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);
 
                 $em = $this->getShared('eventsManager');
 
