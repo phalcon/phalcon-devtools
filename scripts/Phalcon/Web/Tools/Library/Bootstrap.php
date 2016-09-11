@@ -48,6 +48,9 @@ use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Application as AbstractApplication;
 use Phalcon\Mvc\View\Exception as ViewException;
+use Phalcon\Cache\Frontend\None as FrontendNone;
+use Phalcon\Cache\Backend\Memory as BackendCache;
+use Phalcon\Cache\Frontend\Output as FrontOutput;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Logger\AdapterInterface as LoggerInterface;
 use Phalcon\Web\Tools\Library\Access\Policy\Ip as IpPolicy;
@@ -115,6 +118,7 @@ class Bootstrap
             'eventsManager',
             'config',
             'logger',
+            'cache',
             'volt',
             'view',
             'url',
@@ -456,6 +460,36 @@ class Bootstrap
                 $logger->setLogLevel($logLevel);
 
                 return $logger;
+            }
+        );
+    }
+
+    /**
+     * Initialize the Cache.
+     *
+     * The frontend must always be Phalcon\Cache\Frontend\Output and the service 'viewCache'
+     * must be registered as always open (not shared) in the services container (DI).
+     */
+    protected function initCache()
+    {
+        $this->di->set(
+            'viewCache',
+            function () {
+                return new BackendCache(new FrontOutput);
+            }
+        );
+
+        $this->di->setShared(
+            'modelsCache',
+            function () {
+                return new BackendCache(new FrontendNone);
+            }
+        );
+
+        $this->di->setShared(
+            'dataCache',
+            function () {
+                return new BackendCache(new FrontendNone);
             }
         );
     }
