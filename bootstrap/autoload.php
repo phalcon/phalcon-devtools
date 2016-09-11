@@ -72,7 +72,7 @@ defined('ENV_TESTING') || define('ENV_TESTING', 'testing');
 /**
  * @const APPLICATION_ENV Current application stage.
  */
-defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV_PRODUCTION);
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV_DEVELOPMENT);
 
 /**
  * @const DS The DIRECTORY_SEPARATOR shortcut.
