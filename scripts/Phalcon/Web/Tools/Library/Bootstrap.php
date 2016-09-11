@@ -43,6 +43,8 @@ use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Application as AbstractApplication;
 use Phalcon\Mvc\View\Exception as ViewException;
+use Phalcon\Web\Tools\Library\Access\Policy\Ip as IpPolicy;
+use Phalcon\Web\Tools\Library\Access\Manager as AccessManager;
 use Phalcon\Web\Tools\Library\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
 use Phalcon\Web\Tools\Library\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 
@@ -92,6 +94,7 @@ class Bootstrap
     private $configurable = [
         'ptools_path',
         'ptools_ip',
+        'base_path',
     ];
 
     private $loaders = [
@@ -103,6 +106,7 @@ class Bootstrap
             'dispatcher',
             'flash',
             'database',
+            'accessManager',
         ],
     ];
 
@@ -459,7 +463,7 @@ class Bootstrap
                 $dispatcher = new Dispatcher;
                 $dispatcher->setDefaultNamespace('WebTools\Controllers');
 
-                // @todo Attach access manager to the Events Manager
+                $em->attach('dispatch', $this->getShared('access'), 1000);
                 $em->attach('dispatch:beforeException', new DispatchErrorHandler, 999);
 
                 $dispatcher->setEventsManager($em);
@@ -557,6 +561,24 @@ class Bootstrap
                 $connection->setEventsManager($em);
 
                 return $connection;
+            }
+        );
+    }
+
+    /**
+     * Initialize the Access Manager.
+     */
+    protected function initAccessManager()
+    {
+        $ptoolsIp = $this->ptoolsIp;
+
+        $this->di->setShared(
+            'access',
+            function () use ($ptoolsIp) {
+                $policy  = new IpPolicy($ptoolsIp);
+                $manager = new AccessManager($policy);
+
+                return $manager;
             }
         );
     }
