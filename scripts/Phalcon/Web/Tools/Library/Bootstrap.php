@@ -37,6 +37,7 @@ use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
@@ -104,6 +105,7 @@ class Bootstrap
             'view',
             'url',
             'dispatcher',
+            'assets',
             'flash',
             'database',
             'accessManager',
@@ -166,9 +168,6 @@ class Bootstrap
      */
     public function getOutput()
     {
-        /** @var \Phalcon\Mvc\Application $app */
-        $app = $this->app;
-
         return $this->app->handle()->getContent();
     }
 
@@ -469,6 +468,19 @@ class Bootstrap
                 $dispatcher->setEventsManager($em);
 
                 return $dispatcher;
+            }
+        );
+    }
+
+    /**
+     * Initialize the Assets Manager.
+     */
+    protected function initAssets()
+    {
+        $this->di->setShared(
+            'assets',
+            function () {
+                return new AssetsManager;
             }
         );
     }
