@@ -460,10 +460,11 @@ class Bootstrap
     protected function initVolt()
     {
         $basePath = $this->basePath;
+        $ptoolsPath = $this->ptoolsPath;
 
         $this->di->setShared(
             'volt',
-            function ($view, $di) use ($basePath) {
+            function ($view, $di) use ($basePath, $ptoolsPath) {
                 /**
                  * @var DiInterface $this
                  * @var Config $config
@@ -487,33 +488,44 @@ class Bootstrap
                     $voltConfig = new Config([
                         'compiledExt'  => '.php',
                         'separator'    => '_',
-                        'cacheDir'     => $defaultCacheDir,
+                        'cacheDir'     => $appCacheDir ?: $defaultCacheDir,
                         'forceCompile' => ENV_DEVELOPMENT === APPLICATION_ENV,
                     ]);
                 }
 
-                $compiledPath = function ($templatePath) use ($voltConfig, $basePath, $appCacheDir, $defaultCacheDir) {
+                $compiledPath = function ($templatePath) use (
+                    $voltConfig,
+                    $basePath,
+                    $ptoolsPath,
+                    $appCacheDir,
+                    $defaultCacheDir
+                ) {
                     /**
                      * @var DiInterface $this
                      * @var Config $voltConfig
                      */
 
-                    $filename = str_replace(
-                        ['\\', '/'],
-                        $voltConfig->get('separator', '_'),
-                        trim(substr($templatePath, strlen($basePath)), '\\/')
-                    );
+                    if (0 === strpos($templatePath, $basePath)) {
+                        $templatePath = substr($templatePath, strlen($basePath));
+                    } elseif (0 === strpos($templatePath, $ptoolsPath . DS . 'scripts')) {
+                        $templatePath = substr($templatePath, strlen($ptoolsPath . DS . 'scripts'));
+                    }
 
+                    $filename = str_replace(['\\', '/'], $voltConfig->get('separator', '_'), trim($templatePath, '\\/'));
                     $filename = basename($filename, '.volt') . $voltConfig->get('compiledExt', '.php');
                     $cacheDir = $voltConfig->get('cacheDir', $appCacheDir);
 
                     if (!$cacheDir || !is_dir($cacheDir) || !is_writable($cacheDir)) {
+                        $this->getShared('logger')->warning(
+                            'Unable to initialize Volt cache dir: {cache}. Used temp path: {default}',
+                            [
+                                'cache'   => $cacheDir,
+                                'default' => $defaultCacheDir
+                            ]
+                        );
+
                         $cacheDir = $defaultCacheDir;
                         mkdir($cacheDir, 0777, true);
-
-                        $this->getShared('logger')->warning(
-                            'Unable to initialize Volt cache dir. Used temp path: {path}', ['path' => $cacheDir]
-                        );
                     }
 
                     return rtrim($cacheDir, '\\/') . DS . $filename;
