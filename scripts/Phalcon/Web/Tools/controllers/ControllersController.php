@@ -27,10 +27,6 @@ class ControllersController extends ControllerBase
 {
     public function indexAction()
     {
-        if ($this->dispatcher->wasForwarded()) {
-            return;
-        }
-
         if (!$this->controllersDir) {
             $this->flash->error(
                 "Sorry, WebTools doesn't know where the controllers directory is.<br>" .
