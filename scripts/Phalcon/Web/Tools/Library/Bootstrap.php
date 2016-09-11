@@ -21,6 +21,7 @@
 
 namespace Phalcon\Web\Tools\Library;
 
+use Phalcon\Di;
 use Phalcon\Tag;
 use Phalcon\Text;
 use Phalcon\Config;
@@ -160,6 +161,8 @@ class Bootstrap
 
         $this->di->setShared('application', $this->app);
         $this->app->setDI($this->di);
+
+        Di::setDefault($this->di);
     }
 
     /**
