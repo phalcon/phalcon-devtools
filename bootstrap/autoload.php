@@ -50,6 +50,45 @@ defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(getenv('PTOOLSPATH') ?: dirn
 defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . '/templates');
 
 /**
+ * @const ENV_PRODUCTION Application production stage.
+ */
+defined('ENV_PRODUCTION') || define('ENV_PRODUCTION', 'production');
+
+/**
+ * @const ENV_STAGING Application staging stage.
+ */
+defined('ENV_STAGING') || define('ENV_STAGING', 'staging');
+
+/**
+ * @const ENV_DEVELOPMENT Application development stage.
+ */
+defined('ENV_DEVELOPMENT') || define('ENV_DEVELOPMENT', 'development');
+
+/**
+ * @const ENV_TESTING Application test stage
+ */
+defined('ENV_TESTING') || define('ENV_TESTING', 'testing');
+
+/**
+ * @const APPLICATION_ENV Current application stage
+ */
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV_PRODUCTION);
+
+if (ENV_DEVELOPMENT === APPLICATION_ENV) {
+    error_reporting(E_ALL);
+
+    // Enable xdebug parameter collection in development mode to improve fatal stack traces.
+    // Highly recommends use at least XDebug 2.2.3 for a better compatibility with Phalcon
+    if (extension_loaded('xdebug')) {
+        ini_set('xdebug.collect_params', 4);
+    }
+}
+
+if (PHP_SAPI == 'cli') {
+    set_time_limit(0);
+}
+
+/**
  * Register Devtools classes.
  */
 (new Loader)->registerDirs([PTOOLSPATH . '/scripts/'])
