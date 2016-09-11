@@ -47,6 +47,7 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Application as AbstractApplication;
 use Phalcon\Mvc\View\Exception as ViewException;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
+use Phalcon\Logger\AdapterInterface as LoggerInterface;
 use Phalcon\Web\Tools\Library\Access\Policy\Ip as IpPolicy;
 use Phalcon\Web\Tools\Library\Access\Manager as AccessManager;
 use Phalcon\Web\Tools\Library\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
@@ -112,6 +113,7 @@ class Bootstrap
             'eventsManager',
             'config',
             'logger',
+            'volt',
             'view',
             'url',
             'dispatcher',
@@ -453,6 +455,81 @@ class Bootstrap
     }
 
     /**
+     * Initialize the Volt Template Engine.
+     */
+    protected function initVolt()
+    {
+        $basePath = $this->basePath;
+
+        $this->di->setShared(
+            'volt',
+            function ($view, $di) use ($basePath) {
+                /**
+                 * @var DiInterface $this
+                 * @var Config $config
+                 * @var Config $voltConfig
+                 */
+
+                $volt = new VoltEngine($view, $di);
+                $config = $this->getShared('config');
+                $defaultCacheDir = sys_get_temp_dir() . DS . 'phalcon' . DS . 'volt';
+
+
+                if ($config->offsetExists('volt')) {
+                    $voltConfig = $config->get('volt');
+                } elseif ($config->offsetExists('view')) {
+                    $voltConfig = $config->get('view');
+                } else {
+                    $voltConfig = new Config([
+                        'compiledExt'  => '.php',
+                        'separator'    => '_',
+                        'cacheDir'     => $defaultCacheDir,
+                        'forceCompile' => ENV_DEVELOPMENT === APPLICATION_ENV,
+                    ]);
+                }
+
+                $compiledPath = function ($templatePath) use ($voltConfig, $basePath, $defaultCacheDir) {
+                    /**
+                     * @var DiInterface $this
+                     * @var Config $voltConfig
+                     */
+
+                    $filename = str_replace(
+                        ['\\', '/'],
+                        $voltConfig->get('separator', '_'),
+                        trim(substr($templatePath, strlen($basePath)), '\\/')
+                    );
+
+                    $filename = basename($filename, '.volt') . $voltConfig->get('compiledExt', '.php');
+                    $cacheDir = $voltConfig->get('cacheDir');
+
+                    if (!$cacheDir || !is_dir($cacheDir) || !is_writable($cacheDir)) {
+                        $cacheDir = $defaultCacheDir;
+                        mkdir($cacheDir, 0777, true);
+
+                        $this->getShared('logger')->warning(
+                            'Unable to initialize Volt cache dir. Used temp path: {path}', ['path' => $cacheDir]
+                        );
+                    }
+
+                    return rtrim($cacheDir, '\\/') . DS . $filename;
+                };
+
+
+                $options = [
+                    'compiledPath'  => $voltConfig->get('compiledPath', $compiledPath),
+                    'compileAlways' => ENV_DEVELOPMENT === APPLICATION_ENV || boolval($voltConfig->get('forceCompile')),
+                ];
+
+                $volt->setOptions($options);
+                $volt->getCompiler()->addExtension(new PhpExt);
+
+                return $volt;
+            }
+        );
+    }
+
+    /**
      * Initialize the View.
      */
     protected function initView()
@@ -462,10 +539,62 @@ class Bootstrap
         $this->di->setShared(
             'view',
             function () use ($path) {
+                /**
+                 * @var DiInterface $this
+                 * @var Config $config
+                 * @var Config $voltConfig
+                 */
+
                 $view = new View;
-                $view->setViewsDir(
-                    $path . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Views') . DS
+                $that = $this;
+
+                $view->registerEngines([
+                    '.volt'  => $this->getShared('volt', [$view, $this]),
+                    '.phtml' => Php::class
+                ]);
+
+                $viewsDir = $path . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Views') . DS;
+
+                $view
+                    ->setViewsDir($viewsDir)
+                    ->setLayoutsDir('layouts' . DS)
+                    ->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);;
+
+                $em = $this->getShared('eventsManager');
+
+                $em->attach(
+                    'view',
+                    function ($event, $view) use ($that) {
+                        /**
+                         * @var LoggerInterface $logger
+                         * @var View $view
+                         * @var Event $event
+                         * @var DiInterface $that
+                         */
+                        $logger = $that->get('logger');
+                        $paths = $view->getActiveRenderPath();
+
+                        if (!is_array($paths)) {
+                            $paths = [$paths];
+                        }
+
+                        $logger->debug(
+                            sprintf(
+                                'Event %s. Paths: [%s]',
+                                $event->getType(),
+                                join(', ', $paths)
+                            )
+                        );
+
+                        if ('notFoundView' == $event->getType()) {
+                            $message = sprintf('View not found: %s', $view->getActiveRenderPath());
+                            $logger->error($message);
+                            throw new ViewException($message);
+                        }
+                    }
                 );
+
+                $view->setEventsManager($em);
 
                 return $view;
             }
@@ -488,18 +617,18 @@ class Bootstrap
 
                 $url = new UrlResolver;
 
-                if ($config->get('application', new Config)->get('baseUri')) {
+                if ($config->get('application', new Config)->offsetExists('baseUri')) {
                     $baseUri = $config->get('application', new Config)->get('baseUri');
-                } elseif ($config->get('baseUri')) {
+                } elseif ($config->offsetExists('baseUri')) {
                     $baseUri = $config->get('baseUri');
                 } else {
                     // @todo Log notice here
                     $baseUri = '/';
                 }
 
-                if ($config->get('application', new Config)->get('staticUri')) {
+                if ($config->get('application', new Config)->offsetExists('staticUri')) {
                     $staticUri = $config->get('application', new Config)->get('staticUri');
-                } elseif ($config->get('staticUri')) {
+                } elseif ($config->offsetExists('staticUri')) {
                     $staticUri = $config->get('staticUri');
                 } else {
                     // @todo Log notice here
@@ -595,16 +724,19 @@ class Bootstrap
                 $em   = $this->getShared('eventsManager');
                 $that = $this;
 
-                if ($this->getShared('config')->get('database')) {
+                if ($this->getShared('config')->offsetExists('database')) {
                     $config = $this->getShared('config')->get('database')->toArray();
-                } elseif ($this->getShared('config')->get('db')) {
+                } elseif ($this->getShared('config')->offsetExists('db')) {
                     $config = $this->getShared('config')->get('db')->toArray();
                 } else {
-                    trigger_error('Unable to initialize "db" service. Used default config', E_USER_NOTICE);
-                    // @todo
+                    $dbname = sys_get_temp_dir() . DS . 'phalcon.sqlite';
+                    $this->getShared('logger')->warning(
+                        'Unable to initialize "db" service. Used Sqlite adapter at path: {path}', ['path' => $dbname]
+                    );
+
                     $config = [
                         'adapter' => 'Sqlite',
-                        'dbname'  => sys_get_temp_dir() . DS . 'phalcon.sqlite',
+                        'dbname'  => $dbname,
                     ];
                 }
 
