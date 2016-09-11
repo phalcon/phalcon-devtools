@@ -27,8 +27,15 @@
  *          192.168.0.1 or SUBNET 192., 10.0.2., 86.84.124.
  */
 defined('PTOOLS_IP') || define('PTOOLS_IP', '192.168.');
-defined('BASE_PATH') || define('BASE_PATH', realpath('..'));
+defined('BASE_PATH') || define('BASE_PATH', dirname(dirname(__FILE__)));
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . DIRECTORY_SEPARATOR . 'app');
+
+// Setting environment
+defined('ENV_PRODUCTION')  || define('ENV_PRODUCTION', 'production');
+defined('ENV_STAGING')     || define('ENV_STAGING', 'staging');
+defined('ENV_DEVELOPMENT') || define('ENV_DEVELOPMENT', 'development');
+defined('ENV_TESTING')     || define('ENV_TESTING', 'testing');
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV_DEVELOPMENT);
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
 
