@@ -323,12 +323,16 @@ class Tools
             });
 
             $di->setShared('flash', function () {
-                return new Flash([
+                $flash = new Flash([
                     'error'   => 'alert alert-danger',
                     'success' => 'alert alert-success',
                     'notice'  => 'alert alert-info',
                     'warning' => 'alert alert-warning'
                 ]);
+
+                $flash->setAutoescape(false);
+
+                return $flash;
             });
 
             $di->setShared('db', function () use ($config) {

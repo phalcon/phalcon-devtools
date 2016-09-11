@@ -31,10 +31,6 @@ class ModelsController extends ControllerBase
 
     public function indexAction()
     {
-        if ($this->dispatcher->wasForwarded()) {
-            return;
-        }
-
         $this->listTables(true);
 
         if (!$this->modelsDir) {

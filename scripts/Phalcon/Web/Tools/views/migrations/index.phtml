@@ -1,6 +1,7 @@
 <?php
 /**
  * Local variables
+ *
  * @var \Phalcon\Mvc\View\Engine $this
  * @var array $tables
  * @var string|null $migrationsDir
@@ -27,9 +28,10 @@
             </div>
 
             <div class="form-group disabled">
-                <label for="version" class="col-sm-4 control-label">New Version</label>
+                <label for="version" class="col-sm-4 control-label">Version</label>
                 <div class="col-sm-8">
                     <?php echo $this->tag->textField(array('version', 'placeholder' => 'Leave empty to automatically add new version',  'class' => 'form-control', 'id' => 'version')) ?>
+                    <span class="help-block">Version to migrate</span>
                 </div>
             </div>
 
@@ -37,6 +39,7 @@
                 <label for="table-name" class="col-sm-4 control-label">Table name</label>
                 <div class="col-sm-8">
                     <?php echo $this->tag->selectStatic(array('table-name', 'class' => 'form-control', 'id' => 'table-name'), $tables); ?>
+                    <span class="help-block">Table to migrate. Default: all</span>
                 </div>
             </div>
 
@@ -44,6 +47,15 @@
                 <label for="migrationsDir" class="col-sm-4 control-label">Migrations Dir</label>
                 <div class="col-sm-8">
                     <?php echo $this->tag->textField(array('migrationsDir', 'value' => $migrationsDir,  'class' => 'form-control', 'id' => 'migrationsDir')) ?>
+                    <span class="help-block">Migrations directory</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="projectDir" class="col-sm-4 control-label">Project Dir</label>
+                <div class="col-sm-8">
+                    <?php echo $this->tag->textField(array('projectDir', 'value' => $projectDir,  'class' => 'form-control', 'id' => 'projectDir')) ?>
+                    <span class="help-block">Directory where the project was created</span>
                 </div>
             </div>
 
@@ -52,6 +64,16 @@
                     <div class="checkbox">
                         <label for="force">
                             <?php echo $this->tag->checkField(array('force', 'id' => 'force', 'value' => 1)) ?> Force
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <div class="checkbox">
+                        <label for="exportData">
+                            <?php echo $this->tag->checkField(array('exportData', 'id' => 'exportData', 'value' => 1)) ?> Export data
                         </label>
                     </div>
                 </div>

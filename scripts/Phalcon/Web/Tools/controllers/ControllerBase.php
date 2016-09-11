@@ -58,6 +58,12 @@ class ControllerBase extends Controller
     protected $migrationsDir = null;
 
     /**
+     * Directory where the project was created
+     * @var string|null
+     */
+    protected $projectDir = null;
+
+    /**
      * Path component
      * @var Path
      */
@@ -90,8 +96,8 @@ class ControllerBase extends Controller
             if (function_exists('posix_getpwuid')) {
                 $owner = posix_getpwuid($file->getOwner());
                 $group = posix_getgrgid($file->getGroup());
-                $userName = isset($owner['name']) ? $owner['name'] : '-?-';
-                $groupName = isset($group['name']) ? $group['name'] : '-?-';
+                $userName = empty($owner['name']) ? $owner['name'] : '-?-';
+                $groupName = empty($group['name']) ? $group['name'] : '-?-';
 
                 $userName = $userName . ' / ' . $groupName;
             }
@@ -110,7 +116,7 @@ class ControllerBase extends Controller
      */
     protected function checkAccess()
     {
-        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : false;
+        $ip = $this->request->getClientAddress();
 
         if ($ip && ($ip == '127.0.0.1' || $ip == '::1' || $this->checkToolsIp($ip))) {
             return true;
@@ -158,12 +164,11 @@ class ControllerBase extends Controller
     {
         $config = Tools::getConfig()->offsetGet('application');
 
-        $dirs = array('modelsDir', 'controllersDir', 'migrationsDir');
-        $this->path->setRootPath(dirname($_SERVER["SCRIPT_FILENAME"]));
+        $this->path->setRootPath(dirname(dirname($this->request->getServer('SCRIPT_FILENAME'))));
         $projectPath = $this->path->getRootPath();
 
-        foreach ($dirs as $dirName) {
-            if (isset($config[$dirName]) && $config[$dirName]) {
+        foreach (['modelsDir', 'controllersDir', 'migrationsDir', 'projectDir'] as $dirName) {
+            if (!empty($config[$dirName])) {
                 if ($this->isAbsolutePath($config[$dirName])) {
                     $path = $config[$dirName];
                 } else {
@@ -175,6 +180,8 @@ class ControllerBase extends Controller
                 if (file_exists($path)) {
                     $this->{$dirName} = $path;
                 }
+            } else {
+                $this->projectDir = realpath($this->path->getRootPath()) . DIRECTORY_SEPARATOR;
             }
         }
 

@@ -55,10 +55,6 @@ class MigrationsController extends ControllerBase
 
     public function indexAction()
     {
-        if ($this->dispatcher->wasForwarded()) {
-            return;
-        }
-
         if (!$this->migrationsDir) {
             $this->flash->error(
                 "Sorry, WebTools doesn't know where the migrations directory is. <br>" .
@@ -67,7 +63,11 @@ class MigrationsController extends ControllerBase
         }
 
         $this->_prepareVersions();
-        $this->listTables();
+        $this->listTables(true);
+
+        $this->view->setVars([
+            'projectDir' => $this->projectDir,
+        ]);
     }
 
     /**
@@ -75,29 +75,29 @@ class MigrationsController extends ControllerBase
      */
     public function generateAction()
     {
-        if ($this->dispatcher->wasForwarded()) {
-            return;
-        }
-
         if ($this->request->isPost()) {
-            $exportData = '';
-
+            $directory     = $this->request->getPost('projectDir', 'string', $this->projectDir);
+            $exportData    = $this->request->getPost('exportData', 'int');
             $tableName     = $this->request->getPost('table-name', 'string');
             $version       = $this->request->getPost('version', 'string');
             $force         = $this->request->getPost('force', 'int');
             $noAi          = $this->request->getPost('noAi', 'int');
-            $migrationsDir = $this->request->getPost('migrationsDir');
+            $migrationsDir = $this->request->getPost('migrationsDir', 'string', $this->migrationsDir);
+            $descr         = null; // @todo
 
             try {
-                Migrations::generate(array(
-                    'config'          => Tools::getConfig(),
+
+                Migrations::generate([
+                    'directory'       => $directory,
                     'tableName'       => $tableName,
                     'exportData'      => $exportData,
                     'migrationsDir'   => $migrationsDir,
-                    'originalVersion' => $version,
                     'force'           => $force,
-                    'no-ai'           => $noAi,
-                ));
+                    'noAutoIncrement' => $noAi,
+                    'config'          => Tools::getConfig(),
+                    'descr'           => $descr,
+                    'version'         => $version,
+                ]);
 
                 $this->flash->success('The migration was generated successfully.');
             } catch (BuilderException $e) {
@@ -107,7 +107,7 @@ class MigrationsController extends ControllerBase
             }
         }
 
-        $this->response->redirect([
+        $this->dispatcher->forward([
             'controller' => 'migrations',
             'action'     => 'index'
         ]);

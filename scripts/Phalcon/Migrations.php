@@ -156,8 +156,6 @@ class Migrations
         } elseif (self::isConsole()) {
             print Color::info('Nothing to generate. You should create tables at first.') . PHP_EOL;
         }
-
-        exit(0);
     }
 
     /**
