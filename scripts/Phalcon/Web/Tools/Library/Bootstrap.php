@@ -21,6 +21,7 @@
 
 namespace Phalcon\Web\Tools\Library;
 
+use Phalcon\Tag;
 use Phalcon\Text;
 use Phalcon\Config;
 use Phalcon\Logger;
@@ -116,6 +117,7 @@ class Bootstrap
             'volt',
             'view',
             'url',
+            'tag',
             'dispatcher',
             'assets',
             'flash',
@@ -411,6 +413,7 @@ class Bootstrap
                 }
 
                 if (!$config instanceof Config) {
+                    // @todo Use Config Exception here
                     trigger_error(
                         sprintf(
                             "Configuration file couldn't be loaded! Scanned dirs: %s",
@@ -568,6 +571,7 @@ class Bootstrap
                     '.phtml' => Php::class
                 ]);
 
+                // @todo Use Path::normalize()
                 $viewsDir = $path . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Views') . DS;
 
                 $view
@@ -654,6 +658,25 @@ class Bootstrap
                 $url->setStaticBaseUri($staticUri);
 
                 return $url;
+            }
+        );
+    }
+
+    /**
+     * Initialize the Tag Service.
+     */
+    protected function initTag()
+    {
+        $this->di->setShared(
+            'tag',
+            function () {
+                $tag = new Tag;
+
+                $tag->setDocType(Tag::HTML5);
+                $tag->setTitleSeparator(' :: ');
+                $tag->setTitle('Phalcon WebTools');
+
+                return $tag;
             }
         );
     }
