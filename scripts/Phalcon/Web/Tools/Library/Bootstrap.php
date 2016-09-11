@@ -419,7 +419,7 @@ class Bootstrap
                     }
                 }
 
-                if (!$config instanceof Config) {
+                if (null === $config) {
                     // @todo Use Config Exception here
                     trigger_error(
                         sprintf(
@@ -430,6 +430,29 @@ class Bootstrap
                         ),
                         E_USER_ERROR
                     );
+
+                    exit(1);
+                }
+
+                if (!$config instanceof Config) {
+                    $type = gettype($config);
+                    if ($type == 'boolean') {
+                        $type .= ($type ? ' (true)' : ' (false)');
+                    } elseif (is_object($type)) {
+                        $type = get_class($type);
+                    }
+
+                    // @todo Use Config Exception here
+                    trigger_error(
+                        sprintf(
+                            'Unable to read config file. Config must be either an array or %s instance. Got %s',
+                            Config::class,
+                            $type
+                        ),
+                        E_USER_ERROR
+                    );
+
+                    exit(1);
                 }
 
                 return $config;
