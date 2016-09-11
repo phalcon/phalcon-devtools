@@ -23,6 +23,7 @@ namespace Phalcon\Web\Tools\Library;
 
 use Phalcon\Text;
 use Phalcon\Config;
+use Phalcon\Logger;
 use Phalcon\Mvc\View;
 use Phalcon\Exception;
 use Phalcon\DiInterface;
@@ -33,6 +34,7 @@ use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\View\Engine\Php;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Flash\Session as FlashSession;
@@ -44,6 +46,7 @@ use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Application as AbstractApplication;
 use Phalcon\Mvc\View\Exception as ViewException;
+use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Web\Tools\Library\Access\Policy\Ip as IpPolicy;
 use Phalcon\Web\Tools\Library\Access\Manager as AccessManager;
 use Phalcon\Web\Tools\Library\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
@@ -87,6 +90,12 @@ class Bootstrap
     private $basePath = '';
 
     /**
+     * The current hostname.
+     * @var string
+     */
+    private $hostName = 'Unknown';
+
+    /**
      * The current application mode.
      * @var string
      */
@@ -102,6 +111,7 @@ class Bootstrap
         'web' => [
             'eventsManager',
             'config',
+            'logger',
             'view',
             'url',
             'dispatcher',
@@ -122,7 +132,8 @@ class Bootstrap
         $defines = [
             'PTOOLSPATH' => 'ptoolsPath',
             'PTOOLS_IP'  => 'ptoolsIp',
-            'BASE_PATH'  => 'basePath'
+            'BASE_PATH'  => 'basePath',
+            'HOSTNAME'   => 'hostName',
         ];
 
         foreach ($defines as $const => $property) {
@@ -298,6 +309,30 @@ class Bootstrap
     }
 
     /**
+     * Sets the current hostname.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setHostName($name)
+    {
+        $this->hostName = trim($name);
+
+        return $this;
+    }
+
+    /**
+     * Gets the current application mode.
+     *
+     * @return string
+     */
+    public function getHostName()
+    {
+        return $this->hostName;
+    }
+
+    /**
      * Initialize the Application Events Manager.
      */
     protected function initEventsManager()
@@ -323,6 +358,8 @@ class Bootstrap
         $this->di->setShared(
             'config',
             function () use ($path) {
+                /** @var DiInterface $this */
+
                 $configDirs = [
                     'config',
                     'app/config',
@@ -363,7 +400,9 @@ class Bootstrap
                                 $config = new $adapter($probablyConfig);
                             }
 
-                            // @todo Log found config path here
+                            $this->getShared('logger')->debug('Found config at path: {path}', [
+                                'path' => $probablyConfig,
+                            ]);
                             break(2);
                         }
                     }
@@ -382,6 +421,33 @@ class Bootstrap
                 }
 
                 return $config;
+            }
+        );
+    }
+
+    /**
+     * Initialize the Logger.
+     */
+    protected function initLogger()
+    {
+        $hostName = $this->hostName;
+
+        $this->di->setShared(
+            'logger',
+            function () use ($hostName) {
+                $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%");
+
+                $logger = new Stream('php://stderr');
+                $logger->setFormatter($formatter);
+
+                $logLevel = Logger::ERROR;
+                if (ENV_DEVELOPMENT === APPLICATION_ENV) {
+                    $logLevel = Logger::DEBUG;
+                }
+
+                $logger->setLogLevel($logLevel);
+
+                return $logger;
             }
         );
     }
@@ -556,7 +622,7 @@ class Bootstrap
                          * @var AdapterInterface $connection
                          * @var DiInterface      $that
                          */
-                        if ($that->has('logger') && $event->getType() == 'beforeQuery') {
+                        if ($event->getType() == 'beforeQuery') {
                             $variables = $connection->getSQLVariables();
                             $string    = $connection->getSQLStatement();
 
@@ -564,8 +630,7 @@ class Bootstrap
                                 $string .= ' [' . join(', ', $variables) . ']';
                             }
 
-                            // To disable logging change logLevel in config
-                            $that->get('logger', ['db.log'])->debug($string);
+                            $that->getShared('logger')->debug($string);
                         }
                     }
                 );
@@ -587,8 +652,13 @@ class Bootstrap
         $this->di->setShared(
             'access',
             function () use ($ptoolsIp) {
-                $policy  = new IpPolicy($ptoolsIp);
+                /** @var DiInterface $this */
+                $em = $this->getShared('eventsManager');
+
+                $policy = new IpPolicy($ptoolsIp);
+
                 $manager = new AccessManager($policy);
+                $manager->setEventsManager($em);
 
                 return $manager;
             }
