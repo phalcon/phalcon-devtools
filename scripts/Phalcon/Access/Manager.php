@@ -19,16 +19,16 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Access;
+namespace Phalcon\Access;
 
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\User\Component;
 
 /**
- * \Phalcon\Web\Tools\Library\Access\Manager
+ * \Phalcon\Access\Manager
  *
- * @package Phalcon\Web\Tools\Library\Access
+ * @package Phalcon\Access
  */
 class Manager extends Component
 {

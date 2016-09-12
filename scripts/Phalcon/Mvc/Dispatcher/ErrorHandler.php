@@ -19,21 +19,8 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Access;
+namespace Phalcon\Mvc\Dispatcher;
 
-/**
- * \Phalcon\Web\Tools\Library\Access\PolicyInterface
- *
- * @package Phalcon\Web\Tools\Library\Access
- */
-interface PolicyInterface
+class ErrorHandler
 {
-    /**
-     * Checks whether a user is allowed to access an resource.
-     *
-     * @param string $resourceName Resource name.
-     * @param array  $data         Data. [Optional]
-     * @return bool
-     */
-    public function isAllowedAccess($resourceName, array $data = null);
 }

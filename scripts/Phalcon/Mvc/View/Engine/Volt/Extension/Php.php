@@ -19,7 +19,7 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Mvc\View\Engine\Volt\Extension;
+namespace Phalcon\Mvc\View\Engine\Volt\Extension;
 
 class Php
 {

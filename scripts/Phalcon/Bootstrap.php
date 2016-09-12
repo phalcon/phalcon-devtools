@@ -19,17 +19,10 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library;
+namespace Phalcon;
 
-use Phalcon\Di;
-use Phalcon\Tag;
-use Phalcon\Text;
-use Phalcon\Config;
-use Phalcon\Logger;
 use Phalcon\Mvc\View;
-use Phalcon\Exception;
 use Phalcon\Utils\Path;
-use Phalcon\DiInterface;
 use Phalcon\Events\Event;
 use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Mvc\Dispatcher;
@@ -41,10 +34,12 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Resources\AssetsResource;
+use Phalcon\Access\Policy\Ip as IpPolicy;
 use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
+use Phalcon\Access\Manager as AccessManager;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -55,10 +50,8 @@ use Phalcon\Cache\Backend\Memory as BackendCache;
 use Phalcon\Cache\Frontend\Output as FrontOutput;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Logger\AdapterInterface as LoggerInterface;
-use Phalcon\Web\Tools\Library\Access\Policy\Ip as IpPolicy;
-use Phalcon\Web\Tools\Library\Access\Manager as AccessManager;
-use Phalcon\Web\Tools\Library\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
-use Phalcon\Web\Tools\Library\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
+use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
+use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 
 /**
  * \Phalcon\Web\Tools\Library\Bootstrap

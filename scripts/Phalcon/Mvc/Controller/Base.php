@@ -19,7 +19,7 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Mvc\Controller;
+namespace Phalcon\Mvc\Controller;
 
 use Phalcon\Mvc\Controller;
 use Phalcon\Assets\Filters\Jsmin;

@@ -19,15 +19,15 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Access\Policy;
+namespace Phalcon\Access\Policy;
 
 use Phalcon\Di\Injectable;
-use Phalcon\Web\Tools\Library\Access\PolicyInterface;
+use Phalcon\Access\PolicyInterface;
 
 /**
- * \Phalcon\Web\Tools\Library\Access\Policy\Ip
+ * \Phalcon\Access\Policy\Ip
  *
- * @package Phalcon\Web\Tools\Library\Access\Policy
+ * @package Phalcon\Access\Policy
  */
 class Ip extends Injectable implements PolicyInterface
 {
