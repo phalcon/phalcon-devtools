@@ -42,9 +42,8 @@ abstract class Base extends Controller
         $this->setVars()
             ->setCss()
             ->setJs()
-            ->setLayout();
-
-        $this->initialize();
+            ->setLayout()
+            ->initialize();
     }
 
     /**
@@ -65,7 +64,8 @@ abstract class Base extends Controller
         $this->assets
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
-            ->setTargetUri('css/webtools.css')
+            ->setTargetUri('css/webtools.css?v=' . PTOOLS_VERSION)
+            // @todo Use Path::normalize()
             ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/bootstrap/css/bootstrap.min.css'), true, false)
             ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/admin-lte/css/AdminLTE.min.css'))
             ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/admin-lte/css/skins/_all-skins.min.css'), true, false)
@@ -92,9 +92,10 @@ abstract class Base extends Controller
         $this->assets
             ->collection('footer')
             ->setTargetPath('js/webtools.js')
-            ->setTargetUri('js/webtools.js')
+            ->setTargetUri('js/webtools.js?v=' . PTOOLS_VERSION)
             ->addJs('https://code.jquery.com/ui/1.11.4/jquery-ui.min.js', false, false)
             ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
+            // @todo Use Path::normalize()
             ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/bootstrap/js/bootstrap.min.js'), true, false)
             ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/sparkline/jquery.sparkline.min.js'), true, false)
             ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/jvectormap/jquery-jvectormap-1.2.2.min.js'), true, false)
@@ -114,7 +115,7 @@ abstract class Base extends Controller
         $this->assets
             ->collection('js_ie')
             ->setTargetPath('js/webtools-ie.js')
-            ->setTargetUri('js/webtools-ie.js')
+            ->setTargetUri('js/webtools-ie.js?v=' . PTOOLS_VERSION)
             ->addJs('https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js', false, false)
             ->addJs('https://oss.maxcdn.com/respond/1.4.2/respond.min.js', false, false)
             ->join(true)
@@ -156,9 +157,16 @@ abstract class Base extends Controller
             [
                 'base_uri'      => $this->url->getBaseUri(),
                 'webtools_uri'  => rtrim('/', $this->url->getBaseUri()) . '/webtools.php',
+                'ptools_version'=> PTOOLS_VERSION,
+                'lte_version'   => '2.3.6',
+                'phalcon_team'  => 'Phalcon Team',
+                'lte_team'      => 'Almsaeed Studio',
                 'phalcon_url'   => 'https://www.phalconphp.com',
+                'lte_url'       => 'http://almsaeedstudio.com',
                 'app_name'      => 'Phalcon WebTools',
+                'lte_name'      => 'AdminLTE',
                 'copy_date'     => '2011-'.date('Y'),
+                'lte_date'      => '2014-'.date('Y'),
                 'page_title'    => $this->pageTitle,
                 'page_subtitle' => $this->pageSubTitle,
             ]
