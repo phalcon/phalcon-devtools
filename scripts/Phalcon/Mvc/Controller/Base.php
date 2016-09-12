@@ -26,18 +26,18 @@ use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\Cssmin;
 
 /**
- * \Phalcon\Web\Tools\Library\Mvc\Controller\Base
+ * \Phalcon\Mvc\Controller\Base
  *
  * @property \Phalcon\Config $config
  * @property \Phalcon\Utils\Path $path
  * @property \Phalcon\Resources\AssetsResource $resource
  *
- * @package Phalcon\Web\Tools\Library\Mvc\Controller
+ * @package Phalcon\Mvc\Controller
  */
 abstract class Base extends Controller
 {
-    public $pageTitle = '';
-    public $pageSubTitle = '';
+    protected $pageTitle = '';
+    protected $pageSubTitle = '';
 
     public function onConstruct()
     {
