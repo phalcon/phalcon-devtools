@@ -165,6 +165,7 @@ abstract class Base extends Controller
                 'phalcon_url'   => 'https://www.phalconphp.com',
                 'lte_url'       => 'http://almsaeedstudio.com',
                 'app_name'      => 'Phalcon WebTools',
+                'app_mini'      => 'PWT',
                 'lte_name'      => 'AdminLTE',
                 'copy_date'     => '2011-'.date('Y'),
                 'lte_date'      => '2014-'.date('Y'),
