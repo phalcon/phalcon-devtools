@@ -32,6 +32,8 @@ use Phalcon\Mvc\User\Component;
  */
 class Manager extends Component
 {
+    const EXCEPTION_ACTION_DISALLOWED = 10;
+
     /**
      * The access policy instance.
      * @var PolicyInterface
@@ -77,7 +79,10 @@ class Manager extends Component
             $this->getEventsManager()->fire(
                 'dispatch:beforeException',
                 $dispatcher,
-                new Dispatcher\Exception
+                new Dispatcher\Exception(
+                    sprintf('The access to the %s resource is denied.', $controller),
+                    self::EXCEPTION_ACTION_DISALLOWED
+                )
             );
         }
 
