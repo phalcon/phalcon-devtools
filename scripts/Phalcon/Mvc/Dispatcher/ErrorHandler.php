@@ -19,68 +19,65 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Access;
+namespace Phalcon\Mvc\Dispatcher;
 
+use Phalcon\Dispatcher;
 use Phalcon\Events\Event;
-use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Access\Manager;
+use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
 /**
- * \Phalcon\Web\Tools\Library\Access\Manager
+ * \Phalcon\Mvc\Dispatcher\ErrorHandler
  *
- * @package Phalcon\Web\Tools\Library\Access
+ * @package Phalcon\Mvc\Dispatcher
  */
-class Manager extends Component
+class ErrorHandler
 {
     /**
-     * The access policy instance.
-     * @var PolicyInterface
-     */
-    protected $policy;
-
-    /**
-     * Manager constructor.
-     *
-     * @param PolicyInterface $policy
-     */
-    public function __construct(PolicyInterface $policy)
-    {
-        $this->policy = $policy;
-    }
-
-    /**
-     * Checks whether a user is allowed to access an resource.
-     *
-     * @param string $resourceName Resource name.
-     * @param array  $data         Data. [Optional]
-     * @return bool
-     */
-    public function isAllowedAccess($resourceName, array $data = null)
-    {
-        return $this->policy->isAllowedAccess($resourceName, $data);
-    }
-
-    /**
-     * This action is executed before execute any action in the application.
+     * Before exception is happening.
      *
      * @param Event      $event      Event object.
      * @param Dispatcher $dispatcher Dispatcher object.
-     * @param array      $data       Data.
+     * @param \Exception $exception  Exception object.
      *
-     * @return mixed
+     * @throws \Exception
+     * @return bool
      */
-    public function beforeDispatch(Event $event, Dispatcher $dispatcher, array $data = null)
+    public function beforeException(Event $event, Dispatcher $dispatcher, $exception)
     {
-        $controller = $dispatcher->getControllerName();
+        if ($exception instanceof DispatchException) {
+            switch ($exception->getCode()) {
+                case Dispatcher::EXCEPTION_CYCLIC_ROUTING:
+                    $action = 'route500';
+                    break;
+                case Manager::EXCEPTION_ACTION_DISALLOWED:
+                    $action = 'route403';
+                    break;
+                default:
+                    $action = 'route404';
+            }
 
-        if (!$this->isAllowedAccess($controller, $data)) {
-            $this->getEventsManager()->fire(
-                'dispatch:beforeException',
-                $dispatcher,
-                new Dispatcher\Exception
+            $dispatcher->forward(
+                [
+                    'controller' => 'error',
+                    'action'     => $action
+                ]
             );
+
+            return false;
         }
 
-        return !$event->isStopped();
+        if (ENV_PRODUCTION !== APPLICATION_ENV) {
+            throw $exception;
+        }
+
+        $dispatcher->forward(
+            [
+                'controller' => 'error',
+                'action'     => 'route500'
+            ]
+        );
+
+        return $event->isStopped();
     }
 }

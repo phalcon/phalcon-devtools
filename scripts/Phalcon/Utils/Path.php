@@ -19,8 +19,26 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Mvc\Dispatcher;
+namespace Phalcon\Utils;
 
-class ErrorHandler
+use Phalcon\Text;
+
+/**
+ * \Phalcon\Utils\Path
+ *
+ * @package Phalcon\Utils
+ */
+class Path
 {
+    /**
+     * Normalize directory separator depending on the operating system.
+     *
+     * @param string $path
+     *
+     * @return mixed
+     */
+    public function normalize($path)
+    {
+        return str_replace('/', DS, Text::reduceSlashes($path));
+    }
 }

@@ -19,12 +19,12 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Access;
+namespace Phalcon\Access;
 
 /**
- * \Phalcon\Web\Tools\Library\Access\PolicyInterface
+ * \Phalcon\Access\PolicyInterface
  *
- * @package Phalcon\Web\Tools\Library\Access
+ * @package Phalcon\Access
  */
 interface PolicyInterface
 {

@@ -19,30 +19,29 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library;
+namespace Phalcon;
 
-use Phalcon\Di;
-use Phalcon\Tag;
-use Phalcon\Text;
-use Phalcon\Config;
-use Phalcon\Logger;
 use Phalcon\Mvc\View;
-use Phalcon\Exception;
-use Phalcon\DiInterface;
+use DirectoryIterator;
+use Phalcon\Mvc\Router;
+use Phalcon\Utils\Path;
 use Phalcon\Events\Event;
 use Phalcon\Db\Adapter\Pdo;
-use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Resources\AssetsResource;
+use Phalcon\Access\Policy\Ip as IpPolicy;
 use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
+use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Mvc\Application as MvcApplication;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -53,10 +52,10 @@ use Phalcon\Cache\Backend\Memory as BackendCache;
 use Phalcon\Cache\Frontend\Output as FrontOutput;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Logger\AdapterInterface as LoggerInterface;
-use Phalcon\Web\Tools\Library\Access\Policy\Ip as IpPolicy;
-use Phalcon\Web\Tools\Library\Access\Manager as AccessManager;
-use Phalcon\Web\Tools\Library\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
-use Phalcon\Web\Tools\Library\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
+use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
+use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 
 /**
  * \Phalcon\Web\Tools\Library\Bootstrap
@@ -121,6 +120,8 @@ class Bootstrap
             'cache',
             'volt',
             'view',
+            'annotations',
+            'router',
             'url',
             'tag',
             'dispatcher',
@@ -128,6 +129,7 @@ class Bootstrap
             'flash',
             'database',
             'accessManager',
+            'utils',
         ],
     ];
 
@@ -154,7 +156,7 @@ class Bootstrap
         $this->setParams($parameters);
 
         $this->di  = new FactoryDefault;
-        $this->app = new Application;
+        $this->app = new MvcApplication;
 
         foreach ($this->loaders[$this->mode] as $service) {
             $serviceName = ucfirst($service);
@@ -681,6 +683,70 @@ class Bootstrap
     }
 
     /**
+     * Initialize the Annotations.
+     */
+    protected function initAnnotations()
+    {
+        $this->di->setShared(
+            'annotations',
+            function () {
+                return new AnnotationsMemory;
+            }
+        );
+    }
+
+    /**
+     * Initialize the Router.
+     */
+    protected function initRouter()
+    {
+        $ptoolsPath = $this->ptoolsPath;
+
+        $this->di->setShared(
+            'router',
+            function () use ($ptoolsPath) {
+                /** @var DiInterface $this */
+                $em = $this->getShared('eventsManager');
+
+                $router = new AnnotationsRouter(false);
+
+                if (!isset($_GET['_url'])) {
+                    $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
+                }
+
+                $router->removeExtraSlashes(true);
+                $router->setEventsManager($em);
+
+                // @todo Use Path::normalize()
+                $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers');
+                $dir = new DirectoryIterator($controllersDir);
+
+                $resources = [];
+
+                foreach ($dir as $fileInfo) {
+                    if ($fileInfo->isDot() || false === strpos($fileInfo->getBasename(), 'Controller.php')) {
+                        continue;
+                    }
+
+                    $controller = $fileInfo->getBasename('Controller.php');
+                    $resources[] = $controller;
+                }
+
+                foreach ($resources as $controller) {
+                    $router->addResource($controller);
+                }
+
+                $router->setDefaultAction('index');
+                $router->setDefaultController('index');
+                $router->setDefaultNamespace('WebTools\Controllers');
+                $router->notFound(['controller' => 'error', 'action' => 'route404']);
+
+                return $router;
+            }
+        );
+    }
+
+    /**
      * Initialize the Url service.
      */
     protected function initUrl()
@@ -714,7 +780,7 @@ class Bootstrap
                     $staticUri = '/';
                 }
 
-                $url->setBaseUri($baseUri);
+                $url->setBaseUri($baseUri . '/webtools.php/');
                 $url->setStaticBaseUri($staticUri);
 
                 return $url;
@@ -752,7 +818,7 @@ class Bootstrap
                 /** @var DiInterface $this */
                 $em = $this->get('eventsManager');
 
-                $dispatcher = new Dispatcher;
+                $dispatcher = new MvcDispatcher;
                 $dispatcher->setDefaultNamespace('WebTools\Controllers');
 
                 $em->attach('dispatch', $this->getShared('access'), 1000);
@@ -891,6 +957,26 @@ class Bootstrap
                 $manager->setEventsManager($em);
 
                 return $manager;
+            }
+        );
+    }
+
+    /**
+     * Initialize utilities.
+     */
+    protected function initUtils()
+    {
+        $this->di->setShared(
+            'path',
+            function () {
+                return new Path;
+            }
+        );
+
+        $this->di->setShared(
+            'resource',
+            function () {
+                return new AssetsResource;
             }
         );
     }

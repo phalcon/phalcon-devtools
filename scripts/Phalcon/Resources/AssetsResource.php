@@ -19,8 +19,28 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library\Mvc\View\Engine\Volt\Extension;
+namespace Phalcon\Resources;
 
-class Php
+use Phalcon\Mvc\User\Component;
+
+/**
+ * \Phalcon\Resources\AssetsResource
+ *
+ * @property \Phalcon\Utils\Path $path
+ *
+ * @package Phalcon\Resources
+ */
+class AssetsResource extends Component
 {
+    /**
+     * Returns assets resource path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function path($path)
+    {
+        return PTOOLSPATH . DS . 'resources' . DS . $this->path->normalize($path);
+    }
 }
