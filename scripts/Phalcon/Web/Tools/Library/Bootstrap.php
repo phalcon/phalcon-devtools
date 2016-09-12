@@ -128,6 +128,7 @@ class Bootstrap
             'flash',
             'database',
             'accessManager',
+            'utils',
         ],
     ];
 
@@ -891,6 +892,26 @@ class Bootstrap
                 $manager->setEventsManager($em);
 
                 return $manager;
+            }
+        );
+    }
+
+    /**
+     * Initialize utilities.
+     */
+    protected function initUtils()
+    {
+        $this->di->setShared(
+            'path',
+            function () {
+                return new Path;
+            }
+        );
+
+        $this->di->setShared(
+            'resource',
+            function () {
+                return new AssetsResource;
             }
         );
     }

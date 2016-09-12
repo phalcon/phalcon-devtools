@@ -28,7 +28,9 @@ use Phalcon\Assets\Filters\Cssmin;
 /**
  * \Phalcon\Web\Tools\Library\Mvc\Controller\Base
  *
- * @property \Phalcon\Config config
+ * @property \Phalcon\Config $config
+ * @property \Phalcon\Web\Tools\Library\Path $path
+ * @property \Phalcon\Web\Tools\Library\AssetsResource $resource
  *
  * @package Phalcon\Web\Tools\Library\Mvc\Controller
  */
@@ -65,17 +67,16 @@ abstract class Base extends Controller
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
             ->setTargetUri('css/webtools.css?v=' . PTOOLS_VERSION)
-            // @todo Use Path::normalize()
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/bootstrap/css/bootstrap.min.css'), true, false)
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/admin-lte/css/AdminLTE.min.css'))
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/admin-lte/css/skins/_all-skins.min.css'), true, false)
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/iCheck/flat/blue.css'))
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/morris/morris.min.css'), true, false)
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/jvectormap/jquery-jvectormap-1.2.2.css'))
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/datepicker/datepicker3.css'))
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/daterangepicker/daterangepicker.css'))
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'))
-            ->addCss(PTOOLSPATH . str_replace('/', DS, '/resources/css/dashboard.css'))
+            ->addCss($this->resource->path('bootstrap/css/bootstrap.min.css'), true, false)
+            ->addCss($this->resource->path('admin-lte/css/AdminLTE.min.css'))
+            ->addCss($this->resource->path('admin-lte/css/skins/_all-skins.min.css'), true, false)
+            ->addCss($this->resource->path('iCheck/flat/blue.css'))
+            ->addCss($this->resource->path('morris/morris.min.css'), true, false)
+            ->addCss($this->resource->path('jvectormap/jquery-jvectormap-1.2.2.css'))
+            ->addCss($this->resource->path('datepicker/datepicker3.css'))
+            ->addCss($this->resource->path('daterangepicker/daterangepicker.css'))
+            ->addCss($this->resource->path('bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'))
+            ->addCss($this->resource->path('css/dashboard.css'))
             ->join(true)
             ->addFilter(new Cssmin);
 
@@ -96,19 +97,19 @@ abstract class Base extends Controller
             ->addJs('https://code.jquery.com/ui/1.11.4/jquery-ui.min.js', false, false)
             ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
             // @todo Use Path::normalize()
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/bootstrap/js/bootstrap.min.js'), true, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/sparkline/jquery.sparkline.min.js'), true, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/jvectormap/jquery-jvectormap-1.2.2.min.js'), true, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/jvectormap/jquery-jvectormap-world-mill-en.js'), true, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/knob/jquery.knob.js'))
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/daterangepicker/daterangepicker.js'))
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/datepicker/bootstrap-datepicker.js'))
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'), false, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/slimScroll/jquery.slimscroll.min.js'), false, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/fastclick/fastclick.min.js'), false, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/admin-lte/js/app.min.js'), true, false)
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/admin-lte/js/pages/dashboard.js'))
-            ->addJs(PTOOLSPATH . str_replace('/', DS, '/resources/js/dashboard.js'))
+            ->addJs($this->resource->path('bootstrap/js/bootstrap.min.js'), true, false)
+            ->addJs($this->resource->path('sparkline/jquery.sparkline.min.js'), true, false)
+            ->addJs($this->resource->path('jvectormap/jquery-jvectormap-1.2.2.min.js'), true, false)
+            ->addJs($this->resource->path('jvectormap/jquery-jvectormap-world-mill-en.js'), true, false)
+            ->addJs($this->resource->path('knob/jquery.knob.js'))
+            ->addJs($this->resource->path('daterangepicker/daterangepicker.js'))
+            ->addJs($this->resource->path('datepicker/bootstrap-datepicker.js'))
+            ->addJs($this->resource->path('bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'), false, false)
+            ->addJs($this->resource->path('slimScroll/jquery.slimscroll.min.js'), false, false)
+            ->addJs($this->resource->path('fastclick/fastclick.min.js'), false, false)
+            ->addJs($this->resource->path('admin-lte/js/app.min.js'), true, false)
+            ->addJs($this->resource->path('admin-lte/js/pages/dashboard.js'))
+            ->addJs($this->resource->path('js/dashboard.js'))
             ->join(true)
             ->addFilter(new Jsmin);
 
