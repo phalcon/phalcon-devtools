@@ -22,6 +22,8 @@
 namespace Phalcon;
 
 use Phalcon\Mvc\View;
+use DirectoryIterator;
+use Phalcon\Mvc\Router;
 use Phalcon\Utils\Path;
 use Phalcon\Events\Event;
 use Phalcon\Db\Adapter\Pdo;
@@ -50,6 +52,7 @@ use Phalcon\Cache\Backend\Memory as BackendCache;
 use Phalcon\Cache\Frontend\Output as FrontOutput;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Logger\AdapterInterface as LoggerInterface;
+use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
 use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 
@@ -116,6 +119,7 @@ class Bootstrap
             'cache',
             'volt',
             'view',
+            'router',
             'url',
             'tag',
             'dispatcher',
@@ -672,6 +676,51 @@ class Bootstrap
                 $view->setEventsManager($em);
 
                 return $view;
+            }
+        );
+    }
+
+    /**
+     * Initialize the Router.
+     */
+    protected function initRouter()
+    {
+        $ptoolsPath = $this->ptoolsPath;
+
+        $this->di->setShared(
+            'router',
+            function () use ($ptoolsPath) {
+                /** @var DiInterface $this */
+                $em = $this->getShared('eventsManager');
+
+                $router = new AnnotationsRouter(false);
+
+                $router->removeExtraSlashes(true);
+                $router->setEventsManager($em);
+
+                // @todo Use Path::normalize()
+                $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers');
+                $dir = new DirectoryIterator($controllersDir);
+
+                $resources = [];
+
+                foreach ($dir as $fileInfo) {
+                    if ($fileInfo->isDot() || false === strpos($fileInfo->getBasename(), 'Controller.php')) {
+                        continue;
+                    }
+
+                    $controller = $fileInfo->getBasename('Controller.php');
+                    $resources[] = $controller;
+                }
+
+                foreach ($resources as $controller) {
+                    $router->addResource($controller);
+                }
+
+                $router->setDefaultNamespace('WebTools\Controllers');
+                $router->notFound(['controller' => 'error', 'action' => 'route404']);
+
+                return $router;
             }
         );
     }
