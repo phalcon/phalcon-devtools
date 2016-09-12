@@ -163,6 +163,7 @@ abstract class Base extends Controller
                 'phalcon_team'  => 'Phalcon Team',
                 'lte_team'      => 'Almsaeed Studio',
                 'phalcon_url'   => 'https://www.phalconphp.com',
+                'devtools_url'  => 'https://github.com/phalcon/phalcon-devtools',
                 'lte_url'       => 'http://almsaeedstudio.com',
                 'app_name'      => 'Phalcon WebTools',
                 'app_mini'      => 'PWT',
