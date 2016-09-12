@@ -27,8 +27,6 @@ use Phalcon\Mvc\Router;
 use Phalcon\Utils\Path;
 use Phalcon\Events\Event;
 use Phalcon\Db\Adapter\Pdo;
-use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\View\Engine\Php;
@@ -38,10 +36,12 @@ use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Resources\AssetsResource;
 use Phalcon\Access\Policy\Ip as IpPolicy;
 use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Mvc\Application as MvcApplication;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -54,6 +54,7 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Logger\AdapterInterface as LoggerInterface;
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 
 /**
@@ -119,6 +120,7 @@ class Bootstrap
             'cache',
             'volt',
             'view',
+            'annotations',
             'router',
             'url',
             'tag',
@@ -154,7 +156,7 @@ class Bootstrap
         $this->setParams($parameters);
 
         $this->di  = new FactoryDefault;
-        $this->app = new Application;
+        $this->app = new MvcApplication;
 
         foreach ($this->loaders[$this->mode] as $service) {
             $serviceName = ucfirst($service);
@@ -681,6 +683,19 @@ class Bootstrap
     }
 
     /**
+     * Initialize the Annotations.
+     */
+    protected function initAnnotations()
+    {
+        $this->di->setShared(
+            'annotations',
+            function () {
+                return new AnnotationsMemory;
+            }
+        );
+    }
+
+    /**
      * Initialize the Router.
      */
     protected function initRouter()
@@ -694,6 +709,10 @@ class Bootstrap
                 $em = $this->getShared('eventsManager');
 
                 $router = new AnnotationsRouter(false);
+
+                if (!isset($_GET['_url'])) {
+                    $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
+                }
 
                 $router->removeExtraSlashes(true);
                 $router->setEventsManager($em);
@@ -717,6 +736,8 @@ class Bootstrap
                     $router->addResource($controller);
                 }
 
+                $router->setDefaultAction('index');
+                $router->setDefaultController('index');
                 $router->setDefaultNamespace('WebTools\Controllers');
                 $router->notFound(['controller' => 'error', 'action' => 'route404']);
 
@@ -759,7 +780,7 @@ class Bootstrap
                     $staticUri = '/';
                 }
 
-                $url->setBaseUri($baseUri);
+                $url->setBaseUri($baseUri . '/webtools.php/');
                 $url->setStaticBaseUri($staticUri);
 
                 return $url;
@@ -797,7 +818,7 @@ class Bootstrap
                 /** @var DiInterface $this */
                 $em = $this->get('eventsManager');
 
-                $dispatcher = new Dispatcher;
+                $dispatcher = new MvcDispatcher;
                 $dispatcher->setDefaultNamespace('WebTools\Controllers');
 
                 $em->attach('dispatch', $this->getShared('access'), 1000);
