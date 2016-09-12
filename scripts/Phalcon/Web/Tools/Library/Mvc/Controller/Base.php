@@ -29,8 +29,8 @@ use Phalcon\Assets\Filters\Cssmin;
  * \Phalcon\Web\Tools\Library\Mvc\Controller\Base
  *
  * @property \Phalcon\Config $config
- * @property \Phalcon\Web\Tools\Library\Path $path
- * @property \Phalcon\Web\Tools\Library\AssetsResource $resource
+ * @property \Phalcon\Utils\Path $path
+ * @property \Phalcon\Resources\AssetsResource $resource
  *
  * @package Phalcon\Web\Tools\Library\Mvc\Controller
  */

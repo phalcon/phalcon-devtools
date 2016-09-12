@@ -19,26 +19,28 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Web\Tools\Library;
+namespace Phalcon\Resources;
 
-use Phalcon\Text;
+use Phalcon\Mvc\User\Component;
 
 /**
- * \Phalcon\Web\Tools\Library\Path
+ * \Phalcon\Resources\AssetsResource
  *
- * @package Phalcon\Web\Tools\Library
+ * @property \Phalcon\Utils\Path $path
+ *
+ * @package Phalcon\Resources
  */
-class Path
+class AssetsResource extends Component
 {
     /**
-     * Normalize directory separator depending on the operating system.
+     * Returns assets resource path.
      *
      * @param string $path
      *
-     * @return mixed
+     * @return string
      */
-    public function normalize($path)
+    public function path($path)
     {
-        return str_replace('/', DS, Text::reduceSlashes($path));
+        return PTOOLSPATH . DS . 'resources' . DS . $this->path->normalize($path);
     }
 }
