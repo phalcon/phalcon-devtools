@@ -32,6 +32,7 @@ use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Resources\AssetsResource;
+use Phalcon\Elements\Menu\SidebarMenu;
 use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Access\Policy\Ip as IpPolicy;
 use Phalcon\Flash\Session as FlashSession;
@@ -130,6 +131,7 @@ class Bootstrap
             'database',
             'accessManager',
             'utils',
+            'ui',
         ],
     ];
 
@@ -980,6 +982,27 @@ class Bootstrap
             'resource',
             function () {
                 return new AssetsResource;
+            }
+        );
+    }
+
+    /**
+     * Initialize User Interface components (mostly HTML elements).
+     */
+    protected function initUi()
+    {
+        $this->di->setShared(
+            'sidebar',
+            function () {
+                /** @var DiInterface $this */
+                $em = $this->get('eventsManager');
+
+                $menu = new SidebarMenu;
+
+                $menu->setDI($this);
+                $menu->setEventsManager($em);
+
+                return $menu;
             }
         );
     }
