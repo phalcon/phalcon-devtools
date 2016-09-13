@@ -111,6 +111,7 @@ class Bootstrap
         'ptools_path',
         'ptools_ip',
         'base_path',
+        'hostName',
     ];
 
     private $loaders = [
@@ -130,6 +131,7 @@ class Bootstrap
             'flash',
             'database',
             'accessManager',
+            'registry',
             'utils',
             'ui',
         ],
@@ -962,6 +964,57 @@ class Bootstrap
                 $manager->setEventsManager($em);
 
                 return $manager;
+            }
+        );
+    }
+
+    /**
+     * Initialize the global registry.
+     */
+    protected function initRegistry()
+    {
+        $basePath   = $this->basePath;
+        $ptoolsPath = $this->ptoolsPath;
+
+        $this->di->setShared(
+            'registry',
+            function () use ($basePath, $ptoolsPath) {
+                /**
+                 * @var DiInterface $this
+                 * @var Config $config
+                 * @var Path $path
+                 */
+                $registry = new Registry;
+
+                $config = $this->getShared('config');
+                $path   = $this->getShared('path');
+
+                $directories = [
+                    'modelsDir'      => null,
+                    'controllersDir' => null,
+                    'migrationsDir'  => null,
+                ];
+
+                if (($application = $config->get('application')) instanceof Config) {
+                    foreach ($directories as $name => $value) {
+                        if ($possiblePath = $application->get($name)) {
+                            if (!$path->isAbsolute($possiblePath)) {
+                                $possiblePath = $basePath . DS . $possiblePath;
+                            }
+
+                            if (is_readable($possiblePath) && is_dir($possiblePath)) {
+                                $directories[$name] = $path->normalize($possiblePath);
+                            }
+                        }
+                    }
+                }
+
+                $directories['basePath'] = $basePath;
+                $directories['ptoolsPath'] = $ptoolsPath;
+
+                $registry->offsetSet('directories', (object) $directories);
+
+                return $registry;
             }
         );
     }
