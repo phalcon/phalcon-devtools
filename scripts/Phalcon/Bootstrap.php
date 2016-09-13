@@ -23,7 +23,6 @@ namespace Phalcon;
 
 use Phalcon\Mvc\View;
 use DirectoryIterator;
-use Phalcon\Mvc\Router;
 use Phalcon\Utils\Path;
 use Phalcon\Events\Event;
 use Phalcon\Db\Adapter\Pdo;
@@ -223,6 +222,7 @@ class Bootstrap
     /**
      * Sets the path to the Phalcon Developers Tools.
      *
+     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -271,6 +271,7 @@ class Bootstrap
     /**
      * Sets the path where the project was created.
      *
+     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -716,9 +717,7 @@ class Bootstrap
                 $em = $this->getShared('eventsManager');
 
                 $router = new AnnotationsRouter(false);
-
                 $router->removeExtraSlashes(true);
-                $router->setEventsManager($em);
 
                 // @todo Use Path::normalize()
                 $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers');
@@ -739,6 +738,7 @@ class Bootstrap
                     $router->addResource($controller);
                 }
 
+                $router->setEventsManager($em);
                 $router->setDefaultAction('index');
                 $router->setDefaultController('index');
                 $router->setDefaultNamespace('WebTools\Controllers');
