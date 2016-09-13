@@ -44,6 +44,7 @@ class SidebarMenu extends Element
                         'href'  => '/webtools.php?_url=/',
                         'icon'  => 'fa fa-dashboard',
                         'text'  => 'Home',
+                        'wrap'  => 'span',
                     ],
                 ],
 
@@ -190,6 +191,7 @@ class SidebarMenu extends Element
                         'href'  => 'https://github.com/phalcon/phalcon-devtools',
                         'icon'  => 'fa fa-book',
                         'text'  => 'Phalcon DevTools',
+                        'wrap'  => 'span',
                     ],
                 ],
 
@@ -199,6 +201,7 @@ class SidebarMenu extends Element
                         'href'  => 'https://github.com/phalcon/incubator',
                         'icon'  => 'fa fa-book',
                         'text'  => 'Incubator',
+                        'wrap'  => 'span',
                     ],
                 ],
 
@@ -208,6 +211,7 @@ class SidebarMenu extends Element
                         'href'  => 'http://docs.phalconphp.com/',
                         'icon'  => 'fa fa-book',
                         'text'  => 'Phalcon Docs',
+                        'wrap'  => 'span',
                     ],
                 ],
 
@@ -217,6 +221,7 @@ class SidebarMenu extends Element
                         'href'  => 'http://zephir-lang.com/',
                         'icon'  => 'fa fa-book',
                         'text'  => 'Zephir',
+                        'wrap'  => 'span',
                     ],
                 ],
 
@@ -226,6 +231,7 @@ class SidebarMenu extends Element
                         'href'  => 'https://github.com/sergeyklay/awesome-phalcon',
                         'icon'  => 'fa fa-book',
                         'text'  => 'Awesome Phalcon',
+                        'wrap'  => 'span',
                     ],
                 ],
             ],
