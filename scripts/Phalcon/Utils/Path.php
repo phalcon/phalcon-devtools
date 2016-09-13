@@ -33,12 +33,36 @@ class Path
     /**
      * Normalize directory separator depending on the operating system.
      *
-     * @param string $path
+     * @param string $path Path to normalize
      *
      * @return mixed
      */
     public function normalize($path)
     {
         return str_replace('/', DS, Text::reduceSlashes($path));
+    }
+
+    /**
+     * Check if a path is absolute
+     *
+     * @param string $path Path to check
+     *
+     * @return bool
+     */
+    public function isAbsolute($path)
+    {
+        if (!is_string($path) || empty($path = trim($path))) {
+            return false;
+        }
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            if (preg_match('/^[A-Z]:\\\\/', $path)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return DS === substr($path, 0, 1) || false;
     }
 }
