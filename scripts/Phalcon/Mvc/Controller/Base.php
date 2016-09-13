@@ -30,6 +30,7 @@ use Phalcon\Assets\Filters\Cssmin;
  *
  * @property \Phalcon\Config $config
  * @property \Phalcon\Utils\Path $path
+ * @property \Phalcon\Registry $registry
  * @property \Phalcon\Elements\Menu\SidebarMenu $sidebar
  * @property \Phalcon\Resources\AssetsResource $resource
  *
