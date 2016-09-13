@@ -41,6 +41,7 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mvc\Application as MvcApplication;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
@@ -468,20 +469,26 @@ class Bootstrap
     protected function initLogger()
     {
         $hostName = $this->hostName;
+        $basePath = $this->basePath;
 
         $this->di->setShared(
             'logger',
-            function () use ($hostName) {
-                $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%");
-
-                $logger = new Stream('php://stderr');
-                $logger->setFormatter($formatter);
-
+            function () use ($hostName, $basePath) {
                 $logLevel = Logger::ERROR;
                 if (ENV_DEVELOPMENT === APPLICATION_ENV) {
                     $logLevel = Logger::DEBUG;
                 }
 
+                $ptoolsPath = $basePath . DS . '.phalcon' . DS;
+                if (is_dir($ptoolsPath) && is_writable($ptoolsPath)) {
+                    $formatter = new LineFormatter("%date% {$hostName} php: [%type%] %message%", 'D j H:i:s');
+                    $logger    = new FileLogger($ptoolsPath . 'devtools.log');
+                } else {
+                    $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%", 'D j H:i:s');
+                    $logger    = new Stream('php://stderr');
+                }
+
+                $logger->setFormatter($formatter);
                 $logger->setLogLevel($logLevel);
 
                 return $logger;
@@ -661,7 +668,7 @@ class Bootstrap
 
                         $logger->debug(
                             sprintf(
-                                'Event %s. Paths: [%s]',
+                                'View event [%s], paths: [%s]',
                                 $event->getType(),
                                 join(', ', $paths)
                             )
