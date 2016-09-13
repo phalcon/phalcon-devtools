@@ -45,13 +45,18 @@ class ErrorHandler
      */
     public function beforeException(Event $event, Dispatcher $dispatcher, $exception)
     {
+
         if ($exception instanceof DispatchException) {
             switch ($exception->getCode()) {
+                case Dispatcher::EXCEPTION_INVALID_HANDLER:
                 case Dispatcher::EXCEPTION_CYCLIC_ROUTING:
                     $action = 'route500';
                     break;
                 case Manager::EXCEPTION_ACTION_DISALLOWED:
                     $action = 'route403';
+                    break;
+                case Dispatcher::EXCEPTION_INVALID_PARAMS:
+                    $action = 'route400';
                     break;
                 default:
                     $action = 'route404';
@@ -60,7 +65,7 @@ class ErrorHandler
             $dispatcher->forward(
                 [
                     'controller' => 'error',
-                    'action'     => $action
+                    'action'     => $action,
                 ]
             );
 

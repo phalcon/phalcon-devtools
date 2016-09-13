@@ -23,7 +23,6 @@ namespace Phalcon;
 
 use Phalcon\Mvc\View;
 use DirectoryIterator;
-use Phalcon\Mvc\Router;
 use Phalcon\Utils\Path;
 use Phalcon\Events\Event;
 use Phalcon\Db\Adapter\Pdo;
@@ -31,9 +30,9 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Resources\AssetsResource;
+use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Access\Policy\Ip as IpPolicy;
 use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
@@ -41,6 +40,7 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mvc\Application as MvcApplication;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
@@ -222,6 +222,7 @@ class Bootstrap
     /**
      * Sets the path to the Phalcon Developers Tools.
      *
+     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -270,6 +271,7 @@ class Bootstrap
     /**
      * Sets the path where the project was created.
      *
+     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -468,20 +470,26 @@ class Bootstrap
     protected function initLogger()
     {
         $hostName = $this->hostName;
+        $basePath = $this->basePath;
 
         $this->di->setShared(
             'logger',
-            function () use ($hostName) {
-                $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%");
-
-                $logger = new Stream('php://stderr');
-                $logger->setFormatter($formatter);
-
+            function () use ($hostName, $basePath) {
                 $logLevel = Logger::ERROR;
                 if (ENV_DEVELOPMENT === APPLICATION_ENV) {
                     $logLevel = Logger::DEBUG;
                 }
 
+                $ptoolsPath = $basePath . DS . '.phalcon' . DS;
+                if (is_dir($ptoolsPath) && is_writable($ptoolsPath)) {
+                    $formatter = new LineFormatter("%date% {$hostName} php: [%type%] %message%", 'D j H:i:s');
+                    $logger    = new FileLogger($ptoolsPath . 'devtools.log');
+                } else {
+                    $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%", 'D j H:i:s');
+                    $logger    = new Stream('php://stderr');
+                }
+
+                $logger->setFormatter($formatter);
                 $logger->setLogLevel($logLevel);
 
                 return $logger;
@@ -661,7 +669,7 @@ class Bootstrap
 
                         $logger->debug(
                             sprintf(
-                                'Event %s. Paths: [%s]',
+                                'View event [%s], paths: [%s]',
                                 $event->getType(),
                                 join(', ', $paths)
                             )
@@ -709,13 +717,7 @@ class Bootstrap
                 $em = $this->getShared('eventsManager');
 
                 $router = new AnnotationsRouter(false);
-
-                if (!isset($_GET['_url'])) {
-                    $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
-                }
-
                 $router->removeExtraSlashes(true);
-                $router->setEventsManager($em);
 
                 // @todo Use Path::normalize()
                 $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers');
@@ -736,6 +738,7 @@ class Bootstrap
                     $router->addResource($controller);
                 }
 
+                $router->setEventsManager($em);
                 $router->setDefaultAction('index');
                 $router->setDefaultController('index');
                 $router->setDefaultNamespace('WebTools\Controllers');
@@ -780,7 +783,7 @@ class Bootstrap
                     $staticUri = '/';
                 }
 
-                $url->setBaseUri($baseUri . '/webtools.php/');
+                $url->setBaseUri($baseUri);
                 $url->setStaticBaseUri($staticUri);
 
                 return $url;
@@ -852,7 +855,7 @@ class Bootstrap
         $this->di->setShared(
             'flash',
             function () {
-                return new Flash(
+                return new FlashDirect(
                     [
                         'error'   => 'alert alert-danger fade in',
                         'success' => 'alert alert-success fade in',
