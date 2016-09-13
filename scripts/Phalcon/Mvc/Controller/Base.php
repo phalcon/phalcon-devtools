@@ -37,9 +37,6 @@ use Phalcon\Assets\Filters\Cssmin;
  */
 abstract class Base extends Controller
 {
-    protected $pageTitle = '';
-    protected $pageSubTitle = '';
-
     public function onConstruct()
     {
         $this->setVars()
@@ -171,8 +168,6 @@ abstract class Base extends Controller
                 'lte_name'      => 'AdminLTE',
                 'copy_date'     => '2011-'.date('Y'),
                 'lte_date'      => '2014-'.date('Y'),
-                'page_title'    => $this->pageTitle,
-                'page_subtitle' => $this->pageSubTitle,
             ]
         );
 
