@@ -31,9 +31,9 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Resources\AssetsResource;
+use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Access\Policy\Ip as IpPolicy;
 use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
@@ -710,10 +710,6 @@ class Bootstrap
 
                 $router = new AnnotationsRouter(false);
 
-                if (!isset($_GET['_url'])) {
-                    $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
-                }
-
                 $router->removeExtraSlashes(true);
                 $router->setEventsManager($em);
 
@@ -780,7 +776,7 @@ class Bootstrap
                     $staticUri = '/';
                 }
 
-                $url->setBaseUri($baseUri . '/webtools.php/');
+                $url->setBaseUri($baseUri);
                 $url->setStaticBaseUri($staticUri);
 
                 return $url;
@@ -852,7 +848,7 @@ class Bootstrap
         $this->di->setShared(
             'flash',
             function () {
-                return new Flash(
+                return new FlashDirect(
                     [
                         'error'   => 'alert alert-danger fade in',
                         'success' => 'alert alert-success fade in',
