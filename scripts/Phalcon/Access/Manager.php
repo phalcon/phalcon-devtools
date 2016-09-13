@@ -59,7 +59,7 @@ class Manager extends Component
      */
     public function isAllowedAccess($resourceName, array $data = null)
     {
-        return $this->policy->isAllowedAccess($resourceName, $data);
+        return $resourceName == 'error' || $this->policy->isAllowedAccess($resourceName, $data);
     }
 
     /**
