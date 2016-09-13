@@ -43,7 +43,7 @@ class Path
     }
 
     /**
-     * Check if a path is absolute
+     * Checks whether the path is absolute or not.
      *
      * @param string $path Path to check
      *
@@ -55,12 +55,8 @@ class Path
             return false;
         }
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            if (preg_match('/^[A-Z]:\\\\/', $path)) {
-                return true;
-            }
-
-            return false;
+        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+            return boolval(preg_match('/^[A-Z]:\\\\/', $path));
         }
 
         return DS === substr($path, 0, 1) || false;
