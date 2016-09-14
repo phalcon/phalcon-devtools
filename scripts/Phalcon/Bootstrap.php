@@ -32,6 +32,7 @@ use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Resources\AssetsResource;
+use Phalcon\Mvc\View\NotFoundListener;
 use Phalcon\Elements\Menu\SidebarMenu;
 use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Access\Policy\Ip as IpPolicy;
@@ -47,12 +48,10 @@ use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Application as AbstractApplication;
-use Phalcon\Mvc\View\Exception as ViewException;
 use Phalcon\Cache\Frontend\None as FrontendNone;
 use Phalcon\Cache\Backend\Memory as BackendCache;
 use Phalcon\Cache\Frontend\Output as FrontOutput;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
-use Phalcon\Logger\AdapterInterface as LoggerInterface;
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
@@ -626,66 +625,30 @@ class Bootstrap
      */
     protected function initView()
     {
-        $path = $this->ptoolsPath;
-
         $this->di->setShared(
             'view',
-            function () use ($path) {
+            function () {
                 /**
                  * @var DiInterface $this
-                 * @var Config $config
-                 * @var Config $voltConfig
+                 * @var Registry $registry
                  */
 
                 $view = new View;
-                $that = $this;
+                $registry = $this->getShared('registry');
 
-                $view->registerEngines([
-                    '.volt'  => $this->getShared('volt', [$view, $this]),
-                    '.phtml' => Php::class
-                ]);
+                $view->registerEngines(
+                    [
+                        '.volt'  => $this->getShared('volt', [$view, $this]),
+                        '.phtml' => Php::class
+                    ]
+                );
 
-                // @todo Use Path::normalize()
-                $viewsDir = $path . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Views') . DS;
-
-                $view
-                    ->setViewsDir($viewsDir)
+                $view->setViewsDir($registry->offsetGet('directories')->webToolsViews)
                     ->setLayoutsDir('layouts' . DS)
                     ->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);
 
                 $em = $this->getShared('eventsManager');
-
-                $em->attach(
-                    'view',
-                    function ($event, $view) use ($that) {
-                        /**
-                         * @var LoggerInterface $logger
-                         * @var View $view
-                         * @var Event $event
-                         * @var DiInterface $that
-                         */
-                        $logger = $that->get('logger');
-                        $paths = $view->getActiveRenderPath();
-
-                        if (!is_array($paths)) {
-                            $paths = [$paths];
-                        }
-
-                        $logger->debug(
-                            sprintf(
-                                'View event [%s], paths: [%s]',
-                                $event->getType(),
-                                join(', ', $paths)
-                            )
-                        );
-
-                        if ('notFoundView' == $event->getType()) {
-                            $message = sprintf('View not found: %s', $view->getActiveRenderPath());
-                            $logger->error($message);
-                            throw new ViewException($message);
-                        }
-                    }
-                );
+                $em->attach('view', new NotFoundListener);
 
                 $view->setEventsManager($em);
 
@@ -989,6 +952,8 @@ class Bootstrap
                 $config = $this->getShared('config');
                 $path   = $this->getShared('path');
 
+                $ptoolsPath = Text::reduceSlashes(rtrim($ptoolsPath, '\\/'));
+
                 $directories = [
                     'modelsDir'      => null,
                     'controllersDir' => null,
@@ -1011,6 +976,7 @@ class Bootstrap
 
                 $directories['basePath'] = $basePath;
                 $directories['ptoolsPath'] = $ptoolsPath;
+                $directories['webToolsViews'] = $ptoolsPath . $path->normalize('/scripts/Phalcon/Web/Tools/Views/');
 
                 $registry->offsetSet('directories', (object) $directories);
 
