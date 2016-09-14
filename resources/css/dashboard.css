@@ -40,3 +40,27 @@ form input#widget-form-title {
 form input#widget-form-title:focus {
     border-color: #00c0ef;
 }
+
+.lockscreen-logo > .headline {
+    float: left;
+    font-size: 100px;
+    font-weight: 300;
+}
+
+@media (max-width: 991px) {
+    .lockscreen-logo > .headline {
+        float: none;
+        text-align: center;
+    }
+}
+
+.help-block .error-text {
+    font-weight: 300;
+    font-size: 22px;
+    font-family: 'Source Sans Pro',sans-serif;
+    color: #333;
+}
+
+.lockscreen-wrapper {
+    max-width: 600px;
+}
