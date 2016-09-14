@@ -22,6 +22,7 @@
 namespace Phalcon\Utils;
 
 use Phalcon\Text;
+use DirectoryIterator;
 
 /**
  * \Phalcon\Utils\Path
@@ -60,5 +61,30 @@ class Path
         }
 
         return DS === substr($path, 0, 1) || false;
+    }
+
+    /**
+     * Return info about a user and group file iterator.
+     *
+     * @param DirectoryIterator $file
+     *
+     * @return string
+     */
+    public function getOwner(DirectoryIterator $file)
+    {
+        // Windows, fallback, etc.
+        $owner = getenv('USERNAME') ?: getenv('USER');
+
+        if (function_exists('posix_getpwuid')) {
+            $user  = posix_getpwuid($file->getOwner());
+            $group = posix_getgrgid($file->getGroup());
+
+            $userName  = !empty($user['name'])  ? $user['name'] : '-?-';
+            $groupName = !empty($group['name']) ? $group['name'] : '-?-';
+
+            $owner = $userName . ' / ' . $groupName;
+        }
+
+        return $owner ?: '-?- / -?-';
     }
 }
