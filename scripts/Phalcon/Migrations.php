@@ -244,22 +244,30 @@ class Migrations
         // Run migration
         $versionsBetween = VersionCollection::between($initialVersion, $finalVersion, $versionItems);
         foreach ($versionsBetween as $versionItem) {
-            if ((ModelMigration::DIRECTION_FORWARD === $direction) && isset($completedVersions[(string)$versionItem])) {
-                print Color::info('Version ' . (string)$versionItem . ' was already applied');
-                continue;
-            } elseif ((ModelMigration::DIRECTION_BACK === $direction) && !isset($completedVersions[(string)$versionItem])) {
-                print Color::info('Version ' . (string)$versionItem . ' was already rolled back');
+
+            // If we are rolling back, we skip migrating when initialVersion is the same as current
+            if ($initialVersion->getVersion() === $versionItem->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
                 continue;
             }
 
-            if ($versionItem->getVersion() === $finalVersion->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
+            if ((ModelMigration::DIRECTION_FORWARD === $direction) && isset($completedVersions[(string)$versionItem])) {
+                print Color::info('Version ' . (string)$versionItem . ' was already applied');
+                continue;
+            } elseif ((ModelMigration::DIRECTION_BACK === $direction) && !isset($completedVersions[(string)$initialVersion])) {
+                print Color::info('Version ' . (string)$initialVersion . ' was already rolled back');
+                $initialVersion = $versionItem;
+                continue;
+            }
+
+            if ($initialVersion->getVersion() === $finalVersion->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
                 break;
             }
 
             $migrationStartTime = date("'Y-m-d H:i:s'");
             if ($tableName === 'all') {
+                // Directory depends on Forward or Back Migration
                 $iterator = new DirectoryIterator(
-                    $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion()
+                    $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ? $initialVersion->getVersion() : $versionItem->getVersion())
                 );
                 foreach ($iterator as $fileInfo) {
                     if (!$fileInfo->isFile() || 0 !== strcasecmp($fileInfo->getExtension(), 'php')) {
@@ -275,8 +283,8 @@ class Migrations
                 self::addCurrentVersion($options, (string)$versionItem, $migrationStartTime);
                 print Color::success('Version ' . $versionItem . ' was successfully migrated');
             } else {
-                self::removeCurrentVersion($options, (string)$versionItem);
-                print Color::success('Version ' . $versionItem . ' was successfully rolled back');
+                self::removeCurrentVersion($options, (string)$initialVersion);
+                print Color::success('Version ' . $initialVersion . ' was successfully rolled back');
             }
 
             $initialVersion = $versionItem;
