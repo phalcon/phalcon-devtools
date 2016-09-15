@@ -1,5 +1,7 @@
 <div class="row">
     <div class="col-sm-12">
+        {{ content() }}
+        {{ flashSession.output() }}
         <div class="box box-warning">
             <div class="box-header with-border">
                 <code>{{ controller_name }} - [{{ controller_path }}]</code>

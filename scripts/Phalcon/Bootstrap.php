@@ -42,6 +42,7 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Session\Adapter\Files as Session;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mvc\Application as MvcApplication;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
@@ -127,6 +128,7 @@ class Bootstrap
             'tag',
             'dispatcher',
             'assets',
+            'session',
             'flash',
             'database',
             'accessManager',
@@ -815,6 +817,22 @@ class Bootstrap
     }
 
     /**
+     * Initialize the Session Service.
+     */
+    protected function initSession()
+    {
+        $this->di->setShared(
+            'session',
+            function () {
+                $session = new Session;
+                $session->start();
+
+                return $session;
+            }
+        );
+    }
+
+    /**
      * Initialize the Flash Service.
      */
     protected function initFlash()
@@ -836,12 +854,14 @@ class Bootstrap
         $this->di->setShared(
             'flashSession',
             function () {
-                return new FlashSession([
-                    'error'   => 'alert alert-danger fade in',
-                    'success' => 'alert alert-success fade in',
-                    'notice'  => 'alert alert-info fade in',
-                    'warning' => 'alert alert-warning fade in',
-                ]);
+                return new FlashSession(
+                    [
+                        'error'   => 'alert alert-danger fade in',
+                        'success' => 'alert alert-success fade in',
+                        'notice'  => 'alert alert-info fade in',
+                        'warning' => 'alert alert-warning fade in',
+                    ]
+                );
             }
         );
     }
