@@ -1,10 +1,11 @@
 <div class="row">
     <div class="col-sm-12">
+        {{ content() }}
+        {{ flashSession.output() }}
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Controllers List</h3>
             </div>
-
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
                     <tr>
