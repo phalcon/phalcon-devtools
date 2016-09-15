@@ -34,10 +34,6 @@
             <div class="control-sidebar-bg"></div>
         </div>
     {%- endblock -%}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
     {% block footer_js %}{% endblock %}
 {%- block body_end -%}
     </body>
