@@ -3,7 +3,7 @@
 </div>
 
 <div class="help-block text-center">
-    <h3><i class="fa fa-warning text-yellow"></i> {{ head_message }}</h3>
+    <h3>{{ head_message }}</h3>
 
     <p class="error-text">{{ message }}</p>
 </div>
