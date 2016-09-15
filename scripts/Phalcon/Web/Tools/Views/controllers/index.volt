@@ -39,14 +39,8 @@
                                 <td>{{ controller.owner }}</td>
                                 <td>{{ controller.modified_time }}</td>
                                 <td>
-                                    {% if controller.is_writable is false -%}
-                                        {{ link_to(['for': 'controllers-view', 'path': base64_encode(controller.path)],
-                                        '<i class="fa fa-eye"></i>', 'class': 'btn btn-default btn-xs') }}
-                                    {%- else -%}
-                                        {{ link_to(['for': 'controllers-edit', 'path': base64_encode(controller.path)],
-                                        '<i class="fa fa-pencil"></i>', 'class': 'btn btn-default btn-xs') }}
-                                    {%- endif -%}
-
+                                    {{ link_to("/webtools.php?_url=/controllers/edit/" ~ base64_encode(controller.path),
+                                    '<i class="fa fa-pencil"></i>', 'class': 'btn btn-default btn-xs') }}
                                 </td>
                             </tr>
                         {% endfor  %}
