@@ -39,7 +39,7 @@
                                 <td>{{ controller.owner }}</td>
                                 <td>{{ controller.modified_time }}</td>
                                 <td>
-                                    {{ link_to("/webtools.php?_url=/controllers/edit/" ~ base64_encode(controller.path),
+                                    {{ link_to("/webtools.php?_url=/controllers/edit/" ~ rawurlencode(controller.filename),
                                     '<i class="fa fa-pencil"></i>', 'class': 'btn btn-default btn-xs') }}
                                 </td>
                             </tr>
