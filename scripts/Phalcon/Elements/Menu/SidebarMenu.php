@@ -34,7 +34,14 @@ class SidebarMenu extends Element
 
     public function __construct(array $menuItems)
     {
-        $this->menuItems = $menuItems;
+        foreach ($menuItems as $className => $menuData) {
+            $this->addMenuItems($className, $menuData);
+        }
+    }
+
+    public function addMenuItems($className, array $menuData)
+    {
+        $this->menuItems[$className] = $menuData;
     }
 
     protected function renderItems($items)
@@ -85,7 +92,7 @@ class SidebarMenu extends Element
 
         foreach ($this->menuItems as $className => $menuData) {
             $menu .= sprintf('<ul class="%s">', $className);
-            $menu .= $this->renderItems($menuData['items']);
+            $menu .= $this->renderItems($menuData);
             $menu .= '</ul>';
         }
 
