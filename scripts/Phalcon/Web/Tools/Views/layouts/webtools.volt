@@ -19,10 +19,6 @@
     </div>
 {% endblock %}
 
-{% block sidebar_right %}
-    {% include 'partials/sidebar_right.volt' %}
-{% endblock %}
-
 {% block footer %}
     {% include 'partials/footer.volt' %}
 {% endblock %}
