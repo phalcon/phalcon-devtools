@@ -14,13 +14,9 @@
 
 {% block content %}
     <div class="content-wrapper">
-        {% include 'partials/breadcrumb.volt' %}
+        {% include 'partials/content_header.volt' %}
         {% include 'partials/content.volt' %}
     </div>
-{% endblock %}
-
-{% block sidebar_right %}
-    {% include 'partials/sidebar_right.volt' %}
 {% endblock %}
 
 {% block footer %}
