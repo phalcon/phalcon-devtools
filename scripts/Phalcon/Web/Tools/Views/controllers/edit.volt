@@ -3,7 +3,7 @@
         {{ content() }}
         {{ flashSession.output() }}
         <div class="box box-success">
-            <form role="form" method="post" action="{{ url.get("/webtools.php?_url=/controllers/save") }}">
+            <form role="form" method="post" action="{{ url.get("/webtools.php?_url=/controllers/update") }}">
                 <div class="box-header with-border">
                     <code>{{ controller_name }} - [{{ controller_path }}]</code>
                     <button type="submit" class="btn btn-success pull-right">Save</button>
