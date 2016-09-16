@@ -645,7 +645,7 @@ class Bootstrap
                     ]
                 );
 
-                $view->setViewsDir($registry->offsetGet('directories')->webToolsViews)
+                $view->setViewsDir($registry->offsetGet('directories')->webToolsViews . DS)
                     ->setLayoutsDir('layouts' . DS)
                     ->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);
 
@@ -994,9 +994,11 @@ class Bootstrap
                     }
                 }
 
-                $directories['basePath'] = $basePath;
-                $directories['ptoolsPath'] = $ptoolsPath;
-                $directories['webToolsViews'] = $ptoolsPath . $path->normalize('/scripts/Phalcon/Web/Tools/Views/');
+                $directories['basePath']      = $basePath;
+                $directories['ptoolsPath']    = $ptoolsPath;
+                $directories['webToolsViews'] = $path->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views');
+                $directories['resourcesDir']  = $path->normalize($ptoolsPath . '/resources');
+                $directories['elementsDir']   = $path->normalize($ptoolsPath . '/resources/elements');
 
                 $registry->offsetSet('directories', (object) $directories);
 
@@ -1033,13 +1035,17 @@ class Bootstrap
         $this->di->setShared(
             'sidebar',
             function () {
-                /** @var DiInterface $this */
-                $em = $this->get('eventsManager');
+                /**
+                 * @var DiInterface $this
+                 * @var Registry $registry
+                 */
+                $registry = $this->getShared('registry');
+                $menuItems = $registry->offsetGet('directories')->elementsDir . DS . 'sidebar-menu.php';
 
-                $menu = new SidebarMenu;
+                /** @noinspection PhpIncludeInspection */
+                $menu = new SidebarMenu(include $menuItems);
 
                 $menu->setDI($this);
-                $menu->setEventsManager($em);
 
                 return $menu;
             }
