@@ -486,10 +486,14 @@ EOD;
         return sprintf($templateUse, $class);
     }
 
-    public function getUseAs($class, $alias)
+    public function getUseAs($class, $alias = null)
     {
-        $templateUseAs = 'use %s as %s;';
-
+		if($alias === null) {
+			$templateUseAs = 'use %s;';
+		} else {
+			$templateUseAs = 'use %s as %s;';
+		}
+	
         return sprintf($templateUseAs, $class, $alias);
     }
 

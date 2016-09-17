@@ -61,7 +61,11 @@ class Model extends Component
         if (!isset($options['name'])) {
             throw new BuilderException('Please, specify the model name');
         }
-
+        
+        if (!isset($options['use'])) {
+            $options['use'] = false;
+        }
+        
         if (!isset($options['camelize'])) {
             $options['camelize'] = false;
         }
@@ -206,6 +210,9 @@ class Model extends Component
 
         // An array for use statements
         $uses = [];
+        if($this->options->has('use') && ($this->options->get('use'))) {
+			$uses[] = $this->snippet->getUseAs($this->options->get('use'));
+		}
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
