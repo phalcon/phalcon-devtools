@@ -130,7 +130,7 @@ class Migrations
         ModelMigration::setMigrationPath($migrationsDir);
 
         $wasMigrated = false;
-        if ($tableName === 'all') {
+        if ($tableName === '@') {
             $migrations = ModelMigration::generateAll($versionItem, $exportData);
             foreach ($migrations as $tableName => $migration) {
                 if ($tableName === self::MIGRATION_LOG_TABLE) {
@@ -198,7 +198,7 @@ class Migrations
             $finalVersion = VersionCollection::createItem($options['version']);
         }
 
-        $tableName = 'all';
+        $tableName = '@';
         if (isset($options['tableName'])) {
             $tableName = $options['tableName'];
         }
@@ -264,7 +264,7 @@ class Migrations
             }
 
             $migrationStartTime = date("'Y-m-d H:i:s'");
-            if ($tableName === 'all') {
+            if ($tableName === '@') {
                 // Directory depends on Forward or Back Migration
                 $iterator = new DirectoryIterator(
                     $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ? $initialVersion->getVersion() : $versionItem->getVersion())

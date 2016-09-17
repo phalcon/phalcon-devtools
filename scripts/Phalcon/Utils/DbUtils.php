@@ -39,7 +39,7 @@ class DbUtils extends Component
      */
     public function listTables($all = false, $connection = 'db')
     {
-        $tables = $all ? ['All' => 'all'] : [];
+        $tables = $all ? ['@' => 'all'] : [];
 
         if ($this->getDI()->has($connection)) {
             $connection = $this->getDI()->getShared($connection);
