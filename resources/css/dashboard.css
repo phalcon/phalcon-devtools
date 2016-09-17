@@ -70,3 +70,7 @@ form input#widget-form-title:focus {
     color: #444;
     background-color: transparent;
 }
+
+th.migration-version {
+    font-size: 1.1em;
+}
