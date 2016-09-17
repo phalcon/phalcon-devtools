@@ -25,6 +25,7 @@ use Phalcon\Mvc\View;
 use DirectoryIterator;
 use Phalcon\Events\Event;
 use Phalcon\Utils\FsUtils;
+use Phalcon\Utils\DbUtils;
 use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\AdapterInterface;
@@ -892,7 +893,7 @@ class Bootstrap
                     ];
                 }
 
-                $adapter = 'Phalcon\Db\Adapter\Pdo\\' . $config;
+                $adapter = 'Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
                 unset($config['adapter']);
 
                 /** @var Pdo $connection */
@@ -1020,6 +1021,13 @@ class Bootstrap
             'fs',
             function () {
                 return new FsUtils;
+            }
+        );
+
+        $this->di->setShared(
+            'dbUtils',
+            function () {
+                return new DbUtils;
             }
         );
 
