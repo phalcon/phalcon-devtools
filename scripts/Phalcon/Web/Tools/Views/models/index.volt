@@ -4,7 +4,7 @@
         {{ flashSession.output() }}
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Controllers List</h3>
+                <h3 class="box-title">Models List</h3>
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
@@ -15,32 +15,32 @@
                         <th>Last modified</th>
                         <th width="10%">Actions</th>
                     </tr>
-                    {%- if controllers_dir is empty -%}
+                    {%- if models_dir is empty -%}
                         <tr class="warning">
                             <td colspan="5">
                                 <p class="text-center">
-                                    Sorry, Phalcon WebTools doesn't know where the controllers directory is.<br>
-                                    Please add the valid path for <code>controllersDir</code>
+                                    Sorry, Phalcon WebTools doesn't know where the models directory is.<br>
+                                    Please add the valid path for <code>modelsDir</code>
                                     in the <code>application</code> section.
                                 </p>
                             </td>
                         </tr>
                     {%- else -%}
-                        {% for controller in controllers %}
+                        {% for model in models %}
                             <tr>
                                 <td>
                                     <h5>
-                                        {{- controller.name }}
-                                        {% if controller.is_writable is false -%}
+                                        {{- model.name }}
+                                        {% if model.is_writable is false -%}
                                             <span class="label label-warning">ro</span>
                                         {%- endif -%}
                                     </h5>
                                 </td>
-                                <td>{{ controller.size ~ ' b'}}</td>
-                                <td>{{ controller.owner }}</td>
-                                <td>{{ controller.modified_time }}</td>
+                                <td>{{ model.size ~ ' b'}}</td>
+                                <td>{{ model.owner }}</td>
+                                <td>{{ model.modified_time }}</td>
                                 <td>
-                                    {{ link_to("/webtools.php?_url=/controllers/edit/" ~ rawurlencode(controller.filename),
+                                    {{ link_to("/webtools.php?_url=/models/edit/" ~ rawurlencode(model.filename),
                                     '<i class="fa fa-pencil"></i>', 'class': 'btn btn-default btn-xs') }}
                                 </td>
                             </tr>
