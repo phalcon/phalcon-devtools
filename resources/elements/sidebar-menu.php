@@ -99,7 +99,7 @@ return [
                 'items' => [
                     [
                         'link'  => [
-                            'href' => '/webtools.php?_url=/scaffold/create',
+                            'href' => '/webtools.php?_url=/scaffold/generate',
                             'text' => 'Generate',
                             'wrap' => 'span',
                             'icon' => 'fa fa-plus',
@@ -170,7 +170,7 @@ return [
             'link'  => [
                 'href'  => 'https://github.com/phalcon/incubator',
                 'icon'  => 'fa fa-book',
-                'text'  => 'Incubator',
+                'text'  => 'Phalcon Incubator',
                 'wrap'  => 'span',
             ],
         ],
