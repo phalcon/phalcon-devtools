@@ -23,12 +23,10 @@ namespace Phalcon;
 
 use Phalcon\Mvc\View;
 use DirectoryIterator;
-use Phalcon\Events\Event;
 use Phalcon\Utils\FsUtils;
 use Phalcon\Utils\DbUtils;
 use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -839,7 +837,7 @@ class Bootstrap
         $this->di->setShared(
             'flash',
             function () {
-                return new FlashDirect(
+                $flash = new FlashDirect(
                     [
                         'error'   => 'alert alert-danger fade in',
                         'success' => 'alert alert-success fade in',
@@ -847,13 +845,17 @@ class Bootstrap
                         'warning' => 'alert alert-warning fade in',
                     ]
                 );
+
+                $flash->setAutoescape(false);
+
+                return $flash;
             }
         );
 
         $this->di->setShared(
             'flashSession',
             function () {
-                return new FlashSession(
+                $flash = new FlashSession(
                     [
                         'error'   => 'alert alert-danger fade in',
                         'success' => 'alert alert-success fade in',
@@ -861,6 +863,11 @@ class Bootstrap
                         'warning' => 'alert alert-warning fade in',
                     ]
                 );
+
+
+                $flash->setAutoescape(false);
+
+                return $flash;
             }
         );
     }
@@ -875,7 +882,6 @@ class Bootstrap
             function () {
                 /** @var DiInterface $this */
                 $em   = $this->getShared('eventsManager');
-                $that = $this;
 
                 if ($this->getShared('config')->offsetExists('database')) {
                     $config = $this->getShared('config')->get('database')->toArray();
@@ -898,27 +904,6 @@ class Bootstrap
 
                 /** @var Pdo $connection */
                 $connection = new $adapter($config);
-
-                $em->attach(
-                    'db',
-                    function ($event, $connection) use ($that) {
-                        /**
-                         * @var Event            $event
-                         * @var AdapterInterface $connection
-                         * @var DiInterface      $that
-                         */
-                        if ($event->getType() == 'beforeQuery') {
-                            $variables = $connection->getSQLVariables();
-                            $string    = $connection->getSQLStatement();
-
-                            if ($variables) {
-                                $string .= ' [' . join(', ', $variables) . ']';
-                            }
-
-                            $that->getShared('logger')->debug($string);
-                        }
-                    }
-                );
 
                 $connection->setEventsManager($em);
 
