@@ -25,11 +25,11 @@ use Phalcon\Text;
 use DirectoryIterator;
 
 /**
- * \Phalcon\Utils\Path
+ * \Phalcon\Utils\FsUtils
  *
  * @package Phalcon\Utils
  */
-class Path
+class FsUtils
 {
     /**
      * Normalize directory separator depending on the operating system.

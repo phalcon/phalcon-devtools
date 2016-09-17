@@ -29,7 +29,7 @@ use Phalcon\Assets\Filters\Cssmin;
  * \Phalcon\Mvc\Controller\Base
  *
  * @property \Phalcon\Config $config
- * @property \Phalcon\Utils\Path $path
+ * @property \Phalcon\Utils\FsUtils $fs
  * @property \Phalcon\Registry $registry
  * @property \Phalcon\Elements\Menu\SidebarMenu $sidebar
  * @property \Phalcon\Resources\AssetsResource $resource

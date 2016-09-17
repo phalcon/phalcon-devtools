@@ -23,8 +23,8 @@ namespace Phalcon;
 
 use Phalcon\Mvc\View;
 use DirectoryIterator;
-use Phalcon\Utils\Path;
 use Phalcon\Events\Event;
+use Phalcon\Utils\FsUtils;
 use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\AdapterInterface;
@@ -965,12 +965,12 @@ class Bootstrap
                 /**
                  * @var DiInterface $this
                  * @var Config $config
-                 * @var Path $path
+                 * @var FsUtils $fs
                  */
                 $registry = new Registry;
 
-                $config = $this->getShared('config');
-                $path   = $this->getShared('path');
+                $config  = $this->getShared('config');
+                $fsUtils = $this->getShared('fs');
 
                 $ptoolsPath = Text::reduceSlashes(rtrim($ptoolsPath, '\\/'));
 
@@ -983,12 +983,12 @@ class Bootstrap
                 if (($application = $config->get('application')) instanceof Config) {
                     foreach ($directories as $name => $value) {
                         if ($possiblePath = $application->get($name)) {
-                            if (!$path->isAbsolute($possiblePath)) {
+                            if (!$fsUtils->isAbsolute($possiblePath)) {
                                 $possiblePath = $basePath . DS . $possiblePath;
                             }
 
                             if (is_readable($possiblePath) && is_dir($possiblePath)) {
-                                $directories[$name] = $path->normalize($possiblePath);
+                                $directories[$name] = $fsUtils->normalize($possiblePath);
                             }
                         }
                     }
@@ -996,9 +996,9 @@ class Bootstrap
 
                 $directories['basePath']      = $basePath;
                 $directories['ptoolsPath']    = $ptoolsPath;
-                $directories['webToolsViews'] = $path->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views');
-                $directories['resourcesDir']  = $path->normalize($ptoolsPath . '/resources');
-                $directories['elementsDir']   = $path->normalize($ptoolsPath . '/resources/elements');
+                $directories['webToolsViews'] = $fsUtils->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views');
+                $directories['resourcesDir']  = $fsUtils->normalize($ptoolsPath . '/resources');
+                $directories['elementsDir']   = $fsUtils->normalize($ptoolsPath . '/resources/elements');
 
                 $registry->offsetSet('directories', (object) $directories);
 
@@ -1013,9 +1013,9 @@ class Bootstrap
     protected function initUtils()
     {
         $this->di->setShared(
-            'path',
+            'fs',
             function () {
-                return new Path;
+                return new FsUtils;
             }
         );
 
