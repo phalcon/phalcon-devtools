@@ -66,7 +66,7 @@ return [
                 'items' => [
                     [
                         'link'  => [
-                            'href' => '/webtools.php?_url=/models/create',
+                            'href' => '/webtools.php?_url=/models/generate',
                             'text' => 'Generate',
                             'wrap' => 'span',
                             'icon' => 'fa fa-plus',
@@ -124,7 +124,7 @@ return [
                 'items' => [
                     [
                         'link'  => [
-                            'href' => '/webtools.php?_url=/migrations/create',
+                            'href' => '/webtools.php?_url=/migrations/generate',
                             'text' => 'Generate',
                             'wrap' => 'span',
                             'icon' => 'fa fa-plus',
