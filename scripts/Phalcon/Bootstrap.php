@@ -227,7 +227,6 @@ class Bootstrap
     /**
      * Sets the path to the Phalcon Developers Tools.
      *
-     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -276,7 +275,6 @@ class Bootstrap
     /**
      * Sets the path where the project was created.
      *
-     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -970,35 +968,41 @@ class Bootstrap
                 $registry = new Registry;
 
                 $config  = $this->getShared('config');
-                $fsUtils = $this->getShared('fs');
+                $fs      = $this->getShared('fs');
 
                 $ptoolsPath = Text::reduceSlashes(rtrim($ptoolsPath, '\\/'));
+
+                $requiredDirectories = [
+                    'modelsDir',
+                    'controllersDir',
+                    'migrationsDir',
+                ];
 
                 $directories = [
                     'modelsDir'      => null,
                     'controllersDir' => null,
                     'migrationsDir'  => null,
+                    'basePath'       => rtrim($basePath, '\\/'),
+                    'ptoolsPath'     => rtrim($ptoolsPath, '\\/'),
+                    'webToolsViews'  => $fs->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views'),
+                    'resourcesDir'   => $fs->normalize($ptoolsPath . '/resources'),
+                    'elementsDir'    => $fs->normalize($ptoolsPath . '/resources/elements')
                 ];
 
                 if (($application = $config->get('application')) instanceof Config) {
-                    foreach ($directories as $name => $value) {
+                    foreach ($requiredDirectories as $name) {
                         if ($possiblePath = $application->get($name)) {
-                            if (!$fsUtils->isAbsolute($possiblePath)) {
+                            if (!$fs->isAbsolute($possiblePath)) {
                                 $possiblePath = $basePath . DS . $possiblePath;
                             }
 
+                            $possiblePath = $fs->normalize($possiblePath);
                             if (is_readable($possiblePath) && is_dir($possiblePath)) {
-                                $directories[$name] = $fsUtils->normalize($possiblePath);
+                                $directories[$name] = $possiblePath;
                             }
                         }
                     }
                 }
-
-                $directories['basePath']      = $basePath;
-                $directories['ptoolsPath']    = $ptoolsPath;
-                $directories['webToolsViews'] = $fsUtils->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views');
-                $directories['resourcesDir']  = $fsUtils->normalize($ptoolsPath . '/resources');
-                $directories['elementsDir']   = $fsUtils->normalize($ptoolsPath . '/resources/elements');
 
                 $registry->offsetSet('directories', (object) $directories);
 
