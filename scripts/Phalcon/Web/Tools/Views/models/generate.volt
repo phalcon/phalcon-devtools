@@ -8,7 +8,7 @@
         <div class="box box-success">
             <form role="form" class="form-horizontal" name="generate-model" method="post" action="{{ url.get("/webtools.php?_url=/models/generate") }}">
                 <div class="box-header with-border">
-                    <code>New model will be placed at: [{{ model_path }}]</code>
+                    <p class="pull-left">New model will be placed at: [{{ model_path }}]</p>
                     {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
                 </div>
                 <div class="box-body">

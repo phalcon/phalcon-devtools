@@ -5,7 +5,7 @@
         <div class="box box-success">
             <form role="form" name="edit-controller" method="post" action="{{ url.get("/webtools.php?_url=/controllers/update") }}">
                 <div class="box-header with-border">
-                    <code>{{ controller_name }} - [{{ controller_path }}]</code>
+                    <p class="pull-left">{{ controller_name }} - [{{ controller_path }}]</p>
                     {{ submit_button("Save", "class": "btn btn-success pull-right") }}
                 </div>
                 <div class="box-body">
