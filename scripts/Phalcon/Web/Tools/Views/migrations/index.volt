@@ -39,7 +39,7 @@
                                             <th class="migration-version">{{ version }}</th>
                                         {% else %}
                                             {% if start is true %}
-                                                <th rowspan="{{ rowspan }}">{{ version }}</th>
+                                                <th rowspan="{{ rowspan }}" class="migration-version">{{ version }}</th>
                                                 {% set start = false %}
                                             {%- endif -%}
                                         {%- endif -%}
