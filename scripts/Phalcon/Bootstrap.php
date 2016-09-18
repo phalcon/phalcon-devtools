@@ -39,15 +39,14 @@ use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
-use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Scanners\Config as ConfigScanner;
 use Phalcon\Session\Adapter\Files as Session;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mvc\Application as MvcApplication;
-use Phalcon\Config\Adapter\Yaml as YamlConfig;
-use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Application as AbstractApplication;
+use Phalcon\Config\Exception as ConfigException;
 use Phalcon\Cache\Frontend\None as FrontendNone;
 use Phalcon\Cache\Backend\Memory as BackendCache;
 use Phalcon\Cache\Frontend\Output as FrontOutput;
@@ -339,7 +338,7 @@ class Bootstrap
         $mode = strtolower(trim($mode));
 
         if (isset($this->loaders[$mode])) {
-            $mode = 'web'; // @todo
+            $mode = 'web';
         }
 
         $this->mode = $mode;
@@ -402,95 +401,47 @@ class Bootstrap
      */
     protected function initConfig()
     {
-        $path = $this->basePath;
-
+        $basePath = $this->basePath;
         $this->di->setShared(
             'config',
-            function () use ($path) {
+            function () use($basePath) {
                 /** @var DiInterface $this */
+                $scanner = new ConfigScanner($basePath);
 
-                $configDirs = [
-                    'config',
-                    'app/config',
-                    'apps/config',
-                    'app/frontend/config',
-                    'apps/frontend/config',
-                    'app/backend/config',
-                    'apps/backend/config',
-                ];
-
-                $configAdapters = [
-                    'ini'  => IniConfig::class,
-                    'json' => JsonConfig::class,
-                    'php'  => Config::class,
-                    'php5' => Config::class,
-                    'inc'  => Config::class,
-                    'yml'  => YamlConfig::class,
-                    'yaml' => YamlConfig::class,
-                ];
-
-                $config = null;
-
-                // @todo Add scan for dev config
-                foreach ($configDirs as $configPath) {
-                    $probablyPath = $path . DS . str_replace('/', DS, $configPath);
-
-                    foreach ($configAdapters as $ext => $adapter) {
-                        $probablyConfig = $probablyPath . DS . 'config.' . $ext;
-
-                        if (is_file($probablyConfig) && is_readable($probablyConfig)) {
-                            if (in_array($ext, ['php', 'php5', 'inc'])) {
-                                /** @noinspection PhpIncludeInspection */
-                                $config = include($probablyConfig);
-                                if (is_array($config)) {
-                                    $config = new Config($config);
-                                }
-                            } else {
-                                $config = new $adapter($probablyConfig);
-                            }
-
-                            $this->getShared('logger')->debug('Found config at path: {path}', [
-                                'path' => $probablyConfig,
-                            ]);
-                            break(2);
-                        }
-                    }
-                }
+                $config = $scanner->scan('config');
 
                 if (null === $config) {
-                    // @todo Use Config Exception here
-                    trigger_error(
+                    throw new ConfigException(
                         sprintf(
-                            "Configuration file couldn't be loaded! Scanned dirs: %s",
-                            join(', ', array_map(function ($val) use ($path) {
-                                return $path . DS . str_replace('/', DS, $val);
-                            }, $configDirs))
-                        ),
-                        E_USER_ERROR
+                            "Configuration file couldn't be loaded! Scanned paths: %s",
+                            join(', ', $scanner->getConfigPaths())
+                        )
                     );
-
-                    exit(1);
                 }
 
                 if (!$config instanceof Config) {
                     $type = gettype($config);
+
                     if ($type == 'boolean') {
                         $type .= ($type ? ' (true)' : ' (false)');
                     } elseif (is_object($type)) {
                         $type = get_class($type);
                     }
 
-                    // @todo Use Config Exception here
-                    trigger_error(
+                    throw new ConfigException(
                         sprintf(
                             'Unable to read config file. Config must be either an array or %s instance. Got %s',
                             Config::class,
                             $type
-                        ),
-                        E_USER_ERROR
+                        )
                     );
+                }
 
-                    exit(1);
+                if (ENV_PRODUCTION !== APPLICATION_ENV) {
+                    $override = $scanner->scan(APPLICATION_ENV);
+                    if ($override instanceof Config) {
+                        $config->merge($override);
+                    }
                 }
 
                 return $config;
