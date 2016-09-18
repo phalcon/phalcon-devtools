@@ -72,5 +72,6 @@ form input#widget-form-title:focus {
 }
 
 th.migration-version {
-    font-size: 1.1em;
+    vertical-align: middle!important;
+    text-align: center;
 }

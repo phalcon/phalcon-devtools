@@ -26,6 +26,8 @@ use Phalcon\Mvc\User\Component;
 /**
  * \Phalcon\Utils\DbUtils
  *
+ * @property \Phalcon\Config $config
+ *
  * @package Phalcon\Utils
  */
 class DbUtils extends Component
@@ -51,5 +53,39 @@ class DbUtils extends Component
         }
 
         return $tables;
+    }
+
+    /**
+     * Resolves the DB Schema
+     *
+     * @return null|string
+     */
+    public function resolveDbSchema()
+    {
+        if (!$this->config->offsetExists('database')) {
+            return null;
+        }
+
+        $config = $this->config->get('database');
+
+        if ($config->offsetExists('schema')) {
+            return $config->get('schema');
+        }
+
+        if ('Postgresql' == $config->get('adapter')) {
+            return 'public';
+        }
+
+        if ('Sqlite' == $config->get('adapter')) {
+            // SQLite only supports the current database, unless one is
+            // attached. This is not the case, so don't return a schema.
+            return null;
+        }
+
+        if ($config->offsetExists('dbname')) {
+            return $config->get('dbname');
+        }
+
+        return null;
     }
 }

@@ -865,12 +865,10 @@ class Bootstrap
             'db',
             function () {
                 /** @var DiInterface $this */
-                $em   = $this->getShared('eventsManager');
+                $em = $this->getShared('eventsManager');
 
                 if ($this->getShared('config')->offsetExists('database')) {
                     $config = $this->getShared('config')->get('database')->toArray();
-                } elseif ($this->getShared('config')->offsetExists('db')) {
-                    $config = $this->getShared('config')->get('db')->toArray();
                 } else {
                     $dbname = sys_get_temp_dir() . DS . 'phalcon.sqlite';
                     $this->getShared('logger')->warning(

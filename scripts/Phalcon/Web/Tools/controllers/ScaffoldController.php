@@ -100,6 +100,7 @@ class ScaffoldController extends Base
         $this->tag->setDefault('controllersDir', $controllersDir);
         $this->tag->setDefault('modelsDir', $modelsDir);
         $this->tag->setDefault('templatesPath', $templatesPath);
+        $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
 
         $this->view->setVars(
             [
