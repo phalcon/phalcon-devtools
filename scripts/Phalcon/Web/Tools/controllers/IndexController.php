@@ -15,12 +15,40 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
-class IndexController extends ControllerBase
+namespace WebTools\Controllers;
+
+use Phalcon\Mvc\Controller\Base;
+
+/**
+ * \WebTools\Controllers\IndexController
+ *
+ * @package WebTools\Controllers
+ */
+class IndexController extends Base
 {
+    /**
+     * Initialize controller
+     */
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->view->setVar('page_title', 'Dashboard');
+    }
+
+    /**
+     * @Get("/", name="dashboard")
+     */
     public function indexAction()
     {
+        $this->view->setVars(
+            [
+                'page_subtitle' => 'Control panel',
+            ]
+        );
     }
 }

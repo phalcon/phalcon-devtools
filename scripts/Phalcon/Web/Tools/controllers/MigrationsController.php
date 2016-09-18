@@ -15,31 +15,203 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Web\Tools;
+namespace WebTools\Controllers;
+
 use Phalcon\Migrations;
+use DirectoryIterator;
+use Phalcon\Mvc\Controller\Base;
 use Phalcon\Builder\BuilderException;
-use Phalcon\Web\Tools\Traits\DatabaseAware;
 
-class MigrationsController extends ControllerBase
+/**
+ * \WebTools\Controllers\MigrationsController
+ *
+ * @package WebTools\Controllers
+ */
+class MigrationsController extends Base
 {
-    use DatabaseAware;
-
-    protected function _prepareVersions()
+    /**
+     * Initialize controller
+     */
+    public function initialize()
     {
-        if (!$this->migrationsDir) {
-            $this->view->setVar('version', 'None');
+        parent::initialize();
+
+        $this->view->setVar('page_title', 'Migrations');
+    }
+
+    /**
+     * @Get("/migrations/list", name="migrations-list")
+     */
+    public function indexAction()
+    {
+        $migrations = [];
+
+        if ($migrationsDir = $this->registry->offsetGet('directories')->migrationsDir) {
+            foreach(new DirectoryIterator($migrationsDir) as $index => $version) {
+                if ($version->isDot() || !$version->isDir()) {
+                    continue;
+                }
+
+                foreach(new DirectoryIterator($version->getPathname()) as $file) {
+                    if ($file->isDot() || $file->isDir() || 'php' !== strtolower($file->getExtension())) {
+                        continue;
+                    }
+
+                    $migrations[$version->getBasename()][] = (object) [
+                        'name'          => substr($file->getFilename(), 0, -strlen($file->getExtension()) - 1),
+                        'filename'      => $file->getFilename(),
+                        'size'          => $file->getSize(),
+                        'owner'         => $this->fs->getOwner($file),
+                        'modified_time' => date('D, d M y H:i:s', $file->getMTime()),
+                        'is_writable'   => $file->isWritable(),
+                    ];
+                }
+            }
+        }
+
+        if (!empty($migrations)) {
+            $keys = array_keys($migrations);
+            natsort($keys);
+
+            $tmp = $migrations;
+            $migrations = [];
+            foreach ($keys as $v) {
+                $migrations[$v] = $tmp[$v];
+            }
+        }
+
+        $this->view->setVars(
+            [
+                'page_subtitle'  => 'All migrations that we managed to find',
+                'migrations'     => $migrations,
+                'migrations_dir' => $migrationsDir,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/migrations/generate", methods={"POST", "GET"}, name="migrations-generate")
+     */
+    public function generateAction()
+    {
+        if ($this->request->isPost()) {
+            try {
+                Migrations::generate([
+                    'directory'       => $this->request->getPost('basePath', 'string'),
+                    'tableName'       => $this->request->getPost('tableName', 'string'),
+                    'exportData'      => $this->request->getPost('exportData', 'int'),
+                    'migrationsDir'   => $this->request->getPost('migrationsDir', 'string'),
+                    'force'           => $this->request->getPost('force', 'int'),
+                    'noAutoIncrement' => $this->request->getPost('noAi', 'int'),
+                    'config'          => $this->config,
+                    'descr'           => null, // @todo
+                    'version'         => $this->request->getPost('version', 'string'),
+                ]);
+
+                $this->flashSession->success('The migration was generated successfully.');
+
+                return $this->response->redirect('/webtools.php?_url=/migrations/list');
+            } catch (BuilderException $e) {
+                $this->flash->error($e->getMessage());
+            } catch (\Exception $e) {
+                $this->flash->error('An unexpected error has occurred.');
+            }
+        }
+
+        $migrationsDir = $this->registry->offsetGet('directories')->migrationsDir;
+        $basePath = $this->registry->offsetGet('directories')->basePath;
+
+        if (!$migrationsDir) {
+            $this->flash->error(
+                "Sorry, WebTools doesn't know where the migrations directory is. " .
+                "Please add to <code>application</code> section <code>migrationsDir</code> param with real path."
+            );
+        }
+
+        $this->prepareVersions();
+
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('migrationsDir', $migrationsDir);
+
+        $this->view->setVars(
+            [
+                'page_subtitle'  => 'Generate Migration',
+                'migration_path' => $migrationsDir,
+                'tables'         => $this->dbUtils->listTables(true),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/migrations/run", methods={"POST", "GET"}, name="migrations-run")
+     */
+    public function runAction()
+    {
+        if ($this->request->isPost()) {
+            try {
+                Migrations::run(
+                    [
+                        'config'        => $this->config,
+                        'directory'     => $this->request->getPost('basePath', 'string'),
+                        'tableName'     => 'all', // @todo
+                        'migrationsDir' => $this->request->getPost('migrationsDir', 'string'),
+                    ]
+                );
+
+                $this->flashSession->success('The migration was executed successfully.');
+
+                return $this->response->redirect('/webtools.php?_url=/migrations/list');
+            } catch (BuilderException $e) {
+                $this->flash->error($e->getMessage());
+            } catch (\Exception $e) {
+                $this->flash->error('An unexpected error has occurred.');
+            }
+        }
+
+        $migrationsDir = $this->registry->offsetGet('directories')->migrationsDir;
+        $basePath = $this->registry->offsetGet('directories')->basePath;
+
+        if (!$migrationsDir) {
+            $this->flash->error(
+                "Sorry, WebTools doesn't know where the migrations directory is. " .
+                "Please add to <code>application</code> section <code>migrationsDir</code> param with real path."
+            );
+        }
+
+        $this->prepareVersions();
+
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('migrationsDir', $migrationsDir);
+
+        $this->view->setVars(
+            [
+                'page_subtitle'  => 'Run Migration',
+                'migration_path' => $migrationsDir,
+            ]
+        );
+    }
+
+    protected function prepareVersions()
+    {
+        $migrationsDir = $this->registry->offsetGet('directories')->migrationsDir;
+
+        if (!$migrationsDir || !is_dir($migrationsDir) || !is_readable($migrationsDir)) {
+            $this->tag->setDefault('oldVersion', 'None');
             return;
         }
 
         $folders = [];
-        $iterator = new DirectoryIterator($this->migrationsDir);
+        $iterator = new DirectoryIterator($migrationsDir);
         foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isDot()) {
-                $folders[$fileinfo->getFilename()] = $fileinfo->getFilename();
+            if ($fileinfo->isDot() || !$fileinfo->isDir()) {
+                continue;
             }
+
+            $folders[$fileinfo->getFilename()] = $fileinfo->getFilename();
         }
 
         natsort($folders);
@@ -47,92 +219,9 @@ class MigrationsController extends ControllerBase
         $foldersKeys = array_keys($folders);
 
         if (isset($foldersKeys[0])) {
-            $this->view->setVar('version', $foldersKeys[0]);
+            $this->tag->setDefault('oldVersion', $foldersKeys[0]);
         } else {
-            $this->view->setVar('version', 'None');
+            $this->tag->setDefault('oldVersion', 'None');
         }
-    }
-
-    public function indexAction()
-    {
-        if (!$this->migrationsDir) {
-            $this->flash->error(
-                "Sorry, WebTools doesn't know where the migrations directory is. <br>" .
-                "Please add to <code>application</code> section <code>migrationsDir</code> param with real path."
-            );
-        }
-
-        $this->_prepareVersions();
-        $this->listTables(true);
-
-        $this->view->setVars([
-            'projectDir' => $this->projectDir,
-        ]);
-    }
-
-    /**
-     * Generates migrations
-     */
-    public function generateAction()
-    {
-        if ($this->request->isPost()) {
-            $directory     = $this->request->getPost('projectDir', 'string', $this->projectDir);
-            $exportData    = $this->request->getPost('exportData', 'int');
-            $tableName     = $this->request->getPost('table-name', 'string');
-            $version       = $this->request->getPost('version', 'string');
-            $force         = $this->request->getPost('force', 'int');
-            $noAi          = $this->request->getPost('noAi', 'int');
-            $migrationsDir = $this->request->getPost('migrationsDir', 'string', $this->migrationsDir);
-            $descr         = null; // @todo
-
-            try {
-
-                Migrations::generate([
-                    'directory'       => $directory,
-                    'tableName'       => $tableName,
-                    'exportData'      => $exportData,
-                    'migrationsDir'   => $migrationsDir,
-                    'force'           => $force,
-                    'noAutoIncrement' => $noAi,
-                    'config'          => Tools::getConfig(),
-                    'descr'           => $descr,
-                    'version'         => $version,
-                ]);
-
-                $this->flash->success('The migration was generated successfully.');
-            } catch (BuilderException $e) {
-                $this->flash->error($e->getMessage());
-            } catch (Exception $e) {
-                $this->flash->error($e->getMessage());
-            }
-        }
-
-        $this->dispatcher->forward([
-            'controller' => 'migrations',
-            'action'     => 'index'
-        ]);
-    }
-
-    public function runAction()
-    {
-        if ($this->request->isPost()) {
-            $force = $this->request->getPost('force', 'int');
-
-            try {
-                Migrations::run(array(
-                    'config' => Tools::getConfig(),
-                    'directory'     => null,
-                    'tableName'     => 'all',
-                    'migrationsDir' => $this->migrationsDir,
-                    'force'         => $force
-                ));
-
-                $this->flash->success('The migration was executed successfully.');
-            } catch (BuilderException $e) {
-                $this->flash->error($e->getMessage());
-            }
-        }
-
-        $this->_prepareVersions();
     }
 }

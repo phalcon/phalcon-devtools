@@ -19,146 +19,248 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
+namespace WebTools\Controllers;
+
+use DirectoryIterator;
+use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Controller\Base;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Mvc\Controller\CodemirrorTrait;
 use Phalcon\Builder\Controller as ControllerBuilder;
 
-class ControllersController extends ControllerBase
+/**
+ * \WebTools\Controllers\ControllersController
+ *
+ * @package WebTools\Controllers
+ */
+class ControllersController extends Base
 {
-    public function indexAction()
-    {
-        if (!$this->controllersDir) {
-            $this->flash->error(
-                "Sorry, WebTools doesn't know where the controllers directory is.<br>" .
-                "Please add the valid path for <code>controllersDir</code> in the <code>application</code> section."
-            );
-        }
+    use CodemirrorTrait;
 
-        $this->view->setVars([
-            'directory' => dirname(getcwd())
-        ]);
+    /**
+     * Initialize controller
+     */
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->view->setVar('page_title', 'Controllers');
     }
 
     /**
-     * Generate controller
+     * @Get("/controllers/list", name="controllers-list")
      */
-    public function createAction()
+    public function indexAction()
     {
-        if ($this->request->isPost()) {
-            $force          = $this->request->getPost('force', 'int');
-            $controllerName = $this->request->getPost('name', 'string');
-            $directory      = $this->request->getPost('directory');
-            $namespace      = $this->request->getPost('namespace');
-            $baseClass      = $this->request->getPost('baseClass');
+        $controllers = [];
 
-            try {
-                $controllerBuilder = new ControllerBuilder(array(
-                    'name'           => $controllerName,
-                    'directory'      => $directory,
-                    'namespace'      => $namespace,
-                    'baseClass'      => $baseClass,
-                    'force'          => $force,
-                    'controllersDir' => $this->controllersDir
-                ));
+        if ($controllersDir = $this->registry->offsetGet('directories')->controllersDir) {
+            foreach(new DirectoryIterator($controllersDir) as $file) {
+                if ($file->isDot() || $file->isDir()) {
+                    continue;
+                }
 
-                $fileName = $controllerBuilder->build();
-
-                $message = sprintf('Model "%s" was created successfully', str_replace('.php', '', $fileName));
-                $this->flash->success($message);
-
-                $this->dispatcher->forward(array(
-                    'controller' => 'controllers',
-                    'action' => 'edit',
-                    'params' => array($fileName)
-                ));
-
-                return;
-            } catch (BuilderException $e) {
-                $this->flash->error($e->getMessage());
+                $controllers[] = (object) [
+                    'name'          => $file->getBasename('.php'),
+                    'filename'      => $file->getFilename(),
+                    'size'          => $file->getSize(),
+                    'owner'         => $this->fs->getOwner($file),
+                    'modified_time' => date('D, d M y H:i:s', $file->getMTime()),
+                    'is_writable'   => $file->isWritable(),
+                ];
             }
         }
 
-        $this->dispatcher->forward(array(
-            'controller' => 'controllers',
-            'action' => 'index'
-        ));
-    }
-
-    public function listAction()
-    {
-        $this->view->setVars(array(
-            'controllersDir' => $this->controllersDir,
-            'fileOwner' => $this->fileOwner
-        ));
+        $this->view->setVars(
+            [
+                'page_subtitle'   => 'All controllers that we managed to find',
+                'controllers'     => $controllers,
+                'controllers_dir' => $controllersDir,
+            ]
+        );
     }
 
     /**
-     * Edit Controller
-     *
-     * @param string $fileName Controller Name
-     *
-     * @return mixed
+     * @Get("/controllers/edit/{file:[\w\d_.~%-]+}", name="controllers-edit")
+     * @param string $file
      */
-    public function editAction($fileName)
+    public function editAction($file)
     {
-        $fileName = str_replace('..', '', $fileName);
-
-        if (!file_exists($this->controllersDir . $fileName)) {
+        if (empty($file) || !$fileName = rawurldecode($file)) {
             $this->flash->error('Controller could not be found.');
-
-            $this->dispatcher->forward(array(
+            $this->dispatcher->forward([
                 'controller' => 'controllers',
-                'action' => 'list'
-            ));
-
+                'action'     => 'index',
+            ]);
             return;
         }
 
-        $this->tag->setDefault('code', file_get_contents($this->controllersDir . $fileName));
-        $this->tag->setDefault('name', $fileName);
-        $this->view->setVar('name', $fileName);
+        $controllersDir = $this->registry->offsetGet('directories')->controllersDir;
+        $path = $this->fs->normalize("{$controllersDir}/{$fileName}");
+
+        if (!file_exists($path)) {
+            $this->flash->error('Controller could not be found.');
+            $this->dispatcher->forward([
+                'controller' => 'controllers',
+                'action'     => 'index',
+            ]);
+            return;
+        }
+
+        $this->registerResources();
+
+        if (!is_writable($path)) {
+            $this->flash->error(sprintf('You have not enough rights to edit %s using a browser.', $fileName));
+            $this->dispatcher->forward([
+                'controller' => 'controllers',
+                'action'     => 'view',
+                'params'     => [$fileName],
+            ]);
+            return;
+        }
+
+        $this->tag->setDefault('code', file_get_contents($path));
+        $this->tag->setDefault('path', $path);
+
+        $this->view->setVars(
+            [
+                'page_subtitle'   => 'Editing Controller',
+                'controller_path' => $controllersDir,
+                'controller_name' => $fileName,
+                'custom_css'      => true,
+            ]
+        );
     }
 
     /**
-     * @return mixed
+     * @Get("/controllers/view/{file:[\w\d_.~%-]+}", name="controllers-view")
+     * @param string $file
      */
-    public function saveAction()
+    public function viewAction($file)
     {
-        if ($this->request->isPost()) {
-            $fileName = $this->request->getPost('name', 'string');
-
-            $fileName = str_replace('..', '', $fileName);
-
-            if (!file_exists($this->controllersDir . $fileName)) {
-                $this->flash->error('Controller could not be found.');
-
-                $this->dispatcher->forward(array(
-                    'controller' => 'controllers',
-                    'action' => 'list'
-                ));
-
-                return;
-            }
-
-            if (!is_writable($this->controllersDir . $fileName)) {
-                $this->flash->error('Controller file does not have write access.');
-
-                $this->dispatcher->forward(array(
-                    'controller' => 'controllers',
-                    'action' => 'list'
-                ));
-
-                return;
-            }
-
-            file_put_contents($this->controllersDir . $fileName, $this->request->getPost('code'));
-
-            $this->flash->success(sprintf('The controller "%s" was saved successfully.', str_replace('.php', '', $fileName)));
+        if (empty($file) || !$fileName = rawurldecode($file)) {
+            $this->flash->error('Controller could not be found.');
+            $this->dispatcher->forward([
+                'controller' => 'controllers',
+                'action'     => 'index',
+            ]);
+            return;
         }
 
-        $this->dispatcher->forward(array(
-            'controller' => 'controllers',
-            'action' => 'list'
-        ));
+        $this->registerResources();
+
+        $controllersDir = $this->registry->offsetGet('directories')->controllersDir;
+        $path = $this->fs->normalize("{$controllersDir}/{$fileName}");
+
+        if (!file_exists($path)) {
+            $this->flash->error('Controller could not be found.');
+            $this->dispatcher->forward([
+                'controller' => 'controllers',
+                'action'     => 'index',
+            ]);
+            return;
+        }
+
+        $this->tag->setDefault('code', file_get_contents($path));
+        $this->view->setVars(
+            [
+                'page_subtitle'   => 'View Controller',
+                'controller_path' => $controllersDir,
+                'controller_name' => $fileName,
+                'custom_css'      => true,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/controllers/update", methods={"POST", "PUT"}, name="controllers-save")
+     */
+    public function updateAction()
+    {
+        if (!$this->request->has('path') || !$this->request->has('code')) {
+            $this->flashSession->error('Wrong form data.');
+            return $this->response->redirect('/webtools.php?_url=/controllers/list');
+        }
+
+        $path = $this->request->getPost('path', 'string');
+        $code = $this->request->getPost('code');
+
+        if (!file_exists($path)) {
+            $this->flashSession->error('Controller could not be found.');
+            return $this->response->redirect('/webtools.php?_url=/controllers/list');
+        }
+
+        $controllerName = basename($path, '.php');
+
+        if (!is_writable($path)) {
+            $this->flashSession->error(sprintf('You have not enough rights to edit %s using a browser.', $controllerName));
+            return $this->response->redirect('/webtools.php?_url=/controllers/list');
+        }
+
+        if (false === file_put_contents($path, $code, LOCK_EX)) {
+            $this->flashSession->error(sprintf('Unable to save %s controller.', $controllerName));
+        } else {
+            $this->flashSession->success(sprintf('The controller "%s" was saved successfully.', $controllerName));
+        }
+
+        return $this->response->redirect('/webtools.php?_url=/controllers/list');
+    }
+
+    /**
+     * @Route("/controllers/generate", methods={"POST", "GET"}, name="controllers-generate")
+     */
+    public function generateAction()
+    {
+        if ($this->request->isPost()) {
+            try {
+                $controllerBuilder = new ControllerBuilder(
+                    [
+                        'name'           => $this->request->getPost('name', 'string'),
+                        'basePath'       => $this->request->getPost('basePath', 'string'),
+                        'namespace'      => $this->request->getPost('namespace', 'string'),
+                        'baseClass'      => $this->request->getPost('baseClass', 'string'),
+                        'force'          => $this->request->getPost('force', 'int'),
+                        'controllersDir' => $this->request->getPost('controllersDir', 'string')
+                    ]
+                );
+
+                $fileName = $controllerBuilder->build();
+
+                $this->flashSession->success(
+                    sprintf('Controller "%s" was created successfully', str_replace('.php', '', $fileName))
+                );
+
+                return $this->response->redirect('/webtools.php?_url=/controllers/list');
+
+            } catch (BuilderException $e) {
+                $this->flash->error($e->getMessage());
+            } catch (\Exception $e) {
+                $this->flash->error('An unexpected error has occurred.');
+            }
+        }
+
+        $controllersDir = $this->registry->offsetGet('directories')->controllersDir;
+        $basePath = $this->registry->offsetGet('directories')->basePath;
+        $controllerName = $this->request->getPost('name', 'string', 'New');
+
+        if (!$controllersDir) {
+            $this->flash->error(
+                "Sorry, WebTools doesn't know where the controllers directory is. " .
+                "Please add to <code>application</code> section <code>controllersDir</code> param with real path."
+            );
+        }
+
+        $this->tag->setDefault('name', $controllerName);
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('baseClass', '\\' . Controller::class);
+        $this->tag->setDefault('controllersDir', $controllersDir);
+
+        $this->view->setVars(
+            [
+                'page_subtitle'   => 'Generate Controller',
+                'controller_path' => $controllersDir,
+                'controller_name' => basename($controllerName, 'Controller.php') . 'Controller.php'
+            ]
+        );
     }
 }

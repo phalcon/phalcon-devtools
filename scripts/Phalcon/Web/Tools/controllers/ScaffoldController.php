@@ -15,92 +15,102 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Utils;
+namespace WebTools\Controllers;
+
+use Phalcon\Text;
 use Phalcon\Builder\Scaffold;
+use Phalcon\Mvc\Controller\Base;
 use Phalcon\Builder\BuilderException;
-use Phalcon\Web\Tools\Traits\DatabaseAware;
 
-class ScaffoldController extends ControllerBase
+/**
+ * \WebTools\Controllers\ScaffoldController
+ *
+ * @package WebTools\Controllers
+ */
+class ScaffoldController extends Base
 {
-    use DatabaseAware;
-
-    public function indexAction()
+    /**
+     * Initialize controller
+     */
+    public function initialize()
     {
-        $errorMessage = function ($directoryName, $directoryPath) {
-            return sprintf(
-                "Sorry, WebTools doesn't know where the %s directory is.<br>" .
-                "Please add the valid path for  <code>%s</code> in the <code>application</code> section.",
-                $directoryName,
-                $directoryPath
-            );
-        };
+        parent::initialize();
 
-        if (!$this->controllersDir) {
-            $this->flash->error($errorMessage('controllers', 'controllersDir'));
-        }
-
-        if (!$this->modelsDir) {
-            $this->flash->error($errorMessage('models', 'modelsDir'));
-        }
-
-        $this->listTables();
-
-        $this->view->setVars([
-            'directory'       => dirname(getcwd()),
-            'templateEngines' => [
-                'volt' => 'volt',
-                'php'  => 'php',
-            ]
-        ]);
+        $this->view->setVar('page_title', 'Scaffold');
     }
 
     /**
-     * Generate Scaffold
+     * @Route("/scaffold/generate", methods={"POST", "GET"}, name="scaffold-generate")
      */
     public function generateAction()
     {
         if ($this->request->isPost()) {
-            $schema            = $this->request->getPost('schema', 'string');
-            $tableName         = $this->request->getPost('tableName', 'string');
-            $templateEngine    = $this->request->getPost('templateEngine');
-            $force             = $this->request->getPost('force', 'int');
-            $genSettersGetters = $this->request->getPost('genSettersGetters', 'int');
-            $directory         = $this->request->getPost('directory');
-            $modelsNamespace   = $this->request->getPost('modelsNamespace', 'trim');
-
             try {
+                $tableName = $this->request->getPost('tableName', 'string');
+
                 $scaffoldBuilder = new Scaffold([
                     'name'              => $tableName,
-                    'schema'            => $schema,
-                    'force'             => $force,
-                    'genSettersGetters' => $genSettersGetters,
-                    'directory'         => $directory,
-                    'templatePath'      => TEMPLATE_PATH,
-                    'templateEngine'    => $templateEngine,
-                    'modelsNamespace'   => $modelsNamespace,
+                    'schema'            => $this->request->getPost('schema', 'string'),
+                    'force'             => $this->request->getPost('force', 'int'),
+                    'genSettersGetters' => $this->request->getPost('genSettersGetters', 'int'),
+                    'directory'         => $this->request->getPost('basePath', 'string'),
+                    'templatePath'      => $this->request->getPost('templatesPath', 'string'),
+                    'templateEngine'    => $this->request->getPost('templateEngine', 'string'),
+                    'modelsNamespace'   => $this->request->getPost('modelsNamespace', 'string'),
                 ]);
+
                 $scaffoldBuilder->build();
 
-                $message = sprintf('Scaffold for table "%s" was generated successfully', Utils::camelize($tableName));
-                $this->flash->success($message);
+                $this->flashSession->success(
+                    sprintf('Scaffold for table "%s" was generated successfully', Text::camelize($tableName))
+                );
 
-                $this->dispatcher->forward([
-                    'controller' => 'scaffold',
-                    'action' => 'index'
-                ]);
-
-                return;
+                return $this->response->redirect('/webtools.php?_url=/migrations/list');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
+            } catch (\Exception $e) {
+                $this->flash->error('An unexpected error has occurred.');
             }
         }
 
-        $this->dispatcher->forward([
-            'controller' => 'scaffold',
-            'action' => 'index'
-        ]);
+        $controllersDir = $this->registry->offsetGet('directories')->controllersDir;
+        $modelsDir = $this->registry->offsetGet('directories')->modelsDir;
+        $basePath = $this->registry->offsetGet('directories')->basePath;
+        $templatesPath = $this->registry->offsetGet('directories')->templatesPath;
+
+        if (!$modelsDir) {
+            $this->flash->error(
+                "Sorry, WebTools doesn't know where the models directory is. " .
+                "Please add to <code>application</code> section <code>modelsDir</code> param with real path."
+            );
+        }
+
+        if (!$controllersDir) {
+            $this->flash->error(
+                "Sorry, WebTools doesn't know where the controllers directory is. " .
+                "Please add to <code>application</code> section <code>controllersDir</code> param with real path."
+            );
+        }
+
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('controllersDir', $controllersDir);
+        $this->tag->setDefault('modelsDir', $modelsDir);
+        $this->tag->setDefault('templatesPath', $templatesPath);
+
+        $this->view->setVars(
+            [
+                'page_subtitle'   => 'Generate code from template',
+                'tables'          => $this->dbUtils->listTables(),
+                'template_path'   => $templatesPath,
+                'templateEngines' => [
+                    'volt' => 'Volt',
+                    'php'  => 'PHP',
+                ],
+            ]
+        );
     }
 }
