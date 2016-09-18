@@ -24,12 +24,14 @@ namespace Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Controller;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\Cssmin;
+use Phalcon\Version;
 
 /**
  * \Phalcon\Mvc\Controller\Base
  *
  * @property \Phalcon\Config $config
  * @property \Phalcon\Utils\FsUtils $fs
+ * @property \Phalcon\Utils\SystemInfo $info
  * @property \Phalcon\Utils\DbUtils $dbUtils
  * @property \Phalcon\Registry $registry
  * @property \Phalcon\Elements\Menu\SidebarMenu $sidebar
@@ -126,9 +128,9 @@ abstract class Base extends Controller
         if ($path = parse_url($referer, PHP_URL_PATH)) {
             $this->router->handle($path);
             return $this->router->wasMatched() ? $this->response->redirect($path, true) : $this->indexRedirect();
-        } else {
-            return $this->indexRedirect();
         }
+
+        return $this->indexRedirect();
     }
 
     /**
@@ -146,20 +148,20 @@ abstract class Base extends Controller
     {
         $this->view->setVars(
             [
-                'base_uri'      => $this->url->getBaseUri(),
-                'webtools_uri'  => rtrim('/', $this->url->getBaseUri()) . '/webtools.php',
-                'ptools_version'=> PTOOLS_VERSION,
-                'lte_version'   => '2.3.6',
-                'phalcon_team'  => 'Phalcon Team',
-                'lte_team'      => 'Almsaeed Studio',
-                'phalcon_url'   => 'https://www.phalconphp.com',
-                'devtools_url'  => 'https://github.com/phalcon/phalcon-devtools',
-                'lte_url'       => 'http://almsaeedstudio.com',
-                'app_name'      => 'Phalcon WebTools',
-                'app_mini'      => 'PWT',
-                'lte_name'      => 'AdminLTE',
-                'copy_date'     => '2011-'.date('Y'),
-                'lte_date'      => '2014-'.date('Y'),
+                'base_uri'        => $this->url->getBaseUri(),
+                'webtools_uri'    => rtrim('/', $this->url->getBaseUri()) . '/webtools.php',
+                'ptools_version'  => PTOOLS_VERSION,
+                'phalcon_version' => Version::get(),
+                'phalcon_team'    => 'Phalcon Team',
+                'lte_team'        => 'Almsaeed Studio',
+                'phalcon_url'     => 'https://www.phalconphp.com',
+                'devtools_url'    => 'https://github.com/phalcon/phalcon-devtools',
+                'lte_url'         => 'http://almsaeedstudio.com',
+                'app_name'        => 'Phalcon WebTools',
+                'app_mini'        => 'PWT',
+                'lte_name'        => 'AdminLTE',
+                'copy_date'       => '2011-'.date('Y'),
+                'lte_date'        => '2014-'.date('Y'),
             ]
         );
 

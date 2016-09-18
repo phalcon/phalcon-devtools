@@ -89,6 +89,11 @@ defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
  */
 define('PTOOLS_VERSION', '3.0.2-dev');
 
+/**
+ * @const ADMIN_LTE_VERSION The AdminLTE version.
+ */
+define('ADMIN_LTE_VERSION', '2.3.6');
+
 /** @const COMPATIBLE_VERSION The compatible Phalcon version. */
 define('COMPATIBLE_VERSION', 3000040);
 
