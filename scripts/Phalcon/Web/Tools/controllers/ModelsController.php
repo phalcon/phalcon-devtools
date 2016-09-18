@@ -276,7 +276,7 @@ class ModelsController extends Base
         }
 
         $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('schema', $this->config->get('database', new Config)->get('dbname'));
+        $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
         $this->tag->setDefault('modelsDir', $modelsDir);
 
         $this->view->setVars(
