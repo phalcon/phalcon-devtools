@@ -45,7 +45,7 @@ defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_MEMORY', memory_get_usa
 defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(getenv('PTOOLSPATH') ?: dirname(dirname(__FILE__)), '\\/'));
 
 /**
- * @const TEMPLATE_PATH Devtools templates path.
+ * @const TEMPLATE_PATH DevTools templates path.
  */
 defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . '/templates');
 

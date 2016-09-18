@@ -95,6 +95,12 @@ class Bootstrap
     private $basePath = '';
 
     /**
+     * The DevTools templates path.
+     * @var string
+     */
+    private $templatesPath = '';
+
+    /**
      * The current hostname.
      * @var string
      */
@@ -110,7 +116,8 @@ class Bootstrap
         'ptools_path',
         'ptools_ip',
         'base_path',
-        'hostName',
+        'host_name',
+        'templates_path',
     ];
 
     private $loaders = [
@@ -145,10 +152,11 @@ class Bootstrap
     public function __construct(array $parameters = [])
     {
         $defines = [
-            'PTOOLSPATH' => 'ptoolsPath',
-            'PTOOLS_IP'  => 'ptoolsIp',
-            'BASE_PATH'  => 'basePath',
-            'HOSTNAME'   => 'hostName',
+            'PTOOLSPATH'    => 'ptoolsPath',
+            'PTOOLS_IP'     => 'ptoolsIp',
+            'BASE_PATH'     => 'basePath',
+            'HOSTNAME'      => 'hostName',
+            'TEMPLATE_PATH' => 'templatesPath',
         ];
 
         foreach ($defines as $const => $property) {
@@ -293,6 +301,30 @@ class Bootstrap
     public function getBasePath()
     {
         return $this->basePath;
+    }
+
+    /**
+     * Sets the DevTools templates path.
+     *
+     * @param string $path
+     *
+     * @return $this
+     */
+    public function setTemplatesPath($path)
+    {
+        $this->templatesPath = rtrim($path, '\\/');
+
+        return $this;
+    }
+
+    /**
+     * Gets the DevTools templates path.
+     *
+     * @return string
+     */
+    public function getTemplatesPath()
+    {
+        return $this->templatesPath;
     }
 
     /**
@@ -942,10 +974,11 @@ class Bootstrap
     {
         $basePath   = $this->basePath;
         $ptoolsPath = $this->ptoolsPath;
+        $templatesPath = $this->templatesPath;
 
         $this->di->setShared(
             'registry',
-            function () use ($basePath, $ptoolsPath) {
+            function () use ($basePath, $ptoolsPath, $templatesPath) {
                 /**
                  * @var DiInterface $this
                  * @var Config $config
@@ -956,7 +989,9 @@ class Bootstrap
                 $config  = $this->getShared('config');
                 $fs      = $this->getShared('fs');
 
-                $ptoolsPath = Text::reduceSlashes(rtrim($ptoolsPath, '\\/'));
+                $basePath = $fs->normalize(rtrim($basePath, '\\/'));
+                $ptoolsPath = $fs->normalize(rtrim($ptoolsPath, '\\/'));
+                $templatesPath = $fs->normalize(rtrim($templatesPath, '\\/'));
 
                 $requiredDirectories = [
                     'modelsDir',
@@ -968,8 +1003,9 @@ class Bootstrap
                     'modelsDir'      => null,
                     'controllersDir' => null,
                     'migrationsDir'  => null,
-                    'basePath'       => rtrim($basePath, '\\/'),
-                    'ptoolsPath'     => rtrim($ptoolsPath, '\\/'),
+                    'basePath'       => $basePath,
+                    'ptoolsPath'     => $ptoolsPath,
+                    'templatesPath'  => $templatesPath,
                     'webToolsViews'  => $fs->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views'),
                     'resourcesDir'   => $fs->normalize($ptoolsPath . '/resources'),
                     'elementsDir'    => $fs->normalize($ptoolsPath . '/resources/elements')
