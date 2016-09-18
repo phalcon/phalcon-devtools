@@ -30,11 +30,29 @@ defined('PTOOLS_IP') || define('PTOOLS_IP', '192.168.');
 defined('BASE_PATH') || define('BASE_PATH', dirname(dirname(__FILE__)));
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . DIRECTORY_SEPARATOR . 'app');
 
-// Setting environment
-defined('ENV_PRODUCTION')  || define('ENV_PRODUCTION', 'production');
-defined('ENV_STAGING')     || define('ENV_STAGING', 'staging');
+/**
+ * @const ENV_PRODUCTION Application production stage.
+ */
+defined('ENV_PRODUCTION') || define('ENV_PRODUCTION', 'production');
+
+/**
+ * @const ENV_STAGING Application staging stage.
+ */
+defined('ENV_STAGING') || define('ENV_STAGING', 'staging');
+
+/**
+ * @const ENV_DEVELOPMENT Application development stage.
+ */
 defined('ENV_DEVELOPMENT') || define('ENV_DEVELOPMENT', 'development');
-defined('ENV_TESTING')     || define('ENV_TESTING', 'testing');
+
+/**
+ * @const ENV_TESTING Application test stage.
+ */
+defined('ENV_TESTING') || define('ENV_TESTING', 'testing');
+
+/**
+ * @const APPLICATION_ENV Current application stage.
+ */
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV_DEVELOPMENT);
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
