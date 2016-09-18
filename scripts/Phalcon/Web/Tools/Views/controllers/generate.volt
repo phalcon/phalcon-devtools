@@ -9,7 +9,7 @@
             <form role="form" class="form-horizontal" name="generate-controller" method="post" action="{{ url.get("/webtools.php?_url=/controllers/generate") }}">
                 <div class="box-header with-border">
                     <code>{{ controller_name }} - [{{ controller_path }}]</code>
-                    {{ submit_button("Save", "class": "btn btn-success pull-right") }}
+                    {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -36,14 +36,14 @@
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "Absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project") }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="controllersDir" class="col-sm-2 control-label">Controller Directory</label>
                         <div class="col-sm-10">
-                            {{ input("controllersDir", "Absolute path to the controller directory") }}
+                            {{ input("controllersDir", "The absolute path to the controller directory") }}
                         </div>
                     </div>
 

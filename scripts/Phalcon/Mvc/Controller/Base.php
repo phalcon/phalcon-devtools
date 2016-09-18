@@ -29,7 +29,8 @@ use Phalcon\Assets\Filters\Cssmin;
  * \Phalcon\Mvc\Controller\Base
  *
  * @property \Phalcon\Config $config
- * @property \Phalcon\Utils\Path $path
+ * @property \Phalcon\Utils\FsUtils $fs
+ * @property \Phalcon\Utils\DbUtils $dbUtils
  * @property \Phalcon\Registry $registry
  * @property \Phalcon\Elements\Menu\SidebarMenu $sidebar
  * @property \Phalcon\Resources\AssetsResource $resource
@@ -69,7 +70,6 @@ abstract class Base extends Controller
             ->addCss($this->resource->path('bootstrap/css/bootstrap.min.css'), true, false)
             ->addCss($this->resource->path('admin-lte/css/AdminLTE.min.css'))
             ->addCss($this->resource->path('admin-lte/css/skins/_all-skins.min.css'), true, false)
-            ->addCss($this->resource->path('iCheck/flat/blue.css'))
             ->addCss($this->resource->path('jvectormap/jquery-jvectormap-1.2.2.css'))
             ->addCss($this->resource->path('css/dashboard.css'))
             ->join(true)

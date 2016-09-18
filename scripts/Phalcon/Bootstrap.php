@@ -23,11 +23,10 @@ namespace Phalcon;
 
 use Phalcon\Mvc\View;
 use DirectoryIterator;
-use Phalcon\Utils\Path;
-use Phalcon\Events\Event;
+use Phalcon\Utils\FsUtils;
+use Phalcon\Utils\DbUtils;
 use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -40,15 +39,14 @@ use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Assets\Manager as AssetsManager;
-use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Scanners\Config as ConfigScanner;
 use Phalcon\Session\Adapter\Files as Session;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mvc\Application as MvcApplication;
-use Phalcon\Config\Adapter\Yaml as YamlConfig;
-use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Application as AbstractApplication;
+use Phalcon\Config\Exception as ConfigException;
 use Phalcon\Cache\Frontend\None as FrontendNone;
 use Phalcon\Cache\Backend\Memory as BackendCache;
 use Phalcon\Cache\Frontend\Output as FrontOutput;
@@ -96,6 +94,12 @@ class Bootstrap
     private $basePath = '';
 
     /**
+     * The DevTools templates path.
+     * @var string
+     */
+    private $templatesPath = '';
+
+    /**
      * The current hostname.
      * @var string
      */
@@ -111,7 +115,8 @@ class Bootstrap
         'ptools_path',
         'ptools_ip',
         'base_path',
-        'hostName',
+        'host_name',
+        'templates_path',
     ];
 
     private $loaders = [
@@ -146,10 +151,11 @@ class Bootstrap
     public function __construct(array $parameters = [])
     {
         $defines = [
-            'PTOOLSPATH' => 'ptoolsPath',
-            'PTOOLS_IP'  => 'ptoolsIp',
-            'BASE_PATH'  => 'basePath',
-            'HOSTNAME'   => 'hostName',
+            'PTOOLSPATH'    => 'ptoolsPath',
+            'PTOOLS_IP'     => 'ptoolsIp',
+            'BASE_PATH'     => 'basePath',
+            'HOSTNAME'      => 'hostName',
+            'TEMPLATE_PATH' => 'templatesPath',
         ];
 
         foreach ($defines as $const => $property) {
@@ -227,7 +233,6 @@ class Bootstrap
     /**
      * Sets the path to the Phalcon Developers Tools.
      *
-     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -276,7 +281,6 @@ class Bootstrap
     /**
      * Sets the path where the project was created.
      *
-     * @todo Use Path::normalize()
      * @param string $path
      *
      * @return $this
@@ -299,6 +303,30 @@ class Bootstrap
     }
 
     /**
+     * Sets the DevTools templates path.
+     *
+     * @param string $path
+     *
+     * @return $this
+     */
+    public function setTemplatesPath($path)
+    {
+        $this->templatesPath = rtrim($path, '\\/');
+
+        return $this;
+    }
+
+    /**
+     * Gets the DevTools templates path.
+     *
+     * @return string
+     */
+    public function getTemplatesPath()
+    {
+        return $this->templatesPath;
+    }
+
+    /**
      * Sets the current application mode.
      *
      * @param string $mode
@@ -310,7 +338,7 @@ class Bootstrap
         $mode = strtolower(trim($mode));
 
         if (isset($this->loaders[$mode])) {
-            $mode = 'web'; // @todo
+            $mode = 'web';
         }
 
         $this->mode = $mode;
@@ -373,95 +401,47 @@ class Bootstrap
      */
     protected function initConfig()
     {
-        $path = $this->basePath;
-
+        $basePath = $this->basePath;
         $this->di->setShared(
             'config',
-            function () use ($path) {
+            function () use($basePath) {
                 /** @var DiInterface $this */
+                $scanner = new ConfigScanner($basePath);
 
-                $configDirs = [
-                    'config',
-                    'app/config',
-                    'apps/config',
-                    'app/frontend/config',
-                    'apps/frontend/config',
-                    'app/backend/config',
-                    'apps/backend/config',
-                ];
-
-                $configAdapters = [
-                    'ini'  => IniConfig::class,
-                    'json' => JsonConfig::class,
-                    'php'  => Config::class,
-                    'php5' => Config::class,
-                    'inc'  => Config::class,
-                    'yml'  => YamlConfig::class,
-                    'yaml' => YamlConfig::class,
-                ];
-
-                $config = null;
-
-                // @todo Add scan for dev config
-                foreach ($configDirs as $configPath) {
-                    $probablyPath = $path . DS . str_replace('/', DS, $configPath);
-
-                    foreach ($configAdapters as $ext => $adapter) {
-                        $probablyConfig = $probablyPath . DS . 'config.' . $ext;
-
-                        if (is_file($probablyConfig) && is_readable($probablyConfig)) {
-                            if (in_array($ext, ['php', 'php5', 'inc'])) {
-                                /** @noinspection PhpIncludeInspection */
-                                $config = include($probablyConfig);
-                                if (is_array($config)) {
-                                    $config = new Config($config);
-                                }
-                            } else {
-                                $config = new $adapter($probablyConfig);
-                            }
-
-                            $this->getShared('logger')->debug('Found config at path: {path}', [
-                                'path' => $probablyConfig,
-                            ]);
-                            break(2);
-                        }
-                    }
-                }
+                $config = $scanner->scan('config');
 
                 if (null === $config) {
-                    // @todo Use Config Exception here
-                    trigger_error(
+                    throw new ConfigException(
                         sprintf(
-                            "Configuration file couldn't be loaded! Scanned dirs: %s",
-                            join(', ', array_map(function ($val) use ($path) {
-                                return $path . DS . str_replace('/', DS, $val);
-                            }, $configDirs))
-                        ),
-                        E_USER_ERROR
+                            "Configuration file couldn't be loaded! Scanned paths: %s",
+                            join(', ', $scanner->getConfigPaths())
+                        )
                     );
-
-                    exit(1);
                 }
 
                 if (!$config instanceof Config) {
                     $type = gettype($config);
+
                     if ($type == 'boolean') {
                         $type .= ($type ? ' (true)' : ' (false)');
                     } elseif (is_object($type)) {
                         $type = get_class($type);
                     }
 
-                    // @todo Use Config Exception here
-                    trigger_error(
+                    throw new ConfigException(
                         sprintf(
                             'Unable to read config file. Config must be either an array or %s instance. Got %s',
                             Config::class,
                             $type
-                        ),
-                        E_USER_ERROR
+                        )
                     );
+                }
 
-                    exit(1);
+                if (ENV_PRODUCTION !== APPLICATION_ENV) {
+                    $override = $scanner->scan(APPLICATION_ENV);
+                    if ($override instanceof Config) {
+                        $config->merge($override);
+                    }
                 }
 
                 return $config;
@@ -840,7 +820,7 @@ class Bootstrap
         $this->di->setShared(
             'flash',
             function () {
-                return new FlashDirect(
+                $flash = new FlashDirect(
                     [
                         'error'   => 'alert alert-danger fade in',
                         'success' => 'alert alert-success fade in',
@@ -848,13 +828,17 @@ class Bootstrap
                         'warning' => 'alert alert-warning fade in',
                     ]
                 );
+
+                $flash->setAutoescape(false);
+
+                return $flash;
             }
         );
 
         $this->di->setShared(
             'flashSession',
             function () {
-                return new FlashSession(
+                $flash = new FlashSession(
                     [
                         'error'   => 'alert alert-danger fade in',
                         'success' => 'alert alert-success fade in',
@@ -862,6 +846,11 @@ class Bootstrap
                         'warning' => 'alert alert-warning fade in',
                     ]
                 );
+
+
+                $flash->setAutoescape(false);
+
+                return $flash;
             }
         );
     }
@@ -876,7 +865,6 @@ class Bootstrap
             function () {
                 /** @var DiInterface $this */
                 $em   = $this->getShared('eventsManager');
-                $that = $this;
 
                 if ($this->getShared('config')->offsetExists('database')) {
                     $config = $this->getShared('config')->get('database')->toArray();
@@ -894,32 +882,11 @@ class Bootstrap
                     ];
                 }
 
-                $adapter = 'Phalcon\Db\Adapter\Pdo\\' . $config;
+                $adapter = 'Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
                 unset($config['adapter']);
 
                 /** @var Pdo $connection */
                 $connection = new $adapter($config);
-
-                $em->attach(
-                    'db',
-                    function ($event, $connection) use ($that) {
-                        /**
-                         * @var Event            $event
-                         * @var AdapterInterface $connection
-                         * @var DiInterface      $that
-                         */
-                        if ($event->getType() == 'beforeQuery') {
-                            $variables = $connection->getSQLVariables();
-                            $string    = $connection->getSQLStatement();
-
-                            if ($variables) {
-                                $string .= ' [' . join(', ', $variables) . ']';
-                            }
-
-                            $that->getShared('logger')->debug($string);
-                        }
-                    }
-                );
 
                 $connection->setEventsManager($em);
 
@@ -958,47 +925,57 @@ class Bootstrap
     {
         $basePath   = $this->basePath;
         $ptoolsPath = $this->ptoolsPath;
+        $templatesPath = $this->templatesPath;
 
         $this->di->setShared(
             'registry',
-            function () use ($basePath, $ptoolsPath) {
+            function () use ($basePath, $ptoolsPath, $templatesPath) {
                 /**
                  * @var DiInterface $this
                  * @var Config $config
-                 * @var Path $path
+                 * @var FsUtils $fs
                  */
                 $registry = new Registry;
 
-                $config = $this->getShared('config');
-                $path   = $this->getShared('path');
+                $config  = $this->getShared('config');
+                $fs      = $this->getShared('fs');
 
-                $ptoolsPath = Text::reduceSlashes(rtrim($ptoolsPath, '\\/'));
+                $basePath = $fs->normalize(rtrim($basePath, '\\/'));
+                $ptoolsPath = $fs->normalize(rtrim($ptoolsPath, '\\/'));
+                $templatesPath = $fs->normalize(rtrim($templatesPath, '\\/'));
+
+                $requiredDirectories = [
+                    'modelsDir',
+                    'controllersDir',
+                    'migrationsDir',
+                ];
 
                 $directories = [
                     'modelsDir'      => null,
                     'controllersDir' => null,
                     'migrationsDir'  => null,
+                    'basePath'       => $basePath,
+                    'ptoolsPath'     => $ptoolsPath,
+                    'templatesPath'  => $templatesPath,
+                    'webToolsViews'  => $fs->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views'),
+                    'resourcesDir'   => $fs->normalize($ptoolsPath . '/resources'),
+                    'elementsDir'    => $fs->normalize($ptoolsPath . '/resources/elements')
                 ];
 
                 if (($application = $config->get('application')) instanceof Config) {
-                    foreach ($directories as $name => $value) {
+                    foreach ($requiredDirectories as $name) {
                         if ($possiblePath = $application->get($name)) {
-                            if (!$path->isAbsolute($possiblePath)) {
+                            if (!$fs->isAbsolute($possiblePath)) {
                                 $possiblePath = $basePath . DS . $possiblePath;
                             }
 
+                            $possiblePath = $fs->normalize($possiblePath);
                             if (is_readable($possiblePath) && is_dir($possiblePath)) {
-                                $directories[$name] = $path->normalize($possiblePath);
+                                $directories[$name] = $possiblePath;
                             }
                         }
                     }
                 }
-
-                $directories['basePath']      = $basePath;
-                $directories['ptoolsPath']    = $ptoolsPath;
-                $directories['webToolsViews'] = $path->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views');
-                $directories['resourcesDir']  = $path->normalize($ptoolsPath . '/resources');
-                $directories['elementsDir']   = $path->normalize($ptoolsPath . '/resources/elements');
 
                 $registry->offsetSet('directories', (object) $directories);
 
@@ -1013,9 +990,16 @@ class Bootstrap
     protected function initUtils()
     {
         $this->di->setShared(
-            'path',
+            'fs',
             function () {
-                return new Path;
+                return new FsUtils;
+            }
+        );
+
+        $this->di->setShared(
+            'dbUtils',
+            function () {
+                return new DbUtils;
             }
         );
 

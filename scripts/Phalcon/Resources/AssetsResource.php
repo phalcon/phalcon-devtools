@@ -26,7 +26,7 @@ use Phalcon\Mvc\User\Component;
 /**
  * \Phalcon\Resources\AssetsResource
  *
- * @property \Phalcon\Utils\Path $path
+ * @property \Phalcon\Utils\FsUtils $fs
  *
  * @package Phalcon\Resources
  */
@@ -41,6 +41,6 @@ class AssetsResource extends Component
      */
     public function path($path)
     {
-        return PTOOLSPATH . DS . 'resources' . DS . $this->path->normalize($path);
+        return PTOOLSPATH . DS . 'resources' . DS . $this->fs->normalize($path);
     }
 }

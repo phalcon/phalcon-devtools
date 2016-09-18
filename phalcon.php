@@ -20,7 +20,6 @@
 */
 
 use Phalcon\Script;
-use Phalcon\Version;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Builtin\Model;
 use Phalcon\Commands\Builtin\Module;
@@ -38,7 +37,7 @@ use Phalcon\Events\Manager as EventsManager;
 try {
     require dirname(__FILE__) . '/bootstrap/autoload.php';
 
-    $vendor = sprintf('Phalcon DevTools (%s)', Version::get());
+    $vendor = sprintf('Phalcon DevTools (%s)', PTOOLS_VERSION);
     print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
 
     $eventsManager = new EventsManager();

@@ -19,36 +19,37 @@
   +------------------------------------------------------------------------+
 */
 
-namespace WebTools\Controllers;
+namespace Phalcon\Utils;
 
-use Phalcon\Mvc\Controller\Base;
+use Phalcon\Mvc\User\Component;
 
 /**
- * \WebTools\Controllers\IndexController
+ * \Phalcon\Utils\DbUtils
  *
- * @package WebTools\Controllers
+ * @package Phalcon\Utils
  */
-class IndexController extends Base
+class DbUtils extends Component
 {
     /**
-     * Initialize controller
+     * List database tables
+     *
+     * @param  bool   $all
+     * @param  string $connection
+     * @return array
      */
-    public function initialize()
+    public function listTables($all = false, $connection = 'db')
     {
-        parent::initialize();
+        $tables = $all ? ['@' => 'all'] : [];
 
-        $this->view->setVar('page_title', 'Dashboard');
-    }
+        if ($this->getDI()->has($connection)) {
+            $connection = $this->getDI()->getShared($connection);
 
-    /**
-     * @Get("/", name="dashboard")
-     */
-    public function indexAction()
-    {
-        $this->view->setVars(
-            [
-                'page_subtitle' => 'Control panel',
-            ]
-        );
+            $dbTables = $connection->listTables();
+            foreach ($dbTables as $dbTable) {
+                $tables[$dbTable] = $dbTable;
+            }
+        }
+
+        return $tables;
     }
 }
