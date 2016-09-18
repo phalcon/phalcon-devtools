@@ -9,7 +9,7 @@
             <form role="form" class="form-horizontal" name="generate-model" method="post" action="{{ url.get("/webtools.php?_url=/models/generate") }}">
                 <div class="box-header with-border">
                     <code>New model will be placed at: [{{ model_path }}]</code>
-                    {{ submit_button("Save", "class": "btn btn-success pull-right") }}
+                    {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -36,14 +36,14 @@
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "Absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project") }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="modelsDir" class="col-sm-2 control-label">Model Directory</label>
                         <div class="col-sm-10">
-                            {{ input("modelsDir", "Absolute path to the model directory") }}
+                            {{ input("modelsDir", "The absolute path to the model directory") }}
                         </div>
                     </div>
 

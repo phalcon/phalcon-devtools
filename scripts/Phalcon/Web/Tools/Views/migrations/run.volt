@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "Absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project") }}
                             <span class="help-block">Directory where the project was created</span>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
                     <div class="form-group">
                         <label for="migrationsDir" class="col-sm-2 control-label">Migrations Dir</label>
                         <div class="col-sm-10">
-                            {{ input("migrationsDir", "Absolute path to the model directory") }}
-                            <span class="help-block">Absolute path to the migrations directory</span>
+                            {{ input("migrationsDir", "The absolute path to the model directory") }}
+                            <span class="help-block">The absolute path to the migrations directory</span>
                         </div>
                     </div>
                 </div>
