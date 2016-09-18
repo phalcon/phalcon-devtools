@@ -89,6 +89,9 @@ defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
  */
 define('PTOOLS_VERSION', '3.0.2-dev');
 
+/** @const COMPATIBLE_VERSION The compatible Phalcon version. */
+define('COMPATIBLE_VERSION', 3000040);
+
 if (ENV_DEVELOPMENT === APPLICATION_ENV) {
     error_reporting(E_ALL);
 
@@ -133,11 +136,8 @@ if (file_exists(PTOOLSPATH . DS . '.phalcon' . DS . 'autoload.php')) {
     require_once PTOOLSPATH . DS .  '.phalcon' . DS . 'autoload.php';
 }
 
-if (Version::getId() < Script::COMPATIBLE_VERSION) {
+if (Version::getId() < COMPATIBLE_VERSION) {
     throw new Exception(
-        sprintf(
-            "Your Phalcon version isn't compatible with Developer Tools, download the latest at: %s",
-            Script::DOC_DOWNLOAD_URL
-        )
+        "Your Phalcon version isn't compatible with Developer Tools, download the latest at: https://phalconphp.com/download"
     );
 }
