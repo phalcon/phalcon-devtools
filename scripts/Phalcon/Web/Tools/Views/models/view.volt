@@ -4,7 +4,7 @@
         {{ flashSession.output() }}
         <div class="box box-warning">
             <div class="box-header with-border">
-                <code>{{ model_name }} - [{{ model_path }}]</code>
+                <p>{{ model_name }} - [{{ model_path }}]</p>
             </div>
             <div class="box-body">
                 <form role="form">

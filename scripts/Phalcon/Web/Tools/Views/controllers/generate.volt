@@ -8,7 +8,7 @@
         <div class="box box-success">
             <form role="form" class="form-horizontal" name="generate-controller" method="post" action="{{ url.get("/webtools.php?_url=/controllers/generate") }}">
                 <div class="box-header with-border">
-                    <code>{{ controller_name }} - [{{ controller_path }}]</code>
+                    <p class="pull-left">{{ controller_name }} - [{{ controller_path }}]</p>
                     {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
                 </div>
                 <div class="box-body">

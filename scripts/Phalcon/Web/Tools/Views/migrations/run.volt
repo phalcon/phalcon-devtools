@@ -8,7 +8,7 @@
         <div class="box box-success">
             <form role="form" class="form-horizontal" name="generate-migration" method="post" action="{{ url.get("/webtools.php?_url=/migrations/run") }}">
                 <div class="box-header with-border">
-                    <code>Migrations from: [{{ migration_path }}]</code>
+                    <p class="pull-left">Migrations from: [{{ migration_path }}]</p>
                     {{ submit_button("Run", "class": "btn btn-success pull-right") }}
                 </div>
                 <div class="box-body">
