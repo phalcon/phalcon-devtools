@@ -21,13 +21,13 @@
 
 namespace Phalcon;
 
+use DirectoryIterator;
 use Phalcon\Commands\Command;
 use Phalcon\Script\ScriptException;
 use Phalcon\Events\Manager as EventsManager;
-use DirectoryIterator;
 
 /**
- * Script Class
+ * \Phalcon\Script
  *
  * Component that allows you to write scripts to use CLI.
  *
@@ -35,14 +35,6 @@ use DirectoryIterator;
  */
 class Script
 {
-    /**
-     * Phalcon 3.0.0
-     * @type int
-     */
-    const COMPATIBLE_VERSION = 3000040;
-
-    const DOC_DOWNLOAD_URL = 'https://phalconphp.com/download';
-
     /**
      * Events Manager
      *
