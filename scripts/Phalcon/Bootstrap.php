@@ -26,6 +26,7 @@ use DirectoryIterator;
 use Phalcon\Utils\FsUtils;
 use Phalcon\Utils\DbUtils;
 use Phalcon\Db\Adapter\Pdo;
+use Phalcon\Utils\SystemInfo;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
@@ -993,6 +994,13 @@ class Bootstrap
             'fs',
             function () {
                 return new FsUtils;
+            }
+        );
+
+        $this->di->setShared(
+            'info',
+            function () {
+                return new SystemInfo;
             }
         );
 

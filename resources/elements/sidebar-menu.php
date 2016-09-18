@@ -150,6 +150,16 @@ return [
             ],
         ],
 
+        // System Info
+        [
+            'link'  => [
+                'href'  => '/webtools.php?_url=/info',
+                'icon'  => 'fa fa-info',
+                'text'  => 'System Info',
+                'wrap'  => 'span',
+            ],
+        ],
+
         [
             'class' => 'header',
             'text'  => 'LINKS',
