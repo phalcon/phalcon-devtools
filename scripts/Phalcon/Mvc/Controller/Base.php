@@ -128,9 +128,9 @@ abstract class Base extends Controller
         if ($path = parse_url($referer, PHP_URL_PATH)) {
             $this->router->handle($path);
             return $this->router->wasMatched() ? $this->response->redirect($path, true) : $this->indexRedirect();
-        } else {
-            return $this->indexRedirect();
         }
+
+        return $this->indexRedirect();
     }
 
     /**
@@ -151,7 +151,6 @@ abstract class Base extends Controller
                 'base_uri'        => $this->url->getBaseUri(),
                 'webtools_uri'    => rtrim('/', $this->url->getBaseUri()) . '/webtools.php',
                 'ptools_version'  => PTOOLS_VERSION,
-                'lte_version'     => ADMIN_LTE_VERSION,
                 'phalcon_version' => Version::get(),
                 'phalcon_team'    => 'Phalcon Team',
                 'lte_team'        => 'Almsaeed Studio',
