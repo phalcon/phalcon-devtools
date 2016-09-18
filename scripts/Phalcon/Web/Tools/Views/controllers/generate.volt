@@ -9,7 +9,7 @@
             <form role="form" class="form-horizontal" name="generate-controller" method="post" action="{{ url.get("/webtools.php?_url=/controllers/generate") }}">
                 <div class="box-header with-border">
                     <code>{{ controller_name }} - [{{ controller_path }}]</code>
-                    {{ submit_button("Save", "class": "btn btn-success pull-right") }}
+                    {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
                 </div>
                 <div class="box-body">
                     <div class="form-group">
