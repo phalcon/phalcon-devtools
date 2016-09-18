@@ -58,7 +58,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label for="foreignKeys">
-                                {{- check_field("foreignKeys", "value": 1, "id": "foreignKeys") ~ " Set Foreign Keys" -}}
+                                {{- check_field("foreignKeys", "value": 1, "id": "foreignKeys") ~ " Set foreign keys" -}}
                             </label>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label for="defineRelations">
-                                {{- check_field("defineRelations", "value": 1, "id": "defineRelations") ~ " Define Relations" -}}
+                                {{- check_field("defineRelations", "value": 1, "id": "defineRelations") ~ " Define relations" -}}
                             </label>
                         </div>
                     </div>
