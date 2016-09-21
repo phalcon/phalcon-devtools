@@ -22,9 +22,10 @@
 namespace Phalcon\Mvc\Controller;
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Devtools\Version;
+use Phalcon\Version as PhVersion;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\Cssmin;
-use Phalcon\Version;
 
 /**
  * \Phalcon\Mvc\Controller\Base
@@ -68,7 +69,7 @@ abstract class Base extends Controller
         $this->assets
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
-            ->setTargetUri('css/webtools.css?v=' . PTOOLS_VERSION)
+            ->setTargetUri('css/webtools.css?v=' . Version::get())
             ->addCss($this->resource->path('bootstrap/css/bootstrap.min.css'), true, false)
             ->addCss($this->resource->path('admin-lte/css/AdminLTE.min.css'))
             ->addCss($this->resource->path('admin-lte/css/skins/_all-skins.min.css'), true, false)
@@ -90,7 +91,7 @@ abstract class Base extends Controller
         $this->assets
             ->collection('footer')
             ->setTargetPath('js/webtools.js')
-            ->setTargetUri('js/webtools.js?v=' . PTOOLS_VERSION)
+            ->setTargetUri('js/webtools.js?v=' . Version::get())
             ->addJs($this->resource->path('jquery/2.2.4/jquery.min.js'), true, false)
             ->addJs($this->resource->path('jquery-ui/jquery-ui.min.js'), true, false)
             ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
@@ -108,7 +109,7 @@ abstract class Base extends Controller
         $this->assets
             ->collection('js_ie')
             ->setTargetPath('js/webtools-ie.js')
-            ->setTargetUri('js/webtools-ie.js?v=' . PTOOLS_VERSION)
+            ->setTargetUri('js/webtools-ie.js?v=' . Version::get())
             ->addJs('https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js', false, false)
             ->addJs('https://oss.maxcdn.com/respond/1.4.2/respond.min.js', false, false)
             ->join(true)
@@ -150,8 +151,8 @@ abstract class Base extends Controller
             [
                 'base_uri'        => $this->url->getBaseUri(),
                 'webtools_uri'    => rtrim('/', $this->url->getBaseUri()) . '/webtools.php',
-                'ptools_version'  => PTOOLS_VERSION,
-                'phalcon_version' => Version::get(),
+                'ptools_version'  => Version::get(),
+                'phalcon_version' => PhVersion::get(),
                 'phalcon_team'    => 'Phalcon Team',
                 'lte_team'        => 'Almsaeed Studio',
                 'phalcon_url'     => 'https://www.phalconphp.com',

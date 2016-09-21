@@ -21,6 +21,7 @@
 
 namespace WebTools\Controllers;
 
+use Phalcon\Devtools\Version;
 use Phalcon\Mvc\Controller\Base;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\Cssmin;
@@ -126,7 +127,7 @@ class ErrorController extends Base
         $this->assets
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
-            ->setTargetUri('css/webtools.css?v=' . PTOOLS_VERSION)
+            ->setTargetUri('css/webtools.css?v=' . Version::get())
             ->addCss($this->resource->path('bootstrap/css/bootstrap.min.css'), true, false)
             ->addCss($this->resource->path('admin-lte/css/AdminLTE.min.css'))
             ->addCss($this->resource->path('admin-lte/css/skins/_all-skins.min.css'), true, false)
@@ -147,7 +148,7 @@ class ErrorController extends Base
         $this->assets
             ->collection('js_ie')
             ->setTargetPath('js/webtools-ie.js')
-            ->setTargetUri('js/webtools-ie.js?v=' . PTOOLS_VERSION)
+            ->setTargetUri('js/webtools-ie.js?v=' . Version::get())
             ->addJs('https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js', false, false)
             ->addJs('https://oss.maxcdn.com/respond/1.4.2/respond.min.js', false, false)
             ->join(true)
