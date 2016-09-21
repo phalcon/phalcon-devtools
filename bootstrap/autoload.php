@@ -85,11 +85,6 @@ defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
 
 /**
- * @const PTOOLS_VERSION The Phalcon Developers Tools version.
- */
-define('PTOOLS_VERSION', '3.0.2-dev');
-
-/**
  * @const ADMIN_LTE_VERSION The AdminLTE version.
  */
 define('ADMIN_LTE_VERSION', '2.3.6');

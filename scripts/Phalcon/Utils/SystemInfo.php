@@ -21,8 +21,9 @@
 
 namespace Phalcon\Utils;
 
-use Phalcon\Version;
+use Phalcon\Devtools\Version;
 use Phalcon\Mvc\User\Component;
+use Phalcon\Version as PhVersion;
 
 /**
  * \Phalcon\Utils\SystemInfo
@@ -64,8 +65,8 @@ class SystemInfo extends Component
     public function getVersions()
     {
         return [
-            'Phalcon DevTools Version' => PTOOLS_VERSION,
-            'Phalcon Version' => Version::get(),
+            'Phalcon DevTools Version' => Version::get(),
+            'Phalcon Version' => PhVersion::get(),
             'AdminLTE Version' => ADMIN_LTE_VERSION,
         ];
     }
