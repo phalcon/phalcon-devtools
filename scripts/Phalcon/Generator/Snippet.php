@@ -247,7 +247,7 @@ EOD;
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed \$parameters
-     * @return %s[]
+     * @return %s[]|%s
      */
     public static function find(\$parameters = null)
     {
