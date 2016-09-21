@@ -64,6 +64,8 @@ use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
  */
 class Bootstrap
 {
+    use Configurable;
+
     /**
      * Application instance.
      * @var AbstractApplication
@@ -112,12 +114,28 @@ class Bootstrap
      */
     private $mode = 'web';
 
-    private $configurable = [
+    /**
+     * Configurable parameters
+     * @var array
+     */
+    protected $configurable = [
         'ptools_path',
         'ptools_ip',
         'base_path',
         'host_name',
         'templates_path',
+    ];
+
+    /**
+     * Parameters that can be set using constants
+     * @var array
+     */
+    protected $defines = [
+        'PTOOLSPATH'    => 'ptoolsPath',
+        'PTOOLS_IP'     => 'ptoolsIp',
+        'BASE_PATH'     => 'basePath',
+        'HOSTNAME'      => 'hostName',
+        'TEMPLATE_PATH' => 'templatesPath',
     ];
 
     private $loaders = [
@@ -147,25 +165,12 @@ class Bootstrap
     /**
      * Bootstrap constructor.
      *
-     * @param array $parameters
+     * @param array|\Traversable $parameters
      */
-    public function __construct(array $parameters = [])
+    public function __construct($parameters = [])
     {
-        $defines = [
-            'PTOOLSPATH'    => 'ptoolsPath',
-            'PTOOLS_IP'     => 'ptoolsIp',
-            'BASE_PATH'     => 'basePath',
-            'HOSTNAME'      => 'hostName',
-            'TEMPLATE_PATH' => 'templatesPath',
-        ];
-
-        foreach ($defines as $const => $property) {
-            if (defined($const)) {
-                $this->{$property} = rtrim(trim(constant($const)), '\\/');
-            }
-        }
-
-        $this->setParams($parameters);
+        $this->initFromConstants();
+        $this->setParameters($parameters);
 
         $this->di  = new FactoryDefault;
         $this->app = new MvcApplication;
@@ -205,30 +210,6 @@ class Bootstrap
     public function getOutput()
     {
         return $this->app->handle()->getContent();
-    }
-
-    /**
-     * Set the WebTools params.
-     *
-     * @param array $params
-     *
-     * @return $this
-     */
-    public function setParams(array $params)
-    {
-        foreach ($this->configurable as $param) {
-            if (!isset($params[$param])) {
-                continue;
-            }
-
-            $method = 'set' . Text::camelize($param);
-
-            if (method_exists($this, $method)) {
-                $this->$method($params[$param]);
-            }
-        }
-
-        return $this;
     }
 
     /**
