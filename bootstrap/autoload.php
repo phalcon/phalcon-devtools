@@ -108,6 +108,7 @@ if (ENV_DEVELOPMENT === APPLICATION_ENV) {
 
 if (PHP_SAPI == 'cli') {
     set_time_limit(0);
+    ini_set('html_errors', 0);
 }
 
 /**
