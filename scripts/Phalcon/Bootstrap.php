@@ -64,7 +64,7 @@ use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
  */
 class Bootstrap
 {
-    use Configurable;
+    use Configurable, Initializable;
 
     /**
      * Application instance.
@@ -131,11 +131,11 @@ class Bootstrap
      * @var array
      */
     protected $defines = [
-        'PTOOLSPATH'    => 'ptoolsPath',
-        'PTOOLS_IP'     => 'ptoolsIp',
-        'BASE_PATH'     => 'basePath',
-        'HOSTNAME'      => 'hostName',
-        'TEMPLATE_PATH' => 'templatesPath',
+        'PTOOLSPATH',
+        'PTOOLS_IP',
+        'BASE_PATH',
+        'HOSTNAME',
+        'TEMPLATE_PATH',
     ];
 
     private $loaders = [
@@ -169,6 +169,8 @@ class Bootstrap
      */
     public function __construct($parameters = [])
     {
+        $this->defines = array_combine($this->defines, $this->configurable);
+
         $this->initFromConstants();
         $this->setParameters($parameters);
 

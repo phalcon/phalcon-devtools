@@ -21,8 +21,8 @@
 
 namespace Phalcon;
 
+use Traversable;
 use Phalcon\Exception\InvalidArgumentException;
-use Phalcon\Exception\ReadOnlyParameterException;
 
 /**
  * \Phalcon\Configurable
@@ -34,13 +34,13 @@ trait Configurable
     /**
      * Sets the params by using passed config.
      *
-     * @param array|\Traversable $parameters
+     * @param array|Traversable $parameters
      * @return $this
-     * @throws InvalidArgumentException|ReadOnlyParameterException
+     * @throws InvalidArgumentException
      */
     public function setParameters($parameters)
     {
-        if (!is_array($parameters) && !($parameters instanceof \Traversable)) {
+        if (!is_array($parameters) && !($parameters instanceof Traversable)) {
             throw new InvalidArgumentException('Parameters must be either an array or Traversable.');
         }
 
@@ -49,15 +49,25 @@ trait Configurable
                 continue;
             }
 
-            $method = 'set' . Text::camelize($param);
+            $this->setParameter($param, $parameters[$param]);
+        }
 
-            if (method_exists($this, $method)) {
-                $this->$method($parameters[$param]);
-            } else {
-                throw new ReadOnlyParameterException(
-                    sprintf('Setting readonly property: %s::$%s', get_class($this), $param)
-                );
-            }
+        return $this;
+    }
+
+    /**
+     * Sets the parameter by using snake_case notation.
+     *
+     * @param string $parameter Parameter name
+     * @param mixed $value The value
+     * @return $this
+     */
+    public function setParameter($parameter, $value)
+    {
+        $method = 'set' . Text::camelize($parameter);
+
+        if (method_exists($this, $method)) {
+            $this->$method($value);
         }
 
         return $this;
@@ -71,8 +81,8 @@ trait Configurable
     public function initFromConstants()
     {
         foreach ($this->defines as $const => $property) {
-            if (defined($const) && property_exists($this, $property)) {
-                $this->{$property} = rtrim(trim(constant($const)), '\\/');
+            if (defined($const) && in_array($property, $this->configurable)) {
+                $this->setParameter($property, constant($const));
             }
         }
 
