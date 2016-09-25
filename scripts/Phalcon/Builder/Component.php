@@ -21,9 +21,8 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Script\Color;
-use Phalcon\Config;
 use Phalcon\Validation;
+use Phalcon\Script\Color;
 use Phalcon\Validation\Validator\Namespaces;
 
 /**
