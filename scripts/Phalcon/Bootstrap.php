@@ -395,7 +395,7 @@ class Bootstrap
         $basePath = $this->basePath;
         $this->di->setShared(
             'config',
-            function () use($basePath) {
+            function () use ($basePath) {
                 /** @var DiInterface $this */
                 $scanner = new ConfigScanner($basePath);
 
@@ -560,7 +560,8 @@ class Bootstrap
                         $templatePath = substr($templatePath, strlen($ptoolsPath . DS . 'scripts'));
                     }
 
-                    $filename = str_replace(['\\', '/'], $voltConfig->get('separator', '_'), trim($templatePath, '\\/'));
+                    $templatePath = trim($templatePath, '\\/');
+                    $filename = str_replace(['\\', '/'], $voltConfig->get('separator', '_'), $templatePath);
                     $filename = basename($filename, '.volt') . $voltConfig->get('compiledExt', '.php');
                     $cacheDir = $voltConfig->get('cacheDir', $appCacheDir);
 
@@ -862,7 +863,8 @@ class Bootstrap
                 } else {
                     $dbname = sys_get_temp_dir() . DS . 'phalcon.sqlite';
                     $this->getShared('logger')->warning(
-                        'Unable to initialize "db" service. Used Sqlite adapter at path: {path}', ['path' => $dbname]
+                        'Unable to initialize "db" service. Used Sqlite adapter at path: {path}',
+                        ['path' => $dbname]
                     );
 
                     $config = [
