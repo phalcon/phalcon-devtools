@@ -58,7 +58,7 @@ class ModelsController extends Base
         $models = [];
 
         if ($modelsDir = $this->registry->offsetGet('directories')->modelsDir) {
-            foreach(new DirectoryIterator($modelsDir) as $file) {
+            foreach (new DirectoryIterator($modelsDir) as $file) {
                 if ($file->isDot() || $file->isDir()) {
                     continue;
                 }
@@ -239,11 +239,12 @@ class ModelsController extends Base
                     if (($n = count($modelBuilder->exist)) > 0) {
                         $mList = implode('</strong>, <strong>', $modelBuilder->exist);
 
-                        if ($n == 1) {
-                            $notice = 'Model <strong>' . $mList . '</strong> was skipped because it already exists!';
-                        } else {
-                            $notice = 'Models <strong>' . $mList . '</strong> were skipped because they already exists!';
-                        }
+                        $notice = sprintf(
+                            'Model%s <strong>%s</strong> %s already exists!',
+                            1 === $n ? '' : 's',
+                            $mList,
+                            1 === $n ? 'was skipped because it' : 'were skipped because they'
+                        );
 
                         $this->flashSession->notice($notice);
                     }
@@ -251,7 +252,8 @@ class ModelsController extends Base
                     $message = 'Models were created successfully.';
                 } else {
                     $message = sprintf(
-                        'Model "%s" was created successfully', Text::camelize(basename($tableName, '.php'))
+                        'Model "%s" was created successfully',
+                        Text::camelize(basename($tableName, '.php'))
                     );
                 }
 

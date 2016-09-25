@@ -51,12 +51,12 @@ class MigrationsController extends Base
         $migrations = [];
 
         if ($migrationsDir = $this->registry->offsetGet('directories')->migrationsDir) {
-            foreach(new DirectoryIterator($migrationsDir) as $index => $version) {
+            foreach (new DirectoryIterator($migrationsDir) as $index => $version) {
                 if ($version->isDot() || !$version->isDir()) {
                     continue;
                 }
 
-                foreach(new DirectoryIterator($version->getPathname()) as $file) {
+                foreach (new DirectoryIterator($version->getPathname()) as $file) {
                     if ($file->isDot() || $file->isDir() || 'php' !== strtolower($file->getExtension())) {
                         continue;
                     }

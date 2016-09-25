@@ -55,7 +55,7 @@ class ControllersController extends Base
         $controllers = [];
 
         if ($controllersDir = $this->registry->offsetGet('directories')->controllersDir) {
-            foreach(new DirectoryIterator($controllersDir) as $file) {
+            foreach (new DirectoryIterator($controllersDir) as $file) {
                 if ($file->isDot() || $file->isDir()) {
                     continue;
                 }
@@ -231,7 +231,6 @@ class ControllersController extends Base
                 );
 
                 return $this->response->redirect('/webtools.php?_url=/controllers/list');
-
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (\Exception $e) {

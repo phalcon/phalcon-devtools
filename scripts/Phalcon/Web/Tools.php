@@ -41,9 +41,9 @@ class Tools
      */
     public static function install($path)
     {
-        $path = str_replace(["\\", '/'], DIRECTORY_SEPARATOR, realpath($path)) . DIRECTORY_SEPARATOR;
+        $path = str_replace(["\\", '/'], DS, realpath($path)) . DS;
 
-        if (!is_dir($path . 'public' . DIRECTORY_SEPARATOR)) {
+        if (!is_dir($path . 'public' . DS)) {
             throw new Exception('Document root cannot be located');
         }
 
@@ -51,12 +51,12 @@ class Tools
             $tools = realpath(__DIR__ . '/../../../');
         }
 
-        $tools = str_replace(["\\", '/'], DIRECTORY_SEPARATOR, $tools) . DIRECTORY_SEPARATOR;
+        $tools = str_replace(["\\", '/'], DS, $tools) . DS;
 
-        copy(rtrim($tools, '\\/') . DIRECTORY_SEPARATOR . 'webtools.php', $path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
+        copy(rtrim($tools, '\\/') . DS . 'webtools.php', $path . 'public' . DS . 'webtools.php');
 
         if (!file_exists($configPath = $path . 'public/webtools.config.php')) {
-            $template = file_get_contents(TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'webtools.config.php');
+            $template = file_get_contents(TEMPLATE_PATH . DS . 'webtools.config.php');
             $code = str_replace('@@PATH@@', $tools, $template);
 
             file_put_contents($configPath, $code);
