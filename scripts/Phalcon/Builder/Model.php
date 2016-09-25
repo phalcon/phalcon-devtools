@@ -24,8 +24,8 @@ use Phalcon\Utils;
 use ReflectionClass;
 use Phalcon\Db\Column;
 use Phalcon\Validation;
-use ReflectionException;
 use Phalcon\Generator\Snippet;
+use Phalcon\Db\ReferenceInterface;
 use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
 
 /**
@@ -182,6 +182,7 @@ class Model extends Component
         }
 
         if (isset($config->devtools->loader)) {
+            /** @noinspection PhpIncludeInspection */
             require_once $config->devtools->loader;
         }
 
@@ -271,7 +272,7 @@ class Model extends Component
             $initialize[] = $this->snippet->getRelation(
                 'belongsTo',
                 $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
-                $entityNamespace . Utils::camelize($reference->getReferencedTable()),
+                $this->getEntityClassName($reference, $entityNamespace),
                 $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                 "['alias' => '" . Utils::camelize($reference->getReferencedTable()) . "']"
             );
@@ -299,7 +300,8 @@ class Model extends Component
 
                 $possibleMethods['getSource'] = true;
 
-                require $modelPath;
+                /** @noinspection PhpIncludeInspection */
+                require_once $modelPath;
 
                 $linesCode = file($modelPath);
                 $fullClassName = $this->options->get('className');
@@ -319,7 +321,7 @@ class Model extends Component
 
                     $indent = PHP_EOL;
                     if ($method->getDocComment()) {
-                        $firstLine = $linesCode[$method->getStartLine()-1];
+                        $firstLine = $linesCode[$method->getStartLine() - 1];
                         preg_match('#^\s+#', $firstLine, $matches);
                         if (isset($matches[0])) {
                             $indent .= $matches[0];
@@ -358,7 +360,13 @@ class Model extends Component
                             break;
                     }
                 }
-            } catch (ReflectionException $e) {
+            } catch (\Exception $e) {
+                throw new BuilderException(
+                    sprintf('Failed to create the model "%s". Error: %s',
+                        $this->options->get('className'),
+                        $e->getMessage()
+                    )
+                );
             }
         }
 
@@ -505,5 +513,13 @@ class Model extends Component
             $msgSuccess = ($this->options->contains('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
             $this->_notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->get('name'))));
         }
+    }
+
+    protected function getEntityClassName(ReferenceInterface $reference, $namespace)
+    {
+        $referencedTable = Utils::camelize($reference->getReferencedTable());
+        $fqcn = "{$namespace}\\{$referencedTable}";
+
+        return $fqcn;
     }
 }

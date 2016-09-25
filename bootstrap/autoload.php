@@ -92,25 +92,6 @@ define('ADMIN_LTE_VERSION', '2.3.6');
 /** @const COMPATIBLE_VERSION The compatible Phalcon version. */
 define('COMPATIBLE_VERSION', 3000040);
 
-if (ENV_DEVELOPMENT === APPLICATION_ENV) {
-    error_reporting(E_ALL);
-
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    ini_set('html_errors', 1);
-
-    // Enable xdebug parameter collection in development mode to improve fatal stack traces.
-    // Highly recommends use at least XDebug 2.2.3 for a better compatibility with Phalcon
-    if (extension_loaded('xdebug')) {
-        ini_set('xdebug.collect_params', 4);
-    }
-}
-
-if (PHP_SAPI == 'cli') {
-    set_time_limit(0);
-    ini_set('html_errors', 0);
-}
-
 /**
  * Register Devtools classes.
  */

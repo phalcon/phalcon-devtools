@@ -28,6 +28,7 @@ use Phalcon\Utils\DbUtils;
 use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Utils\SystemInfo;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Error\ErrorHandler;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -177,6 +178,8 @@ class Bootstrap
         $this->di  = new FactoryDefault;
         $this->app = new MvcApplication;
 
+        (new ErrorHandler)->register();
+
         foreach ($this->loaders[$this->mode] as $service) {
             $serviceName = ucfirst($service);
             $this->{'init' . $serviceName}();
@@ -197,6 +200,10 @@ class Bootstrap
      */
     public function run()
     {
+        if (PHP_SAPI == 'cli') {
+            set_time_limit(0);
+        }
+
         if (ENV_TESTING === APPLICATION_ENV) {
             return $this->app;
         }
