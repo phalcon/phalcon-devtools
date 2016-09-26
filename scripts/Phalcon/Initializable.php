@@ -89,16 +89,12 @@ trait Initializable
             function () use ($basePath) {
                 /** @var DiInterface $this */
                 $scanner = new ConfigScanner($basePath);
-                $config = $scanner->scan('config');
+                $config = $scanner->load('config');
 
                 if (ENV_PRODUCTION !== APPLICATION_ENV) {
-                    try {
-                        $override = $scanner->scan(APPLICATION_ENV);
-                        if ($override instanceof Config) {
-                            $config->merge($override);
-                        }
-                    } catch (ConfigException $e) {
-                        // nothing
+                    $override = $scanner->scan(APPLICATION_ENV);
+                    if ($override instanceof Config) {
+                        $config->merge($override);
                     }
                 }
 
@@ -220,7 +216,6 @@ trait Initializable
                      * @var DiInterface $this
                      * @var Config $voltConfig
                      */
-
                     if (0 === strpos($templatePath, $basePath)) {
                         $templatePath = substr($templatePath, strlen($basePath));
                     } elseif (0 === strpos($templatePath, $ptoolsPath . DS . 'scripts')) {
