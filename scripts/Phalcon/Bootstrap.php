@@ -38,8 +38,7 @@ class Bootstrap
      * Application instance.
      * @var \Phalcon\Application
      */
-    private $app;
-
+    protected $app;
 
     /**
      * The services container.
@@ -51,37 +50,37 @@ class Bootstrap
      * The path to the Phalcon Developers Tools.
      * @var string
      */
-    private $ptoolsPath = '';
+    protected $ptoolsPath = '';
 
     /**
      * The allowed IP for access.
      * @var string
      */
-    private $ptoolsIp = '';
+    protected $ptoolsIp = '';
 
     /**
      * The path where the project was created.
      * @var string
      */
-    private $basePath = '';
+    protected $basePath = '';
 
     /**
      * The DevTools templates path.
      * @var string
      */
-    private $templatesPath = '';
+    protected $templatesPath = '';
 
     /**
      * The current hostname.
      * @var string
      */
-    private $hostName = 'Unknown';
+    protected $hostName = 'Unknown';
 
     /**
      * The current application mode.
      * @var string
      */
-    private $mode = 'web';
+    protected $mode = 'web';
 
     /**
      * Configurable parameters
@@ -107,7 +106,7 @@ class Bootstrap
         'TEMPLATE_PATH',
     ];
 
-    private $loaders = [
+    protected $loaders = [
         'web' => [
             'eventsManager',
             'config',
