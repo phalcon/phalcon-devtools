@@ -22,6 +22,7 @@
 namespace Phalcon\Scanners;
 
 use Phalcon\Utils\FsUtils;
+use Phalcon\Config\Exception;
 use Phalcon\Mvc\User\Component;
 use Phalcon\Config as PhConfig;
 use Phalcon\Config\Adapter\Ini as IniConfig;
@@ -48,9 +49,9 @@ class Config extends Component
     protected $configAdapters = [
         'ini'  => IniConfig::class,
         'json' => JsonConfig::class,
-        'php'  => Config::class,
-        'php5' => Config::class,
-        'inc'  => Config::class,
+        'php'  => PhConfig::class,
+        'php5' => PhConfig::class,
+        'inc'  => PhConfig::class,
         'yml'  => YamlConfig::class,
         'yaml' => YamlConfig::class,
     ];
@@ -67,13 +68,13 @@ class Config extends Component
     /**
      * Scans for application config.
      *
-     * @param string $filename The config basename (without extension).
-     *
-     * @return null|Config
+     * @param string $filename The config basename.
+     * @return null|PhConfig
      */
     public function scan($filename)
     {
-        $config   = null;
+        $config = null;
+        $filename = pathinfo($filename, PATHINFO_FILENAME);
 
         foreach ($this->getConfigPaths() as $probablyPath) {
             foreach ($this->configAdapters as $ext => $adapter) {
@@ -93,6 +94,30 @@ class Config extends Component
                     break(2);
                 }
             }
+        }
+
+        return $config;
+    }
+
+    /**
+     * Alias for Config::scan but throws Exception if configuration could not be found.
+     *
+     * @param string $filename The config basename.
+     *
+     * @return PhConfig
+     * @throws Exception
+     */
+    public function load($filename)
+    {
+        $config = $this->scan($filename);
+
+        if (!$config instanceof PhConfig) {
+            throw new Exception(
+                sprintf(
+                    "Configuration file couldn't be loaded! Scanned paths: %s",
+                    implode(', ', $this->getConfigPaths())
+                )
+            );
         }
 
         return $config;
