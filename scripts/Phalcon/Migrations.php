@@ -263,7 +263,7 @@ class Migrations
                 break;
             }
 
-            $migrationStartTime = date("'Y-m-d H:i:s'");
+            $migrationStartTime = date("Y-m-d H:i:s");
             if ($tableName === 'all') {
                 // Directory depends on Forward or Back Migration
                 $iterator = new DirectoryIterator(
@@ -489,9 +489,9 @@ class Migrations
         self::connectionSetup($options);
 
         if ($startTime === null) {
-            $startTime = date("'Y-m-d H:i:s'");
+            $startTime = date("Y-m-d H:i:s");
         }
-        $endTime = date("'Y-m-d H:i:s'");
+        $endTime = date("Y-m-d H:i:s");
 
         if (isset($options['migrationsInDb']) && (bool) $options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
