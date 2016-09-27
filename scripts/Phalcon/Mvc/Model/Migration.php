@@ -31,6 +31,7 @@ use Phalcon\Version\ItemInterface;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Exception\Db\UnknownColumnTypeException;
 use Phalcon\Version\ItemCollection as VersionCollection;
 
 /**
@@ -256,7 +257,7 @@ class Migration
                     $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
                     break;
                 default:
-                    throw new DbException('Unrecognized data type '.$field->getType().' at column '.$field->getName());
+                    throw new UnknownColumnTypeException($field);
             }
 
             if (null !== ($default = $field->getDefault())) {
