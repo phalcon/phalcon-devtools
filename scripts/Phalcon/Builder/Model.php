@@ -105,6 +105,7 @@ class Model extends Component
     {
         switch ($type) {
             case Column::TYPE_INTEGER:
+            case Column::TYPE_BIGINTEGER:
                 return 'integer';
                 break;
             case Column::TYPE_DECIMAL:
