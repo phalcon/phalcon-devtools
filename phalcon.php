@@ -20,8 +20,8 @@
 */
 
 use Phalcon\Script;
-use Phalcon\Version;
 use Phalcon\Script\Color;
+use Phalcon\Devtools\Version;
 use Phalcon\Commands\Builtin\Model;
 use Phalcon\Commands\Builtin\Module;
 use Phalcon\Commands\Builtin\Project;

@@ -70,3 +70,8 @@ form input#widget-form-title:focus {
     color: #444;
     background-color: transparent;
 }
+
+th.migration-version {
+    vertical-align: middle!important;
+    text-align: center;
+}

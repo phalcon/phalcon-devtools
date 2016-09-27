@@ -18,9 +18,19 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Web\Tools;
+use Phalcon\Bootstrap;
 
-require 'webtools.config.php';
-require PTOOLSPATH . '/scripts/Phalcon/Web/Tools.php';
+include 'webtools.config.php';
+include PTOOLSPATH . '/bootstrap/autoload.php';
 
-Tools::main(PTOOLSPATH, PTOOLS_IP);
+$bootstrap = new Bootstrap([
+    'ptools_path' => PTOOLSPATH,
+    'ptools_ip'   => PTOOLS_IP,
+    'base_path'   => BASE_PATH,
+]);
+
+if (APPLICATION_ENV === ENV_TESTING) {
+    return $bootstrap->run();
+} else {
+    echo $bootstrap->run();
+}

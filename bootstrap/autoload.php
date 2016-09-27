@@ -45,7 +45,7 @@ defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_MEMORY', memory_get_usa
 defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(getenv('PTOOLSPATH') ?: dirname(dirname(__FILE__)), '\\/'));
 
 /**
- * @const TEMPLATE_PATH Devtools templates path.
+ * @const TEMPLATE_PATH DevTools templates path.
  */
 defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . '/templates');
 
@@ -85,27 +85,12 @@ defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
 
 /**
- * @const PTOOLS_VERSION The Phalcon Developers Tools version.
+ * @const ADMIN_LTE_VERSION The AdminLTE version.
  */
-define('PTOOLS_VERSION', '3.0.2-dev');
+define('ADMIN_LTE_VERSION', '2.3.6');
 
-if (ENV_DEVELOPMENT === APPLICATION_ENV) {
-    error_reporting(E_ALL);
-
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    ini_set('html_errors', 1);
-
-    // Enable xdebug parameter collection in development mode to improve fatal stack traces.
-    // Highly recommends use at least XDebug 2.2.3 for a better compatibility with Phalcon
-    if (extension_loaded('xdebug')) {
-        ini_set('xdebug.collect_params', 4);
-    }
-}
-
-if (PHP_SAPI == 'cli') {
-    set_time_limit(0);
-}
+/** @const COMPATIBLE_VERSION The compatible Phalcon version. */
+define('COMPATIBLE_VERSION', 3000040);
 
 /**
  * Register Devtools classes.
@@ -133,11 +118,8 @@ if (file_exists(PTOOLSPATH . DS . '.phalcon' . DS . 'autoload.php')) {
     require_once PTOOLSPATH . DS .  '.phalcon' . DS . 'autoload.php';
 }
 
-if (Version::getId() < Script::COMPATIBLE_VERSION) {
+if (Version::getId() < COMPATIBLE_VERSION) {
     throw new Exception(
-        sprintf(
-            "Your Phalcon version isn't compatible with Developer Tools, download the latest at: %s",
-            Script::DOC_DOWNLOAD_URL
-        )
+        "Your Phalcon version isn't compatible with Developer Tools, download the latest at: https://phalconphp.com/download"
     );
 }

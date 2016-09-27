@@ -39,7 +39,7 @@ class Element extends Component
      */
     public function createLink(array $link)
     {
-        $local = isset($link['local']) ? boolval($link['local']) : true;
+        $local = $this->isLocalLink($link);
         $text  = isset($link['text']) ? $link['text'] : '';
 
         if (isset($link['wrap']) && is_string($link['wrap'])) {
@@ -68,5 +68,10 @@ class Element extends Component
         unset($link['text'], $link['local'], $link['wrap'], $link['icon'], $link['caret'], $link['href']);
 
         return $this->tag->linkTo([$href, $text] + $link, ['local' => $local]);
+    }
+
+    public function isLocalLink(array $link)
+    {
+        return !empty($link['local']) ? boolval($link['local']) : true;
     }
 }

@@ -5,6 +5,7 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Controllers List</h3>
+                {{ link_to("/webtools.php?_url=/controllers/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
@@ -15,7 +16,7 @@
                         <th>Last modified</th>
                         <th width="10%">Actions</th>
                     </tr>
-                    {%- if controllers is empty -%}
+                    {%- if controllers_dir is empty -%}
                         <tr class="warning">
                             <td colspan="5">
                                 <p class="text-center">

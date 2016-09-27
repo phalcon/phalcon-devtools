@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
 [![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)][:packagist:]
 
-![Phalcon WebTools](https://cloud.githubusercontent.com/assets/1256298/18365669/4d9f4f62-761c-11e6-80d6-b1d077edf9e4.png)
+![Phalcon WebTools](https://cloud.githubusercontent.com/assets/1256298/18617851/b7d31558-7de2-11e6-83e0-30e5902af714.png)
 
 
 ## What's Phalcon?
