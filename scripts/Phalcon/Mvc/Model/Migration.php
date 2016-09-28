@@ -260,7 +260,8 @@ class Migration
                     throw new UnknownColumnTypeException($field);
             }
 
-            if (null !== ($default = $field->getDefault())) {
+            if ($field->hasDefault() && !$field->isAutoIncrement()) {
+                $default = $field->getDefault();
                 $fieldDefinition[] = "'default' => \"$default\"";
             }
             //if ($field->isPrimary()) {
