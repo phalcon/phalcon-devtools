@@ -109,7 +109,7 @@ class Migration extends Command
             $migrationsTsBased = $config['application']['migrationsTsBased'];
         }
 
-        $tableName = $this->isReceivedOption('table') ? $this->getOption('table') : 'all';
+        $tableName = $this->isReceivedOption('table') ? $this->getOption('table') : '@';
         $descr = $this->getOption('descr');
         $exportData = $this->getOption('data');
         $action = $this->getOption(['action', 1]);
