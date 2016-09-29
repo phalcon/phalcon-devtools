@@ -19,7 +19,6 @@
 */
 
 use Phalcon\Loader;
-use Phalcon\Script;
 use Phalcon\Version;
 
 if (!extension_loaded('phalcon')) {
@@ -99,7 +98,7 @@ define('COMPATIBLE_VERSION', 3000040);
         PTOOLSPATH . DS . 'scripts' . DS
     ])
     ->registerNamespaces([
-        'Phalcon'              => PTOOLSPATH . DS . 'scripts' . DS,
+        'Phalcon'              => PTOOLSPATH . DS . 'scripts' . DS . 'Phalcon' . DS,
         'WebTools\Controllers' => PTOOLSPATH . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers') . DS,
     ])
     ->register();
