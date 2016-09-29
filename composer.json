@@ -33,5 +33,5 @@
             "Phalcon\\" : "scripts/Phalcon/"
         }
     },
-    "bin": ["phalcon.php"]
+    "bin": ["phalcon.php", "phalcon"]
 }
