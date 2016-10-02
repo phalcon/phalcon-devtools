@@ -11,9 +11,9 @@ namespace Phalcon\Mvc;
  * $di = new \Phalcon\Di();
  * $dispatcher = new \Phalcon\Mvc\Dispatcher();
  * $dispatcher->setDI($di);
- * $dispatcher->setControllerName('posts');
- * $dispatcher->setActionName('index');
- * $dispatcher->setParams(array());
+ * $dispatcher->setControllerName("posts");
+ * $dispatcher->setActionName("index");
+ * $dispatcher->setParams([]);
  * $controller = $dispatcher->dispatch();
  * </code>
  */

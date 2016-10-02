@@ -65,8 +65,13 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
     /**
      * Set one or more HTTP methods that constraint the matching of the route
      * <code>
-     * $route->via('GET');
-     * $route->via(array('GET', 'POST'));
+     * $route->via("GET");
+     * $route->via(
+     * [
+     * "GET",
+     * "POST",
+     * ]
+     * );
      * </code>
      *
      * @param mixed $httpMethods 
@@ -108,9 +113,12 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
     /**
      * Sets the route's name
      * <code>
-     * $router->add('/about', array(
-     * 'controller' => 'about'
-     * ))->setName('about');
+     * $router->add(
+     * "/about",
+     * [
+     * "controller" => "about",
+     * ]
+     * )->setName("about");
      * </code>
      *
      * @param string $name 
@@ -123,16 +131,21 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
      * <code>
-     * $router->add('/login', array(
-     * 'module'     => 'admin',
-     * 'controller' => 'session'
-     * ))->beforeMatch(function ($uri, $route) {
+     * $router->add(
+     * "/login",
+     * [
+     * "module"     => "admin",
+     * "controller" => "session",
+     * ]
+     * )->beforeMatch(
+     * function ($uri, $route) {
      * // Check if the request was made with Ajax
-     * if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'xmlhttprequest') {
+     * if ($_SERVER["HTTP_X_REQUESTED_WITH"] === "xmlhttprequest") {
      * return false;
      * }
      * return true;
-     * });
+     * }
+     * );
      * </code>
      *
      * @param mixed $callback 
@@ -150,9 +163,14 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
     /**
      * Allows to set a callback to handle the request directly in the route
      * <code>
-     * $router->add("/help", array())->match(function () {
-     * return $this->getResponse()->redirect('https://support.google.com/', true);
-     * });
+     * $router->add(
+     * "/help",
+     * []
+     * )->match(
+     * function () {
+     * return $this->getResponse()->redirect("https://support.google.com/", true);
+     * }
+     * );
      * </code>
      *
      * @param mixed $callback 
@@ -205,8 +223,8 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
     /**
      * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
      * <code>
-     * $route->setHttpMethods('GET');
-     * $route->setHttpMethods(array('GET', 'POST'));
+     * $route->setHttpMethods("GET");
+     * $route->setHttpMethods(["GET", "POST"]);
      * </code>
      *
      * @param mixed $httpMethods 
@@ -224,7 +242,7 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
     /**
      * Sets a hostname restriction to the route
      * <code>
-     * $route->setHostname('localhost');
+     * $route->setHostname("localhost");
      * </code>
      *
      * @param string $hostname 

@@ -11,10 +11,14 @@ namespace Phalcon\Mvc\Model\Validator;
  * {
  * public function validation()
  * {
- * $this->validate(new EmailValidator(array(
- * 'field' => 'electronic_mail'
- * )));
- * if ($this->validationHasFailed() == true) {
+ * $this->validate(
+ * new EmailValidator(
+ * [
+ * "field" => "electronic_mail",
+ * ]
+ * )
+ * );
+ * if ($this->validationHasFailed() === true) {
  * return false;
  * }
  * }

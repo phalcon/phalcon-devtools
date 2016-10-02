@@ -13,11 +13,15 @@ namespace Phalcon\Mvc\Model\Validator;
  * {
  * public function validation()
  * {
- * $this->validate(new Uniqueness(array(
+ * $this->validate(
+ * new Uniqueness(
+ * [
  * "field"   => "email",
- * "message" => "Value of field 'email' is already present in another record"
- * )));
- * if ($this->validationHasFailed() == true) {
+ * "message" => "Value of field 'email' is already present in another record",
+ * ]
+ * )
+ * );
+ * if ($this->validationHasFailed() === true) {
  * return false;
  * }
  * }

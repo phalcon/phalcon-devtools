@@ -52,14 +52,14 @@ abstract class Application extends \Phalcon\Di\Injectable implements \Phalcon\Ev
      * <code>
      * $this->registerModules(
      * [
-     * 'frontend' => [
-     * 'className' => 'Multiple\Frontend\Module',
-     * 'path'      => '../apps/frontend/Module.php'
+     * "frontend" => [
+     * "className" => "Multiple\\Frontend\\Module",
+     * "path"      => "../apps/frontend/Module.php",
      * ],
-     * 'backend' => [
-     * 'className' => 'Multiple\Backend\Module',
-     * 'path'      => '../apps/backend/Module.php'
-     * ]
+     * "backend" => [
+     * "className" => "Multiple\\Backend\\Module",
+     * "path"      => "../apps/backend/Module.php",
+     * ],
      * ]
      * );
      * </code>

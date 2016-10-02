@@ -53,7 +53,7 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
     /**
      * Reads an attribute value by its name
      * <code>
-     * echo $robot->readAttribute('name');
+     * echo $robot->readAttribute("name");
      * </code>
      *
      * @param string $attribute 
@@ -64,7 +64,7 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
     /**
      * Writes an attribute value by its name
      * <code>
-     * $robot->writeAttribute('name', 'Rosey');
+     * $robot->writeAttribute("name", "Rosey");
      * </code>
      *
      * @param string $attribute 

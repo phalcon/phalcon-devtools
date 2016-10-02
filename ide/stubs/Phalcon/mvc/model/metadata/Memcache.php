@@ -7,13 +7,15 @@ namespace Phalcon\Mvc\Model\MetaData;
  * Stores model meta-data in the Memcache.
  * By default meta-data is stored for 48 hours (172800 seconds)
  * <code>
- * $metaData = new Phalcon\Mvc\Model\Metadata\Memcache(array(
- * 'prefix' => 'my-app-id',
- * 'lifetime' => 86400,
- * 'host' => 'localhost',
- * 'port' => 11211,
- * 'persistent' => false
- * ));
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Memcache(
+ * [
+ * "prefix"     => "my-app-id",
+ * "lifetime"   => 86400,
+ * "host"       => "localhost",
+ * "port"       => 11211,
+ * "persistent" => false,
+ * ]
+ * );
  * </code>
  */
 class Memcache extends \Phalcon\Mvc\Model\MetaData

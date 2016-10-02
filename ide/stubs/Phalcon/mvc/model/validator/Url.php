@@ -11,10 +11,14 @@ namespace Phalcon\Mvc\Model\Validator;
  * {
  * public function validation()
  * {
- * $this->validate(new UrlValidator(array(
- * 'field' => 'source_url'
- * )));
- * if ($this->validationHasFailed() == true) {
+ * $this->validate(
+ * new UrlValidator(
+ * [
+ * "field" => "source_url",
+ * ]
+ * )
+ * );
+ * if ($this->validationHasFailed() === true) {
  * return false;
  * }
  * }

@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\View\Engine\Volt;
  * This class reads and compiles Volt templates into PHP plain code
  * <code>
  * $compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
- * $compiler->compile('views/partials/header.volt');
+ * $compiler->compile("views/partials/header.volt");
  * require $compiler->getCompiledTemplatePath();
  * </code>
  */
@@ -395,7 +395,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Compiles a template into a file forcing the destination path
      * <code>
-     * $compiler->compile('views/layouts/main.volt', 'views/layouts/main.volt.php');
+     * $compiler->compile("views/layouts/main.volt", "views/layouts/main.volt.php");
      * </code>
      *
      * @param string $path 
@@ -409,7 +409,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * Compiles a template into a file applying the compiler options
      * This method does not return the compiled path if the template was not compiled
      * <code>
-     * $compiler->compile('views/layouts/main.volt');
+     * $compiler->compile("views/layouts/main.volt");
      * require $compiler->getCompiledTemplatePath();
      * </code>
      *
@@ -435,7 +435,9 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Parses a Volt template returning its intermediate representation
      * <code>
-     * print_r($compiler->parse('{{ 3 + 2 }}'));
+     * print_r(
+     * $compiler->parse("{{ 3 + 2 }}")
+     * );
      * </code>
      *
      * @param string $viewCode 

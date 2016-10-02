@@ -12,27 +12,39 @@ namespace Phalcon\Mvc\Model\Validator;
  * public function validation()
  * {
  * // Any pubic IP
- * $this->validate(new IP(array(
- * 'field'             => 'server_ip',
- * 'version'           => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
- * 'allowReserved'     => false,   // False if not specified. Ignored for v6
- * 'allowPrivate'      => false,   // False if not specified
- * 'message'           => 'IP address has to be correct'
- * )));
+ * $this->validate(
+ * new IP(
+ * [
+ * "field"         => "server_ip",
+ * "version"       => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
+ * "allowReserved" => false,   // False if not specified. Ignored for v6
+ * "allowPrivate"  => false,   // False if not specified
+ * "message"       => "IP address has to be correct",
+ * ]
+ * )
+ * );
  * // Any public v4 address
- * $this->validate(new IP(array(
- * 'field'             => 'ip_4',
- * 'version'           => IP::VERSION_4,
- * 'message'           => 'IP address has to be correct'
- * )));
+ * $this->validate(
+ * new IP(
+ * [
+ * "field"   => "ip_4",
+ * "version" => IP::VERSION_4,
+ * "message" => "IP address has to be correct",
+ * ]
+ * )
+ * );
  * // Any v6 address
- * $this->validate(new IP(array(
- * 'field'             => 'ip6',
- * 'version'           => IP::VERSION_6,
- * 'allowPrivate'      => true,
- * 'message'           => 'IP address has to be correct'
- * )));
- * if ($this->validationHasFailed() == true) {
+ * $this->validate(
+ * new IP(
+ * [
+ * "field"        => "ip6",
+ * "version"      => IP::VERSION_6,
+ * "allowPrivate" => true,
+ * "message"      => "IP address has to be correct",
+ * ]
+ * )
+ * );
+ * if ($this->validationHasFailed() === true) {
  * return false;
  * }
  * }

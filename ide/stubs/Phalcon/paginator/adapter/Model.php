@@ -9,9 +9,9 @@ namespace Phalcon\Paginator\Adapter;
  * use Phalcon\Paginator\Adapter\Model;
  * $paginator = new Model(
  * [
- * 'data'  => Robots::find(),
- * 'limit' => 25,
- * 'page'  => $currentPage
+ * "data"  => Robots::find(),
+ * "limit" => 25,
+ * "page"  => $currentPage,
  * ]
  * );
  * $paginate = $paginator->getPaginate();

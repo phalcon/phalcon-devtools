@@ -18,10 +18,10 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     protected $_validators = array();
 
 
-    protected $_combinedFieldsValidators;
+    protected $_combinedFieldsValidators = array();
 
 
-    protected $_filters;
+    protected $_filters = array();
 
 
     protected $_messages;
@@ -30,7 +30,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     protected $_defaultMessages;
 
 
-    protected $_labels;
+    protected $_labels = array();
 
 
     protected $_values;

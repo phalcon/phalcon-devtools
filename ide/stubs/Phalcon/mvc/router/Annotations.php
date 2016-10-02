@@ -6,13 +6,17 @@ namespace Phalcon\Mvc\Router;
  * Phalcon\Mvc\Router\Annotations
  * A router that reads routes annotations from classes/resources
  * <code>
- * $di['router'] = function() {
- * //Use the annotations router
+ * use Phalcon\Mvc\Router\Annotations;
+ * $di->setShared(
+ * "router",
+ * function() {
+ * // Use the annotations router
  * $router = new Annotations(false);
- * //This will do the same as above but only if the handled uri starts with /robots
- * $router->addResource('Robots', '/robots');
+ * // This will do the same as above but only if the handled uri starts with /robots
+ * $router->addResource("Robots", "/robots");
  * return $router;
- * };
+ * }
+ * );
  * </code>
  */
 class Annotations extends \Phalcon\Mvc\Router

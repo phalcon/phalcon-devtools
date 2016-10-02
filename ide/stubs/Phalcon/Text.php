@@ -27,9 +27,9 @@ abstract class Text
     /**
      * Converts strings to camelize style
      * <code>
-     * echo Phalcon\Text::camelize('coco_bongo'); // CocoBongo
-     * echo Phalcon\Text::camelize('co_co-bon_go', '-'); // Co_coBon_go
-     * echo Phalcon\Text::camelize('co_co-bon_go', '_-'); // CoCoBonGo
+     * echo Phalcon\Text::camelize("coco_bongo"); // CocoBongo
+     * echo Phalcon\Text::camelize("co_co-bon_go", "-"); // Co_coBon_go
+     * echo Phalcon\Text::camelize("co_co-bon_go", "_-"); // CoCoBonGo
      * </code>
      *
      * @param string $str 
@@ -41,8 +41,8 @@ abstract class Text
     /**
      * Uncamelize strings which are camelized
      * <code>
-     * echo Phalcon\Text::uncamelize('CocoBongo'); // coco_bongo
-     * echo Phalcon\Text::uncamelize('CocoBongo', '-'); // coco-bongo
+     * echo Phalcon\Text::uncamelize("CocoBongo"); // coco_bongo
+     * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
      * </code>
      *
      * @param string $str 
@@ -67,7 +67,10 @@ abstract class Text
     /**
      * Generates a random string based on the given type. Type is one of the RANDOM_* constants
      * <code>
-     * echo Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM); //"aloiwkqz"
+     * // "aloiwkqz"
+     * echo Phalcon\Text::random(
+     * Phalcon\Text::RANDOM_ALNUM
+     * );
      * </code>
      *
      * @param int $type 
@@ -145,8 +148,15 @@ abstract class Text
     /**
      * Concatenates strings using the separator only once without duplication in places concatenation
      * <code>
-     * $str = Phalcon\Text::concat("/", "/tmp/", "/folder_1/", "/folder_2", "folder_3/");
-     * echo $str; // /tmp/folder_1/folder_2/folder_3/
+     * $str = Phalcon\Text::concat(
+     * "/",
+     * "/tmp/",
+     * "/folder_1/",
+     * "/folder_2",
+     * "folder_3/"
+     * );
+     * // /tmp/folder_1/folder_2/folder_3/
+     * echo $str;
      * </code>
      *
      * @param string $separator 
@@ -160,10 +170,14 @@ abstract class Text
     /**
      * Generates random text in accordance with the template
      * <code>
-     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Bob
-     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Jon
-     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hello my name is a Bob
-     * echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", '[', ']', '/'); // Hello my name is a Zyxep
+     * // Hi my name is a Bob
+     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     * // Hi my name is a Jon
+     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     * // Hello my name is a Bob
+     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     * // Hello my name is a Zyxep
+     * echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", "[", "]", "/");
      * </code>
      *
      * @param string $text 
@@ -177,8 +191,8 @@ abstract class Text
     /**
      * Makes a phrase underscored instead of spaced
      * <code>
-     * echo Phalcon\Text::underscore('look behind'); // 'look_behind'
-     * echo Phalcon\Text::underscore('Awesome Phalcon'); // 'Awesome_Phalcon'
+     * echo Phalcon\Text::underscore("look behind"); // "look_behind"
+     * echo Phalcon\Text::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
      * </code>
      *
      * @param string $text 
@@ -189,8 +203,8 @@ abstract class Text
     /**
      * Makes an underscored or dashed phrase human-readable
      * <code>
-     * echo Phalcon\Text::humanize('start-a-horse'); // 'start a horse'
-     * echo Phalcon\Text::humanize('five_cats'); // 'five cats'
+     * echo Phalcon\Text::humanize("start-a-horse"); // "start a horse"
+     * echo Phalcon\Text::humanize("five_cats"); // "five cats"
      * </code>
      *
      * @param string $text 

@@ -22,7 +22,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     const OP_DELETE = 3;
 
 
-    protected $_id;
+    public $_id;
 
 
     protected $_dependencyInjector;
@@ -163,7 +163,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Reads an attribute value by its name
      * <code>
-     * echo $robot->readAttribute('name');
+     * echo $robot->readAttribute("name");
      * </code>
      *
      * @param string $attribute 
@@ -174,7 +174,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Writes an attribute value by its name
      * <code>
-     * $robot->writeAttribute('name', 'Rosey');
+     * $robot->writeAttribute("name", "Rosey");
      * </code>
      *
      * @param string $attribute 
@@ -240,11 +240,15 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * {
      * public function validation()
      * {
-     * this->validate(new ExclusionIn(array(
-     * 'field' => 'status',
-     * 'domain' => array('A', 'I')
-     * )));
-     * if (this->validationHasFailed() == true) {
+     * $this->validate(
+     * new ExclusionIn(
+     * [
+     * "field"  => "status",
+     * "domain" => ["A", "I"],
+     * ]
+     * )
+     * );
+     * if ($this->validationHasFailed() == true) {
      * return false;
      * }
      * }
@@ -263,11 +267,15 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * {
      * public function validation()
      * {
-     * this->validate(new ExclusionIn(array(
-     * 'field' => 'status',
-     * 'domain' => array('A', 'I')
-     * )));
-     * if (this->validationHasFailed() == true) {
+     * $this->validate(
+     * new ExclusionIn(
+     * [
+     * "field"  => "status",
+     * "domain" => ["A", "I"],
+     * ]
+     * )
+     * );
+     * if ($this->validationHasFailed() == true) {
      * return false;
      * }
      * }
@@ -314,13 +322,14 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * Returns all the validation messages
      * <code>
      * $robot = new Robots();
-     * $robot->type = 'mechanical';
-     * $robot->name = 'Astro Boy';
+     * $robot->type = "mechanical";
+     * $robot->name = "Astro Boy";
      * $robot->year = 1952;
-     * if ($robot->save() == false) {
+     * if ($robot->save() === false) {
      * echo "Umh, We can't store robots right now ";
-     * foreach ($robot->getMessages() as message) {
-     * echo message;
+     * $messages = $robot->getMessages();
+     * foreach ($messages as $message) {
+     * echo $message;
      * }
      * } else {
      * echo "Great, a new robot was saved successfully!";
@@ -339,8 +348,10 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * {
      * public function beforeSave()
      * {
-     * if ($this->name == 'Peter') {
-     * message = new Message("Sorry, but a robot cannot be named Peter");
+     * if ($this->name === "Peter") {
+     * $message = new Message(
+     * "Sorry, but a robot cannot be named Peter"
+     * );
      * $this->appendMessage(message);
      * }
      * }
@@ -374,11 +385,18 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Creates a document based on the values in the attributes, if not found by criteria
      * Preferred way to avoid duplication is to create index on attribute
+     * <code>
      * $robot = new Robot();
      * $robot->name = "MyRobot";
      * $robot->type = "Droid";
-     * //create only if robot with same name and type does not exist
-     * $robot->createIfNotExist( array( "name", "type" ) );
+     * // Create only if robot with same name and type does not exist
+     * $robot->createIfNotExist(
+     * [
+     * "name",
+     * "type",
+     * ]
+     * );
+     * </code>
      *
      * @param array $criteria 
      * @return bool 
@@ -396,11 +414,13 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * Find a document by its id (_id)
      * <code>
      * // Find user by using \MongoId object
-     * $user = Users::findById(new \MongoId('545eb081631d16153a293a66'));
+     * $user = Users::findById(
+     * new \MongoId("545eb081631d16153a293a66")
+     * );
      * // Find user by using id as sting
-     * $user = Users::findById('45cbc4a0e4123f6920000002');
+     * $user = Users::findById("45cbc4a0e4123f6920000002");
      * // Validate input
-     * if ($user = Users::findById($_POST['id'])) {
+     * if ($user = Users::findById($_POST["id"])) {
      * // ...
      * }
      * </code>
@@ -415,23 +435,37 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * <code>
      * // What's the first robot in the robots table?
      * $robot = Robots::findFirst();
-     * echo 'The robot name is ', $robot->name, "\n";
+     * echo "The robot name is ", $robot->name, "\n";
      * // What's the first mechanical robot in robots table?
-     * $robot = Robots::findFirst([
-     * ['type' => 'mechanical']
-     * ]);
-     * echo 'The first mechanical robot name is ', $robot->name, "\n";
+     * $robot = Robots::findFirst(
+     * [
+     * [
+     * "type" => "mechanical",
+     * ]
+     * ]
+     * );
+     * echo "The first mechanical robot name is ", $robot->name, "\n";
      * // Get first virtual robot ordered by name
-     * $robot = Robots::findFirst([
-     * ['type' => 'mechanical'],
-     * 'order' => ['name' => 1]
-     * ]);
-     * echo 'The first virtual robot name is ', $robot->name, "\n";
+     * $robot = Robots::findFirst(
+     * [
+     * [
+     * "type" => "mechanical",
+     * ],
+     * "order" => [
+     * "name" => 1,
+     * ],
+     * ]
+     * );
+     * echo "The first virtual robot name is ", $robot->name, "\n";
      * // Get first robot by id (_id)
-     * $robot = Robots::findFirst([
-     * ['_id' => new \MongoId('45cbc4a0e4123f6920000002')]
-     * ]);
-     * echo 'The robot id is ', $robot->_id, "\n";
+     * $robot = Robots::findFirst(
+     * [
+     * [
+     * "_id" => new \MongoId("45cbc4a0e4123f6920000002"),
+     * ]
+     * ]
+     * );
+     * echo "The robot id is ", $robot->_id, "\n";
      * </code>
      *
      * @param array $parameters 
@@ -442,28 +476,44 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Allows to query a set of records that match the specified conditions
      * <code>
-     * //How many robots are there?
+     * // How many robots are there?
      * $robots = Robots::find();
      * echo "There are ", count($robots), "\n";
-     * //How many mechanical robots are there?
-     * $robots = Robots::find(array(
-     * array("type" => "mechanical")
-     * ));
+     * // How many mechanical robots are there?
+     * $robots = Robots::find(
+     * [
+     * [
+     * "type" => "mechanical",
+     * ]
+     * ]
+     * );
      * echo "There are ", count(robots), "\n";
-     * //Get and print virtual robots ordered by name
-     * $robots = Robots::findFirst(array(
-     * array("type" => "virtual"),
-     * "order" => array("name" => 1)
-     * ));
+     * // Get and print virtual robots ordered by name
+     * $robots = Robots::findFirst(
+     * [
+     * [
+     * "type" => "virtual"
+     * ],
+     * "order" => [
+     * "name" => 1,
+     * ]
+     * ]
+     * );
      * foreach ($robots as $robot) {
      * echo $robot->name, "\n";
      * }
-     * //Get first 100 virtual robots ordered by name
-     * $robots = Robots::find(array(
-     * array("type" => "virtual"),
-     * "order" => array("name" => 1),
-     * "limit" => 100
-     * ));
+     * // Get first 100 virtual robots ordered by name
+     * $robots = Robots::find(
+     * [
+     * [
+     * "type" => "virtual",
+     * ],
+     * "order" => [
+     * "name" => 1,
+     * ],
+     * "limit" => 100,
+     * ]
+     * );
      * foreach ($robots as $robot) {
      * echo $robot->name, "\n";
      * }
@@ -477,7 +527,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Perform a count over a collection
      * <code>
-     * echo 'There are ', Robots::count(), ' robots';
+     * echo "There are ", Robots::count(), " robots";
      * </code>
      *
      * @param array $parameters 
@@ -508,7 +558,8 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * <code>
      * $robot = Robots::findFirst();
      * $robot->delete();
-     * foreach (Robots::find() as $robot) {
+     * $robots = Robots::find();
+     * foreach ($robots as $robot) {
      * $robot->delete();
      * }
      * </code>
@@ -534,7 +585,9 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Returns the instance as an array representation
      * <code>
-     * print_r($robot->toArray());
+     * print_r(
+     * $robot->toArray()
+     * );
      * </code>
      *
      * @return array 

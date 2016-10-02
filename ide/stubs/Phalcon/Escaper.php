@@ -31,7 +31,7 @@ class Escaper implements \Phalcon\EscaperInterface
     /**
      * Sets the encoding to be used by the escaper
      * <code>
-     * $escaper->setEncoding('utf-8');
+     * $escaper->setEncoding("utf-8");
      * </code>
      *
      * @param string $encoding 

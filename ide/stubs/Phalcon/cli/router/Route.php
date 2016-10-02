@@ -84,9 +84,12 @@ class Route
     /**
      * Sets the route's name
      * <code>
-     * $router->add('/about', array(
-     * 'controller' => 'about'
-     * ))->setName('about');
+     * $router->add(
+     * "/about",
+     * [
+     * "controller" => "about",
+     * ]
+     * )->setName("about");
      * </code>
      *
      * @param string $name 

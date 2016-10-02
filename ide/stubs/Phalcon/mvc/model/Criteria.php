@@ -9,11 +9,11 @@ namespace Phalcon\Mvc\Model;
  * using an object-oriented interface.
  * <code>
  * $robots = Robots::query()
- * ->where('type = :type:')
- * ->andWhere('year < 2000')
- * ->bind(['type' => 'mechanical'])
+ * ->where("type = :type:")
+ * ->andWhere("year < 2000")
+ * ->bind(["type" => "mechanical"])
  * ->limit(5, 10)
- * ->orderBy('name')
+ * ->orderBy("name")
  * ->execute();
  * </code>
  */
@@ -94,7 +94,12 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Sets the columns to be queried
      * <code>
-     * $criteria->columns(array('id', 'name'));
+     * $criteria->columns(
+     * [
+     * "id",
+     * "name",
+     * ]
+     * );
      * </code>
      *
      * @param string|array $columns 
@@ -105,10 +110,10 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Adds an INNER join to the query
      * <code>
-     * $criteria->join('Robots');
-     * $criteria->join('Robots', 'r.id = RobotsParts.robots_id');
-     * $criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
-     * $criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+     * $criteria->join("Robots");
+     * $criteria->join("Robots", "r.id = RobotsParts.robots_id");
+     * $criteria->join("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $criteria->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
      * </code>
      *
      * @param string $model 
@@ -122,9 +127,9 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Adds an INNER join to the query
      * <code>
-     * $criteria->innerJoin('Robots');
-     * $criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
-     * $criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+     * $criteria->innerJoin("Robots");
+     * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
+     * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
      *
      * @param string $model 
@@ -137,7 +142,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Adds a LEFT join to the query
      * <code>
-     * $criteria->leftJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+     * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
      *
      * @param string $model 
@@ -150,7 +155,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Adds a RIGHT join to the query
      * <code>
-     * $criteria->rightJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+     * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
      *
      * @param string $model 
@@ -205,7 +210,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Appends a BETWEEN condition to the current conditions
      * <code>
-     * $criteria->betweenWhere('price', 100.25, 200.50);
+     * $criteria->betweenWhere("price", 100.25, 200.50);
      * </code>
      *
      * @param string $expr 
@@ -218,7 +223,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Appends a NOT BETWEEN condition to the current conditions
      * <code>
-     * $criteria->notBetweenWhere('price', 100.25, 200.50);
+     * $criteria->notBetweenWhere("price", 100.25, 200.50);
      * </code>
      *
      * @param string $expr 
@@ -231,7 +236,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Appends an IN condition to the current conditions
      * <code>
-     * $criteria->inWhere('id', [1, 2, 3]);
+     * $criteria->inWhere("id", [1, 2, 3]);
      * </code>
      *
      * @param string $expr 
@@ -243,7 +248,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Appends a NOT IN condition to the current conditions
      * <code>
-     * $criteria->notInWhere('id', [1, 2, 3]);
+     * $criteria->notInWhere("id", [1, 2, 3]);
      * </code>
      *
      * @param string $expr 
