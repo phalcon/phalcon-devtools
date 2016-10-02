@@ -23,6 +23,7 @@
 use Phalcon\Script;
 use Phalcon\Script\Color;
 use Phalcon\Devtools\Version;
+use Phalcon\Commands\Builtin\Info;
 use Phalcon\Commands\Builtin\Model;
 use Phalcon\Commands\Builtin\Module;
 use Phalcon\Commands\Builtin\Project;
@@ -49,6 +50,7 @@ try {
     $script = new Script($eventsManager);
 
     $commandsToEnable = [
+        Info::class,
         Enumerate::class,
         Controller::class,
         Module::class,
