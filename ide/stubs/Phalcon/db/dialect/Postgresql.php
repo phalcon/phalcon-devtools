@@ -121,7 +121,7 @@ class Postgresql extends \Phalcon\Db\Dialect
     public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
-     * Generates SQL to drop a view
+     * Generates SQL to drop a table
      *
      * @param string $tableName 
      * @param string $schemaName 
@@ -175,7 +175,9 @@ class Postgresql extends \Phalcon\Db\Dialect
     /**
      * Generates SQL describing a table
      * <code>
-     * print_r($dialect->describeColumns("posts"));
+     * print_r(
+     * $dialect->describeColumns("posts")
+     * );
      * </code>
      *
      * @param string $table 
@@ -187,7 +189,9 @@ class Postgresql extends \Phalcon\Db\Dialect
     /**
      * List all tables in database
      * <code>
-     * print_r($dialect->listTables("blog"))
+     * print_r(
+     * $dialect->listTables("blog")
+     * );
      * </code>
      *
      * @param string $schemaName 
@@ -229,6 +233,12 @@ class Postgresql extends \Phalcon\Db\Dialect
      * @return string 
      */
     public function tableOptions($table, $schema = null) {}
+
+    /**
+     * @param mixed $column 
+     * @return string 
+     */
+    protected function _castDefault(\Phalcon\Db\ColumnInterface $column) {}
 
     /**
      * @param array $definition 

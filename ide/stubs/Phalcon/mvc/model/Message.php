@@ -11,10 +11,10 @@ namespace Phalcon\Mvc\Model;
  * {
  * public function beforeSave()
  * {
- * if ($this->name == 'Peter') {
- * $text = "A robot cannot be named Peter";
+ * if ($this->name === "Peter") {
+ * $text  = "A robot cannot be named Peter";
  * $field = "name";
- * $type = "InvalidValue";
+ * $type  = "InvalidValue";
  * $message = new Message($text, $field, $type);
  * $this->appendMessage($message);
  * }

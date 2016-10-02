@@ -119,10 +119,12 @@ class Dump
     /**
      * Returns an JSON string of information about a single variable.
      * <code>
-     * $foo = ["key" => "value"];
+     * $foo = [
+     * "key" => "value",
+     * ];
      * echo (new \Phalcon\Debug\Dump())->toJson($foo);
      * $foo = new stdClass();
-     * $foo->bar = 'buz';
+     * $foo->bar = "buz";
      * echo (new \Phalcon\Debug\Dump())->toJson($foo);
      * </code>
      *

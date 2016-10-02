@@ -6,12 +6,18 @@ namespace Phalcon\Logger\Adapter;
  * Phalcon\Logger\Adapter\Syslog
  * Sends logs to the system logger
  * <code>
- * $logger = new \Phalcon\Logger\Adapter\Syslog("ident", array(
- * 'option' => LOG_NDELAY,
- * 'facility' => LOG_MAIL
- * ));
+ * use Phalcon\Logger;
+ * use Phalcon\Logger\Adapter\Syslog;
+ * // LOG_USER is the only valid log type under Windows operating systems
+ * $logger = new Syslog(
+ * "ident",
+ * [
+ * "option"   => LOG_CONS | LOG_NDELAY | LOG_PID,
+ * "facility" => LOG_USER,
+ * ]
+ * );
  * $logger->log("This is a message");
- * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
+ * $logger->log(Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
  * </code>
  */
@@ -43,7 +49,6 @@ class Syslog extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
      * @param int $type 
      * @param int $time 
      * @param array $context 
-     * @param array $$context 
      */
     public function logInternal($message, $type, $time, array $context) {}
 

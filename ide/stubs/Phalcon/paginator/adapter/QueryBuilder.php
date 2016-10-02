@@ -8,14 +8,14 @@ namespace Phalcon\Paginator\Adapter;
  * <code>
  * use Phalcon\Paginator\Adapter\QueryBuilder;
  * $builder = $this->modelsManager->createBuilder()
- * ->columns('id, name')
- * ->from('Robots')
- * ->orderBy('name');
+ * ->columns("id, name")
+ * ->from("Robots")
+ * ->orderBy("name");
  * $paginator = new QueryBuilder(
  * [
- * 'builder' => $builder,
- * 'limit'   => 20,
- * 'page'    => 1,
+ * "builder" => $builder,
+ * "limit"   => 20,
+ * "page"    => 1,
  * ]
  * );
  * </code>

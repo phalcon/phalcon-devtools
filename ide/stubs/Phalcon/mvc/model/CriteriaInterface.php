@@ -114,7 +114,7 @@ interface CriteriaInterface
     /**
      * Appends a BETWEEN condition to the current conditions
      * <code>
-     * $criteria->betweenWhere('price', 100.25, 200.50);
+     * $criteria->betweenWhere("price", 100.25, 200.50);
      * </code>
      *
      * @param string $expr 
@@ -127,7 +127,7 @@ interface CriteriaInterface
     /**
      * Appends a NOT BETWEEN condition to the current conditions
      * <code>
-     * $criteria->notBetweenWhere('price', 100.25, 200.50);
+     * $criteria->notBetweenWhere("price", 100.25, 200.50);
      * </code>
      *
      * @param string $expr 
@@ -140,7 +140,7 @@ interface CriteriaInterface
     /**
      * Appends an IN condition to the current conditions
      * <code>
-     * $criteria->inWhere('id', [1, 2, 3]);
+     * $criteria->inWhere("id", [1, 2, 3]);
      * </code>
      *
      * @param string $expr 
@@ -152,7 +152,7 @@ interface CriteriaInterface
     /**
      * Appends a NOT IN condition to the current conditions
      * <code>
-     * $criteria->notInWhere('id', [1, 2, 3]);
+     * $criteria->notInWhere("id", [1, 2, 3]);
      * </code>
      *
      * @param string $expr 

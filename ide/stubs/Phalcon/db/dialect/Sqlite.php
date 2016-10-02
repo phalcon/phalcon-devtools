@@ -175,7 +175,9 @@ class Sqlite extends \Phalcon\Db\Dialect
     /**
      * Generates SQL describing a table
      * <code>
-     * print_r($dialect->describeColumns("posts"));
+     * print_r(
+     * $dialect->describeColumns("posts")
+     * );
      * </code>
      *
      * @param string $table 
@@ -187,7 +189,9 @@ class Sqlite extends \Phalcon\Db\Dialect
     /**
      * List all tables in database
      * <code>
-     * print_r($dialect->listTables("blog"))
+     * print_r(
+     * $dialect->listTables("blog")
+     * );
      * </code>
      *
      * @param string $schemaName 
@@ -206,7 +210,9 @@ class Sqlite extends \Phalcon\Db\Dialect
     /**
      * Generates the SQL to get query list of indexes
      * <code>
-     * print_r($dialect->listIndexesSql("blog"))
+     * print_r(
+     * $dialect->listIndexesSql("blog")
+     * );
      * </code>
      *
      * @param string $table 

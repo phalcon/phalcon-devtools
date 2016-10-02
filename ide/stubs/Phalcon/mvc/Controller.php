@@ -12,7 +12,7 @@ namespace Phalcon\Mvc;
  * <?php
  * class PeopleController extends \Phalcon\Mvc\Controller
  * {
- * //This action will be executed by default
+ * // This action will be executed by default
  * public function indexAction()
  * {
  * }
@@ -21,8 +21,13 @@ namespace Phalcon\Mvc;
  * }
  * public function saveAction()
  * {
- * //Forwards flow to the index action
- * return $this->dispatcher->forward(array('controller' => 'people', 'action' => 'index'));
+ * // Forwards flow to the index action
+ * return $this->dispatcher->forward(
+ * [
+ * "controller" => "people",
+ * "action"     => "index",
+ * ]
+ * );
  * }
  * }
  * </code>

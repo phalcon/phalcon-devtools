@@ -11,11 +11,15 @@ namespace Phalcon\Mvc\Model\Validator;
  * {
  * public function validation()
  * {
- * $this->validate(new ExclusionInValidator(array(
- * 'field' => 'status',
- * 'domain' => array('A', 'I')
- * )));
- * if ($this->validationHasFailed() == true) {
+ * $this->validate(
+ * new ExclusionInValidator(
+ * [
+ * "field"  => "status",
+ * "domain" => ["A", "I"],
+ * ]
+ * )
+ * );
+ * if ($this->validationHasFailed() === true) {
  * return false;
  * }
  * }

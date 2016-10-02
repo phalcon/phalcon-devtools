@@ -8,14 +8,16 @@ namespace Phalcon\Mvc\Model\MetaData;
  * By default meta-data is stored for 48 hours (172800 seconds)
  * <code>
  * use Phalcon\Mvc\Model\Metadata\Redis;
- * $metaData = new Redis([
- * 'host'       => '127.0.0.1',
- * 'port'       => 6379,
- * 'persistent' => 0,
- * 'statsKey'   => '_PHCM_MM',
- * 'lifetime'   => 172800,
- * 'index'      => 2,
- * ]);
+ * $metaData = new Redis(
+ * [
+ * "host"       => "127.0.0.1",
+ * "port"       => 6379,
+ * "persistent" => 0,
+ * "statsKey"   => "_PHCM_MM",
+ * "lifetime"   => 172800,
+ * "index"      => 2,
+ * ]
+ * );
  * </code>
  */
 class Redis extends \Phalcon\Mvc\Model\MetaData

@@ -7,8 +7,8 @@ namespace Phalcon;
  * Provides encryption facilities to phalcon applications
  * <code>
  * $crypt = new \Phalcon\Crypt();
- * $key = 'le password';
- * $text = 'This is a secret text';
+ * $key  = "le password";
+ * $text = "This is a secret text";
  * $encrypted = $crypt->encrypt($text, $key);
  * echo $crypt->decrypt($encrypted, $key);
  * </code>

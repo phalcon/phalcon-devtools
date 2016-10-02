@@ -6,9 +6,11 @@ namespace Phalcon\Mvc\Model\MetaData;
  * Phalcon\Mvc\Model\MetaData\Files
  * Stores model meta-data in PHP files.
  * <code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(array(
- * 'metaDataDir' => 'app/cache/metadata/'
- * ));
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(
+ * [
+ * "metaDataDir" => "app/cache/metadata/",
+ * ]
+ * );
  * </code>
  */
 class Files extends \Phalcon\Mvc\Model\MetaData

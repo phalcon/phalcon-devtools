@@ -7,7 +7,11 @@ namespace Phalcon\Annotations\Adapter;
  * Stores the parsed annotations in files. This adapter is suitable for production
  * <code>
  * use Phalcon\Annotations\Adapter\Files;
- * $annotations = new Files(['annotationsDir' => 'app/cache/annotations/']);
+ * $annotations = new Files(
+ * [
+ * "annotationsDir" => "app/cache/annotations/",
+ * ]
+ * );
  * </code>
  */
 class Files extends \Phalcon\Annotations\Adapter

@@ -73,7 +73,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Returns the status code
      * <code>
-     * print_r($response->getStatusCode());
+     * print_r(
+     * $response->getStatusCode()
+     * );
      * </code>
      *
      * @return array 
@@ -143,7 +145,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Sets an Expires header in the response that allows to use the HTTP cache
      * <code>
-     * $this->response->setExpires(new DateTime());
+     * $this->response->setExpires(
+     * new DateTime()
+     * );
      * </code>
      *
      * @param mixed $datetime 
@@ -154,7 +158,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Sets Last-Modified header
      * <code>
-     * $this->response->setLastModified(new DateTime());
+     * $this->response->setLastModified(
+     * new DateTime()
+     * );
      * </code>
      *
      * @param mixed $datetime 
@@ -183,8 +189,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Sets the response content-type mime, optionally the charset
      * <code>
-     * $response->setContentType('application/pdf');
-     * $response->setContentType('text/plain', 'UTF-8');
+     * $response->setContentType("application/pdf");
+     * $response->setContentType("text/plain", "UTF-8");
      * </code>
      *
      * @param string $contentType 
@@ -218,16 +224,18 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Redirect by HTTP to another action or URL
      * <code>
-     * //Using a string redirect (internal/external)
+     * // Using a string redirect (internal/external)
      * $response->redirect("posts/index");
      * $response->redirect("http://en.wikipedia.org", true);
      * $response->redirect("http://www.example.com/new-location", true, 301);
-     * //Making a redirection based on a named route
-     * $response->redirect(array(
-     * "for" => "index-lang",
-     * "lang" => "jp",
-     * "controller" => "index"
-     * ));
+     * // Making a redirection based on a named route
+     * $response->redirect(
+     * [
+     * "for"        => "index-lang",
+     * "lang"       => "jp",
+     * "controller" => "index",
+     * ]
+     * );
      * </code>
      *
      * @param mixed $location 
@@ -240,7 +248,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Sets HTTP response body
      * <code>
-     * response->setContent("<h1>Hello!</h1>");
+     * $response->setContent("<h1>Hello!</h1>");
      * </code>
      *
      * @param string $content 
@@ -252,7 +260,11 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * Sets HTTP response body. The parameter is automatically converted to JSON
      * and also sets default header: Content-Type: "application/json; charset=UTF-8"
      * <code>
-     * $response->setJsonContent(array("status" => "OK"));
+     * $response->setJsonContent(
+     * [
+     * "status" => "OK",
+     * ]
+     * );
      * </code>
      *
      * @param mixed $content 

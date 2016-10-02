@@ -12,9 +12,9 @@ namespace Phalcon\Cache\Backend;
  * $frontCache = new FrontData();
  * $cache = new Memory($frontCache);
  * // Cache arbitrary data
- * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * $cache->save("my-data", [1, 2, 3, 4, 5]);
  * // Get data
- * $data = $cache->get('my-data');
+ * $data = $cache->get("my-data");
  * </code>
  */
 class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface, \Serializable
@@ -74,7 +74,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
      * @param string $keyName 
      * @param mixed $value 
      * @param long $lifetime 
-     * @return long 
+     * @return int|null 
      */
     public function increment($keyName = null, $value = null) {}
 
@@ -83,7 +83,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
      *
      * @param string $keyName 
      * @param long $value 
-     * @return long 
+     * @return int|null 
      */
     public function decrement($keyName = null, $value = null) {}
 

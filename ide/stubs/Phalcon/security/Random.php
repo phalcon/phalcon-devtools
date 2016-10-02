@@ -69,7 +69,7 @@ class Random
      * $random = new \Phalcon\Security\Random();
      * $bytes = $random->bytes();
      * var_dump(bin2hex($bytes));
-     * // possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
+     * // Possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
      * </code>
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read

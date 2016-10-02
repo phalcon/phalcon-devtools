@@ -19,9 +19,13 @@ namespace Phalcon;
  * //Using a string definition
  * $di->set("request", "Phalcon\Http\Request", true);
  * //Using an anonymous function
- * $di->set("request", function(){
+ * $di->set(
+ * "request",
+ * function () {
  * return new \Phalcon\Http\Request();
- * }, true);
+ * },
+ * true
+ * );
  * $request = $di->getRequest();
  * </code>
  */

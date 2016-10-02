@@ -9,10 +9,10 @@ namespace Phalcon;
 class Debug
 {
 
-    protected $_uri = "//static.phalconphp.com/www/debug/3.0.x/";
+    public $_uri = "//static.phalconphp.com/www/debug/3.0.x/";
 
 
-    protected $_theme = "default";
+    public $_theme = "default";
 
 
     protected $_hideDocumentRoot = false;
@@ -138,6 +138,7 @@ class Debug
     /**
      * Returns the major framework's version
      *
+     * @deprecated Will be removed in 4.0.0
      * @return string 
      */
     public function getMajorVersion() {}

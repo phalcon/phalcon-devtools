@@ -6,18 +6,21 @@ namespace Phalcon;
  * Phalcon\Loader
  * This component helps to load your project classes automatically based on some conventions
  * <code>
- * //Creates the autoloader
+ * use Phalcon\Loader;
+ * // Creates the autoloader
  * $loader = new Loader();
- * //Register some namespaces
- * $loader->registerNamespaces(array(
- * 'Example\Base' => 'vendor/example/base/',
- * 'Example\Adapter' => 'vendor/example/adapter/',
- * 'Example' => 'vendor/example/'
- * ));
- * //register autoloader
+ * // Register some namespaces
+ * $loader->registerNamespaces(
+ * [
+ * "Example\\Base"    => "vendor/example/base/",
+ * "Example\\Adapter" => "vendor/example/adapter/",
+ * "Example"          => "vendor/example/",
+ * ]
+ * );
+ * // Register autoloader
  * $loader->register();
- * //Requiring this class will automatically include file vendor/example/adapter/Some.php
- * $adapter = Example\Adapter\Some();
+ * // Requiring this class will automatically include file vendor/example/adapter/Some.php
+ * $adapter = new \Example\Adapter\Some();
  * </code>
  */
 class Loader implements \Phalcon\Events\EventsAwareInterface
@@ -32,19 +35,19 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     protected $_checkedPath = null;
 
 
-    protected $_classes = null;
+    protected $_classes = array();
 
 
     protected $_extensions = array("php");
 
 
-    protected $_namespaces = null;
+    protected $_namespaces = array();
 
 
-    protected $_directories = null;
+    protected $_directories = array();
 
 
-    protected $_files = null;
+    protected $_files = array();
 
 
     protected $_registered = false;

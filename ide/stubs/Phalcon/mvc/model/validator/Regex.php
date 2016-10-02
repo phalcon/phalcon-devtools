@@ -11,10 +11,14 @@ namespace Phalcon\Mvc\Model\Validator;
  * {
  * public function validation()
  * {
- * $this->validate(new RegexValidator(array(
- * "field" => 'created_at',
- * 'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])/'
- * )));
+ * $this->validate(
+ * new RegexValidator(
+ * [
+ * "field"   => "created_at",
+ * "pattern" => "/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])/",
+ * ]
+ * )
+ * );
  * if ($this->validationHasFailed() == true) {
  * return false;
  * }
