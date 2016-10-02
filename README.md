@@ -104,7 +104,7 @@ phalcon commands help
 This command should display something similar to:
 
 ```sh
-$ phalcon list ?
+$ phalcon --help
 
 Phalcon DevTools (3.0.2)
 
@@ -125,9 +125,9 @@ Available commands:
 
 ## Database adapter
 
-Should add `adapter` parameter in your `db` config file (if you use not Mysql database).
+Should add `adapter` parameter in your `db` config file (if you use not MySQL database).
 
-For PostgreSql it will be something like:
+For PostgreSQL it will be something like:
 
 ```php
 $config = [
