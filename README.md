@@ -1,7 +1,7 @@
 # Phalcon Devtools
 
 [![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)][:devtools:]
-[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][1]
+[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][:license:]
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
 [![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)][:packagist:]
 
@@ -141,9 +141,9 @@ $config = [
 
 ## License
 
-Phalcon Developer Tools is open source software licensed under the [New BSD License][1].<br>
+Phalcon Developer Tools is open source software licensed under the [New BSD License][:license:].<br>
 © Phalcon Framework Team and contributors
 
 [:packagist:]: https://packagist.org/packages/phalcon/devtools
-[:devtools:]: https://github.com/phalcon/incubator/devtools
-[1]: docs/LICENSE.md
+[:devtools:]: https://github.com/phalcon/phalcon-devtools
+[:license:]: https://github.com/phalcon/phalcon-devtools/blob/master/LICENSE.txt
