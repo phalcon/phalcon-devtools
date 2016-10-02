@@ -42,7 +42,8 @@ class Webtools extends Command
     public function getPossibleParams()
     {
         return [
-            'action=s' => 'Enables/Disables webtools in a project [enable|disable]'
+            'action=s' => 'Enables/Disables webtools in a project [enable|disable]',
+            'help'     => 'Shows this help [optional]',
         ];
     }
 

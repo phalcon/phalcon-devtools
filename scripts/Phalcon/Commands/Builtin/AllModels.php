@@ -57,7 +57,8 @@ class AllModels extends Command
             'validations' => 'Define possible domain validation according to conventions',
             'directory=s' => 'Base path on which project will be created [optional]',
             'mapcolumn'   => 'Get some code for map columns [optional]',
-            'abstract'    => 'Abstract Model [optional]'
+            'abstract'    => 'Abstract Model [optional]',
+            'help'        => 'Shows this help [optional]',
         ];
     }
 

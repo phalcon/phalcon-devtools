@@ -48,6 +48,7 @@ class Controller extends Command
             'output=s'      => 'Directory where the controller should be created [optional]',
             'base-class=s'  => 'Base class to be inherited by the controller [optional]',
             'force'         => 'Force to rewrite controller [optional]',
+            'help'          => 'Shows this help [optional]',
         ];
     }
 

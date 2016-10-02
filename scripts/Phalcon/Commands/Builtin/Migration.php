@@ -55,6 +55,7 @@ class Migration extends Command
             'ts-based'          => 'Timestamp based migration version',
             'log-in-db'         => 'Keep migrations log in the database table rather than in file',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
+            'help'              => 'Shows this help [optional]',
         ];
     }
 

@@ -40,23 +40,23 @@ class CommandsListener
      */
     public function beforeCommand(Event $event, Command $command)
     {
+        $parameters = $command->parseParameters([], ['h' => 'help']);
+
+        if (
+            count($parameters) < ($command->getRequiredParams() + 1) ||
+            $command->isReceivedOption(['help', 'h', '?']) ||
+            in_array($command->getOption(1), ['help', 'h', '?'])
+        ) {
+            $command->getHelp();
+
+            return false;
+        }
+
         if ($command->canBeExternal() == false) {
             $path = $command->getOption('directory');
             if (!file_exists($path.'.phalcon') || !is_dir($path.'.phalcon')) {
                 throw new CommandsException('This command should be invoked inside a Phalcon project directory.');
             }
-        }
-
-        $parameters = $command->parseParameters();
-
-        if (
-            count($parameters) < ($command->getRequiredParams() + 1) ||
-            $command->isReceivedOption(['help', '?']) ||
-            in_array($command->getOption(1), ['help', '?'])
-        ) {
-            $command->getHelp();
-
-            return false;
         }
 
         return true;

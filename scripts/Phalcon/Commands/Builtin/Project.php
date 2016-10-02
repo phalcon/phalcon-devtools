@@ -48,7 +48,7 @@ class Project extends Command
             'template-path=s' => 'Specify a template path [optional]',
             'use-config-ini'  => 'Use a ini file as configuration file [optional]',
             'trace'           => 'Shows the trace of the framework in case of exception [optional]',
-            'help'            => 'Shows this help'
+            'help'            => 'Shows this help [optional]',
         ];
     }
 
