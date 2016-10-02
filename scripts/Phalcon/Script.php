@@ -136,6 +136,11 @@ class Script
 
         $input = $_SERVER['argv'][1];
 
+        // Force `commands` command
+        if (in_array(strtolower(trim($input)), ['-h', '--help', 'help'], true)) {
+            $input = $_SERVER['argv'][1] = 'commands';
+        }
+
         // Try to dispatch the command
         foreach ($this->_commands as $command) {
             if ($command->hasIdentifier($input)) {

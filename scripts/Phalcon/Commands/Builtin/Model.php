@@ -57,7 +57,8 @@ class Model extends Command
             'trace'           => 'Shows the trace of the framework in case of exception [optional]',
             'mapcolumn'       => 'Get some code for map columns [optional]',
             'abstract'        => 'Abstract Model [optional]',
-            'annotate'        => 'Annotate Attributes [optional]'
+            'annotate'        => 'Annotate Attributes [optional]',
+            'help'            => 'Shows this help [optional]',
         ];
     }
 

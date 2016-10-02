@@ -52,6 +52,7 @@ class Scaffold extends Command
             'trace'             => 'Shows the trace of the framework in case of exception [optional]',
             'ns-models=s'       => "Model's namespace [optional]",
             'ns-controllers=s'  => "Controller's namespace [optional]",
+            'help'              => 'Shows this help [optional]',
         ];
     }
 
