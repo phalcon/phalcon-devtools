@@ -141,6 +141,10 @@ class Script
             $input = $_SERVER['argv'][1] = 'commands';
         }
 
+        if (in_array(strtolower(trim($input)), ['--version', '-v', '--info'], true)) {
+            $input = $_SERVER['argv'][1] = 'info';
+        }
+
         // Try to dispatch the command
         foreach ($this->_commands as $command) {
             if ($command->hasIdentifier($input)) {

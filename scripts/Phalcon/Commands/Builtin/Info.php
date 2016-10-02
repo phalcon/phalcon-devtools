@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
@@ -22,16 +23,15 @@ namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
+use Phalcon\Utils\SystemInfo;
 
 /**
- * Enumerate Command
+ * Info Command
  *
  * @package Phalcon\Commands\Builtin
  */
-class Enumerate extends Command
+class Info extends Command
 {
-    const COMMAND_COLUMN_LEN = 16;
-
     /**
      * {@inheritdoc}
      *
@@ -52,20 +52,21 @@ class Enumerate extends Command
      */
     public function run(array $parameters)
     {
-        print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL;
-        foreach ($this->getScript()->getCommands() as $commands) {
-            $providedCommands = $commands->getCommands();
-            $commandLen = strlen($providedCommands[0]);
+        $info = new SystemInfo();
 
-            print '  ' . Color::colorize($providedCommands[0], Color::FG_GREEN);
-            unset($providedCommands[0]);
-            if (count($providedCommands)) {
-                $spacer = str_repeat(' ', self::COMMAND_COLUMN_LEN - $commandLen);
-                print $spacer.' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
-            }
-            print PHP_EOL;
+        printf("%s:\n", Color::head('Environment:'));
+        foreach ($info->getEnvironment() as $k => $v) {
+            printf("  %s: %s\n", $k, $v);
         }
+
+        printf("%s:\n", Color::head('Versions:'));
+        foreach ($info->getVersions() as $k => $v) {
+            printf("  %s: %s\n", $k, $v);
+        }
+
         print PHP_EOL;
+
+        return 0;
     }
 
     /**
@@ -75,7 +76,7 @@ class Enumerate extends Command
      */
     public function getCommands()
     {
-        return ['commands', 'list', 'enumerate'];
+        return ['info', 'i'];
     }
 
     /**
@@ -96,9 +97,7 @@ class Enumerate extends Command
     public function getHelp()
     {
         print Color::head('Help:') . PHP_EOL;
-        print Color::colorize('  Lists the commands available in Phalcon DevTools') . PHP_EOL . PHP_EOL;
-
-        $this->run([]);
+        print Color::colorize('  Shows versions and environment configuration') . PHP_EOL . PHP_EOL;
     }
 
     /**
