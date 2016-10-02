@@ -53,7 +53,7 @@ defined('ENV_TESTING') || define('ENV_TESTING', 'testing');
 /**
  * @const APPLICATION_ENV Current application stage.
  */
-defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV_DEVELOPMENT);
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APPLICATION_ENV') ?: ENV_DEVELOPMENT);
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
 
