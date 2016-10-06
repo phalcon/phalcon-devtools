@@ -45,6 +45,19 @@ defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_MEMORY', memory_get_usa
 defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(getenv('PTOOLSPATH') ?: dirname(dirname(__FILE__)), '\\/'));
 
 /**
+ * Check for old versions
+ */
+if (strtolower(realpath(PTOOLSPATH)) !== strtolower(realpath(dirname(dirname(__FILE__))))) {
+    throw new Exception(
+        sprintf(
+            'The environment variable PTOOLSPATH is outdated! Current value: %s. New value: %s',
+            PTOOLSPATH,
+            dirname(dirname(__FILE__))
+        )
+    );
+}
+
+/**
  * @const TEMPLATE_PATH DevTools templates path.
  */
 defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . '/templates');
