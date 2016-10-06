@@ -24,12 +24,15 @@ GREEN="\033[0;32m"
 YELLOW="\033[1;33m"
 NC="\033[0m"
 DIR=
+IS_BASH=0
+SOURCE_FILE=
 
 init(){
 	source=`echo $0 | grep "bash"`
 
 	if [ "$source" == "bash" ]; then
 		DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+		IS_BASH=1
 	else
 		DIR=$( cd -P -- "$( dirname -- "$0" )" && pwd -P )
 	fi
@@ -47,27 +50,46 @@ alter_profile(){
 	if [ -e $HOME/.bash_profile ]; then
 		echo "$PTOOLSVAR" >> $HOME/.bash_profile
 		echo "$PATHVAR" >> $HOME/.bash_profile
-		source $HOME/.bash_profile
+		SOURCE_FILE=$HOME/.bash_profile
+
+		source ${SOURCE_FILE}
 	elif [ -e $HOME/.bashrc ]; then
 		echo "$PTOOLSVAR" >> $HOME/.bashrc
 		echo "$PATHVAR" >> $HOME/.bashrc
-		source $HOME/.bashrc
+		SOURCE_FILE=$HOME/.bashrc
+
+		source ${SOURCE_FILE}
 	elif [ -e $HOME/.profile ]; then
 		echo "$PTOOLSVAR" >> $HOME/.profile
 		echo "$PATHVAR" >> $HOME/.profile
-		source $HOME/.profile
+		SOURCE_FILE=$HOME/.profile
+
+		source ${SOURCE_FILE}
 	elif [ -e $HOME/.zshrc ]; then
 		echo "$PTOOLSVAR" >> $HOME/.zshrc
 		echo "$PATHVAR" >> $HOME/.zshrc
-		source $HOME/.bashrc
+		SOURCE_FILE=$HOME/.bashrc
+
+		source ${SOURCE_FILE}
 	elif [ -e $HOME/.cshrc ]; then
 		echo "setenv PTOOLSPATH ${DIR}/" >> $HOME/.cshrc
 		echo "setenv PATH \${PATH}:$DIR" >> $HOME/.cshrc
-		source $HOME/.cshrc
+		SOURCE_FILE=$HOME/.cshrc
+
+		source ${SOURCE_FILE}
 	else
 		printf "\n${PURPLE}No bash profile detected. Environment vars might disappear on console restart!${NC}\n"
 		return 0
 	fi
+}
+
+check_bash(){
+	if [ "$IS_BASH" == 0 ] && [ ! -z "$SOURCE_FILE" ]; then
+		printf "\nTo start using Phalcon Developer Tools you need to run 'source ${SOURCE_FILE}'"
+		printf "\n"
+	fi
+
+	printf "\n"
 }
 
 check_install(){
@@ -80,31 +102,42 @@ check_install(){
 		printf "\nInstalling Devtools..."
 		printf "\nWorking dir is: ${DIR}"
 
-		alter_profile
 		devtools="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 		if [ -f ${devtools}/phalcon ]; then
 			printf "\nFailed to create symbolic link ${devtools}/phalcon: File exists"
 			printf "\nExit.\n\n"
-			return 0
+			return 1
 		fi
+
+		alter_profile
 
 		if [ ! -L ${devtools}/phalcon ]; then
 			printf "\nGenerating symlink..."
 			ln -s ${devtools}/phalcon.sh ${devtools}/phalcon
 			chmod +x ${devtools}/phalcon
-			printf "\nDone. Devtools installed!"
-			printf "\n\n"
+			printf "\n\nDone. Phalcon Developer Tools installed!"
+			printf "\nThank you for using Phalcon Developer Tools!"
+			printf "\nWe hope that Phalcon Developer Tools helps to make your life easier."
+			printf "\n"
+			printf "\nIn case of problems: "
+			printf "${YELLOW}https://github.com/phalcon/phalcon-devtools${NC} "
+			printf "\n                and: ${YELLOW}https://forum.phalconphp.com${NC}"
+			printf "\n"
+
+			check_bash
+
+			return 0
 		fi
 		return 1
 	else
-		PTOOLSPATH=${PTOOLSPATH%/}
-		if [ "${PTOOLSPATH}" != "${DIR}" ]; then
+		devtools=${PTOOLSPATH%/}
+		if [ "${devtools}" != "${DIR}" ]; then
 			printf "\n${PURPLE}The You environment variable \$PTOOLSPATH is outdated!${NC}"
-			printf "\n${PURPLE}Current value: $PTOOLSPATH${NC}"
+			printf "\n${PURPLE}Current value: $devtools${NC}"
 			printf "\n${PURPLE}New value: $DIR${NC}"
 			printf "\nExit.\n\n"
-			return 0
+			return 1
 		fi
 	fi
 	return 0
@@ -113,6 +146,6 @@ check_install(){
 init
 
 if check_install; then
-	PTOOLSPATH=${PTOOLSPATH%/}
-	php "$PTOOLSPATH/phalcon.php" $*
+	devtools=${PTOOLSPATH%/}
+	php "$devtools/phalcon.php" $*
 fi
