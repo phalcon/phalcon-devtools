@@ -58,9 +58,14 @@ if (strtolower(realpath(PTOOLSPATH)) !== strtolower(realpath(dirname(dirname(__F
 }
 
 /**
+ * @const DS The DIRECTORY_SEPARATOR shortcut.
+ */
+defined('DS') || define('DS', DIRECTORY_SEPARATOR);
+
+/**
  * @const TEMPLATE_PATH DevTools templates path.
  */
-defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . '/templates');
+defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . DS .'templates');
 
 /**
  * @const ENV_PRODUCTION Application production stage.
@@ -86,11 +91,6 @@ defined('ENV_TESTING') || define('ENV_TESTING', 'testing');
  * @const APPLICATION_ENV Current application stage.
  */
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV_DEVELOPMENT);
-
-/**
- * @const DS The DIRECTORY_SEPARATOR shortcut.
- */
-defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
 /**
  * @const HOSTNAME The current hostname.
@@ -133,6 +133,7 @@ if (file_exists(PTOOLSPATH . DS . '.phalcon' . DS . 'autoload.php')) {
 
 if (Version::getId() < COMPATIBLE_VERSION) {
     throw new Exception(
-        "Your Phalcon version isn't compatible with Developer Tools, download the latest at: https://phalconphp.com/download"
+        "Your Phalcon version isn't compatible with Developer Tools, " .
+        'download the latest at: https://phalconphp.com/download'
     );
 }
