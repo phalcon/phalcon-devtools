@@ -114,7 +114,7 @@ class Project extends Component
         $success = $builder->build();
 
         if ($success === true) {
-            $this->_notifySuccess(sprintf(
+            $this->notifySuccess(sprintf(
                 'Project "%s" was successfully created.',
                 $this->options->get('name')
             ));

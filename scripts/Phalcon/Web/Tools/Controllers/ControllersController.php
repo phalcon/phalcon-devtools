@@ -193,7 +193,9 @@ class ControllersController extends Base
         $controllerName = basename($path, '.php');
 
         if (!is_writable($path)) {
-            $this->flashSession->error(sprintf('You have not enough rights to edit %s using a browser.', $controllerName));
+            $this->flashSession->error(
+                sprintf('You have not enough rights to edit %s using a browser.', $controllerName)
+            );
             return $this->response->redirect('/webtools.php?_url=/controllers/list');
         }
 

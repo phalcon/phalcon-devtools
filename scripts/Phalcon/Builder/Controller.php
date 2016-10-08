@@ -109,7 +109,7 @@ class Controller extends Component
         }
 
         if ($this->isConsole()) {
-            $this->_notifySuccess(
+            $this->notifySuccess(
                 sprintf('Controller "%s" was successfully created.', $name)
             );
             echo $controller->getRealPath(), PHP_EOL;
