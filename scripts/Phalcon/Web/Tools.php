@@ -47,15 +47,11 @@ class Tools
             throw new Exception('Document root cannot be located');
         }
 
-        if (!$tools = getenv('PTOOLSPATH')) {
-            $tools = realpath(__DIR__ . '/../../../');
-        }
+        $tools = rtrim(str_replace(["\\", '/'], DS, PTOOLSPATH), DS);
 
-        $tools = str_replace(["\\", '/'], DS, $tools) . DS;
+        copy($tools . DS . 'webtools.php', $path . 'public' . DS . 'webtools.php');
 
-        copy(rtrim($tools, '\\/') . DS . 'webtools.php', $path . 'public' . DS . 'webtools.php');
-
-        if (!file_exists($configPath = $path . 'public/webtools.config.php')) {
+        if (!file_exists($configPath = $path . 'public' . DS . 'webtools.config.php')) {
             $template = file_get_contents(TEMPLATE_PATH . DS . 'webtools.config.php');
             $code = str_replace('@@PATH@@', $tools, $template);
 
@@ -75,18 +71,18 @@ class Tools
      */
     public static function uninstall($path)
     {
-        $path = str_replace(["\\", '/'], DIRECTORY_SEPARATOR, realpath($path)) . DIRECTORY_SEPARATOR;
+        $path = str_replace(["\\", '/'], DS, realpath($path)) . DS;
 
         if (!is_dir($path . 'public')) {
             throw new \Exception('Document root cannot be located');
         }
 
-        if (is_file($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.config.php')) {
-            unlink($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.config.php');
+        if (is_file($path . 'public' . DS . 'webtools.config.php')) {
+            unlink($path . 'public' . DS . 'webtools.config.php');
         }
 
-        if (is_file($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php')) {
-            unlink($path . 'public' . DIRECTORY_SEPARATOR . 'webtools.php');
+        if (is_file($path . 'public' . DS . 'webtools.php')) {
+            unlink($path . 'public' . DS . 'webtools.php');
         }
 
         return true;
