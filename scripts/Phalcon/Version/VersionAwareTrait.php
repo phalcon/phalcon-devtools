@@ -23,7 +23,7 @@ namespace Phalcon\Version;
 /**
  * \Phalcon\Version\VersionAwareTrait
  *
- * @property string $_version
+ * @property string $version
  *
  * @package   Phalcon\Version
  * @copyright Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)

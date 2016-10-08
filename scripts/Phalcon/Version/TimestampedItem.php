@@ -35,17 +35,17 @@ class TimestampedItem implements ItemInterface
     /**
      * @var string
      */
-    protected $_version;
+    protected $version;
 
     /**
      * @var boolean
      */
-    protected $_isFullVersion;
+    protected $isFullVersion;
 
     /**
      * @var array
      */
-    protected $_parts = [];
+    protected $parts = [];
 
     /**
      * @param string $version String representation of the version
@@ -58,10 +58,10 @@ class TimestampedItem implements ItemInterface
         if (1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version)) {
             throw new \InvalidArgumentException('Wrong version number provided');
         }
-        $this->_version = $version;
+        $this->version = $version;
 
-        $this->_parts = explode('_', $version);
-        $this->_isFullVersion = isset($this->_parts[1]);
+        $this->parts         = explode('_', $version);
+        $this->isFullVersion = isset($this->parts[1]);
     }
 
     /**
@@ -71,7 +71,7 @@ class TimestampedItem implements ItemInterface
      */
     public function isFullVersion()
     {
-        return !!$this->_isFullVersion;
+        return !!$this->isFullVersion;
     }
 
     /**
@@ -81,7 +81,7 @@ class TimestampedItem implements ItemInterface
      */
     public function getStamp()
     {
-        return (int) $this->_parts[0];
+        return (int) $this->parts[0];
     }
 
     /**
@@ -91,6 +91,6 @@ class TimestampedItem implements ItemInterface
      */
     public function getDescription()
     {
-        return $this->isFullVersion() ? $this->_parts[1] : '';
+        return $this->isFullVersion() ? $this->parts[1] : '';
     }
 }

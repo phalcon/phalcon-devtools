@@ -135,7 +135,7 @@ abstract class Component
      *
      * @param string $message
      */
-    protected function _notifySuccess($message)
+    protected function notifySuccess($message)
     {
         print Color::success($message);
     }

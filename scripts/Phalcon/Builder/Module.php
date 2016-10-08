@@ -102,7 +102,7 @@ class Module extends Component
             ->createConfig()
             ->createModule();
 
-        $this->_notifySuccess(sprintf(
+        $this->notifySuccess(sprintf(
             'Module "%s" was successfully created.',
             $this->options->get('name')
         ));

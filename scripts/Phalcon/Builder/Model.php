@@ -512,7 +512,7 @@ class Model extends Component
 
         if ($this->isConsole()) {
             $msgSuccess = ($this->options->contains('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
-            $this->_notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->get('name'))));
+            $this->notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->get('name'))));
         }
     }
 
