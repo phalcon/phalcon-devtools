@@ -6,7 +6,7 @@ namespace Phalcon\Forms\Element;
  * Phalcon\Forms\Element\Text
  * Component INPUT[type=text] for forms
  */
-class Text extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class Text extends \Phalcon\Forms\Element
 {
 
     /**

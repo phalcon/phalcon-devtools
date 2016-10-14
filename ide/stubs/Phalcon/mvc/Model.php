@@ -654,7 +654,8 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * Check whether validation process has generated any messages
      * <code>
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+     * use Phalcon\Validation;
+     * use Phalcon\Validation\Validator\ExclusionIn;
      * class Subscriptors extends Model
      * {
      * public function validation()
