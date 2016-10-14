@@ -6,7 +6,7 @@ namespace Phalcon\Forms\Element;
  * Phalcon\Forms\Element\Select
  * Component SELECT (choice) for forms
  */
-class Select extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class Select extends \Phalcon\Forms\Element
 {
 
     protected $_optionsValues;

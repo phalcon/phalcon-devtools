@@ -6,7 +6,7 @@ namespace Phalcon\Forms\Element;
  * Phalcon\Forms\Element\File
  * Component INPUT[type=file] for forms
  */
-class File extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class File extends \Phalcon\Forms\Element
 {
 
     /**
