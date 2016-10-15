@@ -40,6 +40,10 @@ class FsUtils
      */
     public function normalize($path)
     {
+        if (!is_string($path) || empty($path = trim($path))) {
+            return false;
+        }
+
         return str_replace('/', DS, Text::reduceSlashes($path));
     }
 

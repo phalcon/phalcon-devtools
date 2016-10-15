@@ -89,7 +89,7 @@ class Path
 
     public function setRootPath($path)
     {
-        $this->rootPath = rtrim($path, '\\/') . DIRECTORY_SEPARATOR;
+        $this->rootPath = rtrim(str_replace('/', DIRECTORY_SEPARATOR, $path), '\\/') . DIRECTORY_SEPARATOR;
 
         return $this;
     }
