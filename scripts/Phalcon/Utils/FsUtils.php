@@ -81,11 +81,11 @@ class FsUtils
             return false;
         }
 
-        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return boolval(preg_match('/^[A-Z]:\\\\/', $path));
         }
 
-        return DS === substr($path, 0, 1) || false;
+        return substr($path, 0, 1) === DS;
     }
 
     /**
@@ -97,19 +97,17 @@ class FsUtils
      */
     public function getOwner(DirectoryIterator $file)
     {
-        // Windows, fallback, etc.
-        $owner = getenv('USERNAME') ?: getenv('USER');
-
-        if (function_exists('posix_getpwuid')) {
-            $user  = posix_getpwuid($file->getOwner());
-            $group = posix_getgrgid($file->getGroup());
-
-            $userName  = !empty($user['name'])  ? $user['name'] : '-?-';
-            $groupName = !empty($group['name']) ? $group['name'] : '-?-';
-
-            $owner = $userName . ' / ' . $groupName;
+        if (!function_exists('posix_getpwuid')) {
+            // Windows, fallback, etc.
+            return getenv('USERNAME') ?: getenv('USER');
         }
 
-        return $owner ?: '-?- / -?-';
+        $user  = posix_getpwuid($file->getOwner());
+        $group = posix_getgrgid($file->getGroup());
+
+        $userName  = !empty($user['name'])  ? $user['name'] : '-?-';
+        $groupName = !empty($group['name']) ? $group['name'] : '-?-';
+
+        return $userName . ' / ' . $groupName;
     }
 }
