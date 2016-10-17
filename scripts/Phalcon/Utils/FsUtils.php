@@ -23,6 +23,7 @@ namespace Phalcon\Utils;
 
 use Phalcon\Text;
 use DirectoryIterator;
+use Phalcon\Exception\InvalidArgumentException;
 
 /**
  * \Phalcon\Utils\FsUtils
@@ -32,19 +33,34 @@ use DirectoryIterator;
 class FsUtils
 {
     /**
-     * Normalize directory separator depending on the operating system.
+     * Normalize file path.
+     *
+     * - Convert all slashes depending on the operating system
+     * - Get rid of '..', '.'
+     * - Remove self referring paths ('/./')
+     * - Remove any kind of funky unicode whitespace
+     * - Reduce slashes
      *
      * @param string $path Path to normalize
      *
      * @return mixed
+     * @throws InvalidArgumentException
      */
     public function normalize($path)
     {
-        if (!is_string($path) || empty($path = trim($path))) {
-            return false;
+        if (!is_string($path)) {
+            throw new InvalidArgumentException('The $path parameter must be an string Got: ' . gettype($path));
         }
 
-        return str_replace('/', DS, Text::reduceSlashes($path));
+        if (empty($path = trim($path))) {
+            return '';
+        }
+
+        $normalized = preg_replace('#\p{C}+|^\./#u', '', $path);
+        $normalized = preg_replace('#/\.(?=/)|^\./|(/|^)\./?$#', '', $normalized);
+        $normalized = str_replace(['\\', '/'], DS, $normalized);
+
+        return Text::reduceSlashes($normalized);
     }
 
     /**
