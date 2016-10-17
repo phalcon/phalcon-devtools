@@ -49,7 +49,7 @@ class FsUtils
     public function normalize($path)
     {
         if (!is_string($path)) {
-            throw new InvalidArgumentException('The $path parameter must be an string Got: ' . gettype($path));
+            throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
         }
 
         if (empty($path = trim($path))) {
@@ -69,10 +69,15 @@ class FsUtils
      * @param string $path Path to check
      *
      * @return bool
+     * @throws InvalidArgumentException
      */
     public function isAbsolute($path)
     {
-        if (!is_string($path) || empty($path = trim($path))) {
+        if (!is_string($path)) {
+            throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
+        }
+
+        if (empty($path = trim($path))) {
             return false;
         }
 
