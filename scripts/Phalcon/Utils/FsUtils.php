@@ -23,6 +23,7 @@ namespace Phalcon\Utils;
 
 use Phalcon\Text;
 use DirectoryIterator;
+use Phalcon\Exception\InvalidArgumentException;
 
 /**
  * \Phalcon\Utils\FsUtils
@@ -32,19 +33,34 @@ use DirectoryIterator;
 class FsUtils
 {
     /**
-     * Normalize directory separator depending on the operating system.
+     * Normalize file path.
+     *
+     * - Convert all slashes depending on the operating system
+     * - Get rid of '..', '.'
+     * - Remove self referring paths ('/./')
+     * - Remove any kind of funky unicode whitespace
+     * - Reduce slashes
      *
      * @param string $path Path to normalize
      *
      * @return mixed
+     * @throws InvalidArgumentException
      */
     public function normalize($path)
     {
-        if (!is_string($path) || empty($path = trim($path))) {
-            return false;
+        if (!is_string($path)) {
+            throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
         }
 
-        return str_replace('/', DS, Text::reduceSlashes($path));
+        if (empty($path = trim($path))) {
+            return '';
+        }
+
+        $normalized = preg_replace('#\p{C}+|^\./#u', '', $path);
+        $normalized = preg_replace('#/\.(?=/)|^\./|(/|^)\./?$#', '', $normalized);
+        $normalized = str_replace(['\\', '/'], DS, $normalized);
+
+        return Text::reduceSlashes($normalized);
     }
 
     /**
@@ -53,18 +69,23 @@ class FsUtils
      * @param string $path Path to check
      *
      * @return bool
+     * @throws InvalidArgumentException
      */
     public function isAbsolute($path)
     {
-        if (!is_string($path) || empty($path = trim($path))) {
+        if (!is_string($path)) {
+            throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
+        }
+
+        if (empty($path = trim($path))) {
             return false;
         }
 
-        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return boolval(preg_match('/^[A-Z]:\\\\/', $path));
         }
 
-        return DS === substr($path, 0, 1) || false;
+        return substr($path, 0, 1) === DS;
     }
 
     /**
@@ -76,19 +97,17 @@ class FsUtils
      */
     public function getOwner(DirectoryIterator $file)
     {
-        // Windows, fallback, etc.
-        $owner = getenv('USERNAME') ?: getenv('USER');
-
-        if (function_exists('posix_getpwuid')) {
-            $user  = posix_getpwuid($file->getOwner());
-            $group = posix_getgrgid($file->getGroup());
-
-            $userName  = !empty($user['name'])  ? $user['name'] : '-?-';
-            $groupName = !empty($group['name']) ? $group['name'] : '-?-';
-
-            $owner = $userName . ' / ' . $groupName;
+        if (!function_exists('posix_getpwuid')) {
+            // Windows, fallback, etc.
+            return getenv('USERNAME') ?: getenv('USER');
         }
 
-        return $owner ?: '-?- / -?-';
+        $user  = posix_getpwuid($file->getOwner());
+        $group = posix_getgrgid($file->getGroup());
+
+        $userName  = !empty($user['name'])  ? $user['name'] : '-?-';
+        $groupName = !empty($group['name']) ? $group['name'] : '-?-';
+
+        return $userName . ' / ' . $groupName;
     }
 }

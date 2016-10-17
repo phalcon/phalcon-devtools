@@ -71,7 +71,7 @@ class ErrorHandler
             return false;
         }
 
-        if (ENV_PRODUCTION !== APPLICATION_ENV) {
+        if (ENV_PRODUCTION !== APPLICATION_ENV && $exception instanceof \Exception) {
             throw $exception;
         }
 
