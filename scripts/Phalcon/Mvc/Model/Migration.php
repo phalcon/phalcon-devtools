@@ -338,8 +338,8 @@ class Migration
             $referenceDefinition = [];
             $referenceDefinition[] = "'referencedSchema' => '".$dbReference->getReferencedSchema()."'";
             $referenceDefinition[] = "'referencedTable' => '".$dbReference->getReferencedTable()."'";
-            $referenceDefinition[] = "'columns' => [".join(",", $columns)."]";
-            $referenceDefinition[] = "'referencedColumns' => [".join(",", $referencedColumns)."]";
+            $referenceDefinition[] = "'columns' => [".join(",", array_unique($columns))."]";
+            $referenceDefinition[] = "'referencedColumns' => [".join(",", array_unique($referencedColumns))."]";
             $referenceDefinition[] = "'onUpdate' => '".$dbReference->getOnUpdate()."'";
             $referenceDefinition[] = "'onDelete' => '".$dbReference->getOnDelete()."'";
 
