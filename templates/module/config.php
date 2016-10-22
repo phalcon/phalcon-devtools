@@ -2,8 +2,8 @@
 
 return array(
     'application' => array(
-        'controllersDir' => __DIR__ . '/../controllers/',
-        'modelsDir'      => __DIR__ . '/../models/',
-        'viewsDir'       => __DIR__ . '/../views/',
+        'controllersDir' => realpath(__DIR__ . '/../controllers/'),
+        'modelsDir'      => realpath(__DIR__ . '/../models/'),
+        'viewsDir'       => realpath(__DIR__ . '/../views/'),
     )
 );

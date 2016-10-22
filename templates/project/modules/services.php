@@ -21,6 +21,7 @@ $di->setShared('db', function () {
     $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
     $connection = new $class([
         'host'     => $config->database->host,
+        'port'     => $config->database->port,
         'username' => $config->database->username,
         'password' => $config->database->password,
         'dbname'   => $config->database->dbname,
@@ -50,8 +51,8 @@ $di->setShared('voltShared', function ($view) {
             // Makes the view path into a portable fragment
             $templateFrag = str_replace($config->application->appDir, '', $templatePath);
 
-            // Replace '/' with a safe '%%'
-            $templateFrag = str_replace('/', '%%', $templateFrag);
+            // Replace '/' with a safe '%'
+            $templateFrag = str_replace(array('/','\\',':','%%'), '%', $templateFrag);
 
             return $config->application->cacheDir . 'volt/' . $templateFrag . '.php';
         }

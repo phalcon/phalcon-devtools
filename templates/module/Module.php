@@ -40,8 +40,8 @@ class Module implements ModuleDefinitionInterface
          */
         if (file_exists(@@configName@@)) {
             $override = @@configLoader@@;
-
-            if ($config instanceof Config) {
+            global $config;
+            if (isset($config) && $config instanceof Config) {
                 $config->merge($override);
             } else {
                 $config = $override;
@@ -55,8 +55,8 @@ class Module implements ModuleDefinitionInterface
             $config = $this->getConfig();
 
             $view = new View();
-            $view->setViewsDir($config->get('application')->viewsDir);
-
+            //$view->setViewsDir($config->get('application')->viewsDir);
+            $view->setViewsDir(__DIR__ . '/views/');
             return $view;
         };
 
