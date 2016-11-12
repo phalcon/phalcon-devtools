@@ -54,8 +54,6 @@ class IncrementalItem implements ItemInterface
      */
     public function __construct($version, $numberParts = 3)
     {
-        $n = 2;
-        $versionStamp = 0;
         $version = trim($version);
         $this->_parts = explode('.', $version);
         $nParts = count($this->_parts);
@@ -74,16 +72,8 @@ class IncrementalItem implements ItemInterface
                 $version = join('.', $this->_parts);
             }
         }
-        foreach ($this->_parts as $part) {
-            if (is_numeric($part)) {
-                $versionStamp += $part * pow(10, $n);
-            } else {
-                $versionStamp += ord($part) * pow(10, $n);
-            }
-            $n -= 1;
-        }
-        $this->_versionStamp = $versionStamp;
         $this->_version = $version;
+        $this->initVersionStamp();
     }
 
     /**
@@ -199,8 +189,10 @@ class IncrementalItem implements ItemInterface
                 $parts[0] = ord($parts[0]) + $number;
             }
         }
-
-        $this->_version = join('.', array_reverse($parts));
+        $parts = array_reverse($parts);
+        $this->_parts = $parts;
+        $this->_version = join('.', $parts);
+        $this->initVersionStamp();
         return $this;
     }
 
@@ -217,4 +209,21 @@ class IncrementalItem implements ItemInterface
         return $this->_version;
     }
 
+    /**
+     * @return void
+     */
+    private function initVersionStamp()
+    {
+        $n = 2;
+        $versionStamp = 0;
+        foreach ($this->_parts as $part) {
+            if (is_numeric($part)) {
+                $versionStamp += $part * pow(10, $n);
+            } else {
+                $versionStamp += ord($part) * pow(10, $n);
+            }
+            $n -= 1;
+        }
+        $this->_versionStamp = $versionStamp;
+    }
 }

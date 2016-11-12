@@ -84,9 +84,9 @@ class MigrationsController extends ControllerBase
                     'tableName'       => $tableName,
                     'exportData'      => $exportData,
                     'migrationsDir'   => $migrationsDir,
-                    'originalVersion' => $version,
+                    'version'         => $version,
                     'force'           => $force,
-                    'no-ai'           => $noAi,
+                    'noAutoIncrement' => $noAi,
                 ));
 
                 $this->flash->success('The migration was generated successfully.');
@@ -119,6 +119,8 @@ class MigrationsController extends ControllerBase
 
                 $this->flash->success('The migration was executed successfully.');
             } catch (BuilderException $e) {
+                $this->flash->error($e->getMessage());
+            } catch (Exception $e) {
                 $this->flash->error($e->getMessage());
             }
         }
