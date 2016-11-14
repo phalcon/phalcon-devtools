@@ -170,6 +170,8 @@ return [
             'link'  => [
                 'href'  => 'https://github.com/phalcon/phalcon-devtools',
                 'icon'  => 'fa fa-book',
+                'local' => false,
+                'target' => '_blank',
                 'text'  => 'Phalcon DevTools',
                 'wrap'  => 'span',
             ],
@@ -180,6 +182,8 @@ return [
             'link'  => [
                 'href'  => 'https://github.com/phalcon/incubator',
                 'icon'  => 'fa fa-book',
+                'local' => false,
+                'target' => '_blank',
                 'text'  => 'Phalcon Incubator',
                 'wrap'  => 'span',
             ],
@@ -190,6 +194,8 @@ return [
             'link'  => [
                 'href'  => 'http://docs.phalconphp.com/',
                 'icon'  => 'fa fa-book',
+                'local' => false,
+                'target' => '_blank',
                 'text'  => 'Phalcon Docs',
                 'wrap'  => 'span',
             ],
@@ -198,8 +204,10 @@ return [
         // Zephir
         [
             'link'  => [
-                'href'  => 'http://zephir-lang.com/',
+                'href'  => 'https://zephir-lang.com/',
                 'icon'  => 'fa fa-book',
+                'local' => false,
+                'target' => '_blank',
                 'text'  => 'Zephir',
                 'wrap'  => 'span',
             ],
@@ -210,6 +218,8 @@ return [
             'link'  => [
                 'href'  => 'https://github.com/sergeyklay/awesome-phalcon',
                 'icon'  => 'fa fa-book',
+                'local' => false,
+                'target' => '_blank',
                 'text'  => 'Awesome Phalcon',
                 'wrap'  => 'span',
             ],
