@@ -67,11 +67,11 @@ class Element extends Component
         $href = isset($link['href']) ? $link['href'] : '';
         unset($link['text'], $link['local'], $link['wrap'], $link['icon'], $link['caret'], $link['href']);
 
-        return $this->tag->linkTo([$href, $text] + $link, ['local' => $local]);
+        return $this->tag->linkTo([$href, $text] + $link + ['local' => $local]);
     }
 
     public function isLocalLink(array $link)
     {
-        return !empty($link['local']) ? boolval($link['local']) : true;
+        return isset($link['local']) ? boolval($link['local']) : true;
     }
 }
