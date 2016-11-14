@@ -77,9 +77,11 @@ class Migrations
         $tableName = $options['tableName'];
         $exportData = $options['exportData'];
         $migrationsDir = $options['migrationsDir'];
-        $version = $options['version'];
+        $version = isset($options['version']) ? $options['version'] : null;
         $force = $options['force'];
         $config = $options['config'];
+        $descr = isset($options['descr']) ? $options['descr'] : null;
+        $noAutoIncrement = isset($options['noAutoIncrement']) ? $options['noAutoIncrement'] : null;
 
         // Migrations directory
         if ($migrationsDir && !file_exists($migrationsDir)) {
@@ -87,7 +89,7 @@ class Migrations
         }
 
         // Use timestamped version if description is provided
-        if (isset($options['descr']) && $descr = $options['descr']) {
+        if ($descr) {
             $version = (string)(int)(microtime(true) * pow(10, 6));
             VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
             $versionItem = VersionCollection::createItem($version . '_' . $descr);
@@ -114,9 +116,13 @@ class Migrations
         }
 
         // Path to migration dir
-        $migrationPath = $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion();
+        $migrationPath = rtrim($migrationsDir, '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion();
         if (!file_exists($migrationPath)) {
-            mkdir($migrationPath);
+            if (is_writable(dirname($migrationPath))) {
+                mkdir($migrationPath);
+            } else {
+                throw new \RuntimeException("Unable to write '{$migrationPath}' directory. Permission denied");
+            }
         } elseif (!$force) {
             throw new \LogicException('Version ' . $versionItem->getVersion() . ' already exists');
         }
@@ -126,7 +132,7 @@ class Migrations
             throw new \RuntimeException('Cannot load database configuration');
         }
         ModelMigration::setup($config->database);
-        ModelMigration::setSkipAutoIncrement($options['noAutoIncrement']);
+        ModelMigration::setSkipAutoIncrement($noAutoIncrement);
         ModelMigration::setMigrationPath($migrationsDir);
 
         $wasMigrated = false;
@@ -171,7 +177,7 @@ class Migrations
     public static function run(array $options)
     {
         // Define versioning type to be used
-        if (true === $options['tsBased']) {
+        if (isset($options['tsBased']) && true === $options['tsBased']) {
             VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
         } else {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
@@ -424,20 +430,30 @@ class Migrations
             }
 
         } else {
-            $path = $options['directory'];
-
-            if (is_file($path . '.phalcon')) {
-                unlink($path . '.phalcon');
-                mkdir($path . '.phalcon');
-                chmod($path . '.phalcon', 0775);
-            } elseif (!is_dir($path . '.phalcon')) {
-                mkdir($path . '.phalcon');
-                chmod($path . '.phalcon', 0775);
+            if (empty($options['directory'])) {
+                $path = defined('BASE_PATH') ? BASE_PATH : defined('APP_PATH') ? dirname(APP_PATH) : '';
+                $path = rtrim($path, '\\/') . '/.phalcon';
+            } else {
+                $path = rtrim($options['directory'], '\\/') . '/.phalcon';
+            }
+            if (!is_dir($path) && !is_writable(dirname($path))) {
+                throw new \RuntimeException("Unable to write '{$path}' directory. Permission denied");
+            }
+            if (is_file($path)) {
+                unlink($path);
+                mkdir($path);
+                chmod($path, 0775);
+            } elseif (!is_dir($path)) {
+                mkdir($path);
+                chmod($path, 0775);
             }
 
-            self::$_storage = $path . '.phalcon/migration-version';
+            self::$_storage = $path . '/migration-version';
 
             if (!file_exists(self::$_storage)) {
+                if (!is_writable($path)) {
+                    throw new \RuntimeException("Unable to write '" . self::$_storage . "' file. Permission denied");
+                }
                 touch(self::$_storage);
             }
         }
