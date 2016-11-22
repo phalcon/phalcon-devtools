@@ -129,7 +129,7 @@ class Migrations
 
         $wasMigrated = false;
         if ($tableName === 'all') {
-            $migrations = ModelMigration::generateAll($versionItem->getStamp(), $exportData);
+            $migrations = ModelMigration::generateAll($versionItem, $exportData);
             foreach ($migrations as $tableName => $migration) {
                 if ($tableName === self::MIGRATION_LOG_TABLE) {
                     continue;
@@ -141,7 +141,7 @@ class Migrations
                     ) || $wasMigrated;
             }
         } else {
-            $migration = ModelMigration::generate($versionItem->getStamp(), $tableName, $exportData);
+            $migration = ModelMigration::generate($versionItem, $tableName, $exportData);
             $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
             $wasMigrated = !!file_put_contents(
                 $tableFile,
@@ -152,7 +152,7 @@ class Migrations
         if (self::isConsole() && $wasMigrated) {
             print Color::success('Version ' . $versionItem->getVersion() . ' was successfully generated') . PHP_EOL;
         } elseif (self::isConsole()) {
-            print Color::info('Nothing to generate. You should create tables at first.') . PHP_EOL;
+            print Color::info('Nothing to generate. You should create tables first.') . PHP_EOL;
         }
 
         exit(0);
