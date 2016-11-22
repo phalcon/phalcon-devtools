@@ -54,8 +54,6 @@ class IncrementalItem implements ItemInterface
      */
     public function __construct($version, $numberParts = 3)
     {
-        $n = 2;
-        $versionStamp = 0;
         $version = trim($version);
         $this->_parts = explode('.', $version);
         $nParts = count($this->_parts);
@@ -74,15 +72,8 @@ class IncrementalItem implements ItemInterface
                 $version = join('.', $this->_parts);
             }
         }
-        foreach ($this->_parts as $part) {
-            if (is_numeric($part)) {
-                $versionStamp += $part * pow(10, $n);
-            } else {
-                $versionStamp += ord($part) * pow(10, $n);
-            }
-            $n -= 1;
-        }
-        $this->_versionStamp = $versionStamp;
+       
+        $this->_versionStamp = join('', $this->_parts);
         $this->_version = $version;
     }
 
