@@ -256,7 +256,7 @@ class Migrations
                 break;
             }
 
-            $migrationStartTime = date("'Y-m-d H:i:s'");
+            $migrationStartTime = date('Y-m-d H:i:s');
             if ($tableName === 'all') {
                 $iterator = new DirectoryIterator(
                     $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion()
@@ -498,9 +498,9 @@ class Migrations
         self::connectionSetup($options);
 
         if ($startTime === null) {
-            $startTime = date("'Y-m-d H:i:s'");
+            $startTime = date('Y-m-d H:i:s');
         }
-        $endTime = date("'Y-m-d H:i:s'");
+        $endTime = date('Y-m-d H:i:s');
 
         if (isset($options['migrationsInDb']) && (bool) $options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
