@@ -55,7 +55,7 @@ class TimestampedItem implements ItemInterface
      */
     public function __construct($version, array $options = [])
     {
-        if (1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version)) {
+        if ((1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version)) && $version != '000') {
             throw new \InvalidArgumentException('Wrong version number provided');
         }
         $this->version = $version;
