@@ -133,7 +133,7 @@ check_install(){
 	else
 		devtools=${PTOOLSPATH%/}
 		if [ "${devtools}" != "${DIR}" ]; then
-			printf "\n${PURPLE}The You environment variable \$PTOOLSPATH is outdated!${NC}"
+			printf "\n${PURPLE}Your environment variable \$PTOOLSPATH is outdated!${NC}"
 			printf "\n${PURPLE}Current value: $devtools${NC}"
 			printf "\n${PURPLE}New value: $DIR${NC}"
 			printf "\nExit.\n\n"
