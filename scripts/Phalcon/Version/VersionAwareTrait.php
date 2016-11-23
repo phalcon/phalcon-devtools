@@ -38,7 +38,7 @@ trait VersionAwareTrait
      */
     public function getVersion()
     {
-        return $this->_version;
+        return $this->version;
     }
 
     /**
