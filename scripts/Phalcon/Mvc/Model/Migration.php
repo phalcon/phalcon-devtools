@@ -412,13 +412,13 @@ class Migration
                             $data[] = addslashes($value);
                         }
                     } else {
-                        $data[] = "'".addslashes($value)."'";
+                        $data[] = is_null($value) ? "NULL" : addslashes($value);
                     }
 
                     unset($value);
                 }
 
-                fputs($fileHandler, join('|', $data).PHP_EOL);
+                fputcsv($fileHandler, $data);
                 unset($row);
                 unset($data);
             }
@@ -829,12 +829,12 @@ class Migration
         self::$_connection->begin();
         self::$_connection->delete($tableName);
         $batchHandler = fopen($migrationData, 'r');
-        while (($line = fgets($batchHandler)) !== false) {
+        while (($line = fgetcsv($batchHandler)) !== false) {
             $values = array_map(
                 function ($value) {
-                    return '' === $value || null === $value ? null : trim($value, "'");
+                    return null === $value ? null : $value;
                 },
-                explode('|', rtrim($line))
+                $line
             );
 
             self::$_connection->insert($tableName, $values, $fields);
