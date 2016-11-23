@@ -188,7 +188,7 @@ class Migrations
             throw new ModelException('Internal error. Config should be an instance of \Phalcon\Config');
         }
 
-        // Init ModelMigration
+        // Load database config for ModelMigration
         if (!isset($config->database)) {
             throw new ScriptException('Cannot load database configuration');
         }
