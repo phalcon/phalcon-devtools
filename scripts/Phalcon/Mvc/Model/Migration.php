@@ -190,7 +190,7 @@ class Migration
      * @return string
      * @throws \Phalcon\Db\Exception
      */
-    public static function generate($version, $table, $exportData = null)
+    public static function generate($versionItem, $table, $exportData = null)
     {
         $oldColumn = null;
         $allFields = [];
@@ -355,7 +355,7 @@ class Migration
             $optionsDefinition[] = "'".strtoupper($optionName)."' => '".$optionValue."'";
         }
 
-        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
+        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $versionItem->getStamp());
         $className = Text::camelize($table).'Migration_'.$classVersion;
 
         // morph()
@@ -403,31 +403,36 @@ class Migration
 
         // dump data
         if ($exportData == 'always' || $exportData == 'oncreate') {
-            $fileHandler = fopen(self::$_migrationPath.$version.'/'.$table.'.dat', 'w');
-            $cursor = self::$_connection->query('SELECT * FROM '.$table);
-            $cursor->setFetchMode(Db::FETCH_ASSOC);
-            while ($row = $cursor->fetchArray()) {
-                $data = [];
-                foreach ($row as $key => $value) {
-                    if (isset($numericFields[$key])) {
-                        if ($value === '' || is_null($value)) {
-                            $data[] = 'NULL';
+            $fileHandler = fopen(self::$_migrationPath.$versionItem->getVersion().'/'.$table.'.dat', 'w');
+
+            if ($fileHandler) {
+                $cursor = self::$_connection->query('SELECT * FROM '.$table);
+                $cursor->setFetchMode(Db::FETCH_ASSOC);
+                while ($row = $cursor->fetchArray()) {
+                    $data = [];
+                    foreach ($row as $key => $value) {
+                        if (isset($numericFields[$key])) {
+                            if ($value === '' || is_null($value)) {
+                                $data[] = 'NULL';
+                            } else {
+                                $data[] = addslashes($value);
+                            }
                         } else {
-                            $data[] = addslashes($value);
+                            $data[] = is_null($value) ? "NULL" : addslashes($value);
                         }
-                    } else {
-                        $data[] = "'".addslashes($value)."'";
+
+                        unset($value);
                     }
 
-                    unset($value);
+                    fputcsv($fileHandler, $data);
+                    unset($row);
+                    unset($data);
                 }
 
-                fputs($fileHandler, join('|', $data).PHP_EOL);
-                unset($row);
-                unset($data);
+                fclose($fileHandler);
+            } else {
+               print "Unable to open file: " . self::$_migrationPath.$versionItem->getVersion().'/'.$table.'.dat' . "\n";
             }
-
-            fclose($fileHandler);
         }
 
         return $classData;
@@ -833,12 +838,12 @@ class Migration
         self::$_connection->begin();
         self::$_connection->delete($tableName);
         $batchHandler = fopen($migrationData, 'r');
-        while (($line = fgets($batchHandler)) !== false) {
+        while (($line = fgetcsv($batchHandler)) !== false) {
             $values = array_map(
                 function ($value) {
-                    return '' === $value || null === $value ? null : trim($value, "'");
+                    return null === $value ? null : trim($value, '"');
                 },
-                explode('|', rtrim($line))
+                $line
             );
 
             self::$_connection->insert($tableName, $values, $fields);
