@@ -149,12 +149,17 @@ class Migrations
                     ) || $wasMigrated;
             }
         } else {
-            $migration = ModelMigration::generate($versionItem, $tableName, $exportData);
-            $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
-            $wasMigrated = !!file_put_contents(
-                $tableFile,
-                '<?php ' . PHP_EOL . PHP_EOL . $migration
-            );
+            $tables = explode(',', $tableName);
+            if(is_array($tables)) {
+                foreach($tables as $table) {
+                    $migration = ModelMigration::generate($versionItem, $table, $exportData);
+                    $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
+                    $wasMigrated = !!file_put_contents(
+                        $tableFile,
+                        '<?php ' . PHP_EOL . PHP_EOL . $migration
+                    );
+                }
+            }
         }
 
         if (self::isConsole() && $wasMigrated) {
