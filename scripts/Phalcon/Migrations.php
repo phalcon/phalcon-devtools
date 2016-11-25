@@ -150,22 +150,20 @@ class Migrations
             }
         } else {
             $tables = explode(',', $tableName);
-            if(is_array($tables)) {
-                foreach($tables as $table) {
-                    $migration = ModelMigration::generate($versionItem, $table, $exportData);
-                    $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
-                    $wasMigrated = !!file_put_contents(
-                        $tableFile,
-                        '<?php ' . PHP_EOL . PHP_EOL . $migration
-                    );
-                }
+            foreach ($tables as $table) {
+                $migration = ModelMigration::generate($versionItem, $table, $exportData);
+                $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
+                $wasMigrated = file_put_contents(
+                    $tableFile,
+                    '<?php ' . PHP_EOL . PHP_EOL . $migration
+                );
             }
         }
 
         if (self::isConsole() && $wasMigrated) {
             print Color::success('Version ' . $versionItem->getVersion() . ' was successfully generated') . PHP_EOL;
         } elseif (self::isConsole()) {
-            print Color::info('Nothing to generate. You should create tables at first.') . PHP_EOL;
+            print Color::info('Nothing to generate. You should create tables first.') . PHP_EOL;
         }
     }
 
