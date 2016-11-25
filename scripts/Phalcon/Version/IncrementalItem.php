@@ -217,21 +217,7 @@ class IncrementalItem implements ItemInterface
 
     protected function regenerateVersionStamp()
     {
-        $n = 2;
-        $versionStamp = 0;
-
-        foreach ($this->_parts as $part) {
-            if (is_numeric($part)) {
-                $versionStamp += $part * pow(10, $n);
-            } else {
-                $versionStamp += ord($part) * pow(10, $n);
-            }
-
-            $n -= 1;
-        }
-
-        $this->_versionStamp = $versionStamp;
-
+        $this->_versionStamp = join('', $parts);
         return $this;
     }
 
