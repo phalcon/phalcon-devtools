@@ -149,18 +149,21 @@ class Migrations
                     ) || $wasMigrated;
             }
         } else {
-            $migration = ModelMigration::generate($versionItem, $tableName, $exportData);
-            $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
-            $wasMigrated = !!file_put_contents(
-                $tableFile,
-                '<?php ' . PHP_EOL . PHP_EOL . $migration
-            );
+            $tables = explode(',', $tableName);
+            foreach ($tables as $table) {
+                $migration = ModelMigration::generate($versionItem, $table, $exportData);
+                $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
+                $wasMigrated = file_put_contents(
+                    $tableFile,
+                    '<?php ' . PHP_EOL . PHP_EOL . $migration
+                );
+            }
         }
 
         if (self::isConsole() && $wasMigrated) {
             print Color::success('Version ' . $versionItem->getVersion() . ' was successfully generated') . PHP_EOL;
         } elseif (self::isConsole()) {
-            print Color::info('Nothing to generate. You should create tables at first.') . PHP_EOL;
+            print Color::info('Nothing to generate. You should create tables first.') . PHP_EOL;
         }
     }
 
