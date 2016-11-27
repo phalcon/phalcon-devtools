@@ -76,7 +76,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Cli\DispatcherI
     protected function _handleException(\Exception $exception) {}
 
     /**
-     * Returns the lastest dispatched controller
+     * Returns the latest dispatched controller
      *
      * @return TaskInterface 
      */

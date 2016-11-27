@@ -57,10 +57,9 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
     /**
      * Phalcon\Mvc\Model\Transaction constructor
      *
-     * @param mixed $dependencyInjector 
+     * @param \Phalcon\DiInterface $dependencyInjector 
      * @param boolean $autoBegin 
      * @param string $service 
-     * @param \Phalcon\DiInterface $$ependencyInjector 
      */
     public function __construct(\Phalcon\DiInterface $dependencyInjector, $autoBegin = false, $service = null) {}
 

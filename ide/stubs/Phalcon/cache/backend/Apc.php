@@ -26,7 +26,7 @@ namespace Phalcon\Cache\Backend;
  * $data = $cache->get("my-data");
  * </code>
  */
-class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Apc extends \Phalcon\Cache\Backend
 {
 
     /**
@@ -94,6 +94,13 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 
     /**
      * Immediately invalidates all existing items.
+     * <code>
+     * use Phalcon\Cache\Backend\Apc;
+     * $cache = new Apc($frontCache, ["prefix" => "app-data"]);
+     * $cache->save("my-data", [1, 2, 3, 4, 5]);
+     * // 'my-data' and all other used keys are deleted
+     * $cache->flush();
+     * </code>
      *
      * @return bool 
      */

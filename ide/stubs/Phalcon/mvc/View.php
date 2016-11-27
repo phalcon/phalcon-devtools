@@ -91,7 +91,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     protected $_partialsDir = "";
 
 
-    protected $_viewsDirs;
+    protected $_viewsDirs = array();
 
 
     protected $_templatesBefore = array();

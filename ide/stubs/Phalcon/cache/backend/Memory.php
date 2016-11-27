@@ -17,7 +17,7 @@ namespace Phalcon\Cache\Backend;
  * $data = $cache->get("my-data");
  * </code>
  */
-class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface, \Serializable
+class Memory extends \Phalcon\Cache\Backend implements \Serializable
 {
 
     protected $_data;

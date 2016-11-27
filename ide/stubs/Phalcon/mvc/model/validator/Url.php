@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model\Validator;
  * }
  * </code>
  */
-class Url extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Url extends \Phalcon\Mvc\Model\Validator
 {
 
     /**

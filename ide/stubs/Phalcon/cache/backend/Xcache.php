@@ -26,7 +26,7 @@ namespace Phalcon\Cache\Backend;
  * $data = $cache->get("my-data");
  * </code>
  */
-class Xcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Xcache extends \Phalcon\Cache\Backend
 {
 
     /**

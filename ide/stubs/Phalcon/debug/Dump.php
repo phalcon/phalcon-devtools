@@ -42,7 +42,7 @@ class Dump
      * @param array $styles 
      * @param boolean $detailed debug object's private and protected properties
      */
-    public function __construct(array $styles = null, $detailed = false) {}
+    public function __construct(array $styles = array(), $detailed = false) {}
 
     /**
      * Alias of variables() method
@@ -64,10 +64,10 @@ class Dump
     /**
      * Set styles for vars type
      *
-     * @param mixed $styles 
+     * @param array $styles 
      * @return array 
      */
-    public function setStyles($styles = null) {}
+    public function setStyles(array $styles = array()) {}
 
     /**
      * Alias of variable() method

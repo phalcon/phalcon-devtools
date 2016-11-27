@@ -43,7 +43,7 @@ interface ResponseInterface
     public function setRawHeader($header);
 
     /**
-     * Resets all the stablished headers
+     * Resets all the established headers
      *
      * @return ResponseInterface 
      */

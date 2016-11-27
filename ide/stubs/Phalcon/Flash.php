@@ -10,7 +10,7 @@ namespace Phalcon;
  * $flash->error("Cannot open the file");
  * </code>
  */
-abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
+abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAwareInterface
 {
 
     protected $_cssClasses;
@@ -90,7 +90,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
      * Set whether the output must be implicitly flushed to the output or returned as string
      *
      * @param bool $implicitFlush 
-     * @return \Phalcon\FlashInterface 
+     * @return FlashInterface 
      */
     public function setImplicitFlush($implicitFlush) {}
 
@@ -98,7 +98,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
      * Set if the output must be implicitly formatted with HTML
      *
      * @param bool $automaticHtml 
-     * @return \Phalcon\FlashInterface 
+     * @return FlashInterface 
      */
     public function setAutomaticHtml($automaticHtml) {}
 
@@ -106,7 +106,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
      * Set an array with CSS classes to format the messages
      *
      * @param array $cssClasses 
-     * @return \Phalcon\FlashInterface 
+     * @return FlashInterface 
      */
     public function setCssClasses(array $cssClasses) {}
 

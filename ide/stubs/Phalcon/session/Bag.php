@@ -52,7 +52,8 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
     public function getDI() {}
 
     /**
-     * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accessed
+     * Initializes the session bag. This method must not be called directly, the
+     * class calls it when its internal data is accessed
      */
     public function initialize() {}
 

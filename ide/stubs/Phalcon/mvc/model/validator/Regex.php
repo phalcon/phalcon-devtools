@@ -28,7 +28,7 @@ namespace Phalcon\Mvc\Model\Validator;
  * }
  * </code>
  */
-class Regex extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Regex extends \Phalcon\Mvc\Model\Validator
 {
 
     /**

@@ -124,7 +124,7 @@ interface RequestInterface
     public function isSecureRequest();
 
     /**
-     * Gets HTTP raws request body
+     * Gets HTTP raw request body
      *
      * @return string 
      */
@@ -159,7 +159,8 @@ interface RequestInterface
     public function getPort();
 
     /**
-     * Gets most possibly client IPv4 Address. This methods search in $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+     * Gets most possibly client IPv4 Address. This methods searches in
+     * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
      *
      * @param bool $trustForwardedHeader 
      * @return string 

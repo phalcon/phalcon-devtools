@@ -17,7 +17,7 @@ namespace Phalcon\Db\Adapter\Pdo;
  * $connection = new Mysql($config);
  * </code>
  */
-class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
+class Mysql extends \Phalcon\Db\Adapter\Pdo
 {
 
     protected $_type = "mysql";
@@ -25,25 +25,6 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 
     protected $_dialectType = "mysql";
 
-
-    /**
-     * Escapes a column/table/schema name
-     * <code>
-     * // `my_table`
-     * echo $connection->escapeIdentifier("my_table");
-     * // `companies`.`name`
-     * echo $connection->escapeIdentifier(
-     * [
-     * "companies",
-     * "name",
-     * ]
-     * );
-     * <code>
-     *
-     * @param string|array $identifier 
-     * @return string 
-     */
-    public function escapeIdentifier($identifier) {}
 
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table

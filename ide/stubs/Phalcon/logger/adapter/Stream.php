@@ -14,7 +14,7 @@ namespace Phalcon\Logger\Adapter;
  * $logger->error("This is another error");
  * </code>
  */
-class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+class Stream extends \Phalcon\Logger\Adapter
 {
     /**
      * File handler resource

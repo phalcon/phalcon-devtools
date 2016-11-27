@@ -6,7 +6,7 @@ namespace Phalcon\Logger;
  * Phalcon\Logger\Adapter
  * Base class for Phalcon\Logger adapters
  */
-abstract class Adapter
+abstract class Adapter implements \Phalcon\Logger\AdapterInterface
 {
     /**
      * Tells if there is an active transaction or not

@@ -6,7 +6,7 @@ namespace Phalcon\Translate\Adapter;
  * Phalcon\Translate\Adapter\NativeArray
  * Allows to define translation lists using PHP arrays
  */
-class NativeArray extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\AdapterInterface, \ArrayAccess
+class NativeArray extends \Phalcon\Translate\Adapter implements \ArrayAccess
 {
 
     protected $_translate;

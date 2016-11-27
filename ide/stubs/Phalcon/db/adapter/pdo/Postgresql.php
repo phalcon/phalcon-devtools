@@ -17,7 +17,7 @@ namespace Phalcon\Db\Adapter\Pdo;
  * $connection = new Postgresql($config);
  * </code>
  */
-class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
+class Postgresql extends \Phalcon\Db\Adapter\Pdo
 {
 
     protected $_type = "pgsql";

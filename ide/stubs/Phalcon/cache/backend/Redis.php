@@ -32,7 +32,7 @@ namespace Phalcon\Cache\Backend;
  * $data = $cache->get("my-data");
  * </code>
  */
-class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Redis extends \Phalcon\Cache\Backend
 {
 
     protected $_redis = null;

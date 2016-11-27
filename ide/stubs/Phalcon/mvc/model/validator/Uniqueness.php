@@ -30,7 +30,7 @@ namespace Phalcon\Mvc\Model\Validator;
  * }
  * </code>
  */
-class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Uniqueness extends \Phalcon\Mvc\Model\Validator
 {
 
     /**

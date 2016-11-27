@@ -17,7 +17,7 @@ namespace Phalcon\Paginator\Adapter;
  * $paginate = $paginator->getPaginate();
  * </code>
  */
-class Model extends \Phalcon\Paginator\Adapter implements \Phalcon\Paginator\AdapterInterface
+class Model extends \Phalcon\Paginator\Adapter
 {
     /**
      * Configuration of paginator by model

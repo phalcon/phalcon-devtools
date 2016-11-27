@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model\Validator;
  * }
  * </code>
  */
-class Numericality extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Numericality extends \Phalcon\Mvc\Model\Validator
 {
 
     /**

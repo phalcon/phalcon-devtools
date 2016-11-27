@@ -5,7 +5,7 @@ namespace Phalcon\Paginator;
 /**
  * Phalcon\Paginator\Adapter
  */
-abstract class Adapter
+abstract class Adapter implements \Phalcon\Paginator\AdapterInterface
 {
     /**
      * Number of rows to show in the paginator. By default is null

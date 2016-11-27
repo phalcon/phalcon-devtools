@@ -17,7 +17,7 @@ namespace Phalcon\Translate\Adapter;
  * </code>
  * Allows translate using gettext
  */
-class Gettext extends \Phalcon\Translate\Adapter implements \Phalcon\Translate\AdapterInterface, \ArrayAccess
+class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
 {
     /**
      * @var string|array

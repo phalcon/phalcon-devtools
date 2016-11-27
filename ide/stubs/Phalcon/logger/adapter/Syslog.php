@@ -21,7 +21,7 @@ namespace Phalcon\Logger\Adapter;
  * $logger->error("This is another error");
  * </code>
  */
-class Syslog extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+class Syslog extends \Phalcon\Logger\Adapter
 {
 
     protected $_opened = false;
