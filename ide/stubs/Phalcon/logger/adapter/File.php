@@ -13,7 +13,7 @@ namespace Phalcon\Logger\Adapter;
  * $logger->close();
  * </code>
  */
-class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+class File extends \Phalcon\Logger\Adapter
 {
     /**
      * File handler resource

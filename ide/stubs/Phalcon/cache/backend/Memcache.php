@@ -30,7 +30,7 @@ namespace Phalcon\Cache\Backend;
  * $data = $cache->get("my-data");
  * </code>
  */
-class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Memcache extends \Phalcon\Cache\Backend
 {
 
     protected $_memcache = null;

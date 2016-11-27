@@ -289,7 +289,8 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * - `$_SERVER["SERVER_ADDR"]`
      * Optionally `Request::getHttpHost` validates and clean host name.
      * The `Request::$_strictHostCheck` can be used to validate host name.
-     * Note: validation and cleaning have a negative performance impact because they use regular expressions.
+     * Note: validation and cleaning have a negative performance impact because
+     * they use regular expressions.
      * <code>
      * use Phalcon\Http\Request;
      * $request = new Request;
@@ -338,7 +339,8 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     public final function getURI() {}
 
     /**
-     * Gets most possible client IPv4 Address. This method search in $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+     * Gets most possible client IPv4 Address. This method searches in
+     * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
      *
      * @param bool $trustForwardedHeader 
      * @return string|bool 

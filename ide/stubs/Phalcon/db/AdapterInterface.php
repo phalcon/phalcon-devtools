@@ -297,7 +297,7 @@ interface AdapterInterface
     public function getSQLStatement();
 
     /**
-     * Active SQL statement in the object without replace bound paramters
+     * Active SQL statement in the object without replace bound parameters
      *
      * @return string 
      */
@@ -377,7 +377,8 @@ interface AdapterInterface
     public function affectedRows();
 
     /**
-     * Closes active connection returning success. Phalcon automatically closes and destroys active connections within Phalcon\Db\Pool
+     * Closes active connection returning success. Phalcon automatically closes
+     * and destroys active connections within Phalcon\Db\Pool
      *
      * @return bool 
      */

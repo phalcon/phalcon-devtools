@@ -176,7 +176,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function setTransaction(\Phalcon\Mvc\Model\TransactionInterface $transaction) {}
 
     /**
-     * Sets table name which model should be mapped
+     * Sets the table name to which model should be mapped
      *
      * @param string $source 
      * @return Model 
@@ -184,14 +184,14 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function setSource($source) {}
 
     /**
-     * Returns table name mapped in the model
+     * Returns the table name mapped in the model
      *
      * @return string 
      */
     public function getSource() {}
 
     /**
-     * Sets schema name where table mapped is located
+     * Sets schema name where the mapped table is located
      *
      * @param string $schema 
      * @return Model 
@@ -199,7 +199,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function setSchema($schema) {}
 
     /**
-     * Returns schema name where table mapped is located
+     * Returns schema name where the mapped table is located
      *
      * @return string 
      */
@@ -310,7 +310,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function assign(array $data, $dataColumnMap = null, $whiteList = null) {}
 
     /**
-     * Assigns values to a model from an array returning a new model.
+     * Assigns values to a model from an array, returning a new model.
      * <code>
      * $robot = \Phalcon\Mvc\Model::cloneResultMap(
      * new Robots(),
@@ -363,7 +363,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function cloneResult(ModelInterface $base, array $data, $dirtyState = 0) {}
 
     /**
-     * Allows to query a set of records that match the specified conditions
+     * Query for a set of records that match the specified conditions
      * <code>
      * // How many robots are there?
      * $robots = Robots::find();
@@ -402,7 +402,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function find($parameters = null) {}
 
     /**
-     * Allows to query the first record that match the specified conditions
+     * Query the first record that matches the specified conditions
      * <code>
      * // What's the first robot in robots table?
      * $robot = Robots::findFirst();
@@ -436,7 +436,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function query(\Phalcon\DiInterface $dependencyInjector = null) {}
 
     /**
-     * Checks if the current record already exists or not
+     * Checks whether the current record already exists
      *
      * @param \Phalcon\Mvc\Model\MetaDataInterface $metaData 
      * @param \Phalcon\Db\AdapterInterface $connection 
@@ -457,7 +457,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected static function _groupResult($functionName, $alias, $parameters) {}
 
     /**
-     * Allows to count how many records match the specified conditions
+     * Counts how many records match the specified conditions
      * <code>
      * // How many robots are there?
      * $number = Robots::count();
@@ -473,7 +473,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function count($parameters = null) {}
 
     /**
-     * Allows to calculate a sum on a column that match the specified conditions
+     * Calculates the sum on a column for a result-set of rows that match the specified conditions
      * <code>
      * // How much are all robots?
      * $sum = Robots::sum(
@@ -498,7 +498,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function sum($parameters = null) {}
 
     /**
-     * Allows to get the maximum value of a column that match the specified conditions
+     * Returns the maximum value of a column for a result-set of rows that match the specified conditions
      * <code>
      * // What is the maximum robot id?
      * $id = Robots::maximum(
@@ -523,7 +523,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function maximum($parameters = null) {}
 
     /**
-     * Allows to get the minimum value of a column that match the specified conditions
+     * Returns the minimum value of a column for a result-set of rows that match the specified conditions
      * <code>
      * // What is the minimum robot id?
      * $id = Robots::minimum(
@@ -548,7 +548,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function minimum($parameters = null) {}
 
     /**
-     * Allows to calculate the average value on a column matching the specified conditions
+     * Returns the average value on a column for a result-set of rows matching the specified conditions
      * <code>
      * // What's the average price of robots?
      * $average = Robots::average(
@@ -1016,7 +1016,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function hasOne($fields, $referenceModel, $referencedFields, $options = null) {}
 
     /**
-     * Setup a relation reverse 1-1  between two models
+     * Setup a reverse 1-1 or n-1 relation between two models
      * <code>
      * <?php
      * class RobotsParts extends \Phalcon\Mvc\Model
@@ -1037,7 +1037,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function belongsTo($fields, $referenceModel, $referencedFields, $options = null) {}
 
     /**
-     * Setup a relation 1-n between two models
+     * Setup a 1-n relation between two models
      * <code>
      * <?php
      * class Robots extends \Phalcon\Mvc\Model
@@ -1058,7 +1058,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function hasMany($fields, $referenceModel, $referencedFields, $options = null) {}
 
     /**
-     * Setup a relation n-n between two models through an intermediate relation
+     * Setup an n-n relation between two models, through an intermediate relation
      * <code>
      * <?php
      * class Robots extends \Phalcon\Mvc\Model

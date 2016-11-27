@@ -6,7 +6,7 @@ namespace Phalcon\Db;
  * Phalcon\Db\Adapter
  * Base class for Phalcon\Db adapters
  */
-abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
+abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\EventsAwareInterface
 {
     /**
      * Event Manager
@@ -334,6 +334,25 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @return boolean 
      */
     public function delete($table, $whereCondition = null, $placeholders = null, $dataTypes = null) {}
+
+    /**
+     * Escapes a column/table/schema name
+     * <code>
+     * $escapedTable = $connection->escapeIdentifier(
+     * "robots"
+     * );
+     * $escapedTable = $connection->escapeIdentifier(
+     * [
+     * "store",
+     * "robots",
+     * ]
+     * );
+     * </code>
+     *
+     * @param array|string $identifier 
+     * @return string 
+     */
+    public function escapeIdentifier($identifier) {}
 
     /**
      * Gets a list of columns
@@ -736,7 +755,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     public function getSQLStatement() {}
 
     /**
-     * Active SQL statement in the object without replace bound paramters
+     * Active SQL statement in the object without replace bound parameters
      *
      * @return string 
      */

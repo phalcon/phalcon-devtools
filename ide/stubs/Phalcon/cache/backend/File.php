@@ -29,7 +29,7 @@ namespace Phalcon\Cache\Backend;
  * }
  * </code>
  */
-class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class File extends \Phalcon\Cache\Backend
 {
     /**
      * Default to false for backwards compatibility

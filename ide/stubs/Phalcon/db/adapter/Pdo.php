@@ -180,25 +180,6 @@ abstract class Pdo extends \Phalcon\Db\Adapter
     public function close() {}
 
     /**
-     * Escapes a column/table/schema name
-     * <code>
-     * $escapedTable = $connection->escapeIdentifier(
-     * "robots"
-     * );
-     * $escapedTable = $connection->escapeIdentifier(
-     * [
-     * "store",
-     * "robots",
-     * ]
-     * );
-     * </code>
-     *
-     * @param string $identifier 
-     * @return string 
-     */
-    public function escapeIdentifier($identifier) {}
-
-    /**
      * Escapes a value to avoid SQL injections according to the active charset in the connection
      * <code>
      * $escapedStr = $connection->escapeString("some dangerous value");
@@ -229,7 +210,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
     public function convertBoundParams($sql, array $params = array()) {}
 
     /**
-     * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
+     * Returns the insert id for the auto_increment/serial column inserted in the latest executed SQL statement
      * <code>
      * // Inserting a new robot
      * $success = $connection->insert(

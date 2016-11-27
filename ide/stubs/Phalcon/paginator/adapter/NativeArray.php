@@ -22,7 +22,7 @@ namespace Phalcon\Paginator\Adapter;
  * );
  * </code>
  */
-class NativeArray extends \Phalcon\Paginator\Adapter implements \Phalcon\Paginator\AdapterInterface
+class NativeArray extends \Phalcon\Paginator\Adapter
 {
     /**
      * Configuration of the paginator

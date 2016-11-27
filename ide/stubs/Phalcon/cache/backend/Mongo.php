@@ -32,7 +32,7 @@ namespace Phalcon\Cache\Backend;
  * $data = $cache->get("my-data");
  * </code>
  */
-class Mongo extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Mongo extends \Phalcon\Cache\Backend
 {
 
     protected $_collection = null;

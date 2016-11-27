@@ -6,7 +6,7 @@ namespace Phalcon\Image;
  * Phalcon\Image\Adapter
  * All image adapters must use this class
  */
-abstract class Adapter
+abstract class Adapter implements \Phalcon\Image\AdapterInterface
 {
 
     protected $_image;

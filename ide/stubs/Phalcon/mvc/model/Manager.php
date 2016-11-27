@@ -316,7 +316,8 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     public function getWriteConnectionService(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
-     * Returns the connection service name used to read or write data related to a model depending on the connection services
+     * Returns the connection service name used to read or write data related to
+     * a model depending on the connection services
      *
      * @param mixed $model 
      * @param mixed $connectionServices 

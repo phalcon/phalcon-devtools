@@ -13,7 +13,7 @@ namespace Phalcon\Image\Adapter;
  * }
  * </code>
  */
-class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
+class Imagick extends \Phalcon\Image\Adapter
 {
 
     static protected $_version = 0;

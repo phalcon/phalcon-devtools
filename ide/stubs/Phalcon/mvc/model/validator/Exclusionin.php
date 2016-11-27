@@ -28,7 +28,7 @@ namespace Phalcon\Mvc\Model\Validator;
  * }
  * </code>
  */
-class Exclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Exclusionin extends \Phalcon\Mvc\Model\Validator
 {
 
     /**

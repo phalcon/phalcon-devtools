@@ -6,7 +6,7 @@ namespace Phalcon\Translate;
  * Phalcon\Translate\Adapter
  * Base class for Phalcon\Translate adapters
  */
-abstract class Adapter
+abstract class Adapter implements \Phalcon\Translate\AdapterInterface
 {
     /**
      * @var Phalcon\Translate\InterpolatorInterface

@@ -106,7 +106,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     public function setCookies(\Phalcon\Http\Response\CookiesInterface $cookies) {}
 
     /**
-     * Returns coookies set by the user
+     * Returns cookies set by the user
      *
      * @return \Phalcon\Http\Response\CookiesInterface 
      */
@@ -136,7 +136,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     public function setRawHeader($header) {}
 
     /**
-     * Resets all the stablished headers
+     * Resets all the established headers
      *
      * @return Response 
      */

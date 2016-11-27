@@ -31,7 +31,7 @@ namespace Phalcon\Mvc\Model\Validator;
  * }
  * </code>
  */
-class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class StringLength extends \Phalcon\Mvc\Model\Validator
 {
 
     /**

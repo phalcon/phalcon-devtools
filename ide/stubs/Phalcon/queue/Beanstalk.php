@@ -84,9 +84,9 @@ class Beanstalk
     /**
      * Phalcon\Queue\Beanstalk
      *
-     * @param array $options 
+     * @param array $parameters 
      */
-    public function __construct(array $options = null) {}
+    public function __construct(array $parameters = array()) {}
 
     /**
      * Makes a connection to the Beanstalkd server

@@ -141,14 +141,14 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     public function add($pattern, $paths = null) {}
 
     /**
-     * Returns proccesed module name
+     * Returns processed module name
      *
      * @return string 
      */
     public function getModuleName() {}
 
     /**
-     * Returns proccesed task name
+     * Returns processed task name
      *
      * @return string 
      */

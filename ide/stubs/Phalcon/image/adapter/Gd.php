@@ -3,7 +3,7 @@
 namespace Phalcon\Image\Adapter;
 
 
-class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
+class Gd extends \Phalcon\Image\Adapter
 {
 
     static protected $_checked = false;

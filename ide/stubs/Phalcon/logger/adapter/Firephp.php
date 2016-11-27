@@ -13,7 +13,7 @@ namespace Phalcon\Logger\Adapter;
  * $logger->error("This is another error");
  * </code>
  */
-class Firephp extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+class Firephp extends \Phalcon\Logger\Adapter
 {
 
     private $_initialized = false;

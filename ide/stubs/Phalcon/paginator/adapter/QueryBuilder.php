@@ -20,7 +20,7 @@ namespace Phalcon\Paginator\Adapter;
  * );
  * </code>
  */
-class QueryBuilder extends \Phalcon\Paginator\Adapter implements \Phalcon\Paginator\AdapterInterface
+class QueryBuilder extends \Phalcon\Paginator\Adapter
 {
     /**
      * Configuration of paginator by model

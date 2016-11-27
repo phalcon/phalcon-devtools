@@ -53,7 +53,7 @@ namespace Phalcon\Mvc\Model\Validator;
  * }
  * </code>
  */
-class Ip extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Ip extends \Phalcon\Mvc\Model\Validator
 {
 
     const VERSION_4 = 1048576;

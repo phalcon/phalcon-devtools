@@ -223,11 +223,11 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * <code>
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->join("Robots");
-     * // Inner Join model 'Robots' specifing conditions
+     * // Inner Join model 'Robots' specifying conditions
      * $builder->join("Robots", "Robots.id = RobotsParts.robots_id");
-     * // Inner Join model 'Robots' specifing conditions and alias
+     * // Inner Join model 'Robots' specifying conditions and alias
      * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r");
-     * // Left Join model 'Robots' specifing conditions, alias and type of join
+     * // Left Join model 'Robots' specifying conditions, alias and type of join
      * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
      * </code>
      *
@@ -244,9 +244,9 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * <code>
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->innerJoin("Robots");
-     * // Inner Join model 'Robots' specifing conditions
+     * // Inner Join model 'Robots' specifying conditions
      * $builder->innerJoin("Robots", "Robots.id = RobotsParts.robots_id");
-     * // Inner Join model 'Robots' specifing conditions and alias
+     * // Inner Join model 'Robots' specifying conditions and alias
      * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
      *
