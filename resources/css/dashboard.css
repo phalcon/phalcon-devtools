@@ -1,0 +1,77 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.logo-lg strong {
+    font-weight: 500;
+}
+
+.user-panel > .info > p {
+    font-weight: 400;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    font-size: 13px;
+}
+
+.main-footer strong {
+    font-weight: 500;
+}
+
+.main-footer .pull-right.hidden-xs {
+    color: #afafaf;
+}
+
+form#widget-form .box-header {
+    width: 100%;
+    padding-bottom: 0;
+}
+
+form#widget-form .box-title {
+    width: 100%;
+}
+
+form input#widget-form-title {
+    font-size: 1em;
+}
+
+form input#widget-form-title:focus {
+    border-color: #00c0ef;
+}
+
+.lockscreen-logo > .headline {
+    float: left;
+    font-size: 100px;
+    font-weight: 300;
+}
+
+@media (max-width: 991px) {
+    .lockscreen-logo > .headline {
+        float: none;
+        text-align: center;
+    }
+}
+
+.help-block .error-text {
+    font-weight: 300;
+    font-size: 22px;
+    font-family: 'Source Sans Pro',sans-serif;
+    color: #333;
+}
+
+.lockscreen-wrapper {
+    max-width: 600px;
+}
+
+.box-header code {
+    font-size: 99%;
+    color: #444;
+    background-color: transparent;
+}
+
+th.migration-version {
+    vertical-align: middle!important;
+    text-align: center;
+}

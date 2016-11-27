@@ -1,11 +1,12 @@
 # Phalcon Devtools
 
-[![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)](https://github.com/phalcon/incubator/devtools)
-[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][1]
-[![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
-[![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)](https://packagist.org/packages/phalcon/devtools)
+[![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)][:devtools:]
+[![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][:license:]
+[![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
+[![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)][:packagist:]
 
-![Phalcon WebTools](http://i.imgur.com/v3MzIDn.png?1)
+![Phalcon WebTools](https://cloud.githubusercontent.com/assets/1256298/18617851/b7d31558-7de2-11e6-83e0-30e5902af714.png)
+
 
 ## What's Phalcon?
 
@@ -34,7 +35,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require": {
-        "phalcon/devtools": "~3.0.0"
+        "phalcon/devtools": "~3.0.2"
     }
 }
 ```
@@ -103,9 +104,9 @@ phalcon commands help
 This command should display something similar to:
 
 ```sh
-$ phalcon list ?
+$ phalcon --help
 
-Phalcon DevTools (3.0.0)
+Phalcon DevTools (3.0.2)
 
 Help:
   Lists the commands available in Phalcon devtools
@@ -124,9 +125,9 @@ Available commands:
 
 ## Database adapter
 
-Should add `adapter` parameter in your `db` config file (if you use not Mysql database).
+Should add `adapter` parameter in your `db` config file (if you use not MySQL database).
 
-For PostgreSql it will be something like:
+For PostgreSQL it will be something like:
 
 ```php
 $config = [
@@ -140,7 +141,9 @@ $config = [
 
 ## License
 
-Phalcon Developer Tools is open source software licensed under the [New BSD License][1].<br>
+Phalcon Developer Tools is open source software licensed under the [New BSD License][:license:].<br>
 © Phalcon Framework Team and contributors
 
-[1]: docs/LICENSE.md
+[:packagist:]: https://packagist.org/packages/phalcon/devtools
+[:devtools:]: https://github.com/phalcon/phalcon-devtools
+[:license:]: https://github.com/phalcon/phalcon-devtools/blob/master/LICENSE.txt

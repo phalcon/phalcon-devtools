@@ -10,7 +10,7 @@ namespace Phalcon;
  * $flash->error("Cannot open the file");
  * </code>
  */
-abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
+abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAwareInterface
 {
 
     protected $_cssClasses;
@@ -90,7 +90,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
      * Set whether the output must be implicitly flushed to the output or returned as string
      *
      * @param bool $implicitFlush 
-     * @return \Phalcon\FlashInterface 
+     * @return FlashInterface 
      */
     public function setImplicitFlush($implicitFlush) {}
 
@@ -98,7 +98,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
      * Set if the output must be implicitly formatted with HTML
      *
      * @param bool $automaticHtml 
-     * @return \Phalcon\FlashInterface 
+     * @return FlashInterface 
      */
     public function setAutomaticHtml($automaticHtml) {}
 
@@ -106,14 +106,14 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
      * Set an array with CSS classes to format the messages
      *
      * @param array $cssClasses 
-     * @return \Phalcon\FlashInterface 
+     * @return FlashInterface 
      */
     public function setCssClasses(array $cssClasses) {}
 
     /**
      * Shows a HTML error message
      * <code>
-     * $flash->error('This is an error');
+     * $flash->error("This is an error");
      * </code>
      *
      * @param mixed $message 
@@ -124,7 +124,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Shows a HTML notice/information message
      * <code>
-     * $flash->notice('This is an information');
+     * $flash->notice("This is an information");
      * </code>
      *
      * @param mixed $message 
@@ -135,7 +135,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Shows a HTML success message
      * <code>
-     * $flash->success('The process was finished successfully');
+     * $flash->success("The process was finished successfully");
      * </code>
      *
      * @param mixed $message 
@@ -146,7 +146,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Shows a HTML warning message
      * <code>
-     * $flash->warning('Hey, this is important');
+     * $flash->warning("Hey, this is important");
      * </code>
      *
      * @param mixed $message 
@@ -157,7 +157,7 @@ abstract class Flash implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Outputs a message formatting it with HTML
      * <code>
-     * $flash->outputMessage('error', message);
+     * $flash->outputMessage("error", $message);
      * </code>
      *
      * @param string $type 

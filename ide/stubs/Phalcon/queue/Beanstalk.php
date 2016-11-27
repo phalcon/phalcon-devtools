@@ -8,11 +8,13 @@ namespace Phalcon\Queue;
  * Partially implements the protocol version 1.2
  * <code>
  * use Phalcon\Queue\Beanstalk;
- * $queue = new Beanstalk([
- * 'host'       => '127.0.0.1',
- * 'port'       => 11300,
- * 'persistent' => true,
- * ]);
+ * $queue = new Beanstalk(
+ * [
+ * "host"       => "127.0.0.1",
+ * "port"       => 11300,
+ * "persistent" => true,
+ * ]
+ * );
  * </code>
  *
  * @link http://www.igvita.com/2010/05/20/scalable-work-queues-with-beanstalk/
@@ -82,9 +84,9 @@ class Beanstalk
     /**
      * Phalcon\Queue\Beanstalk
      *
-     * @param array $options 
+     * @param array $parameters 
      */
-    public function __construct(array $options = null) {}
+    public function __construct(array $parameters = array()) {}
 
     /**
      * Makes a connection to the Beanstalkd server

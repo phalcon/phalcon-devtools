@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -15,16 +15,19 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Builder;
 
-use Phalcon\Db\Column;
 use Phalcon\Utils;
-use ReflectionException;
-use Phalcon\Generator\Snippet;
 use ReflectionClass;
+use Phalcon\Db\Column;
+use Phalcon\Validation;
+use Phalcon\Generator\Snippet;
+use Phalcon\Db\ReferenceInterface;
+use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
 
 /**
  * ModelBuilderComponent
@@ -105,6 +108,7 @@ class Model extends Component
     {
         switch ($type) {
             case Column::TYPE_INTEGER:
+            case Column::TYPE_BIGINTEGER:
                 return 'integer';
                 break;
             case Column::TYPE_DECIMAL:
@@ -179,6 +183,7 @@ class Model extends Component
         }
 
         if (isset($config->devtools->loader)) {
+            /** @noinspection PhpIncludeInspection */
             require_once $config->devtools->loader;
         }
 
@@ -220,7 +225,7 @@ class Model extends Component
             $schema = Utils::resolveDbSchema($config->database);
         }
 
-        if ($schema && $schema != $config->database->dbname) {
+        if ($schema) {
             $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
         }
 
@@ -268,7 +273,7 @@ class Model extends Component
             $initialize[] = $this->snippet->getRelation(
                 'belongsTo',
                 $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
-                $entityNamespace . Utils::camelize($reference->getReferencedTable()),
+                $this->getEntityClassName($reference, $entityNamespace),
                 $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                 "['alias' => '" . Utils::camelize($reference->getReferencedTable()) . "']"
             );
@@ -296,7 +301,8 @@ class Model extends Component
 
                 $possibleMethods['getSource'] = true;
 
-                require $modelPath;
+                /** @noinspection PhpIncludeInspection */
+                require_once $modelPath;
 
                 $linesCode = file($modelPath);
                 $fullClassName = $this->options->get('className');
@@ -316,7 +322,7 @@ class Model extends Component
 
                     $indent = PHP_EOL;
                     if ($method->getDocComment()) {
-                        $firstLine = $linesCode[$method->getStartLine()-1];
+                        $firstLine = $linesCode[$method->getStartLine() - 1];
                         preg_match('#^\s+#', $firstLine, $matches);
                         if (isset($matches[0])) {
                             $indent .= $matches[0];
@@ -355,7 +361,13 @@ class Model extends Component
                             break;
                     }
                 }
-            } catch (ReflectionException $e) {
+            } catch (\Exception $e) {
+                throw new BuilderException(
+                    sprintf('Failed to create the model "%s". Error: %s',
+                        $this->options->get('className'),
+                        $e->getMessage()
+                    )
+                );
             }
         }
 
@@ -385,11 +397,11 @@ class Model extends Component
                     $fieldName = $field->getName();
                 }
                 $validations[] = $this->snippet->getValidateEmail($fieldName);
-                $uses[] = $this->snippet->getUseAs('Phalcon\Mvc\Model\Validator\Email', 'Email');
+                $uses[] = $this->snippet->getUseAs(EmailValidator::class, 'EmailValidator');
             }
         }
         if (count($validations)) {
-            $validations[] = $this->snippet->getValidationFailed();
+            $validations[] = $this->snippet->getValidationEnd();
         }
 
         // Check if there has been an extender class
@@ -432,6 +444,7 @@ class Model extends Component
         $validationsCode = '';
         if ($alreadyValidations == false && count($validations) > 0) {
             $validationsCode = $this->snippet->getValidationsMethod($validations);
+            $uses[] = $this->snippet->getUse(Validation::class);
         }
 
         $initCode = '';
@@ -478,7 +491,11 @@ class Model extends Component
 
         $useDefinition = '';
         if (!empty($uses)) {
-            $useDefinition = join('', $uses) . PHP_EOL . PHP_EOL;
+            usort($uses, function ($a, $b) {
+                return strlen($a) - strlen($b);
+            });
+
+            $useDefinition = join("\n", $uses) . PHP_EOL . PHP_EOL;
         }
 
         $abstract = ($this->options->contains('abstract') ? 'abstract ' : '');
@@ -495,7 +512,15 @@ class Model extends Component
 
         if ($this->isConsole()) {
             $msgSuccess = ($this->options->contains('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
-            $this->_notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->get('name'))));
+            $this->notifySuccess(sprintf($msgSuccess, Utils::camelize($this->options->get('name'))));
         }
+    }
+
+    protected function getEntityClassName(ReferenceInterface $reference, $namespace)
+    {
+        $referencedTable = Utils::camelize($reference->getReferencedTable());
+        $fqcn = "{$namespace}\\{$referencedTable}";
+
+        return $fqcn;
     }
 }

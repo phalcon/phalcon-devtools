@@ -6,7 +6,10 @@ namespace Phalcon\Di;
  * Phalcon\Di\Service
  * Represents individually a service in the services container
  * <code>
- * $service = new \Phalcon\Di\Service('request', 'Phalcon\Http\Request');
+ * $service = new \Phalcon\Di\Service(
+ * "request",
+ * "Phalcon\\Http\\Request"
+ * );
  * $request = service->resolve();
  * <code>
  */

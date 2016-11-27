@@ -15,12 +15,13 @@ namespace Phalcon\Mvc;
  * when interacting with databases while is also easy to use.
  * <code>
  * $robot = new Robots();
- * $robot->type = 'mechanical';
- * $robot->name = 'Astro Boy';
+ * $robot->type = "mechanical";
+ * $robot->name = "Astro Boy";
  * $robot->year = 1952;
- * if ($robot->save() == false) {
+ * if ($robot->save() === false) {
  * echo "Umh, We can store robots: ";
- * foreach ($robot->getMessages() as $message) {
+ * $messages = $robot->getMessages();
+ * foreach ($messages as $message) {
  * echo message;
  * }
  * } else {
@@ -152,20 +153,20 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * $transaction = $txManager->get();
      * $robot = new Robots();
      * $robot->setTransaction($transaction);
-     * $robot->name = 'WALL·E';
-     * $robot->created_at = date('Y-m-d');
-     * if ($robot->save() == false) {
+     * $robot->name       = "WALL·E";
+     * $robot->created_at = date("Y-m-d");
+     * if ($robot->save() === false) {
      * $transaction->rollback("Can't save robot");
      * }
      * $robotPart = new RobotParts();
      * $robotPart->setTransaction($transaction);
-     * $robotPart->type = 'head';
-     * if ($robotPart->save() == false) {
+     * $robotPart->type = "head";
+     * if ($robotPart->save() === false) {
      * $transaction->rollback("Robot part cannot be saved");
      * }
      * $transaction->commit();
      * } catch (TxFailed $e) {
-     * echo 'Failed, reason: ', $e->getMessage();
+     * echo "Failed, reason: ", $e->getMessage();
      * }
      * </code>
      *
@@ -175,7 +176,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function setTransaction(\Phalcon\Mvc\Model\TransactionInterface $transaction) {}
 
     /**
-     * Sets table name which model should be mapped
+     * Sets the table name to which model should be mapped
      *
      * @param string $source 
      * @return Model 
@@ -183,14 +184,14 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function setSource($source) {}
 
     /**
-     * Returns table name mapped in the model
+     * Returns the table name mapped in the model
      *
      * @return string 
      */
     public function getSource() {}
 
     /**
-     * Sets schema name where table mapped is located
+     * Sets schema name where the mapped table is located
      *
      * @param string $schema 
      * @return Model 
@@ -198,7 +199,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function setSchema($schema) {}
 
     /**
-     * Returns schema name where table mapped is located
+     * Returns schema name where the mapped table is located
      *
      * @return string 
      */
@@ -274,19 +275,31 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Assigns values to a model from an array
      * <code>
-     * $robot->assign(array(
-     * 'type' => 'mechanical',
-     * 'name' => 'Astro Boy',
-     * 'year' => 1952
-     * ));
-     * //assign by db row, column map needed
-     * $robot->assign($dbRow, array(
-     * 'db_type' => 'type',
-     * 'db_name' => 'name',
-     * 'db_year' => 'year'
-     * ));
-     * //allow assign only name and year
-     * $robot->assign($_POST, null, array('name', 'year');
+     * $robot->assign(
+     * [
+     * "type" => "mechanical",
+     * "name" => "Astro Boy",
+     * "year" => 1952,
+     * ]
+     * );
+     * // Assign by db row, column map needed
+     * $robot->assign(
+     * $dbRow,
+     * [
+     * "db_type" => "type",
+     * "db_name" => "name",
+     * "db_year" => "year",
+     * ]
+     * );
+     * // Allow assign only name and year
+     * $robot->assign(
+     * $_POST,
+     * null,
+     * [
+     * "name",
+     * "year",
+     * ]
+     * );
      * </code>
      *
      * @param array $data 
@@ -297,13 +310,16 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function assign(array $data, $dataColumnMap = null, $whiteList = null) {}
 
     /**
-     * Assigns values to a model from an array returning a new model.
+     * Assigns values to a model from an array, returning a new model.
      * <code>
-     * $robot = \Phalcon\Mvc\Model::cloneResultMap(new Robots(), array(
-     * 'type' => 'mechanical',
-     * 'name' => 'Astro Boy',
-     * 'year' => 1952
-     * ));
+     * $robot = \Phalcon\Mvc\Model::cloneResultMap(
+     * new Robots(),
+     * [
+     * "type" => "mechanical",
+     * "name" => "Astro Boy",
+     * "year" => 1952,
+     * ]
+     * );
      * </code>
      *
      * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row $base 
@@ -328,11 +344,14 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Assigns values to a model from an array returning a new model
      * <code>
-     * $robot = Phalcon\Mvc\Model::cloneResult(new Robots(), array(
-     * 'type' => 'mechanical',
-     * 'name' => 'Astro Boy',
-     * 'year' => 1952
-     * ));
+     * $robot = Phalcon\Mvc\Model::cloneResult(
+     * new Robots(),
+     * [
+     * "type" => "mechanical",
+     * "name" => "Astro Boy",
+     * "year" => 1952,
+     * ]
+     * );
      * </code>
      *
      * @param mixed $base 
@@ -344,21 +363,34 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function cloneResult(ModelInterface $base, array $data, $dirtyState = 0) {}
 
     /**
-     * Allows to query a set of records that match the specified conditions
+     * Query for a set of records that match the specified conditions
      * <code>
      * // How many robots are there?
      * $robots = Robots::find();
-     * echo 'There are ', count($robots), "\n";
+     * echo "There are ", count($robots), "\n";
      * // How many mechanical robots are there?
-     * $robots = Robots::find("type='mechanical'");
-     * echo 'There are ', count($robots), "\n";
+     * $robots = Robots::find(
+     * "type = 'mechanical'"
+     * );
+     * echo "There are ", count($robots), "\n";
      * // Get and print virtual robots ordered by name
-     * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
+     * $robots = Robots::find(
+     * [
+     * "type = 'virtual'",
+     * "order" => "name",
+     * ]
+     * );
      * foreach ($robots as $robot) {
      * echo $robot->name, "\n";
      * }
      * // Get first 100 virtual robots ordered by name
-     * $robots = Robots::find(["type='virtual'", 'order' => 'name', 'limit' => 100]);
+     * $robots = Robots::find(
+     * [
+     * "type = 'virtual'",
+     * "order" => "name",
+     * "limit" => 100,
+     * ]
+     * );
      * foreach ($robots as $robot) {
      * echo $robot->name, "\n";
      * }
@@ -370,16 +402,23 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function find($parameters = null) {}
 
     /**
-     * Allows to query the first record that match the specified conditions
+     * Query the first record that matches the specified conditions
      * <code>
-     * //What's the first robot in robots table?
+     * // What's the first robot in robots table?
      * $robot = Robots::findFirst();
      * echo "The robot name is ", $robot->name;
-     * //What's the first mechanical robot in robots table?
-     * $robot = Robots::findFirst("type='mechanical'");
+     * // What's the first mechanical robot in robots table?
+     * $robot = Robots::findFirst(
+     * "type = 'mechanical'"
+     * );
      * echo "The first mechanical robot name is ", $robot->name;
-     * //Get first virtual robot ordered by name
-     * $robot = Robots::findFirst(array("type='virtual'", "order" => "name"));
+     * // Get first virtual robot ordered by name
+     * $robot = Robots::findFirst(
+     * [
+     * "type = 'virtual'",
+     * "order" => "name",
+     * ]
+     * );
      * echo "The first virtual robot name is ", $robot->name;
      * </code>
      *
@@ -397,7 +436,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function query(\Phalcon\DiInterface $dependencyInjector = null) {}
 
     /**
-     * Checks if the current record already exists or not
+     * Checks whether the current record already exists
      *
      * @param \Phalcon\Mvc\Model\MetaDataInterface $metaData 
      * @param \Phalcon\Db\AdapterInterface $connection 
@@ -418,12 +457,12 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected static function _groupResult($functionName, $alias, $parameters) {}
 
     /**
-     * Allows to count how many records match the specified conditions
+     * Counts how many records match the specified conditions
      * <code>
-     * //How many robots are there?
+     * // How many robots are there?
      * $number = Robots::count();
      * echo "There are ", $number, "\n";
-     * //How many mechanical robots are there?
+     * // How many mechanical robots are there?
      * $number = Robots::count("type = 'mechanical'");
      * echo "There are ", $number, " mechanical robots\n";
      * </code>
@@ -434,13 +473,22 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function count($parameters = null) {}
 
     /**
-     * Allows to calculate a sum on a column that match the specified conditions
+     * Calculates the sum on a column for a result-set of rows that match the specified conditions
      * <code>
-     * //How much are all robots?
-     * $sum = Robots::sum(array('column' => 'price'));
+     * // How much are all robots?
+     * $sum = Robots::sum(
+     * [
+     * "column" => "price",
+     * ]
+     * );
      * echo "The total price of robots is ", $sum, "\n";
-     * //How much are mechanical robots?
-     * $sum = Robots::sum(array("type = 'mechanical'", 'column' => 'price'));
+     * // How much are mechanical robots?
+     * $sum = Robots::sum(
+     * [
+     * "type = 'mechanical'",
+     * "column" => "price",
+     * ]
+     * );
      * echo "The total price of mechanical robots is  ", $sum, "\n";
      * </code>
      *
@@ -450,13 +498,22 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function sum($parameters = null) {}
 
     /**
-     * Allows to get the maximum value of a column that match the specified conditions
+     * Returns the maximum value of a column for a result-set of rows that match the specified conditions
      * <code>
-     * //What is the maximum robot id?
-     * $id = Robots::maximum(array('column' => 'id'));
+     * // What is the maximum robot id?
+     * $id = Robots::maximum(
+     * [
+     * "column" => "id",
+     * ]
+     * );
      * echo "The maximum robot id is: ", $id, "\n";
-     * //What is the maximum id of mechanical robots?
-     * $sum = Robots::maximum(array("type='mechanical'", 'column' => 'id'));
+     * // What is the maximum id of mechanical robots?
+     * $sum = Robots::maximum(
+     * [
+     * "type = 'mechanical'",
+     * "column" => "id",
+     * ]
+     * );
      * echo "The maximum robot id of mechanical robots is ", $id, "\n";
      * </code>
      *
@@ -466,13 +523,22 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function maximum($parameters = null) {}
 
     /**
-     * Allows to get the minimum value of a column that match the specified conditions
+     * Returns the minimum value of a column for a result-set of rows that match the specified conditions
      * <code>
-     * //What is the minimum robot id?
-     * $id = Robots::minimum(array('column' => 'id'));
+     * // What is the minimum robot id?
+     * $id = Robots::minimum(
+     * [
+     * "column" => "id",
+     * ]
+     * );
      * echo "The minimum robot id is: ", $id;
-     * //What is the minimum id of mechanical robots?
-     * $sum = Robots::minimum(array("type='mechanical'", 'column' => 'id'));
+     * // What is the minimum id of mechanical robots?
+     * $sum = Robots::minimum(
+     * [
+     * "type = 'mechanical'",
+     * "column" => "id",
+     * ]
+     * );
      * echo "The minimum robot id of mechanical robots is ", $id;
      * </code>
      *
@@ -482,13 +548,22 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public static function minimum($parameters = null) {}
 
     /**
-     * Allows to calculate the average value on a column matching the specified conditions
+     * Returns the average value on a column for a result-set of rows matching the specified conditions
      * <code>
-     * //What's the average price of robots?
-     * $average = Robots::average(array('column' => 'price'));
+     * // What's the average price of robots?
+     * $average = Robots::average(
+     * [
+     * "column" => "price",
+     * ]
+     * );
      * echo "The average price is ", $average, "\n";
-     * //What's the average price of mechanical robots?
-     * $average = Robots::average(array("type='mechanical'", 'column' => 'price'));
+     * // What's the average price of mechanical robots?
+     * $average = Robots::average(
+     * [
+     * "type = 'mechanical'",
+     * "column" => "price",
+     * ]
+     * );
      * echo "The average price of mechanical robots is ", $average, "\n";
      * </code>
      *
@@ -528,8 +603,10 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function beforeSave()
      * {
-     * if ($this->name == 'Peter') {
-     * $message = new Message("Sorry, but a robot cannot be named Peter");
+     * if ($this->name === "Peter") {
+     * $message = new Message(
+     * "Sorry, but a robot cannot be named Peter"
+     * );
      * $this->appendMessage($message);
      * }
      * }
@@ -552,9 +629,17 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * public function validation()
      * {
      * $validator = new Validation();
-     * $validator->add('status', new ExclusionIn(array(
-     * 'domain' => array('A', 'I')
-     * )));
+     * $validator->add(
+     * "status",
+     * new ExclusionIn(
+     * [
+     * "domain" => [
+     * "A",
+     * "I",
+     * ],
+     * ]
+     * )
+     * );
      * return $this->validate($validator);
      * }
      * }
@@ -569,15 +654,24 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * Check whether validation process has generated any messages
      * <code>
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+     * use Phalcon\Validation;
+     * use Phalcon\Validation\Validator\ExclusionIn;
      * class Subscriptors extends Model
      * {
      * public function validation()
      * {
      * $validator = new Validation();
-     * $validator->validate('status', new ExclusionIn(array(
-     * 'domain' => array('A', 'I')
-     * ));
+     * $validator->validate(
+     * "status",
+     * new ExclusionIn(
+     * [
+     * "domain" => [
+     * "A",
+     * "I",
+     * ],
+     * ]
+     * )
+     * );
      * return $this->validate($validator);
      * }
      * }
@@ -591,12 +685,13 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * Returns array of validation messages
      * <code>
      * $robot = new Robots();
-     * $robot->type = 'mechanical';
-     * $robot->name = 'Astro Boy';
+     * $robot->type = "mechanical";
+     * $robot->name = "Astro Boy";
      * $robot->year = 1952;
-     * if ($robot->save() == false) {
+     * if ($robot->save() === false) {
      * echo "Umh, We can't store robots right now ";
-     * foreach ($robot->getMessages() as $message) {
+     * $messages = $robot->getMessages();
+     * foreach ($messages as $message) {
      * echo $message;
      * }
      * } else {
@@ -692,14 +787,14 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Inserts or updates a model instance. Returning true on success or false otherwise.
      * <code>
-     * //Creating a new robot
+     * // Creating a new robot
      * $robot = new Robots();
-     * $robot->type = 'mechanical';
-     * $robot->name = 'Astro Boy';
+     * $robot->type = "mechanical";
+     * $robot->name = "Astro Boy";
      * $robot->year = 1952;
      * $robot->save();
-     * //Updating a robot name
-     * $robot = Robots::findFirst("id=100");
+     * // Updating a robot name
+     * $robot = Robots::findFirst("id = 100");
      * $robot->name = "Biomass";
      * $robot->save();
      * </code>
@@ -714,19 +809,21 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
      * Returning true on success or false otherwise.
      * <code>
-     * //Creating a new robot
+     * // Creating a new robot
      * $robot = new Robots();
-     * $robot->type = 'mechanical';
-     * $robot->name = 'Astro Boy';
+     * $robot->type = "mechanical";
+     * $robot->name = "Astro Boy";
      * $robot->year = 1952;
      * $robot->create();
-     * //Passing an array to create
+     * // Passing an array to create
      * $robot = new Robots();
-     * $robot->create(array(
-     * 'type' => 'mechanical',
-     * 'name' => 'Astro Boy',
-     * 'year' => 1952
-     * ));
+     * $robot->create(
+     * [
+     * "type" => "mechanical",
+     * "name" => "Astro Boy",
+     * "year" => 1952,
+     * ]
+     * );
      * </code>
      *
      * @param mixed $data 
@@ -739,8 +836,8 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
      * Returning true on success or false otherwise.
      * <code>
-     * //Updating a robot name
-     * $robot = Robots::findFirst("id=100");
+     * // Updating a robot name
+     * $robot = Robots::findFirst("id = 100");
      * $robot->name = "Biomass";
      * $robot->update();
      * </code>
@@ -756,7 +853,8 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * <code>
      * $robot = Robots::findFirst("id=100");
      * $robot->delete();
-     * foreach (Robots::find("type = 'mechanical'") as $robot) {
+     * $robots = Robots::find("type = 'mechanical'");
+     * foreach ($robots as $robot) {
      * $robot->delete();
      * }
      * </code>
@@ -790,7 +888,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Reads an attribute value by its name
      * <code>
-     * echo $robot->readAttribute('name');
+     * echo $robot->readAttribute("name");
      * </code>
      *
      * @param string $attribute 
@@ -800,7 +898,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Writes an attribute value by its name
      * <code>
-     * $robot->writeAttribute('name', 'Rosey');
+     * $robot->writeAttribute("name", "Rosey");
      * </code>
      *
      * @param string $attribute 
@@ -817,7 +915,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->skipAttributes(array('price'));
+     * $this->skipAttributes(
+     * [
+     * "price",
+     * ]
+     * );
      * }
      * }
      * </code>
@@ -835,7 +937,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->skipAttributesOnCreate(array('created_at'));
+     * $this->skipAttributesOnCreate(
+     * [
+     * "created_at",
+     * ]
+     * );
      * }
      * }
      * </code>
@@ -853,7 +959,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->skipAttributesOnUpdate(array('modified_in'));
+     * $this->skipAttributesOnUpdate(
+     * [
+     * "modified_in",
+     * ]
+     * );
      * }
      * }
      * </code>
@@ -871,7 +981,11 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->allowEmptyStringValues(array('name'));
+     * $this->allowEmptyStringValues(
+     * [
+     * "name",
+     * ]
+     * );
      * }
      * }
      * </code>
@@ -888,7 +1002,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->hasOne('id', 'RobotsDescription', 'robots_id');
+     * $this->hasOne("id", "RobotsDescription", "robots_id");
      * }
      * }
      * </code>
@@ -902,14 +1016,14 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function hasOne($fields, $referenceModel, $referencedFields, $options = null) {}
 
     /**
-     * Setup a relation reverse 1-1  between two models
+     * Setup a reverse 1-1 or n-1 relation between two models
      * <code>
      * <?php
      * class RobotsParts extends \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->belongsTo('robots_id', 'Robots', 'id');
+     * $this->belongsTo("robots_id", "Robots", "id");
      * }
      * }
      * </code>
@@ -923,14 +1037,14 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function belongsTo($fields, $referenceModel, $referencedFields, $options = null) {}
 
     /**
-     * Setup a relation 1-n between two models
+     * Setup a 1-n relation between two models
      * <code>
      * <?php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->hasMany('id', 'RobotsParts', 'robots_id');
+     * $this->hasMany("id", "RobotsParts", "robots_id");
      * }
      * }
      * </code>
@@ -944,21 +1058,21 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     protected function hasMany($fields, $referenceModel, $referencedFields, $options = null) {}
 
     /**
-     * Setup a relation n-n between two models through an intermediate relation
+     * Setup an n-n relation between two models, through an intermediate relation
      * <code>
      * <?php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * //Setup a many-to-many relation to Parts through RobotsParts
+     * // Setup a many-to-many relation to Parts through RobotsParts
      * $this->hasManyToMany(
-     * 'id',
-     * 'RobotsParts',
-     * 'robots_id',
-     * 'parts_id',
-     * 'Parts',
-     * 'id'
+     * "id",
+     * "RobotsParts",
+     * "robots_id",
+     * "parts_id",
+     * "Parts",
+     * "id",
      * );
      * }
      * }
@@ -990,12 +1104,16 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * {
      * public function initialize()
      * {
-     * $this->addBehavior(new Timestampable(array(
-     * 'onCreate' => array(
-     * 'field' => 'created_at',
-     * 'format' => 'Y-m-d'
+     * $this->addBehavior(
+     * new Timestampable(
+     * [
+     * "onCreate" => [
+     * "field"  => "created_at",
+     * "format" => "Y-m-d",
+     * ],
+     * ]
      * )
-     * )));
+     * );
      * }
      * }
      * </code>
@@ -1179,7 +1297,9 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Returns a simple representation of the object that can be used with var_dump
      * <code>
-     * var_dump($robot->dump());
+     * var_dump(
+     * $robot->dump()
+     * );
      * </code>
      *
      * @return array 
@@ -1189,7 +1309,9 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Returns the instance as an array representation
      * <code>
-     * print_r($robot->toArray());
+     * print_r(
+     * $robot->toArray()
+     * );
      * </code>
      *
      * @param mixed $columns 

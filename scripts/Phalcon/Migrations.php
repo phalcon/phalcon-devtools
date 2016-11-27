@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -69,15 +69,19 @@ class Migrations
      * @param array $options
      *
      * @throws \Exception
+     * @throws \LogicException
+     * @throws \RuntimeException
      */
     public static function generate(array $options)
     {
         $tableName = $options['tableName'];
         $exportData = $options['exportData'];
         $migrationsDir = $options['migrationsDir'];
-        $version = $options['version'];
+        $version = isset($options['version']) ? $options['version'] : null;
         $force = $options['force'];
         $config = $options['config'];
+        $descr = isset($options['descr']) ? $options['descr'] : null;
+        $noAutoIncrement = isset($options['noAutoIncrement']) ? $options['noAutoIncrement'] : null;
 
         // Migrations directory
         if ($migrationsDir && !file_exists($migrationsDir)) {
@@ -85,7 +89,7 @@ class Migrations
         }
 
         // Use timestamped version if description is provided
-        if ($descr = $options['descr']) {
+        if ($descr) {
             $version = (string)(int)(microtime(true) * pow(10, 6));
             VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
             $versionItem = VersionCollection::createItem($version . '_' . $descr);
@@ -112,9 +116,13 @@ class Migrations
         }
 
         // Path to migration dir
-        $migrationPath = $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion();
+        $migrationPath = rtrim($migrationsDir, '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion();
         if (!file_exists($migrationPath)) {
-            mkdir($migrationPath);
+            if (is_writable(dirname($migrationPath))) {
+                mkdir($migrationPath);
+            } else {
+                throw new \RuntimeException("Unable to write '{$migrationPath}' directory. Permission denied");
+            }
         } elseif (!$force) {
             throw new \LogicException('Version ' . $versionItem->getVersion() . ' already exists');
         }
@@ -124,12 +132,12 @@ class Migrations
             throw new \RuntimeException('Cannot load database configuration');
         }
         ModelMigration::setup($config->database);
-        ModelMigration::setSkipAutoIncrement($options['noAutoIncrement']);
+        ModelMigration::setSkipAutoIncrement($noAutoIncrement);
         ModelMigration::setMigrationPath($migrationsDir);
 
         $wasMigrated = false;
-        if ($tableName === 'all') {
-            $migrations = ModelMigration::generateAll($versionItem->getStamp(), $exportData);
+        if ($tableName === '@') {
+            $migrations = ModelMigration::generateAll($versionItem, $exportData);
             foreach ($migrations as $tableName => $migration) {
                 if ($tableName === self::MIGRATION_LOG_TABLE) {
                     continue;
@@ -141,21 +149,22 @@ class Migrations
                     ) || $wasMigrated;
             }
         } else {
-            $migration = ModelMigration::generate($versionItem->getStamp(), $tableName, $exportData);
-            $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
-            $wasMigrated = !!file_put_contents(
-                $tableFile,
-                '<?php ' . PHP_EOL . PHP_EOL . $migration
-            );
+            $tables = explode(',', $tableName);
+            foreach ($tables as $table) {
+                $migration = ModelMigration::generate($versionItem, $table, $exportData);
+                $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
+                $wasMigrated = file_put_contents(
+                    $tableFile,
+                    '<?php ' . PHP_EOL . PHP_EOL . $migration
+                );
+            }
         }
 
         if (self::isConsole() && $wasMigrated) {
             print Color::success('Version ' . $versionItem->getVersion() . ' was successfully generated') . PHP_EOL;
         } elseif (self::isConsole()) {
-            print Color::info('Nothing to generate. You should create tables at first.') . PHP_EOL;
+            print Color::info('Nothing to generate. You should create tables first.') . PHP_EOL;
         }
-
-        exit(0);
     }
 
     /**
@@ -171,13 +180,13 @@ class Migrations
     public static function run(array $options)
     {
         // Define versioning type to be used
-        if (true === $options['tsBased']) {
+        if (isset($options['tsBased']) && true === $options['tsBased']) {
             VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
         } else {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
 
-        $migrationsDir = rtrim($options['migrationsDir'], '/');
+        $migrationsDir = rtrim($options['migrationsDir'], '\\/');
         if (!file_exists($migrationsDir)) {
             throw new ModelException('Migrations directory was not found.');
         }
@@ -185,7 +194,7 @@ class Migrations
         /** @var Config $config */
         $config = $options['config'];
         if (!$config instanceof Config) {
-            throw new ModelException('Internal error. Config should be an instance of \Phalcon\Config');
+            throw new ModelException('Internal error. Config should be an instance of ' . Config::class);
         }
 
         // Init ModelMigration
@@ -198,7 +207,7 @@ class Migrations
             $finalVersion = VersionCollection::createItem($options['version']);
         }
 
-        $tableName = 'all';
+        $tableName = '@';
         if (isset($options['tableName'])) {
             $tableName = $options['tableName'];
         }
@@ -244,22 +253,30 @@ class Migrations
         // Run migration
         $versionsBetween = VersionCollection::between($initialVersion, $finalVersion, $versionItems);
         foreach ($versionsBetween as $versionItem) {
+
+            // If we are rolling back, we skip migrating when initialVersion is the same as current
+            if ($initialVersion->getVersion() === $versionItem->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
+                continue;
+            }
+
             if ((ModelMigration::DIRECTION_FORWARD === $direction) && isset($completedVersions[(string)$versionItem])) {
                 print Color::info('Version ' . (string)$versionItem . ' was already applied');
                 continue;
-            } elseif ((ModelMigration::DIRECTION_BACK === $direction) && !isset($completedVersions[(string)$versionItem])) {
-                print Color::info('Version ' . (string)$versionItem . ' was already rolled back');
+            } elseif ((ModelMigration::DIRECTION_BACK === $direction) && !isset($completedVersions[(string)$initialVersion])) {
+                print Color::info('Version ' . (string)$initialVersion . ' was already rolled back');
+                $initialVersion = $versionItem;
                 continue;
             }
 
-            if ($versionItem->getVersion() === $finalVersion->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
+            if ($initialVersion->getVersion() === $finalVersion->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
                 break;
             }
 
-            $migrationStartTime = date("'Y-m-d H:i:s'");
-            if ($tableName === 'all') {
+            $migrationStartTime = date("Y-m-d H:i:s");
+            if ($tableName === '@') {
+                // Directory depends on Forward or Back Migration
                 $iterator = new DirectoryIterator(
-                    $migrationsDir . DIRECTORY_SEPARATOR . $versionItem->getVersion()
+                    $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ? $initialVersion->getVersion() : $versionItem->getVersion())
                 );
                 foreach ($iterator as $fileInfo) {
                     if (!$fileInfo->isFile() || 0 !== strcasecmp($fileInfo->getExtension(), 'php')) {
@@ -275,8 +292,8 @@ class Migrations
                 self::addCurrentVersion($options, (string)$versionItem, $migrationStartTime);
                 print Color::success('Version ' . $versionItem . ' was successfully migrated');
             } else {
-                self::removeCurrentVersion($options, (string)$versionItem);
-                print Color::success('Version ' . $versionItem . ' was successfully rolled back');
+                self::removeCurrentVersion($options, (string)$initialVersion);
+                print Color::success('Version ' . $initialVersion . ' was successfully rolled back');
             }
 
             $initialVersion = $versionItem;
@@ -310,7 +327,7 @@ class Migrations
         /** @var Config $config */
         $config = $options['config'];
         if (!$config instanceof Config) {
-            throw new ModelException('Internal error. Config should be an instance of \Phalcon\Config');
+            throw new ModelException('Internal error. Config should be an instance of ' . Config::class);
         }
 
         // Init ModelMigration
@@ -318,54 +335,35 @@ class Migrations
             throw new ScriptException('Cannot load database configuration');
         }
 
-        $finalVersion = null;
-        if (isset($options['version']) && $options['version'] !== null) {
-            $finalVersion = VersionCollection::createItem($options['version']);
-        }
-
         $versionItems = ModelMigration::scanForVersions($migrationsDir);
 
         if (!isset($versionItems[0])) {
-            throw new ModelException('Migrations were not found at ' . $migrationsDir);
-        }
-
-        // Set default final version
-        if ($finalVersion === null) {
-            $finalVersion = VersionCollection::maximum($versionItems);
+            print Color::info('Migrations were not found at ' . $migrationsDir);
+            return;
         }
 
         ModelMigration::setup($config->database);
         ModelMigration::setMigrationPath($migrationsDir);
         self::connectionSetup($options);
-        $initialVersion = self::getCurrentVersion($options);
+
         $completedVersions = self::getCompletedVersions($options);
+        $versionItems = VersionCollection::sortDesc($versionItems);
 
-        if ($finalVersion->getStamp() < $initialVersion->getStamp()) {
-            $direction = ModelMigration::DIRECTION_BACK;
-            $versionItems = VersionCollection::sortDesc($versionItems);
-        } else {
-            $direction = ModelMigration::DIRECTION_FORWARD;
-            $versionItems = VersionCollection::sortAsc($versionItems);
-        }
-
+        $report = [];
         foreach ($versionItems as $versionItem) {
-            if ((ModelMigration::DIRECTION_FORWARD === $direction) && isset($completedVersions[(string)$versionItem])) {
-                print Color::success('Version ' . (string)$versionItem . ' was already applied');
-                continue;
-            } elseif ((ModelMigration::DIRECTION_BACK === $direction) && !isset($completedVersions[(string)$versionItem])) {
-                print Color::success('Version ' . (string)$versionItem . ' was already rolled back');
-                continue;
-            }
-
-            if (ModelMigration::DIRECTION_FORWARD === $direction) {
-                print Color::error('Version ' . (string)$versionItem . ' was not applied');
-                continue;
-            } elseif (ModelMigration::DIRECTION_BACK === $direction) {
-                print Color::error('Version ' . (string)$versionItem . ' was not rolled back');
-                continue;
-            }
-
+            $versionNumber = $versionItem->getVersion();
+            $report[] = sprintf("│ %-25s │ %12s │", $versionNumber, isset($completedVersions[$versionNumber]) ? 'Y' : 'N');
         }
+
+        $header = sprintf("│ %-25s │ %12s │", 'Version', 'Was applied');
+        $report[] = '├' . str_repeat('─', 27) . '┼'. str_repeat('─', 14) . '┤';
+        $report[] = $header;
+
+        $report = array_reverse($report);
+
+        echo '┌' . str_repeat('─', 27) . '┬'. str_repeat('─', 14) . '┐' . PHP_EOL;
+        echo join(PHP_EOL, $report) . PHP_EOL;
+        echo '└' . str_repeat('─', 27) . '┴'. str_repeat('─', 14) . '┘'. PHP_EOL . PHP_EOL;
     }
 
     /**
@@ -435,20 +433,30 @@ class Migrations
             }
 
         } else {
-            $path = $options['directory'];
-
-            if (is_file($path . '.phalcon')) {
-                unlink($path . '.phalcon');
-                mkdir($path . '.phalcon');
-                chmod($path . '.phalcon', 0775);
-            } elseif (!is_dir($path . '.phalcon')) {
-                mkdir($path . '.phalcon');
-                chmod($path . '.phalcon', 0775);
+            if (empty($options['directory'])) {
+                $path = defined('BASE_PATH') ? BASE_PATH : defined('APP_PATH') ? dirname(APP_PATH) : '';
+                $path = rtrim($path, '\\/') . '/.phalcon';
+            } else {
+                $path = rtrim($options['directory'], '\\/') . '/.phalcon';
+            }
+            if (!is_dir($path) && !is_writable(dirname($path))) {
+                throw new \RuntimeException("Unable to write '{$path}' directory. Permission denied");
+            }
+            if (is_file($path)) {
+                unlink($path);
+                mkdir($path);
+                chmod($path, 0775);
+            } elseif (!is_dir($path)) {
+                mkdir($path);
+                chmod($path, 0775);
             }
 
-            self::$_storage = $path . '.phalcon/migration-version';
+            self::$_storage = $path . '/migration-version';
 
             if (!file_exists(self::$_storage)) {
+                if (!is_writable($path)) {
+                    throw new \RuntimeException("Unable to write '" . self::$_storage . "' file. Permission denied");
+                }
                 touch(self::$_storage);
             }
         }
@@ -477,10 +485,12 @@ class Migrations
             }
         } else {
             // Get and clean migration
-            $version = file_exists(self::$_storage)
-                ? file_get_contents(self::$_storage)
-                : null;
-            $version = trim($version) ?: null;
+            $version = file_exists(self::$_storage) ? file_get_contents(self::$_storage) : null;
+
+            if ($version = trim($version) ?: null) {
+                $version = preg_split('/\r\n|\r|\n/', $version, -1, PREG_SPLIT_NO_EMPTY);
+                $version = array_pop($version);
+            }
 
             return VersionCollection::createItem($version);
         }
@@ -498,9 +508,9 @@ class Migrations
         self::connectionSetup($options);
 
         if ($startTime === null) {
-            $startTime = date("'Y-m-d H:i:s'");
+            $startTime = date("Y-m-d H:i:s");
         }
-        $endTime = date("'Y-m-d H:i:s'");
+        $endTime = date("Y-m-d H:i:s");
 
         if (isset($options['migrationsInDb']) && (bool) $options['migrationsInDb']) {
             /** @var AdapterInterface $connection */

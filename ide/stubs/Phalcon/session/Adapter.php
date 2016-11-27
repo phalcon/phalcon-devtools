@@ -44,7 +44,11 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Sets session's options
      * <code>
-     * $session->setOptions(['uniqueId' => 'my-private-app']);
+     * $session->setOptions(
+     * [
+     * "uniqueId" => "my-private-app",
+     * ]
+     * );
      * </code>
      *
      * @param array $options 
@@ -83,7 +87,7 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Gets a session variable from an application context
      * <code>
-     * $session->get('auth', 'yes');
+     * $session->get("auth", "yes");
      * </code>
      *
      * @param string $index 
@@ -96,7 +100,7 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Sets a session variable in an application context
      * <code>
-     * $session->set('auth', 'yes');
+     * $session->set("auth", "yes");
      * </code>
      *
      * @param string $index 
@@ -107,7 +111,9 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Check whether a session variable is set in an application context
      * <code>
-     * var_dump($session->has('auth'));
+     * var_dump(
+     * $session->has("auth")
+     * );
      * </code>
      *
      * @param string $index 
@@ -118,7 +124,7 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Removes a session variable from an application context
      * <code>
-     * $session->remove('auth');
+     * $session->remove("auth");
      * </code>
      *
      * @param string $index 
@@ -148,7 +154,9 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Check whether the session has been started
      * <code>
-     * var_dump($session->isStarted());
+     * var_dump(
+     * $session->isStarted()
+     * );
      * </code>
      *
      * @return bool 
@@ -158,8 +166,12 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Destroys the active session
      * <code>
-     * var_dump($session->destroy());
-     * var_dump($session->destroy(true));
+     * var_dump(
+     * $session->destroy()
+     * );
+     * var_dump(
+     * $session->destroy(true)
+     * );
      * </code>
      *
      * @param bool $removeData 
@@ -170,7 +182,9 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Returns the status of the current session.
      * <code>
-     * var_dump($session->status());
+     * var_dump(
+     * $session->status()
+     * );
      * if ($session->status() !== $session::SESSION_ACTIVE) {
      * $session->start();
      * }

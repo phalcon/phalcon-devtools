@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -21,9 +21,8 @@
 
 namespace Phalcon\Builder;
 
-use Phalcon\Script\Color;
-use Phalcon\Config;
 use Phalcon\Validation;
+use Phalcon\Script\Color;
 use Phalcon\Validation\Validator\Namespaces;
 
 /**
@@ -136,7 +135,7 @@ abstract class Component
      *
      * @param string $message
      */
-    protected function _notifySuccess($message)
+    protected function notifySuccess($message)
     {
         print Color::success($message);
     }

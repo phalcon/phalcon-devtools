@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -134,7 +134,7 @@ abstract class Command implements CommandsInterface
     protected function getConfig($path)
     {
         foreach (['app/config/', 'config/'] as $configPath) {
-            foreach (['ini', 'php', 'json', 'yaml'] as $extension) {
+            foreach (['ini', 'php', 'json', 'yaml', 'yml'] as $extension) {
                 if (file_exists($path . $configPath . "/config." . $extension)) {
                     return $this->loadConfig($path . $configPath . "/config." . $extension);
                 }
@@ -144,7 +144,7 @@ abstract class Command implements CommandsInterface
         $directory = new \RecursiveDirectoryIterator('.');
         $iterator = new \RecursiveIteratorIterator($directory);
         foreach ($iterator as $f) {
-            if (preg_match('/config\.(php|ini|json|yaml)$/i', $f->getPathName())) {
+            if (preg_match('/config\.(php|ini|json|yaml|yml)$/i', $f->getPathName())) {
                 return $this->loadConfig($f->getPathName());
             }
         }
@@ -187,6 +187,7 @@ abstract class Command implements CommandsInterface
                 return new JsonConfig($fileName);
 
             case 'yaml':
+            case 'yml':
                 return new YamlConfig($fileName);
 
             default:

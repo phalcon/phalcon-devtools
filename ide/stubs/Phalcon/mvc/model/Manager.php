@@ -11,9 +11,12 @@ namespace Phalcon\Mvc\Model;
  * use Phalcon\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  * $di = new Di();
- * $di->set('modelsManager', function() {
+ * $di->set(
+ * "modelsManager",
+ * function() {
  * return new ModelsManager();
- * });
+ * }
+ * );
  * $robot = new Robots($di);
  * </code>
  */
@@ -211,7 +214,10 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     /**
      * Check whether a model property is declared as public.
      * <code>
-     * $isPublic = $manager->isVisibleModelProperty(new Robots(), 'name');
+     * $isPublic = $manager->isVisibleModelProperty(
+     * new Robots(),
+     * "name"
+     * );
      * </code>
      *
      * @param mixed $model 
@@ -310,7 +316,8 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     public function getWriteConnectionService(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
-     * Returns the connection service name used to read or write data related to a model depending on the connection services
+     * Returns the connection service name used to read or write data related to
+     * a model depending on the connection services
      *
      * @param mixed $model 
      * @param mixed $connectionServices 
@@ -575,7 +582,9 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     /**
      * Gets all the belongsTo relations defined in a model
      * <code>
-     * $relations = $modelsManager->getBelongsTo(new Robots());
+     * $relations = $modelsManager->getBelongsTo(
+     * new Robots()
+     * );
      * </code>
      *
      * @param mixed $model 

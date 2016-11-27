@@ -4,16 +4,18 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Serghei Iakovlev <serghei@phalconphp.com>                     |
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
   +------------------------------------------------------------------------+
 */
 
@@ -90,6 +92,8 @@ EOD;
      */
     public function validation()
     {
+        \$validator = new Validation();
+
 %s
     }
 EOD;
@@ -133,11 +137,12 @@ EOD;
     public function getValidateEmail($fieldName)
     {
         $templateValidateEmail = <<<EOD
-        \$this->validate(
-            new Email(
+        \$validator->add(
+            '%s',
+            new EmailValidator(
                 [
-                    'field'    => '%s',
-                    'required' => true,
+                    'model'   => \$this,
+                    'message' => 'Please enter a correct email address',
                 ]
             )
         );
@@ -145,14 +150,10 @@ EOD;
         return sprintf($templateValidateEmail, $fieldName).PHP_EOL.PHP_EOL;
     }
 
-    public function getValidationFailed()
+    public function getValidationEnd()
     {
         $templateValidationFailed = <<<EOD
-        if (\$this->validationHasFailed() == true) {
-            return false;
-        }
-
-        return true;
+        return \$this->validate(\$validator);
 EOD;
         return $templateValidationFailed;
     }
@@ -248,7 +249,7 @@ EOD;
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed \$parameters
-     * @return %s[]
+     * @return %s[]|%s
      */
     public static function find(\$parameters = null)
     {

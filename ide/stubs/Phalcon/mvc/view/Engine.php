@@ -7,7 +7,7 @@ namespace Phalcon\Mvc\View;
  * All the template engine adapters must inherit this class. This provides
  * basic interfacing between the engine and the Phalcon\Mvc\View component.
  */
-abstract class Engine extends \Phalcon\Di\Injectable
+abstract class Engine extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\View\EngineInterface
 {
 
     protected $_view;

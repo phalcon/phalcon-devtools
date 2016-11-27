@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -48,14 +48,14 @@ class ItemCollection
     /**
      * @var int
      */
-    static $type = self::TYPE_INCREMENTAL;
+    public static $type = self::TYPE_INCREMENTAL;
 
     /**
      * Set collection type
      *
      * @param int $type
      */
-    static function setType($type)
+    public static function setType($type)
     {
         self::$type = $type;
     }
@@ -68,14 +68,14 @@ class ItemCollection
      *
      * @return ItemInterface
      */
-    static function createItem($version = null, array $options = [])
+    public static function createItem($version = null, array $options = [])
     {
         if (self::TYPE_INCREMENTAL === self::$type) {
             $version = $version ?: '0.0.0';
 
             return new IncrementalItem($version);
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
-            $version = $version ?: '000';
+            $version = $version ?: '0000000_0';
 
             return new TimestampedItem($version, $options);
         }
@@ -90,7 +90,7 @@ class ItemCollection
      *
      * @return bool
      */
-    static function isCorrectVersion($version)
+    public static function isCorrectVersion($version)
     {
         if (self::TYPE_INCREMENTAL === self::$type) {
             return 1 === preg_match('#[0-9]+(\.[z0-9]+)+#', $version);
@@ -191,9 +191,8 @@ class ItemCollection
         }
 
         foreach ($versions as $version) {
-            if (
-                ($version->getStamp() >= $initialVersion->getStamp())
-                && ($version->getStamp() <= $finalVersion->getStamp())
+            if (($version->getStamp() >= $initialVersion->getStamp()) &&
+                ($version->getStamp() <= $finalVersion->getStamp())
             ) {
                 $betweenVersions[] = $version;
             }

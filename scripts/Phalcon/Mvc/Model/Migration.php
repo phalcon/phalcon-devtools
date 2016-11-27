@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -31,6 +31,7 @@ use Phalcon\Version\ItemInterface;
 use Phalcon\Mvc\Model\Migration\Profiler;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Exception\Db\UnknownColumnTypeException;
 use Phalcon\Version\ItemCollection as VersionCollection;
 
 /**
@@ -147,23 +148,17 @@ class Migration
     /**
      * Generates all the class migration definitions for certain database setup
      *
-     * @param  string $version
-     * @param  string $exportData
+     * @param  ItemInterface $version
+     * @param  string        $exportData
      *
      * @return array
      */
-    public static function generateAll($version, $exportData = null)
+    public static function generateAll(ItemInterface $version, $exportData = null)
     {
         $classDefinition = [];
-        if (self::$_databaseConfig->adapter == 'Postgresql') {
-            $tables = self::$_connection->listTables(
-                isset(self::$_databaseConfig->schema) ? self::$_databaseConfig->schema : 'public'
-            );
-        } else {
-            $tables = self::$_connection->listTables();
-        }
+        $schema = Utils::resolveDbSchema(self::$_databaseConfig);
 
-        foreach ($tables as $table) {
+        foreach (self::$_connection->listTables($schema) as $table) {
             $classDefinition[$table] = self::generate($version, $table, $exportData);
         }
 
@@ -183,14 +178,14 @@ class Migration
     /**
      * Generate specified table migration
      *
-     * @param      $version
-     * @param      $table
-     * @param null $exportData
+     * @param ItemInterface $version
+     * @param string        $table
+     * @param mixed         $exportData
      *
      * @return string
      * @throws \Phalcon\Db\Exception
      */
-    public static function generate($version, $table, $exportData = null)
+    public static function generate(ItemInterface $version, $table, $exportData = null)
     {
         $oldColumn = null;
         $allFields = [];
@@ -262,10 +257,11 @@ class Migration
                     $fieldDefinition[] = "'type' => Column::TYPE_BIGINTEGER";
                     break;
                 default:
-                    throw new DbException('Unrecognized data type '.$field->getType().' at column '.$field->getName());
+                    throw new UnknownColumnTypeException($field);
             }
 
-            if (null !== ($default = $field->getDefault())) {
+            if ($field->hasDefault() && !$field->isAutoIncrement()) {
+                $default = $field->getDefault();
                 $fieldDefinition[] = "'default' => \"$default\"";
             }
             //if ($field->isPrimary()) {
@@ -338,8 +334,8 @@ class Migration
             $referenceDefinition = [];
             $referenceDefinition[] = "'referencedSchema' => '".$dbReference->getReferencedSchema()."'";
             $referenceDefinition[] = "'referencedTable' => '".$dbReference->getReferencedTable()."'";
-            $referenceDefinition[] = "'columns' => [".join(",", $columns)."]";
-            $referenceDefinition[] = "'referencedColumns' => [".join(",", $referencedColumns)."]";
+            $referenceDefinition[] = "'columns' => [".join(",", array_unique($columns))."]";
+            $referenceDefinition[] = "'referencedColumns' => [".join(",", array_unique($referencedColumns))."]";
             $referenceDefinition[] = "'onUpdate' => '".$dbReference->getOnUpdate()."'";
             $referenceDefinition[] = "'onDelete' => '".$dbReference->getOnDelete()."'";
 
@@ -355,7 +351,7 @@ class Migration
             $optionsDefinition[] = "'".strtoupper($optionName)."' => '".$optionValue."'";
         }
 
-        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version);
+        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version->getStamp());
         $className = Text::camelize($table).'Migration_'.$classVersion;
 
         // morph()
@@ -403,8 +399,8 @@ class Migration
 
         // dump data
         if ($exportData == 'always' || $exportData == 'oncreate') {
-            $fileHandler = fopen(self::$_migrationPath.$version.'/'.$table.'.dat', 'w');
-            $cursor = self::$_connection->query('SELECT * FROM '.$table);
+            $fileHandler = fopen(self::$_migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
+            $cursor = self::$_connection->query('SELECT * FROM '. self::$_connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
             while ($row = $cursor->fetchArray()) {
                 $data = [];
@@ -416,13 +412,13 @@ class Migration
                             $data[] = addslashes($value);
                         }
                     } else {
-                        $data[] = "'".addslashes($value)."'";
+                        $data[] = is_null($value) ? "NULL" : addslashes($value);
                     }
 
                     unset($value);
                 }
 
-                fputs($fileHandler, join('|', $data).PHP_EOL);
+                fputcsv($fileHandler, $data);
                 unset($row);
                 unset($data);
             }
@@ -833,12 +829,12 @@ class Migration
         self::$_connection->begin();
         self::$_connection->delete($tableName);
         $batchHandler = fopen($migrationData, 'r');
-        while (($line = fgets($batchHandler)) !== false) {
+        while (($line = fgetcsv($batchHandler)) !== false) {
             $values = array_map(
                 function ($value) {
-                    return '' === $value || null === $value ? null : trim($value, "'");
+                    return null === $value ? null : $value;
                 },
-                explode('|', rtrim($line))
+                $line
             );
 
             self::$_connection->insert($tableName, $values, $fields);

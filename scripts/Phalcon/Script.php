@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -21,13 +21,13 @@
 
 namespace Phalcon;
 
+use DirectoryIterator;
 use Phalcon\Commands\Command;
 use Phalcon\Script\ScriptException;
 use Phalcon\Events\Manager as EventsManager;
-use DirectoryIterator;
 
 /**
- * Script Class
+ * \Phalcon\Script
  *
  * Component that allows you to write scripts to use CLI.
  *
@@ -35,14 +35,6 @@ use DirectoryIterator;
  */
 class Script
 {
-    /**
-     * Phalcon 3.0.0
-     * @type int
-     */
-    const COMPATIBLE_VERSION = 3000040;
-
-    const DOC_DOWNLOAD_URL = 'https://phalconphp.com/download';
-
     /**
      * Events Manager
      *
@@ -144,6 +136,15 @@ class Script
 
         $input = $_SERVER['argv'][1];
 
+        // Force `commands` command
+        if (in_array(strtolower(trim($input)), ['-h', '--help', 'help'], true)) {
+            $input = $_SERVER['argv'][1] = 'commands';
+        }
+
+        if (in_array(strtolower(trim($input)), ['--version', '-v', '--info'], true)) {
+            $input = $_SERVER['argv'][1] = 'info';
+        }
+
         // Try to dispatch the command
         foreach ($this->_commands as $command) {
             if ($command->hasIdentifier($input)) {
@@ -171,36 +172,49 @@ class Script
 
         if (isset($available[$soundex])) {
             throw new ScriptException(sprintf('%s Did you mean: %s?', $message, join(' or ', $available[$soundex])));
-        } else {
-            throw new ScriptException($message);
         }
+
+        throw new ScriptException($message);
     }
 
     public function loadUserScripts()
     {
-        if (file_exists('.phalcon/project.ini')) {
-            $config = parse_ini_file('.phalcon/project.ini');
+        if (!file_exists('.phalcon/project.ini')) {
+            return;
+        }
 
-            if (isset($config['scripts'])) {
-                foreach (explode(',', $config['scripts']) as $directory) {
-                    if (!is_dir($directory)) {
-                        throw new ScriptException("Cannot load user scripts in directory '" . $directory . "'");
-                    }
+        $config = parse_ini_file('.phalcon/project.ini');
 
-                    $iterator = new DirectoryIterator($directory);
-                    foreach ($iterator as $item) {
-                        if (!$item->isDir()) {
-                            require $item->getPathName();
+        if (!isset($config['scripts'])) {
+            return;
+        }
 
-                            $className = preg_replace('/\.php$/', '', $item->getBaseName());
-                            if (!class_exists($className)) {
-                                throw new ScriptException("Expecting class '" . $className . "' to be located at '" . $item->getPathName() . '"');
-                            }
+        foreach (explode(',', $config['scripts']) as $directory) {
+            if (!is_dir($directory)) {
+                throw new ScriptException("Cannot load user scripts in directory '" . $directory . "'");
+            }
 
-                            $this->attach(new $className($this, $this->_eventsManager));
-                        }
-                    }
+            $iterator = new DirectoryIterator($directory);
+            foreach ($iterator as $item) {
+                if ($item->isDir() || $item->isDot()) {
+                    continue;
                 }
+
+                /** @noinspection PhpIncludeInspection */
+                require $item->getPathname();
+
+                $className = preg_replace('/\.php$/', '', $item->getBasename());
+                if (!class_exists($className)) {
+                    throw new ScriptException(
+                        sprintf(
+                            "Expecting class '%s' to be located at '%s'",
+                            $className,
+                            $item->getPathname()
+                        )
+                    );
+                }
+
+                $this->attach(new $className($this, $this->_eventsManager));
             }
         }
     }

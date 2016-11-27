@@ -8,20 +8,22 @@ namespace Phalcon;
  * It provides a nested object property based user interface for accessing this configuration data within
  * application code.
  * <code>
- * $config = new \Phalcon\Config(array(
- * "database" => array(
- * "adapter" => "Mysql",
- * "host" => "localhost",
+ * $config = new \Phalcon\Config(
+ * [
+ * "database" => [
+ * "adapter"  => "Mysql",
+ * "host"     => "localhost",
  * "username" => "scott",
  * "password" => "cheetah",
- * "dbname" => "test_db"
- * ),
- * "phalcon" => array(
+ * "dbname"   => "test_db",
+ * ],
+ * "phalcon" => [
  * "controllersDir" => "../app/controllers/",
- * "modelsDir" => "../app/models/",
- * "viewsDir" => "../app/views/"
- * )
- * ));
+ * "modelsDir"      => "../app/models/",
+ * "viewsDir"       => "../app/views/",
+ * ],
+ * ]
+ * );
  * </code>
  */
 class Config implements \ArrayAccess, \Countable
@@ -37,7 +39,9 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Allows to check whether an attribute is defined using the array-syntax
      * <code>
-     * var_dump(isset($config['database']));
+     * var_dump(
+     * isset($config["database"])
+     * );
      * </code>
      *
      * @param mixed $index 
@@ -49,7 +53,7 @@ class Config implements \ArrayAccess, \Countable
      * Gets an attribute from the configuration, if the attribute isn't defined returns null
      * If the value is exactly null or is not defined the default value will be used instead
      * <code>
-     * echo $config->get('controllersDir', '../app/controllers/');
+     * echo $config->get("controllersDir", "../app/controllers/");
      * </code>
      *
      * @param mixed $index 
@@ -61,7 +65,9 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Gets an attribute using the array-syntax
      * <code>
-     * print_r($config['database']);
+     * print_r(
+     * $config["database"]
+     * );
      * </code>
      *
      * @param mixed $index 
@@ -72,7 +78,9 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Sets an attribute using the array-syntax
      * <code>
-     * $config['database'] = array('type' => 'Sqlite');
+     * $config["database"] = [
+     * "type" => "Sqlite",
+     * ];
      * </code>
      *
      * @param mixed $index 
@@ -83,7 +91,7 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Unsets an attribute using the array-syntax
      * <code>
-     * unset($config['database']);
+     * unset($config["database"]);
      * </code>
      *
      * @param mixed $index 
@@ -93,8 +101,14 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Merges a configuration into the current one
      * <code>
-     * $appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
-     * $globalConfig->merge($config2);
+     * $appConfig = new \Phalcon\Config(
+     * [
+     * "database" => [
+     * "host" => "localhost",
+     * ],
+     * ]
+     * );
+     * $globalConfig->merge($appConfig);
      * </code>
      *
      * @param mixed $config 
@@ -105,7 +119,9 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Converts recursively the object to an array
      * <code>
-     * print_r($config->toArray());
+     * print_r(
+     * $config->toArray()
+     * );
      * </code>
      *
      * @return array 

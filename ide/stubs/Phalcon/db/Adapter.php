@@ -6,7 +6,7 @@ namespace Phalcon\Db;
  * Phalcon\Db\Adapter
  * Base class for Phalcon\Db adapters
  */
-abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
+abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\EventsAwareInterface
 {
     /**
      * Event Manager
@@ -134,11 +134,11 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Returns the first row in a SQL query result
      * <code>
-     * //Getting first robot
+     * // Getting first robot
      * $robot = $connection->fetchOne("SELECTFROM robots");
      * print_r($robot);
-     * //Getting first robot with associative indexes only
-     * $robot = $connection->fetchOne("SELECTFROM robots", Phalcon\Db::FETCH_ASSOC);
+     * // Getting first robot with associative indexes only
+     * $robot = $connection->fetchOne("SELECTFROM robots", \Phalcon\Db::FETCH_ASSOC);
      * print_r($robot);
      * </code>
      *
@@ -153,17 +153,23 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Dumps the complete result of a query into an array
      * <code>
-     * //Getting all robots with associative indexes only
-     * $robots = $connection->fetchAll("SELECTFROM robots", Phalcon\Db::FETCH_ASSOC);
+     * // Getting all robots with associative indexes only
+     * $robots = $connection->fetchAll(
+     * "SELECTFROM robots",
+     * \Phalcon\Db::FETCH_ASSOC
+     * );
      * foreach ($robots as $robot) {
      * print_r($robot);
      * }
-     * //Getting all robots that contains word "robot" withing the name
-     * $robots = $connection->fetchAll("SELECTFROM robots WHERE name LIKE :name",
-     * Phalcon\Db::FETCH_ASSOC,
-     * array('name' => '%robot%')
+     * // Getting all robots that contains word "robot" withing the name
+     * $robots = $connection->fetchAll(
+     * "SELECTFROM robots WHERE name LIKE :name",
+     * \Phalcon\Db::FETCH_ASSOC,
+     * [
+     * "name" => "%robot%",
+     * ]
      * );
-     * foreach($robots as $robot){
+     * foreach($robots as $robot) {
      * print_r($robot);
      * }
      * </code>
@@ -179,11 +185,14 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Returns the n'th field of first row in a SQL query result
      * <code>
-     * //Getting count of robots
+     * // Getting count of robots
      * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
      * print_r($robotsCount);
-     * //Getting name of last edited robot
-     * $robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc", 1);
+     * // Getting name of last edited robot
+     * $robot = $connection->fetchColumn(
+     * "SELECT id, name FROM robots order by modified desc",
+     * 1
+     * );
      * print_r($robot);
      * </code>
      *
@@ -200,8 +209,8 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * // Inserting a new robot
      * $success = $connection->insert(
      * "robots",
-     * array("Astro Boy", 1952),
-     * array("name", "year")
+     * ["Astro Boy", 1952],
+     * ["name", "year"]
      * );
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
@@ -219,15 +228,15 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Inserts data into a table using custom RBDM SQL syntax
      * <code>
-     * //Inserting a new robot
+     * // Inserting a new robot
      * $success = $connection->insertAsDict(
      * "robots",
-     * array(
+     * [
      * "name" => "Astro Boy",
-     * "year" => 1952
-     * )
+     * "year" => 1952,
+     * ]
      * );
-     * //Next SQL sentence is sent to the database system
+     * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * </code>
      *
@@ -243,26 +252,28 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Updates data on a table using custom RBDM SQL syntax
      * <code>
-     * //Updating existing robot
+     * // Updating existing robot
      * $success = $connection->update(
      * "robots",
-     * array("name"),
-     * array("New Astro Boy"),
+     * ["name"],
+     * ["New Astro Boy"],
      * "id = 101"
      * );
-     * //Next SQL sentence is sent to the database system
+     * // Next SQL sentence is sent to the database system
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
-     * //Updating existing robot with array condition and $dataTypes
+     * // Updating existing robot with array condition and $dataTypes
      * $success = $connection->update(
      * "robots",
-     * array("name"),
-     * array("New Astro Boy"),
-     * array(
-     * 'conditions' => "id = ?",
-     * 'bind' => array($some_unsafe_id),
-     * 'bindTypes' => array(PDO::PARAM_INT) //use only if you use $dataTypes param
-     * ),
-     * array(PDO::PARAM_STR)
+     * ["name"],
+     * ["New Astro Boy"],
+     * [
+     * "conditions" => "id = ?",
+     * "bind"       => [$some_unsafe_id],
+     * "bindTypes"  => [PDO::PARAM_INT], // use only if you use $dataTypes param
+     * ],
+     * [
+     * PDO::PARAM_STR
+     * ]
      * );
      * </code>
      * Warning! If $whereCondition is string it not escaped.
@@ -282,15 +293,15 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * Updates data on a table using custom RBDM SQL syntax
      * Another, more convenient syntax
      * <code>
-     * //Updating existing robot
+     * // Updating existing robot
      * $success = $connection->updateAsDict(
      * "robots",
-     * array(
-     * "name" => "New Astro Boy"
-     * ),
+     * [
+     * "name" => "New Astro Boy",
+     * ],
      * "id = 101"
      * );
-     * //Next SQL sentence is sent to the database system
+     * // Next SQL sentence is sent to the database system
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
      * </code>
      *
@@ -307,12 +318,12 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Deletes data from a table using custom RBDM SQL syntax
      * <code>
-     * //Deleting existing robot
+     * // Deleting existing robot
      * $success = $connection->delete(
      * "robots",
      * "id = 101"
      * );
-     * //Next SQL sentence is generated
+     * // Next SQL sentence is generated
      * DELETE FROM `robots` WHERE `id` = 101
      * </code>
      *
@@ -323,6 +334,25 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
      * @return boolean 
      */
     public function delete($table, $whereCondition = null, $placeholders = null, $dataTypes = null) {}
+
+    /**
+     * Escapes a column/table/schema name
+     * <code>
+     * $escapedTable = $connection->escapeIdentifier(
+     * "robots"
+     * );
+     * $escapedTable = $connection->escapeIdentifier(
+     * [
+     * "store",
+     * "robots",
+     * ]
+     * );
+     * </code>
+     *
+     * @param array|string $identifier 
+     * @return string 
+     */
+    public function escapeIdentifier($identifier) {}
 
     /**
      * Gets a list of columns
@@ -349,7 +379,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Generates SQL checking for the existence of a schema.table
      * <code>
-     * var_dump($connection->tableExists("blog", "posts"));
+     * var_dump(
+     * $connection->tableExists("blog", "posts")
+     * );
      * </code>
      *
      * @param string $tableName 
@@ -361,7 +393,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Generates SQL checking for the existence of a schema.view
      * <code>
-     * var_dump($connection->viewExists("active_users", "posts"));
+     * var_dump(
+     * $connection->viewExists("active_users", "posts")
+     * );
      * </code>
      *
      * @param string $viewName 
@@ -527,7 +561,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * List all tables on a database
      * <code>
-     * print_r($connection->listTables("blog"));
+     * print_r(
+     * $connection->listTables("blog")
+     * );
      * </code>
      *
      * @param string $schemaName 
@@ -538,7 +574,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * List all views on a database
      * <code>
-     * print_r($connection->listViews("blog"));
+     * print_r(
+     * $connection->listViews("blog")
+     * );
      * </code>
      *
      * @param string $schemaName 
@@ -549,7 +587,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Lists table indexes
      * <code>
-     * print_r($connection->describeIndexes('robots_parts'));
+     * print_r(
+     * $connection->describeIndexes("robots_parts")
+     * );
      * </code>
      *
      * @param	string table
@@ -564,7 +604,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Lists table references
      * <code>
-     * print_r($connection->describeReferences('robots_parts'));
+     * print_r(
+     * $connection->describeReferences("robots_parts")
+     * );
      * </code>
      *
      * @param string $table 
@@ -576,7 +618,9 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Gets creation options from a table
      * <code>
-     * print_r($connection->tableOptions('robots'));
+     * print_r(
+     * $connection->tableOptions("robots")
+     * );
      * </code>
      *
      * @param string $tableName 
@@ -634,11 +678,19 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Returns the default identity value to be inserted in an identity column
      * <code>
-     * //Inserting a new robot with a valid default value for the column 'id'
+     * // Inserting a new robot with a valid default value for the column 'id'
      * $success = $connection->insert(
      * "robots",
-     * array($connection->getDefaultIdValue(), "Astro Boy", 1952),
-     * array("id", "name", "year")
+     * [
+     * $connection->getDefaultIdValue(),
+     * "Astro Boy",
+     * 1952,
+     * ],
+     * [
+     * "id",
+     * "name",
+     * "year",
+     * ]
      * );
      * </code>
      *
@@ -649,11 +701,17 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     /**
      * Returns the default value to make the RBDM use the default value declared in the table definition
      * <code>
-     * //Inserting a new robot with a valid default value for the column 'year'
+     * // Inserting a new robot with a valid default value for the column 'year'
      * $success = $connection->insert(
      * "robots",
-     * array("Astro Boy", $connection->getDefaultValue()),
-     * array("name", "year")
+     * [
+     * "Astro Boy",
+     * $connection->getDefaultValue()
+     * ],
+     * [
+     * "name",
+     * "year",
+     * ]
      * );
      * </code>
      *
@@ -697,7 +755,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
     public function getSQLStatement() {}
 
     /**
-     * Active SQL statement in the object without replace bound paramters
+     * Active SQL statement in the object without replace bound parameters
      *
      * @return string 
      */

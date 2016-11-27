@@ -9,7 +9,7 @@
   ],
   "files": [
     "webtools.php",
-    "docs/LICENSE.txt"
+    "LICENSE.txt"
   ],
   "finder": [
     {

@@ -10,11 +10,13 @@ namespace Phalcon\Cli;
  * action of that task should receive the request</p>
  * <code>
  * $router = new \Phalcon\Cli\Router();
- * $router->handle(array(
- * 'module' => 'main',
- * 'task' => 'videos',
- * 'action' => 'process'
- * ));
+ * $router->handle(
+ * [
+ * "module" => "main",
+ * "task"   => "videos",
+ * "action" => "process",
+ * ]
+ * );
  * echo $router->getTaskName();
  * </code>
  */
@@ -106,10 +108,12 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * Sets an array of default paths. If a route is missing a path the router will use the defined here
      * This method must not be used to set a 404 route
      * <code>
-     * $router->setDefaults(array(
-     * 'module' => 'common',
-     * 'action' => 'index'
-     * ));
+     * $router->setDefaults(
+     * [
+     * "module" => "common",
+     * "action" => "index",
+     * ]
+     * );
      * </code>
      *
      * @param array $defaults 
@@ -127,7 +131,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Adds a route to the router
      * <code>
-     * $router->add('/about', 'About::main');
+     * $router->add("/about", "About::main");
      * </code>
      *
      * @param string $pattern 
@@ -137,14 +141,14 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     public function add($pattern, $paths = null) {}
 
     /**
-     * Returns proccesed module name
+     * Returns processed module name
      *
      * @return string 
      */
     public function getModuleName() {}
 
     /**
-     * Returns proccesed task name
+     * Returns processed task name
      *
      * @return string 
      */

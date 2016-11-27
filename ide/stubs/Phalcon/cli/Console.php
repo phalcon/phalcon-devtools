@@ -18,12 +18,14 @@ class Console extends \Phalcon\Application
     /**
      * Merge modules with the existing ones
      * <code>
-     * application->addModules(array(
-     * 'admin' => array(
-     * 'className' => 'Multiple\Admin\Module',
-     * 'path' => '../apps/admin/Module.php'
-     * )
-     * ));
+     * $application->addModules(
+     * [
+     * "admin" => [
+     * "className" => "Multiple\\Admin\\Module",
+     * "path"      => "../apps/admin/Module.php",
+     * ],
+     * ]
+     * );
      * </code>
      *
      * @param array $modules 

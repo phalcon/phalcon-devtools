@@ -8,16 +8,16 @@ namespace Phalcon\Db\Adapter\Pdo;
  * <code>
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  * $config = [
- * 'host'     => 'localhost',
- * 'dbname'   => 'blog',
- * 'port'     => 3306,
- * 'username' => 'sigma',
- * 'password' => 'secret'
+ * "host"     => "localhost",
+ * "dbname"   => "blog",
+ * "port"     => 3306,
+ * "username" => "sigma",
+ * "password" => "secret",
  * ];
  * $connection = new Mysql($config);
  * </code>
  */
-class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
+class Mysql extends \Phalcon\Db\Adapter\Pdo
 {
 
     protected $_type = "mysql";
@@ -27,21 +27,11 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 
 
     /**
-     * Escapes a column/table/schema name
-     * <code>
-     * echo $connection->escapeIdentifier('my_table'); // `my_table`
-     * echo $connection->escapeIdentifier(['companies', 'name']); // `companies`.`name`
-     * <code>
-     *
-     * @param string|array $identifier 
-     * @return string 
-     */
-    public function escapeIdentifier($identifier) {}
-
-    /**
      * Returns an array of Phalcon\Db\Column objects describing a table
      * <code>
-     * print_r($connection->describeColumns("posts"));
+     * print_r(
+     * $connection->describeColumns("posts")
+     * );
      * </code>
      *
      * @param string $table 
@@ -53,7 +43,9 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
     /**
      * Lists table indexes
      * <code>
-     * print_r($connection->describeIndexes('robots_parts'));
+     * print_r(
+     * $connection->describeIndexes("robots_parts")
+     * );
      * </code>
      *
      * @param string $table 
@@ -65,7 +57,9 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
     /**
      * Lists table references
      * <code>
-     * print_r($connection->describeReferences('robots_parts'));
+     * print_r(
+     * $connection->describeReferences("robots_parts")
+     * );
      * </code>
      *
      * @param string $table 

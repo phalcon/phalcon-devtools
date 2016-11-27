@@ -7,20 +7,26 @@ namespace Phalcon\Session\Adapter;
  * This adapter store sessions in libmemcached
  * <code>
  * use Phalcon\Session\Adapter\Libmemcached;
- * $session = new Libmemcached([
- * 'servers' => [
- * ['host' => 'localhost', 'port' => 11211, 'weight' => 1],
+ * $session = new Libmemcached(
+ * [
+ * "servers" => [
+ * [
+ * "host"   => "localhost",
+ * "port"   => 11211,
+ * "weight" => 1,
  * ],
- * 'client' => [
+ * ],
+ * "client" => [
  * \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
- * \Memcached::OPT_PREFIX_KEY => 'prefix.',
+ * \Memcached::OPT_PREFIX_KEY => "prefix.",
  * ],
- * 'lifetime' => 3600,
- * 'prefix'   => 'my_'
- * ]);
+ * "lifetime" => 3600,
+ * "prefix"   => "my_",
+ * ]
+ * );
  * $session->start();
- * $session->set('var', 'some-value');
- * echo $session->get('var');
+ * $session->set("var", "some-value");
+ * echo $session->get("var");
  * </code>
  */
 class Libmemcached extends \Phalcon\Session\Adapter
@@ -60,7 +66,7 @@ class Libmemcached extends \Phalcon\Session\Adapter
      * {@inheritdoc}
      *
      * @param string $sessionId 
-     * @return mixed 
+     * @return string 
      */
     public function read($sessionId) {}
 

@@ -76,7 +76,7 @@ class Event implements \Phalcon\Events\EventInterface
     public function __construct($type, $source, $data = null, $cancelable = true) {}
 
     /**
-     * Sets event data
+     * Sets event data.
      *
      * @param mixed $data 
      * @return EventInterface 
@@ -84,7 +84,7 @@ class Event implements \Phalcon\Events\EventInterface
     public function setData($data = null) {}
 
     /**
-     * Sets event type
+     * Sets event type.
      *
      * @param string $type 
      * @return EventInterface 
@@ -92,21 +92,31 @@ class Event implements \Phalcon\Events\EventInterface
     public function setType($type) {}
 
     /**
-     * Stops the event preventing propagation
+     * Stops the event preventing propagation.
+     * <code>
+     * if ($event->isCancelable()) {
+     * $event->stop();
+     * }
+     * </code>
      *
      * @return EventInterface 
      */
     public function stop() {}
 
     /**
-     * Check whether the event is currently stopped
+     * Check whether the event is currently stopped.
      *
      * @return bool 
      */
     public function isStopped() {}
 
     /**
-     * Check whether the event is cancelable
+     * Check whether the event is cancelable.
+     * <code>
+     * if ($event->isCancelable()) {
+     * $event->stop();
+     * }
+     * </code>
      *
      * @return bool 
      */

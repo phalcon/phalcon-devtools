@@ -10,11 +10,11 @@ namespace Phalcon\Cli;
  * <code>
  * $di = new \Phalcon\Di();
  * $dispatcher = new \Phalcon\Cli\Dispatcher();
- * $dispatcher->setDi(di);
- * $dispatcher->setTaskName('posts');
- * $dispatcher->setActionName('index');
- * $dispatcher->setParams(array());
- * $handle = dispatcher->dispatch();
+ * $dispatcher->setDi($di);
+ * $dispatcher->setTaskName("posts");
+ * $dispatcher->setActionName("index");
+ * $dispatcher->setParams([]);
+ * $handle = $dispatcher->dispatch();
  * </code>
  */
 class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Cli\DispatcherInterface
@@ -76,7 +76,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Cli\DispatcherI
     protected function _handleException(\Exception $exception) {}
 
     /**
-     * Returns the lastest dispatched controller
+     * Returns the latest dispatched controller
      *
      * @return TaskInterface 
      */

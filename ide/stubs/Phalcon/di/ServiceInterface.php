@@ -63,7 +63,7 @@ interface ServiceInterface
     public function setParameter($position, array $parameter);
 
     /**
-     * Restore the interal state of a service
+     * Restore the internal state of a service
      *
      * @param array $attributes 
      * @return ServiceInterface 

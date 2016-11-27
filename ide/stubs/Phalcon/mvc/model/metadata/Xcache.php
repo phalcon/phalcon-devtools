@@ -8,10 +8,12 @@ namespace Phalcon\Mvc\Model\MetaData;
  * By default meta-data is stored for 48 hours (172800 seconds)
  * You can query the meta-data by printing xcache_get('$PMM$') or xcache_get('$PMM$my-app-id')
  * <code>
- * $metaData = new Phalcon\Mvc\Model\Metadata\Xcache(array(
- * 'prefix' => 'my-app-id',
- * 'lifetime' => 86400
- * ));
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Xcache(
+ * [
+ * "prefix"   => "my-app-id",
+ * "lifetime" => 86400,
+ * ]
+ * );
  * </code>
  */
 class Xcache extends \Phalcon\Mvc\Model\MetaData

@@ -141,7 +141,7 @@ class Tag
      * // Assigning "peter" to "name" component
      * Phalcon\Tag::setDefault("name", "peter");
      * // Later in the view
-     * echo Phalcon\Tag::textField("name"); //Will have the value "peter" by default
+     * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
      * </code>
      *
      * @param string $id 
@@ -153,9 +153,13 @@ class Tag
      * Assigns default values to generated tags by helpers
      * <code>
      * // Assigning "peter" to "name" component
-     * Phalcon\Tag::setDefaults(array("name" => "peter"));
+     * Phalcon\Tag::setDefaults(
+     * [
+     * "name" => "peter",
+     * ]
+     * );
      * // Later in the view
-     * echo Phalcon\Tag::textField("name"); //Will have the value "peter" by default
+     * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
      * </code>
      *
      * @param array $values 
@@ -172,7 +176,7 @@ class Tag
     public static function displayTo($id, $value) {}
 
     /**
-     * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from _POST
+     * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
      *
      * @param string $name 
      * @return boolean 
@@ -181,7 +185,7 @@ class Tag
 
     /**
      * Every helper calls this function to check whether a component has a predefined
-     * value using Phalcon\Tag::setDefault or value from _POST
+     * value using Phalcon\Tag::setDefault or value from $_POST
      *
      * @param string $name 
      * @param array $params 
@@ -190,7 +194,9 @@ class Tag
     public static function getValue($name, $params = null) {}
 
     /**
-     * Resets the request and internal values to avoid those fields will have any default value
+     * Resets the request and internal values to avoid those fields will have any default value.
+     *
+     * @deprecated Will be removed in 4.0.0
      */
     public static function resetInput() {}
 
@@ -198,11 +204,42 @@ class Tag
      * Builds a HTML A tag using framework conventions
      * <code>
      * echo Phalcon\Tag::linkTo("signup/register", "Register Here!");
-     * echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!"));
-     * echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!", "class" => "btn-primary"));
-     * echo Phalcon\Tag::linkTo("http://phalconphp.com/", "Phalcon", FALSE);
-     * echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", FALSE));
-     * echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", "local" =>FALSE));
+     * echo Phalcon\Tag::linkTo(
+     * [
+     * "signup/register",
+     * "Register Here!"
+     * ]
+     * );
+     * echo Phalcon\Tag::linkTo(
+     * [
+     * "signup/register",
+     * "Register Here!",
+     * "class" => "btn-primary",
+     * ]
+     * );
+     * echo Phalcon\Tag::linkTo("http://phalconphp.com/", "Phalcon", false);
+     * echo Phalcon\Tag::linkTo(
+     * [
+     * "http://phalconphp.com/",
+     * "Phalcon Home",
+     * false,
+     * ]
+     * );
+     * echo Phalcon\Tag::linkTo(
+     * [
+     * "http://phalconphp.com/",
+     * "Phalcon Home",
+     * "local" => false,
+     * ]
+     * );
+     * echo Phalcon\Tag::linkTo(
+     * [
+     * "action" => "http://phalconphp.com/",
+     * "text"   => "Phalcon Home",
+     * "local"  => false,
+     * "target" => "_new"
+     * ]
+     * );
      * </code>
      *
      * @param array|string $parameters 
@@ -242,7 +279,12 @@ class Tag
     /**
      * Builds a HTML input[type="text"] tag
      * <code>
-     * echo Phalcon\Tag::textField(array("name", "size" => 30));
+     * echo Phalcon\Tag::textField(
+     * [
+     * "name",
+     * "size" => 30,
+     * ]
+     * );
      * </code>
      *
      * @param array $parameters 
@@ -253,7 +295,13 @@ class Tag
     /**
      * Builds a HTML input[type="number"] tag
      * <code>
-     * echo Phalcon\Tag::numericField(array("price", "min" => "1", "max" => "5"));
+     * echo Phalcon\Tag::numericField(
+     * [
+     * "price",
+     * "min" => "1",
+     * "max" => "5",
+     * ]
+     * );
      * </code>
      *
      * @param array $parameters 
@@ -283,7 +331,12 @@ class Tag
     /**
      * Builds a HTML input[type="date"] tag
      * <code>
-     * echo Phalcon\Tag::dateField(array("born", "value" => "14-12-1980"))
+     * echo Phalcon\Tag::dateField(
+     * [
+     * "born",
+     * "value" => "14-12-1980",
+     * ]
+     * );
      * </code>
      *
      * @param array $parameters 
@@ -334,7 +387,12 @@ class Tag
     /**
      * Builds a HTML input[type="password"] tag
      * <code>
-     * echo Phalcon\Tag::passwordField(array("name", "size" => 30));
+     * echo Phalcon\Tag::passwordField(
+     * [
+     * "name",
+     * "size" => 30,
+     * ]
+     * );
      * </code>
      *
      * @param array $parameters 
@@ -345,7 +403,12 @@ class Tag
     /**
      * Builds a HTML input[type="hidden"] tag
      * <code>
-     * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
+     * echo Phalcon\Tag::hiddenField(
+     * [
+     * "name",
+     * "value" => "mike",
+     * ]
+     * );
      * </code>
      *
      * @param array $parameters 
@@ -391,7 +454,12 @@ class Tag
     /**
      * Builds a HTML input[type="check"] tag
      * <code>
-     * echo Phalcon\Tag::checkField(array("terms", "value" => "Y"));
+     * echo Phalcon\Tag::checkField(
+     * [
+     * "terms",
+     * "value" => "Y",
+     * ]
+     * );
      * </code>
      * Volt syntax:
      * <code>
@@ -406,7 +474,12 @@ class Tag
     /**
      * Builds a HTML input[type="radio"] tag
      * <code>
-     * echo Phalcon\Tag::radioField(array("weather", "value" => "hot"))
+     * echo Phalcon\Tag::radioField(
+     * [
+     * "weather",
+     * "value" => "hot",
+     * ]
+     * );
      * </code>
      * Volt syntax:
      * <code>
@@ -421,7 +494,11 @@ class Tag
     /**
      * Builds a HTML input[type="image"] tag
      * <code>
-     * echo Phalcon\Tag::imageInput(array("src" => "/img/button.png"));
+     * echo Phalcon\Tag::imageInput(
+     * [
+     * "src" => "/img/button.png",
+     * ]
+     * );
      * </code>
      * Volt syntax:
      * <code>
@@ -451,7 +528,13 @@ class Tag
     /**
      * Builds a HTML SELECT tag using a PHP array for options
      * <code>
-     * echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))
+     * echo Phalcon\Tag::selectStatic(
+     * "status",
+     * [
+     * "A" => "Active",
+     * "I" => "Inactive",
+     * ]
+     * );
      * </code>
      *
      * @param array $parameters 
@@ -463,11 +546,13 @@ class Tag
     /**
      * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
      * <code>
-     * echo Phalcon\Tag::select([
+     * echo Phalcon\Tag::select(
+     * [
      * "robotId",
      * Robots::find("type = "mechanical""),
-     * "using" => ["id", "name"]
-     * ]);
+     * "using" => ["id", "name"],
+     * ]
+     * );
      * </code>
      * Volt syntax:
      * <code>
@@ -483,7 +568,13 @@ class Tag
     /**
      * Builds a HTML TEXTAREA tag
      * <code>
-     * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
+     * echo Phalcon\Tag::textArea(
+     * [
+     * "comments",
+     * "cols" => 10,
+     * "rows" => 4,
+     * ]
+     * );
      * </code>
      * Volt syntax:
      * <code>
@@ -499,7 +590,12 @@ class Tag
      * Builds a HTML FORM tag
      * <code>
      * echo Phalcon\Tag::form("posts/save");
-     * echo Phalcon\Tag::form(array("posts/save", "method" => "post"));
+     * echo Phalcon\Tag::form(
+     * [
+     * "posts/save",
+     * "method" => "post",
+     * ]
+     * );
      * </code>
      * Volt syntax:
      * <code>
@@ -621,7 +717,12 @@ class Tag
      * Builds HTML IMG tags
      * <code>
      * echo Phalcon\Tag::image("img/bg.png");
-     * echo Phalcon\Tag::image(array("img/photo.jpg", "alt" => "Some Photo"));
+     * echo Phalcon\Tag::image(
+     * [
+     * "img/photo.jpg",
+     * "alt" => "Some Photo",
+     * ]
+     * );
      * </code>
      * Volt Syntax:
      * <code>
@@ -666,9 +767,6 @@ class Tag
 
     /**
      * Builds a HTML tag
-     * <code>
-     * echo Phalcon\Tag::tagHtml(name, parameters, selfClose, onlyStart, eol);
-     * </code>
      *
      * @param string $tagName 
      * @param mixed $parameters 
@@ -682,7 +780,7 @@ class Tag
     /**
      * Builds a HTML tag closing tag
      * <code>
-     * echo Phalcon\Tag::tagHtmlClose("script", true)
+     * echo Phalcon\Tag::tagHtmlClose("script", true);
      * </code>
      *
      * @param string $tagName 

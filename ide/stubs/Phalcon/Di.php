@@ -15,13 +15,18 @@ namespace Phalcon;
  * way to get the required dependencies within a component.
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  * <code>
- * $di = new \Phalcon\Di();
- * //Using a string definition
- * $di->set("request", "Phalcon\Http\Request", true);
- * //Using an anonymous function
- * $di->set("request", function(){
- * return new \Phalcon\Http\Request();
- * }, true);
+ * use Phalcon\Di;
+ * use Phalcon\Http\Request;
+ * $di = new Di();
+ * // Using a string definition
+ * $di->set("request", Request::class, true);
+ * // Using an anonymous function
+ * $di->setShared(
+ * "request",
+ * function () {
+ * return new Request();
+ * }
+ * );
  * $request = $di->getRequest();
  * </code>
  */
@@ -148,7 +153,8 @@ class Di implements \Phalcon\DiInterface
     public function get($name, $parameters = null) {}
 
     /**
-     * Resolves a service, the resolved service is stored in the DI, subsequent requests for this service will return the same instance
+     * Resolves a service, the resolved service is stored in the DI, subsequent
+     * requests for this service will return the same instance
      *
      * @param string $name 
      * @param array $parameters 
@@ -194,7 +200,7 @@ class Di implements \Phalcon\DiInterface
      *
      * @param string $name 
      * @param mixed $definition 
-     * @return boolean 
+     * @return bool 
      */
     public function offsetSet($name, $definition) {}
 
@@ -221,7 +227,7 @@ class Di implements \Phalcon\DiInterface
      * Magic method to get or set services using setters/getters
      *
      * @param string $method 
-     * @param array $arguments 
+     * @param mixed $arguments 
      * @return mixed|null 
      */
     public function __call($method, $arguments = null) {}

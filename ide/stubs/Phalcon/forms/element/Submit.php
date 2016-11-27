@@ -6,7 +6,7 @@ namespace Phalcon\Forms\Element;
  * Phalcon\Forms\Element\Submit
  * Component INPUT[type=submit] for forms
  */
-class Submit extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class Submit extends \Phalcon\Forms\Element
 {
 
     /**

@@ -9,11 +9,11 @@ namespace Phalcon\Logger\Adapter;
  * use Phalcon\Logger\Adapter\Firephp;
  * use Phalcon\Logger;
  * $logger = new Firephp();
- * $logger->log(Logger::ERROR, 'This is an error');
- * $logger->error('This is another error');
+ * $logger->log(Logger::ERROR, "This is an error");
+ * $logger->error("This is another error");
  * </code>
  */
-class Firephp extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+class Firephp extends \Phalcon\Logger\Adapter
 {
 
     private $_initialized = false;

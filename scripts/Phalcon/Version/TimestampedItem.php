@@ -4,10 +4,10 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -35,17 +35,17 @@ class TimestampedItem implements ItemInterface
     /**
      * @var string
      */
-    protected $_version;
+    protected $version;
 
     /**
      * @var boolean
      */
-    protected $_isFullVersion;
+    protected $isFullVersion;
 
     /**
      * @var array
      */
-    protected $_parts = [];
+    protected $parts = [];
 
     /**
      * @param string $version String representation of the version
@@ -55,13 +55,13 @@ class TimestampedItem implements ItemInterface
      */
     public function __construct($version, array $options = [])
     {
-        if (1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version)) {
+        if ((1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version)) && $version != '000') {
             throw new \InvalidArgumentException('Wrong version number provided');
         }
-        $this->_version = $version;
+        $this->version = $version;
 
-        $this->_parts = explode('_', $version);
-        $this->_isFullVersion = isset($this->_parts[1]);
+        $this->parts         = explode('_', $version);
+        $this->isFullVersion = isset($this->parts[1]);
     }
 
     /**
@@ -71,7 +71,7 @@ class TimestampedItem implements ItemInterface
      */
     public function isFullVersion()
     {
-        return !!$this->_isFullVersion;
+        return !!$this->isFullVersion;
     }
 
     /**
@@ -81,7 +81,7 @@ class TimestampedItem implements ItemInterface
      */
     public function getStamp()
     {
-        return (int) $this->_parts[0];
+        return (int) $this->parts[0];
     }
 
     /**
@@ -91,6 +91,6 @@ class TimestampedItem implements ItemInterface
      */
     public function getDescription()
     {
-        return $this->isFullVersion() ? $this->_parts[1] : '';
+        return $this->isFullVersion() ? $this->parts[1] : '';
     }
 }

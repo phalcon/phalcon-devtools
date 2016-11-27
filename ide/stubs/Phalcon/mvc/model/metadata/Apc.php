@@ -8,10 +8,12 @@ namespace Phalcon\Mvc\Model\MetaData;
  * By default meta-data is stored for 48 hours (172800 seconds)
  * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
  * <code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Apc(array(
- * 'prefix' => 'my-app-id',
- * 'lifetime' => 86400
- * ));
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Apc(
+ * [
+ * "prefix"   => "my-app-id",
+ * "lifetime" => 86400,
+ * ]
+ * );
  * </code>
  */
 class Apc extends \Phalcon\Mvc\Model\MetaData

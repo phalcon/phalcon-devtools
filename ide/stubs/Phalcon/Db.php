@@ -15,14 +15,18 @@ namespace Phalcon;
  * use Phalcon\Db\Exception;
  * use Phalcon\Db\Adapter\Pdo\Mysql as MysqlConnection;
  * try {
- * $connection = new MysqlConnection(array(
- * 'host' => '192.168.0.11',
- * 'username' => 'sigma',
- * 'password' => 'secret',
- * 'dbname' => 'blog',
- * 'port' => '3306',
- * ));
- * $result = $connection->query("SELECTFROM robots LIMIT 5");
+ * $connection = new MysqlConnection(
+ * [
+ * "host"     => "192.168.0.11",
+ * "username" => "sigma",
+ * "password" => "secret",
+ * "dbname"   => "blog",
+ * "port"     => "3306",
+ * ]
+ * );
+ * $result = $connection->query(
+ * "SELECTFROM robots LIMIT 5"
+ * );
  * $result->setFetchMode(Db::FETCH_NUM);
  * while ($robot = $result->fetch()) {
  * print_r($robot);

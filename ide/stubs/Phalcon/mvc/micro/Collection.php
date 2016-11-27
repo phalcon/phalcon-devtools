@@ -8,8 +8,10 @@ namespace Phalcon\Mvc\Micro;
  * <code>
  * $app = new \Phalcon\Mvc\Micro();
  * $collection = new Collection();
- * $collection->setHandler(new PostsController());
- * $collection->get('/posts/edit/{id}', 'edit');
+ * $collection->setHandler(
+ * new PostsController()
+ * );
+ * $collection->get("/posts/edit/{id}", "edit");
  * $app->mount($collection);
  * </code>
  */
