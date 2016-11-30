@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Cache\Frontend;
-
 /**
  * Phalcon\Cache\Frontend\Igbinary
  * Allows to cache native PHP data in a serialized form using igbinary extension
@@ -47,21 +46,21 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
     /**
      * Phalcon\Cache\Frontend\Data constructor
      *
-     * @param array $frontendOptions 
+     * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
 
     /**
      * Returns the cache lifetime
      *
-     * @return int 
+     * @return int
      */
     public function getLifetime() {}
 
     /**
      * Check whether if frontend is buffering output
      *
-     * @return bool 
+     * @return bool
      */
     public function isBuffering() {}
 
@@ -73,7 +72,7 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
     /**
      * Returns output cached content
      *
-     * @return string 
+     * @return string
      */
     public function getContent() {}
 
@@ -85,16 +84,16 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
     /**
      * Serializes data before storing them
      *
-     * @param mixed $data 
-     * @return string 
+     * @param mixed $data
+     * @return string
      */
     public function beforeStore($data) {}
 
     /**
      * Unserializes data after retrieval
      *
-     * @param mixed $data 
-     * @return mixed 
+     * @param mixed $data
+     * @return mixed
      */
     public function afterRetrieve($data) {}
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Validator;
-
 /**
  * Phalcon\Mvc\Model\Validator\Url
  * Allows to validate if a field has a url format
@@ -33,8 +32,8 @@ class Url extends \Phalcon\Mvc\Model\Validator
     /**
      * Executes the validator
      *
-     * @param mixed $record 
-     * @return bool 
+     * @param \Phalcon\Mvc\EntityInterface $record
+     * @return bool
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 

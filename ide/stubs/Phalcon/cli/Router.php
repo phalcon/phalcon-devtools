@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Cli;
-
 /**
  * Phalcon\Cli\Router
  * <p>Phalcon\Cli\Router is the standard framework router. Routing is the
@@ -65,42 +64,42 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Phalcon\Cli\Router constructor
      *
-     * @param bool $defaultRoutes 
+     * @param bool $defaultRoutes
      */
     public function __construct($defaultRoutes = true) {}
 
     /**
      * Sets the dependency injector
      *
-     * @param mixed $dependencyInjector 
+     * @param \Phalcon\DiInterface $dependencyInjector
      */
     public function setDI(\Phalcon\DiInterface $dependencyInjector) {}
 
     /**
      * Returns the internal dependency injector
      *
-     * @return \Phalcon\DiInterface 
+     * @return \Phalcon\DiInterface
      */
     public function getDI() {}
 
     /**
      * Sets the name of the default module
      *
-     * @param string $moduleName 
+     * @param string $moduleName
      */
     public function setDefaultModule($moduleName) {}
 
     /**
      * Sets the default controller name
      *
-     * @param string $taskName 
+     * @param string $taskName
      */
     public function setDefaultTask($taskName) {}
 
     /**
      * Sets the default action name
      *
-     * @param string $actionName 
+     * @param string $actionName
      */
     public function setDefaultAction($actionName) {}
 
@@ -116,15 +115,15 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * );
      * </code>
      *
-     * @param array $defaults 
-     * @return Router 
+     * @param array $defaults
+     * @return Router
      */
     public function setDefaults(array $defaults) {}
 
     /**
      * Handles routing information received from command-line arguments
      *
-     * @param array $arguments 
+     * @param array $arguments
      */
     public function handle($arguments = null) {}
 
@@ -134,81 +133,81 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * $router->add("/about", "About::main");
      * </code>
      *
-     * @param string $pattern 
-     * @param string/array $paths 
-     * @return \Phalcon\Cli\Router\Route 
+     * @param string $pattern
+     * @param string/array $paths
+     * @return RouteInterface
      */
     public function add($pattern, $paths = null) {}
 
     /**
      * Returns processed module name
      *
-     * @return string 
+     * @return string
      */
     public function getModuleName() {}
 
     /**
      * Returns processed task name
      *
-     * @return string 
+     * @return string
      */
     public function getTaskName() {}
 
     /**
      * Returns processed action name
      *
-     * @return string 
+     * @return string
      */
     public function getActionName() {}
 
     /**
      * Returns processed extra params
      *
-     * @return array 
+     * @return array
      */
     public function getParams() {}
 
     /**
      * Returns the route that matches the handled URI
      *
-     * @return RouteInterface 
+     * @return RouteInterface
      */
     public function getMatchedRoute() {}
 
     /**
      * Returns the sub expressions in the regular expression matched
      *
-     * @return array 
+     * @return array
      */
     public function getMatches() {}
 
     /**
      * Checks if the router matches any of the defined routes
      *
-     * @return bool 
+     * @return bool
      */
     public function wasMatched() {}
 
     /**
      * Returns all the routes defined in the router
      *
-     * @return Route[] 
+     * @return \Phalcon\Cli\Router\Route[]
      */
     public function getRoutes() {}
 
     /**
      * Returns a route object by its id
      *
-     * @param int $id 
-     * @return \Phalcon\Cli\Router\Route 
+     * @param int $id
+     * @return bool|RouteInterface
      */
     public function getRouteById($id) {}
 
     /**
      * Returns a route object by its name
      *
-     * @param string $name 
-     * @return bool|RouteInterface 
+     * @param string $name
+     * @return bool|RouteInterface
      */
     public function getRouteByName($name) {}
 

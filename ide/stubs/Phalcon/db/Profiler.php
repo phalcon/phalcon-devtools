@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db;
-
 /**
  * Phalcon\Db\Profiler
  * Instances of Phalcon\Db can generate execution profiles
@@ -52,52 +51,52 @@ class Profiler
     /**
      * Starts the profile of a SQL sentence
      *
-     * @param string $sqlStatement 
-     * @param mixed $sqlVariables 
-     * @param mixed $sqlBindTypes 
-     * @return \Phalcon\Db\Profiler 
+     * @param string $sqlStatement
+     * @param mixed $sqlVariables
+     * @param mixed $sqlBindTypes
+     * @return Profiler
      */
     public function startProfile($sqlStatement, $sqlVariables = null, $sqlBindTypes = null) {}
 
     /**
      * Stops the active profile
      *
-     * @return Profiler 
+     * @return Profiler
      */
     public function stopProfile() {}
 
     /**
      * Returns the total number of SQL statements processed
      *
-     * @return int 
+     * @return int
      */
     public function getNumberTotalStatements() {}
 
     /**
      * Returns the total time in seconds spent by the profiles
      *
-     * @return double 
+     * @return double
      */
     public function getTotalElapsedSeconds() {}
 
     /**
      * Returns all the processed profiles
      *
-     * @return Item[] 
+     * @return \Phalcon\Db\Profiler\Item[]
      */
     public function getProfiles() {}
 
     /**
      * Resets the profiler, cleaning up all the profiles
      *
-     * @return Profiler 
+     * @return Profiler
      */
     public function reset() {}
 
     /**
      * Returns the last profile executed in the profiler
      *
-     * @return \Phalcon\Db\Profiler\Item 
+     * @return \Phalcon\Db\Profiler\Item
      */
     public function getLastProfile() {}
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Session\Adapter;
-
 /**
  * Phalcon\Session\Adapter\Memcache
  * This adapter store sessions in memcache
@@ -40,49 +39,49 @@ class Memcache extends \Phalcon\Session\Adapter
     /**
      * Phalcon\Session\Adapter\Memcache constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     public function __construct(array $options = array()) {}
 
     /**
-     * @return bool 
+     * @return bool
      */
     public function open() {}
 
     /**
-     * @return bool 
+     * @return bool
      */
     public function close() {}
 
     /**
      * {@inheritdoc}
      *
-     * @param string $sessionId 
-     * @return string 
+     * @param string $sessionId
+     * @return string
      */
     public function read($sessionId) {}
 
     /**
      * {@inheritdoc}
      *
-     * @param string $sessionId 
-     * @param string $data 
-     * @return bool 
+     * @param string $sessionId
+     * @param string $data
+     * @return bool
      */
     public function write($sessionId, $data) {}
 
     /**
      * {@inheritdoc}
      *
-     * @param string $sessionId 
-     * @return bool 
+     * @param string $sessionId
+     * @return bool
      */
     public function destroy($sessionId = null) {}
 
     /**
      * {@inheritdoc}
      *
-     * @return bool 
+     * @return bool
      */
     public function gc() {}
 

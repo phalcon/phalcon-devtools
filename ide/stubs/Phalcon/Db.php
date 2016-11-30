@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Db
  * Phalcon\Db and its related classes provide a simple SQL database interface for Phalcon Framework.
@@ -93,7 +92,7 @@ abstract class Db
     /**
      * Enables/disables options in the Database component
      *
-     * @param array $options 
+     * @param array $options
      */
     public static function setup(array $options) {}
 

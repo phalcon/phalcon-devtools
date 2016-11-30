@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Http;
-
 /**
  * Phalcon\Http\Response
  * Part of the HTTP cycle is return responses to the clients.
@@ -38,23 +37,23 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Phalcon\Http\Response constructor
      *
-     * @param mixed $content 
-     * @param mixed $code 
-     * @param mixed $status 
+     * @param mixed $content
+     * @param mixed $code
+     * @param mixed $status
      */
     public function __construct($content = null, $code = null, $status = null) {}
 
     /**
      * Sets the dependency injector
      *
-     * @param mixed $dependencyInjector 
+     * @param \Phalcon\DiInterface $dependencyInjector
      */
     public function setDI(\Phalcon\DiInterface $dependencyInjector) {}
 
     /**
      * Returns the internal dependency injector
      *
-     * @return \Phalcon\DiInterface 
+     * @return \Phalcon\DiInterface
      */
     public function getDI() {}
 
@@ -64,9 +63,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $response->setStatusCode(404, "Not Found");
      * </code>
      *
-     * @param int $code 
-     * @param string $message 
-     * @return Response 
+     * @param int $code
+     * @param string $message
+     * @return Response
      */
     public function setStatusCode($code, $message = null) {}
 
@@ -78,37 +77,37 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * );
      * </code>
      *
-     * @return array 
+     * @return array
      */
     public function getStatusCode() {}
 
     /**
      * Sets a headers bag for the response externally
      *
-     * @param mixed $headers 
-     * @return Response 
+     * @param \Phalcon\Http\Response\HeadersInterface $headers
+     * @return Response
      */
     public function setHeaders(\Phalcon\Http\Response\HeadersInterface $headers) {}
 
     /**
      * Returns headers set by the user
      *
-     * @return \Phalcon\Http\Response\HeadersInterface 
+     * @return \Phalcon\Http\Response\HeadersInterface
      */
     public function getHeaders() {}
 
     /**
      * Sets a cookies bag for the response externally
      *
-     * @param mixed $cookies 
-     * @return Response 
+     * @param \Phalcon\Http\Response\CookiesInterface $cookies
+     * @return Response
      */
     public function setCookies(\Phalcon\Http\Response\CookiesInterface $cookies) {}
 
     /**
      * Returns cookies set by the user
      *
-     * @return \Phalcon\Http\Response\CookiesInterface 
+     * @return \Phalcon\Http\Response\CookiesInterface
      */
     public function getCookies() {}
 
@@ -118,9 +117,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $response->setHeader("Content-Type", "text/plain");
      * </code>
      *
-     * @param string $name 
-     * @param mixed $value 
-     * @return Response 
+     * @param string $name
+     * @param mixed $value
+     * @return Response
      */
     public function setHeader($name, $value) {}
 
@@ -130,15 +129,15 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $response->setRawHeader("HTTP/1.1 404 Not Found");
      * </code>
      *
-     * @param string $header 
-     * @return Response 
+     * @param string $header
+     * @return Response
      */
     public function setRawHeader($header) {}
 
     /**
      * Resets all the established headers
      *
-     * @return Response 
+     * @return Response
      */
     public function resetHeaders() {}
 
@@ -150,8 +149,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * );
      * </code>
      *
-     * @param mixed $datetime 
-     * @return Response 
+     * @param \DateTime $datetime
+     * @return Response
      */
     public function setExpires(\DateTime $datetime) {}
 
@@ -163,8 +162,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * );
      * </code>
      *
-     * @param mixed $datetime 
-     * @return Response 
+     * @param \DateTime $datetime
+     * @return Response
      */
     public function setLastModified(\DateTime $datetime) {}
 
@@ -174,15 +173,15 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $this->response->setCache(60);
      * </code>
      *
-     * @param int $minutes 
-     * @return Response 
+     * @param int $minutes
+     * @return Response
      */
     public function setCache($minutes) {}
 
     /**
      * Sends a Not-Modified response
      *
-     * @return Response 
+     * @return Response
      */
     public function setNotModified() {}
 
@@ -193,9 +192,9 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $response->setContentType("text/plain", "UTF-8");
      * </code>
      *
-     * @param string $contentType 
-     * @param mixed $charset 
-     * @return Response 
+     * @param string $contentType
+     * @param mixed $charset
+     * @return Response
      */
     public function setContentType($contentType, $charset = null) {}
 
@@ -205,8 +204,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $response->setContentLength(2048);
      * </code>
      *
-     * @param int $contentLength 
-     * @return Response 
+     * @param int $contentLength
+     * @return Response
      */
     public function setContentLength($contentLength) {}
 
@@ -216,8 +215,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $response->setEtag(md5(time()));
      * </code>
      *
-     * @param string $etag 
-     * @return Response 
+     * @param string $etag
+     * @return Response
      */
     public function setEtag($etag) {}
 
@@ -238,10 +237,10 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * );
      * </code>
      *
-     * @param mixed $location 
-     * @param bool $externalRedirect 
-     * @param int $statusCode 
-     * @return Response 
+     * @param mixed $location
+     * @param bool $externalRedirect
+     * @param int $statusCode
+     * @return Response
      */
     public function redirect($location = null, $externalRedirect = false, $statusCode = 302) {}
 
@@ -251,8 +250,8 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * $response->setContent("<h1>Hello!</h1>");
      * </code>
      *
-     * @param string $content 
-     * @return Response 
+     * @param string $content
+     * @return Response
      */
     public function setContent($content) {}
 
@@ -267,63 +266,63 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
      * );
      * </code>
      *
-     * @param mixed $content 
-     * @param int $jsonOptions 
-     * @param int $depth 
-     * @return Response 
+     * @param mixed $content
+     * @param int $jsonOptions
+     * @param int $depth
+     * @return Response
      */
     public function setJsonContent($content, $jsonOptions = 0, $depth = 512) {}
 
     /**
      * Appends a string to the HTTP response body
      *
-     * @param mixed $content 
-     * @return Response 
+     * @param mixed $content
+     * @return Response
      */
     public function appendContent($content) {}
 
     /**
      * Gets the HTTP response body
      *
-     * @return string 
+     * @return string
      */
     public function getContent() {}
 
     /**
      * Check if the response is already sent
      *
-     * @return bool 
+     * @return bool
      */
     public function isSent() {}
 
     /**
      * Sends headers to the client
      *
-     * @return Response 
+     * @return Response
      */
     public function sendHeaders() {}
 
     /**
      * Sends cookies to the client
      *
-     * @return Response 
+     * @return Response
      */
     public function sendCookies() {}
 
     /**
      * Prints out HTTP response to the client
      *
-     * @return Response 
+     * @return Response
      */
     public function send() {}
 
     /**
      * Sets an attached file to be sent at the end of the request
      *
-     * @param string $filePath 
-     * @param mixed $attachmentName 
-     * @param mixed $attachment 
-     * @return Response 
+     * @param string $filePath
+     * @param mixed $attachmentName
+     * @param mixed $attachment
+     * @return Response
      */
     public function setFileToSend($filePath, $attachmentName = null, $attachment = true) {}
 

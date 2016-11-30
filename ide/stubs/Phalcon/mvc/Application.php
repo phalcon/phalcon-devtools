@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc;
-
 /**
  * Phalcon\Mvc\Application
  * This component encapsulates all the complex operations behind instantiating every component
@@ -50,16 +49,16 @@ class Application extends \Phalcon\Application
      * By default. The view is implicitly buffering all the output
      * You can full disable the view component using this method
      *
-     * @param bool $implicitView 
-     * @return Application 
+     * @param bool $implicitView
+     * @return Application
      */
     public function useImplicitView($implicitView) {}
 
     /**
      * Handles a MVC request
      *
-     * @param string $uri 
-     * @return bool|\Phalcon\Http\ResponseInterface 
+     * @param string $uri
+     * @return bool|\Phalcon\Http\ResponseInterface
      */
     public function handle($uri = null) {}
 

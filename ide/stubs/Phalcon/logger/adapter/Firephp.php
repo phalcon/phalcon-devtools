@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Logger\Adapter;
-
 /**
  * Phalcon\Logger\Adapter\Firephp
  * Sends logs to FirePHP
@@ -25,24 +24,24 @@ class Firephp extends \Phalcon\Logger\Adapter
     /**
      * Returns the internal formatter
      *
-     * @return \Phalcon\Logger\FormatterInterface 
+     * @return \Phalcon\Logger\FormatterInterface
      */
     public function getFormatter() {}
 
     /**
      * Writes the log to the stream itself
      *
-     * @param string $message 
-     * @param int $type 
-     * @param int $time 
-     * @param array $context 
+     * @param string $message
+     * @param int $type
+     * @param int $time
+     * @param array $context
      */
     public function logInternal($message, $type, $time, array $context) {}
 
     /**
      * Closes the logger
      *
-     * @return bool 
+     * @return bool
      */
     public function close() {}
 

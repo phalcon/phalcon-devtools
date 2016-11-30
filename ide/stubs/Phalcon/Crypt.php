@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Crypt
  * Provides encryption facilities to phalcon applications
@@ -49,38 +48,38 @@ class Crypt implements \Phalcon\CryptInterface
     /**
      * Changes the padding scheme used
      *
-     * @param int $scheme 
-     * @return \Phalcon\CryptInterface 
+     * @param int $scheme
+     * @return \Phalcon\CryptInterface
      */
     public function setPadding($scheme) {}
 
     /**
      * Sets the cipher algorithm
      *
-     * @param string $cipher 
-     * @return Crypt 
+     * @param string $cipher
+     * @return Crypt
      */
     public function setCipher($cipher) {}
 
     /**
      * Returns the current cipher
      *
-     * @return string 
+     * @return string
      */
     public function getCipher() {}
 
     /**
      * Sets the encryption key
      *
-     * @param string $key 
-     * @return Crypt 
+     * @param string $key
+     * @return Crypt
      */
     public function setKey($key) {}
 
     /**
      * Returns the encryption key
      *
-     * @return string 
+     * @return string
      */
     public function getKey() {}
 
@@ -88,10 +87,10 @@ class Crypt implements \Phalcon\CryptInterface
      * Pads texts before encryption
      *
      * @see http://www.di-mgt.com.au/cryptopad.html
-     * @param string $text 
-     * @param string $mode 
-     * @param int $blockSize 
-     * @param int $paddingType 
+     * @param string $text
+     * @param string $mode
+     * @param int $blockSize
+     * @param int $paddingType
      */
     protected function _cryptPadText($text, $mode, $blockSize, $paddingType) {}
 
@@ -112,9 +111,9 @@ class Crypt implements \Phalcon\CryptInterface
      * $encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
      * </code>
      *
-     * @param string $text 
-     * @param string $key 
-     * @return string 
+     * @param string $text
+     * @param string $key
+     * @return string
      */
     public function encrypt($text, $key = null) {}
 
@@ -124,36 +123,36 @@ class Crypt implements \Phalcon\CryptInterface
      * echo $crypt->decrypt($encrypted, "decrypt password");
      * </code>
      *
-     * @param string $text 
-     * @param mixed $key 
-     * @return string 
+     * @param string $text
+     * @param mixed $key
+     * @return string
      */
     public function decrypt($text, $key = null) {}
 
     /**
      * Encrypts a text returning the result as a base64 string
      *
-     * @param string $text 
-     * @param mixed $key 
-     * @param bool $safe 
-     * @return string 
+     * @param string $text
+     * @param mixed $key
+     * @param bool $safe
+     * @return string
      */
     public function encryptBase64($text, $key = null, $safe = false) {}
 
     /**
      * Decrypt a text that is coded as a base64 string
      *
-     * @param string $text 
-     * @param mixed $key 
-     * @param bool $safe 
-     * @return string 
+     * @param string $text
+     * @param mixed $key
+     * @param bool $safe
+     * @return string
      */
     public function decryptBase64($text, $key = null, $safe = false) {}
 
     /**
      * Returns a list of available ciphers
      *
-     * @return array 
+     * @return array
      */
     public function getAvailableCiphers() {}
 

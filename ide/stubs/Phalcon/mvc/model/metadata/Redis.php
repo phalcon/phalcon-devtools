@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\MetaData;
-
 /**
  * Phalcon\Mvc\Model\MetaData\Redis
  * Stores model meta-data in the Redis.
@@ -35,23 +34,23 @@ class Redis extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Redis constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads metadata from Redis
      *
-     * @param string $key 
-     * @return array|null 
+     * @param string $key
+     * @return array|null
      */
     public function read($key) {}
 
     /**
      * Writes the metadata to Redis
      *
-     * @param string $key 
-     * @param mixed $data 
+     * @param string $key
+     * @param mixed $data
      */
     public function write($key, $data) {}
 

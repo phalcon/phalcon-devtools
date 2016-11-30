@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Paginator\Adapter;
-
 /**
  * Phalcon\Paginator\Adapter\Model
  * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base.
@@ -28,14 +27,14 @@ class Model extends \Phalcon\Paginator\Adapter
     /**
      * Phalcon\Paginator\Adapter\Model constructor
      *
-     * @param array $config 
+     * @param array $config
      */
     public function __construct(array $config) {}
 
     /**
      * Returns a slice of the resultset to show in the pagination
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getPaginate() {}
 

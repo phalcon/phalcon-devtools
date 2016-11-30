@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Query;
-
 /**
  * Phalcon\Mvc\Model\Query\Lang
  * PHQL is implemented as a parser (written in C) that translates syntax in
@@ -22,8 +21,8 @@ abstract class Lang
     /**
      * Parses a PHQL statement returning an intermediate representation (IR)
      *
-     * @param string $phql 
-     * @return string 
+     * @param string $phql
+     * @return string
      */
     public static function parsePHQL($phql) {}
 

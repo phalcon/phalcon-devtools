@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Validator;
-
 /**
  * Phalcon\Mvc\Model\Validator\InclusionIn
  * Check if a value is included into a list of values
@@ -34,8 +33,8 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator
     /**
      * Executes validator
      *
-     * @param mixed $record 
-     * @return bool 
+     * @param \Phalcon\Mvc\EntityInterface $record
+     * @return bool
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 

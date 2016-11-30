@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Registry
  * A registry is a container for storing objects and values in the application space.
@@ -56,38 +55,38 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
     /**
      * Checks if the element is present in the registry
      *
-     * @param string $offset 
-     * @return bool 
+     * @param string $offset
+     * @return bool
      */
     public final function offsetExists($offset) {}
 
     /**
      * Returns an index in the registry
      *
-     * @param string $offset 
-     * @return mixed 
+     * @param string $offset
+     * @return mixed
      */
     public final function offsetGet($offset) {}
 
     /**
      * Sets an element in the registry
      *
-     * @param string $offset 
-     * @param mixed $value 
+     * @param string $offset
+     * @param mixed $value
      */
     public final function offsetSet($offset, $value) {}
 
     /**
      * Unsets an element in the registry
      *
-     * @param string $offset 
+     * @param string $offset
      */
     public final function offsetUnset($offset) {}
 
     /**
      * Checks how many elements are in the register
      *
-     * @return int 
+     * @return int
      */
     public final function count() {}
 
@@ -99,7 +98,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
     /**
      * Gets pointer number of active row in the registry
      *
-     * @return int 
+     * @return int
      */
     public final function key() {}
 
@@ -111,7 +110,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
     /**
      * Checks if the iterator is valid
      *
-     * @return bool 
+     * @return bool
      */
     public function valid() {}
 
@@ -123,27 +122,27 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
     /**
      * Sets an element in the registry
      *
-     * @param string $key 
-     * @param mixed $value 
+     * @param string $key
+     * @param mixed $value
      */
     public final function __set($key, $value) {}
 
     /**
      * Returns an index in the registry
      *
-     * @param string $key 
-     * @return mixed 
+     * @param string $key
+     * @return mixed
      */
     public final function __get($key) {}
 
     /**
-     * @param string $key 
-     * @return bool 
+     * @param string $key
+     * @return bool
      */
     public final function __isset($key) {}
 
     /**
-     * @param string $key 
+     * @param string $key
      */
     public final function __unset($key) {}
 

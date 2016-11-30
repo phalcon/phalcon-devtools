@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Cache\Frontend;
-
 /**
  * Phalcon\Cache\Frontend\None
  * Discards any kind of frontend data input. This frontend does not have expiration time or any other options
@@ -43,14 +42,14 @@ class None implements \Phalcon\Cache\FrontendInterface
     /**
      * Returns cache lifetime, always one second expiring content
      *
-     * @return int 
+     * @return int
      */
     public function getLifetime() {}
 
     /**
      * Check whether if frontend is buffering output, always false
      *
-     * @return bool 
+     * @return bool
      */
     public function isBuffering() {}
 
@@ -62,7 +61,7 @@ class None implements \Phalcon\Cache\FrontendInterface
     /**
      * Returns output cached content
      *
-     * @return string 
+     * @return string
      */
     public function getContent() {}
 
@@ -74,15 +73,15 @@ class None implements \Phalcon\Cache\FrontendInterface
     /**
      * Prepare data to be stored
      *
-     * @param mixed $data 
+     * @param mixed $data
      */
     public function beforeStore($data) {}
 
     /**
      * Prepares data to be retrieved to user
      *
-     * @param mixed $data 
-     * @return mixed 
+     * @param mixed $data
+     * @return mixed
      */
     public function afterRetrieve($data) {}
 

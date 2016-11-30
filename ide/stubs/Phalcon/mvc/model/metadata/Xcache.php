@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\MetaData;
-
 /**
  * Phalcon\Mvc\Model\MetaData\Xcache
  * Stores model meta-data in the XCache cache. Data will erased if the web server is restarted
@@ -31,23 +30,23 @@ class Xcache extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Xcache constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads metadata from XCache
      *
-     * @param string $key 
-     * @return array 
+     * @param string $key
+     * @return array
      */
     public function read($key) {}
 
     /**
      * Writes the metadata to XCache
      *
-     * @param string $key 
-     * @param array $data 
+     * @param string $key
+     * @param array $data
      */
     public function write($key, $data) {}
 

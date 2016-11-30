@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Cache\Frontend;
-
 /**
  * Phalcon\Cache\Frontend\Data
  * Allows to cache native PHP data in a serialized form
@@ -52,21 +51,21 @@ class Data implements \Phalcon\Cache\FrontendInterface
     /**
      * Phalcon\Cache\Frontend\Data constructor
      *
-     * @param array $frontendOptions 
+     * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
 
     /**
      * Returns the cache lifetime
      *
-     * @return int 
+     * @return int
      */
     public function getLifetime() {}
 
     /**
      * Check whether if frontend is buffering output
      *
-     * @return bool 
+     * @return bool
      */
     public function isBuffering() {}
 
@@ -78,7 +77,7 @@ class Data implements \Phalcon\Cache\FrontendInterface
     /**
      * Returns output cached content
      *
-     * @return string 
+     * @return string
      */
     public function getContent() {}
 
@@ -90,15 +89,15 @@ class Data implements \Phalcon\Cache\FrontendInterface
     /**
      * Serializes data before storing them
      *
-     * @param mixed $data 
+     * @param mixed $data
      */
     public function beforeStore($data) {}
 
     /**
      * Unserializes data after retrieval
      *
-     * @param mixed $data 
-     * @return mixed 
+     * @param mixed $data
+     * @return mixed
      */
     public function afterRetrieve($data) {}
 

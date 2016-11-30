@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Events;
-
 /**
  * Phalcon\Events\Event
  * This class offers contextual information of a fired event in the EventsManager
@@ -47,47 +46,47 @@ class Event implements \Phalcon\Events\EventInterface
     /**
      * Event type
      *
-     * @return string 
+     * @return string
      */
     public function getType() {}
 
     /**
      * Event source
      *
-     * @return object 
+     * @return object
      */
     public function getSource() {}
 
     /**
      * Event data
      *
-     * @return mixed 
+     * @return mixed
      */
     public function getData() {}
 
     /**
      * Phalcon\Events\Event constructor
      *
-     * @param string $type 
-     * @param object $source 
-     * @param mixed $data 
-     * @param boolean $cancelable 
+     * @param string $type
+     * @param object $source
+     * @param mixed $data
+     * @param boolean $cancelable
      */
     public function __construct($type, $source, $data = null, $cancelable = true) {}
 
     /**
      * Sets event data.
      *
-     * @param mixed $data 
-     * @return EventInterface 
+     * @param mixed $data
+     * @return EventInterface
      */
     public function setData($data = null) {}
 
     /**
      * Sets event type.
      *
-     * @param string $type 
-     * @return EventInterface 
+     * @param string $type
+     * @return EventInterface
      */
     public function setType($type) {}
 
@@ -99,14 +98,14 @@ class Event implements \Phalcon\Events\EventInterface
      * }
      * </code>
      *
-     * @return EventInterface 
+     * @return EventInterface
      */
     public function stop() {}
 
     /**
      * Check whether the event is currently stopped.
      *
-     * @return bool 
+     * @return bool
      */
     public function isStopped() {}
 
@@ -118,7 +117,7 @@ class Event implements \Phalcon\Events\EventInterface
      * }
      * </code>
      *
-     * @return bool 
+     * @return bool
      */
     public function isCancelable() {}
 

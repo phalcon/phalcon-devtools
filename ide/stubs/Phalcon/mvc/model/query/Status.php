@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Query;
-
 /**
  * Phalcon\Mvc\Model\Query\Status
  * This class represents the status returned by a PHQL
@@ -37,29 +36,29 @@ class Status implements \Phalcon\Mvc\Model\Query\StatusInterface
     /**
      * Phalcon\Mvc\Model\Query\Status
      *
-     * @param bool $success 
-     * @param mixed $model 
+     * @param bool $success
+     * @param \Phalcon\Mvc\ModelInterface $model
      */
     public function __construct($success, \Phalcon\Mvc\ModelInterface $model = null) {}
 
     /**
      * Returns the model that executed the action
      *
-     * @return \Phalcon\Mvc\ModelInterface 
+     * @return \Phalcon\Mvc\ModelInterface
      */
     public function getModel() {}
 
     /**
      * Returns the messages produced because of a failed operation
      *
-     * @return \Phalcon\Mvc\Model\MessageInterface[] 
+     * @return \Phalcon\Mvc\Model\MessageInterface[]
      */
     public function getMessages() {}
 
     /**
      * Allows to check if the executed operation was successful
      *
-     * @return bool 
+     * @return bool
      */
     public function success() {}
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
-
 /**
  * Phalcon\Validation\Validator\Identical
  * Checks if a value is identical to other
@@ -42,9 +41,9 @@ class Identical extends \Phalcon\Validation\Validator
     /**
      * Executes the validation
      *
-     * @param mixed $validation 
-     * @param string $field 
-     * @return bool 
+     * @param \Phalcon\Validation $validation
+     * @param string $field
+     * @return bool
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 

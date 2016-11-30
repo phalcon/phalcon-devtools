@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
-
 /**
  * Phalcon\Validation\Validator\PresenceOf
  * Validates that a value is not null or empty string
@@ -37,9 +36,9 @@ class PresenceOf extends \Phalcon\Validation\Validator
     /**
      * Executes the validation
      *
-     * @param mixed $validation 
-     * @param string $field 
-     * @return bool 
+     * @param \Phalcon\Validation $validation
+     * @param string $field
+     * @return bool
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 

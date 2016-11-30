@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Paginator\Adapter;
-
 /**
  * Phalcon\Paginator\Adapter\NativeArray
  * Pagination using a PHP array as source of data
@@ -33,14 +32,14 @@ class NativeArray extends \Phalcon\Paginator\Adapter
     /**
      * Phalcon\Paginator\Adapter\NativeArray constructor
      *
-     * @param array $config 
+     * @param array $config
      */
     public function __construct(array $config) {}
 
     /**
      * Returns a slice of the resultset to show in the pagination
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getPaginate() {}
 

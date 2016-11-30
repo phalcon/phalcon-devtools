@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Assets\Filters;
-
 /**
  * Phalcon\Assets\Filters\Cssmin
  * Minify the css - removes comments
@@ -14,8 +13,8 @@ class Cssmin implements \Phalcon\Assets\FilterInterface
     /**
      * Filters the content using CSSMIN
      *
-     * @param string $content 
-     * @return string 
+     * @param string $content
+     * @return string
      */
     public function filter($content) {}
 

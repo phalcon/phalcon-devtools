@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Translate;
-
 /**
  * Phalcon\Translate\AdapterInterface
  * Interface for Phalcon\Translate adapters
@@ -15,9 +14,9 @@ interface AdapterInterface
      * @param	string translateKey
      * @param	array placeholders
      * @return	string
-     * @param string $translateKey 
-     * @param mixed $placeholders 
-     * @return string 
+     * @param string $translateKey
+     * @param mixed $placeholders
+     * @return string
      */
     public function t($translateKey, $placeholders = null);
 
@@ -27,17 +26,17 @@ interface AdapterInterface
      * @param	string index
      * @param	array placeholders
      * @return	string
-     * @param string $index 
-     * @param mixed $placeholders 
-     * @return string 
+     * @param string $index
+     * @param mixed $placeholders
+     * @return string
      */
     public function query($index, $placeholders = null);
 
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index 
-     * @return bool 
+     * @param string $index
+     * @return bool
      */
     public function exists($index);
 

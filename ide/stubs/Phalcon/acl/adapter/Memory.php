@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Acl\Adapter;
-
 /**
  * Phalcon\Acl\Adapter\Memory
  * Manages ACL lists in memory
@@ -139,34 +138,34 @@ class Memory extends \Phalcon\Acl\Adapter
      * $acl->addRole("administrator", "consultant");
      * </code>
      *
-     * @param RoleInterface|string $role 
-     * @param array|string $accessInherits 
-     * @return bool 
+     * @param RoleInterface|string $role
+     * @param array|string $accessInherits
+     * @return bool
      */
     public function addRole($role, $accessInherits = null) {}
 
     /**
      * Do a role inherit from another existing role
      *
-     * @param string $roleName 
-     * @param mixed $roleToInherit 
-     * @return bool 
+     * @param string $roleName
+     * @param mixed $roleToInherit
+     * @return bool
      */
     public function addInherit($roleName, $roleToInherit) {}
 
     /**
      * Check whether role exist in the roles list
      *
-     * @param string $roleName 
-     * @return bool 
+     * @param string $roleName
+     * @return bool
      */
     public function isRole($roleName) {}
 
     /**
      * Check whether resource exist in the resources list
      *
-     * @param string $resourceName 
-     * @return bool 
+     * @param string $resourceName
+     * @return bool
      */
     public function isResource($resourceName) {}
 
@@ -199,37 +198,37 @@ class Memory extends \Phalcon\Acl\Adapter
      * );
      * </code>
      *
-     * @param \Phalcon\Acl\Resource|string $resourceValue 
-     * @param array|string $accessList 
-     * @return bool 
+     * @param \Phalcon\Acl\Resource|string $resourceValue
+     * @param array|string $accessList
+     * @return bool
      */
     public function addResource($resourceValue, $accessList) {}
 
     /**
      * Adds access to resources
      *
-     * @param string $resourceName 
-     * @param array|string $accessList 
-     * @return bool 
+     * @param string $resourceName
+     * @param array|string $accessList
+     * @return bool
      */
     public function addResourceAccess($resourceName, $accessList) {}
 
     /**
      * Removes an access from a resource
      *
-     * @param string $resourceName 
-     * @param array|string $accessList 
+     * @param string $resourceName
+     * @param array|string $accessList
      */
     public function dropResourceAccess($resourceName, $accessList) {}
 
     /**
      * Checks if a role has access to a resource
      *
-     * @param string $roleName 
-     * @param string $resourceName 
-     * @param mixed $access 
-     * @param mixed $action 
-     * @param mixed $func 
+     * @param string $roleName
+     * @param string $resourceName
+     * @param mixed $access
+     * @param mixed $action
+     * @param mixed $func
      */
     protected function _allowOrDeny($roleName, $resourceName, $access, $action, $func = null) {}
 
@@ -248,10 +247,10 @@ class Memory extends \Phalcon\Acl\Adapter
      * $acl->allow("*", "*", "browse");
      * </code>
      *
-     * @param string $roleName 
-     * @param string $resourceName 
-     * @param mixed $access 
-     * @param mixed $func 
+     * @param string $roleName
+     * @param string $resourceName
+     * @param mixed $access
+     * @param mixed $func
      */
     public function allow($roleName, $resourceName, $access, $func = null) {}
 
@@ -270,10 +269,10 @@ class Memory extends \Phalcon\Acl\Adapter
      * $acl->deny("*", "*", "browse");
      * </code>
      *
-     * @param string $roleName 
-     * @param string $resourceName 
-     * @param mixed $access 
-     * @param mixed $func 
+     * @param string $roleName
+     * @param string $resourceName
+     * @param mixed $access
+     * @param mixed $func
      */
     public function deny($roleName, $resourceName, $access, $func = null) {}
 
@@ -286,11 +285,11 @@ class Memory extends \Phalcon\Acl\Adapter
      * $acl->isAllowed("guests", "*", "edit");
      * </code>
      *
-     * @param mixed $roleName 
-     * @param mixed $resourceName 
-     * @param string $access 
-     * @param array $parameters 
-     * @return bool 
+     * @param mixed $roleName
+     * @param mixed $resourceName
+     * @param string $access
+     * @param array $parameters
+     * @return bool
      */
     public function isAllowed($roleName, $resourceName, $access, array $parameters = null) {}
 
@@ -299,7 +298,7 @@ class Memory extends \Phalcon\Acl\Adapter
      * for no arguments provided in isAllowed action if there exists func for
      * accessKey
      *
-     * @param int $defaultAccess 
+     * @param int $defaultAccess
      */
     public function setNoArgumentsDefaultAction($defaultAccess) {}
 
@@ -307,21 +306,21 @@ class Memory extends \Phalcon\Acl\Adapter
      * Returns the default ACL access level for no arguments provided in
      * isAllowed action if there exists func for accessKey
      *
-     * @return int 
+     * @return int
      */
     public function getNoArgumentsDefaultAction() {}
 
     /**
      * Return an array with every role registered in the list
      *
-     * @return RoleInterface[] 
+     * @return \Phalcon\Acl\RoleInterface[]
      */
     public function getRoles() {}
 
     /**
      * Return an array with every resource registered in the list
      *
-     * @return ResourceInterface[] 
+     * @return \Phalcon\Acl\ResourceInterface[]
      */
     public function getResources() {}
 

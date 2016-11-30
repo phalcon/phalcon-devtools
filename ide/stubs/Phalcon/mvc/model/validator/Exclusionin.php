@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Validator;
-
 /**
  * Phalcon\Mvc\Model\Validator\ExclusionIn
  * Check if a value is not included into a list of values
@@ -34,8 +33,8 @@ class Exclusionin extends \Phalcon\Mvc\Model\Validator
     /**
      * Executes the validator
      *
-     * @param mixed $record 
-     * @return bool 
+     * @param \Phalcon\Mvc\EntityInterface $record
+     * @return bool
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 

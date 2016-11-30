@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Logger
  * Phalcon\Logger is a component whose purpose is create logs using

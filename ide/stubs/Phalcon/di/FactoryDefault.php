@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Di;
-
 /**
  * Phalcon\Di\FactoryDefault
  * This is a variant of the standard Phalcon\Di. By default it automatically

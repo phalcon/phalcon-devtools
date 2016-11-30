@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\MetaData;
-
 /**
  * Phalcon\Mvc\Model\MetaData\Apc
  * Stores model meta-data in the APC cache. Data will erased if the web server is restarted
@@ -31,23 +30,23 @@ class Apc extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Apc constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads meta-data from APC
      *
-     * @param string $key 
-     * @return array|null 
+     * @param string $key
+     * @return array|null
      */
     public function read($key) {}
 
     /**
      * Writes the meta-data to APC
      *
-     * @param string $key 
-     * @param mixed $data 
+     * @param string $key
+     * @param mixed $data
      */
     public function write($key, $data) {}
 

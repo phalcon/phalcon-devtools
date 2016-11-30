@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Paginator;
-
 /**
  * Phalcon\Paginator\Adapter
  */
@@ -21,23 +20,23 @@ abstract class Adapter implements \Phalcon\Paginator\AdapterInterface
     /**
      * Set the current page number
      *
-     * @param int $page 
-     * @return Adapter 
+     * @param int $page
+     * @return Adapter
      */
     public function setCurrentPage($page) {}
 
     /**
      * Set current rows limit
      *
-     * @param int $limitRows 
-     * @return Adapter 
+     * @param int $limitRows
+     * @return Adapter
      */
     public function setLimit($limitRows) {}
 
     /**
      * Get current rows limit
      *
-     * @return int 
+     * @return int
      */
     public function getLimit() {}
 

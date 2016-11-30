@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Security;
-
 /**
  * Phalcon\Security\Random
  * Secure random number generator class.
@@ -73,8 +72,8 @@ class Random
      * </code>
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
-     * @param int $len 
-     * @return string 
+     * @param int $len
+     * @return string
      */
     public function bytes($len = 16) {}
 
@@ -88,8 +87,8 @@ class Random
      * </code>
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
-     * @param int $len 
-     * @return string 
+     * @param int $len
+     * @return string
      */
     public function hex($len = null) {}
 
@@ -106,8 +105,8 @@ class Random
      *
      * @link https://en.wikipedia.org/wiki/Base58
      * @throws Exception If secure random number generator is not available or unexpected partial read
-     * @param mixed $n 
-     * @return string 
+     * @param mixed $n
+     * @return string
      */
     public function base58($n = null) {}
 
@@ -122,8 +121,8 @@ class Random
      * </code>
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
-     * @param int $len 
-     * @return string 
+     * @param int $len
+     * @return string
      */
     public function base64($len = null) {}
 
@@ -141,9 +140,9 @@ class Random
      *
      * @link https://www.ietf.org/rfc/rfc3548.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read
-     * @param int $len 
-     * @param bool $padding 
-     * @return string 
+     * @param int $len
+     * @param bool $padding
+     * @return string
      */
     public function base64Safe($len = null, $padding = false) {}
 
@@ -162,7 +161,7 @@ class Random
      *
      * @link https://www.ietf.org/rfc/rfc4122.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read
-     * @return string 
+     * @return string
      */
     public function uuid() {}
 
@@ -175,8 +174,8 @@ class Random
      * </code>
      *
      * @throws Exception If secure random number generator is not available, unexpected partial read or $len <= 0
-     * @param int $len 
-     * @return int 
+     * @param int $len
+     * @return int
      */
     public function number($len) {}
 

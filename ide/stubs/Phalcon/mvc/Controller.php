@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc;
-
 /**
  * Phalcon\Mvc\Controller
  * Every application controller should extend this class that encapsulates all the controller functionality

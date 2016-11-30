@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Debug;
-
 /**
  * Phalcon\Debug\Dump
  * Dumps information about a variable(s)
@@ -32,14 +31,14 @@ class Dump
     public function getDetailed() {}
 
     /**
-     * @param mixed $detailed 
+     * @param mixed $detailed
      */
     public function setDetailed($detailed) {}
 
     /**
      * Phalcon\Debug\Dump constructor
      *
-     * @param array $styles 
+     * @param array $styles
      * @param boolean $detailed debug object's private and protected properties
      */
     public function __construct(array $styles = array(), $detailed = false) {}
@@ -47,44 +46,44 @@ class Dump
     /**
      * Alias of variables() method
      *
-     * @param mixed $variable 
-     * @param ...  
-     * @return string 
+     * @param mixed $variable
+     * @param ...
+     * @return string
      */
     public function all() {}
 
     /**
      * Get style for type
      *
-     * @param string $type 
-     * @return string 
+     * @param string $type
+     * @return string
      */
     protected function getStyle($type) {}
 
     /**
      * Set styles for vars type
      *
-     * @param array $styles 
-     * @return array 
+     * @param array $styles
+     * @return array
      */
     public function setStyles(array $styles = array()) {}
 
     /**
      * Alias of variable() method
      *
-     * @param mixed $variable 
-     * @param string $name 
-     * @return string 
+     * @param mixed $variable
+     * @param string $name
+     * @return string
      */
     public function one($variable, $name = null) {}
 
     /**
      * Prepare an HTML string of information about a single variable.
      *
-     * @param mixed $variable 
-     * @param string $name 
-     * @param int $tab 
-     * @return string 
+     * @param mixed $variable
+     * @param string $name
+     * @param int $tab
+     * @return string
      */
     protected function output($variable, $name = null, $tab = 1) {}
 
@@ -94,9 +93,9 @@ class Dump
      * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
      * </code>
      *
-     * @param mixed $variable 
-     * @param string $name 
-     * @return string 
+     * @param mixed $variable
+     * @param string $name
+     * @return string
      */
     public function variable($variable, $name = null) {}
 
@@ -110,9 +109,9 @@ class Dump
      * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
      * </code>
      *
-     * @param mixed $variable 
-     * @param ...  
-     * @return string 
+     * @param mixed $variable
+     * @param ...
+     * @return string
      */
     public function variables() {}
 
@@ -128,8 +127,8 @@ class Dump
      * echo (new \Phalcon\Debug\Dump())->toJson($foo);
      * </code>
      *
-     * @param mixed $variable 
-     * @return string 
+     * @param mixed $variable
+     * @return string
      */
     public function toJson($variable) {}
 

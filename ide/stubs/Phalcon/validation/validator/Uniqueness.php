@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
-
 /**
  * Phalcon\Validation\Validator\Uniqueness
  * Check that a field is unique in the related table
@@ -71,25 +70,25 @@ class Uniqueness extends \Phalcon\Validation\CombinedFieldsValidator
     /**
      * Executes the validation
      *
-     * @param mixed $validation 
-     * @param mixed $field 
-     * @return bool 
+     * @param \Phalcon\Validation $validation
+     * @param mixed $field
+     * @return bool
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 
     /**
-     * @param mixed $validation 
-     * @param mixed $field 
-     * @return bool 
+     * @param \Phalcon\Validation $validation
+     * @param mixed $field
+     * @return bool
      */
     protected function isUniqueness(\Phalcon\Validation $validation, $field) {}
 
     /**
      * The column map is used in the case to get real column name
      *
-     * @param mixed $record 
-     * @param string $field 
-     * @return string 
+     * @param mixed $record
+     * @param string $field
+     * @return string
      */
     protected function getColumnNameReal($record, $field) {}
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db\Result;
-
 /**
  * Phalcon\Db\Result\Pdo
  * Encapsulates the resultset internals
@@ -51,11 +50,11 @@ class Pdo implements \Phalcon\Db\ResultInterface
     /**
      * Phalcon\Db\Result\Pdo constructor
      *
-     * @param \Phalcon\Db\AdapterInterface $connection 
-     * @param \PDOStatement $result 
-     * @param string $sqlStatement 
-     * @param array $bindParams 
-     * @param array $bindTypes 
+     * @param \Phalcon\Db\AdapterInterface $connection
+     * @param \PDOStatement $result
+     * @param string $sqlStatement
+     * @param array $bindParams
+     * @param array $bindTypes
      */
     public function __construct(Db\AdapterInterface $connection, \PDOStatement $result, $sqlStatement = null, $bindParams = null, $bindTypes = null) {}
 
@@ -63,7 +62,7 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * Allows to execute the statement again. Some database systems don't support scrollable cursors,
      * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
      *
-     * @return bool 
+     * @return bool
      */
     public function execute() {}
 
@@ -80,9 +79,9 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * }
      * </code>
      *
-     * @param mixed $fetchStyle 
-     * @param mixed $cursorOrientation 
-     * @param mixed $cursorOffset 
+     * @param mixed $fetchStyle
+     * @param mixed $cursorOrientation
+     * @param mixed $cursorOffset
      */
     public function fetch($fetchStyle = null, $cursorOrientation = null, $cursorOffset = null) {}
 
@@ -111,10 +110,10 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * $robots = $result->fetchAll();
      * </code>
      *
-     * @param mixed $fetchStyle 
-     * @param mixed $fetchArgument 
-     * @param mixed $ctorArgs 
-     * @return array 
+     * @param mixed $fetchStyle
+     * @param mixed $fetchArgument
+     * @param mixed $ctorArgs
+     * @return array
      */
     public function fetchAll($fetchStyle = null, $fetchArgument = null, $ctorArgs = null) {}
 
@@ -127,7 +126,7 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * echo "There are ", $result->numRows(), " rows in the resultset";
      * </code>
      *
-     * @return int 
+     * @return int
      */
     public function numRows() {}
 
@@ -143,7 +142,7 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * $row = $result->fetch();
      * </code>
      *
-     * @param long $number 
+     * @param long $number
      */
     public function dataSeek($number) {}
 
@@ -168,17 +167,17 @@ class Pdo implements \Phalcon\Db\ResultInterface
      * );
      * </code>
      *
-     * @param int $fetchMode 
-     * @param mixed $colNoOrClassNameOrObject 
-     * @param mixed $ctorargs 
-     * @return bool 
+     * @param int $fetchMode
+     * @param mixed $colNoOrClassNameOrObject
+     * @param mixed $ctorargs
+     * @return bool
      */
     public function setFetchMode($fetchMode, $colNoOrClassNameOrObject = null, $ctorargs = null) {}
 
     /**
      * Gets the internal PDO result object
      *
-     * @return \PDOStatement 
+     * @return \PDOStatement
      */
     public function getInternalResult() {}
 

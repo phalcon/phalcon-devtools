@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Validator;
-
 /**
  * Phalcon\Mvc\Model\Validator\Regex
  * Allows validate if the value of a field matches a regular expression
@@ -34,8 +33,8 @@ class Regex extends \Phalcon\Mvc\Model\Validator
     /**
      * Executes the validator
      *
-     * @param mixed $record 
-     * @return bool 
+     * @param \Phalcon\Mvc\EntityInterface $record
+     * @return bool
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 

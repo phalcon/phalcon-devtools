@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Translate;
-
 /**
  * Phalcon\Translate\Exception
  * Class for exceptions thrown by Phalcon\Translate

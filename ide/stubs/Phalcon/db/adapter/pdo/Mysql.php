@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db\Adapter\Pdo;
-
 /**
  * Phalcon\Db\Adapter\Pdo\Mysql
  * Specific functions for the Mysql database system
@@ -34,9 +33,9 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @param string $table 
-     * @param string $schema 
-     * @return Column[] 
+     * @param string $table
+     * @param string $schema
+     * @return \Phalcon\Db\Column[]
      */
     public function describeColumns($table, $schema = null) {}
 
@@ -48,9 +47,9 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @param string $table 
-     * @param string $schema 
-     * @return \Phalcon\Db\IndexInterface[] 
+     * @param string $table
+     * @param string $schema
+     * @return \Phalcon\Db\IndexInterface[]
      */
     public function describeIndexes($table, $schema = null) {}
 
@@ -62,9 +61,9 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @param string $table 
-     * @param string $schema 
-     * @return Reference[] 
+     * @param string $table
+     * @param string $schema
+     * @return \Phalcon\Db\Reference[]
      */
     public function describeReferences($table, $schema = null) {}
 

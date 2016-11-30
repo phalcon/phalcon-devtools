@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Validator;
-
 /**
  * Phalcon\Mvc\Model\Validator\IP
  * Validates that a value is ipv4 address in valid range
@@ -65,8 +64,8 @@ class Ip extends \Phalcon\Mvc\Model\Validator
     /**
      * Executes the validator
      *
-     * @param mixed $record 
-     * @return bool 
+     * @param \Phalcon\Mvc\EntityInterface $record
+     * @return bool
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 
