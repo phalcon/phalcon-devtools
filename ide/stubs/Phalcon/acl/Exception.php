@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Acl;
-
 /**
  * Phalcon\Acl\Exception
  * Class for exceptions thrown by Phalcon\Acl

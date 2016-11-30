@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
-
 /**
  * Phalcon\Validation\Validator\Email
  * Checks if a value has a correct e-mail format
@@ -37,9 +36,9 @@ class Email extends \Phalcon\Validation\Validator
     /**
      * Executes the validation
      *
-     * @param mixed $validation 
-     * @param string $field 
-     * @return bool 
+     * @param \Phalcon\Validation $validation
+     * @param string $field
+     * @return bool
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 

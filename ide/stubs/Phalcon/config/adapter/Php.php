@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Config\Adapter;
-
 /**
  * Phalcon\Config\Adapter\Php
  * Reads php files and converts them to Phalcon\Config objects.
@@ -36,7 +35,7 @@ class Php extends \Phalcon\Config
     /**
      * Phalcon\Config\Adapter\Php constructor
      *
-     * @param string $filePath 
+     * @param string $filePath
      */
     public function __construct($filePath) {}
 

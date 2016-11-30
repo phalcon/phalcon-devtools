@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model\MetaData;
-
 /**
  * Phalcon\Mvc\Model\MetaData\Session
  * Stores model meta-data in session. Data will erased when the session finishes.
@@ -24,23 +23,23 @@ class Session extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Session constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads meta-data from $_SESSION
      *
-     * @param string $key 
-     * @return array 
+     * @param string $key
+     * @return array
      */
     public function read($key) {}
 
     /**
      * Writes the meta-data to $_SESSION
      *
-     * @param string $key 
-     * @param array $data 
+     * @param string $key
+     * @param array $data
      */
     public function write($key, $data) {}
 

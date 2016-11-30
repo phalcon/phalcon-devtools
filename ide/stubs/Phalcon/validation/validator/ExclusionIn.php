@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
-
 /**
  * Phalcon\Validation\Validator\ExclusionIn
  * Check if a value is not included into a list of values
@@ -48,9 +47,9 @@ class ExclusionIn extends \Phalcon\Validation\Validator
     /**
      * Executes the validation
      *
-     * @param mixed $validation 
-     * @param string $field 
-     * @return bool 
+     * @param \Phalcon\Validation $validation
+     * @param string $field
+     * @return bool
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 

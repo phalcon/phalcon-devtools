@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db;
-
 /**
  * Phalcon\Db\RawValue
  * This class allows to insert/update raw data without quoting or formatting.
@@ -26,21 +25,21 @@ class RawValue
     /**
      * Raw value without quoting or formatting
      *
-     * @return string 
+     * @return string
      */
     public function getValue() {}
 
     /**
      * Raw value without quoting or formatting
      *
-     * @return string 
+     * @return string
      */
     public function __toString() {}
 
     /**
      * Phalcon\Db\RawValue constructor
      *
-     * @param mixed $value 
+     * @param mixed $value
      */
     public function __construct($value) {}
 

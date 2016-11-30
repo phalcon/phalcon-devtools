@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Config\Adapter;
-
 /**
  * Phalcon\Config\Adapter\Ini
  * Reads ini files and converts them to Phalcon\Config objects.
@@ -41,8 +40,8 @@ class Ini extends \Phalcon\Config
     /**
      * Phalcon\Config\Adapter\Ini constructor
      *
-     * @param string $filePath 
-     * @param mixed $mode 
+     * @param string $filePath
+     * @param mixed $mode
      */
     public function __construct($filePath, $mode = null) {}
 
@@ -60,9 +59,9 @@ class Ini extends \Phalcon\Config
      * ];
      * </code>
      *
-     * @param string $path 
-     * @param mixed $value 
-     * @return array 
+     * @param string $path
+     * @param mixed $value
+     * @return array
      */
     protected function _parseIniString($path, $value) {}
 
@@ -70,7 +69,7 @@ class Ini extends \Phalcon\Config
      * We have to cast values manually because parse_ini_file() has a poor implementation.
      *
      * @param mixed $ini The array casted by `parse_ini_file`
-     * @return bool|null|double|int|string 
+     * @return bool|null|double|int|string
      */
     protected function _cast($ini) {}
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\View;
-
 /**
  * Phalcon\Mvc\View\Simple
  * This component allows to render views without hierarchical levels
@@ -62,28 +61,28 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
 
     /**
-     * @return array|null 
+     * @return array|null
      */
     public function getRegisteredEngines() {}
 
     /**
      * Phalcon\Mvc\View\Simple constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     public function __construct(array $options = array()) {}
 
     /**
      * Sets views directory. Depending of your platform, always add a trailing slash or backslash
      *
-     * @param string $viewsDir 
+     * @param string $viewsDir
      */
     public function setViewsDir($viewsDir) {}
 
     /**
      * Gets views directory
      *
-     * @return string 
+     * @return string
      */
     public function getViewsDir() {}
 
@@ -99,31 +98,31 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * );
      * </code>
      *
-     * @param array $engines 
+     * @param array $engines
      */
     public function registerEngines(array $engines) {}
 
     /**
      * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
      *
-     * @return array 
+     * @return array
      */
     protected function _loadTemplateEngines() {}
 
     /**
      * Tries to render the view with every engine registered in the component
      *
-     * @param string $path 
-     * @param array $params 
+     * @param string $path
+     * @param array $params
      */
     protected final function _internalRender($path, $params) {}
 
     /**
      * Renders a view
      *
-     * @param string $path 
-     * @param array $params 
-     * @return string 
+     * @param string $path
+     * @param array $params
+     * @return string
      */
     public function render($path, $params = null) {}
 
@@ -143,37 +142,37 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * );
      * </code>
      *
-     * @param string $partialPath 
-     * @param mixed $params 
+     * @param string $partialPath
+     * @param mixed $params
      */
     public function partial($partialPath, $params = null) {}
 
     /**
      * Sets the cache options
      *
-     * @param array $options 
-     * @return Simple 
+     * @param array $options
+     * @return Simple
      */
     public function setCacheOptions(array $options) {}
 
     /**
      * Returns the cache options
      *
-     * @return array 
+     * @return array
      */
     public function getCacheOptions() {}
 
     /**
      * Create a Phalcon\Cache based on the internal cache options
      *
-     * @return \Phalcon\Cache\BackendInterface 
+     * @return \Phalcon\Cache\BackendInterface
      */
     protected function _createCache() {}
 
     /**
      * Returns the cache instance used to cache
      *
-     * @return \Phalcon\Cache\BackendInterface 
+     * @return \Phalcon\Cache\BackendInterface
      */
     public function getCache() {}
 
@@ -188,8 +187,8 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * );
      * </code>
      *
-     * @param mixed $options 
-     * @return Simple 
+     * @param mixed $options
+     * @return Simple
      */
     public function cache($options = true) {}
 
@@ -199,9 +198,9 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * $this->view->setParamToView("products", $products);
      * </code>
      *
-     * @param string $key 
-     * @param mixed $value 
-     * @return Simple 
+     * @param string $key
+     * @param mixed $value
+     * @return Simple
      */
     public function setParamToView($key, $value) {}
 
@@ -215,9 +214,9 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * );
      * </code>
      *
-     * @param array $params 
-     * @param bool $merge 
-     * @return Simple 
+     * @param array $params
+     * @param bool $merge
+     * @return Simple
      */
     public function setVars(array $params, $merge = true) {}
 
@@ -227,24 +226,24 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * $this->view->setVar("products", $products);
      * </code>
      *
-     * @param string $key 
-     * @param mixed $value 
-     * @return Simple 
+     * @param string $key
+     * @param mixed $value
+     * @return Simple
      */
     public function setVar($key, $value) {}
 
     /**
      * Returns a parameter previously set in the view
      *
-     * @param string $key 
-     * @return mixed|null 
+     * @param string $key
+     * @return mixed|null
      */
     public function getVar($key) {}
 
     /**
      * Returns parameters to views
      *
-     * @return array 
+     * @return array
      */
     public function getParamsToView() {}
 
@@ -254,22 +253,22 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * $this->view->setContent("<h1>hello</h1>");
      * </code>
      *
-     * @param string $content 
-     * @return Simple 
+     * @param string $content
+     * @return Simple
      */
     public function setContent($content) {}
 
     /**
      * Returns cached output from another view stage
      *
-     * @return string 
+     * @return string
      */
     public function getContent() {}
 
     /**
      * Returns the path of the view that is currently rendered
      *
-     * @return string 
+     * @return string
      */
     public function getActiveRenderPath() {}
 
@@ -279,8 +278,8 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * $this->view->products = $products;
      * </code>
      *
-     * @param string $key 
-     * @param mixed $value 
+     * @param string $key
+     * @param mixed $value
      */
     public function __set($key, $value) {}
 
@@ -290,8 +289,8 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
      * echo $this->view->products;
      * </code>
      *
-     * @param string $key 
-     * @return mixed|null 
+     * @param string $key
+     * @return mixed|null
      */
     public function __get($key) {}
 

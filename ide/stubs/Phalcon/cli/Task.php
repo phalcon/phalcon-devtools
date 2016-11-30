@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Cli;
-
 /**
  * Phalcon\Cli\Task
  * Every command-line task should extend this class that encapsulates all the task functionality

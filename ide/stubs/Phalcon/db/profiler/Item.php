@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db\Profiler;
-
 /**
  * Phalcon\Db\Profiler\Item
  * This class identifies each profile in a Phalcon\Db\Profiler
@@ -47,77 +46,77 @@ class Item
     /**
      * SQL statement related to the profile
      *
-     * @param string $sqlStatement 
+     * @param string $sqlStatement
      */
     public function setSqlStatement($sqlStatement) {}
 
     /**
      * SQL statement related to the profile
      *
-     * @return string 
+     * @return string
      */
     public function getSqlStatement() {}
 
     /**
      * SQL variables related to the profile
      *
-     * @param array $sqlVariables 
+     * @param array $sqlVariables
      */
     public function setSqlVariables(array $sqlVariables) {}
 
     /**
      * SQL variables related to the profile
      *
-     * @return array 
+     * @return array
      */
     public function getSqlVariables() {}
 
     /**
      * SQL bind types related to the profile
      *
-     * @param array $sqlBindTypes 
+     * @param array $sqlBindTypes
      */
     public function setSqlBindTypes(array $sqlBindTypes) {}
 
     /**
      * SQL bind types related to the profile
      *
-     * @return array 
+     * @return array
      */
     public function getSqlBindTypes() {}
 
     /**
      * Timestamp when the profile started
      *
-     * @param double $initialTime 
+     * @param double $initialTime
      */
     public function setInitialTime($initialTime) {}
 
     /**
      * Timestamp when the profile started
      *
-     * @return double 
+     * @return double
      */
     public function getInitialTime() {}
 
     /**
      * Timestamp when the profile ended
      *
-     * @param double $finalTime 
+     * @param double $finalTime
      */
     public function setFinalTime($finalTime) {}
 
     /**
      * Timestamp when the profile ended
      *
-     * @return double 
+     * @return double
      */
     public function getFinalTime() {}
 
     /**
      * Returns the total time in seconds spent by the profile
      *
-     * @return double 
+     * @return double
      */
     public function getTotalElapsedSeconds() {}
 

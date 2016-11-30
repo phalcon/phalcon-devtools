@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
-
 /**
  * Phalcon\Validation\Validator\Date
  * Checks if a value is a valid date
@@ -42,16 +41,16 @@ class Date extends \Phalcon\Validation\Validator
     /**
      * Executes the validation
      *
-     * @param mixed $validation 
-     * @param string $field 
-     * @return bool 
+     * @param \Phalcon\Validation $validation
+     * @param string $field
+     * @return bool
      */
     public function validate(\Phalcon\Validation $validation, $field) {}
 
     /**
-     * @param mixed $value 
-     * @param mixed $format 
-     * @return bool 
+     * @param mixed $value
+     * @param mixed $format
+     * @return bool
      */
     private function checkDate($value, $format) {}
 

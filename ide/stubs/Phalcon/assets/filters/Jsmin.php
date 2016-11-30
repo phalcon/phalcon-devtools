@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Assets\Filters;
-
 /**
  * Phalcon\Assets\Filters\Jsmin
  * Deletes the characters which are insignificant to JavaScript. Comments will be removed. Tabs will be
@@ -14,8 +13,8 @@ class Jsmin implements \Phalcon\Assets\FilterInterface
     /**
      * Filters the content using JSMIN
      *
-     * @param string $content 
-     * @return string 
+     * @param string $content
+     * @return string
      */
     public function filter($content) {}
 

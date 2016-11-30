@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Acl
  * This component allows to manage ACL lists. An access control list (ACL) is a list

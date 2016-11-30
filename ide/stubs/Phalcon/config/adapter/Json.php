@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Config\Adapter;
-
 /**
  * Phalcon\Config\Adapter\Json
  * Reads JSON files and converts them to Phalcon\Config objects.
@@ -22,7 +21,7 @@ class Json extends \Phalcon\Config
     /**
      * Phalcon\Config\Adapter\Json constructor
      *
-     * @param string $filePath 
+     * @param string $filePath
      */
     public function __construct($filePath) {}
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Cache\Frontend;
-
 /**
  * Phalcon\Cache\Frontend\Msgpack
  * Allows to cache native PHP data in a serialized form using msgpack extension
@@ -52,21 +51,21 @@ class Msgpack extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fro
     /**
      * Phalcon\Cache\Frontend\Msgpack constructor
      *
-     * @param array $frontendOptions 
+     * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
 
     /**
      * Returns the cache lifetime
      *
-     * @return int 
+     * @return int
      */
     public function getLifetime() {}
 
     /**
      * Check whether if frontend is buffering output
      *
-     * @return bool 
+     * @return bool
      */
     public function isBuffering() {}
 
@@ -78,7 +77,7 @@ class Msgpack extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fro
     /**
      * Returns output cached content
      *
-     * @return null 
+     * @return null
      */
     public function getContent() {}
 
@@ -90,16 +89,16 @@ class Msgpack extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fro
     /**
      * Serializes data before storing them
      *
-     * @param mixed $data 
-     * @return string 
+     * @param mixed $data
+     * @return string
      */
     public function beforeStore($data) {}
 
     /**
      * Unserializes data after retrieval
      *
-     * @param mixed $data 
-     * @return mixed 
+     * @param mixed $data
+     * @return mixed
      */
     public function afterRetrieve($data) {}
 

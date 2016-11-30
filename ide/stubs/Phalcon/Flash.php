@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Flash
  * Shows HTML notifications related to different circumstances. Classes can be stylized using CSS
@@ -37,76 +36,76 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
     /**
      * Phalcon\Flash constructor
      *
-     * @param mixed $cssClasses 
+     * @param mixed $cssClasses
      */
     public function __construct($cssClasses = null) {}
 
     /**
      * Returns the autoescape mode in generated html
      *
-     * @return bool 
+     * @return bool
      */
     public function getAutoescape() {}
 
     /**
      * Set the autoescape mode in generated html
      *
-     * @param bool $autoescape 
-     * @return Flash 
+     * @param bool $autoescape
+     * @return Flash
      */
     public function setAutoescape($autoescape) {}
 
     /**
      * Returns the Escaper Service
      *
-     * @return EscaperInterface 
+     * @return EscaperInterface
      */
     public function getEscaperService() {}
 
     /**
      * Sets the Escaper Service
      *
-     * @param mixed $escaperService 
-     * @return Flash 
+     * @param EscaperInterface $escaperService
+     * @return Flash
      */
     public function setEscaperService(EscaperInterface $escaperService) {}
 
     /**
      * Sets the dependency injector
      *
-     * @param mixed $dependencyInjector 
-     * @return Flash 
+     * @param DiInterface $dependencyInjector
+     * @return Flash
      */
     public function setDI(DiInterface $dependencyInjector) {}
 
     /**
      * Returns the internal dependency injector
      *
-     * @return DiInterface 
+     * @return DiInterface
      */
     public function getDI() {}
 
     /**
      * Set whether the output must be implicitly flushed to the output or returned as string
      *
-     * @param bool $implicitFlush 
-     * @return FlashInterface 
+     * @param bool $implicitFlush
+     * @return FlashInterface
      */
     public function setImplicitFlush($implicitFlush) {}
 
     /**
      * Set if the output must be implicitly formatted with HTML
      *
-     * @param bool $automaticHtml 
-     * @return FlashInterface 
+     * @param bool $automaticHtml
+     * @return FlashInterface
      */
     public function setAutomaticHtml($automaticHtml) {}
 
     /**
      * Set an array with CSS classes to format the messages
      *
-     * @param array $cssClasses 
-     * @return FlashInterface 
+     * @param array $cssClasses
+     * @return FlashInterface
      */
     public function setCssClasses(array $cssClasses) {}
 
@@ -116,8 +115,8 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
      * $flash->error("This is an error");
      * </code>
      *
-     * @param mixed $message 
-     * @return string 
+     * @param mixed $message
+     * @return string
      */
     public function error($message) {}
 
@@ -127,8 +126,8 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
      * $flash->notice("This is an information");
      * </code>
      *
-     * @param mixed $message 
-     * @return string 
+     * @param mixed $message
+     * @return string
      */
     public function notice($message) {}
 
@@ -138,8 +137,8 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
      * $flash->success("The process was finished successfully");
      * </code>
      *
-     * @param mixed $message 
-     * @return string 
+     * @param mixed $message
+     * @return string
      */
     public function success($message) {}
 
@@ -149,8 +148,8 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
      * $flash->warning("Hey, this is important");
      * </code>
      *
-     * @param mixed $message 
-     * @return string 
+     * @param mixed $message
+     * @return string
      */
     public function warning($message) {}
 
@@ -160,9 +159,9 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
      * $flash->outputMessage("error", $message);
      * </code>
      *
-     * @param string $type 
-     * @param string|array $message 
-     * @return string|void 
+     * @param string $type
+     * @param string|array $message
+     * @return string|void
      */
     public function outputMessage($type, $message) {}
 

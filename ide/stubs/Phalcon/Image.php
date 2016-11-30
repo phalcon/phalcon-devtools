@@ -2,7 +2,6 @@
 
 namespace Phalcon;
 
-
 class Image
 {
 

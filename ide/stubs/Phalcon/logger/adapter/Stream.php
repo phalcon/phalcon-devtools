@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Logger\Adapter;
-
 /**
  * Phalcon\Logger\Adapter\Stream
  * Sends logs to a valid PHP stream
@@ -27,32 +26,32 @@ class Stream extends \Phalcon\Logger\Adapter
     /**
      * Phalcon\Logger\Adapter\Stream constructor
      *
-     * @param string $name 
-     * @param array $options 
+     * @param string $name
+     * @param array $options
      */
     public function __construct($name, $options = null) {}
 
     /**
      * Returns the internal formatter
      *
-     * @return \Phalcon\Logger\FormatterInterface 
+     * @return \Phalcon\Logger\FormatterInterface
      */
     public function getFormatter() {}
 
     /**
      * Writes the log to the stream itself
      *
-     * @param string $message 
-     * @param int $type 
-     * @param int $time 
-     * @param array $context 
+     * @param string $message
+     * @param int $type
+     * @param int $time
+     * @param array $context
      */
     public function logInternal($message, $type, $time, array $context) {}
 
     /**
      * Closes the logger
      *
-     * @return bool 
+     * @return bool
      */
     public function close() {}
 

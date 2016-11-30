@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
-
 /**
  * Phalcon\Mvc\Model\Row
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
@@ -13,40 +12,40 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
     /**
      * Set the current object's state
      *
-     * @param int $dirtyState 
-     * @return bool 
+     * @param int $dirtyState
+     * @return bool
      */
     public function setDirtyState($dirtyState) {}
 
     /**
      * Checks whether offset exists in the row
      *
-     * @param mixed $index 
-     * @param string|int $$index 
-     * @return boolean 
+     * @param mixed $index
+     * @param string|int $$index
+     * @return bool
      */
     public function offsetExists($index) {}
 
     /**
      * Gets a record in a specific position of the row
      *
-     * @param string|int $index 
-     * @return string|Phalcon\Mvc\ModelInterface 
+     * @param string|int $index
+     * @return string|Phalcon\Mvc\ModelInterface
      */
     public function offsetGet($index) {}
 
     /**
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
-     * @param string|int $index 
-     * @param \Phalcon\Mvc\ModelInterface $value 
+     * @param string|int $index
+     * @param \Phalcon\Mvc\ModelInterface $value
      */
     public function offsetSet($index, $value) {}
 
     /**
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
-     * @param string|int $offset 
+     * @param string|int $offset
      */
     public function offsetUnset($offset) {}
 
@@ -56,8 +55,8 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
      * echo $robot->readAttribute("name");
      * </code>
      *
-     * @param string $attribute 
-     * @return mixed 
+     * @param string $attribute
+     * @return mixed
      */
     public function readAttribute($attribute) {}
 
@@ -67,22 +66,22 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
      * $robot->writeAttribute("name", "Rosey");
      * </code>
      *
-     * @param string $attribute 
-     * @param mixed $value 
+     * @param string $attribute
+     * @param mixed $value
      */
     public function writeAttribute($attribute, $value) {}
 
     /**
      * Returns the instance as an array representation
      *
-     * @return array 
+     * @return array
      */
     public function toArray() {}
 
     /**
      * Serializes the object for json_encode
      *
-     * @return array 
+     * @return array
      */
     public function jsonSerialize() {}
 

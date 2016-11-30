@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Session\Adapter;
-
 /**
  * Phalcon\Session\Adapter\Libmemcached
  * This adapter store sessions in libmemcached
@@ -48,49 +47,49 @@ class Libmemcached extends \Phalcon\Session\Adapter
      * Phalcon\Session\Adapter\Libmemcached constructor
      *
      * @throws \Phalcon\Session\Exception
-     * @param array $options 
+     * @param array $options
      */
     public function __construct(array $options) {}
 
     /**
-     * @return bool 
+     * @return bool
      */
     public function open() {}
 
     /**
-     * @return bool 
+     * @return bool
      */
     public function close() {}
 
     /**
      * {@inheritdoc}
      *
-     * @param string $sessionId 
-     * @return string 
+     * @param string $sessionId
+     * @return string
      */
     public function read($sessionId) {}
 
     /**
      * {@inheritdoc}
      *
-     * @param string $sessionId 
-     * @param string $data 
-     * @return bool 
+     * @param string $sessionId
+     * @param string $data
+     * @return bool
      */
     public function write($sessionId, $data) {}
 
     /**
      * {@inheritdoc}
      *
-     * @param string $sessionId 
-     * @return bool 
+     * @param string $sessionId
+     * @return bool
      */
     public function destroy($sessionId = null) {}
 
     /**
      * {@inheritdoc}
      *
-     * @return bool 
+     * @return bool
      */
     public function gc() {}
 

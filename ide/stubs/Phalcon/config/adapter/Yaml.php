@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Config\Adapter;
-
 /**
  * Phalcon\Config\Adapter\Yaml
  * Reads YAML files and converts them to Phalcon\Config objects.
@@ -39,8 +38,8 @@ class Yaml extends \Phalcon\Config
      * Phalcon\Config\Adapter\Yaml constructor
      *
      * @throws \Phalcon\Config\Exception
-     * @param string $filePath 
-     * @param array $callbacks 
+     * @param string $filePath
+     * @param array $callbacks
      */
     public function __construct($filePath, array $callbacks = null) {}
 

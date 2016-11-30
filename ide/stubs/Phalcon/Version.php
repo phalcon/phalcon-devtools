@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Version
  * This class allows to get the installed version of the framework
@@ -68,7 +67,7 @@ class Version
      * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
      * E - Special release version i.e. RC1, Beta2 etc.
      *
-     * @return array 
+     * @return array
      */
     protected static function _getVersion() {}
 
@@ -76,8 +75,8 @@ class Version
      * Translates a number to a special release
      * If Special release = 1 this function will return ALPHA
      *
-     * @param int $special 
-     * @return string 
+     * @param int $special
+     * @return string
      */
     protected final static function _getSpecial($special) {}
 
@@ -87,7 +86,7 @@ class Version
      * echo Phalcon\Version::get();
      * </code>
      *
-     * @return string 
+     * @return string
      */
     public static function get() {}
 
@@ -97,7 +96,7 @@ class Version
      * echo Phalcon\Version::getId();
      * </code>
      *
-     * @return string 
+     * @return string
      */
     public static function getId() {}
 
@@ -110,8 +109,8 @@ class Version
      * );
      * </code>
      *
-     * @param int $part 
-     * @return string 
+     * @param int $part
+     * @return string
      */
     public static function getPart($part) {}
 

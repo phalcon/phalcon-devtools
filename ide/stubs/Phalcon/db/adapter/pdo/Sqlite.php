@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db\Adapter\Pdo;
-
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
  * Specific functions for the Sqlite database system
@@ -27,8 +26,8 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo
      * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
      * Call it when you need to restore a database connection.
      *
-     * @param array $descriptor 
-     * @return bool 
+     * @param array $descriptor
+     * @return bool
      */
     public function connect(array $descriptor = null) {}
 
@@ -40,9 +39,9 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @param string $table 
-     * @param string $schema 
-     * @return Column[] 
+     * @param string $table
+     * @param string $schema
+     * @return \Phalcon\Db\Column[]
      */
     public function describeColumns($table, $schema = null) {}
 
@@ -54,9 +53,9 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @param string $table 
-     * @param string $schema 
-     * @return \Phalcon\Db\IndexInterface[] 
+     * @param string $table
+     * @param string $schema
+     * @return \Phalcon\Db\IndexInterface[]
      */
     public function describeIndexes($table, $schema = null) {}
 
@@ -66,16 +65,16 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo
      * @param	string table
      * @param	string schema
      * @return	Phalcon\Db\ReferenceInterface[]
-     * @param mixed $table 
-     * @param mixed $schema 
-     * @return ReferenceInterface[] 
+     * @param mixed $table
+     * @param mixed $schema
+     * @return \Phalcon\Db\ReferenceInterface[]
      */
     public function describeReferences($table, $schema = null) {}
 
     /**
      * Check whether the database system requires an explicit value for identity columns
      *
-     * @return bool 
+     * @return bool
      */
     public function useExplicitIdValue() {}
 
@@ -96,7 +95,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @return \Phalcon\Db\RawValue 
+     * @return \Phalcon\Db\RawValue
      */
     public function getDefaultValue() {}
 

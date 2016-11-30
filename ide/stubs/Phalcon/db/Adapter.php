@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db;
-
 /**
  * Phalcon\Db\Adapter
  * Base class for Phalcon\Db adapters
@@ -92,42 +91,42 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
     /**
      * Active SQL bound parameter variables
      *
-     * @return string 
+     * @return string
      */
     public function getSqlVariables() {}
 
     /**
      * Phalcon\Db\Adapter constructor
      *
-     * @param array $descriptor 
+     * @param array $descriptor
      */
     public function __construct(array $descriptor) {}
 
     /**
      * Sets the event manager
      *
-     * @param mixed $eventsManager 
+     * @param \Phalcon\Events\ManagerInterface $eventsManager
      */
     public function setEventsManager(\Phalcon\Events\ManagerInterface $eventsManager) {}
 
     /**
      * Returns the internal event manager
      *
-     * @return \Phalcon\Events\ManagerInterface 
+     * @return \Phalcon\Events\ManagerInterface
      */
     public function getEventsManager() {}
 
     /**
      * Sets the dialect used to produce the SQL
      *
-     * @param mixed $dialect 
+     * @param DialectInterface $dialect
      */
     public function setDialect(DialectInterface $dialect) {}
 
     /**
      * Returns internal dialect instance
      *
-     * @return DialectInterface 
+     * @return DialectInterface
      */
     public function getDialect() {}
 
@@ -142,11 +141,11 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * print_r($robot);
      * </code>
      *
-     * @param string $sqlQuery 
-     * @param mixed $fetchMode 
-     * @param mixed $bindParams 
-     * @param mixed $bindTypes 
-     * @return array 
+     * @param string $sqlQuery
+     * @param mixed $fetchMode
+     * @param mixed $bindParams
+     * @param mixed $bindTypes
+     * @return array
      */
     public function fetchOne($sqlQuery, $fetchMode = Db::FETCH_ASSOC, $bindParams = null, $bindTypes = null) {}
 
@@ -174,11 +173,11 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * }
      * </code>
      *
-     * @param string $sqlQuery 
-     * @param int $fetchMode 
-     * @param array $bindParams 
-     * @param array $bindTypes 
-     * @return array 
+     * @param string $sqlQuery
+     * @param int $fetchMode
+     * @param array $bindParams
+     * @param array $bindTypes
+     * @return array
      */
     public function fetchAll($sqlQuery, $fetchMode = Db::FETCH_ASSOC, $bindParams = null, $bindTypes = null) {}
 
@@ -196,10 +195,10 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * print_r($robot);
      * </code>
      *
-     * @param string $sqlQuery 
-     * @param array $placeholders 
-     * @param int|string $column 
-     * @return string| 
+     * @param string $sqlQuery
+     * @param array $placeholders
+     * @param int|string $column
+     * @return string|bool
      */
     public function fetchColumn($sqlQuery, $placeholders = null, $column = 0) {}
 
@@ -216,12 +215,12 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * </code>
      *
-     * @param string|array $table 
-     * @param array $values 
-     * @param mixed $fields 
-     * @param mixed $dataTypes 
-     * @param  $array dataTypes
-     * @return  
+     * @param string|array $table
+     * @param array $values
+     * @param mixed $fields
+     * @param mixed $dataTypes
+     * @param $array dataTypes
+     * @return bool
      */
     public function insert($table, array $values, $fields = null, $dataTypes = null) {}
 
@@ -240,12 +239,12 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * </code>
      *
-     * @param mixed $table 
-     * @param mixed $data 
-     * @param mixed $dataTypes 
-     * @param  $string table
-     * @param  $array dataTypes
-     * @return  
+     * @param mixed $table
+     * @param mixed $data
+     * @param mixed $dataTypes
+     * @param $string table
+     * @param $array dataTypes
+     * @return bool
      */
     public function insertAsDict($table, $data, $dataTypes = null) {}
 
@@ -278,14 +277,14 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * </code>
      * Warning! If $whereCondition is string it not escaped.
      *
-     * @param string|array $table 
-     * @param mixed $fields 
-     * @param mixed $values 
-     * @param mixed $whereCondition 
-     * @param mixed $dataTypes 
-     * @param  $array dataTypes
-     * @param  $string|array whereCondition
-     * @return  
+     * @param string|array $table
+     * @param mixed $fields
+     * @param mixed $values
+     * @param mixed $whereCondition
+     * @param mixed $dataTypes
+     * @param $array dataTypes
+     * @param $string|array whereCondition
+     * @return bool
      */
     public function update($table, $fields, $values, $whereCondition = null, $dataTypes = null) {}
 
@@ -305,13 +304,13 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
      * </code>
      *
-     * @param mixed $table 
-     * @param mixed $data 
-     * @param mixed $whereCondition 
-     * @param mixed $dataTypes 
-     * @param  $string whereCondition
-     * @param  $array dataTypes
-     * @return  
+     * @param mixed $table
+     * @param mixed $data
+     * @param mixed $whereCondition
+     * @param mixed $dataTypes
+     * @param $string whereCondition
+     * @param $array dataTypes
+     * @return bool
      */
     public function updateAsDict($table, $data, $whereCondition = null, $dataTypes = null) {}
 
@@ -327,11 +326,11 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * DELETE FROM `robots` WHERE `id` = 101
      * </code>
      *
-     * @param string|array $table 
-     * @param string $whereCondition 
-     * @param array $placeholders 
-     * @param array $dataTypes 
-     * @return boolean 
+     * @param string|array $table
+     * @param string $whereCondition
+     * @param array $placeholders
+     * @param array $dataTypes
+     * @return bool
      */
     public function delete($table, $whereCondition = null, $placeholders = null, $dataTypes = null) {}
 
@@ -349,8 +348,8 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @param array|string $identifier 
-     * @return string 
+     * @param array|string $identifier
+     * @return string
      */
     public function escapeIdentifier($identifier) {}
 
@@ -359,8 +358,8 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      *
      * @param	array columnList
      * @return	string
-     * @param mixed $columnList 
-     * @return string 
+     * @param mixed $columnList
+     * @return string
      */
     public function getColumnList($columnList) {}
 
@@ -370,9 +369,9 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * echo $connection->limit("SELECTFROM robots", 5);
      * </code>
      *
-     * @param string $sqlQuery 
-     * @param int $number 
-     * @return string 
+     * @param string $sqlQuery
+     * @param int $number
+     * @return string
      */
     public function limit($sqlQuery, $number) {}
 
@@ -384,9 +383,9 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @return bool
      */
     public function tableExists($tableName, $schemaName = null) {}
 
@@ -398,163 +397,163 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @param string $viewName 
-     * @param string $schemaName 
-     * @return bool 
+     * @param string $viewName
+     * @param string $schemaName
+     * @return bool
      */
     public function viewExists($viewName, $schemaName = null) {}
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause
      *
-     * @param string $sqlQuery 
-     * @return string 
+     * @param string $sqlQuery
+     * @return string
      */
     public function forUpdate($sqlQuery) {}
 
     /**
      * Returns a SQL modified with a LOCK IN SHARE MODE clause
      *
-     * @param string $sqlQuery 
-     * @return string 
+     * @param string $sqlQuery
+     * @return string
      */
     public function sharedLock($sqlQuery) {}
 
     /**
      * Creates a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param array $definition 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param array $definition
+     * @return bool
      */
     public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Drops a table from a schema/database
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param bool $ifExists 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param bool $ifExists
+     * @return bool
      */
     public function dropTable($tableName, $schemaName = null, $ifExists = true) {}
 
     /**
      * Creates a view
      *
-     * @param string $viewName 
-     * @param array $definition 
-     * @param mixed $schemaName 
-     * @return bool 
+     * @param string $viewName
+     * @param array $definition
+     * @param mixed $schemaName
+     * @return bool
      */
     public function createView($viewName, array $definition, $schemaName = null) {}
 
     /**
      * Drops a view
      *
-     * @param string $viewName 
-     * @param string $schemaName 
-     * @param bool $ifExists 
-     * @return bool 
+     * @param string $viewName
+     * @param string $schemaName
+     * @param bool $ifExists
+     * @return bool
      */
     public function dropView($viewName, $schemaName = null, $ifExists = true) {}
 
     /**
      * Adds a column to a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param mixed $column 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param \Phalcon\Db\ColumnInterface $column
+     * @return bool
      */
     public function addColumn($tableName, $schemaName, \Phalcon\Db\ColumnInterface $column) {}
 
     /**
      * Modifies a table column based on a definition
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param mixed $column 
-     * @param mixed $currentColumn 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param \Phalcon\Db\ColumnInterface $column
+     * @param \Phalcon\Db\ColumnInterface $currentColumn
+     * @return bool
      */
     public function modifyColumn($tableName, $schemaName, \Phalcon\Db\ColumnInterface $column, \Phalcon\Db\ColumnInterface $currentColumn = null) {}
 
     /**
      * Drops a column from a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param string $columnName 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param string $columnName
+     * @return bool
      */
     public function dropColumn($tableName, $schemaName, $columnName) {}
 
     /**
      * Adds an index to a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param mixed $index 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param IndexInterface $index
+     * @return bool
      */
     public function addIndex($tableName, $schemaName, IndexInterface $index) {}
 
     /**
      * Drop an index from a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param mixed $indexName 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param mixed $indexName
+     * @return bool
      */
     public function dropIndex($tableName, $schemaName, $indexName) {}
 
     /**
      * Adds a primary key to a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param mixed $index 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param IndexInterface $index
+     * @return bool
      */
     public function addPrimaryKey($tableName, $schemaName, IndexInterface $index) {}
 
     /**
      * Drops a table's primary key
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @return bool
      */
     public function dropPrimaryKey($tableName, $schemaName) {}
 
     /**
      * Adds a foreign key to a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param mixed $reference 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param ReferenceInterface $reference
+     * @return bool
      */
     public function addForeignKey($tableName, $schemaName, ReferenceInterface $reference) {}
 
     /**
      * Drops a foreign key from a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param string $referenceName 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param string $referenceName
+     * @return bool
      */
     public function dropForeignKey($tableName, $schemaName, $referenceName) {}
 
     /**
      * Returns the SQL column definition from a column
      *
-     * @param mixed $column 
-     * @return string 
+     * @param \Phalcon\Db\ColumnInterface $column
+     * @return string
      */
     public function getColumnDefinition(\Phalcon\Db\ColumnInterface $column) {}
 
@@ -566,8 +565,8 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @param string $schemaName 
-     * @return array 
+     * @param string $schemaName
+     * @return array
      */
     public function listTables($schemaName = null) {}
 
@@ -579,8 +578,8 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @param string $schemaName 
-     * @return array 
+     * @param string $schemaName
+     * @return array
      */
     public function listViews($schemaName = null) {}
 
@@ -595,9 +594,9 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * @param	string table
      * @param	string schema
      * @return	Phalcon\Db\Index[]
-     * @param string $table 
-     * @param mixed $schema 
-     * @return Index[] 
+     * @param string $table
+     * @param mixed $schema
+     * @return Index[]
      */
     public function describeIndexes($table, $schema = null) {}
 
@@ -609,9 +608,9 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @param string $table 
-     * @param string $schema 
-     * @return Reference[] 
+     * @param string $table
+     * @param string $schema
+     * @return Reference[]
      */
     public function describeReferences($table, $schema = null) {}
 
@@ -623,55 +622,55 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @return array 
+     * @param string $tableName
+     * @param string $schemaName
+     * @return array
      */
     public function tableOptions($tableName, $schemaName = null) {}
 
     /**
      * Creates a new savepoint
      *
-     * @param string $name 
-     * @return bool 
+     * @param string $name
+     * @return bool
      */
     public function createSavepoint($name) {}
 
     /**
      * Releases given savepoint
      *
-     * @param string $name 
-     * @return bool 
+     * @param string $name
+     * @return bool
      */
     public function releaseSavepoint($name) {}
 
     /**
      * Rollbacks given savepoint
      *
-     * @param string $name 
-     * @return bool 
+     * @param string $name
+     * @return bool
      */
     public function rollbackSavepoint($name) {}
 
     /**
      * Set if nested transactions should use savepoints
      *
-     * @param bool $nestedTransactionsWithSavepoints 
-     * @return AdapterInterface 
+     * @param bool $nestedTransactionsWithSavepoints
+     * @return AdapterInterface
      */
     public function setNestedTransactionsWithSavepoints($nestedTransactionsWithSavepoints) {}
 
     /**
      * Returns if nested transactions should use savepoints
      *
-     * @return bool 
+     * @return bool
      */
     public function isNestedTransactionsWithSavepoints() {}
 
     /**
      * Returns the savepoint name to use for nested transactions
      *
-     * @return string 
+     * @return string
      */
     public function getNestedTransactionSavepointName() {}
 
@@ -694,7 +693,7 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @return RawValue 
+     * @return RawValue
      */
     public function getDefaultIdValue() {}
 
@@ -715,56 +714,56 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     * @return RawValue 
+     * @return RawValue
      */
     public function getDefaultValue() {}
 
     /**
      * Check whether the database system requires a sequence to produce auto-numeric values
      *
-     * @return bool 
+     * @return bool
      */
     public function supportSequences() {}
 
     /**
      * Check whether the database system requires an explicit value for identity columns
      *
-     * @return bool 
+     * @return bool
      */
     public function useExplicitIdValue() {}
 
     /**
      * Return descriptor used to connect to the active database
      *
-     * @return array 
+     * @return array
      */
     public function getDescriptor() {}
 
     /**
      * Gets the active connection unique identifier
      *
-     * @return string 
+     * @return string
      */
     public function getConnectionId() {}
 
     /**
      * Active SQL statement in the object
      *
-     * @return string 
+     * @return string
      */
     public function getSQLStatement() {}
 
     /**
      * Active SQL statement in the object without replace bound parameters
      *
-     * @return string 
+     * @return string
      */
     public function getRealSQLStatement() {}
 
     /**
      * Active SQL statement in the object
      *
-     * @return array 
+     * @return array
      */
     public function getSQLBindTypes() {}
 

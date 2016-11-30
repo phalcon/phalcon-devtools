@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Translate\Adapter;
-
 /**
  * Phalcon\Translate\Adapter\Gettext
  * <code>
@@ -41,47 +40,47 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
 
 
     /**
-     * @return string|array 
+     * @return string|array
      */
     public function getDirectory() {}
 
     /**
-     * @return string 
+     * @return string
      */
     public function getDefaultDomain() {}
 
     /**
-     * @return string 
+     * @return string
      */
     public function getLocale() {}
 
     /**
-     * @return int 
+     * @return int
      */
     public function getCategory() {}
 
     /**
      * Phalcon\Translate\Adapter\Gettext constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     public function __construct(array $options) {}
 
     /**
      * Returns the translation related to the given key
      *
-     * @param string $index 
-     * @param array $placeholders 
-     * @param string $domain 
-     * @return string 
+     * @param string $index
+     * @param array $placeholders
+     * @param string $domain
+     * @return string
      */
     public function query($index, $placeholders = null) {}
 
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index 
-     * @return bool 
+     * @param string $index
+     * @return bool
      */
     public function exists($index) {}
 
@@ -89,34 +88,34 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
      * The plural version of gettext().
      * Some languages have more than one form for plural messages dependent on the count.
      *
-     * @param string $msgid1 
-     * @param string $msgid2 
-     * @param int $count 
-     * @param mixed $placeholders 
-     * @param string $domain 
-     * @return string 
+     * @param string $msgid1
+     * @param string $msgid2
+     * @param int $count
+     * @param mixed $placeholders
+     * @param string $domain
+     * @return string
      */
     public function nquery($msgid1, $msgid2, $count, $placeholders = null, $domain = null) {}
 
     /**
      * Changes the current domain (i.e. the translation file)
      *
-     * @param mixed $domain 
-     * @return string 
+     * @param mixed $domain
+     * @return string
      */
     public function setDomain($domain) {}
 
     /**
      * Sets the default domain
      *
-     * @return string 
+     * @return string
      */
     public function resetDomain() {}
 
     /**
      * Sets the domain default to search within when calls are made to gettext()
      *
-     * @param string $domain 
+     * @param string $domain
      */
     public function setDefaultDomain($domain) {}
 
@@ -147,23 +146,23 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
      * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
      * </code>
      *
-     * @param int $category 
-     * @param string $locale 
-     * @return string|bool 
+     * @param int $category
+     * @param string $locale
+     * @return string|bool
      */
     public function setLocale($category, $locale) {}
 
     /**
      * Validator for constructor
      *
-     * @param array $options 
+     * @param array $options
      */
     protected function prepareOptions(array $options) {}
 
     /**
      * Gets default options
      *
-     * @return array 
+     * @return array
      */
     protected function getOptionsDefault() {}
 

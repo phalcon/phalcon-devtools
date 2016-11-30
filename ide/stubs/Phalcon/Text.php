@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Text
  * Provides utilities to work with texts
@@ -32,9 +31,9 @@ abstract class Text
      * echo Phalcon\Text::camelize("co_co-bon_go", "_-"); // CoCoBonGo
      * </code>
      *
-     * @param string $str 
-     * @param mixed $delimiter 
-     * @return string 
+     * @param string $str
+     * @param mixed $delimiter
+     * @return string
      */
     public static function camelize($str, $delimiter = null) {}
 
@@ -45,9 +44,9 @@ abstract class Text
      * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
      * </code>
      *
-     * @param string $str 
-     * @param mixed $delimiter 
-     * @return string 
+     * @param string $str
+     * @param mixed $delimiter
+     * @return string
      */
     public static function uncamelize($str, $delimiter = null) {}
 
@@ -58,9 +57,9 @@ abstract class Text
      * echo Phalcon\Text::increment("a_1"); // "a_2"
      * </code>
      *
-     * @param string $str 
-     * @param string $separator 
-     * @return string 
+     * @param string $str
+     * @param string $separator
+     * @return string
      */
     public static function increment($str, $separator = "_") {}
 
@@ -73,9 +72,9 @@ abstract class Text
      * );
      * </code>
      *
-     * @param int $type 
-     * @param long $length 
-     * @return string 
+     * @param int $type
+     * @param long $length
+     * @return string
      */
     public static function random($type = 0, $length = 8) {}
 
@@ -87,10 +86,10 @@ abstract class Text
      * echo Phalcon\Text::startsWith("Hello", "he"); // true
      * </code>
      *
-     * @param string $str 
-     * @param string $start 
-     * @param bool $ignoreCase 
-     * @return bool 
+     * @param string $str
+     * @param string $start
+     * @param bool $ignoreCase
+     * @return bool
      */
     public static function startsWith($str, $start, $ignoreCase = true) {}
 
@@ -102,10 +101,10 @@ abstract class Text
      * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
      * </code>
      *
-     * @param string $str 
-     * @param string $end 
-     * @param bool $ignoreCase 
-     * @return bool 
+     * @param string $str
+     * @param string $end
+     * @param bool $ignoreCase
+     * @return bool
      */
     public static function endsWith($str, $end, $ignoreCase = true) {}
 
@@ -115,9 +114,9 @@ abstract class Text
      * echo Phalcon\Text::lower("HELLO"); // hello
      * </code>
      *
-     * @param string $str 
-     * @param string $encoding 
-     * @return string 
+     * @param string $str
+     * @param string $encoding
+     * @return string
      */
     public static function lower($str, $encoding = "UTF-8") {}
 
@@ -127,9 +126,9 @@ abstract class Text
      * echo Phalcon\Text::upper("hello"); // HELLO
      * </code>
      *
-     * @param string $str 
-     * @param string $encoding 
-     * @return string 
+     * @param string $str
+     * @param string $encoding
+     * @return string
      */
     public static function upper($str, $encoding = "UTF-8") {}
 
@@ -140,8 +139,8 @@ abstract class Text
      * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
      * </code>
      *
-     * @param string $str 
-     * @return string 
+     * @param string $str
+     * @return string
      */
     public static function reduceSlashes($str) {}
 
@@ -159,11 +158,11 @@ abstract class Text
      * echo $str;
      * </code>
      *
-     * @param string $separator 
-     * @param string $a 
-     * @param string $b 
-     * @param string $...N 
-     * @return string 
+     * @param string $separator
+     * @param string $a
+     * @param string $b
+     * @param string $...N
+     * @return string
      */
     public static function concat() {}
 
@@ -180,11 +179,11 @@ abstract class Text
      * echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", "[", "]", "/");
      * </code>
      *
-     * @param string $text 
-     * @param string $leftDelimiter 
-     * @param string $rightDelimiter 
-     * @param string $separator 
-     * @return string 
+     * @param string $text
+     * @param string $leftDelimiter
+     * @param string $rightDelimiter
+     * @param string $separator
+     * @return string
      */
     public static function dynamic($text, $leftDelimiter = "{", $rightDelimiter = "}", $separator = "|") {}
 
@@ -195,8 +194,8 @@ abstract class Text
      * echo Phalcon\Text::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
      * </code>
      *
-     * @param string $text 
-     * @return string 
+     * @param string $text
+     * @return string
      */
     public static function underscore($text) {}
 
@@ -207,8 +206,8 @@ abstract class Text
      * echo Phalcon\Text::humanize("five_cats"); // "five cats"
      * </code>
      *
-     * @param string $text 
-     * @return string 
+     * @param string $text
+     * @return string
      */
     public static function humanize($text) {}
 

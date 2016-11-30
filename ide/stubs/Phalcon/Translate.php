@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon;
-
 /**
  * Phalcon\Translate
  * Translate component allows the creation of multi-language applications using

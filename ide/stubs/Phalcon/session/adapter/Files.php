@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Session\Adapter;
-
 /**
  * Phalcon\Session\Adapter\Files
  * This adapter store sessions in plain files

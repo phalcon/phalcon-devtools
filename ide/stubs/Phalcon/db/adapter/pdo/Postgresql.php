@@ -1,7 +1,6 @@
 <?php
 
 namespace Phalcon\Db\Adapter\Pdo;
-
 /**
  * Phalcon\Db\Adapter\Pdo\Postgresql
  * Specific functions for the Postgresql database system
@@ -30,8 +29,8 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo
      * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
      * Call it when you need to restore a database connection.
      *
-     * @param array $descriptor 
-     * @return bool 
+     * @param array $descriptor
+     * @return bool
      */
     public function connect(array $descriptor = null) {}
 
@@ -43,37 +42,37 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @param string $table 
-     * @param string $schema 
-     * @return Column[] 
+     * @param string $table
+     * @param string $schema
+     * @return \Phalcon\Db\Column[]
      */
     public function describeColumns($table, $schema = null) {}
 
     /**
      * Creates a table
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param array $definition 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param array $definition
+     * @return bool
      */
     public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
      * Modifies a table column based on a definition
      *
-     * @param string $tableName 
-     * @param string $schemaName 
-     * @param mixed $column 
-     * @param mixed $currentColumn 
-     * @return bool 
+     * @param string $tableName
+     * @param string $schemaName
+     * @param \Phalcon\Db\ColumnInterface $column
+     * @param \Phalcon\Db\ColumnInterface $currentColumn
+     * @return bool
      */
     public function modifyColumn($tableName, $schemaName, \Phalcon\Db\ColumnInterface $column, \Phalcon\Db\ColumnInterface $currentColumn = null) {}
 
     /**
      * Check whether the database system requires an explicit value for identity columns
      *
-     * @return bool 
+     * @return bool
      */
     public function useExplicitIdValue() {}
 
@@ -96,14 +95,14 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     * @return \Phalcon\Db\RawValue 
+     * @return \Phalcon\Db\RawValue
      */
     public function getDefaultIdValue() {}
 
     /**
      * Check whether the database system requires a sequence to produce auto-numeric values
      *
-     * @return bool 
+     * @return bool
      */
     public function supportSequences() {}
 
