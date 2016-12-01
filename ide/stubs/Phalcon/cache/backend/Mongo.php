@@ -1,32 +1,39 @@
 <?php
 
 namespace Phalcon\Cache\Backend;
+
 /**
  * Phalcon\Cache\Backend\Mongo
+ *
  * Allows to cache output fragments, PHP data or raw data to a MongoDb backend
+ *
  * <code>
  * use Phalcon\Cache\Backend\Mongo;
  * use Phalcon\Cache\Frontend\Base64;
+ *
  * // Cache data for 2 days
  * $frontCache = new Base64(
- * [
- * "lifetime" => 172800,
- * ]
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
  * );
+ *
  * // Create a MongoDB cache
  * $cache = new Mongo(
- * $frontCache,
- * [
- * "server"     => "mongodb://localhost",
- * "db"         => "caches",
- * "collection" => "images",
- * ]
+ *     $frontCache,
+ *     [
+ *         "server"     => "mongodb://localhost",
+ *         "db"         => "caches",
+ *         "collection" => "images",
+ *     ]
  * );
+ *
  * // Cache arbitrary data
  * $cache->save(
- * "my-data",
- * file_get_contents("some-image.jpg")
+ *     "my-data",
+ *     file_get_contents("some-image.jpg")
  * );
+ *
  * // Get data
  * $data = $cache->get("my-data");
  * </code>
@@ -40,6 +47,7 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Phalcon\Cache\Backend\Mongo constructor
      *
+     *
      * @param \Phalcon\Cache\FrontendInterface $frontend
      * @param array $options
      */
@@ -47,6 +55,7 @@ class Mongo extends \Phalcon\Cache\Backend
 
     /**
      * Returns a MongoDb collection based on the backend parameters
+     *
      *
      * @return MongoCollection
      */
@@ -64,6 +73,7 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the file backend and stops the frontend
      *
+     *
      * @param int|string $keyName
      * @param string $content
      * @param long $lifetime
@@ -75,6 +85,7 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Deletes a value from the cache by its key
      *
+     *
      * @param int|string $keyName
      * @return bool
      */
@@ -83,6 +94,7 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Query the existing cached keys
      *
+     *
      * @param string $prefix
      * @return array
      */
@@ -90,6 +102,7 @@ class Mongo extends \Phalcon\Cache\Backend
 
     /**
      * Checks if cache exists and it isn't expired
+     *
      *
      * @param string $keyName
      * @param long $lifetime
@@ -107,6 +120,7 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Increment of a given key by $value
      *
+     *
      * @param int|string $keyName
      * @param long $value
      * @return mixed
@@ -115,6 +129,7 @@ class Mongo extends \Phalcon\Cache\Backend
 
     /**
      * Decrement of a given key by $value
+     *
      *
      * @param mixed $keyName
      * @param mixed $value

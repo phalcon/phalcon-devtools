@@ -2,6 +2,7 @@
 
 namespace Phalcon\Translate\Interpolator;
 
+
 class AssociativeArray implements \Phalcon\Translate\InterpolatorInterface
 {
 

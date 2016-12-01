@@ -1,10 +1,13 @@
 <?php
 
 namespace Phalcon\Di;
+
 /**
  * Phalcon\Di\Injectable
+ *
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
+ *
  *
  * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
@@ -36,12 +39,14 @@ abstract class Injectable implements \Phalcon\Di\InjectionAwareInterface, \Phalc
     /**
      * Dependency Injector
      *
+     *
      * @var \Phalcon\DiInterface
      */
     protected $_dependencyInjector;
 
     /**
      * Events Manager
+     *
      *
      * @var \Phalcon\Events\ManagerInterface
      */

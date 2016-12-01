@@ -1,25 +1,31 @@
 <?php
 
 namespace Phalcon\Mvc\View;
+
 /**
  * Phalcon\Mvc\View\Simple
+ *
  * This component allows to render views without hierarchical levels
+ *
  * <code>
  * use Phalcon\Mvc\View\Simple as View;
+ *
  * $view = new View();
+ *
  * // Render a view
  * echo $view->render(
- * "templates/my-view",
- * [
- * "some" => $param,
- * ]
+ *     "templates/my-view",
+ *     [
+ *         "some" => $param,
+ *     ]
  * );
+ *
  * // Or with filename with extension
  * echo $view->render(
- * "templates/my-view.volt",
- * [
- * "parameter" => $here,
- * ]
+ *     "templates/my-view.volt",
+ *     [
+ *         "parameter" => $here,
+ *     ]
  * );
  * </code>
  */
@@ -88,13 +94,14 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Register templating engines
+     *
      * <code>
      * $this->view->registerEngines(
-     * [
-     * ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
-     * ".volt"  => "Phalcon\\Mvc\\View\\Engine\\Volt",
-     * ".mhtml" => "MyCustomEngine",
-     * ]
+     *     [
+     *         ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
+     *         ".volt"  => "Phalcon\\Mvc\\View\\Engine\\Volt",
+     *         ".mhtml" => "MyCustomEngine",
+     *     ]
      * );
      * </code>
      *
@@ -105,12 +112,14 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
      *
+     *
      * @return array
      */
     protected function _loadTemplateEngines() {}
 
     /**
      * Tries to render the view with every engine registered in the component
+     *
      *
      * @param string $path
      * @param array $params
@@ -120,6 +129,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Renders a view
      *
+     *
      * @param string $path
      * @param array $params
      * @return string
@@ -128,17 +138,19 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Renders a partial view
+     *
      * <code>
      * // Show a partial inside another view
      * $this->partial("shared/footer");
      * </code>
+     *
      * <code>
      * // Show a partial inside another view with parameters
      * $this->partial(
-     * "shared/footer",
-     * [
-     * "content" => $html,
-     * ]
+     *     "shared/footer",
+     *     [
+     *         "content" => $html,
+     *     ]
      * );
      * </code>
      *
@@ -157,6 +169,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Returns the cache options
+     *
      *
      * @return array
      */
@@ -178,12 +191,13 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Cache the actual view render to certain level
+     *
      * <code>
      * $this->view->cache(
-     * [
-     * "key"      => "my-key",
-     * "lifetime" => 86400,
-     * ]
+     *     [
+     *         "key"      => "my-key",
+     *         "lifetime" => 86400,
+     *     ]
      * );
      * </code>
      *
@@ -194,6 +208,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Adds parameters to views (alias of setVar)
+     *
      * <code>
      * $this->view->setParamToView("products", $products);
      * </code>
@@ -206,11 +221,12 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Set all the render params
+     *
      * <code>
      * $this->view->setVars(
-     * [
-     * "products" => $products,
-     * ]
+     *     [
+     *         "products" => $products,
+     *     ]
      * );
      * </code>
      *
@@ -222,6 +238,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Set a single view parameter
+     *
      * <code>
      * $this->view->setVar("products", $products);
      * </code>
@@ -243,12 +260,14 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Returns parameters to views
      *
+     *
      * @return array
      */
     public function getParamsToView() {}
 
     /**
      * Externally sets the view content
+     *
      * <code>
      * $this->view->setContent("<h1>hello</h1>");
      * </code>
@@ -268,12 +287,14 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Returns the path of the view that is currently rendered
      *
+     *
      * @return string
      */
     public function getActiveRenderPath() {}
 
     /**
      * Magic method to pass variables to the views
+     *
      * <code>
      * $this->view->products = $products;
      * </code>
@@ -285,6 +306,7 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Magic method to retrieve a variable passed to the view
+     *
      * <code>
      * echo $this->view->products;
      * </code>

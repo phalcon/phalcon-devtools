@@ -1,14 +1,17 @@
 <?php
 
 namespace Phalcon\Events;
+
 /**
  * Phalcon\Events\Event
+ *
  * This class offers contextual information of a fired event in the EventsManager
  */
 class Event implements \Phalcon\Events\EventInterface
 {
     /**
      * Event type
+     *
      *
      * @var string
      */
@@ -17,12 +20,14 @@ class Event implements \Phalcon\Events\EventInterface
     /**
      * Event source
      *
+     *
      * @var object
      */
     protected $_source;
 
     /**
      * Event data
+     *
      *
      * @var mixed
      */
@@ -31,12 +36,14 @@ class Event implements \Phalcon\Events\EventInterface
     /**
      * Is event propagation stopped?
      *
+     *
      * @var boolean
      */
     protected $_stopped = false;
 
     /**
      * Is event cancelable?
+     *
      *
      * @var boolean
      */
@@ -67,6 +74,7 @@ class Event implements \Phalcon\Events\EventInterface
     /**
      * Phalcon\Events\Event constructor
      *
+     *
      * @param string $type
      * @param object $source
      * @param mixed $data
@@ -92,9 +100,10 @@ class Event implements \Phalcon\Events\EventInterface
 
     /**
      * Stops the event preventing propagation.
+     *
      * <code>
      * if ($event->isCancelable()) {
-     * $event->stop();
+     *     $event->stop();
      * }
      * </code>
      *
@@ -111,9 +120,10 @@ class Event implements \Phalcon\Events\EventInterface
 
     /**
      * Check whether the event is cancelable.
+     *
      * <code>
      * if ($event->isCancelable()) {
-     * $event->stop();
+     *     $event->stop();
      * }
      * </code>
      *

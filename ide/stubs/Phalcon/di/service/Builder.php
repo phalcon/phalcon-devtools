@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Di\Service;
+
 /**
  * Phalcon\Di\Service\Builder
+ *
  * This class builds instances based on complex definitions
  */
 class Builder
@@ -10,6 +12,7 @@ class Builder
 
     /**
      * Resolves a constructor/call parameter
+     *
      *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param int $position
@@ -29,6 +32,7 @@ class Builder
 
     /**
      * Builds a service using a complex service definition
+     *
      *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param array $definition

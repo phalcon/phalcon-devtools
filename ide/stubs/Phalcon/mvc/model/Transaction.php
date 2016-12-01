@@ -1,31 +1,44 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\Transaction
+ *
  * Transactions are protective blocks where SQL statements are only permanent if they can
  * all succeed as one atomic action. Phalcon\Transaction is intended to be used with Phalcon_Model_Base.
  * Phalcon Transactions should be created using Phalcon\Transaction\Manager.
+ *
  * <code>
  * try {
- * $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
- * $transaction = $manager->get();
- * $robot = new Robots();
- * $robot->setTransaction($transaction);
- * $robot->name       = "WALL·E";
- * $robot->created_at = date("Y-m-d");
- * if ($robot->save() === false) {
- * $transaction->rollback("Can't save robot");
- * }
- * $robotPart = new RobotParts();
- * $robotPart->setTransaction($transaction);
- * $robotPart->type = "head";
- * if ($robotPart->save() === false) {
- * $transaction->rollback("Can't save robot part");
- * }
- * $transaction->commit();
+ *     $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
+ *
+ *     $transaction = $manager->get();
+ *
+ *     $robot = new Robots();
+ *
+ *     $robot->setTransaction($transaction);
+ *
+ *     $robot->name       = "WALL·E";
+ *     $robot->created_at = date("Y-m-d");
+ *
+ *     if ($robot->save() === false) {
+ *         $transaction->rollback("Can't save robot");
+ *     }
+ *
+ *     $robotPart = new RobotParts();
+ *
+ *     $robotPart->setTransaction($transaction);
+ *
+ *     $robotPart->type = "head";
+ *
+ *     if ($robotPart->save() === false) {
+ *         $transaction->rollback("Can't save robot part");
+ *     }
+ *
+ *     $transaction->commit();
  * } catch(Phalcon\Mvc\Model\Transaction\Failed $e) {
- * echo "Failed, reason: ", $e->getMessage();
+ *     echo "Failed, reason: ", $e->getMessage();
  * }
  * </code>
  */
@@ -56,6 +69,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
     /**
      * Phalcon\Mvc\Model\Transaction constructor
      *
+     *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param boolean $autoBegin
      * @param string $service
@@ -85,6 +99,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 
     /**
      * Rollbacks the transaction
+     *
      *
      * @param string $rollbackMessage
      * @param \Phalcon\Mvc\ModelInterface $rollbackRecord

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Dispatcher
+ *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own dispatchers.
  */
@@ -198,6 +200,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Sets action params to be dispatched
      *
+     *
      * @param array $params
      */
     public function setParams($params) {}
@@ -212,6 +215,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Set a param by its name or numeric index
      *
+     *
      * @param mixed $param
      * @param mixed $value
      */
@@ -219,6 +223,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
     /**
      * Gets a param by its name or numeric index
+     *
      *
      * @param mixed $param
      * @param string|array $filters
@@ -229,6 +234,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
     /**
      * Check if a param exists
+     *
      *
      * @param mixed $param
      * @return bool
@@ -252,12 +258,14 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Sets the latest returned value by an action manually
      *
+     *
      * @param mixed $value
      */
     public function setReturnedValue($value) {}
 
     /**
      * Returns value returned by the latest dispatched action
+     *
      *
      * @return mixed
      */
@@ -266,12 +274,14 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Enable/Disable model binding during dispatch
      *
+     *
      * @param boolean $value
      */
     public function setModelBinding($value) {}
 
     /**
      * Dispatches a handle action taking into account the routing parameters
+     *
      *
      * @return object
      */
@@ -280,6 +290,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Dispatches a handle action taking into account the routing parameters
      *
+     *
      * @return object
      */
     protected function _dispatch() {}
@@ -287,14 +298,16 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Forwards the execution flow to another controller/action
      * Dispatchers are unique per module. Forwarding between modules is not allowed
+     *
      * <code>
      * $this->dispatcher->forward(
-     * [
-     * "controller" => "posts",
-     * "action"     => "index",
-     * ]
+     *     [
+     *         "controller" => "posts",
+     *         "action"     => "index",
+     *     ]
      * );
      * </code>
+     *
      *
      * @param array $forward
      */

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Forms;
+
 /**
  * Phalcon\Forms\Element
+ *
  * Interface for Phalcon\Forms\Element classes
  */
 interface ElementInterface
@@ -41,6 +43,7 @@ interface ElementInterface
     /**
      * Sets the element's filters
      *
+     *
      * @param array|string $filters
      * @return ElementInterface
      */
@@ -57,12 +60,14 @@ interface ElementInterface
     /**
      * Returns the element's filters
      *
+     *
      * @return mixed
      */
     public function getFilters();
 
     /**
      * Adds a group of validators
+     *
      *
      * @param array $validators
      * @param boolean $merge
@@ -99,6 +104,7 @@ interface ElementInterface
     /**
      * Sets a default attribute for the element
      *
+     *
      * @param string $attribute
      * @param mixed $value
      * @return ElementInterface
@@ -107,6 +113,7 @@ interface ElementInterface
 
     /**
      * Returns the value of an attribute if present
+     *
      *
      * @param string $attribute
      * @param mixed $defaultValue
@@ -132,6 +139,7 @@ interface ElementInterface
     /**
      * Sets an option for the element
      *
+     *
      * @param string $option
      * @param mixed $value
      * @return ElementInterface
@@ -140,6 +148,7 @@ interface ElementInterface
 
     /**
      * Returns the value of an option if present
+     *
      *
      * @param string $option
      * @param mixed $defaultValue
@@ -188,6 +197,7 @@ interface ElementInterface
      * Sets a default value in case the form does not use an entity
      * or there is no value available for the element in _POST
      *
+     *
      * @param mixed $value
      * @return ElementInterface
      */
@@ -196,12 +206,14 @@ interface ElementInterface
     /**
      * Returns the default value assigned to the element
      *
+     *
      * @return mixed
      */
     public function getDefault();
 
     /**
      * Returns the element's value
+     *
      *
      * @return mixed
      */
@@ -210,6 +222,7 @@ interface ElementInterface
     /**
      * Returns the messages that belongs to the element
      * The element needs to be attached to a form
+     *
      *
      * @return \Phalcon\Validation\Message\Group
      */
@@ -247,6 +260,7 @@ interface ElementInterface
 
     /**
      * Renders the element widget
+     *
      *
      * @param array $attributes
      * @return string

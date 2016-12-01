@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
+
 /**
  * Phalcon\Mvc\Model\MetaData\Strategy\Introspection
+ *
  * Queries the table meta-data in order to introspect the model's metadata
  */
 class Introspection implements \Phalcon\Mvc\Model\MetaData\StrategyInterface

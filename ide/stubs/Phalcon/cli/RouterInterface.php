@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Cli;
+
 /**
  * Phalcon\Cli\RouterInterface
+ *
  * Interface for Phalcon\Cli\Router
  */
 interface RouterInterface
@@ -38,6 +40,7 @@ interface RouterInterface
 
     /**
      * Handles routing information received from the rewrite engine
+     *
      *
      * @param array $arguments
      */

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Validation;
+
 /**
  * Phalcon\Validation\Message
+ *
  * Interface for Phalcon\Validation\Message
  */
 interface MessageInterface
@@ -34,6 +36,7 @@ interface MessageInterface
     /**
      * Returns verbose message
      *
+     *
      * @return string
      */
     public function getMessage();
@@ -48,6 +51,7 @@ interface MessageInterface
 
     /**
      * Returns field name related to message
+     *
      *
      * @return string
      */

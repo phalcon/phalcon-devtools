@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\EscaperInterface
+ *
  * Interface for Phalcon\Escaper
  */
 interface EscaperInterface
@@ -11,12 +13,14 @@ interface EscaperInterface
     /**
      * Sets the encoding to be used by the escaper
      *
+     *
      * @param string $encoding
      */
     public function setEncoding($encoding);
 
     /**
      * Returns the internal encoding used by the escaper
+     *
      *
      * @return string
      */
@@ -25,12 +29,14 @@ interface EscaperInterface
     /**
      * Sets the HTML quoting type for htmlspecialchars
      *
+     *
      * @param int $quoteType
      */
     public function setHtmlQuoteType($quoteType);
 
     /**
      * Escapes a HTML string
+     *
      *
      * @param string $text
      * @return string
@@ -40,6 +46,7 @@ interface EscaperInterface
     /**
      * Escapes a HTML attribute string
      *
+     *
      * @param string $text
      * @return string
      */
@@ -47,6 +54,7 @@ interface EscaperInterface
 
     /**
      * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
+     *
      *
      * @param string $css
      * @return string
@@ -56,6 +64,7 @@ interface EscaperInterface
     /**
      * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
      *
+     *
      * @param string $js
      * @return string
      */
@@ -63,6 +72,7 @@ interface EscaperInterface
 
     /**
      * Escapes a URL. Internally uses rawurlencode
+     *
      *
      * @param string $url
      * @return string

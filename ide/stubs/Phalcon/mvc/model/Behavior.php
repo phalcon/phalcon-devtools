@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\Behavior
+ *
  * This is an optional base class for ORM behaviors
  */
 abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
@@ -13,6 +15,7 @@ abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
 
     /**
      * Phalcon\Mvc\Model\Behavior
+     *
      *
      * @param array $options
      */
@@ -29,6 +32,7 @@ abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
     /**
      * Returns the behavior options related to an event
      *
+     *
      * @param string $eventName
      * @return array
      */
@@ -44,6 +48,7 @@ abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
 
     /**
      * Acts as fallbacks when a missing method is called on the model
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param string $method

@@ -1,21 +1,28 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\Manager
+ *
  * This components controls the initialization of models, keeping record of relations
  * between the different models of the application.
+ *
  * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\Di.
+ *
  * <code>
  * use Phalcon\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
+ *
  * $di = new Di();
+ *
  * $di->set(
- * "modelsManager",
- * function() {
- * return new ModelsManager();
- * }
+ *     "modelsManager",
+ *     function() {
+ *         return new ModelsManager();
+ *     }
  * );
+ *
  * $robot = new Robots($di);
  * </code>
  */
@@ -212,10 +219,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     /**
      * Check whether a model property is declared as public.
+     *
      * <code>
      * $isPublic = $manager->isVisibleModelProperty(
-     * new Robots(),
-     * "name"
+     *     new Robots(),
+     *     "name"
      * );
      * </code>
      *
@@ -387,6 +395,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     /**
      * Setup a 1-1 relation between two models
      *
+     *
      * @param	mixed fields
      * @param	string referencedModel
      * @param	mixed referencedFields
@@ -402,6 +411,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     /**
      * Setup a relation reverse many to one between two models
+     *
      *
      * @param	mixed fields
      * @param	string referencedModel
@@ -419,6 +429,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     /**
      * Setup a relation 1-n between two models
      *
+     *
      * @param	mixed fields
      * @param	string referencedModel
      * @param	mixed referencedFields
@@ -435,6 +446,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     /**
      * Setups a relation n-m between two models
+     *
      *
      * @param	string fields
      * @param	string intermediateModel
@@ -512,6 +524,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     /**
      * Helper method to query records based on a relation definition
      *
+     *
      * @param \Phalcon\Mvc\Model\RelationInterface $relation
      * @param string $method
      * @param \Phalcon\Mvc\ModelInterface $record
@@ -580,9 +593,10 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     /**
      * Gets all the belongsTo relations defined in a model
+     *
      * <code>
      * $relations = $modelsManager->getBelongsTo(
-     * new Robots()
+     *     new Robots()
      * );
      * </code>
      *

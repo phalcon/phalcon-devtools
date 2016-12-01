@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Session;
+
 /**
  * Phalcon\Session\AdapterInterface
+ *
  * Interface for Phalcon\Session adapters
  */
 interface AdapterInterface

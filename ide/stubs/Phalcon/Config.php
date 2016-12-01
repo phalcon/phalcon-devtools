@@ -1,27 +1,30 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Config
+ *
  * Phalcon\Config is designed to simplify the access to, and the use of, configuration data within applications.
  * It provides a nested object property based user interface for accessing this configuration data within
  * application code.
+ *
  * <code>
  * $config = new \Phalcon\Config(
- * [
- * "database" => [
- * "adapter"  => "Mysql",
- * "host"     => "localhost",
- * "username" => "scott",
- * "password" => "cheetah",
- * "dbname"   => "test_db",
- * ],
- * "phalcon" => [
- * "controllersDir" => "../app/controllers/",
- * "modelsDir"      => "../app/models/",
- * "viewsDir"       => "../app/views/",
- * ],
- * ]
+ *     [
+ *         "database" => [
+ *             "adapter"  => "Mysql",
+ *             "host"     => "localhost",
+ *             "username" => "scott",
+ *             "password" => "cheetah",
+ *             "dbname"   => "test_db",
+ *         ],
+ *         "phalcon" => [
+ *             "controllersDir" => "../app/controllers/",
+ *             "modelsDir"      => "../app/models/",
+ *             "viewsDir"       => "../app/views/",
+ *         ],
+ *     ]
  * );
  * </code>
  */
@@ -37,9 +40,10 @@ class Config implements \ArrayAccess, \Countable
 
     /**
      * Allows to check whether an attribute is defined using the array-syntax
+     *
      * <code>
      * var_dump(
-     * isset($config["database"])
+     *     isset($config["database"])
      * );
      * </code>
      *
@@ -51,6 +55,7 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Gets an attribute from the configuration, if the attribute isn't defined returns null
      * If the value is exactly null or is not defined the default value will be used instead
+     *
      * <code>
      * echo $config->get("controllersDir", "../app/controllers/");
      * </code>
@@ -63,9 +68,10 @@ class Config implements \ArrayAccess, \Countable
 
     /**
      * Gets an attribute using the array-syntax
+     *
      * <code>
      * print_r(
-     * $config["database"]
+     *     $config["database"]
      * );
      * </code>
      *
@@ -76,9 +82,10 @@ class Config implements \ArrayAccess, \Countable
 
     /**
      * Sets an attribute using the array-syntax
+     *
      * <code>
      * $config["database"] = [
-     * "type" => "Sqlite",
+     *     "type" => "Sqlite",
      * ];
      * </code>
      *
@@ -89,6 +96,7 @@ class Config implements \ArrayAccess, \Countable
 
     /**
      * Unsets an attribute using the array-syntax
+     *
      * <code>
      * unset($config["database"]);
      * </code>
@@ -99,14 +107,16 @@ class Config implements \ArrayAccess, \Countable
 
     /**
      * Merges a configuration into the current one
+     *
      * <code>
      * $appConfig = new \Phalcon\Config(
-     * [
-     * "database" => [
-     * "host" => "localhost",
-     * ],
-     * ]
+     *     [
+     *         "database" => [
+     *             "host" => "localhost",
+     *         ],
+     *     ]
      * );
+     *
      * $globalConfig->merge($appConfig);
      * </code>
      *
@@ -117,9 +127,10 @@ class Config implements \ArrayAccess, \Countable
 
     /**
      * Converts recursively the object to an array
+     *
      * <code>
      * print_r(
-     * $config->toArray()
+     *     $config->toArray()
      * );
      * </code>
      *
@@ -129,10 +140,13 @@ class Config implements \ArrayAccess, \Countable
 
     /**
      * Returns the count of properties set in the config
+     *
      * <code>
      * print count($config);
      * </code>
+     *
      * or
+     *
      * <code>
      * print $config->count();
      * </code>
@@ -152,8 +166,11 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Helper method for merge configs (forwarding nested config instance)
      *
+     *
+     * @param Config instance = null
+     *
      * @param Config $config
-     * @param Config $instance = null
+     * @param mixed $instance
      * @return Config
      */
     protected final function _merge(Config $config, $instance = null) {}

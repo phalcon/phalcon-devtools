@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Http;
+
 /**
  * Phalcon\Http\RequestInterface
+ *
  * Interface for Phalcon\Http\Request
  */
 interface RequestInterface
@@ -10,6 +12,7 @@ interface RequestInterface
 
     /**
      * Gets a variable from the $_REQUEST superglobal applying filters if needed
+     *
      *
      * @param string $name
      * @param string|array $filters
@@ -21,6 +24,7 @@ interface RequestInterface
     /**
      * Gets a variable from the $_POST superglobal applying filters if needed
      *
+     *
      * @param string $name
      * @param string|array $filters
      * @param mixed $defaultValue
@@ -31,6 +35,7 @@ interface RequestInterface
     /**
      * Gets variable from $_GET superglobal applying filters if needed
      *
+     *
      * @param string $name
      * @param string|array $filters
      * @param mixed $defaultValue
@@ -40,6 +45,7 @@ interface RequestInterface
 
     /**
      * Gets variable from $_SERVER superglobal
+     *
      *
      * @param string $name
      * @return mixed
@@ -183,6 +189,7 @@ interface RequestInterface
     /**
      * Check if HTTP method match any of the passed methods
      *
+     *
      * @param string|array $methods
      * @param bool $strict
      * @return bool
@@ -255,6 +262,7 @@ interface RequestInterface
     /**
      * Checks whether request include attached files
      *
+     *
      * @param boolean $onlySuccessful
      * @return boolean
      */
@@ -319,6 +327,7 @@ interface RequestInterface
 
     /**
      * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
+     *
      *
      * @return array
      */

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Cli;
+
 /**
  * Phalcon\Cli\DispatcherInterface
+ *
  * Interface for Phalcon\Cli\Dispatcher
  */
 interface DispatcherInterface extends \Phalcon\DispatcherInterface

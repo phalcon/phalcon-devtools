@@ -1,8 +1,11 @@
 <?php
 
 namespace Phalcon\Acl;
+
 /**
+ *
  * Phalcon\Acl\ResourceInterface
+ *
  * Interface for Phalcon\Acl\Resource
  */
 interface ResourceInterface

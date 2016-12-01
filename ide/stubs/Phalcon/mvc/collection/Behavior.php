@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Collection;
+
 /**
  * Phalcon\Mvc\Collection\Behavior
+ *
  * This is an optional base class for ORM behaviors
  */
 abstract class Behavior implements \Phalcon\Mvc\Collection\BehaviorInterface
@@ -13,6 +15,7 @@ abstract class Behavior implements \Phalcon\Mvc\Collection\BehaviorInterface
 
     /**
      * Phalcon\Mvc\Collection\Behavior
+     *
      *
      * @param array $options
      */
@@ -28,6 +31,7 @@ abstract class Behavior implements \Phalcon\Mvc\Collection\BehaviorInterface
 
     /**
      * Returns the behavior options related to an event
+     *
      *
      * @param string $eventName
      * @return array

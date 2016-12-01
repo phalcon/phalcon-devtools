@@ -1,9 +1,12 @@
 <?php
 
 namespace Phalcon\Assets;
+
 /**
  * Phalcon\Assets\Inline
+ *
  * Represents an inline asset
+ *
  * <code>
  * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
  * </code>
@@ -37,6 +40,7 @@ class Inline
 
     /**
      * Phalcon\Assets\Inline constructor
+     *
      *
      * @param string $type
      * @param string $content

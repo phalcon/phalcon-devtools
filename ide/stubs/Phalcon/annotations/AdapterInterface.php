@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Annotations;
+
 /**
  * Phalcon\Annotations\AdapterInterface
+ *
  * This interface must be implemented by adapters in Phalcon\Annotations
  */
 interface AdapterInterface
@@ -25,6 +27,7 @@ interface AdapterInterface
     /**
      * Parses or retrieves all the annotations found in a class
      *
+     *
      * @param string|object $className
      * @return \Phalcon\Annotations\Reflection
      */
@@ -33,6 +36,7 @@ interface AdapterInterface
     /**
      * Returns the annotations found in all the class' methods
      *
+     *
      * @param string $className
      * @return array
      */
@@ -40,6 +44,7 @@ interface AdapterInterface
 
     /**
      * Returns the annotations found in a specific method
+     *
      *
      * @param string $className
      * @param string $methodName
@@ -50,6 +55,7 @@ interface AdapterInterface
     /**
      * Returns the annotations found in all the class' methods
      *
+     *
      * @param string $className
      * @return array
      */
@@ -57,6 +63,7 @@ interface AdapterInterface
 
     /**
      * Returns the annotations found in a specific property
+     *
      *
      * @param string $className
      * @param string $propertyName

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Paginator;
+
 /**
  * Phalcon\Paginator\AdapterInterface
+ *
  * Interface for Phalcon\Paginator adapters
  */
 interface AdapterInterface

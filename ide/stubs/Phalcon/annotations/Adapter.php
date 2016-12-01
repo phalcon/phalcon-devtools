@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Annotations;
+
 /**
  * Phalcon\Annotations\Adapter
+ *
  * This is the base class for Phalcon\Annotations adapters
  */
 abstract class Adapter implements \Phalcon\Annotations\AdapterInterface
@@ -30,6 +32,7 @@ abstract class Adapter implements \Phalcon\Annotations\AdapterInterface
 
     /**
      * Parses or retrieves all the annotations found in a class
+     *
      *
      * @param string|object $className
      * @return \Phalcon\Annotations\Reflection

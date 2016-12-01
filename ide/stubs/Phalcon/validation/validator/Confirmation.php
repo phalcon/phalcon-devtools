@@ -1,37 +1,42 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Confirmation
+ *
  * Checks that two values have the same value
+ *
  * <code>
  * use Phalcon\Validation\Validator\Confirmation;
+ *
  * $validator->add(
- * "password",
- * new Confirmation(
- * [
- * "message" => "Password doesn't match confirmation",
- * "with"    => "confirmPassword",
- * ]
- * )
+ *     "password",
+ *     new Confirmation(
+ *         [
+ *             "message" => "Password doesn't match confirmation",
+ *             "with"    => "confirmPassword",
+ *         ]
+ *     )
  * );
+ *
  * $validator->add(
- * [
- * "password",
- * "email",
- * ],
- * new Confirmation(
- * [
- * "message" => [
- * "password" => "Password doesn't match confirmation",
- * "email"    => "Email doesn't match confirmation",
- * ],
- * "with" => [
- * "password" => "confirmPassword",
- * "email"    => "confirmEmail",
- * ],
- * ]
- * )
+ *     [
+ *         "password",
+ *         "email",
+ *     ],
+ *     new Confirmation(
+ *         [
+ *             "message" => [
+ *                 "password" => "Password doesn't match confirmation",
+ *                 "email"    => "Email doesn't match confirmation",
+ *             ],
+ *             "with" => [
+ *                 "password" => "confirmPassword",
+ *                 "email"    => "confirmEmail",
+ *             ],
+ *         ]
+ *     )
  * );
  * </code>
  */

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Debug
+ *
  * Provides debug capabilities to Phalcon applications
  */
 class Debug

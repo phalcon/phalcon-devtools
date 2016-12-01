@@ -1,41 +1,49 @@
 <?php
 
 namespace Phalcon\Mvc;
+
 /**
  * Phalcon\Mvc\Application
+ *
  * This component encapsulates all the complex operations behind instantiating every component
  * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
+ *
  * <code>
  * use Phalcon\Mvc\Application;
+ *
  * class MyApp extends Application
  * {
- * /
+ *     /
  * Register the services here to make them general or register
  * in the ModuleDefinition to make them module-specific
  * \/
- * protected function registerServices()
- * {
- * }
- * /
+ *     protected function registerServices()
+ *     {
+ *
+ *     }
+ *
+ *     /
  * This method registers all the modules in the application
  * \/
- * public function main()
- * {
- * $this->registerModules(
- * [
- * "frontend" => [
- * "className" => "Multiple\\Frontend\\Module",
- * "path"      => "../apps/frontend/Module.php",
- * ],
- * "backend" => [
- * "className" => "Multiple\\Backend\\Module",
- * "path"      => "../apps/backend/Module.php",
- * ],
- * ]
- * );
+ *     public function main()
+ *     {
+ *         $this->registerModules(
+ *             [
+ *                 "frontend" => [
+ *                     "className" => "Multiple\\Frontend\\Module",
+ *                     "path"      => "../apps/frontend/Module.php",
+ *                 ],
+ *                 "backend" => [
+ *                     "className" => "Multiple\\Backend\\Module",
+ *                     "path"      => "../apps/backend/Module.php",
+ *                 ],
+ *             ]
+ *         );
+ *     }
  * }
- * }
+ *
  * $application = new MyApp();
+ *
  * $application->main();
  * </code>
  */

@@ -1,9 +1,12 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Flash
+ *
  * Shows HTML notifications related to different circumstances. Classes can be stylized using CSS
+ *
  * <code>
  * $flash->success("The record was successfully deleted");
  * $flash->error("Cannot open the file");
@@ -111,6 +114,7 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
 
     /**
      * Shows a HTML error message
+     *
      * <code>
      * $flash->error("This is an error");
      * </code>
@@ -122,6 +126,7 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
 
     /**
      * Shows a HTML notice/information message
+     *
      * <code>
      * $flash->notice("This is an information");
      * </code>
@@ -133,6 +138,7 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
 
     /**
      * Shows a HTML success message
+     *
      * <code>
      * $flash->success("The process was finished successfully");
      * </code>
@@ -144,6 +150,7 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
 
     /**
      * Shows a HTML warning message
+     *
      * <code>
      * $flash->warning("Hey, this is important");
      * </code>
@@ -155,9 +162,11 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
 
     /**
      * Outputs a message formatting it with HTML
+     *
      * <code>
      * $flash->outputMessage("error", $message);
      * </code>
+     *
      *
      * @param string $type
      * @param string|array $message

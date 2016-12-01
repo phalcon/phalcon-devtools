@@ -1,31 +1,41 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Di
+ *
  * Phalcon\Di is a component that implements Dependency Injection/Service Location
  * of services and it's itself a container for them.
+ *
  * Since Phalcon is highly decoupled, Phalcon\Di is essential to integrate the different
  * components of the framework. The developer can also use this component to inject dependencies
  * and manage global instances of the different classes used in the application.
+ *
  * Basically, this component implements the `Inversion of Control` pattern. Applying this,
  * the objects do not receive their dependencies using setters or constructors, but requesting
  * a service dependency injector. This reduces the overall complexity, since there is only one
  * way to get the required dependencies within a component.
+ *
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
+ *
  * <code>
  * use Phalcon\Di;
  * use Phalcon\Http\Request;
+ *
  * $di = new Di();
+ *
  * // Using a string definition
  * $di->set("request", Request::class, true);
+ *
  * // Using an anonymous function
  * $di->setShared(
- * "request",
- * function () {
- * return new Request();
- * }
+ *     "request",
+ *     function () {
+ *         return new Request();
+ *     }
  * );
+ *
  * $request = $di->getRequest();
  * </code>
  */
@@ -48,6 +58,7 @@ class Di implements \Phalcon\DiInterface
 
     /**
      * Events Manager
+     *
      *
      * @var \Phalcon\Events\ManagerInterface
      */
@@ -155,6 +166,7 @@ class Di implements \Phalcon\DiInterface
      * Resolves a service, the resolved service is stored in the DI, subsequent
      * requests for this service will return the same instance
      *
+     *
      * @param string $name
      * @param array $parameters
      * @return mixed
@@ -193,6 +205,7 @@ class Di implements \Phalcon\DiInterface
 
     /**
      * Allows to register a shared service using the array syntax
+     *
      * <code>
      * $di["request"] = new \Phalcon\Http\Request();
      * </code>
@@ -205,6 +218,7 @@ class Di implements \Phalcon\DiInterface
 
     /**
      * Allows to obtain a shared service using the array syntax
+     *
      * <code>
      * var_dump($di["request"]);
      * </code>

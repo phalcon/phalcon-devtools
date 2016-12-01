@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Logger\Formatter;
+
 /**
  * Phalcon\Logger\Formatter\Line
+ *
  * Formats messages using an one-line string
  */
 class Line extends \Phalcon\Logger\Formatter
@@ -10,12 +12,14 @@ class Line extends \Phalcon\Logger\Formatter
     /**
      * Default date format
      *
+     *
      * @var string
      */
     protected $_dateFormat = "D, d M y H:i:s O";
 
     /**
      * Format applied to each message
+     *
      *
      * @var string
      */
@@ -53,6 +57,7 @@ class Line extends \Phalcon\Logger\Formatter
     /**
      * Phalcon\Logger\Formatter\Line construct
      *
+     *
      * @param string $format
      * @param string $dateFormat
      */
@@ -60,6 +65,7 @@ class Line extends \Phalcon\Logger\Formatter
 
     /**
      * Applies a format to a message before sent it to the internal log
+     *
      *
      * @param string $message
      * @param int $type

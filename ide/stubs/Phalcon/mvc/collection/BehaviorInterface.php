@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Collection;
+
 /**
  * Phalcon\Mvc\Collection\BehaviorInterface
+ *
  * Interface for Phalcon\Mvc\Collection\Behavior
  */
 interface BehaviorInterface

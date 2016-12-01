@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Db;
+
 /**
  * Phalcon\Db\Dialect
+ *
  * This is the base class to each database dialect. This implements
  * common methods to transform intermediate code into its RDBMS related syntax
  */
@@ -51,11 +53,13 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
 
     /**
      * Generates the SQL for LIMIT clause
+     *
      * <code>
-     * $sql = $dialect->limit("SELECTFROM robots", 10);
-     * echo $sql; // SELECTFROM robots LIMIT 10
-     * $sql = $dialect->limit("SELECTFROM robots", [10, 50]);
-     * echo $sql; // SELECTFROM robots LIMIT 10 OFFSET 50
+     * $sql = $dialect->limit("SELECT FROM robots", 10);
+     * echo $sql; // SELECT FROM robots LIMIT 10
+     *
+     * $sql = $dialect->limit("SELECT FROM robots", [10, 50]);
+     * echo $sql; // SELECT FROM robots LIMIT 10 OFFSET 50
      * </code>
      *
      * @param string $sqlQuery
@@ -66,9 +70,10 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause
+     *
      * <code>
-     * $sql = $dialect->forUpdate("SELECTFROM robots");
-     * echo $sql; // SELECTFROM robots FOR UPDATE
+     * $sql = $dialect->forUpdate("SELECT FROM robots");
+     * echo $sql; // SELECT FROM robots FOR UPDATE
      * </code>
      *
      * @param string $sqlQuery
@@ -78,9 +83,10 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
 
     /**
      * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     *
      * <code>
-     * $sql = $dialect->sharedLock("SELECTFROM robots");
-     * echo $sql; // SELECTFROM robots LOCK IN SHARE MODE
+     * $sql = $dialect->sharedLock("SELECT FROM robots");
+     * echo $sql; // SELECT FROM robots LOCK IN SHARE MODE
      * </code>
      *
      * @param string $sqlQuery
@@ -90,12 +96,13 @@ abstract class Dialect implements \Phalcon\Db\DialectInterface
 
     /**
      * Gets a list of columns with escaped identifiers
+     *
      * <code>
      * echo $dialect->getColumnList(
-     * [
-     * "column1",
-     * "column",
-     * ]
+     *     [
+     *         "column1",
+     *         "column",
+     *     ]
      * );
      * </code>
      *

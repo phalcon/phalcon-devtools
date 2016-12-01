@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Acl;
+
 /**
  * Phalcon\Acl\Adapter
+ *
  * Adapter for Phalcon\Acl adapters
  */
 abstract class Adapter implements \Phalcon\Acl\AdapterInterface, \Phalcon\Events\EventsAwareInterface

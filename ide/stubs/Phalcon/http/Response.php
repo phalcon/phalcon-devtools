@@ -1,15 +1,20 @@
 <?php
 
 namespace Phalcon\Http;
+
 /**
  * Phalcon\Http\Response
+ *
  * Part of the HTTP cycle is return responses to the clients.
  * Phalcon\HTTP\Response is the Phalcon component responsible to achieve this task.
  * HTTP responses are usually composed by headers and body.
+ *
  * <code>
  * $response = new \Phalcon\Http\Response();
+ *
  * $response->setStatusCode(200, "OK");
  * $response->setContent("<html><body>Hello</body></html>");
+ *
  * $response->send();
  * </code>
  */
@@ -59,6 +64,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets the HTTP response code
+     *
      * <code>
      * $response->setStatusCode(404, "Not Found");
      * </code>
@@ -71,9 +77,10 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Returns the status code
+     *
      * <code>
      * print_r(
-     * $response->getStatusCode()
+     *     $response->getStatusCode()
      * );
      * </code>
      *
@@ -107,12 +114,14 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Returns cookies set by the user
      *
+     *
      * @return \Phalcon\Http\Response\CookiesInterface
      */
     public function getCookies() {}
 
     /**
      * Overwrites a header in the response
+     *
      * <code>
      * $response->setHeader("Content-Type", "text/plain");
      * </code>
@@ -125,6 +134,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Send a raw header to the response
+     *
      * <code>
      * $response->setRawHeader("HTTP/1.1 404 Not Found");
      * </code>
@@ -143,9 +153,10 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets an Expires header in the response that allows to use the HTTP cache
+     *
      * <code>
      * $this->response->setExpires(
-     * new DateTime()
+     *     new DateTime()
      * );
      * </code>
      *
@@ -156,9 +167,10 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets Last-Modified header
+     *
      * <code>
      * $this->response->setLastModified(
-     * new DateTime()
+     *     new DateTime()
      * );
      * </code>
      *
@@ -169,6 +181,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets Cache headers to use HTTP cache
+     *
      * <code>
      * $this->response->setCache(60);
      * </code>
@@ -187,6 +200,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets the response content-type mime, optionally the charset
+     *
      * <code>
      * $response->setContentType("application/pdf");
      * $response->setContentType("text/plain", "UTF-8");
@@ -200,6 +214,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets the response content-length
+     *
      * <code>
      * $response->setContentLength(2048);
      * </code>
@@ -211,6 +226,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Set a custom ETag
+     *
      * <code>
      * $response->setEtag(md5(time()));
      * </code>
@@ -222,18 +238,20 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Redirect by HTTP to another action or URL
+     *
      * <code>
      * // Using a string redirect (internal/external)
      * $response->redirect("posts/index");
      * $response->redirect("http://en.wikipedia.org", true);
      * $response->redirect("http://www.example.com/new-location", true, 301);
+     *
      * // Making a redirection based on a named route
      * $response->redirect(
-     * [
-     * "for"        => "index-lang",
-     * "lang"       => "jp",
-     * "controller" => "index",
-     * ]
+     *     [
+     *         "for"        => "index-lang",
+     *         "lang"       => "jp",
+     *         "controller" => "index",
+     *     ]
      * );
      * </code>
      *
@@ -246,6 +264,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 
     /**
      * Sets HTTP response body
+     *
      * <code>
      * $response->setContent("<h1>Hello!</h1>");
      * </code>
@@ -258,11 +277,12 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Sets HTTP response body. The parameter is automatically converted to JSON
      * and also sets default header: Content-Type: "application/json; charset=UTF-8"
+     *
      * <code>
      * $response->setJsonContent(
-     * [
-     * "status" => "OK",
-     * ]
+     *     [
+     *         "status" => "OK",
+     *     ]
      * );
      * </code>
      *

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\View;
+
 /**
  * Phalcon\Mvc\View\Engine
+ *
  * All the template engine adapters must inherit this class. This provides
  * basic interfacing between the engine and the Phalcon\Mvc\View component.
  */
@@ -29,6 +31,7 @@ abstract class Engine extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\Vie
 
     /**
      * Renders a partial inside another view
+     *
      *
      * @param string $partialPath
      * @param array $params

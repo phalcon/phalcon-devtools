@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\DiInterface
+ *
  * Interface for Phalcon\Di
  */
 interface DiInterface extends \ArrayAccess
@@ -10,6 +12,7 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Registers a service in the services container
+     *
      *
      * @param string $name
      * @param mixed $definition
@@ -20,6 +23,7 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Registers an "always shared" service in the services container
+     *
      *
      * @param string $name
      * @param mixed $definition
@@ -39,6 +43,7 @@ interface DiInterface extends \ArrayAccess
      * Only is successful if a service hasn't been registered previously
      * with the same name
      *
+     *
      * @param string $name
      * @param mixed $definition
      * @param boolean $shared
@@ -49,6 +54,7 @@ interface DiInterface extends \ArrayAccess
     /**
      * Resolves the service based on its configuration
      *
+     *
      * @param string $name
      * @param array $parameters
      * @return mixed
@@ -57,6 +63,7 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Returns a shared service based on their configuration
+     *
      *
      * @param string $name
      * @param array $parameters
@@ -75,6 +82,7 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Returns a service definition without resolving
+     *
      *
      * @param string $name
      * @return mixed
@@ -106,6 +114,7 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Return the services registered in the DI
+     *
      *
      * @return \Phalcon\Di\ServiceInterface[]
      */

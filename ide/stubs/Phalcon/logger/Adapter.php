@@ -1,14 +1,17 @@
 <?php
 
 namespace Phalcon\Logger;
+
 /**
  * Phalcon\Logger\Adapter
+ *
  * Base class for Phalcon\Logger adapters
  */
 abstract class Adapter implements \Phalcon\Logger\AdapterInterface
 {
     /**
      * Tells if there is an active transaction or not
+     *
      *
      * @var boolean
      */
@@ -17,6 +20,7 @@ abstract class Adapter implements \Phalcon\Logger\AdapterInterface
     /**
      * Array with messages queued in the transaction
      *
+     *
      * @var array
      */
     protected $_queue = array();
@@ -24,12 +28,14 @@ abstract class Adapter implements \Phalcon\Logger\AdapterInterface
     /**
      * Formatter
      *
+     *
      * @var object
      */
     protected $_formatter;
 
     /**
      * Log level
+     *
      *
      * @var int
      */

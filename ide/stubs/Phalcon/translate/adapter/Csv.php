@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Translate\Adapter;
+
 /**
  * Phalcon\Translate\Adapter\Csv
+ *
  * Allows to define translation lists using CSV file
  */
 class Csv extends \Phalcon\Translate\Adapter implements \ArrayAccess
@@ -20,6 +22,7 @@ class Csv extends \Phalcon\Translate\Adapter implements \ArrayAccess
 
     /**
      * Load translates from file
+     *
      *
      * @param string $file
      * @param int $length

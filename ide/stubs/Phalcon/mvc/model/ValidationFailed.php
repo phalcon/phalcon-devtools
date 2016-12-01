@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\ValidationFailed
+ *
  * This exception is generated when a model fails to save a record
  * Phalcon\Mvc\Model must be set up to have this behavior
  */
@@ -17,6 +19,7 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
 
     /**
      * Phalcon\Mvc\Model\ValidationFailed constructor
+     *
      *
      * @param Model $model
      * @param Message[] $validationMessages

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Cli\Router;
+
 /**
  * Phalcon\Cli\Router\RouteInterface
+ *
  * Interface for Phalcon\Cli\Router\Route
  */
 interface RouteInterface

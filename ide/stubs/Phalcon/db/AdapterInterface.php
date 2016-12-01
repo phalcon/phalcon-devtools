@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Db;
+
 /**
  * Phalcon\Db\AdapterInterface
+ *
  * Interface for Phalcon\Db adapters
  */
 interface AdapterInterface
@@ -10,6 +12,7 @@ interface AdapterInterface
 
     /**
      * Returns the first row in a SQL query result
+     *
      *
      * @param string $sqlQuery
      * @param int $fetchMode
@@ -21,6 +24,7 @@ interface AdapterInterface
     /**
      * Dumps the complete result of a query into an array
      *
+     *
      * @param string $sqlQuery
      * @param int $fetchMode
      * @param int $placeholders
@@ -30,6 +34,7 @@ interface AdapterInterface
 
     /**
      * Inserts data into a table using custom RDBMS SQL syntax
+     *
      *
      * @param mixed $table
      * @param array $values
@@ -43,6 +48,7 @@ interface AdapterInterface
 
     /**
      * Updates data on a table using custom RDBMS SQL syntax
+     *
      *
      * @param mixed $table
      * @param mixed $fields
@@ -58,6 +64,7 @@ interface AdapterInterface
     /**
      * Deletes data from a table using custom RDBMS SQL syntax
      *
+     *
      * @param string $table
      * @param string $whereCondition
      * @param array $placeholders
@@ -69,6 +76,7 @@ interface AdapterInterface
     /**
      * Gets a list of columns
      *
+     *
      * @param	array columnList
      * @return	string
      * @param mixed $columnList
@@ -77,6 +85,7 @@ interface AdapterInterface
 
     /**
      * Appends a LIMIT clause to sqlQuery argument
+     *
      *
      * @param mixed $sqlQuery
      * @param mixed $number
@@ -277,12 +286,14 @@ interface AdapterInterface
     /**
      * Return descriptor used to connect to the active database
      *
+     *
      * @return array
      */
     public function getDescriptor();
 
     /**
      * Gets the active connection unique identifier
+     *
      *
      * @return string
      */
@@ -305,12 +316,14 @@ interface AdapterInterface
     /**
      * Active SQL statement in the object
      *
+     *
      * @return array
      */
     public function getSQLVariables();
 
     /**
      * Active SQL statement in the object
+     *
      *
      * @return array
      */
@@ -319,12 +332,14 @@ interface AdapterInterface
     /**
      * Returns type of database system the adapter is used for
      *
+     *
      * @return string
      */
     public function getType();
 
     /**
      * Returns the name of the dialect used
+     *
      *
      * @return string
      */
@@ -386,6 +401,7 @@ interface AdapterInterface
     /**
      * Escapes a column/table/schema name
      *
+     *
      * @param string $identifier
      * @return string
      */
@@ -401,6 +417,7 @@ interface AdapterInterface
 
     /**
      * Returns insert id for the auto_increment column inserted in the last SQL statement
+     *
      *
      * @param string $sequenceName
      * @return int

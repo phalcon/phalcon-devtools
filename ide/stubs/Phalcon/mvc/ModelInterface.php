@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc;
+
 /**
  * Phalcon\Mvc\ModelInterface
+ *
  * Interface for Phalcon\Mvc\Model
  */
 interface ModelInterface
@@ -19,12 +21,14 @@ interface ModelInterface
     /**
      * Returns table name mapped in the model
      *
+     *
      * @return string
      */
     public function getSource();
 
     /**
      * Returns schema name where table mapped is located
+     *
      *
      * @return string
      */
@@ -80,7 +84,7 @@ interface ModelInterface
     public function getWriteConnection();
 
     /**
-     * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+     * Sets the dirty state of the object using one of the DIRTY_STATE_ constants
      *
      * @param int $dirtyState
      * @return \Phalcon\Mvc\ModelInterface
@@ -88,7 +92,8 @@ interface ModelInterface
     public function setDirtyState($dirtyState);
 
     /**
-     * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
+     * Returns one of the DIRTY_STATE_ constants telling if the record exists in the database or not
+     *
      *
      * @return int
      */
@@ -96,6 +101,7 @@ interface ModelInterface
 
     /**
      * Assigns values to a model from an array
+     *
      *
      * @param array $data
      * @param mixed $dataColumnMap
@@ -109,6 +115,7 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array returning a new model
      *
+     *
      * @param \Phalcon\Mvc\Model $base
      * @param array $data
      * @param array $columnMap
@@ -121,6 +128,7 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array returning a new model
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $base
      * @param array $data
      * @param int $dirtyState
@@ -131,6 +139,7 @@ interface ModelInterface
     /**
      * Returns an hydrated result based on the data and the column map
      *
+     *
      * @param array $data
      * @param array $columnMap
      * @param int $hydrationMode
@@ -140,6 +149,7 @@ interface ModelInterface
     /**
      * Allows to query a set of records that match the specified conditions
      *
+     *
      * @param mixed $parameters
      * @return \Phalcon\Mvc\Model\ResultsetInterface
      */
@@ -147,6 +157,7 @@ interface ModelInterface
 
     /**
      * Allows to query the first record that match the specified conditions
+     *
      *
      * @param array $parameters
      * @return static
@@ -156,6 +167,7 @@ interface ModelInterface
     /**
      * Create a criteria for a specific model
      *
+     *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @return \Phalcon\Mvc\Model\CriteriaInterface
      */
@@ -163,6 +175,7 @@ interface ModelInterface
 
     /**
      * Allows to count how many records match the specified conditions
+     *
      *
      * @param array $parameters
      * @return int
@@ -172,6 +185,7 @@ interface ModelInterface
     /**
      * Allows to calculate a sum on a column that match the specified conditions
      *
+     *
      * @param array $parameters
      * @return double
      */
@@ -179,6 +193,7 @@ interface ModelInterface
 
     /**
      * Allows to get the maximum value of a column that match the specified conditions
+     *
      *
      * @param array $parameters
      * @return mixed
@@ -188,6 +203,7 @@ interface ModelInterface
     /**
      * Allows to get the minimum value of a column that match the specified conditions
      *
+     *
      * @param array $parameters
      * @return mixed
      */
@@ -195,6 +211,7 @@ interface ModelInterface
 
     /**
      * Allows to calculate the average value on a column matching the specified conditions
+     *
      *
      * @param array $parameters
      * @return double
@@ -204,6 +221,7 @@ interface ModelInterface
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
      *
+     *
      * @param string $eventName
      * @return boolean
      */
@@ -212,6 +230,7 @@ interface ModelInterface
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
      * This method stops if one of the callbacks/listeners returns boolean false
+     *
      *
      * @param string $eventName
      * @return boolean
@@ -228,6 +247,7 @@ interface ModelInterface
     /**
      * Check whether validation process has generated any messages
      *
+     *
      * @return boolean
      */
     public function validationHasFailed();
@@ -235,12 +255,14 @@ interface ModelInterface
     /**
      * Returns array of validation messages
      *
+     *
      * @return \Phalcon\Mvc\Model\MessageInterface[]
      */
     public function getMessages();
 
     /**
      * Inserts or updates a model instance. Returning true on success or false otherwise.
+     *
      *
      * @param array $data
      * @param array $whiteList
@@ -252,6 +274,7 @@ interface ModelInterface
      * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
      * Returning true on success or false otherwise.
      *
+     *
      * @param array $data
      * @param array $whiteList
      * @return boolean
@@ -262,6 +285,7 @@ interface ModelInterface
      * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
      * Returning true on success or false otherwise.
      *
+     *
      * @param array $data
      * @param array $whiteList
      * @return boolean
@@ -271,13 +295,15 @@ interface ModelInterface
     /**
      * Deletes a model instance. Returning true on success or false otherwise.
      *
+     *
      * @return boolean
      */
     public function delete();
 
     /**
      * Returns the type of the latest operation performed by the ORM
-     * Returns one of the OP_* class constants
+     * Returns one of the OP_ class constants
+     *
      *
      * @return int
      */
@@ -298,6 +324,7 @@ interface ModelInterface
     /**
      * Returns related records based on defined relations
      *
+     *
      * @param string $alias
      * @param array $arguments
      * @return \Phalcon\Mvc\Model\ResultsetInterface
@@ -307,6 +334,7 @@ interface ModelInterface
     /**
      * Sets the record's snapshot data.
      * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+     *
      *
      * @param array $data
      * @param array $columnMap

@@ -1,17 +1,24 @@
 <?php
 
 namespace Phalcon\Cache\Backend;
+
 /**
  * Phalcon\Cache\Backend\Memory
+ *
  * Stores content in memory. Data is lost when the request is finished
+ *
  * <code>
  * use Phalcon\Cache\Backend\Memory;
  * use Phalcon\Cache\Frontend\Data as FrontData;
+ *
  * // Cache data
  * $frontCache = new FrontData();
+ *
  * $cache = new Memory($frontCache);
+ *
  * // Cache arbitrary data
  * $cache->save("my-data", [1, 2, 3, 4, 5]);
+ *
  * // Get data
  * $data = $cache->get("my-data");
  * </code>
@@ -34,6 +41,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Stores cached content into the backend and stops the frontend
      *
+     *
      * @param string $keyName
      * @param string $content
      * @param long $lifetime
@@ -45,6 +53,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Deletes a value from the cache by its key
      *
+     *
      * @param string $keyName
      * @return bool
      */
@@ -53,6 +62,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Query the existing cached keys
      *
+     *
      * @param string|int $prefix
      * @return array
      */
@@ -60,6 +70,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
 
     /**
      * Checks if cache exists and it hasn't expired
+     *
      *
      * @param string|int $keyName
      * @param long $lifetime
@@ -70,6 +81,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Increment of given $keyName by $value
      *
+     *
      * @param string $keyName
      * @param mixed $value
      * @param long $lifetime
@@ -79,6 +91,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
 
     /**
      * Decrement of $keyName by given $value
+     *
      *
      * @param string $keyName
      * @param long $value

@@ -1,32 +1,37 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Alnum
+ *
  * Check for alphanumeric character(s)
+ *
  * <code>
  * use Phalcon\Validation\Validator\Alnum as AlnumValidator;
+ *
  * $validator->add(
- * "username",
- * new AlnumValidator(
- * [
- * "message" => ":field must contain only alphanumeric characters",
- * ]
- * )
+ *     "username",
+ *     new AlnumValidator(
+ *         [
+ *             "message" => ":field must contain only alphanumeric characters",
+ *         ]
+ *     )
  * );
+ *
  * $validator->add(
- * [
- * "username",
- * "name",
- * ],
- * new AlnumValidator(
- * [
- * "message" => [
- * "username" => "username must contain only alphanumeric characters",
- * "name"     => "name must contain only alphanumeric characters",
- * ],
- * ]
- * )
+ *     [
+ *         "username",
+ *         "name",
+ *     ],
+ *     new AlnumValidator(
+ *         [
+ *             "message" => [
+ *                 "username" => "username must contain only alphanumeric characters",
+ *                 "name"     => "name must contain only alphanumeric characters",
+ *             ],
+ *         ]
+ *     )
  * );
  * </code>
  */

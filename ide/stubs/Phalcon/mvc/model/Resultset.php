@@ -1,35 +1,45 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\Resultset
+ *
  * This component allows to Phalcon\Mvc\Model returns large resultsets with the minimum memory consumption
  * Resultsets can be traversed using a standard foreach or a while statement. If a resultset is serialized
  * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
  * serializing.
+ *
  * <code>
+ *
  * // Using a standard foreach
  * $robots = Robots::find(
- * [
- * "type = 'virtual'",
- * "order" => "name",
- * ]
+ *     [
+ *         "type = 'virtual'",
+ *         "order" => "name",
+ *     ]
  * );
+ *
  * foreach ($robots as robot) {
- * echo robot->name, "\n";
+ *     echo robot->name, "\n";
  * }
+ *
  * // Using a while
  * $robots = Robots::find(
- * [
- * "type = 'virtual'",
- * "order" => "name",
- * ]
+ *     [
+ *         "type = 'virtual'",
+ *         "order" => "name",
+ *     ]
  * );
+ *
  * $robots->rewind();
+ *
  * while ($robots->valid()) {
- * $robot = $robots->current();
- * echo $robot->name, "\n";
- * $robots->next();
+ *     $robot = $robots->current();
+ *
+ *     echo $robot->name, "\n";
+ *
+ *     $robots->next();
  * }
  * </code>
  */
@@ -85,6 +95,7 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
 
     /**
      * Phalcon\Mvc\Model\Resultset constructor
+     *
      *
      * @param \Phalcon\Db\ResultInterface|false $result
      * @param \Phalcon\Cache\BackendInterface $cache
@@ -148,6 +159,7 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
 
     /**
      * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+     *
      *
      * @param int $index
      * @param \Phalcon\Mvc\ModelInterface $value
@@ -229,6 +241,7 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
     /**
      * Updates every record in the resultset
      *
+     *
      * @param array $data
      * @param \Closure $conditionCallback
      * @return bool
@@ -245,15 +258,17 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
 
     /**
      * Filters a resultset returning only those the developer requires
+     *
      * <code>
      * $filtered = $robots->filter(
-     * function ($robot) {
-     * if ($robot->id < 3) {
-     * return $robot;
-     * }
-     * }
+     *     function ($robot) {
+     *         if ($robot->id < 3) {
+     *             return $robot;
+     *         }
+     *     }
      * );
      * </code>
+     *
      *
      * @param callback $filter
      * @return array
@@ -263,10 +278,12 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
     /**
      * Returns serialised model objects as array for json_encode.
      * Calls jsonSerialize on each object if present
+     *
      * <code>
      * $robots = Robots::find();
      * echo json_encode($robots);
      * </code>
+     *
      *
      * @return array
      */

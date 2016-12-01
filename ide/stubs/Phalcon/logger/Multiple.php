@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Logger;
+
 /**
  * Phalcon\Logger\Multiple
+ *
  * Handles multiples logger handlers
  */
 class Multiple

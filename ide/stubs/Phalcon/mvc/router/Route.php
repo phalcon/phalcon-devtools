@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Router;
+
 /**
  * Phalcon\Mvc\Router\Route
+ *
  * This class represents every route added to the router
  */
 class Route implements \Phalcon\Mvc\Router\RouteInterface
@@ -63,13 +65,15 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
 
     /**
      * Set one or more HTTP methods that constraint the matching of the route
+     *
      * <code>
      * $route->via("GET");
+     *
      * $route->via(
-     * [
-     * "GET",
-     * "POST",
-     * ]
+     *     [
+     *         "GET",
+     *         "POST",
+     *     ]
      * );
      * </code>
      *
@@ -111,12 +115,13 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
 
     /**
      * Sets the route's name
+     *
      * <code>
      * $router->add(
-     * "/about",
-     * [
-     * "controller" => "about",
-     * ]
+     *     "/about",
+     *     [
+     *         "controller" => "about",
+     *     ]
      * )->setName("about");
      * </code>
      *
@@ -129,21 +134,23 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
      * Sets a callback that is called if the route is matched.
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
+     *
      * <code>
      * $router->add(
-     * "/login",
-     * [
-     * "module"     => "admin",
-     * "controller" => "session",
-     * ]
+     *     "/login",
+     *     [
+     *         "module"     => "admin",
+     *         "controller" => "session",
+     *     ]
      * )->beforeMatch(
-     * function ($uri, $route) {
-     * // Check if the request was made with Ajax
-     * if ($_SERVER["HTTP_X_REQUESTED_WITH"] === "xmlhttprequest") {
-     * return false;
-     * }
-     * return true;
-     * }
+     *     function ($uri, $route) {
+     *         // Check if the request was made with Ajax
+     *         if ($_SERVER["HTTP_X_REQUESTED_WITH"] === "xmlhttprequest") {
+     *             return false;
+     *         }
+     *
+     *         return true;
+     *     }
      * );
      * </code>
      *
@@ -161,14 +168,15 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
 
     /**
      * Allows to set a callback to handle the request directly in the route
+     *
      * <code>
      * $router->add(
-     * "/help",
-     * []
+     *     "/help",
+     *     []
      * )->match(
-     * function () {
-     * return $this->getResponse()->redirect("https://support.google.com/", true);
-     * }
+     *     function () {
+     *         return $this->getResponse()->redirect("https://support.google.com/", true);
+     *     }
      * );
      * </code>
      *
@@ -221,6 +229,7 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
 
     /**
      * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
+     *
      * <code>
      * $route->setHttpMethods("GET");
      * $route->setHttpMethods(["GET", "POST"]);
@@ -240,6 +249,7 @@ class Route implements \Phalcon\Mvc\Router\RouteInterface
 
     /**
      * Sets a hostname restriction to the route
+     *
      * <code>
      * $route->setHostname("localhost");
      * </code>

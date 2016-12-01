@@ -1,32 +1,37 @@
 <?php
 
 namespace Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Alpha
+ *
  * Check for alphabetic character(s)
+ *
  * <code>
  * use Phalcon\Validation\Validator\Alpha as AlphaValidator;
+ *
  * $validator->add(
- * "username",
- * new AlphaValidator(
- * [
- * "message" => ":field must contain only letters",
- * ]
- * )
+ *     "username",
+ *     new AlphaValidator(
+ *         [
+ *             "message" => ":field must contain only letters",
+ *         ]
+ *     )
  * );
+ *
  * $validator->add(
- * [
- * "username",
- * "name",
- * ],
- * new AlphaValidator(
- * [
- * "message" => [
- * "username" => "username must contain only letters",
- * "name"     => "name must contain only letters",
- * ],
- * ]
- * )
+ *     [
+ *         "username",
+ *         "name",
+ *     ],
+ *     new AlphaValidator(
+ *         [
+ *             "message" => [
+ *                 "username" => "username must contain only letters",
+ *                 "name"     => "name must contain only letters",
+ *             ],
+ *         ]
+ *     )
  * );
  * </code>
  */

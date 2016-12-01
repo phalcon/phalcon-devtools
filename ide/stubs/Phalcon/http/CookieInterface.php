@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Http;
+
 /**
  * Phalcon\Http\CookieInterface
+ *
  * Interface for Phalcon\Http\Cookie
  */
 interface CookieInterface
@@ -11,6 +13,7 @@ interface CookieInterface
     /**
      * Sets the cookie's value
      *
+     *
      * @param string $value
      * @return CookieInterface
      */
@@ -18,6 +21,7 @@ interface CookieInterface
 
     /**
      * Returns the cookie's value
+     *
      *
      * @param string|array $filters
      * @param string $defaultValue

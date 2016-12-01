@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Assets;
+
 /**
  * Phalcon\Assets\Collection
+ *
  * Represents a collection of resources
  */
 class Collection implements \Countable, \Iterator
@@ -120,6 +122,7 @@ class Collection implements \Countable, \Iterator
     /**
      * Adds a javascript resource to the collection
      *
+     *
      * @param string $path
      * @param boolean $local
      * @param boolean $filter
@@ -159,6 +162,7 @@ class Collection implements \Countable, \Iterator
 
     /**
      * Returns the current position/key in the iterator
+     *
      *
      * @return int
      */

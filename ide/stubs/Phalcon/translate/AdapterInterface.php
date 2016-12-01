@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Translate;
+
 /**
  * Phalcon\Translate\AdapterInterface
+ *
  * Interface for Phalcon\Translate adapters
  */
 interface AdapterInterface
@@ -10,6 +12,7 @@ interface AdapterInterface
 
     /**
      * Returns the translation string of the given key
+     *
      *
      * @param	string translateKey
      * @param	array placeholders
@@ -22,6 +25,7 @@ interface AdapterInterface
 
     /**
      * Returns the translation related to the given key
+     *
      *
      * @param	string index
      * @param	array placeholders

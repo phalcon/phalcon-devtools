@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Di;
+
 /**
  * Phalcon\Di\ServiceInterface
+ *
  * Represents a service in the services container
  */
 interface ServiceInterface
@@ -10,6 +12,7 @@ interface ServiceInterface
 
     /**
      * Returns the service's name
+     *
      *
      * @param string
      */
@@ -32,6 +35,7 @@ interface ServiceInterface
     /**
      * Set the service definition
      *
+     *
      * @param mixed $definition
      */
     public function setDefinition($definition);
@@ -39,12 +43,14 @@ interface ServiceInterface
     /**
      * Returns the service definition
      *
+     *
      * @return mixed
      */
     public function getDefinition();
 
     /**
      * Resolves the service
+     *
      *
      * @param array $parameters
      * @param \Phalcon\DiInterface $dependencyInjector

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\CriteriaInterface
+ *
  * Interface for Phalcon\Mvc\Model\Criteria
  */
 interface CriteriaInterface
@@ -68,6 +70,7 @@ interface CriteriaInterface
     /**
      * Sets the limit parameter to the criteria
      *
+     *
      * @param int $limit
      * @param int $offset
      * @return CriteriaInterface
@@ -93,6 +96,7 @@ interface CriteriaInterface
     /**
      * Appends a condition to the current conditions using an AND operator
      *
+     *
      * @param string $conditions
      * @param array $bindParams
      * @param array $bindTypes
@@ -103,6 +107,7 @@ interface CriteriaInterface
     /**
      * Appends a condition to the current conditions using an OR operator
      *
+     *
      * @param string $conditions
      * @param array $bindParams
      * @param array $bindTypes
@@ -112,9 +117,11 @@ interface CriteriaInterface
 
     /**
      * Appends a BETWEEN condition to the current conditions
+     *
      * <code>
      * $criteria->betweenWhere("price", 100.25, 200.50);
      * </code>
+     *
      *
      * @param string $expr
      * @param mixed $minimum
@@ -125,9 +132,11 @@ interface CriteriaInterface
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions
+     *
      * <code>
      * $criteria->notBetweenWhere("price", 100.25, 200.50);
      * </code>
+     *
      *
      * @param string $expr
      * @param mixed $minimum
@@ -138,6 +147,7 @@ interface CriteriaInterface
 
     /**
      * Appends an IN condition to the current conditions
+     *
      * <code>
      * $criteria->inWhere("id", [1, 2, 3]);
      * </code>
@@ -150,6 +160,7 @@ interface CriteriaInterface
 
     /**
      * Appends a NOT IN condition to the current conditions
+     *
      * <code>
      * $criteria->notInWhere("id", [1, 2, 3]);
      * </code>
@@ -163,12 +174,14 @@ interface CriteriaInterface
     /**
      * Returns the conditions parameter in the criteria
      *
+     *
      * @return string|null
      */
     public function getWhere();
 
     /**
      * Returns the conditions parameter in the criteria
+     *
      *
      * @return string|null
      */
@@ -180,6 +193,7 @@ interface CriteriaInterface
      * an array with 'number' and 'offset' keys if an offset was set with the limit,
      * or null if limit has not been set.
      *
+     *
      * @return int|array|null
      */
     public function getLimit();
@@ -187,12 +201,14 @@ interface CriteriaInterface
     /**
      * Returns the order parameter in the criteria
      *
+     *
      * @return string|null
      */
     public function getOrderBy();
 
     /**
      * Returns all the parameters defined in the criteria
+     *
      *
      * @return array
      */

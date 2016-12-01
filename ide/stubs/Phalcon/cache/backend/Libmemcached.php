@@ -1,38 +1,45 @@
 <?php
 
 namespace Phalcon\Cache\Backend;
+
 /**
  * Phalcon\Cache\Backend\Libmemcached
+ *
  * Allows to cache output fragments, PHP data or raw data to a libmemcached backend.
  * Per default persistent memcached connection pools are used.
+ *
  * <code>
  * use Phalcon\Cache\Backend\Libmemcached;
  * use Phalcon\Cache\Frontend\Data as FrontData;
+ *
  * // Cache data for 2 days
  * $frontCache = new FrontData(
- * [
- * "lifetime" => 172800,
- * ]
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
  * );
+ *
  * // Create the Cache setting memcached connection options
  * $cache = new Libmemcached(
- * $frontCache,
- * [
- * "servers" => [
- * [
- * "host"   => "localhost",
- * "port"   => 11211,
- * "weight" => 1,
- * ],
- * ],
- * "client" => [
- * \Memcached::OPT_HASH       => Memcached::HASH_MD5,
- * \Memcached::OPT_PREFIX_KEY => "prefix.",
- * ],
- * ]
+ *     $frontCache,
+ *     [
+ *         "servers" => [
+ *             [
+ *                 "host"   => "localhost",
+ *                 "port"   => 11211,
+ *                 "weight" => 1,
+ *             ],
+ *         ],
+ *         "client" => [
+ *             \Memcached::OPT_HASH       => Memcached::HASH_MD5,
+ *             \Memcached::OPT_PREFIX_KEY => "prefix.",
+ *         ],
+ *     ]
  * );
+ *
  * // Cache arbitrary data
  * $cache->save("my-data", [1, 2, 3, 4, 5]);
+ *
  * // Get data
  * $data = $cache->get("my-data");
  * </code>
@@ -45,6 +52,7 @@ class Libmemcached extends \Phalcon\Cache\Backend
 
     /**
      * Phalcon\Cache\Backend\Memcache constructor
+     *
      *
      * @param	Phalcon\Cache\FrontendInterface frontend
      * @param	array options
@@ -70,6 +78,7 @@ class Libmemcached extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the file backend and stops the frontend
      *
+     *
      * @param int|string $keyName
      * @param string $content
      * @param long $lifetime
@@ -81,6 +90,7 @@ class Libmemcached extends \Phalcon\Cache\Backend
     /**
      * Deletes a value from the cache by its key
      *
+     *
      * @param int|string $keyName
      * @return boolean
      */
@@ -88,6 +98,7 @@ class Libmemcached extends \Phalcon\Cache\Backend
 
     /**
      * Query the existing cached keys
+     *
      *
      * @param string $prefix
      * @return array
@@ -97,6 +108,7 @@ class Libmemcached extends \Phalcon\Cache\Backend
     /**
      * Checks if cache exists and it isn't expired
      *
+     *
      * @param string $keyName
      * @param long $lifetime
      * @return bool
@@ -105,6 +117,7 @@ class Libmemcached extends \Phalcon\Cache\Backend
 
     /**
      * Increment of given $keyName by $value
+     *
      *
      * @param string $keyName
      * @param mixed $value
@@ -116,6 +129,7 @@ class Libmemcached extends \Phalcon\Cache\Backend
     /**
      * Decrement of $keyName by given $value
      *
+     *
      * @param string $keyName
      * @param long $value
      * @return long
@@ -124,16 +138,20 @@ class Libmemcached extends \Phalcon\Cache\Backend
 
     /**
      * Immediately invalidates all existing items.
+     *
      * Memcached does not support flush() per default. If you require flush() support, set $config["statsKey"].
      * All modified keys are stored in "statsKey". Note: statsKey has a negative performance impact.
+     *
      * <code>
      * $cache = new \Phalcon\Cache\Backend\Libmemcached(
-     * $frontCache,
-     * [
-     * "statsKey" => "_PHCM",
-     * ]
+     *     $frontCache,
+     *     [
+     *         "statsKey" => "_PHCM",
+     *     ]
      * );
+     *
      * $cache->save("my-data", [1, 2, 3, 4, 5]);
+     *
      * // 'my-data' and all other used keys are deleted
      * $cache->flush();
      * </code>

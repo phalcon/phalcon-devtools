@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Text
+ *
  * Provides utilities to work with texts
  */
 abstract class Text
@@ -25,6 +27,7 @@ abstract class Text
 
     /**
      * Converts strings to camelize style
+     *
      * <code>
      * echo Phalcon\Text::camelize("coco_bongo"); // CocoBongo
      * echo Phalcon\Text::camelize("co_co-bon_go", "-"); // Co_coBon_go
@@ -39,6 +42,7 @@ abstract class Text
 
     /**
      * Uncamelize strings which are camelized
+     *
      * <code>
      * echo Phalcon\Text::uncamelize("CocoBongo"); // coco_bongo
      * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
@@ -52,6 +56,7 @@ abstract class Text
 
     /**
      * Adds a number to a string or increment that number if it already is defined
+     *
      * <code>
      * echo Phalcon\Text::increment("a"); // "a_1"
      * echo Phalcon\Text::increment("a_1"); // "a_2"
@@ -64,11 +69,12 @@ abstract class Text
     public static function increment($str, $separator = "_") {}
 
     /**
-     * Generates a random string based on the given type. Type is one of the RANDOM_* constants
+     * Generates a random string based on the given type. Type is one of the RANDOM_ constants
+     *
      * <code>
      * // "aloiwkqz"
      * echo Phalcon\Text::random(
-     * Phalcon\Text::RANDOM_ALNUM
+     *     Phalcon\Text::RANDOM_ALNUM
      * );
      * </code>
      *
@@ -80,6 +86,7 @@ abstract class Text
 
     /**
      * Check if a string starts with a given string
+     *
      * <code>
      * echo Phalcon\Text::startsWith("Hello", "He"); // true
      * echo Phalcon\Text::startsWith("Hello", "he", false); // false
@@ -95,6 +102,7 @@ abstract class Text
 
     /**
      * Check if a string ends with a given string
+     *
      * <code>
      * echo Phalcon\Text::endsWith("Hello", "llo"); // true
      * echo Phalcon\Text::endsWith("Hello", "LLO", false); // false
@@ -110,6 +118,7 @@ abstract class Text
 
     /**
      * Lowercases a string, this function makes use of the mbstring extension if available
+     *
      * <code>
      * echo Phalcon\Text::lower("HELLO"); // hello
      * </code>
@@ -122,6 +131,7 @@ abstract class Text
 
     /**
      * Uppercases a string, this function makes use of the mbstring extension if available
+     *
      * <code>
      * echo Phalcon\Text::upper("hello"); // HELLO
      * </code>
@@ -134,6 +144,7 @@ abstract class Text
 
     /**
      * Reduces multiple slashes in a string to single slashes
+     *
      * <code>
      * echo Phalcon\Text::reduceSlashes("foo//bar/baz"); // foo/bar/baz
      * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
@@ -146,17 +157,20 @@ abstract class Text
 
     /**
      * Concatenates strings using the separator only once without duplication in places concatenation
+     *
      * <code>
      * $str = Phalcon\Text::concat(
-     * "/",
-     * "/tmp/",
-     * "/folder_1/",
-     * "/folder_2",
-     * "folder_3/"
+     *     "/",
+     *     "/tmp/",
+     *     "/folder_1/",
+     *     "/folder_2",
+     *     "folder_3/"
      * );
+     *
      * // /tmp/folder_1/folder_2/folder_3/
      * echo $str;
      * </code>
+     *
      *
      * @param string $separator
      * @param string $a
@@ -168,13 +182,17 @@ abstract class Text
 
     /**
      * Generates random text in accordance with the template
+     *
      * <code>
      * // Hi my name is a Bob
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     *
      * // Hi my name is a Jon
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     *
      * // Hello my name is a Bob
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     *
      * // Hello my name is a Zyxep
      * echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", "[", "]", "/");
      * </code>
@@ -189,6 +207,7 @@ abstract class Text
 
     /**
      * Makes a phrase underscored instead of spaced
+     *
      * <code>
      * echo Phalcon\Text::underscore("look behind"); // "look_behind"
      * echo Phalcon\Text::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
@@ -201,6 +220,7 @@ abstract class Text
 
     /**
      * Makes an underscored or dashed phrase human-readable
+     *
      * <code>
      * echo Phalcon\Text::humanize("start-a-horse"); // "start a horse"
      * echo Phalcon\Text::humanize("five_cats"); // "five cats"

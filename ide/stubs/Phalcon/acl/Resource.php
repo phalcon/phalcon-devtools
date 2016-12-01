@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Acl;
+
 /**
  * Phalcon\Acl\Resource
+ *
  * This class defines resource entity and its description
  */
 class Resource implements \Phalcon\Acl\ResourceInterface

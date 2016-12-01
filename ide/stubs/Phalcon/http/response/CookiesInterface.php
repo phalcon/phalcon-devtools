@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Http\Response;
+
 /**
  * Phalcon\Http\Response\CookiesInterface
+ *
  * Interface for Phalcon\Http\Response\Cookies
  */
 interface CookiesInterface

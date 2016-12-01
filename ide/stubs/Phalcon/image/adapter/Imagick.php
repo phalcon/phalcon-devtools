@@ -1,14 +1,19 @@
 <?php
 
 namespace Phalcon\Image\Adapter;
+
 /**
  * Phalcon\Image\Adapter\Imagick
+ *
  * Image manipulation support. Allows images to be resized, cropped, etc.
+ *
  * <code>
  * $image = new \Phalcon\Image\Adapter\Imagick("upload/test.jpg");
+ *
  * $image->resize(200, 200)->rotate(90)->crop(100, 100);
+ *
  * if ($image->save()) {
- * echo "success";
+ *     echo "success";
  * }
  * </code>
  */
@@ -47,6 +52,7 @@ class Imagick extends \Phalcon\Image\Adapter
 
     /**
      * This method scales the images using liquid rescaling method. Only support Imagick
+     *
      *
      * @param int $width
      * @param int $height
@@ -144,6 +150,7 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * Blur image
      *
+     *
      * @param int $radius
      * @param int $$radius Blur radius
      */
@@ -151,6 +158,7 @@ class Imagick extends \Phalcon\Image\Adapter
 
     /**
      * Pixelate image
+     *
      *
      * @param int $amount
      * @param int $$amount amount to pixelate
@@ -188,6 +196,7 @@ class Imagick extends \Phalcon\Image\Adapter
 
     /**
      * Sets the limit for a particular resource in megabytes
+     *
      *
      * @link http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes
      * @param int $type

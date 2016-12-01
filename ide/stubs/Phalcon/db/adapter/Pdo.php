@@ -1,18 +1,23 @@
 <?php
 
 namespace Phalcon\Db\Adapter;
+
 /**
  * Phalcon\Db\Adapter\Pdo
+ *
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
+ *
  * <code>
  * use Phalcon\Db\Adapter\Pdo\Mysql;
+ *
  * $config = [
- * "host"     => "localhost",
- * "dbname"   => "blog",
- * "port"     => 3306,
- * "username" => "sigma",
- * "password" => "secret",
+ *     "host"     => "localhost",
+ *     "dbname"   => "blog",
+ *     "port"     => 3306,
+ *     "username" => "sigma",
+ *     "password" => "secret",
  * ];
+ *
  * $connection = new Mysql($config);
  * </code>
  */
@@ -20,6 +25,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 {
     /**
      * PDO Handler
+     *
      *
      * @var \Pdo
      */
@@ -40,19 +46,23 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
+     *
      * Call it when you need to restore a database connection.
+     *
      * <code>
      * use Phalcon\Db\Adapter\Pdo\Mysql;
+     *
      * // Make a connection
      * $connection = new Mysql(
-     * [
-     * "host"     => "localhost",
-     * "username" => "sigma",
-     * "password" => "secret",
-     * "dbname"   => "blog",
-     * "port"     => 3306,
-     * ]
+     *     [
+     *         "host"     => "localhost",
+     *         "username" => "sigma",
+     *         "password" => "secret",
+     *         "dbname"   => "blog",
+     *         "port"     => 3306,
+     *     ]
      * );
+     *
      * // Reconnect
      * $connection->connect();
      * </code>
@@ -64,19 +74,22 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Returns a PDO prepared statement to be executed with 'executePrepared'
+     *
      * <code>
      * use Phalcon\Db\Column;
+     *
      * $statement = $db->prepare(
-     * "SELECTFROM robots WHERE name = :name"
+     *     "SELECT FROM robots WHERE name = :name"
      * );
+     *
      * $result = $connection->executePrepared(
-     * $statement,
-     * [
-     * "name" => "Voltron",
-     * ],
-     * [
-     * "name" => Column::BIND_PARAM_INT,
-     * ]
+     *     $statement,
+     *     [
+     *         "name" => "Voltron",
+     *     ],
+     *     [
+     *         "name" => Column::BIND_PARAM_INT,
+     *     ]
      * );
      * </code>
      *
@@ -87,21 +100,25 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Executes a prepared statement binding. This function uses integer indexes starting from zero
+     *
      * <code>
      * use Phalcon\Db\Column;
+     *
      * $statement = $db->prepare(
-     * "SELECTFROM robots WHERE name = :name"
+     *     "SELECT FROM robots WHERE name = :name"
      * );
+     *
      * $result = $connection->executePrepared(
-     * $statement,
-     * [
-     * "name" => "Voltron",
-     * ],
-     * [
-     * "name" => Column::BIND_PARAM_INT,
-     * ]
+     *     $statement,
+     *     [
+     *         "name" => "Voltron",
+     *     ],
+     *     [
+     *         "name" => Column::BIND_PARAM_INT,
+     *     ]
      * );
      * </code>
+     *
      *
      * @param \PDOStatement $statement
      * @param array $placeholders
@@ -113,16 +130,18 @@ abstract class Pdo extends \Phalcon\Db\Adapter
     /**
      * Sends SQL statements to the database server returning the success state.
      * Use this method only when the SQL statement sent to the server is returning rows
+     *
      * <code>
      * // Querying data
      * $resultset = $connection->query(
-     * "SELECTFROM robots WHERE type = 'mechanical'"
+     *     "SELECT FROM robots WHERE type = 'mechanical'"
      * );
+     *
      * $resultset = $connection->query(
-     * "SELECTFROM robots WHERE type = ?",
-     * [
-     * "mechanical",
-     * ]
+     *     "SELECT FROM robots WHERE type = ?",
+     *     [
+     *         "mechanical",
+     *     ]
      * );
      * </code>
      *
@@ -136,17 +155,19 @@ abstract class Pdo extends \Phalcon\Db\Adapter
     /**
      * Sends SQL statements to the database server returning the success state.
      * Use this method only when the SQL statement sent to the server doesn't return any rows
+     *
      * <code>
      * // Inserting data
      * $success = $connection->execute(
-     * "INSERT INTO robots VALUES (1, 'Astro Boy')"
+     *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
      * );
+     *
      * $success = $connection->execute(
-     * "INSERT INTO robots VALUES (?, ?)",
-     * [
-     * 1,
-     * "Astro Boy",
-     * ]
+     *     "INSERT INTO robots VALUES (?, ?)",
+     *     [
+     *         1,
+     *         "Astro Boy",
+     *     ]
      * );
      * </code>
      *
@@ -159,10 +180,12 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE executed in the database system
+     *
      * <code>
      * $connection->execute(
-     * "DELETE FROM robots"
+     *     "DELETE FROM robots"
      * );
+     *
      * echo $connection->affectedRows(), " were deleted";
      * </code>
      *
@@ -180,6 +203,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Escapes a value to avoid SQL injections according to the active charset in the connection
+     *
      * <code>
      * $escapedStr = $connection->escapeString("some dangerous value");
      * </code>
@@ -191,14 +215,15 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Converts bound parameters such as :name: or ?1 into PDO bind params ?
+     *
      * <code>
      * print_r(
-     * $connection->convertBoundParams(
-     * "SELECTFROM robots WHERE name = :name:",
-     * [
-     * "Bender",
-     * ]
-     * )
+     *     $connection->convertBoundParams(
+     *         "SELECT FROM robots WHERE name = :name:",
+     *         [
+     *             "Bender",
+     *         ]
+     *     )
      * );
      * </code>
      *
@@ -210,22 +235,25 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Returns the insert id for the auto_increment/serial column inserted in the latest executed SQL statement
+     *
      * <code>
      * // Inserting a new robot
      * $success = $connection->insert(
-     * "robots",
-     * [
-     * "Astro Boy",
-     * 1952,
-     * ],
-     * [
-     * "name",
-     * "year",
-     * ]
+     *     "robots",
+     *     [
+     *         "Astro Boy",
+     *         1952,
+     *     ],
+     *     [
+     *         "name",
+     *         "year",
+     *     ]
      * );
+     *
      * // Getting the generated id
      * $id = $connection->lastInsertId();
      * </code>
+     *
      *
      * @param string $sequenceName
      * @return int|bool
@@ -265,11 +293,13 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Checks whether the connection is under a transaction
+     *
      * <code>
      * $connection->begin();
+     *
      * // true
      * var_dump(
-     * $connection->isUnderTransaction()
+     *     $connection->isUnderTransaction()
      * );
      * </code>
      *
@@ -286,6 +316,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Return the error info, if any
+     *
      *
      * @return array
      */

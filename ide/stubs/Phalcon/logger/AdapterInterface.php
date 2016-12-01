@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Logger;
+
 /**
  * Phalcon\Logger\AdapterInterface
+ *
  * Interface for Phalcon\Logger adapters
  */
 interface AdapterInterface

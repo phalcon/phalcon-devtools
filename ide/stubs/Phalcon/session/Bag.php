@@ -1,12 +1,16 @@
 <?php
 
 namespace Phalcon\Session;
+
 /**
  * Phalcon\Session\Bag
+ *
  * This component helps to separate session data into "namespaces". Working by this way
  * you can easily create groups of session variables into the application
+ *
  * <code>
  * $user = new \Phalcon\Session\Bag("user");
+ *
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
  * </code>
@@ -58,6 +62,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Destroys the session bag
+     *
      * <code>
      * $user->destroy();
      * </code>
@@ -66,6 +71,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Sets a value in the session bag
+     *
      * <code>
      * $user->set("name", "Kimbra");
      * </code>
@@ -77,6 +83,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Magic setter to assign values to the session bag
+     *
      * <code>
      * $user->name = "Kimbra";
      * </code>
@@ -88,6 +95,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Obtains a value from the session bag optionally setting a default value
+     *
      * <code>
      * echo $user->get("name", "Kimbra");
      * </code>
@@ -99,6 +107,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Magic getter to obtain values from the session bag
+     *
      * <code>
      * echo $user->name;
      * </code>
@@ -110,9 +119,10 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Check whether a property is defined in the internal bag
+     *
      * <code>
      * var_dump(
-     * $user->has("name")
+     *     $user->has("name")
      * );
      * </code>
      *
@@ -123,9 +133,10 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Magic isset to check whether a property is defined in the bag
+     *
      * <code>
      * var_dump(
-     * isset($user["name"])
+     *     isset($user["name"])
      * );
      * </code>
      *
@@ -136,6 +147,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Removes a property from the internal bag
+     *
      * <code>
      * $user->remove("name");
      * </code>
@@ -147,6 +159,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Magic unset to remove items using the array syntax
+     *
      * <code>
      * unset($user["name"]);
      * </code>
@@ -158,6 +171,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Return length of bag
+     *
      * <code>
      * echo $user->count();
      * </code>

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Annotations;
+
 /**
  * Phalcon\Annotations\Annotation
+ *
  * Represents a single annotation in an annotations collection
  */
 class Annotation
@@ -46,6 +48,7 @@ class Annotation
     /**
      * Resolves an annotation expression
      *
+     *
      * @param array $expr
      * @return mixed
      */
@@ -54,12 +57,14 @@ class Annotation
     /**
      * Returns the expression arguments without resolving
      *
+     *
      * @return array
      */
     public function getExprArguments() {}
 
     /**
      * Returns the expression arguments
+     *
      *
      * @return array
      */
@@ -75,6 +80,7 @@ class Annotation
     /**
      * Returns an argument in a specific position
      *
+     *
      * @param int|string $position
      * @return mixed
      */
@@ -82,6 +88,7 @@ class Annotation
 
     /**
      * Returns an argument in a specific position
+     *
      *
      * @param int|string $position
      * @return bool
@@ -91,6 +98,7 @@ class Annotation
     /**
      * Returns a named argument
      *
+     *
      * @param string $name
      * @return mixed
      */
@@ -98,6 +106,7 @@ class Annotation
 
     /**
      * Returns a named parameter
+     *
      *
      * @param string $name
      * @return mixed

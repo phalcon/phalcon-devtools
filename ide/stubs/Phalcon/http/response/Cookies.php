@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Http\Response;
+
 /**
  * Phalcon\Http\Response\Cookies
+ *
  * This class is a bag to manage the cookies
  * A cookies bag is automatically registered as part of the 'response' service in the DI
  */

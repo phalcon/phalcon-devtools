@@ -1,21 +1,26 @@
 <?php
 
 namespace Phalcon\Cli;
+
 /**
  * Phalcon\Cli\Router
+ *
  * <p>Phalcon\Cli\Router is the standard framework router. Routing is the
  * process of taking a command-line arguments and
  * decomposing it into parameters to determine which module, task, and
  * action of that task should receive the request</p>
+ *
  * <code>
  * $router = new \Phalcon\Cli\Router();
+ *
  * $router->handle(
- * [
- * "module" => "main",
- * "task"   => "videos",
- * "action" => "process",
- * ]
+ *     [
+ *         "module" => "main",
+ *         "task"   => "videos",
+ *         "action" => "process",
+ *     ]
  * );
+ *
  * echo $router->getTaskName();
  * </code>
  */
@@ -106,12 +111,13 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Sets an array of default paths. If a route is missing a path the router will use the defined here
      * This method must not be used to set a 404 route
+     *
      * <code>
      * $router->setDefaults(
-     * [
-     * "module" => "common",
-     * "action" => "index",
-     * ]
+     *     [
+     *         "module" => "common",
+     *         "action" => "index",
+     *     ]
      * );
      * </code>
      *
@@ -123,15 +129,18 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Handles routing information received from command-line arguments
      *
+     *
      * @param array $arguments
      */
     public function handle($arguments = null) {}
 
     /**
      * Adds a route to the router
+     *
      * <code>
      * $router->add("/about", "About::main");
      * </code>
+     *
      *
      * @param string $pattern
      * @param string/array $paths
@@ -163,6 +172,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Returns processed extra params
      *
+     *
      * @return array
      */
     public function getParams() {}
@@ -176,6 +186,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Returns the sub expressions in the regular expression matched
+     *
      *
      * @return array
      */
@@ -197,6 +208,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Returns a route object by its id
+     *
      *
      * @param int $id
      * @return bool|RouteInterface

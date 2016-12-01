@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Validation;
+
 /**
  * Phalcon\Validation\ValidatorInterface
+ *
  * Interface for Phalcon\Validation\Validator
  */
 interface ValidatorInterface

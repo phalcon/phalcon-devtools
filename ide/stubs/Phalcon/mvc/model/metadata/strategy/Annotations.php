@@ -2,6 +2,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
+
 class Annotations implements \Phalcon\Mvc\Model\MetaData\StrategyInterface
 {
 

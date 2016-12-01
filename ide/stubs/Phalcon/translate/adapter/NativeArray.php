@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Translate\Adapter;
+
 /**
  * Phalcon\Translate\Adapter\NativeArray
+ *
  * Allows to define translation lists using PHP arrays
  */
 class NativeArray extends \Phalcon\Translate\Adapter implements \ArrayAccess
