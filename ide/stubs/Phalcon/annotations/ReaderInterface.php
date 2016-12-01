@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Annotations;
+
 /**
  * Phalcon\Annotations\Reader
+ *
  * Parses docblocks returning an array with the found annotations
  */
 interface ReaderInterface

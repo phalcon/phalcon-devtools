@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Http\Response;
+
 /**
  * Phalcon\Http\Response\Headers
+ *
  * This class is a bag to manage the response headers
  */
 class Headers implements \Phalcon\Http\Response\HeadersInterface

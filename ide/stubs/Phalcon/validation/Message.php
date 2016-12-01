@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Validation;
+
 /**
  * Phalcon\Validation\Message
+ *
  * Encapsulates validation info generated in the validation process
  */
 class Message implements \Phalcon\Validation\MessageInterface
@@ -70,6 +72,7 @@ class Message implements \Phalcon\Validation\MessageInterface
 
     /**
      * Returns field name related to message
+     *
      *
      * @return mixed
      */

@@ -1,32 +1,40 @@
 <?php
 
 namespace Phalcon\Cache\Backend;
+
 /**
  * Phalcon\Cache\Backend\Redis
+ *
  * Allows to cache output fragments, PHP data or raw data to a redis backend
+ *
  * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
+ *
  * <code>
  * use Phalcon\Cache\Backend\Redis;
  * use Phalcon\Cache\Frontend\Data as FrontData;
+ *
  * // Cache data for 2 days
  * $frontCache = new FrontData(
- * [
- * "lifetime" => 172800,
- * ]
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
  * );
+ *
  * // Create the Cache setting redis connection options
  * $cache = new Redis(
- * $frontCache,
- * [
- * "host"       => "localhost",
- * "port"       => 6379,
- * "auth"       => "foobared",
- * "persistent" => false,
- * "index"      => 0,
- * ]
+ *     $frontCache,
+ *     [
+ *         "host"       => "localhost",
+ *         "port"       => 6379,
+ *         "auth"       => "foobared",
+ *         "persistent" => false,
+ *         "index"      => 0,
+ *     ]
  * );
+ *
  * // Cache arbitrary data
  * $cache->save("my-data", [1, 2, 3, 4, 5]);
+ *
  * // Get data
  * $data = $cache->get("my-data");
  * </code>
@@ -39,6 +47,7 @@ class Redis extends \Phalcon\Cache\Backend
 
     /**
      * Phalcon\Cache\Backend\Redis constructor
+     *
      *
      * @param	Phalcon\Cache\FrontendInterface frontend
      * @param	array options
@@ -64,6 +73,7 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the file backend and stops the frontend
      *
+     *
      * @param int|string $keyName
      * @param string $content
      * @param int $lifetime
@@ -75,6 +85,7 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Deletes a value from the cache by its key
      *
+     *
      * @param int|string $keyName
      * @return bool
      */
@@ -83,6 +94,7 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Query the existing cached keys
      *
+     *
      * @param string $prefix
      * @return array
      */
@@ -90,6 +102,7 @@ class Redis extends \Phalcon\Cache\Backend
 
     /**
      * Checks if cache exists and it isn't expired
+     *
      *
      * @param string $keyName
      * @param int $lifetime
@@ -100,6 +113,7 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Increment of given $keyName by $value
      *
+     *
      * @param string $keyName
      * @param int $value
      * @return int
@@ -108,6 +122,7 @@ class Redis extends \Phalcon\Cache\Backend
 
     /**
      * Decrement of $keyName by given $value
+     *
      *
      * @param string $keyName
      * @param int $value

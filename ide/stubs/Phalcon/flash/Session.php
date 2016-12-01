@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Flash;
+
 /**
  * Phalcon\Flash\Session
+ *
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
 class Session extends \Phalcon\Flash

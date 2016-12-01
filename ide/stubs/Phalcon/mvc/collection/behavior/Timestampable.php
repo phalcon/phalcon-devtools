@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Collection\Behavior;
+
 /**
  * Phalcon\Mvc\Collection\Behavior\Timestampable
+ *
  * Allows to automatically update a model’s attribute saving the
  * datetime when a record is created or updated
  */

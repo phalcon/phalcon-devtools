@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Translate;
+
 /**
  * Phalcon\Translate\Adapter
+ *
  * Base class for Phalcon\Translate adapters
  */
 abstract class Adapter implements \Phalcon\Translate\AdapterInterface
@@ -27,6 +29,7 @@ abstract class Adapter implements \Phalcon\Translate\AdapterInterface
     /**
      * Returns the translation string of the given key
      *
+     *
      * @param string $translateKey
      * @param array $placeholders
      * @return string
@@ -36,6 +39,7 @@ abstract class Adapter implements \Phalcon\Translate\AdapterInterface
     /**
      * Returns the translation string of the given key (alias of method 't')
      *
+     *
      * @param string $translateKey
      * @param array $placeholders
      * @return string
@@ -44,6 +48,7 @@ abstract class Adapter implements \Phalcon\Translate\AdapterInterface
 
     /**
      * Sets a translation value
+     *
      *
      * @param string $offset
      * @param string $value
@@ -61,12 +66,14 @@ abstract class Adapter implements \Phalcon\Translate\AdapterInterface
     /**
      * Unsets a translation from the dictionary
      *
+     *
      * @param string $offset
      */
     public function offsetUnset($offset) {}
 
     /**
      * Returns the translation related to the given key
+     *
      *
      * @param string $translateKey
      * @return string

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Assets;
+
 /**
  * Phalcon\Assets\Manager
+ *
  * Manages collections of CSS/Javascript assets
  */
 class Manager
@@ -23,6 +25,7 @@ class Manager
 
     /**
      * Phalcon\Assets\Manager
+     *
      *
      * @param array $options
      */
@@ -53,6 +56,7 @@ class Manager
 
     /**
      * Adds a Css resource to the 'css' collection
+     *
      * <code>
      * $assets->addCss("css/bootstrap.css");
      * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
@@ -78,6 +82,7 @@ class Manager
 
     /**
      * Adds a javascript resource to the 'js' collection
+     *
      * <code>
      * $assets->addJs("scripts/jquery.js");
      * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
@@ -103,9 +108,10 @@ class Manager
 
     /**
      * Adds a resource by its type
+     *
      * <code>
      * $assets->addResourceByType("css",
-     * new \Phalcon\Assets\Resource\Css("css/style.css")
+     *     new \Phalcon\Assets\Resource\Css("css/style.css")
      * );
      * </code>
      *
@@ -126,9 +132,10 @@ class Manager
 
     /**
      * Adds a raw resource to the manager
+     *
      * <code>
      * $assets->addResource(
-     * new Phalcon\Assets\Resource("css", "css/style.css")
+     *     new Phalcon\Assets\Resource("css", "css/style.css")
      * );
      * </code>
      *
@@ -147,6 +154,7 @@ class Manager
 
     /**
      * Sets a collection in the Assets Manager
+     *
      * <code>
      * $assets->set("js", $collection);
      * </code>
@@ -159,6 +167,7 @@ class Manager
 
     /**
      * Returns a collection by its id
+     *
      * <code>
      * $scripts = $assets->get("js");
      * </code>
@@ -193,6 +202,7 @@ class Manager
     /**
      * Traverses a collection calling the callback to generate its HTML
      *
+     *
      * @param \Phalcon\Assets\Collection $collection
      * @param callback $callback
      * @param string $type
@@ -203,6 +213,7 @@ class Manager
     /**
      * Traverses a collection and generate its HTML
      *
+     *
      * @param \Phalcon\Assets\Collection $collection
      * @param string $type
      * @return string
@@ -212,6 +223,7 @@ class Manager
     /**
      * Prints the HTML for CSS resources
      *
+     *
      * @param string $collectionName
      * @return string
      */
@@ -219,6 +231,7 @@ class Manager
 
     /**
      * Prints the HTML for inline CSS
+     *
      *
      * @param string $collectionName
      * @return string
@@ -228,6 +241,7 @@ class Manager
     /**
      * Prints the HTML for JS resources
      *
+     *
      * @param string $collectionName
      * @return string
      */
@@ -235,6 +249,7 @@ class Manager
 
     /**
      * Prints the HTML for inline JS
+     *
      *
      * @param string $collectionName
      * @return string

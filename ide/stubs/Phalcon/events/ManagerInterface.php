@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Events;
+
 /**
  * Phalcon\Events\Manager
+ *
  * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
  * the normal flow of operation. With the EventsManager the developer can create hooks or
  * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
@@ -13,6 +15,7 @@ interface ManagerInterface
     /**
      * Attach a listener to the events manager
      *
+     *
      * @param string $eventType
      * @param object|callable $handler
      */
@@ -20,6 +23,7 @@ interface ManagerInterface
 
     /**
      * Detach the listener from the events manager
+     *
      *
      * @param string $eventType
      * @param object $handler
@@ -36,6 +40,7 @@ interface ManagerInterface
     /**
      * Fires an event in the events manager causing the active listeners to be notified about it
      *
+     *
      * @param string $eventType
      * @param object $source
      * @param mixed $data
@@ -45,6 +50,7 @@ interface ManagerInterface
 
     /**
      * Returns all the attached listeners of a certain type
+     *
      *
      * @param string $type
      * @return array

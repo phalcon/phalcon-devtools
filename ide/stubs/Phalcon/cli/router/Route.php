@@ -1,9 +1,12 @@
 <?php
 
 namespace Phalcon\Cli\Router;
+
 /**
  * Phalcon\Cli\Router\Route
+ *
  * This class represents every route added to the router
+ *
  */
 class Route
 {
@@ -44,6 +47,7 @@ class Route
     /**
      * Phalcon\Cli\Router\Route constructor
      *
+     *
      * @param string $pattern
      * @param array $paths
      */
@@ -60,6 +64,7 @@ class Route
     /**
      * Extracts parameters from a string
      *
+     *
      * @param string $pattern
      * @return array|boolean
      */
@@ -67,6 +72,7 @@ class Route
 
     /**
      * Reconfigure the route adding a new pattern and a set of paths
+     *
      *
      * @param string $pattern
      * @param array $paths
@@ -82,12 +88,13 @@ class Route
 
     /**
      * Sets the route's name
+     *
      * <code>
      * $router->add(
-     * "/about",
-     * [
-     * "controller" => "about",
-     * ]
+     *     "/about",
+     *     [
+     *         "controller" => "about",
+     *     ]
      * )->setName("about");
      * </code>
      *
@@ -101,6 +108,7 @@ class Route
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
      *
+     *
      * @param callback $callback
      * @return Route
      */
@@ -108,6 +116,7 @@ class Route
 
     /**
      * Returns the 'before match' callback if any
+     *
      *
      * @return mixed
      */
@@ -150,6 +159,7 @@ class Route
 
     /**
      * Adds a converter to perform an additional transformation for certain parameter
+     *
      *
      * @param string $name
      * @param callable $converter

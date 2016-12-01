@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Transaction;
+
 /**
  * Phalcon\Mvc\Model\Transaction\Failed
+ *
  * This class will be thrown to exit a try/catch block for isolated transactions
  */
 class Failed extends \Phalcon\Mvc\Model\Transaction\Exception

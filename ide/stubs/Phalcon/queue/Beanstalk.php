@@ -1,20 +1,25 @@
 <?php
 
 namespace Phalcon\Queue;
+
 /**
  * Phalcon\Queue\Beanstalk
+ *
  * Class to access the beanstalk queue service.
  * Partially implements the protocol version 1.2
+ *
  * <code>
  * use Phalcon\Queue\Beanstalk;
+ *
  * $queue = new Beanstalk(
- * [
- * "host"       => "127.0.0.1",
- * "port"       => 11300,
- * "persistent" => true,
- * ]
+ *     [
+ *         "host"       => "127.0.0.1",
+ *         "port"       => 11300,
+ *         "persistent" => true,
+ *     ]
  * );
  * </code>
+ *
  *
  * @link http://www.igvita.com/2010/05/20/scalable-work-queues-with-beanstalk/
  */
@@ -24,6 +29,7 @@ class Beanstalk
      * Seconds to wait before putting the job in the ready queue.
      * The job will be in the "delayed" state during this time.
      *
+     *
      * @const integer
      */
     const DEFAULT_DELAY = 0;
@@ -32,6 +38,7 @@ class Beanstalk
      * Jobs with smaller priority values will be scheduled before jobs with larger priorities.
      * The most urgent priority is 0, the least urgent priority is 4294967295.
      *
+     *
      * @const integer
      */
     const DEFAULT_PRIORITY = 100;
@@ -39,6 +46,7 @@ class Beanstalk
     /**
      * Time to run - number of seconds to allow a worker to run this job.
      * The minimum ttr is 1.
+     *
      *
      * @const integer
      */

@@ -1,34 +1,38 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Query;
+
 /**
  * Phalcon\Mvc\Model\Query\Builder
+ *
  * Helps to create PHQL queries using an OO interface
+ *
  * <code>
  * $params = [
- * "models"     => ["Users"],
- * "columns"    => ["id", "name", "status"],
- * "conditions" => [
- * [
- * "created > :min: AND created < :max:",
- * [
- * "min" => "2013-01-01",
- * "max" => "2014-01-01",
- * ],
- * [
- * "min" => PDO::PARAM_STR,
- * "max" => PDO::PARAM_STR,
- * ],
- * ],
- * ],
- * // or "conditions" => "created > '2013-01-01' AND created < '2014-01-01'",
- * "group"      => ["id", "name"],
- * "having"     => "name = 'Kamil'",
- * "order"      => ["name", "id"],
- * "limit"      => 20,
- * "offset"     => 20,
- * // or "limit" => [20, 20],
+ *     "models"     => ["Users"],
+ *     "columns"    => ["id", "name", "status"],
+ *     "conditions" => [
+ *         [
+ *             "created > :min: AND created < :max:",
+ *             [
+ *                 "min" => "2013-01-01",
+ *                 "max" => "2014-01-01",
+ *             ],
+ *             [
+ *                 "min" => PDO::PARAM_STR,
+ *                 "max" => PDO::PARAM_STR,
+ *             ],
+ *         ],
+ *     ],
+ *     // or "conditions" => "created > '2013-01-01' AND created < '2014-01-01'",
+ *     "group"      => ["id", "name"],
+ *     "having"     => "name = 'Kamil'",
+ *     "order"      => ["name", "id"],
+ *     "limit"      => 20,
+ *     "offset"     => 20,
+ *     // or "limit" => [20, 20],
  * ];
+ *
  * $queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  * </code>
  */
@@ -111,6 +115,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Sets SELECT DISTINCT / SELECT ALL flag
+     *
      * <code>
      * $builder->distinct("status");
      * $builder->distinct(null);
@@ -130,19 +135,22 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Sets the columns to be queried
+     *
      * <code>
      * $builder->columns("id, name");
+     *
      * $builder->columns(
-     * [
-     * "id",
-     * "name",
-     * ]
+     *     [
+     *         "id",
+     *         "name",
+     *     ]
      * );
+     *
      * $builder->columns(
-     * [
-     * "name",
-     * "number" => "COUNT(*)",
-     * ]
+     *     [
+     *         "name",
+     *         "number" => "COUNT()",
+     *     ]
      * );
      * </code>
      *
@@ -154,25 +162,29 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the columns to be queried
      *
+     *
      * @return string|array
      */
     public function getColumns() {}
 
     /**
      * Sets the models who makes part of the query
+     *
      * <code>
      * $builder->from("Robots");
+     *
      * $builder->from(
-     * [
-     * "Robots",
-     * "RobotsParts",
-     * ]
+     *     [
+     *         "Robots",
+     *         "RobotsParts",
+     *     ]
      * );
+     *
      * $builder->from(
-     * [
-     * "r"  => "Robots",
-     * "rp" => "RobotsParts",
-     * ]
+     *     [
+     *         "r"  => "Robots",
+     *         "rp" => "RobotsParts",
+     *     ]
      * );
      * </code>
      *
@@ -183,23 +195,27 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Add a model to take part of the query
+     *
      * <code>
      * // Load data from models Robots
      * $builder->addFrom("Robots");
+     *
      * // Load data from model 'Robots' using 'r' as alias in PHQL
      * $builder->addFrom("Robots", "r");
+     *
      * // Load data from model 'Robots' using 'r' as alias in PHQL
      * // and eager load model 'RobotsParts'
      * $builder->addFrom("Robots", "r", "RobotsParts");
+     *
      * // Load data from model 'Robots' using 'r' as alias in PHQL
      * // and eager load models 'RobotsParts' and 'Parts'
      * $builder->addFrom(
-     * "Robots",
-     * "r",
-     * [
-     * "RobotsParts",
-     * "Parts",
-     * ]
+     *     "Robots",
+     *     "r",
+     *     [
+     *         "RobotsParts",
+     *         "Parts",
+     *     ]
      * );
      * </code>
      *
@@ -213,22 +229,28 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the models who makes part of the query
      *
+     *
      * @return string|array
      */
     public function getFrom() {}
 
     /**
      * Adds an INNER join to the query
+     *
      * <code>
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->join("Robots");
+     *
      * // Inner Join model 'Robots' specifying conditions
      * $builder->join("Robots", "Robots.id = RobotsParts.robots_id");
+     *
      * // Inner Join model 'Robots' specifying conditions and alias
      * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r");
+     *
      * // Left Join model 'Robots' specifying conditions, alias and type of join
      * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
      * </code>
+     *
      *
      * @param string $model
      * @param string $conditions
@@ -240,14 +262,18 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Adds an INNER join to the query
+     *
      * <code>
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->innerJoin("Robots");
+     *
      * // Inner Join model 'Robots' specifying conditions
      * $builder->innerJoin("Robots", "Robots.id = RobotsParts.robots_id");
+     *
      * // Inner Join model 'Robots' specifying conditions and alias
      * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
+     *
      *
      * @param string $model
      * @param string $conditions
@@ -259,9 +285,11 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Adds a LEFT join to the query
+     *
      * <code>
      * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
+     *
      *
      * @param string $model
      * @param string $conditions
@@ -272,9 +300,11 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Adds a RIGHT join to the query
+     *
      * <code>
      * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
+     *
      *
      * @param string $model
      * @param string $conditions
@@ -286,23 +316,28 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return join parts of the query
      *
+     *
      * @return array
      */
     public function getJoins() {}
 
     /**
      * Sets the query conditions
+     *
      * <code>
      * $builder->where(100);
+     *
      * $builder->where("name = 'Peter'");
+     *
      * $builder->where(
-     * "name = :name: AND id > :id:",
-     * [
-     * "name" => "Peter",
-     * "id"   => 100,
-     * ]
+     *     "name = :name: AND id > :id:",
+     *     [
+     *         "name" => "Peter",
+     *         "id"   => 100,
+     *     ]
      * );
      * </code>
+     *
      *
      * @param mixed $conditions
      * @param array $bindParams
@@ -313,16 +348,19 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Appends a condition to the current conditions using a AND operator
+     *
      * <code>
      * $builder->andWhere("name = 'Peter'");
+     *
      * $builder->andWhere(
-     * "name = :name: AND id > :id:",
-     * [
-     * "name" => "Peter",
-     * "id"   => 100,
-     * ]
+     *     "name = :name: AND id > :id:",
+     *     [
+     *         "name" => "Peter",
+     *         "id"   => 100,
+     *     ]
      * );
      * </code>
+     *
      *
      * @param string $conditions
      * @param array $bindParams
@@ -333,16 +371,19 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Appends a condition to the current conditions using an OR operator
+     *
      * <code>
      * $builder->orWhere("name = 'Peter'");
+     *
      * $builder->orWhere(
-     * "name = :name: AND id > :id:",
-     * [
-     * "name" => "Peter",
-     * "id"   => 100,
-     * ]
+     *     "name = :name: AND id > :id:",
+     *     [
+     *         "name" => "Peter",
+     *         "id"   => 100,
+     *     ]
      * );
      * </code>
+     *
      *
      * @param string $conditions
      * @param array $bindParams
@@ -353,6 +394,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Appends a BETWEEN condition to the current conditions
+     *
      * <code>
      * $builder->betweenWhere("price", 100.25, 200.50);
      * </code>
@@ -367,6 +409,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions
+     *
      * <code>
      * $builder->notBetweenWhere("price", 100.25, 200.50);
      * </code>
@@ -381,6 +424,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Appends an IN condition to the current conditions
+     *
      * <code>
      * $builder->inWhere("id", [1, 2, 3]);
      * </code>
@@ -394,6 +438,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Appends a NOT IN condition to the current conditions
+     *
      * <code>
      * $builder->notInWhere("id", [1, 2, 3]);
      * </code>
@@ -408,16 +453,19 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the conditions for the query
      *
+     *
      * @return string|array
      */
     public function getWhere() {}
 
     /**
      * Sets an ORDER BY condition clause
+     *
      * <code>
      * $builder->orderBy("Robots.name");
      * $builder->orderBy(["1", "Robots.name"]);
      * </code>
+     *
      *
      * @param string|array $orderBy
      * @return Builder
@@ -427,12 +475,14 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Returns the set ORDER BY clause
      *
+     *
      * @return string|array
      */
     public function getOrderBy() {}
 
     /**
      * Sets a HAVING condition clause. You need to escape PHQL reserved words using [ and ] delimiters
+     *
      * <code>
      * $builder->having("SUM(Robots.price) > 0");
      * </code>
@@ -444,6 +494,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Sets a FOR UPDATE clause
+     *
      * <code>
      * $builder->forUpdate(true);
      * </code>
@@ -456,12 +507,14 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the current having clause
      *
+     *
      * @return string|array
      */
     public function getHaving() {}
 
     /**
      * Sets a LIMIT clause, optionally an offset clause
+     *
      * <code>
      * $builder->limit(100);
      * $builder->limit(100, 20);
@@ -476,12 +529,14 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Returns the current LIMIT clause
      *
+     *
      * @return string|array
      */
     public function getLimit() {}
 
     /**
      * Sets an OFFSET clause
+     *
      * <code>
      * $builder->offset(30);
      * </code>
@@ -494,19 +549,22 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Returns the current OFFSET clause
      *
+     *
      * @return string|array
      */
     public function getOffset() {}
 
     /**
      * Sets a GROUP BY clause
+     *
      * <code>
      * $builder->groupBy(
-     * [
-     * "Robots.name",
-     * ]
+     *     [
+     *         "Robots.name",
+     *     ]
      * );
      * </code>
+     *
      *
      * @param string|array $group
      * @return Builder
@@ -516,12 +574,14 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Returns the GROUP BY clause
      *
+     *
      * @return string
      */
     public function getGroupBy() {}
 
     /**
      * Returns a PHQL statement built based on the builder parameters
+     *
      *
      * @return string
      */

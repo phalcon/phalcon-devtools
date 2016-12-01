@@ -1,18 +1,25 @@
 <?php
 
 namespace Phalcon\Cli;
+
 /**
  * Phalcon\Cli\Dispatcher
+ *
  * Dispatching is the process of taking the command-line arguments, extracting the module name,
  * task name, action name, and optional parameters contained in it, and then
  * instantiating a task and calling an action on it.
+ *
  * <code>
  * $di = new \Phalcon\Di();
+ *
  * $dispatcher = new \Phalcon\Cli\Dispatcher();
+ *
  * $dispatcher->setDi($di);
+ *
  * $dispatcher->setTaskName("posts");
  * $dispatcher->setActionName("index");
  * $dispatcher->setParams([]);
+ *
  * $handle = $dispatcher->dispatch();
  * </code>
  */

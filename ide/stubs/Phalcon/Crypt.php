@@ -1,14 +1,20 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Crypt
+ *
  * Provides encryption facilities to phalcon applications
+ *
  * <code>
  * $crypt = new \Phalcon\Crypt();
+ *
  * $key  = "le password";
  * $text = "This is a secret text";
+ *
  * $encrypted = $crypt->encrypt($text, $key);
+ *
  * echo $crypt->decrypt($encrypted, $key);
  * </code>
  */
@@ -86,6 +92,7 @@ class Crypt implements \Phalcon\CryptInterface
     /**
      * Pads texts before encryption
      *
+     *
      * @see http://www.di-mgt.com.au/cryptopad.html
      * @param string $text
      * @param string $mode
@@ -98,6 +105,7 @@ class Crypt implements \Phalcon\CryptInterface
      * Removes padding @a padding_type from @a text
      * If the function detects that the text was not padded, it will return it unmodified
      *
+     *
      * @param string $text Message to be unpadded
      * @param string $mode Encryption mode; unpadding is applied only in CBC or ECB mode
      * @param int $blockSize Cipher block size
@@ -107,6 +115,7 @@ class Crypt implements \Phalcon\CryptInterface
 
     /**
      * Encrypts a text
+     *
      * <code>
      * $encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
      * </code>
@@ -119,6 +128,7 @@ class Crypt implements \Phalcon\CryptInterface
 
     /**
      * Decrypts an encrypted text
+     *
      * <code>
      * echo $crypt->decrypt($encrypted, "decrypt password");
      * </code>

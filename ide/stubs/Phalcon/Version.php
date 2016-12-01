@@ -1,17 +1,20 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Version
+ *
  * This class allows to get the installed version of the framework
  */
 class Version
 {
     /**
      * The constant referencing the major version. Returns 0
+     *
      * <code>
      * echo Phalcon\Version::getPart(
-     * Phalcon\Version::VERSION_MAJOR
+     *     Phalcon\Version::VERSION_MAJOR
      * );
      * </code>
      */
@@ -19,9 +22,10 @@ class Version
 
     /**
      * The constant referencing the major version. Returns 1
+     *
      * <code>
      * echo Phalcon\Version::getPart(
-     * Phalcon\Version::VERSION_MEDIUM
+     *     Phalcon\Version::VERSION_MEDIUM
      * );
      * </code>
      */
@@ -29,9 +33,10 @@ class Version
 
     /**
      * The constant referencing the major version. Returns 2
+     *
      * <code>
      * echo Phalcon\Version::getPart(
-     * Phalcon\Version::VERSION_MINOR
+     *     Phalcon\Version::VERSION_MINOR
      * );
      * </code>
      */
@@ -39,9 +44,10 @@ class Version
 
     /**
      * The constant referencing the major version. Returns 3
+     *
      * <code>
      * echo Phalcon\Version::getPart(
-     * Phalcon\Version::VERSION_SPECIAL
+     *     Phalcon\Version::VERSION_SPECIAL
      * );
      * </code>
      */
@@ -49,9 +55,10 @@ class Version
 
     /**
      * The constant referencing the major version. Returns 4
+     *
      * <code>
      * echo Phalcon\Version::getPart(
-     * Phalcon\Version::VERSION_SPECIAL_NUMBER
+     *     Phalcon\Version::VERSION_SPECIAL_NUMBER
      * );
      * </code>
      */
@@ -61,6 +68,7 @@ class Version
     /**
      * Area where the version number is set. The format is as follows:
      * ABBCCDE
+     *
      * A - Major version
      * B - Med version (two digits)
      * C - Min version (two digits)
@@ -73,6 +81,7 @@ class Version
 
     /**
      * Translates a number to a special release
+     *
      * If Special release = 1 this function will return ALPHA
      *
      * @param int $special
@@ -82,6 +91,7 @@ class Version
 
     /**
      * Returns the active version (string)
+     *
      * <code>
      * echo Phalcon\Version::get();
      * </code>
@@ -92,6 +102,7 @@ class Version
 
     /**
      * Returns the numeric active version
+     *
      * <code>
      * echo Phalcon\Version::getId();
      * </code>
@@ -103,9 +114,10 @@ class Version
     /**
      * Returns a specific part of the version. If the wrong parameter is passed
      * it will return the full version
+     *
      * <code>
      * echo Phalcon\Version::getPart(
-     * Phalcon\Version::VERSION_MAJOR
+     *     Phalcon\Version::VERSION_MAJOR
      * );
      * </code>
      *

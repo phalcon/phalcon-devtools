@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Resultset;
+
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
+ *
  * Simple resultsets only contains a complete objects
  * This class builds every complete object as it is required
  */
@@ -20,6 +22,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 
     /**
      * Phalcon\Mvc\Model\Resultset\Simple constructor
+     *
      *
      * @param array $columnMap
      * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row $model

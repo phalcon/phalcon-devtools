@@ -1,14 +1,19 @@
 <?php
 
 namespace Phalcon\Logger\Adapter;
+
 /**
  * Phalcon\Logger\Adapter\File
+ *
  * Adapter to store logs in plain text files
+ *
  * <code>
  * $logger = new \Phalcon\Logger\Adapter\File("app/logs/test.log");
+ *
  * $logger->log("This is a message");
  * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
+ *
  * $logger->close();
  * </code>
  */
@@ -16,6 +21,7 @@ class File extends \Phalcon\Logger\Adapter
 {
     /**
      * File handler resource
+     *
      *
      * @var resource
      */
@@ -39,6 +45,7 @@ class File extends \Phalcon\Logger\Adapter
 
     /**
      * Phalcon\Logger\Adapter\File constructor
+     *
      *
      * @param string $name
      * @param array $options

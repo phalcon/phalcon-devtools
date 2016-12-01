@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Db;
+
 /**
  * Phalcon\Db\DialectInterface
+ *
  * Interface for Phalcon\Db dialects
  */
 interface DialectInterface

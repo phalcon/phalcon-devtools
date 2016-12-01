@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\FilterInterface
+ *
  * Interface for Phalcon\Filter
  */
 interface FilterInterface

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Queue\Beanstalk;
+
 /**
  * Phalcon\Queue\Beanstalk\Job
+ *
  * Represents a job in a beanstalk queue
  */
 class Job

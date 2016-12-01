@@ -1,56 +1,64 @@
 <?php
 
 namespace Phalcon\Cache;
+
 /**
  * Phalcon\Cache\Multiple
+ *
  * Allows to read to chained backend adapters writing to multiple backends
+ *
  * <code>
  * use Phalcon\Cache\Frontend\Data as DataFrontend;
  * use Phalcon\Cache\Multiple;
  * use Phalcon\Cache\Backend\Apc as ApcCache;
  * use Phalcon\Cache\Backend\Memcache as MemcacheCache;
  * use Phalcon\Cache\Backend\File as FileCache;
+ *
  * $ultraFastFrontend = new DataFrontend(
- * [
- * "lifetime" => 3600,
- * ]
+ *     [
+ *         "lifetime" => 3600,
+ *     ]
  * );
+ *
  * $fastFrontend = new DataFrontend(
- * [
- * "lifetime" => 86400,
- * ]
+ *     [
+ *         "lifetime" => 86400,
+ *     ]
  * );
+ *
  * $slowFrontend = new DataFrontend(
- * [
- * "lifetime" => 604800,
- * ]
+ *     [
+ *         "lifetime" => 604800,
+ *     ]
  * );
+ *
  * //Backends are registered from the fastest to the slower
  * $cache = new Multiple(
- * [
- * new ApcCache(
- * $ultraFastFrontend,
- * [
- * "prefix" => "cache",
- * ]
- * ),
- * new MemcacheCache(
- * $fastFrontend,
- * [
- * "prefix" => "cache",
- * "host"   => "localhost",
- * "port"   => "11211",
- * ]
- * ),
- * new FileCache(
- * $slowFrontend,
- * [
- * "prefix"   => "cache",
- * "cacheDir" => "../app/cache/",
- * ]
- * ),
- * ]
+ *     [
+ *         new ApcCache(
+ *             $ultraFastFrontend,
+ *             [
+ *                 "prefix" => "cache",
+ *             ]
+ *         ),
+ *         new MemcacheCache(
+ *             $fastFrontend,
+ *             [
+ *                 "prefix" => "cache",
+ *                 "host"   => "localhost",
+ *                 "port"   => "11211",
+ *             ]
+ *         ),
+ *         new FileCache(
+ *             $slowFrontend,
+ *             [
+ *                 "prefix"   => "cache",
+ *                 "cacheDir" => "../app/cache/",
+ *             ]
+ *         ),
+ *     ]
  * );
+ *
  * //Save, saves in every backend
  * $cache->save("my-key", $data);
  * </code>
@@ -63,6 +71,7 @@ class Multiple
 
     /**
      * Phalcon\Cache\Multiple constructor
+     *
      *
      * @param	Phalcon\Cache\BackendInterface[] backends
      * @param mixed $backends
@@ -80,6 +89,7 @@ class Multiple
     /**
      * Returns a cached content reading the internal backends
      *
+     *
      * @param mixed $keyName
      * @param long $lifetime
      * @param $string|int keyName
@@ -90,6 +100,7 @@ class Multiple
     /**
      * Starts every backend
      *
+     *
      * @param string|int $keyName
      * @param long $lifetime
      */
@@ -97,6 +108,7 @@ class Multiple
 
     /**
      * Stores cached content into all backends and stops the frontend
+     *
      *
      * @param string $keyName
      * @param string $content
@@ -108,6 +120,7 @@ class Multiple
     /**
      * Deletes a value from each backend
      *
+     *
      * @param string|int $keyName
      * @return bool
      */
@@ -115,6 +128,7 @@ class Multiple
 
     /**
      * Checks if cache exists in at least one backend
+     *
      *
      * @param string|int $keyName
      * @param long $lifetime

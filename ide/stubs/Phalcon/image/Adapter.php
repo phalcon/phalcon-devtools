@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Image;
+
 /**
  * Phalcon\Image\Adapter
+ *
  * All image adapters must use this class
  */
 abstract class Adapter implements \Phalcon\Image\AdapterInterface
@@ -19,6 +21,7 @@ abstract class Adapter implements \Phalcon\Image\AdapterInterface
     /**
      * Image width
      *
+     *
      * @var int
      */
     protected $_width;
@@ -26,13 +29,16 @@ abstract class Adapter implements \Phalcon\Image\AdapterInterface
     /**
      * Image height
      *
+     *
      * @var int
      */
     protected $_height;
 
     /**
      * Image type
+     *
      * Driver dependent
+     *
      *
      * @var int
      */
@@ -40,6 +46,7 @@ abstract class Adapter implements \Phalcon\Image\AdapterInterface
 
     /**
      * Image mime type
+     *
      *
      * @var string
      */
@@ -71,7 +78,9 @@ abstract class Adapter implements \Phalcon\Image\AdapterInterface
 
     /**
      * Image type
+     *
      * Driver dependent
+     *
      *
      * @return int
      */
@@ -96,6 +105,7 @@ abstract class Adapter implements \Phalcon\Image\AdapterInterface
 
     /**
      * This method scales the images using liquid rescaling method. Only support Imagick
+     *
      *
      * @param int $width
      * @param int $height

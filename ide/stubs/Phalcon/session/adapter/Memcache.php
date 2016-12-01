@@ -1,23 +1,30 @@
 <?php
 
 namespace Phalcon\Session\Adapter;
+
 /**
  * Phalcon\Session\Adapter\Memcache
+ *
  * This adapter store sessions in memcache
+ *
  * <code>
  * use Phalcon\Session\Adapter\Memcache;
+ *
  * $session = new Memcache(
- * [
- * "uniqueId"   => "my-private-app",
- * "host"       => "127.0.0.1",
- * "port"       => 11211,
- * "persistent" => true,
- * "lifetime"   => 3600,
- * "prefix"     => "my_",
- * ]
+ *     [
+ *         "uniqueId"   => "my-private-app",
+ *         "host"       => "127.0.0.1",
+ *         "port"       => 11211,
+ *         "persistent" => true,
+ *         "lifetime"   => 3600,
+ *         "prefix"     => "my_",
+ *     ]
  * );
+ *
  * $session->start();
+ *
  * $session->set("var", "some-value");
+ *
  * echo $session->get("var");
  * </code>
  */

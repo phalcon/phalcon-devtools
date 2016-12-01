@@ -1,13 +1,18 @@
 <?php
 
 namespace Phalcon\Logger\Adapter;
+
 /**
  * Phalcon\Logger\Adapter\Firephp
+ *
  * Sends logs to FirePHP
+ *
  * <code>
  * use Phalcon\Logger\Adapter\Firephp;
  * use Phalcon\Logger;
+ *
  * $logger = new Firephp();
+ *
  * $logger->log(Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
  * </code>

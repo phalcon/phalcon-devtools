@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Transaction;
+
 /**
  * Phalcon\Mvc\Model\Transaction\ManagerInterface
+ *
  * Interface for Phalcon\Mvc\Model\Transaction\Manager
  */
 interface ManagerInterface
@@ -36,6 +38,7 @@ interface ManagerInterface
     /**
      * Rollbacks active transactions within the manager
      * Collect will remove transaction from the manager
+     *
      *
      * @param boolean $collect
      */

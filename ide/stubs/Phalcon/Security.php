@@ -1,17 +1,22 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Security
+ *
  * This component provides a set of functions to improve the security in Phalcon applications
+ *
  * <code>
  * $login    = $this->request->getPost("login");
  * $password = $this->request->getPost("password");
+ *
  * $user = Users::findFirstByLogin($login);
+ *
  * if ($user) {
- * if ($this->security->checkHash($password, $user->password)) {
- * // The password is valid
- * }
+ *     if ($this->security->checkHash($password, $user->password)) {
+ *         // The password is valid
+ *     }
  * }
  * </code>
  */
@@ -232,12 +237,14 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Getting OpenSSL or LibreSSL version
+     *
      * Parse OPENSSL_VERSION_TEXT because OPENSSL_VERSION_NUMBER is no use for LibreSSL.
      *
      * @link https://bugs.php.net/bug.php?id=71143
+     *
      * <code>
      * if ($security->getSslVersionNumber() >= 20105) {
-     * // ...
+     *     // ...
      * }
      * </code>
      * @return int

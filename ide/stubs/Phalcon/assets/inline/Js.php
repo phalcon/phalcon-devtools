@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Assets\Inline;
+
 /**
  * Phalcon\Assets\Inline\Js
+ *
  * Represents an inline Javascript
  */
 class Js extends \Phalcon\Assets\Inline
@@ -10,6 +12,7 @@ class Js extends \Phalcon\Assets\Inline
 
     /**
      * Phalcon\Assets\Inline\Js
+     *
      *
      * @param string $content
      * @param boolean $filter

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\View\Engine;
+
 /**
  * Phalcon\Mvc\View\Engine\Volt
+ *
  * Designer friendly and fast template engine for PHP written in Zephir/C
  */
 class Volt extends \Phalcon\Mvc\View\Engine

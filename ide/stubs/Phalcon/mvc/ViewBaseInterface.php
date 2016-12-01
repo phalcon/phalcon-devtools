@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc;
+
 /**
  * Phalcon\Mvc\ViewInterface
+ *
  * Interface for Phalcon\Mvc\View and Phalcon\Mvc\View\Simple
  */
 interface ViewBaseInterface
@@ -32,6 +34,7 @@ interface ViewBaseInterface
 
     /**
      * Adds parameters to views
+     *
      *
      * @param string $key
      * @param mixed $value

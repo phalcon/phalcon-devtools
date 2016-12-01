@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\DispatcherInterface
+ *
  * Interface for Phalcon\Dispatcher
  */
 interface DispatcherInterface
@@ -67,6 +69,7 @@ interface DispatcherInterface
     /**
      * Sets action params to be dispatched
      *
+     *
      * @param array $params
      */
     public function setParams($params);
@@ -81,6 +84,7 @@ interface DispatcherInterface
     /**
      * Set a param by its name or numeric index
      *
+     *
      * @param mixed $param
      * @param mixed $value
      */
@@ -88,6 +92,7 @@ interface DispatcherInterface
 
     /**
      * Gets a param by its name or numeric index
+     *
      *
      * @param mixed $param
      * @param string|array $filters
@@ -97,6 +102,7 @@ interface DispatcherInterface
 
     /**
      * Check if a param exists
+     *
      *
      * @param mixed $param
      * @return bool
@@ -113,6 +119,7 @@ interface DispatcherInterface
     /**
      * Returns value returned by the latest dispatched action
      *
+     *
      * @return mixed
      */
     public function getReturnedValue();
@@ -120,12 +127,14 @@ interface DispatcherInterface
     /**
      * Dispatches a handle action taking into account the routing parameters
      *
+     *
      * @return object
      */
     public function dispatch();
 
     /**
      * Forwards the execution flow to another controller/action
+     *
      *
      * @param array $forward
      */

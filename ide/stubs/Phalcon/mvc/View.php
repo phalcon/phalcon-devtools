@@ -1,20 +1,28 @@
 <?php
 
 namespace Phalcon\Mvc;
+
 /**
  * Phalcon\Mvc\View
+ *
  * Phalcon\Mvc\View is a class for working with the "view" portion of the model-view-controller pattern.
  * That is, it exists to help keep the view script separate from the model and controller scripts.
  * It provides a system of helpers, output filters, and variable escaping.
+ *
  * <code>
  * use Phalcon\Mvc\View;
+ *
  * $view = new View();
+ *
  * // Setting views directory
  * $view->setViewsDir("app/views/");
+ *
  * $view->start();
+ *
  * // Shows recent posts view (app/views/posts/recent.phtml)
  * $view->render("posts", "recent");
  * $view->finish();
+ *
  * // Printing views output
  * echo $view->getContent();
  * </code>
@@ -23,21 +31,25 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 {
     /**
      * Render Level: To the main layout
+     *
      */
     const LEVEL_MAIN_LAYOUT = 5;
 
     /**
      * Render Level: Render to the templates "after"
+     *
      */
     const LEVEL_AFTER_TEMPLATE = 4;
 
     /**
      * Render Level: To the controller layout
+     *
      */
     const LEVEL_LAYOUT = 3;
 
     /**
      * Render Level: To the templates "before"
+     *
      */
     const LEVEL_BEFORE_TEMPLATE = 2;
 
@@ -48,6 +60,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Render Level: No render any view
+     *
      */
     const LEVEL_NO_RENDER = 0;
 
@@ -178,6 +191,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Sets the layouts sub-directory. Must be a directory under the views directory.
      * Depending of your platform, always add a trailing slash or backslash
+     *
      * <code>
      * $view->setLayoutsDir("../common/layouts/");
      * </code>
@@ -197,6 +211,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Sets a partials sub-directory. Must be a directory under the views directory.
      * Depending of your platform, always add a trailing slash or backslash
+     *
      * <code>
      * $view->setPartialsDir("../common/partials/");
      * </code>
@@ -215,8 +230,9 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Sets base path. Depending of your platform, always add a trailing slash or backslash
+     *
      * <code>
-     * $view->setBasePath(__DIR__ . "/");
+     *     $view->setBasePath(__DIR__ . "/");
      * </code>
      *
      * @param string $basePath
@@ -233,10 +249,11 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Sets the render level for the view
+     *
      * <code>
      * // Render the view related to the controller only
      * $this->view->setRenderLevel(
-     * View::LEVEL_LAYOUT
+     *     View::LEVEL_LAYOUT
      * );
      * </code>
      *
@@ -247,10 +264,11 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Disables a specific level of rendering
+     *
      * <code>
      * // Render all levels except ACTION level
      * $this->view->disableLevel(
-     * View::LEVEL_ACTION_VIEW
+     *     View::LEVEL_ACTION_VIEW
      * );
      * </code>
      *
@@ -261,6 +279,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Sets default view name. Must be a file without extension in the views directory
+     *
      * <code>
      * // Renders as main view views-dir/base.phtml
      * $this->view->setMainView("base");
@@ -280,6 +299,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Change the layout to be used instead of using the name of the latest controller name
+     *
      * <code>
      * $this->view->setLayout("main");
      * </code>
@@ -328,6 +348,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Adds parameters to views (alias of setVar)
+     *
      * <code>
      * $this->view->setParamToView("products", $products);
      * </code>
@@ -340,11 +361,12 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Set all the render params
+     *
      * <code>
      * $this->view->setVars(
-     * [
-     * "products" => $products,
-     * ]
+     *     [
+     *         "products" => $products,
+     *     ]
      * );
      * </code>
      *
@@ -356,6 +378,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Set a single view parameter
+     *
      * <code>
      * $this->view->setVar("products", $products);
      * </code>
@@ -418,6 +441,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Checks whether view exists on registered extensions and render it
      *
+     *
      * @param array $engines
      * @param string $viewPath
      * @param boolean $silence
@@ -429,13 +453,14 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Register templating engines
+     *
      * <code>
      * $this->view->registerEngines(
-     * [
-     * ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
-     * ".volt"  => "Phalcon\\Mvc\\View\\Engine\\Volt",
-     * ".mhtml" => "MyCustomEngine",
-     * ]
+     *     [
+     *         ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
+     *         ".volt"  => "Phalcon\\Mvc\\View\\Engine\\Volt",
+     *         ".mhtml" => "MyCustomEngine",
+     *     ]
      * );
      * </code>
      *
@@ -454,10 +479,12 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Executes render process from dispatching data
+     *
      * <code>
      * // Shows recent posts view (app/views/posts/recent.phtml)
      * $view->start()->render("posts", "recent")->finish();
      * </code>
+     *
      *
      * @param string $controllerName
      * @param string $actionName
@@ -468,16 +495,19 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Choose a different view to render instead of last-controller/last-action
+     *
      * <code>
      * use Phalcon\Mvc\Controller;
+     *
      * class ProductsController extends Controller
      * {
-     * public function saveAction()
-     * {
-     * // Do some save stuff...
-     * // Then show the list view
-     * $this->view->pick("products/list");
-     * }
+     *    public function saveAction()
+     *    {
+     *         // Do some save stuff...
+     *
+     *         // Then show the list view
+     *         $this->view->pick("products/list");
+     *    }
      * }
      * </code>
      *
@@ -488,17 +518,19 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Renders a partial view
+     *
      * <code>
      * // Retrieve the contents of a partial
      * echo $this->getPartial("shared/footer");
      * </code>
+     *
      * <code>
      * // Retrieve the contents of a partial with arguments
      * echo $this->getPartial(
-     * "shared/footer",
-     * [
-     * "content" => $html,
-     * ]
+     *     "shared/footer",
+     *     [
+     *         "content" => $html,
+     *     ]
      * );
      * </code>
      *
@@ -510,17 +542,19 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Renders a partial view
+     *
      * <code>
      * // Show a partial inside another view
      * $this->partial("shared/footer");
      * </code>
+     *
      * <code>
      * // Show a partial inside another view with parameters
      * $this->partial(
-     * "shared/footer",
-     * [
-     * "content" => $html,
-     * ]
+     *     "shared/footer",
+     *     [
+     *         "content" => $html,
+     *     ]
      * );
      * </code>
      *
@@ -531,15 +565,17 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Perform the automatic rendering returning the output as a string
+     *
      * <code>
      * $template = $this->view->getRender(
-     * "products",
-     * "show",
-     * [
-     * "products" => $products,
-     * ]
+     *     "products",
+     *     "show",
+     *     [
+     *         "products" => $products,
+     *     ]
      * );
      * </code>
+     *
      *
      * @param string $controllerName
      * @param string $actionName
@@ -579,12 +615,13 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Cache the actual view render to certain level
+     *
      * <code>
      * $this->view->cache(
-     * [
-     * "key"      => "my-key",
-     * "lifetime" => 86400,
-     * ]
+     *     [
+     *         "key"      => "my-key",
+     *         "lifetime" => 86400,
+     *     ]
      * );
      * </code>
      *
@@ -595,6 +632,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Externally sets the view content
+     *
      * <code>
      * $this->view->setContent("<h1>hello</h1>");
      * </code>
@@ -641,6 +679,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Magic method to pass variables to the views
+     *
      * <code>
      * $this->view->products = $products;
      * </code>
@@ -652,6 +691,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Magic method to retrieve a variable passed to the view
+     *
      * <code>
      * echo $this->view->products;
      * </code>
@@ -670,6 +710,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Magic method to retrieve if a variable is set in the view
+     *
      * <code>
      * echo isset($this->view->products);
      * </code>

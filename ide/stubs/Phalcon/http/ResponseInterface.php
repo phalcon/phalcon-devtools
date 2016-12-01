@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Http;
+
 /**
  * Phalcon\Http\Response
+ *
  * Interface for Phalcon\Http\Response
  */
 interface ResponseInterface
@@ -66,6 +68,7 @@ interface ResponseInterface
     /**
      * Sets the response content-type mime, optionally the charset
      *
+     *
      * @param string $contentType
      * @param string $charset
      * @return ResponseInterface
@@ -100,11 +103,12 @@ interface ResponseInterface
 
     /**
      * Sets HTTP response body. The parameter is automatically converted to JSON
+     *
      * <code>
      * $response->setJsonContent(
-     * [
-     * "status" => "OK",
-     * ]
+     *     [
+     *         "status" => "OK",
+     *     ]
      * );
      * </code>
      *

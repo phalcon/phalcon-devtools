@@ -1,23 +1,30 @@
 <?php
 
 namespace Phalcon\Mvc;
+
 /**
  * Phalcon\Mvc\Router
+ *
  * Phalcon\Mvc\Router is the standard framework router. Routing is the
  * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
  * decomposing it into parameters to determine which module, controller, and
  * action of that controller should receive the request
+ *
  * <code>
  * use Phalcon\Mvc\Router;
+ *
  * $router = new Router();
+ *
  * $router->add(
- * "/documentation/{chapter}/{name}\.{type:[a-z]+}",
- * [
- * "controller" => "documentation",
- * "action"     => "show",
- * ]
+ *     "/documentation/{chapter}/{name}\.{type:[a-z]+}",
+ *     [
+ *         "controller" => "documentation",
+ *         "action"     => "show",
+ *     ]
  * );
+ *
  * $router->handle();
+ *
  * echo $router->getControllerName();
  * </code>
  */
@@ -136,10 +143,11 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     public function getRewriteUri() {}
 
     /**
-     * Sets the URI source. One of the URI_SOURCE_* constants
+     * Sets the URI source. One of the URI_SOURCE_ constants
+     *
      * <code>
      * $router->setUriSource(
-     * Router::URI_SOURCE_SERVER_REQUEST_URI
+     *     Router::URI_SOURCE_SERVER_REQUEST_URI
      * );
      * </code>
      *
@@ -191,12 +199,13 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
     /**
      * Sets an array of default paths. If a route is missing a path the router will use the defined here
      * This method must not be used to set a 404 route
+     *
      * <code>
      * $router->setDefaults(
-     * [
-     * "module" => "common",
-     * "action" => "index",
-     * ]
+     *     [
+     *         "module" => "common",
+     *         "action" => "index",
+     *     ]
      * );
      * </code>
      *
@@ -214,9 +223,11 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
 
     /**
      * Handles routing information received from the rewrite engine
+     *
      * <code>
      * // Read the info from the rewrite engine
      * $router->handle();
+     *
      * // Manually passing an URL
      * $router->handle("/posts/edit/1");
      * </code>
@@ -227,8 +238,10 @@ class Router implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Mvc\Router
 
     /**
      * Adds a route to the router without any HTTP constraint
+     *
      * <code>
      * use Phalcon\Mvc\Router;
+     *
      * $router->add("/about", "About::index");
      * $router->add("/about", "About::index", ["GET", "POST"]);
      * $router->add("/about", "About::index", ["GET", "POST"], Router::POSITION_FIRST);

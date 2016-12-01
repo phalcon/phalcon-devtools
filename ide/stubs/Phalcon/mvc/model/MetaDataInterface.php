@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\MetaDataInterface
+ *
  * Interface for Phalcon\Mvc\Model\MetaData
  */
 interface MetaDataInterface
@@ -18,6 +20,7 @@ interface MetaDataInterface
     /**
      * Return the strategy to obtain the meta-data
      *
+     *
      * @return \Phalcon\Mvc\Model\MetaData\StrategyInterface
      */
     public function getStrategy();
@@ -25,13 +28,15 @@ interface MetaDataInterface
     /**
      * Reads meta-data for certain model
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
      */
     public function readMetaData(\Phalcon\Mvc\ModelInterface $model);
 
     /**
-     * Reads meta-data for certain model using a MODEL_* constant
+     * Reads meta-data for certain model using a MODEL_ constant
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param int $index
@@ -40,7 +45,8 @@ interface MetaDataInterface
     public function readMetaDataIndex(\Phalcon\Mvc\ModelInterface $model, $index);
 
     /**
-     * Writes meta-data for certain model using a MODEL_* constant
+     * Writes meta-data for certain model using a MODEL_ constant
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param int $index
@@ -51,13 +57,15 @@ interface MetaDataInterface
     /**
      * Reads the ordered/reversed column map for certain model
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
      */
     public function readColumnMap(\Phalcon\Mvc\ModelInterface $model);
 
     /**
-     * Reads column-map information for certain model using a MODEL_* constant
+     * Reads column-map information for certain model using a MODEL_ constant
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param int $index
@@ -67,6 +75,7 @@ interface MetaDataInterface
     /**
      * Returns table attributes names (fields)
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
      */
@@ -74,6 +83,7 @@ interface MetaDataInterface
 
     /**
      * Returns an array of fields which are part of the primary key
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
@@ -83,6 +93,7 @@ interface MetaDataInterface
     /**
      * Returns an array of fields which are not part of the primary key
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
      */
@@ -90,6 +101,7 @@ interface MetaDataInterface
 
     /**
      * Returns an array of not null attributes
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
@@ -99,6 +111,7 @@ interface MetaDataInterface
     /**
      * Returns attributes and their data types
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
      */
@@ -106,6 +119,7 @@ interface MetaDataInterface
 
     /**
      * Returns attributes which types are numerical
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
@@ -115,6 +129,7 @@ interface MetaDataInterface
     /**
      * Returns the name of identity field (if one is present)
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return string
      */
@@ -122,6 +137,7 @@ interface MetaDataInterface
 
     /**
      * Returns attributes and their bind data types
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
@@ -131,6 +147,7 @@ interface MetaDataInterface
     /**
      * Returns attributes that must be ignored from the INSERT SQL generation
      *
+     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
      */
@@ -138,6 +155,7 @@ interface MetaDataInterface
 
     /**
      * Returns attributes that must be ignored from the UPDATE SQL generation
+     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return array
@@ -212,6 +230,7 @@ interface MetaDataInterface
     /**
      * Checks if the internal meta-data container is empty
      *
+     *
      * @return boolean
      */
     public function isEmpty();
@@ -224,6 +243,7 @@ interface MetaDataInterface
     /**
      * Reads meta-data from the adapter
      *
+     *
      * @param string $key
      * @return array
      */
@@ -231,6 +251,7 @@ interface MetaDataInterface
 
     /**
      * Writes meta-data to the adapter
+     *
      *
      * @param string $key
      * @param array $data

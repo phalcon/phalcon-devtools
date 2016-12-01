@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\CryptInterface
+ *
  * Interface for Phalcon\Crypt
  */
 interface CryptInterface

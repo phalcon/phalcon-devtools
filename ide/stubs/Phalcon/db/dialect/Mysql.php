@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Db\Dialect;
+
 /**
  * Phalcon\Db\Dialect\Mysql
+ *
  * Generates database specific SQL for the MySQL RDBMS
  */
 class Mysql extends \Phalcon\Db\Dialect
@@ -151,8 +153,10 @@ class Mysql extends \Phalcon\Db\Dialect
 
     /**
      * Generates SQL checking for the existence of a schema.table
+     *
      * <code>
      * echo $dialect->tableExists("posts", "blog");
+     *
      * echo $dialect->tableExists("posts");
      * </code>
      *
@@ -173,9 +177,10 @@ class Mysql extends \Phalcon\Db\Dialect
 
     /**
      * Generates SQL describing a table
+     *
      * <code>
      * print_r(
-     * $dialect->describeColumns("posts")
+     *     $dialect->describeColumns("posts")
      * );
      * </code>
      *
@@ -187,9 +192,10 @@ class Mysql extends \Phalcon\Db\Dialect
 
     /**
      * List all tables in database
+     *
      * <code>
      * print_r(
-     * $dialect->listTables("blog")
+     *     $dialect->listTables("blog")
      * );
      * </code>
      *

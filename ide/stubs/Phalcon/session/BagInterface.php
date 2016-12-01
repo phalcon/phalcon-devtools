@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Session;
+
 /**
  * Phalcon\Session\BagInterface
+ *
  * Interface for Phalcon\Session\Bag
  */
 interface BagInterface

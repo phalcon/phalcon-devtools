@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc;
+
 /**
  * Phalcon\Mvc\CollectionInterface
+ *
  * Interface for Phalcon\Mvc\Collection
  */
 interface CollectionInterface
@@ -11,12 +13,14 @@ interface CollectionInterface
     /**
      * Sets a value for the _id property, creates a MongoId object if needed
      *
+     *
      * @param mixed $id
      */
     public function setId($id);
 
     /**
      * Returns the value of the _id property
+     *
      *
      * @return MongoId
      */
@@ -45,6 +49,7 @@ interface CollectionInterface
 
     /**
      * Retrieves a database connection
+     *
      *
      * @return MongoDb
      */
@@ -107,6 +112,7 @@ interface CollectionInterface
     /**
      * Find a document by its id
      *
+     *
      * @param string $id
      * @return CollectionInterface
      */
@@ -114,6 +120,7 @@ interface CollectionInterface
 
     /**
      * Allows to query the first record that match the specified conditions
+     *
      *
      * @param array $parameters
      * @return array
@@ -123,6 +130,7 @@ interface CollectionInterface
     /**
      * Allows to query a set of records that match the specified conditions
      *
+     *
      * @param array $parameters
      * @param $array parameters
      * @return array
@@ -131,6 +139,7 @@ interface CollectionInterface
 
     /**
      * Perform a count over a collection
+     *
      *
      * @param array $parameters
      * @return array

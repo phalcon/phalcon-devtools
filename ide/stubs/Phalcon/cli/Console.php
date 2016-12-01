@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Cli;
+
 /**
  * Phalcon\Cli\Console
+ *
  * This component allows to create CLI applications using Phalcon
  */
 class Console extends \Phalcon\Application
@@ -16,14 +18,15 @@ class Console extends \Phalcon\Application
 
     /**
      * Merge modules with the existing ones
+     *
      * <code>
      * $application->addModules(
-     * [
-     * "admin" => [
-     * "className" => "Multiple\\Admin\\Module",
-     * "path"      => "../apps/admin/Module.php",
-     * ],
-     * ]
+     *     [
+     *         "admin" => [
+     *             "className" => "Multiple\\Admin\\Module",
+     *             "path"      => "../apps/admin/Module.php",
+     *         ],
+     *     ]
      * );
      * </code>
      *

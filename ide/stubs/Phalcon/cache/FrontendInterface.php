@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Cache;
+
 /**
  * Phalcon\Cache\FrontendInterface
+ *
  * Interface for Phalcon\Cache\Frontend adapters
  */
 interface FrontendInterface
@@ -30,6 +32,7 @@ interface FrontendInterface
     /**
      * Returns output cached content
      *
+     *
      * @return string
      */
     public function getContent();
@@ -42,12 +45,14 @@ interface FrontendInterface
     /**
      * Serializes data before storing it
      *
+     *
      * @param mixed $data
      */
     public function beforeStore($data);
 
     /**
      * Unserializes data after retrieving it
+     *
      *
      * @param mixed $data
      */

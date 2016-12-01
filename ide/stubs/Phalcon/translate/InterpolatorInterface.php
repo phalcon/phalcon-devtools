@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Translate;
+
 /**
  * Phalcon\Translate\AdapterInterface
+ *
  * Interface for Phalcon\Translate adapters
  */
 interface InterpolatorInterface

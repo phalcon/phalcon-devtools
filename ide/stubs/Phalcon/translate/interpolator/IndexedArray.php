@@ -2,6 +2,7 @@
 
 namespace Phalcon\Translate\Interpolator;
 
+
 class IndexedArray implements \Phalcon\Translate\InterpolatorInterface
 {
 

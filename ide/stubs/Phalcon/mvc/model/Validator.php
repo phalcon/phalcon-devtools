@@ -1,9 +1,12 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\Validator
+ *
  * This is a base class for Phalcon\Mvc\Model validators
+ *
  * This class is only for use with Phalcon\Mvc\Collection. If you are using
  * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
  */
@@ -26,6 +29,7 @@ abstract class Validator implements \Phalcon\Mvc\Model\ValidatorInterface
     /**
      * Appends a message to the validator
      *
+     *
      * @param string $message
      * @param string|array $field
      * @param string $type
@@ -41,6 +45,7 @@ abstract class Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 
     /**
      * Returns all the options from the validator
+     *
      *
      * @return array
      */

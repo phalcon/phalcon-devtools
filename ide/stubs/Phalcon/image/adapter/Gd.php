@@ -2,6 +2,7 @@
 
 namespace Phalcon\Image\Adapter;
 
+
 class Gd extends \Phalcon\Image\Adapter
 {
 

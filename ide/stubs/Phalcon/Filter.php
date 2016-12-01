@@ -1,13 +1,17 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Filter
+ *
  * The Phalcon\Filter component provides a set of commonly needed data filters. It provides
  * object oriented wrappers to the php filter extension. Also allows the developer to
  * define his/her own filters
+ *
  * <code>
  * $filter = new \Phalcon\Filter();
+ *
  * $filter->sanitize("some(one)@exa\\mple.com", "email"); // returns "someone@example.com"
  * $filter->sanitize("hello<<", "string"); // returns "hello"
  * $filter->sanitize("!100a019", "int"); // returns "100019"

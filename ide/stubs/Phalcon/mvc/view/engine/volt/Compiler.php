@@ -1,12 +1,17 @@
 <?php
 
 namespace Phalcon\Mvc\View\Engine\Volt;
+
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler
+ *
  * This class reads and compiles Volt templates into PHP plain code
+ *
  * <code>
  * $compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+ *
  * $compiler->compile("views/partials/header.volt");
+ *
  * require $compiler->getCompiledTemplatePath();
  * </code>
  */
@@ -110,6 +115,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Sets a single compiler option
      *
+     *
      * @param string $option
      * @param mixed $value
      */
@@ -117,6 +123,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Returns a compiler's option
+     *
      *
      * @param string $option
      * @return string
@@ -132,6 +139,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Fires an event to registered extensions
+     *
      *
      * @param string $name
      * @param array $arguments
@@ -246,6 +254,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Compiles a block of statements
      *
+     *
      * @param array $statements
      * @return string|array
      */
@@ -329,6 +338,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Compiles a '{{' '}}' statement returning PHP code
      *
+     *
      * @param array $statement
      * @param boolean $extendsMode
      * @return string
@@ -354,6 +364,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Compiles calls to macros
+     *
      *
      * @param array $statement
      * @param boolean $extendsMode
@@ -381,6 +392,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Compiles a template into a string
+     *
      * <code>
      * echo $compiler->compileString('{{ "hello world" }}');
      * </code>
@@ -393,9 +405,11 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Compiles a template into a file forcing the destination path
+     *
      * <code>
      * $compiler->compile("views/layouts/main.volt", "views/layouts/main.volt.php");
      * </code>
+     *
      *
      * @param string $path
      * @param string $compiledPath
@@ -407,8 +421,10 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Compiles a template into a file applying the compiler options
      * This method does not return the compiled path if the template was not compiled
+     *
      * <code>
      * $compiler->compile("views/layouts/main.volt");
+     *
      * require $compiler->getCompiledTemplatePath();
      * </code>
      *
@@ -433,11 +449,13 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Parses a Volt template returning its intermediate representation
+     *
      * <code>
      * print_r(
-     * $compiler->parse("{{ 3 + 2 }}")
+     *     $compiler->parse("{{ 3 + 2 }}")
      * );
      * </code>
+     *
      *
      * @param string $viewCode
      * @return array

@@ -1,31 +1,40 @@
 <?php
 
 namespace Phalcon\Cache\Frontend;
+
 /**
  * Phalcon\Cache\Frontend\Json
+ *
  * Allows to cache data converting/deconverting them to JSON.
+ *
  * This adapter uses the json_encode/json_decode PHP's functions
+ *
  * As the data is encoded in JSON other systems accessing the same backend could
  * process them
+ *
  * <code>
  * <?php
+ *
  * // Cache the data for 2 days
  * $frontCache = new \Phalcon\Cache\Frontend\Json(
- * [
- * "lifetime" => 172800,
- * ]
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
  * );
+ *
  * // Create the Cache setting memcached connection options
  * $cache = new \Phalcon\Cache\Backend\Memcache(
- * $frontCache,
- * [
- * "host"       => "localhost",
- * "port"       => 11211,
- * "persistent" => false,
- * ]
+ *     $frontCache,
+ *     [
+ *         "host"       => "localhost",
+ *         "port"       => 11211,
+ *         "persistent" => false,
+ *     ]
  * );
+ *
  * // Cache arbitrary data
  * $cache->save("my-data", [1, 2, 3, 4, 5]);
+ *
  * // Get data
  * $data = $cache->get("my-data");
  * </code>
@@ -38,6 +47,7 @@ class Json implements \Phalcon\Cache\FrontendInterface
 
     /**
      * Phalcon\Cache\Frontend\Base64 constructor
+     *
      *
      * @param array $frontendOptions
      */
@@ -64,6 +74,7 @@ class Json implements \Phalcon\Cache\FrontendInterface
 
     /**
      * Returns output cached content
+     *
      *
      * @return string
      */

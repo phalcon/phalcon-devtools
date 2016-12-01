@@ -1,6 +1,7 @@
 <?php
 
 namespace Phalcon\Paginator;
+
 /**
  * Phalcon\Paginator\Adapter
  */

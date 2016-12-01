@@ -1,19 +1,23 @@
 <?php
 
 namespace Phalcon\Translate\Adapter;
+
 /**
  * Phalcon\Translate\Adapter\Gettext
+ *
  * <code>
  * use Phalcon\Translate\Adapter\Gettext;
+ *
  * $adapter = new Gettext(
- * [
- * "locale"        => "de_DE.UTF-8",
- * "defaultDomain" => "translations",
- * "directory"     => "/path/to/application/locales",
- * "category"      => LC_MESSAGES,
- * ]
+ *     [
+ *         "locale"        => "de_DE.UTF-8",
+ *         "defaultDomain" => "translations",
+ *         "directory"     => "/path/to/application/locales",
+ *         "category"      => LC_MESSAGES,
+ *     ]
  * );
  * </code>
+ *
  * Allows translate using gettext
  */
 class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
@@ -69,6 +73,7 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
     /**
      * Returns the translation related to the given key
      *
+     *
      * @param string $index
      * @param array $placeholders
      * @param string $domain
@@ -121,17 +126,20 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
 
     /**
      * Sets the path for a domain
+     *
      * <code>
      * // Set the directory path
      * $gettext->setDirectory("/path/to/the/messages");
+     *
      * // Set the domains and directories path
      * $gettext->setDirectory(
-     * [
-     * "messages" => "/path/to/the/messages",
-     * "another"  => "/path/to/the/another",
-     * ]
+     *     [
+     *         "messages" => "/path/to/the/messages",
+     *         "another"  => "/path/to/the/another",
+     *     ]
      * );
      * </code>
+     *
      *
      * @param string|array $directory The directory path or an array of directories and domains
      */
@@ -139,9 +147,11 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
 
     /**
      * Sets locale information
+     *
      * <code>
      * // Set locale to Dutch
      * $gettext->setLocale(LC_ALL, "nl_NL");
+     *
      * // Try different possible locale names for german
      * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
      * </code>

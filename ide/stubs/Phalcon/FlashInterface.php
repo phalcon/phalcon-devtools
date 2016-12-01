@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\FlashInterface
+ *
  * Interface for Phalcon\Flash
  */
 interface FlashInterface

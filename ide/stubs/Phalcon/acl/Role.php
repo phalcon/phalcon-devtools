@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Acl;
+
 /**
  * Phalcon\Acl\Role
+ *
  * This class defines role entity and its description
  */
 class Role implements \Phalcon\Acl\RoleInterface

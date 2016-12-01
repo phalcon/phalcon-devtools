@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\Model\Behavior;
+
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete
+ *
  * Instead of permanently delete a record it marks the record as
  * deleted changing the value of a flag column
  */

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Http\Response;
+
 /**
  * Phalcon\Http\Response\HeadersInterface
+ *
  * Interface for Phalcon\Http\Response\Headers compatible bags
  */
 interface HeadersInterface

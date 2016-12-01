@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Mvc\View;
+
 /**
  * Phalcon\Mvc\View\EngineInterface
+ *
  * Interface for Phalcon\Mvc\View engine adapters
  */
 interface EngineInterface

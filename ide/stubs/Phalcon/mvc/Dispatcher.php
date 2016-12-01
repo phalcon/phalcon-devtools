@@ -1,18 +1,25 @@
 <?php
 
 namespace Phalcon\Mvc;
+
 /**
  * Phalcon\Mvc\Dispatcher
+ *
  * Dispatching is the process of taking the request object, extracting the module name,
  * controller name, action name, and optional parameters contained in it, and then
  * instantiating a controller and calling an action of that controller.
+ *
  * <code>
  * $di = new \Phalcon\Di();
+ *
  * $dispatcher = new \Phalcon\Mvc\Dispatcher();
+ *
  * $dispatcher->setDI($di);
+ *
  * $dispatcher->setControllerName("posts");
  * $dispatcher->setActionName("index");
  * $dispatcher->setParams([]);
+ *
  * $controller = $dispatcher->dispatch();
  * </code>
  */

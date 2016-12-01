@@ -1,30 +1,40 @@
 <?php
 
 namespace Phalcon\Cache\Backend;
+
 /**
  * Phalcon\Cache\Backend\File
+ *
  * Allows to cache output fragments using a file backend
+ *
  * <code>
  * use Phalcon\Cache\Backend\File;
  * use Phalcon\Cache\Frontend\Output as FrontOutput;
+ *
  * // Cache the file for 2 days
  * $frontendOptions = [
- * "lifetime" => 172800,
+ *     "lifetime" => 172800,
  * ];
+ *
  * // Create an output cache
  * $frontCache = FrontOutput($frontOptions);
+ *
  * // Set the cache directory
  * $backendOptions = [
- * "cacheDir" => "../app/cache/",
+ *     "cacheDir" => "../app/cache/",
  * ];
+ *
  * // Create the File backend
  * $cache = new File($frontCache, $backendOptions);
+ *
  * $content = $cache->start("my-cache");
+ *
  * if ($content === null) {
- * echo "<h1>", time(), "</h1>";
- * $cache->save();
+ *     echo "<h1>", time(), "</h1>";
+ *
+ *     $cache->save();
  * } else {
- * echo $content;
+ *     echo $content;
  * }
  * </code>
  */
@@ -32,6 +42,7 @@ class File extends \Phalcon\Cache\Backend
 {
     /**
      * Default to false for backwards compatibility
+     *
      *
      * @var boolean
      */
@@ -58,6 +69,7 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the file backend and stops the frontend
      *
+     *
      * @param int|string $keyName
      * @param string $content
      * @param int $lifetime
@@ -69,6 +81,7 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Deletes a value from the cache by its key
      *
+     *
      * @param int|string $keyName
      * @return bool
      */
@@ -77,6 +90,7 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Query the existing cached keys
      *
+     *
      * @param string|int $prefix
      * @return array
      */
@@ -84,6 +98,7 @@ class File extends \Phalcon\Cache\Backend
 
     /**
      * Checks if cache exists and it isn't expired
+     *
      *
      * @param string|int $keyName
      * @param int $lifetime
@@ -94,6 +109,7 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Increment of a given key, by number $value
      *
+     *
      * @param string|int $keyName
      * @param int $value
      * @return mixed
@@ -102,6 +118,7 @@ class File extends \Phalcon\Cache\Backend
 
     /**
      * Decrement of a given key, by number $value
+     *
      *
      * @param string|int $keyName
      * @param int $value

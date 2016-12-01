@@ -1,24 +1,27 @@
 <?php
 
 namespace Phalcon\Db;
+
 /**
  * Phalcon\Db\Reference
+ *
  * Allows to define reference constraints on tables
+ *
  * <code>
  * $reference = new \Phalcon\Db\Reference(
- * "field_fk",
- * [
- * "referencedSchema"  => "invoicing",
- * "referencedTable"   => "products",
- * "columns"           => [
- * "product_type",
- * "product_code",
- * ],
- * "referencedColumns" => [
- * "type",
- * "code",
- * ],
- * ]
+ *     "field_fk",
+ *     [
+ *         "referencedSchema"  => "invoicing",
+ *         "referencedTable"   => "products",
+ *         "columns"           => [
+ *             "product_type",
+ *             "product_code",
+ *         ],
+ *         "referencedColumns" => [
+ *             "type",
+ *             "code",
+ *         ],
+ *     ]
  * );
  * </code>
  */
@@ -26,6 +29,7 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 {
     /**
      * Constraint name
+     *
      *
      * @var string
      */
@@ -40,12 +44,14 @@ class Reference implements \Phalcon\Db\ReferenceInterface
     /**
      * Referenced Table
      *
+     *
      * @var string
      */
     protected $_referencedTable;
 
     /**
      * Local reference columns
+     *
      *
      * @var array
      */
@@ -54,6 +60,7 @@ class Reference implements \Phalcon\Db\ReferenceInterface
     /**
      * Referenced Columns
      *
+     *
      * @var array
      */
     protected $_referencedColumns;
@@ -61,12 +68,14 @@ class Reference implements \Phalcon\Db\ReferenceInterface
     /**
      * ON DELETE
      *
+     *
      * @var array
      */
     protected $_onDelete;
 
     /**
      * ON UPDATE
+     *
      *
      * @var array
      */

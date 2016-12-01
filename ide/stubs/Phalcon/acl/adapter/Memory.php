@@ -1,58 +1,69 @@
 <?php
 
 namespace Phalcon\Acl\Adapter;
+
 /**
  * Phalcon\Acl\Adapter\Memory
+ *
  * Manages ACL lists in memory
+ *
  * <code>
  * $acl = new \Phalcon\Acl\Adapter\Memory();
+ *
  * $acl->setDefaultAction(
- * \Phalcon\Acl::DENY
+ *     \Phalcon\Acl::DENY
  * );
+ *
  * // Register roles
  * $roles = [
- * "users"  => new \Phalcon\Acl\Role("Users"),
- * "guests" => new \Phalcon\Acl\Role("Guests"),
+ *     "users"  => new \Phalcon\Acl\Role("Users"),
+ *     "guests" => new \Phalcon\Acl\Role("Guests"),
  * ];
  * foreach ($roles as $role) {
- * $acl->addRole($role);
+ *     $acl->addRole($role);
  * }
+ *
  * // Private area resources
  * $privateResources = [
- * "companies" => ["index", "search", "new", "edit", "save", "create", "delete"],
- * "products"  => ["index", "search", "new", "edit", "save", "create", "delete"],
- * "invoices"  => ["index", "profile"],
+ *     "companies" => ["index", "search", "new", "edit", "save", "create", "delete"],
+ *     "products"  => ["index", "search", "new", "edit", "save", "create", "delete"],
+ *     "invoices"  => ["index", "profile"],
  * ];
+ *
  * foreach ($privateResources as $resourceName => $actions) {
- * $acl->addResource(
- * new \Phalcon\Acl\Resource($resourceName),
- * $actions
- * );
+ *     $acl->addResource(
+ *         new \Phalcon\Acl\Resource($resourceName),
+ *         $actions
+ *     );
  * }
+ *
  * // Public area resources
  * $publicResources = [
- * "index"   => ["index"],
- * "about"   => ["index"],
- * "session" => ["index", "register", "start", "end"],
- * "contact" => ["index", "send"],
+ *     "index"   => ["index"],
+ *     "about"   => ["index"],
+ *     "session" => ["index", "register", "start", "end"],
+ *     "contact" => ["index", "send"],
  * ];
+ *
  * foreach ($publicResources as $resourceName => $actions) {
- * $acl->addResource(
- * new \Phalcon\Acl\Resource($resourceName),
- * $actions
- * );
+ *     $acl->addResource(
+ *         new \Phalcon\Acl\Resource($resourceName),
+ *         $actions
+ *     );
  * }
+ *
  * // Grant access to public areas to both users and guests
  * foreach ($roles as $role){
- * foreach ($publicResources as $resource => $actions) {
- * $acl->allow($role->getName(), $resource, "*");
+ *     foreach ($publicResources as $resource => $actions) {
+ *         $acl->allow($role->getName(), $resource, "");
+ *     }
  * }
- * }
+ *
  * // Grant access to private area to role Users
  * foreach ($privateResources as $resource => $actions) {
- * foreach ($actions as $action) {
- * $acl->allow("Users", $resource, $action);
- * }
+ *     foreach ($actions as $action) {
+ *         $acl->allow("Users", $resource, $action);
+ *     }
  * }
  * </code>
  */
@@ -61,12 +72,14 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Roles Names
      *
+     *
      * @var mixed
      */
     protected $_rolesNames;
 
     /**
      * Roles
+     *
      *
      * @var mixed
      */
@@ -75,12 +88,14 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Resource Names
      *
+     *
      * @var mixed
      */
     protected $_resourcesNames;
 
     /**
      * Resources
+     *
      *
      * @var mixed
      */
@@ -89,12 +104,14 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Access
      *
+     *
      * @var mixed
      */
     protected $_access;
 
     /**
      * Role Inherits
+     *
      *
      * @var mixed
      */
@@ -103,6 +120,7 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Access List
      *
+     *
      * @var mixed
      */
     protected $_accessList;
@@ -110,12 +128,14 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Function List
      *
+     *
      * @var mixed
      */
     protected $_func;
 
     /**
      * Default action for no arguments is allow
+     *
      *
      * @var mixed
      */
@@ -129,14 +149,17 @@ class Memory extends \Phalcon\Acl\Adapter
 
     /**
      * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
+     *
      * Example:
      * <code>
      * $acl->addRole(
-     * new Phalcon\Acl\Role("administrator"),
-     * "consultant"
+     *     new Phalcon\Acl\Role("administrator"),
+     *     "consultant"
      * );
+     *
      * $acl->addRole("administrator", "consultant");
      * </code>
+     *
      *
      * @param RoleInterface|string $role
      * @param array|string $accessInherits
@@ -171,32 +194,38 @@ class Memory extends \Phalcon\Acl\Adapter
 
     /**
      * Adds a resource to the ACL list
+     *
      * Access names can be a particular action, by example
      * search, update, delete, etc or a list of them
+     *
      * Example:
      * <code>
      * // Add a resource to the the list allowing access to an action
      * $acl->addResource(
-     * new Phalcon\Acl\Resource("customers"),
-     * "search"
+     *     new Phalcon\Acl\Resource("customers"),
+     *     "search"
      * );
+     *
      * $acl->addResource("customers", "search");
+     *
      * // Add a resource  with an access list
      * $acl->addResource(
-     * new Phalcon\Acl\Resource("customers"),
-     * [
-     * "create",
-     * "search",
-     * ]
+     *     new Phalcon\Acl\Resource("customers"),
+     *     [
+     *         "create",
+     *         "search",
+     *     ]
      * );
+     *
      * $acl->addResource(
-     * "customers",
-     * [
-     * "create",
-     * "search",
-     * ]
+     *     "customers",
+     *     [
+     *         "create",
+     *         "search",
+     *     ]
      * );
      * </code>
+     *
      *
      * @param \Phalcon\Acl\Resource|string $resourceValue
      * @param array|string $accessList
@@ -207,6 +236,7 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Adds access to resources
      *
+     *
      * @param string $resourceName
      * @param array|string $accessList
      * @return bool
@@ -215,6 +245,7 @@ class Memory extends \Phalcon\Acl\Adapter
 
     /**
      * Removes an access from a resource
+     *
      *
      * @param string $resourceName
      * @param array|string $accessList
@@ -234,17 +265,22 @@ class Memory extends \Phalcon\Acl\Adapter
 
     /**
      * Allow access to a role on a resource
-     * You can use '*' as wildcard
+     *
+     * You can use '' as wildcard
+     *
      * Example:
      * <code>
      * //Allow access to guests to search on customers
      * $acl->allow("guests", "customers", "search");
+     *
      * //Allow access to guests to search or create on customers
      * $acl->allow("guests", "customers", ["search", "create"]);
+     *
      * //Allow access to any role to browse on products
-     * $acl->allow("*", "products", "browse");
+     * $acl->allow("", "products", "browse");
+     *
      * //Allow access to any role to browse on any resource
-     * $acl->allow("*", "*", "browse");
+     * $acl->allow("", "", "browse");
      * </code>
      *
      * @param string $roleName
@@ -256,17 +292,22 @@ class Memory extends \Phalcon\Acl\Adapter
 
     /**
      * Deny access to a role on a resource
-     * You can use '*' as wildcard
+     *
+     * You can use '' as wildcard
+     *
      * Example:
      * <code>
      * //Deny access to guests to search on customers
      * $acl->deny("guests", "customers", "search");
+     *
      * //Deny access to guests to search or create on customers
      * $acl->deny("guests", "customers", ["search", "create"]);
+     *
      * //Deny access to any role to browse on products
-     * $acl->deny("*", "products", "browse");
+     * $acl->deny("", "products", "browse");
+     *
      * //Deny access to any role to browse on any resource
-     * $acl->deny("*", "*", "browse");
+     * $acl->deny("", "", "browse");
      * </code>
      *
      * @param string $roleName
@@ -278,11 +319,13 @@ class Memory extends \Phalcon\Acl\Adapter
 
     /**
      * Check whether a role is allowed to access an action from a resource
+     *
      * <code>
      * //Does andres have access to the customers resource to create?
      * $acl->isAllowed("andres", "Products", "create");
+     *
      * //Do guests have access to any resource to edit?
-     * $acl->isAllowed("guests", "*", "edit");
+     * $acl->isAllowed("guests", "", "edit");
      * </code>
      *
      * @param mixed $roleName

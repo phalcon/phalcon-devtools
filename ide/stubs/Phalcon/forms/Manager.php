@@ -1,6 +1,7 @@
 <?php
 
 namespace Phalcon\Forms;
+
 /**
  * Phalcon\Forms\Manager
  */
@@ -13,11 +14,12 @@ class Manager
     /**
      * Creates a form registering it in the forms manager
      *
+     *
      * @param string $name
      * @param object $entity
      * @return Form
      */
-    public function create($name = null, $entity = null) {}
+    public function create($name, $entity = null) {}
 
     /**
      * Returns a form by its name

@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Acl;
+
 /**
  * Phalcon\Acl\AdapterInterface
+ *
  * Interface for Phalcon\Acl adapters
  */
 interface AdapterInterface
@@ -74,6 +76,7 @@ interface AdapterInterface
 
     /**
      * Adds a resource to the ACL list
+     *
      * Access names can be a particular action, by example
      * search, update, delete, etc or a list of them
      *

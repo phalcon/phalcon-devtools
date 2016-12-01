@@ -1,19 +1,22 @@
 <?php
 
 namespace Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\Criteria
+ *
  * This class is used to build the array parameter required by
  * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst()
  * using an object-oriented interface.
+ *
  * <code>
  * $robots = Robots::query()
- * ->where("type = :type:")
- * ->andWhere("year < 2000")
- * ->bind(["type" => "mechanical"])
- * ->limit(5, 10)
- * ->orderBy("name")
- * ->execute();
+ *     ->where("type = :type:")
+ *     ->andWhere("year < 2000")
+ *     ->bind(["type" => "mechanical"])
+ *     ->limit(5, 10)
+ *     ->orderBy("name")
+ *     ->execute();
  * </code>
  */
 class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\InjectionAwareInterface
@@ -92,14 +95,16 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Sets the columns to be queried
+     *
      * <code>
      * $criteria->columns(
-     * [
-     * "id",
-     * "name",
-     * ]
+     *     [
+     *         "id",
+     *         "name",
+     *     ]
      * );
      * </code>
+     *
      *
      * @param string|array $columns
      * @return Criteria
@@ -108,6 +113,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Adds an INNER join to the query
+     *
      * <code>
      * $criteria->join("Robots");
      * $criteria->join("Robots", "r.id = RobotsParts.robots_id");
@@ -125,6 +131,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Adds an INNER join to the query
+     *
      * <code>
      * $criteria->innerJoin("Robots");
      * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
@@ -140,6 +147,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Adds a LEFT join to the query
+     *
      * <code>
      * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
@@ -153,6 +161,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Adds a RIGHT join to the query
+     *
      * <code>
      * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
@@ -176,6 +185,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Appends a condition to the current conditions using an AND operator (deprecated)
+     *
      *
      * @deprecated 1.0.0
      * @see \Phalcon\Mvc\Model\Criteria::andWhere()
@@ -208,6 +218,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Appends a BETWEEN condition to the current conditions
+     *
      * <code>
      * $criteria->betweenWhere("price", 100.25, 200.50);
      * </code>
@@ -221,6 +232,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions
+     *
      * <code>
      * $criteria->notBetweenWhere("price", 100.25, 200.50);
      * </code>
@@ -234,6 +246,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Appends an IN condition to the current conditions
+     *
      * <code>
      * $criteria->inWhere("id", [1, 2, 3]);
      * </code>
@@ -246,6 +259,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Appends a NOT IN condition to the current conditions
+     *
      * <code>
      * $criteria->notInWhere("id", [1, 2, 3]);
      * </code>
@@ -266,6 +280,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Adds the order-by parameter to the criteria (deprecated)
+     *
      *
      * @deprecated 1.2.1
      * @see \Phalcon\Mvc\Model\Criteria::orderBy()
@@ -342,6 +357,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Returns the columns to be queried
      *
+     *
      * @return string|null
      */
     public function getColumns() {}
@@ -358,6 +374,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * an integer if limit was set without an offset,
      * an array with 'number' and 'offset' keys if an offset was set with the limit,
      * or null if limit has not been set.
+     *
      *
      * @return string|null
      */
@@ -382,6 +399,7 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Returns all the parameters defined in the criteria
+     *
      *
      * @return array
      */

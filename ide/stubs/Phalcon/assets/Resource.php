@@ -1,9 +1,12 @@
 <?php
 
 namespace Phalcon\Assets;
+
 /**
  * Phalcon\Assets\Resource
+ *
  * Represents an asset resource
+ *
  * <code>
  * $resource = new \Phalcon\Assets\Resource("js", "javascripts/jquery.js");
  * </code>
@@ -81,6 +84,7 @@ class Resource
 
     /**
      * Phalcon\Assets\Resource constructor
+     *
      *
      * @param string $type
      * @param string $path

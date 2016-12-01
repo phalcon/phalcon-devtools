@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Validation
+ *
  * Allows to validate data using custom or built-in validators
  */
 class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationInterface
@@ -50,6 +52,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Validate a set of data according to a set of rules
      *
+     *
      * @param array|object $data
      * @param object $entity
      * @return \Phalcon\Validation\Message\Group
@@ -86,6 +89,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Adds filters to the field
      *
+     *
      * @param string $field
      * @param array|string $filters
      * @return Validation
@@ -94,6 +98,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
 
     /**
      * Returns all the filters or a specific one
+     *
      *
      * @param string $field
      * @return mixed
@@ -110,12 +115,14 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Sets the bound entity
      *
+     *
      * @param object $entity
      */
     public function setEntity($entity) {}
 
     /**
      * Returns the bound entity
+     *
      *
      * @return object
      */
@@ -154,6 +161,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     /**
      * Get label for field
      *
+     *
      * @param string $field
      * @return string
      */
@@ -171,6 +179,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
      * Assigns the data to an entity
      * The entity is used to obtain the validation values
      *
+     *
      * @param object $entity
      * @param array|object $data
      * @return Validation
@@ -179,6 +188,7 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
 
     /**
      * Gets the a value to validate in the array/object data source
+     *
      *
      * @param string $field
      * @return mixed

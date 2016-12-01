@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon;
+
 /**
  * Phalcon\Application
+ *
  * Base class for Phalcon\Cli\Console and Phalcon\Mvc\Application.
  */
 abstract class Application extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface
@@ -48,18 +50,19 @@ abstract class Application extends \Phalcon\Di\Injectable implements \Phalcon\Ev
 
     /**
      * Register an array of modules present in the application
+     *
      * <code>
      * $this->registerModules(
-     * [
-     * "frontend" => [
-     * "className" => "Multiple\\Frontend\\Module",
-     * "path"      => "../apps/frontend/Module.php",
-     * ],
-     * "backend" => [
-     * "className" => "Multiple\\Backend\\Module",
-     * "path"      => "../apps/backend/Module.php",
-     * ],
-     * ]
+     *     [
+     *         "frontend" => [
+     *             "className" => "Multiple\\Frontend\\Module",
+     *             "path"      => "../apps/frontend/Module.php",
+     *         ],
+     *         "backend" => [
+     *             "className" => "Multiple\\Backend\\Module",
+     *             "path"      => "../apps/backend/Module.php",
+     *         ],
+     *     ]
      * );
      * </code>
      *

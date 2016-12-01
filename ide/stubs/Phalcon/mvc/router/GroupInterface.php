@@ -1,41 +1,49 @@
 <?php
 
 namespace Phalcon\Mvc\Router;
+
 /**
  * Phalcon\Mvc\Router\GroupInterface
+ *
  * <code>
  * $router = new \Phalcon\Mvc\Router();
+ *
  * // Create a group with a common module and controller
  * $blog = new Group(
- * [
- * "module"     => "blog",
- * "controller" => "index",
- * ]
+ *     [
+ *         "module"     => "blog",
+ *         "controller" => "index",
+ *     ]
  * );
+ *
  * // All the routes start with /blog
  * $blog->setPrefix("/blog");
+ *
  * // Add a route to the group
  * $blog->add(
- * "/save",
- * [
- * "action" => "save",
- * ]
+ *     "/save",
+ *     [
+ *         "action" => "save",
+ *     ]
  * );
+ *
  * // Add another route to the group
  * $blog->add(
- * "/edit/{id}",
- * [
- * "action" => "edit",
- * ]
+ *     "/edit/{id}",
+ *     [
+ *         "action" => "edit",
+ *     ]
  * );
+ *
  * // This route maps to a controller different than the default
  * $blog->add(
- * "/blog",
- * [
- * "controller" => "about",
- * "action"     => "index",
- * ]
+ *     "/blog",
+ *     [
+ *         "controller" => "about",
+ *         "action"     => "index",
+ *     ]
  * );
+ *
  * // Add the group to the router
  * $router->mount($blog);
  * </code>
@@ -93,6 +101,7 @@ interface GroupInterface
     /**
      * Set common paths for all the routes in the group
      *
+     *
      * @param array $paths
      * @return GroupInterface
      */
@@ -114,6 +123,7 @@ interface GroupInterface
 
     /**
      * Adds a route to the router on any HTTP method
+     *
      * <code>
      * router->add("/about", "About::index");
      * </code>

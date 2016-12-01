@@ -1,8 +1,10 @@
 <?php
 
 namespace Phalcon\Db;
+
 /**
  * Phalcon\Db\IndexInterface
+ *
  * Interface for Phalcon\Db\Index
  */
 interface IndexInterface
@@ -11,6 +13,7 @@ interface IndexInterface
     /**
      * Gets the index name
      *
+     *
      * @return string
      */
     public function getName();
@@ -18,12 +21,14 @@ interface IndexInterface
     /**
      * Gets the columns that corresponds the index
      *
+     *
      * @return array
      */
     public function getColumns();
 
     /**
      * Gets the index type
+     *
      *
      * @return string
      */

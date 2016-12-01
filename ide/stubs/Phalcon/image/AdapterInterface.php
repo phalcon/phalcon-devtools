@@ -2,6 +2,7 @@
 
 namespace Phalcon\Image;
 
+
 interface AdapterInterface
 {
 
