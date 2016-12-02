@@ -4,19 +4,23 @@ namespace Phalcon\Paginator\Adapter;
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
+ *
  * Pagination using a PHQL query builder as source of data
+ *
  * <code>
  * use Phalcon\Paginator\Adapter\QueryBuilder;
+ *
  * $builder = $this->modelsManager->createBuilder()
- * ->columns("id, name")
- * ->from("Robots")
- * ->orderBy("name");
+ *                 ->columns("id, name")
+ *                 ->from("Robots")
+ *                 ->orderBy("name");
+ *
  * $paginator = new QueryBuilder(
- * [
- * "builder" => $builder,
- * "limit"   => 20,
- * "page"    => 1,
- * ]
+ *     [
+ *         "builder" => $builder,
+ *         "limit"   => 20,
+ *         "page"    => 1,
+ *     ]
  * );
  * </code>
  */
@@ -36,36 +40,36 @@ class QueryBuilder extends \Phalcon\Paginator\Adapter
     /**
      * Phalcon\Paginator\Adapter\QueryBuilder
      *
-     * @param array $config 
+     * @param array $config
      */
     public function __construct(array $config) {}
 
     /**
      * Get the current page number
      *
-     * @return int 
+     * @return int
      */
     public function getCurrentPage() {}
 
     /**
      * Set query builder object
      *
-     * @param mixed $builder 
-     * @return QueryBuilder 
+     * @param \Phalcon\Mvc\Model\Query\Builder $builder
+     * @return QueryBuilder
      */
     public function setQueryBuilder(\Phalcon\Mvc\Model\Query\Builder $builder) {}
 
     /**
      * Get query builder object
      *
-     * @return \Phalcon\Mvc\Model\Query\Builder 
+     * @return \Phalcon\Mvc\Model\Query\Builder
      */
     public function getQueryBuilder() {}
 
     /**
      * Returns a slice of the resultset to show in the pagination
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getPaginate() {}
 

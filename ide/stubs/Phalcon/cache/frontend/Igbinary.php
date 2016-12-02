@@ -4,40 +4,48 @@ namespace Phalcon\Cache\Frontend;
 
 /**
  * Phalcon\Cache\Frontend\Igbinary
+ *
  * Allows to cache native PHP data in a serialized form using igbinary extension
+ *
  * <code>
  * // Cache the files for 2 days using Igbinary frontend
  * $frontCache = new \Phalcon\Cache\Frontend\Igbinary(
- * [
- * "lifetime" => 172800,
- * ]
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
  * );
+ *
  * // Create the component that will cache "Igbinary" to a "File" backend
  * // Set the cache file directory - important to keep the "/" at the end of
  * // of the value for the folder
  * $cache = new \Phalcon\Cache\Backend\File(
- * $frontCache,
- * [
- * "cacheDir" => "../app/cache/",
- * ]
+ *     $frontCache,
+ *     [
+ *         "cacheDir" => "../app/cache/",
+ *     ]
  * );
+ *
  * $cacheKey = "robots_order_id.cache";
+ *
  * // Try to get cached records
  * $robots = $cache->get($cacheKey);
+ *
  * if ($robots === null) {
- * // $robots is null due to cache expiration or data do not exist
- * // Make the database call and populate the variable
- * $robots = Robots::find(
- * [
- * "order" => "id",
- * ]
- * );
- * // Store it in the cache
- * $cache->save($cacheKey, $robots);
+ *     // $robots is null due to cache expiration or data do not exist
+ *     // Make the database call and populate the variable
+ *     $robots = Robots::find(
+ *         [
+ *             "order" => "id",
+ *         ]
+ *     );
+ *
+ *     // Store it in the cache
+ *     $cache->save($cacheKey, $robots);
  * }
+ *
  * // Use $robots :)
  * foreach ($robots as $robot) {
- * echo $robot->name, "\n";
+ *     echo $robot->name, "\n";
  * }
  * </code>
  */
@@ -47,21 +55,22 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
     /**
      * Phalcon\Cache\Frontend\Data constructor
      *
-     * @param array $frontendOptions 
+     *
+     * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
 
     /**
      * Returns the cache lifetime
      *
-     * @return int 
+     * @return int
      */
     public function getLifetime() {}
 
     /**
      * Check whether if frontend is buffering output
      *
-     * @return bool 
+     * @return bool
      */
     public function isBuffering() {}
 
@@ -73,7 +82,8 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
     /**
      * Returns output cached content
      *
-     * @return string 
+     *
+     * @return string
      */
     public function getContent() {}
 
@@ -85,16 +95,16 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
     /**
      * Serializes data before storing them
      *
-     * @param mixed $data 
-     * @return string 
+     * @param mixed $data
+     * @return string
      */
     public function beforeStore($data) {}
 
     /**
      * Unserializes data after retrieval
      *
-     * @param mixed $data 
-     * @return mixed 
+     * @param mixed $data
+     * @return mixed
      */
     public function afterRetrieve($data) {}
 

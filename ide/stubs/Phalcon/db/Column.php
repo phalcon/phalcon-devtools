@@ -4,21 +4,25 @@ namespace Phalcon\Db;
 
 /**
  * Phalcon\Db\Column
+ *
  * Allows to define columns to be used on create or alter table operations
+ *
  * <code>
  * use Phalcon\Db\Column as Column;
+ *
  * // Column definition
  * $column = new Column(
- * "id",
- * [
- * "type"          => Column::TYPE_INTEGER,
- * "size"          => 10,
- * "unsigned"      => true,
- * "notNull"       => true,
- * "autoIncrement" => true,
- * "first"         => true,
- * ]
+ *     "id",
+ *     [
+ *         "type"          => Column::TYPE_INTEGER,
+ *         "size"          => 10,
+ *         "unsigned"      => true,
+ *         "notNull"       => true,
+ *         "autoIncrement" => true,
+ *         "first"         => true,
+ *     ]
  * );
+ *
  * // Add column to existing table
  * $connection->addColumn("robots", null, $column);
  * </code>
@@ -72,6 +76,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 
     /**
      * Double abstract data type
+     *
      */
     const TYPE_DOUBLE = 9;
 
@@ -153,12 +158,14 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column's name
      *
+     *
      * @var string
      */
     protected $_name;
 
     /**
      * Schema which table related is
+     *
      *
      * @var string
      */
@@ -167,6 +174,7 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column data type
      *
+     *
      * @var int|string
      */
     protected $_type;
@@ -174,12 +182,14 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column data type reference
      *
+     *
      * @var int
      */
     protected $_typeReference = -1;
 
     /**
      * Column data type values
+     *
      *
      * @var array|string
      */
@@ -193,12 +203,14 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Integer column size
      *
+     *
      * @var int
      */
     protected $_size = 0;
 
     /**
      * Integer column number scale
+     *
      *
      * @var int
      */
@@ -212,12 +224,14 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Integer column unsigned?
      *
+     *
      * @var boolean
      */
     protected $_unsigned = false;
 
     /**
      * Column not nullable?
+     *
      *
      * @var boolean
      */
@@ -231,6 +245,7 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column is autoIncrement?
      *
+     *
      * @var boolean
      */
     protected $_autoIncrement = false;
@@ -238,12 +253,14 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Position is first
      *
+     *
      * @var boolean
      */
     protected $_first = false;
 
     /**
      * Column Position
+     *
      *
      * @var string
      */
@@ -258,49 +275,49 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column's name
      *
-     * @return string 
+     * @return string
      */
     public function getName() {}
 
     /**
      * Schema which table related is
      *
-     * @return string 
+     * @return string
      */
     public function getSchemaName() {}
 
     /**
      * Column data type
      *
-     * @return int|string 
+     * @return int|string
      */
     public function getType() {}
 
     /**
      * Column data type reference
      *
-     * @return int 
+     * @return int
      */
     public function getTypeReference() {}
 
     /**
      * Column data type values
      *
-     * @return array|string 
+     * @return array|string
      */
     public function getTypeValues() {}
 
     /**
      * Integer column size
      *
-     * @return int 
+     * @return int
      */
     public function getSize() {}
 
     /**
      * Integer column number scale
      *
-     * @return int 
+     * @return int
      */
     public function getScale() {}
 
@@ -312,79 +329,80 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Phalcon\Db\Column constructor
      *
-     * @param string $name 
-     * @param array $definition 
+     * @param string $name
+     * @param array $definition
      */
     public function __construct($name, array $definition) {}
 
     /**
      * Returns true if number column is unsigned
      *
-     * @return bool 
+     * @return bool
      */
     public function isUnsigned() {}
 
     /**
      * Not null
      *
-     * @return bool 
+     * @return bool
      */
     public function isNotNull() {}
 
     /**
      * Column is part of the primary key?
      *
-     * @return bool 
+     * @return bool
      */
     public function isPrimary() {}
 
     /**
      * Auto-Increment
      *
-     * @return bool 
+     * @return bool
      */
     public function isAutoIncrement() {}
 
     /**
      * Check whether column have an numeric type
      *
-     * @return bool 
+     * @return bool
      */
     public function isNumeric() {}
 
     /**
      * Check whether column have first position in table
      *
-     * @return bool 
+     * @return bool
      */
     public function isFirst() {}
 
     /**
      * Check whether field absolute to position in table
      *
-     * @return string 
+     *
+     * @return string
      */
     public function getAfterPosition() {}
 
     /**
      * Returns the type of bind handling
      *
-     * @return int 
+     * @return int
      */
     public function getBindType() {}
 
     /**
      * Restores the internal state of a Phalcon\Db\Column object
      *
-     * @param array $data 
-     * @return Column 
+     * @param array $data
+     * @return Column
      */
     public static function __set_state(array $data) {}
 
     /**
      * Check whether column has default value
      *
-     * @return bool 
+     * @return bool
      */
     public function hasDefault() {}
 

@@ -4,14 +4,18 @@ namespace Phalcon\Annotations;
 
 /**
  * Phalcon\Annotations\Collection
+ *
  * Represents a collection of annotations. This class allows to traverse a group of annotations easily
+ *
  * <code>
  * //Traverse annotations
  * foreach ($classAnnotations as $annotation) {
- * echo "Name=", $annotation->getName(), PHP_EOL;
+ *     echo "Name=", $annotation->getName(), PHP_EOL;
  * }
+ *
  * //Check if the annotations has a specific
  * var_dump($classAnnotations->has("Cacheable"));
+ *
  * //Get an specific annotation in the collection
  * $annotation = $classAnnotations->get("Cacheable");
  * </code>
@@ -28,14 +32,15 @@ class Collection implements \Iterator, \Countable
     /**
      * Phalcon\Annotations\Collection constructor
      *
-     * @param array $reflectionData 
+     *
+     * @param array $reflectionData
      */
     public function __construct($reflectionData = null) {}
 
     /**
      * Returns the number of annotations in the collection
      *
-     * @return int 
+     * @return int
      */
     public function count() {}
 
@@ -47,14 +52,15 @@ class Collection implements \Iterator, \Countable
     /**
      * Returns the current annotation in the iterator
      *
-     * @return \Phalcon\Annotations\Annotation 
+     *
+     * @return bool|\Phalcon\Annotations\Annotation
      */
     public function current() {}
 
     /**
      * Returns the current position/key in the iterator
      *
-     * @return int 
+     * @return int
      */
     public function key() {}
 
@@ -66,38 +72,38 @@ class Collection implements \Iterator, \Countable
     /**
      * Check if the current annotation in the iterator is valid
      *
-     * @return bool 
+     * @return bool
      */
     public function valid() {}
 
     /**
      * Returns the internal annotations as an array
      *
-     * @return Annotation[] 
+     * @return \Phalcon\Annotations\Annotation[]
      */
     public function getAnnotations() {}
 
     /**
      * Returns the first annotation that match a name
      *
-     * @param string $name 
-     * @return \Phalcon\Annotations\Annotation 
+     * @param string $name
+     * @return \Phalcon\Annotations\Annotation
      */
     public function get($name) {}
 
     /**
      * Returns all the annotations that match a name
      *
-     * @param string $name 
-     * @return Annotation[] 
+     * @param string $name
+     * @return \Phalcon\Annotations\Annotation[]
      */
     public function getAll($name) {}
 
     /**
      * Check if an annotation exists in a collection
      *
-     * @param string $name 
-     * @return bool 
+     * @param string $name
+     * @return bool
      */
     public function has($name) {}
 

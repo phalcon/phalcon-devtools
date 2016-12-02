@@ -4,10 +4,13 @@ namespace Phalcon\Session;
 
 /**
  * Phalcon\Session\Bag
+ *
  * This component helps to separate session data into "namespaces". Working by this way
  * you can easily create groups of session variables into the application
+ *
  * <code>
  * $user = new \Phalcon\Session\Bag("user");
+ *
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
  * </code>
@@ -33,21 +36,21 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
     /**
      * Phalcon\Session\Bag constructor
      *
-     * @param string $name 
+     * @param string $name
      */
     public function __construct($name) {}
 
     /**
      * Sets the DependencyInjector container
      *
-     * @param mixed $dependencyInjector 
+     * @param \Phalcon\DiInterface $dependencyInjector
      */
     public function setDI(\Phalcon\DiInterface $dependencyInjector) {}
 
     /**
      * Returns the DependencyInjector container
      *
-     * @return \Phalcon\DiInterface 
+     * @return \Phalcon\DiInterface
      */
     public function getDI() {}
 
@@ -59,6 +62,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Destroys the session bag
+     *
      * <code>
      * $user->destroy();
      * </code>
@@ -67,133 +71,142 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 
     /**
      * Sets a value in the session bag
+     *
      * <code>
      * $user->set("name", "Kimbra");
      * </code>
      *
-     * @param string $property 
-     * @param mixed $value 
+     * @param string $property
+     * @param mixed $value
      */
     public function set($property, $value) {}
 
     /**
      * Magic setter to assign values to the session bag
+     *
      * <code>
      * $user->name = "Kimbra";
      * </code>
      *
-     * @param string $property 
-     * @param mixed $value 
+     * @param string $property
+     * @param mixed $value
      */
     public function __set($property, $value) {}
 
     /**
      * Obtains a value from the session bag optionally setting a default value
+     *
      * <code>
      * echo $user->get("name", "Kimbra");
      * </code>
      *
-     * @param string $property 
-     * @param mixed $defaultValue 
+     * @param string $property
+     * @param mixed $defaultValue
      */
     public function get($property, $defaultValue = null) {}
 
     /**
      * Magic getter to obtain values from the session bag
+     *
      * <code>
      * echo $user->name;
      * </code>
      *
-     * @param string $property 
-     * @return mixed 
+     * @param string $property
+     * @return mixed
      */
     public function __get($property) {}
 
     /**
      * Check whether a property is defined in the internal bag
+     *
      * <code>
      * var_dump(
-     * $user->has("name")
+     *     $user->has("name")
      * );
      * </code>
      *
-     * @param string $property 
-     * @return bool 
+     * @param string $property
+     * @return bool
      */
     public function has($property) {}
 
     /**
      * Magic isset to check whether a property is defined in the bag
+     *
      * <code>
      * var_dump(
-     * isset($user["name"])
+     *     isset($user["name"])
      * );
      * </code>
      *
-     * @param string $property 
-     * @return bool 
+     * @param string $property
+     * @return bool
      */
     public function __isset($property) {}
 
     /**
      * Removes a property from the internal bag
+     *
      * <code>
      * $user->remove("name");
      * </code>
      *
-     * @param string $property 
-     * @return bool 
+     * @param string $property
+     * @return bool
      */
     public function remove($property) {}
 
     /**
      * Magic unset to remove items using the array syntax
+     *
      * <code>
      * unset($user["name"]);
      * </code>
      *
-     * @param string $property 
-     * @return bool 
+     * @param string $property
+     * @return bool
      */
     public function __unset($property) {}
 
     /**
      * Return length of bag
+     *
      * <code>
      * echo $user->count();
      * </code>
      *
-     * @return int 
+     * @return int
      */
     public final function count() {}
 
     /**
      *  Returns the bag iterator
      *
-     * @return \ArrayIterator 
+     * @return \ArrayIterator
      */
     public final function getIterator() {}
 
     /**
-     * @param string $property 
-     * @param mixed $value 
+     * @param string $property
+     * @param mixed $value
      */
     public final function offsetSet($property, $value) {}
 
     /**
-     * @param string $property 
-     * @return bool 
+     * @param string $property
+     * @return bool
      */
     public final function offsetExists($property) {}
 
     /**
-     * @param string $property 
+     * @param string $property
      */
     public final function offsetUnset($property) {}
 
     /**
-     * @param string $property 
-     * @return mixed 
+     * @param string $property
+     * @return mixed
      */
     public final function offsetGet($property) {}
 

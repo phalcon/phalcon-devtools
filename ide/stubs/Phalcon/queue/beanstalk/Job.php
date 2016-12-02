@@ -4,6 +4,7 @@ namespace Phalcon\Queue\Beanstalk;
 
 /**
  * Phalcon\Queue\Beanstalk\Job
+ *
  * Represents a job in a beanstalk queue
  */
 class Job
@@ -23,28 +24,28 @@ class Job
 
 
     /**
-     * @return string 
+     * @return string
      */
     public function getId() {}
 
     /**
-     * @return mixed 
+     * @return mixed
      */
     public function getBody() {}
 
     /**
      * Phalcon\Queue\Beanstalk\Job
      *
-     * @param mixed $queue 
-     * @param string $id 
-     * @param mixed $body 
+     * @param \Phalcon\Queue\Beanstalk $queue
+     * @param string $id
+     * @param mixed $body
      */
     public function __construct(\Phalcon\Queue\Beanstalk $queue, $id, $body) {}
 
     /**
      * Removes a job from the server entirely
      *
-     * @return bool 
+     * @return bool
      */
     public function delete() {}
 
@@ -53,9 +54,9 @@ class Job
      * its state as "ready") to be run by any client. It is normally used when the job
      * fails because of a transitory error.
      *
-     * @param int $priority 
-     * @param int $delay 
-     * @return bool 
+     * @param int $priority
+     * @param int $delay
+     * @return bool
      */
     public function release($priority = 100, $delay = 0) {}
 
@@ -64,8 +65,8 @@ class Job
      * a FIFO linked list and will not be touched by the server again until a client
      * kicks them with the "kick" command.
      *
-     * @param int $priority 
-     * @return bool 
+     * @param int $priority
+     * @return bool
      */
     public function bury($priority = 100) {}
 
@@ -77,21 +78,21 @@ class Job
      * a job (e.g. it may do this on `DEADLINE_SOON`). The command postpones the auto
      * release of a reserved job until TTR seconds from when the command is issued.
      *
-     * @return bool 
+     * @return bool
      */
     public function touch() {}
 
     /**
      * Move the job to the ready queue if it is delayed or buried.
      *
-     * @return bool 
+     * @return bool
      */
     public function kick() {}
 
     /**
      * Gives statistical information about the specified job if it exists.
      *
-     * @return bool|array 
+     * @return bool|array
      */
     public function stats() {}
 

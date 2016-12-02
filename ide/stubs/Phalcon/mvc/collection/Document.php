@@ -4,6 +4,7 @@ namespace Phalcon\Mvc\Collection;
 
 /**
  * Phalcon\Mvc\Collection\Document
+ *
  * This component allows Phalcon\Mvc\Collection to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
@@ -13,59 +14,66 @@ class Document implements \Phalcon\Mvc\EntityInterface, \ArrayAccess
     /**
      * Checks whether an offset exists in the document
      *
-     * @param int $index 
-     * @return boolean 
+     *
+     * @param int $index
+     * @return bool
      */
     public function offsetExists($index) {}
 
     /**
      * Returns the value of a field using the ArrayAccess interfase
      *
-     * @param string $index 
+     * @param string $index
      */
     public function offsetGet($index) {}
 
     /**
      * Change a value using the ArrayAccess interface
      *
-     * @param string $index 
-     * @param mixed $value 
+     * @param string $index
+     * @param mixed $value
      */
     public function offsetSet($index, $value) {}
 
     /**
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
-     * @param string $offset 
+     *
+     * @param string $offset
      */
     public function offsetUnset($offset) {}
 
     /**
      * Reads an attribute value by its name
+     *
      * <code>
-     * echo $robot->readAttribute("name");
+     *  echo $robot->readAttribute("name");
      * </code>
      *
-     * @param string $attribute 
-     * @return mixed 
+     *
+     * @param string $attribute
+     * @return mixed
      */
     public function readAttribute($attribute) {}
 
     /**
      * Writes an attribute value by its name
+     *
      * <code>
-     * $robot->writeAttribute("name", "Rosey");
+     *  $robot->writeAttribute("name", "Rosey");
      * </code>
      *
-     * @param string $attribute 
-     * @param mixed $value 
+     *
+     * @param string $attribute
+     * @param mixed $value
      */
     public function writeAttribute($attribute, $value) {}
 
     /**
      * Returns the instance as an array representation
      *
-     * @return array 
+     *
+     * @return array
      */
     public function toArray() {}
 

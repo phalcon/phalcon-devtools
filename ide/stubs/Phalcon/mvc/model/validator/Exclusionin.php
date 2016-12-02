@@ -4,27 +4,32 @@ namespace Phalcon\Mvc\Model\Validator;
 
 /**
  * Phalcon\Mvc\Model\Validator\ExclusionIn
+ *
  * Check if a value is not included into a list of values
+ *
  * This validator is only for use with Phalcon\Mvc\Collection. If you are using
  * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
+ *
  * <code>
  * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
+ *
  * class Subscriptors extends \Phalcon\Mvc\Collection
  * {
- * public function validation()
- * {
- * $this->validate(
- * new ExclusionInValidator(
- * [
- * "field"  => "status",
- * "domain" => ["A", "I"],
- * ]
- * )
- * );
- * if ($this->validationHasFailed() === true) {
- * return false;
- * }
- * }
+ *     public function validation()
+ *     {
+ *         $this->validate(
+ *             new ExclusionInValidator(
+ *                 [
+ *                     "field"  => "status",
+ *                     "domain" => ["A", "I"],
+ *                 ]
+ *             )
+ *         );
+ *
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
  * }
  * </code>
  */
@@ -34,8 +39,8 @@ class Exclusionin extends \Phalcon\Mvc\Model\Validator
     /**
      * Executes the validator
      *
-     * @param mixed $record 
-     * @return bool 
+     * @param \Phalcon\Mvc\EntityInterface $record
+     * @return bool
      */
     public function validate(\Phalcon\Mvc\EntityInterface $record) {}
 

@@ -4,6 +4,7 @@ namespace Phalcon;
 
 /**
  * Phalcon\Dispatcher
+ *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own dispatchers.
  */
@@ -94,231 +95,242 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Sets the dependency injector
      *
-     * @param mixed $dependencyInjector 
+     * @param \Phalcon\DiInterface $dependencyInjector
      */
     public function setDI(\Phalcon\DiInterface $dependencyInjector) {}
 
     /**
      * Returns the internal dependency injector
      *
-     * @return \Phalcon\DiInterface 
+     * @return \Phalcon\DiInterface
      */
     public function getDI() {}
 
     /**
      * Sets the events manager
      *
-     * @param mixed $eventsManager 
+     * @param \Phalcon\Events\ManagerInterface $eventsManager
      */
     public function setEventsManager(\Phalcon\Events\ManagerInterface $eventsManager) {}
 
     /**
      * Returns the internal event manager
      *
-     * @return \Phalcon\Events\ManagerInterface 
+     * @return \Phalcon\Events\ManagerInterface
      */
     public function getEventsManager() {}
 
     /**
      * Sets the default action suffix
      *
-     * @param string $actionSuffix 
+     * @param string $actionSuffix
      */
     public function setActionSuffix($actionSuffix) {}
 
     /**
      * Gets the default action suffix
      *
-     * @return string 
+     * @return string
      */
     public function getActionSuffix() {}
 
     /**
      * Sets the module where the controller is (only informative)
      *
-     * @param string $moduleName 
+     * @param string $moduleName
      */
     public function setModuleName($moduleName) {}
 
     /**
      * Gets the module where the controller class is
      *
-     * @return string 
+     * @return string
      */
     public function getModuleName() {}
 
     /**
      * Sets the namespace where the controller class is
      *
-     * @param string $namespaceName 
+     * @param string $namespaceName
      */
     public function setNamespaceName($namespaceName) {}
 
     /**
      * Gets a namespace to be prepended to the current handler name
      *
-     * @return string 
+     * @return string
      */
     public function getNamespaceName() {}
 
     /**
      * Sets the default namespace
      *
-     * @param string $namespaceName 
+     * @param string $namespaceName
      */
     public function setDefaultNamespace($namespaceName) {}
 
     /**
      * Returns the default namespace
      *
-     * @return string 
+     * @return string
      */
     public function getDefaultNamespace() {}
 
     /**
      * Sets the default action name
      *
-     * @param string $actionName 
+     * @param string $actionName
      */
     public function setDefaultAction($actionName) {}
 
     /**
      * Sets the action name to be dispatched
      *
-     * @param string $actionName 
+     * @param string $actionName
      */
     public function setActionName($actionName) {}
 
     /**
      * Gets the latest dispatched action name
      *
-     * @return string 
+     * @return string
      */
     public function getActionName() {}
 
     /**
      * Sets action params to be dispatched
      *
-     * @param array $params 
+     *
+     * @param array $params
      */
     public function setParams($params) {}
 
     /**
      * Gets action params
      *
-     * @return array 
+     * @return array
      */
     public function getParams() {}
 
     /**
      * Set a param by its name or numeric index
      *
-     * @param mixed $param 
-     * @param mixed $value 
+     *
+     * @param mixed $param
+     * @param mixed $value
      */
     public function setParam($param, $value) {}
 
     /**
      * Gets a param by its name or numeric index
      *
-     * @param mixed $param 
-     * @param string|array $filters 
-     * @param mixed $defaultValue 
-     * @return mixed 
+     *
+     * @param mixed $param
+     * @param string|array $filters
+     * @param mixed $defaultValue
+     * @return mixed
      */
     public function getParam($param, $filters = null, $defaultValue = null) {}
 
     /**
      * Check if a param exists
      *
-     * @param mixed $param 
-     * @return boolean 
+     *
+     * @param mixed $param
+     * @return bool
      */
     public function hasParam($param) {}
 
     /**
      * Returns the current method to be/executed in the dispatcher
      *
-     * @return string 
+     * @return string
      */
     public function getActiveMethod() {}
 
     /**
      * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
      *
-     * @return bool 
+     * @return bool
      */
     public function isFinished() {}
 
     /**
      * Sets the latest returned value by an action manually
      *
-     * @param mixed $value 
+     *
+     * @param mixed $value
      */
     public function setReturnedValue($value) {}
 
     /**
      * Returns value returned by the latest dispatched action
      *
-     * @return mixed 
+     *
+     * @return mixed
      */
     public function getReturnedValue() {}
 
     /**
      * Enable/Disable model binding during dispatch
      *
-     * @param boolean $value 
+     *
+     * @param boolean $value
      */
     public function setModelBinding($value) {}
 
     /**
      * Dispatches a handle action taking into account the routing parameters
      *
-     * @return object 
+     *
+     * @return object
      */
     public function dispatch() {}
 
     /**
      * Dispatches a handle action taking into account the routing parameters
      *
-     * @return object 
+     *
+     * @return object
      */
     protected function _dispatch() {}
 
     /**
      * Forwards the execution flow to another controller/action
      * Dispatchers are unique per module. Forwarding between modules is not allowed
+     *
      * <code>
      * $this->dispatcher->forward(
-     * [
-     * "controller" => "posts",
-     * "action"     => "index",
-     * ]
+     *     [
+     *         "controller" => "posts",
+     *         "action"     => "index",
+     *     ]
      * );
      * </code>
      *
-     * @param array $forward 
+     *
+     * @param array $forward
      */
     public function forward($forward) {}
 
     /**
      * Check if the current executed action was forwarded by another one
      *
-     * @return bool 
+     * @return bool
      */
     public function wasForwarded() {}
 
     /**
      * Possible class name that will be located to dispatch the request
      *
-     * @return string 
+     * @return string
      */
     public function getHandlerClass() {}
 
     /**
-     * @param mixed $handler 
-     * @param string $actionMethod 
-     * @param array $params 
+     * @param mixed $handler
+     * @param string $actionMethod
+     * @param array $params
      */
     public function callActionMethod($handler, $actionMethod, array $params = array()) {}
 

@@ -4,15 +4,19 @@ namespace Phalcon\Mvc\Model\MetaData;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apc
+ *
  * Stores model meta-data in the APC cache. Data will erased if the web server is restarted
+ *
  * By default meta-data is stored for 48 hours (172800 seconds)
+ *
  * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
+ *
  * <code>
  * $metaData = new \Phalcon\Mvc\Model\Metadata\Apc(
- * [
- * "prefix"   => "my-app-id",
- * "lifetime" => 86400,
- * ]
+ *     [
+ *         "prefix"   => "my-app-id",
+ *         "lifetime" => 86400,
+ *     ]
  * );
  * </code>
  */
@@ -31,23 +35,24 @@ class Apc extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Apc constructor
      *
-     * @param array $options 
+     *
+     * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads meta-data from APC
      *
-     * @param string $key 
-     * @return array|null 
+     * @param string $key
+     * @return array|null
      */
     public function read($key) {}
 
     /**
      * Writes the meta-data to APC
      *
-     * @param string $key 
-     * @param mixed $data 
+     * @param string $key
+     * @param mixed $data
      */
     public function write($key, $data) {}
 

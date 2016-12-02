@@ -4,12 +4,16 @@ namespace Phalcon\Image\Adapter;
 
 /**
  * Phalcon\Image\Adapter\Imagick
+ *
  * Image manipulation support. Allows images to be resized, cropped, etc.
+ *
  * <code>
  * $image = new \Phalcon\Image\Adapter\Imagick("upload/test.jpg");
+ *
  * $image->resize(200, 200)->rotate(90)->crop(100, 100);
+ *
  * if ($image->save()) {
- * echo "success";
+ *     echo "success";
  * }
  * </code>
  */
@@ -25,34 +29,35 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * Checks if Imagick is enabled
      *
-     * @return bool 
+     * @return bool
      */
     public static function check() {}
 
     /**
      * \Phalcon\Image\Adapter\Imagick constructor
      *
-     * @param string $file 
-     * @param int $width 
-     * @param int $height 
+     * @param string $file
+     * @param int $width
+     * @param int $height
      */
     public function __construct($file, $width = null, $height = null) {}
 
     /**
      * Execute a resize.
      *
-     * @param int $width 
-     * @param int $height 
+     * @param int $width
+     * @param int $height
      */
     protected function _resize($width, $height) {}
 
     /**
      * This method scales the images using liquid rescaling method. Only support Imagick
      *
-     * @param int $width 
-     * @param int $height 
-     * @param int $deltaX 
-     * @param int $rigidity 
+     *
+     * @param int $width
+     * @param int $height
+     * @param int $deltaX
+     * @param int $rigidity
      * @param int $$width new width
      * @param int $$height new height
      * @param int $$deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
@@ -63,89 +68,90 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * Execute a crop.
      *
-     * @param int $width 
-     * @param int $height 
-     * @param int $offsetX 
-     * @param int $offsetY 
+     * @param int $width
+     * @param int $height
+     * @param int $offsetX
+     * @param int $offsetY
      */
     protected function _crop($width, $height, $offsetX, $offsetY) {}
 
     /**
      * Execute a rotation.
      *
-     * @param int $degrees 
+     * @param int $degrees
      */
     protected function _rotate($degrees) {}
 
     /**
      * Execute a flip.
      *
-     * @param int $direction 
+     * @param int $direction
      */
     protected function _flip($direction) {}
 
     /**
      * Execute a sharpen.
      *
-     * @param int $amount 
+     * @param int $amount
      */
     protected function _sharpen($amount) {}
 
     /**
      * Execute a reflection.
      *
-     * @param int $height 
-     * @param int $opacity 
-     * @param bool $fadeIn 
+     * @param int $height
+     * @param int $opacity
+     * @param bool $fadeIn
      */
     protected function _reflection($height, $opacity, $fadeIn) {}
 
     /**
      * Execute a watermarking.
      *
-     * @param mixed $image 
-     * @param int $offsetX 
-     * @param int $offsetY 
-     * @param int $opacity 
+     * @param \Phalcon\Image\Adapter $image
+     * @param int $offsetX
+     * @param int $offsetY
+     * @param int $opacity
      */
     protected function _watermark(\Phalcon\Image\Adapter $image, $offsetX, $offsetY, $opacity) {}
 
     /**
      * Execute a text
      *
-     * @param string $text 
-     * @param mixed $offsetX 
-     * @param mixed $offsetY 
-     * @param int $opacity 
-     * @param int $r 
-     * @param int $g 
-     * @param int $b 
-     * @param int $size 
-     * @param string $fontfile 
+     * @param string $text
+     * @param mixed $offsetX
+     * @param mixed $offsetY
+     * @param int $opacity
+     * @param int $r
+     * @param int $g
+     * @param int $b
+     * @param int $size
+     * @param string $fontfile
      */
     protected function _text($text, $offsetX, $offsetY, $opacity, $r, $g, $b, $size, $fontfile) {}
 
     /**
      * Composite one image onto another
      *
-     * @param mixed $image 
+     * @param \Phalcon\Image\Adapter $image
      */
     protected function _mask(\Phalcon\Image\Adapter $image) {}
 
     /**
      * Execute a background.
      *
-     * @param int $r 
-     * @param int $g 
-     * @param int $b 
-     * @param int $opacity 
+     * @param int $r
+     * @param int $g
+     * @param int $b
+     * @param int $opacity
      */
     protected function _background($r, $g, $b, $opacity) {}
 
     /**
      * Blur image
      *
-     * @param int $radius 
+     *
+     * @param int $radius
      * @param int $$radius Blur radius
      */
     protected function _blur($radius) {}
@@ -153,7 +159,8 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * Pixelate image
      *
-     * @param int $amount 
+     *
+     * @param int $amount
      * @param int $$amount amount to pixelate
      */
     protected function _pixelate($amount) {}
@@ -161,17 +168,17 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * Execute a save.
      *
-     * @param string $file 
-     * @param int $quality 
+     * @param string $file
+     * @param int $quality
      */
     protected function _save($file, $quality) {}
 
     /**
      * Execute a render.
      *
-     * @param string $extension 
-     * @param int $quality 
-     * @return string 
+     * @param string $extension
+     * @param int $quality
+     * @return string
      */
     protected function _render($extension, $quality) {}
 
@@ -183,16 +190,17 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * Get instance
      *
-     * @return \Imagick 
+     * @return \Imagick
      */
     public function getInternalImInstance() {}
 
     /**
      * Sets the limit for a particular resource in megabytes
      *
+     *
      * @link http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes
-     * @param int $type 
-     * @param int $limit 
+     * @param int $type
+     * @param int $limit
      */
     public function setResourceLimit($type, $limit) {}
 

@@ -4,12 +4,15 @@ namespace Phalcon\Logger;
 
 /**
  * Phalcon\Logger\Item
+ *
  * Represents each item in a logging transaction
+ *
  */
 class Item
 {
     /**
      * Log type
+     *
      *
      * @var integer
      */
@@ -18,12 +21,14 @@ class Item
     /**
      * Log message
      *
+     *
      * @var string
      */
     protected $_message;
 
     /**
      * Log timestamp
+     *
      *
      * @var integer
      */
@@ -36,21 +41,21 @@ class Item
     /**
      * Log type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType() {}
 
     /**
      * Log message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage() {}
 
     /**
      * Log timestamp
      *
-     * @return integer 
+     * @return integer
      */
     public function getTime() {}
 
@@ -60,14 +65,15 @@ class Item
     /**
      * Phalcon\Logger\Item constructor
      *
-     * @param string $message 
-     * @param int $type 
-     * @param int $time 
-     * @param mixed $context 
-     * @param string $$message 
-     * @param integer $$type 
-     * @param integer $$time 
-     * @param array $$context 
+     *
+     * @param string $message
+     * @param int $type
+     * @param int $time
+     * @param mixed $context
+     * @param string $$message
+     * @param integer $$type
+     * @param integer $$time
+     * @param array $$context
      */
     public function __construct($message, $type, $time = 0, $context = null) {}
 

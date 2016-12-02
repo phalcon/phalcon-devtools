@@ -4,15 +4,20 @@ namespace Phalcon\Mvc\Model;
 
 /**
  * Phalcon\Mvc\Model\MetaData
+ *
  * <p>Because Phalcon\Mvc\Model requires meta-data like field names, data types, primary keys, etc.
  * this component collect them and store for further querying by Phalcon\Mvc\Model.
  * Phalcon\Mvc\Model\MetaData can also use adapters to store temporarily or permanently the meta-data.</p>
+ *
  * <p>A standard Phalcon\Mvc\Model\MetaData can be used to query model attributes:</p>
+ *
  * <code>
  * $metaData = new \Phalcon\Mvc\Model\MetaData\Memory();
+ *
  * $attributes = $metaData->getAttributes(
- * new Robots()
+ *     new Robots()
  * );
+ *
  * print_r($attributes);
  * </code>
  */
@@ -82,410 +87,436 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface, \Phalcon
     /**
      * Initialize the metadata for certain table
      *
-     * @param mixed $model 
-     * @param mixed $key 
-     * @param mixed $table 
-     * @param mixed $schema 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param mixed $key
+     * @param mixed $table
+     * @param mixed $schema
      */
     protected final function _initialize(\Phalcon\Mvc\ModelInterface $model, $key, $table, $schema) {}
 
     /**
      * Sets the DependencyInjector container
      *
-     * @param mixed $dependencyInjector 
+     * @param \Phalcon\DiInterface $dependencyInjector
      */
     public function setDI(\Phalcon\DiInterface $dependencyInjector) {}
 
     /**
      * Returns the DependencyInjector container
      *
-     * @return \Phalcon\DiInterface 
+     * @return \Phalcon\DiInterface
      */
     public function getDI() {}
 
     /**
      * Set the meta-data extraction strategy
      *
-     * @param mixed $strategy 
+     * @param \Phalcon\Mvc\Model\MetaData\StrategyInterface $strategy
      */
     public function setStrategy(\Phalcon\Mvc\Model\MetaData\StrategyInterface $strategy) {}
 
     /**
      * Return the strategy to obtain the meta-data
      *
-     * @return \Phalcon\Mvc\Model\MetaData\StrategyInterface 
+     * @return \Phalcon\Mvc\Model\MetaData\StrategyInterface
      */
     public function getStrategy() {}
 
     /**
      * Reads the complete meta-data for certain model
+     *
      * <code>
      * print_r(
-     * $metaData->readMetaData(
-     * new Robots()
-     * )
+     *     $metaData->readMetaData(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
+     * @param \Phalcon\Mvc\ModelInterface $model
      */
     public final function readMetaData(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Reads meta-data for certain model
+     *
      * <code>
      * print_r(
-     * $metaData->readMetaDataIndex(
-     * new Robots(),
-     * 0
-     * )
+     *     $metaData->readMetaDataIndex(
+     *         new Robots(),
+     *         0
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @param int $index 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param int $index
      */
     public final function readMetaDataIndex(\Phalcon\Mvc\ModelInterface $model, $index) {}
 
     /**
-     * Writes meta-data for certain model using a MODEL_* constant
+     * Writes meta-data for certain model using a MODEL_ constant
+     *
      * <code>
      * print_r(
-     * $metaData->writeColumnMapIndex(
-     * new Robots(),
-     * MetaData::MODELS_REVERSE_COLUMN_MAP,
-     * [
-     * "leName" => "name",
-     * ]
-     * )
+     *     $metaData->writeColumnMapIndex(
+     *         new Robots(),
+     *         MetaData::MODELS_REVERSE_COLUMN_MAP,
+     *         [
+     *             "leName" => "name",
+     *         ]
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @param int $index 
-     * @param mixed $data 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param int $index
+     * @param mixed $data
      */
     public final function writeMetaDataIndex(\Phalcon\Mvc\ModelInterface $model, $index, $data) {}
 
     /**
      * Reads the ordered/reversed column map for certain model
+     *
      * <code>
      * print_r(
-     * $metaData->readColumnMap(
-     * new Robots()
-     * )
+     *     $metaData->readColumnMap(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
+     * @param \Phalcon\Mvc\ModelInterface $model
      */
     public final function readColumnMap(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
-     * Reads column-map information for certain model using a MODEL_* constant
+     * Reads column-map information for certain model using a MODEL_ constant
+     *
      * <code>
      * print_r(
-     * $metaData->readColumnMapIndex(
-     * new Robots(),
-     * MetaData::MODELS_REVERSE_COLUMN_MAP
-     * )
+     *     $metaData->readColumnMapIndex(
+     *         new Robots(),
+     *         MetaData::MODELS_REVERSE_COLUMN_MAP
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @param int $index 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param int $index
      */
     public final function readColumnMapIndex(\Phalcon\Mvc\ModelInterface $model, $index) {}
 
     /**
      * Returns table attributes names (fields)
+     *
      * <code>
      * print_r(
-     * $metaData->getAttributes(
-     * new Robots()
-     * )
+     *     $metaData->getAttributes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getAttributes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns an array of fields which are part of the primary key
+     *
      * <code>
      * print_r(
-     * $metaData->getPrimaryKeyAttributes(
-     * new Robots()
-     * )
+     *     $metaData->getPrimaryKeyAttributes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getPrimaryKeyAttributes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns an array of fields which are not part of the primary key
+     *
      * <code>
      * print_r(
-     * $metaData->getNonPrimaryKeyAttributes(
-     * new Robots()
-     * )
+     *     $metaData->getNonPrimaryKeyAttributes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getNonPrimaryKeyAttributes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns an array of not null attributes
+     *
      * <code>
      * print_r(
-     * $metaData->getNotNullAttributes(
-     * new Robots()
-     * )
+     *     $metaData->getNotNullAttributes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getNotNullAttributes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns attributes and their data types
+     *
      * <code>
      * print_r(
-     * $metaData->getDataTypes(
-     * new Robots()
-     * )
+     *     $metaData->getDataTypes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getDataTypes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns attributes which types are numerical
+     *
      * <code>
      * print_r(
-     * $metaData->getDataTypesNumeric(
-     * new Robots()
-     * )
+     *     $metaData->getDataTypesNumeric(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getDataTypesNumeric(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns the name of identity field (if one is present)
+     *
      * <code>
      * print_r(
-     * $metaData->getIdentityField(
-     * new Robots()
-     * )
+     *     $metaData->getIdentityField(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param \Phalcon\Mvc\ModelInterface $model 
-     * @return string 
+     *
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return string
      */
     public function getIdentityField(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns attributes and their bind data types
+     *
      * <code>
      * print_r(
-     * $metaData->getBindTypes(
-     * new Robots()
-     * )
+     *     $metaData->getBindTypes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getBindTypes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns attributes that must be ignored from the INSERT SQL generation
+     *
      * <code>
      * print_r(
-     * $metaData->getAutomaticCreateAttributes(
-     * new Robots()
-     * )
+     *     $metaData->getAutomaticCreateAttributes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getAutomaticCreateAttributes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns attributes that must be ignored from the UPDATE SQL generation
+     *
      * <code>
      * print_r(
-     * $metaData->getAutomaticUpdateAttributes(
-     * new Robots()
-     * )
+     *     $metaData->getAutomaticUpdateAttributes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getAutomaticUpdateAttributes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Set the attributes that must be ignored from the INSERT SQL generation
+     *
      * <code>
      * $metaData->setAutomaticCreateAttributes(
-     * new Robots(),
-     * [
-     * "created_at" => true,
-     * ]
+     *     new Robots(),
+     *     [
+     *         "created_at" => true,
+     *     ]
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @param array $attributes 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param array $attributes
      */
     public function setAutomaticCreateAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes) {}
 
     /**
      * Set the attributes that must be ignored from the UPDATE SQL generation
+     *
      * <code>
      * $metaData->setAutomaticUpdateAttributes(
-     * new Robots(),
-     * [
-     * "modified_at" => true,
-     * ]
+     *     new Robots(),
+     *     [
+     *         "modified_at" => true,
+     *     ]
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @param array $attributes 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param array $attributes
      */
     public function setAutomaticUpdateAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes) {}
 
     /**
      * Set the attributes that allow empty string values
+     *
      * <code>
      * $metaData->setEmptyStringAttributes(
-     * new Robots(),
-     * [
-     * "name" => true,
-     * ]
+     *     new Robots(),
+     *     [
+     *         "name" => true,
+     *     ]
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @param array $attributes 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param array $attributes
      */
     public function setEmptyStringAttributes(\Phalcon\Mvc\ModelInterface $model, array $attributes) {}
 
     /**
      * Returns attributes allow empty strings
+     *
      * <code>
      * print_r(
-     * $metaData->getEmptyStringAttributes(
-     * new Robots()
-     * )
+     *     $metaData->getEmptyStringAttributes(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getEmptyStringAttributes(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns attributes (which have default values) and their default values
+     *
      * <code>
      * print_r(
-     * $metaData->getDefaultValues(
-     * new Robots()
-     * )
+     *     $metaData->getDefaultValues(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getDefaultValues(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns the column map if any
+     *
      * <code>
      * print_r(
-     * $metaData->getColumnMap(
-     * new Robots()
-     * )
+     *     $metaData->getColumnMap(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getColumnMap(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Returns the reverse column map if any
+     *
      * <code>
      * print_r(
-     * $metaData->getReverseColumnMap(
-     * new Robots()
-     * )
+     *     $metaData->getReverseColumnMap(
+     *         new Robots()
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @return array 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @return array
      */
     public function getReverseColumnMap(\Phalcon\Mvc\ModelInterface $model) {}
 
     /**
      * Check if a model has certain attribute
+     *
      * <code>
      * var_dump(
-     * $metaData->hasAttribute(
-     * new Robots(),
-     * "name"
-     * )
+     *     $metaData->hasAttribute(
+     *         new Robots(),
+     *         "name"
+     *     )
      * );
      * </code>
      *
-     * @param mixed $model 
-     * @param string $attribute 
-     * @return bool 
+     * @param \Phalcon\Mvc\ModelInterface $model
+     * @param string $attribute
+     * @return bool
      */
     public function hasAttribute(\Phalcon\Mvc\ModelInterface $model, $attribute) {}
 
     /**
      * Checks if the internal meta-data container is empty
+     *
      * <code>
      * var_dump(
-     * $metaData->isEmpty()
+     *     $metaData->isEmpty()
      * );
      * </code>
      *
-     * @return bool 
+     * @return bool
      */
     public function isEmpty() {}
 
     /**
      * Resets internal meta-data in order to regenerate it
+     *
      * <code>
      * $metaData->reset();
      * </code>
