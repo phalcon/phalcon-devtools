@@ -1,7 +1,7 @@
 {
   "config-type": {
     "php": {
-      "configLoader": "new Config(include __DIR__ . '/config/config.php');",
+      "configLoader": "new Config(include __DIR__ . '/config/config.php')",
       "iniConfigImport": "use Phalcon\\Config;",
       "configName": "__DIR__ . '/config/config.php'",
       "useConfig": ""
