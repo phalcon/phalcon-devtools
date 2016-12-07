@@ -19,7 +19,7 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 5.5
+* PHP >= 5.6
 * Phalcon >= 3.0.0
 
 ## Installing via Composer
