@@ -112,6 +112,7 @@ Help:
   Lists the commands available in Phalcon devtools
 
 Available commands:
+  info             (alias of: i)
   commands         (alias of: list, enumerate)
   controller       (alias of: create-controller)
   module           (alias of: create-module)
