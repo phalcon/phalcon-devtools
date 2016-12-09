@@ -217,7 +217,7 @@ class IncrementalItem implements ItemInterface
 
     protected function regenerateVersionStamp()
     {
-        $this->_versionStamp = join('', $parts);
+        $this->_versionStamp = join('', $this->_parts);
         return $this;
     }
 
