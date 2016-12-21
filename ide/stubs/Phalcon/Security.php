@@ -62,10 +62,10 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
     protected $_numberBytes = 16;
 
 
-    protected $_tokenKeySessionID = "$PHALCON/CSRF/KEY$";
+    protected $_tokenKeySessionID = '$PHALCON/CSRF/KEY$';
 
 
-    protected $_tokenValueSessionID = "$PHALCON/CSRF$";
+    protected $_tokenValueSessionID = '$PHALCON/CSRF$';
 
 
     protected $_token;

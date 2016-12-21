@@ -1,0 +1,54 @@
+language: php
+
+sudo: required
+dist: trusty
+
+php:
+  - 5.5
+  - 5.6
+
+matrix:
+  include:
+    - php: 7.0
+      env: ZEND_BACKEND="--backend=ZendEngine3"
+
+git:
+  depth: 1
+
+cache:
+  apt: true
+  ccache: true
+  timeout: 691200
+  directories:
+    - .temp
+    - vendor
+    - $HOME/.ccache
+    - $HOME/.composer/cache
+
+env:
+  global:
+    - ZEND_DONT_UNLOAD_MODULES=1
+    - CC="ccache gcc"
+    - PATH="$PATH:~/bin"
+    - DISPLAY=":99.0"
+    - PHALCON_VERSION="v3.0.2"
+
+script:
+  - tests/lint.sh --lint ${TRAVIS_BUILD_DIR}/ide/stubs
+
+notifications:
+  email:
+    recipients:
+      - build@phalconphp.com
+    on_success: change
+    on_failure: always
+
+addons:
+  apt:
+    packages:
+      - gdb
+      - re2c
+      - beanstalkd
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
