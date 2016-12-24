@@ -207,7 +207,6 @@ class Postgresql extends \Phalcon\Db\Dialect
     /**
      * Generates the SQL to list all views of a schema or user
      *
-     *
      * @param string $schemaName
      * @return string
      */

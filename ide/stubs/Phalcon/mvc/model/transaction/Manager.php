@@ -100,7 +100,6 @@ class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, \Phalc
     /**
      * Returns the database service used to isolate the transaction
      *
-     *
      * @return string
      */
     public function getDbService() {}
@@ -157,7 +156,6 @@ class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, \Phalc
     /**
      * Rollbacks active transactions within the manager
      * Collect will remove the transaction from the manager
-     *
      *
      * @param boolean $collect
      */

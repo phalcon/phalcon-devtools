@@ -32,7 +32,6 @@ abstract class Engine extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\Vie
     /**
      * Renders a partial inside another view
      *
-     *
      * @param string $partialPath
      * @param array $params
      * @return string

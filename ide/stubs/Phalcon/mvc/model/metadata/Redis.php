@@ -39,7 +39,6 @@ class Redis extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Redis constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}

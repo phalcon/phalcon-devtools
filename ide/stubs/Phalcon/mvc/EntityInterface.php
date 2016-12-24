@@ -13,7 +13,6 @@ interface EntityInterface
     /**
      * Reads an attribute value by its name
      *
-     *
      * @param string $attribute
      * @return mixed
      */
@@ -21,7 +20,6 @@ interface EntityInterface
 
     /**
      * Writes an attribute value by its name
-     *
      *
      * @param string $attribute
      * @param mixed $value

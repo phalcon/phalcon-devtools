@@ -115,7 +115,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Sets a single compiler option
      *
-     *
      * @param string $option
      * @param mixed $value
      */
@@ -123,7 +122,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Returns a compiler's option
-     *
      *
      * @param string $option
      * @return string
@@ -139,7 +137,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Fires an event to registered extensions
-     *
      *
      * @param string $name
      * @param array $arguments
@@ -254,7 +251,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Compiles a block of statements
      *
-     *
      * @param array $statements
      * @return string|array
      */
@@ -338,7 +334,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Compiles a '{{' '}}' statement returning PHP code
      *
-     *
      * @param array $statement
      * @param boolean $extendsMode
      * @return string
@@ -364,7 +359,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Compiles calls to macros
-     *
      *
      * @param array $statement
      * @param boolean $extendsMode
@@ -410,7 +404,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      * $compiler->compile("views/layouts/main.volt", "views/layouts/main.volt.php");
      * </code>
      *
-     *
      * @param string $path
      * @param string $compiledPath
      * @param boolean $extendsMode
@@ -455,7 +448,6 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
      *     $compiler->parse("{{ 3 + 2 }}")
      * );
      * </code>
-     *
      *
      * @param string $viewCode
      * @return array

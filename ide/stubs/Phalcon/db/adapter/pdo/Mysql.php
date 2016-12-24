@@ -54,7 +54,6 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     *
      * @param string $table
      * @param string $schema
      * @return \Phalcon\Db\IndexInterface[]

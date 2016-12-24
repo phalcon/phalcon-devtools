@@ -66,7 +66,6 @@ class Output implements \Phalcon\Cache\FrontendInterface
     /**
      * Phalcon\Cache\Frontend\Output constructor
      *
-     *
      * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
@@ -92,7 +91,6 @@ class Output implements \Phalcon\Cache\FrontendInterface
 
     /**
      * Returns output cached content
-     *
      *
      * @return string
      */

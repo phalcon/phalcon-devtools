@@ -72,14 +72,12 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Roles Names
      *
-     *
      * @var mixed
      */
     protected $_rolesNames;
 
     /**
      * Roles
-     *
      *
      * @var mixed
      */
@@ -88,14 +86,12 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Resource Names
      *
-     *
      * @var mixed
      */
     protected $_resourcesNames;
 
     /**
      * Resources
-     *
      *
      * @var mixed
      */
@@ -104,14 +100,12 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Access
      *
-     *
      * @var mixed
      */
     protected $_access;
 
     /**
      * Role Inherits
-     *
      *
      * @var mixed
      */
@@ -120,7 +114,6 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Access List
      *
-     *
      * @var mixed
      */
     protected $_accessList;
@@ -128,14 +121,12 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Function List
      *
-     *
      * @var mixed
      */
     protected $_func;
 
     /**
      * Default action for no arguments is allow
-     *
      *
      * @var mixed
      */
@@ -159,7 +150,6 @@ class Memory extends \Phalcon\Acl\Adapter
      *
      * $acl->addRole("administrator", "consultant");
      * </code>
-     *
      *
      * @param RoleInterface|string $role
      * @param array|string $accessInherits
@@ -226,7 +216,6 @@ class Memory extends \Phalcon\Acl\Adapter
      * );
      * </code>
      *
-     *
      * @param \Phalcon\Acl\Resource|string $resourceValue
      * @param array|string $accessList
      * @return bool
@@ -236,7 +225,6 @@ class Memory extends \Phalcon\Acl\Adapter
     /**
      * Adds access to resources
      *
-     *
      * @param string $resourceName
      * @param array|string $accessList
      * @return bool
@@ -245,7 +233,6 @@ class Memory extends \Phalcon\Acl\Adapter
 
     /**
      * Removes an access from a resource
-     *
      *
      * @param string $resourceName
      * @param array|string $accessList

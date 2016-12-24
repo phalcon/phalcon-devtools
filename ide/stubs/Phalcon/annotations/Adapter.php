@@ -33,7 +33,6 @@ abstract class Adapter implements \Phalcon\Annotations\AdapterInterface
     /**
      * Parses or retrieves all the annotations found in a class
      *
-     *
      * @param string|object $className
      * @return \Phalcon\Annotations\Reflection
      */

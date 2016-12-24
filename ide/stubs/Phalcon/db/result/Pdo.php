@@ -35,7 +35,6 @@ class Pdo implements \Phalcon\Db\ResultInterface
     /**
      * Internal resultset
      *
-     *
      * @var \PDOStatement
      */
     protected $_pdoStatement;
@@ -55,7 +54,6 @@ class Pdo implements \Phalcon\Db\ResultInterface
 
     /**
      * Phalcon\Db\Result\Pdo constructor
-     *
      *
      * @param \Phalcon\Db\AdapterInterface $connection
      * @param \PDOStatement $result

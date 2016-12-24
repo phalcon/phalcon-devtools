@@ -35,14 +35,12 @@ class Xcache extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Xcache constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads metadata from XCache
-     *
      *
      * @param string $key
      * @return array
@@ -51,7 +49,6 @@ class Xcache extends \Phalcon\Mvc\Model\MetaData
 
     /**
      *  Writes the metadata to XCache
-     *
      *
      * @param string $key
      * @param array $data

@@ -27,14 +27,12 @@ class Session extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Session constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads meta-data from $_SESSION
-     *
      *
      * @param string $key
      * @return array
@@ -43,7 +41,6 @@ class Session extends \Phalcon\Mvc\Model\MetaData
 
     /**
      * Writes the meta-data to $_SESSION
-     *
      *
      * @param string $key
      * @param array $data

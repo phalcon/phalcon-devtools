@@ -73,7 +73,6 @@ class Message implements \Phalcon\Validation\MessageInterface
     /**
      * Returns field name related to message
      *
-     *
      * @return mixed
      */
     public function getField() {}

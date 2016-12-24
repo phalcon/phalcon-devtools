@@ -6,13 +6,11 @@ namespace Phalcon\Db\Profiler;
  * Phalcon\Db\Profiler\Item
  *
  * This class identifies each profile in a Phalcon\Db\Profiler
- *
  */
 class Item
 {
     /**
      * SQL statement related to the profile
-     *
      *
      * @var string
      */
@@ -21,14 +19,12 @@ class Item
     /**
      * SQL variables related to the profile
      *
-     *
      * @var array
      */
     protected $_sqlVariables;
 
     /**
      * SQL bind types related to the profile
-     *
      *
      * @var array
      */
@@ -37,14 +33,12 @@ class Item
     /**
      * Timestamp when the profile started
      *
-     *
      * @var double
      */
     protected $_initialTime;
 
     /**
      * Timestamp when the profile ended
-     *
      *
      * @var double
      */

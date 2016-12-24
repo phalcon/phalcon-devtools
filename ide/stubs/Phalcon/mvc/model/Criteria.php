@@ -105,7 +105,6 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * );
      * </code>
      *
-     *
      * @param string|array $columns
      * @return Criteria
      */
@@ -185,7 +184,6 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Appends a condition to the current conditions using an AND operator (deprecated)
-     *
      *
      * @deprecated 1.0.0
      * @see \Phalcon\Mvc\Model\Criteria::andWhere()
@@ -281,10 +279,9 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Adds the order-by parameter to the criteria (deprecated)
      *
-     *
-     * @deprecated 1.2.1
      * @see \Phalcon\Mvc\Model\Criteria::orderBy()
      * @param string $orderColumns
+     * @deprecated
      * @return Criteria
      */
     public function order($orderColumns) {}
@@ -314,9 +311,15 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     public function having($having) {}
 
     /**
-     * Adds the limit parameter to the criteria
+     * Adds the limit parameter to the criteria.
      *
-     * @param mixed $limit
+     * <code>
+     * $criteria->limit(100);
+     * $criteria->limit(100, 200);
+     * $criteria->limit("100", "200");
+     * </code>
+     *
+     * @param int $limit
      * @param mixed $offset
      * @return Criteria
      */
@@ -357,7 +360,6 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
     /**
      * Returns the columns to be queried
      *
-     *
      * @return string|null
      */
     public function getColumns() {}
@@ -374,7 +376,6 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
      * an integer if limit was set without an offset,
      * an array with 'number' and 'offset' keys if an offset was set with the limit,
      * or null if limit has not been set.
-     *
      *
      * @return string|null
      */
@@ -399,7 +400,6 @@ class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\Di\Inje
 
     /**
      * Returns all the parameters defined in the criteria
-     *
      *
      * @return array
      */

@@ -31,7 +31,6 @@ abstract class Adapter implements \Phalcon\Session\AdapterInterface
     /**
      * Phalcon\Session\Adapter constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}

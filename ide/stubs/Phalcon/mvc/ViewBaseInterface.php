@@ -35,7 +35,6 @@ interface ViewBaseInterface
     /**
      * Adds parameters to views
      *
-     *
      * @param string $key
      * @param mixed $value
      */

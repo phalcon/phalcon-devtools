@@ -29,7 +29,6 @@ abstract class Validator implements \Phalcon\Mvc\Model\ValidatorInterface
     /**
      * Appends a message to the validator
      *
-     *
      * @param string $message
      * @param string|array $field
      * @param string $type
@@ -45,7 +44,6 @@ abstract class Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 
     /**
      * Returns all the options from the validator
-     *
      *
      * @return array
      */

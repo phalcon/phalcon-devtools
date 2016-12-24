@@ -13,7 +13,6 @@ class Date extends \Phalcon\Forms\Element
     /**
      * Renders the element widget returning html
      *
-     *
      * @param array $attributes
      * @return string
      */

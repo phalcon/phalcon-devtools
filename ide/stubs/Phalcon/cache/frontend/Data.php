@@ -61,7 +61,6 @@ class Data implements \Phalcon\Cache\FrontendInterface
     /**
      * Phalcon\Cache\Frontend\Data constructor
      *
-     *
      * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
@@ -87,7 +86,6 @@ class Data implements \Phalcon\Cache\FrontendInterface
 
     /**
      * Returns output cached content
-     *
      *
      * @return string
      */

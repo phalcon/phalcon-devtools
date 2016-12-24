@@ -21,7 +21,6 @@ interface BehaviorInterface
     /**
      * Calls a method when it's missing in the model
      *
-     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param string $method
      * @param array $arguments

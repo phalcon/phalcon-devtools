@@ -101,7 +101,6 @@ interface GroupInterface
     /**
      * Set common paths for all the routes in the group
      *
-     *
      * @param array $paths
      * @return GroupInterface
      */

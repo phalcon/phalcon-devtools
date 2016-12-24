@@ -13,7 +13,6 @@ class Submit extends \Phalcon\Forms\Element
     /**
      * Renders the element widget
      *
-     *
      * @param array $attributes
      * @return string
      */

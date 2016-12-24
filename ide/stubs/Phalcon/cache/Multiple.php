@@ -72,7 +72,6 @@ class Multiple
     /**
      * Phalcon\Cache\Multiple constructor
      *
-     *
      * @param	Phalcon\Cache\BackendInterface[] backends
      * @param mixed $backends
      */
@@ -89,10 +88,8 @@ class Multiple
     /**
      * Returns a cached content reading the internal backends
      *
-     *
-     * @param mixed $keyName
-     * @param long $lifetime
-     * @param $string|int keyName
+     * @param string|int $keyName
+     * @param int $lifetime
      * @return mixed
      */
     public function get($keyName, $lifetime = null) {}
@@ -100,26 +97,23 @@ class Multiple
     /**
      * Starts every backend
      *
-     *
      * @param string|int $keyName
-     * @param long $lifetime
+     * @param int $lifetime
      */
     public function start($keyName, $lifetime = null) {}
 
     /**
      * Stores cached content into all backends and stops the frontend
      *
-     *
      * @param string $keyName
      * @param string $content
-     * @param long $lifetime
+     * @param int $lifetime
      * @param boolean $stopBuffer
      */
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = null) {}
 
     /**
      * Deletes a value from each backend
-     *
      *
      * @param string|int $keyName
      * @return bool
@@ -129,9 +123,8 @@ class Multiple
     /**
      * Checks if cache exists in at least one backend
      *
-     *
      * @param string|int $keyName
-     * @param long $lifetime
+     * @param int $lifetime
      * @return bool
      */
     public function exists($keyName = null, $lifetime = null) {}

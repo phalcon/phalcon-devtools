@@ -122,7 +122,6 @@ class Collection implements \Countable, \Iterator
     /**
      * Adds a javascript resource to the collection
      *
-     *
      * @param string $path
      * @param boolean $local
      * @param boolean $filter
@@ -162,7 +161,6 @@ class Collection implements \Countable, \Iterator
 
     /**
      * Returns the current position/key in the iterator
-     *
      *
      * @return int
      */

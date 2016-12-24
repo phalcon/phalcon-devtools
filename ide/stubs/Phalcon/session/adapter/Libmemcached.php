@@ -53,7 +53,6 @@ class Libmemcached extends \Phalcon\Session\Adapter
     /**
      * Phalcon\Session\Adapter\Libmemcached constructor
      *
-     *
      * @throws \Phalcon\Session\Exception
      * @param array $options
      */

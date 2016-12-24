@@ -27,14 +27,12 @@ class Files extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Files constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads meta-data from files
-     *
      *
      * @param string $key
      * @return mixed
@@ -43,7 +41,6 @@ class Files extends \Phalcon\Mvc\Model\MetaData
 
     /**
      * Writes the meta-data to files
-     *
      *
      * @param string $key
      * @param array $data

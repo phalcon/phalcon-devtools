@@ -96,7 +96,6 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
     /**
      * Phalcon\Mvc\Model\Resultset constructor
      *
-     *
      * @param \Phalcon\Db\ResultInterface|false $result
      * @param \Phalcon\Cache\BackendInterface $cache
      */
@@ -159,7 +158,6 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
 
     /**
      * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
-     *
      *
      * @param int $index
      * @param \Phalcon\Mvc\ModelInterface $value
@@ -241,7 +239,6 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
     /**
      * Updates every record in the resultset
      *
-     *
      * @param array $data
      * @param \Closure $conditionCallback
      * @return bool
@@ -269,7 +266,6 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
      * );
      * </code>
      *
-     *
      * @param callback $filter
      * @return array
      */
@@ -283,7 +279,6 @@ abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iter
      * $robots = Robots::find();
      * echo json_encode($robots);
      * </code>
-     *
      *
      * @return array
      */

@@ -21,7 +21,6 @@ abstract class Formatter implements \Phalcon\Logger\FormatterInterface
     /**
      * Interpolates context values into the message placeholders
      *
-     *
      * @see http://www.php-fig.org/psr/psr-3/ Section 1.2 Message
      * @param string $message
      * @param mixed $context

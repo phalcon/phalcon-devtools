@@ -17,7 +17,6 @@ class Xcache extends \Phalcon\Annotations\Adapter
     /**
      * Reads parsed annotations from XCache
      *
-     *
      * @param string $key
      * @return bool|\Phalcon\Annotations\Reflection
      */

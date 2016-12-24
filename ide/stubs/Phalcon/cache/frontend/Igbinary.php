@@ -55,7 +55,6 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
     /**
      * Phalcon\Cache\Frontend\Data constructor
      *
-     *
      * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
@@ -81,7 +80,6 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
 
     /**
      * Returns output cached content
-     *
      *
      * @return string
      */

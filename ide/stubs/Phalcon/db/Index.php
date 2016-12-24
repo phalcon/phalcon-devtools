@@ -14,7 +14,6 @@ class Index implements \Phalcon\Db\IndexInterface
     /**
      * Index name
      *
-     *
      * @var string
      */
     protected $_name;
@@ -22,14 +21,12 @@ class Index implements \Phalcon\Db\IndexInterface
     /**
      * Index columns
      *
-     *
      * @var array
      */
     protected $_columns;
 
     /**
      * Index type
-     *
      *
      * @var string
      */

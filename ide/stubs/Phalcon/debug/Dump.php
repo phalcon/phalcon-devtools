@@ -44,7 +44,6 @@ class Dump
     /**
      * Phalcon\Debug\Dump constructor
      *
-     *
      * @param array $styles
      * @param boolean $detailed debug object's private and protected properties
      */
@@ -52,7 +51,6 @@ class Dump
 
     /**
      * Alias of variables() method
-     *
      *
      * @param mixed $variable
      * @param ...
@@ -120,7 +118,6 @@ class Dump
      * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
      * </code>
      *
-     *
      * @param mixed $variable
      * @param ...
      * @return string
@@ -142,7 +139,6 @@ class Dump
      *
      * echo (new \Phalcon\Debug\Dump())->toJson($foo);
      * </code>
-     *
      *
      * @param mixed $variable
      * @return string

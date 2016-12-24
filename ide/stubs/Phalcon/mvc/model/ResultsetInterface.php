@@ -6,7 +6,6 @@ namespace Phalcon\Mvc\Model;
  * Phalcon\Mvc\Model\ResultsetInterface
  *
  * Interface for Phalcon\Mvc\Model\Resultset
- *
  */
 interface ResultsetInterface
 {
@@ -21,14 +20,12 @@ interface ResultsetInterface
     /**
      * Get first row in the resultset
      *
-     *
      * @return \Phalcon\Mvc\ModelInterface
      */
     public function getFirst();
 
     /**
      * Get last row in the resultset
-     *
      *
      * @return \Phalcon\Mvc\ModelInterface
      */
@@ -50,7 +47,6 @@ interface ResultsetInterface
 
     /**
      * Returns the associated cache for the resultset
-     *
      *
      * @return \Phalcon\Cache\BackendInterface
      */

@@ -166,7 +166,6 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Helper method for merge configs (forwarding nested config instance)
      *
-     *
      * @param Config instance = null
      *
      * @param Config $config

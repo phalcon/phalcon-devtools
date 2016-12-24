@@ -22,7 +22,6 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
     /**
      * Checks whether offset exists in the row
      *
-     *
      * @param mixed $index
      * @param string|int $$index
      * @return bool
@@ -32,7 +31,6 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
     /**
      * Gets a record in a specific position of the row
      *
-     *
      * @param string|int $index
      * @return string|Phalcon\Mvc\ModelInterface
      */
@@ -41,7 +39,6 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
     /**
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
-     *
      * @param string|int $index
      * @param \Phalcon\Mvc\ModelInterface $value
      */
@@ -49,7 +46,6 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
 
     /**
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
-     *
      *
      * @param string|int $offset
      */
@@ -61,7 +57,6 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
      * <code>
      * echo $robot->readAttribute("name");
      * </code>
-     *
      *
      * @param string $attribute
      * @return mixed
@@ -75,7 +70,6 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
      * $robot->writeAttribute("name", "Rosey");
      * </code>
      *
-     *
      * @param string $attribute
      * @param mixed $value
      */
@@ -84,14 +78,12 @@ class Row implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model\ResultInte
     /**
      * Returns the instance as an array representation
      *
-     *
      * @return array
      */
     public function toArray() {}
 
     /**
      * Serializes the object for json_encode
-     *
      *
      * @return array
      */

@@ -26,7 +26,6 @@ class Manager
     /**
      * Phalcon\Assets\Manager
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}
@@ -202,7 +201,6 @@ class Manager
     /**
      * Traverses a collection calling the callback to generate its HTML
      *
-     *
      * @param \Phalcon\Assets\Collection $collection
      * @param callback $callback
      * @param string $type
@@ -213,7 +211,6 @@ class Manager
     /**
      * Traverses a collection and generate its HTML
      *
-     *
      * @param \Phalcon\Assets\Collection $collection
      * @param string $type
      * @return string
@@ -223,7 +220,6 @@ class Manager
     /**
      * Prints the HTML for CSS resources
      *
-     *
      * @param string $collectionName
      * @return string
      */
@@ -231,7 +227,6 @@ class Manager
 
     /**
      * Prints the HTML for inline CSS
-     *
      *
      * @param string $collectionName
      * @return string
@@ -241,7 +236,6 @@ class Manager
     /**
      * Prints the HTML for JS resources
      *
-     *
      * @param string $collectionName
      * @return string
      */
@@ -249,7 +243,6 @@ class Manager
 
     /**
      * Prints the HTML for inline JS
-     *
      *
      * @param string $collectionName
      * @return string

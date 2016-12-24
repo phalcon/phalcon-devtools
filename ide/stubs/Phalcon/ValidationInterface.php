@@ -13,7 +13,6 @@ interface ValidationInterface
     /**
      * Validate a set of data according to a set of rules
      *
-     *
      * @param array|object $data
      * @param object $entity
      * @return \Phalcon\Validation\Message\Group
@@ -50,7 +49,6 @@ interface ValidationInterface
     /**
      * Adds filters to the field
      *
-     *
      * @param string $field
      * @param array|string $filters
      * @return Validation
@@ -59,7 +57,6 @@ interface ValidationInterface
 
     /**
      * Returns all the filters or a specific one
-     *
      *
      * @param string $field
      * @return mixed
@@ -74,7 +71,6 @@ interface ValidationInterface
     /**
      * Returns the bound entity
      *
-     *
      * @return object
      */
     public function getEntity();
@@ -88,7 +84,6 @@ interface ValidationInterface
 
     /**
      * Get default message for validator type
-     *
      *
      * @param string $type
      */
@@ -111,7 +106,6 @@ interface ValidationInterface
     /**
      * Get label for field
      *
-     *
      * @param string $field
      * @return string
      */
@@ -128,7 +122,6 @@ interface ValidationInterface
      * Assigns the data to an entity
      * The entity is used to obtain the validation values
      *
-     *
      * @param object $entity
      * @param array|object $data
      * @return Validation
@@ -137,7 +130,6 @@ interface ValidationInterface
 
     /**
      * Gets the a value to validate in the array/object data source
-     *
      *
      * @param string $field
      * @return mixed

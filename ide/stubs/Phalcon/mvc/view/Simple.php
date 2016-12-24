@@ -112,14 +112,12 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
      *
-     *
      * @return array
      */
     protected function _loadTemplateEngines() {}
 
     /**
      * Tries to render the view with every engine registered in the component
-     *
      *
      * @param string $path
      * @param array $params
@@ -128,7 +126,6 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Renders a view
-     *
      *
      * @param string $path
      * @param array $params
@@ -169,7 +166,6 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Returns the cache options
-     *
      *
      * @return array
      */
@@ -260,7 +256,6 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
     /**
      * Returns parameters to views
      *
-     *
      * @return array
      */
     public function getParamsToView() {}
@@ -286,7 +281,6 @@ class Simple extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewBaseInte
 
     /**
      * Returns the path of the view that is currently rendered
-     *
      *
      * @return string
      */

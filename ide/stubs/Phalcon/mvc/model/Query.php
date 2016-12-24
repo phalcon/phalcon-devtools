@@ -109,7 +109,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Phalcon\Mvc\Model\Query constructor
      *
-     *
      * @param string $phql
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param mixed $options
@@ -180,7 +179,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Resolves an expression from its intermediate code into a string
      *
-     *
      * @param array $expr
      * @param boolean $quoting
      * @return string
@@ -198,7 +196,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
     /**
      * Resolves a table in a SELECT statement checking if the model exists
-     *
      *
      * @param \Phalcon\Mvc\Model\ManagerInterface $manager
      * @param array $qualifiedName
@@ -218,7 +215,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Resolves a JOIN type
      *
-     *
      * @param array $join
      * @return string
      */
@@ -226,7 +222,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
     /**
      * Resolves joins involving has-one/belongs-to/has-many relations
-     *
      *
      * @param string $joinType
      * @param string $joinSource
@@ -240,7 +235,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Resolves joins involving many-to-many relations
      *
-     *
      * @param string $joinType
      * @param string $joinSource
      * @param string $modelAlias
@@ -253,7 +247,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Processes the JOINs in the query returning an internal representation for the database dialect
      *
-     *
      * @param array $select
      * @return array
      */
@@ -261,7 +254,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
     /**
      * Returns a processed order clause for a SELECT statement
-     *
      *
      * @param mixed $order
      * @param array|string $$order
@@ -344,7 +336,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Executes the INSERT intermediate representation producing a Phalcon\Mvc\Model\Query\Status
      *
-     *
      * @param array $intermediate
      * @param array $bindParams
      * @param array $bindTypes
@@ -354,7 +345,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
     /**
      * Executes the UPDATE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
-     *
      *
      * @param array $intermediate
      * @param array $bindParams
@@ -366,7 +356,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Executes the DELETE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
      *
-     *
      * @param array $intermediate
      * @param array $bindParams
      * @param array $bindTypes
@@ -376,7 +365,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
     /**
      * Query the records on which the UPDATE/DELETE operation well be done
-     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param array $intermediate
@@ -389,7 +377,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Executes a parsed PHQL statement
      *
-     *
      * @param array $bindParams
      * @param array $bindTypes
      * @return mixed
@@ -398,7 +385,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
     /**
      * Executes the query returning the first result
-     *
      *
      * @param array $bindParams
      * @param array $bindTypes
@@ -433,7 +419,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Returns default bind params
      *
-     *
      * @return array
      */
     public function getBindParams() {}
@@ -458,7 +443,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Returns default bind types
      *
-     *
      * @return array
      */
     public function getBindTypes() {}
@@ -474,7 +458,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
     /**
      * Returns the intermediate representation of the PHQL statement
      *
-     *
      * @return array
      */
     public function getIntermediate() {}
@@ -489,7 +472,6 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
     /**
      * Returns the current cache options
-     *
      *
      * @param array
      */

@@ -36,7 +36,6 @@ class Memcache extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Memcache constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}

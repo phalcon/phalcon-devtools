@@ -48,7 +48,6 @@ class Json implements \Phalcon\Cache\FrontendInterface
     /**
      * Phalcon\Cache\Frontend\Base64 constructor
      *
-     *
      * @param array $frontendOptions
      */
     public function __construct($frontendOptions = null) {}
@@ -74,7 +73,6 @@ class Json implements \Phalcon\Cache\FrontendInterface
 
     /**
      * Returns output cached content
-     *
      *
      * @return string
      */

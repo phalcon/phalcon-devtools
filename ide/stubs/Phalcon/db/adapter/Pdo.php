@@ -26,7 +26,6 @@ abstract class Pdo extends \Phalcon\Db\Adapter
     /**
      * PDO Handler
      *
-     *
      * @var \Pdo
      */
     protected $_pdo;
@@ -118,7 +117,6 @@ abstract class Pdo extends \Phalcon\Db\Adapter
      *     ]
      * );
      * </code>
-     *
      *
      * @param \PDOStatement $statement
      * @param array $placeholders
@@ -254,7 +252,6 @@ abstract class Pdo extends \Phalcon\Db\Adapter
      * $id = $connection->lastInsertId();
      * </code>
      *
-     *
      * @param string $sequenceName
      * @return int|bool
      */
@@ -316,7 +313,6 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
     /**
      * Return the error info, if any
-     *
      *
      * @return array
      */

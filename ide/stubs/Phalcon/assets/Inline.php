@@ -41,7 +41,6 @@ class Inline
     /**
      * Phalcon\Assets\Inline constructor
      *
-     *
      * @param string $type
      * @param string $content
      * @param boolean $filter

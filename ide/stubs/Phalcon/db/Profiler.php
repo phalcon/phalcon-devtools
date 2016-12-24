@@ -37,14 +37,12 @@ class Profiler
     /**
      * All the Phalcon\Db\Profiler\Item in the active profile
      *
-     *
      * @var \Phalcon\Db\Profiler\Item[]
      */
     protected $_allProfiles;
 
     /**
      * Active Phalcon\Db\Profiler\Item
-     *
      *
      * @var Phalcon\Db\Profiler\Item
      */
@@ -53,7 +51,6 @@ class Profiler
     /**
      * Total time spent by all profiles to complete
      *
-     *
      * @var float
      */
     protected $_totalSeconds = 0;
@@ -61,7 +58,6 @@ class Profiler
 
     /**
      * Starts the profile of a SQL sentence
-     *
      *
      * @param string $sqlStatement
      * @param mixed $sqlVariables

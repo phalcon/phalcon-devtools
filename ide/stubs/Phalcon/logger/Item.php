@@ -6,13 +6,11 @@ namespace Phalcon\Logger;
  * Phalcon\Logger\Item
  *
  * Represents each item in a logging transaction
- *
  */
 class Item
 {
     /**
      * Log type
-     *
      *
      * @var integer
      */
@@ -21,14 +19,12 @@ class Item
     /**
      * Log message
      *
-     *
      * @var string
      */
     protected $_message;
 
     /**
      * Log timestamp
-     *
      *
      * @var integer
      */
@@ -64,7 +60,6 @@ class Item
 
     /**
      * Phalcon\Logger\Item constructor
-     *
      *
      * @param string $message
      * @param int $type

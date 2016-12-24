@@ -8,7 +8,6 @@ namespace Phalcon\Cache\Frontend;
  * Allows to cache native PHP data in a serialized form using msgpack extension
  * This adapter uses a Msgpack frontend to store the cached content and requires msgpack extension.
  *
- *
  * @link https://github.com/msgpack/msgpack-php
  *
  * <code>
@@ -61,7 +60,6 @@ class Msgpack extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fro
 
     /**
      * Phalcon\Cache\Frontend\Msgpack constructor
-     *
      *
      * @param array $frontendOptions
      */

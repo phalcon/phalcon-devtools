@@ -22,7 +22,6 @@ class File extends \Phalcon\Logger\Adapter
     /**
      * File handler resource
      *
-     *
      * @var resource
      */
     protected $_fileHandler;
@@ -45,7 +44,6 @@ class File extends \Phalcon\Logger\Adapter
 
     /**
      * Phalcon\Logger\Adapter\File constructor
-     *
      *
      * @param string $name
      * @param array $options

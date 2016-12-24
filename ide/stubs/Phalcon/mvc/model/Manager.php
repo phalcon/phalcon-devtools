@@ -395,7 +395,6 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     /**
      * Setup a 1-1 relation between two models
      *
-     *
      * @param	mixed fields
      * @param	string referencedModel
      * @param	mixed referencedFields
@@ -411,7 +410,6 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     /**
      * Setup a relation reverse many to one between two models
-     *
      *
      * @param	mixed fields
      * @param	string referencedModel
@@ -429,7 +427,6 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
     /**
      * Setup a relation 1-n between two models
      *
-     *
      * @param	mixed fields
      * @param	string referencedModel
      * @param	mixed referencedFields
@@ -446,7 +443,6 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     /**
      * Setups a relation n-m between two models
-     *
      *
      * @param	string fields
      * @param	string intermediateModel
@@ -523,7 +519,6 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
     /**
      * Helper method to query records based on a relation definition
-     *
      *
      * @param \Phalcon\Mvc\Model\RelationInterface $relation
      * @param string $method
