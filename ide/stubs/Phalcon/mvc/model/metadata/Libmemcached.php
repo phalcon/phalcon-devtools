@@ -44,7 +44,6 @@ class Libmemcached extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}

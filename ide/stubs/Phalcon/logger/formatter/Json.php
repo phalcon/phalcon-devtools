@@ -13,7 +13,6 @@ class Json extends \Phalcon\Logger\Formatter
     /**
      * Applies a format to a message before sent it to the internal log
      *
-     *
      * @param string $message
      * @param int $type
      * @param int $timestamp

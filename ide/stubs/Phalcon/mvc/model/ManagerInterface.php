@@ -132,7 +132,6 @@ interface ManagerInterface
     /**
      * Setup a 1-1 relation between two models
      *
-     *
      * @param	mixed $fields
      * @param	string $referencedModel
      * @param	mixed $referencedFields
@@ -149,7 +148,6 @@ interface ManagerInterface
 
     /**
      * Setup a relation reverse 1-1  between two models
-     *
      *
      * @param	mixed $fields
      * @param	string $referencedModel
@@ -168,7 +166,6 @@ interface ManagerInterface
     /**
      * Setup a relation 1-n between two models
      *
-     *
      * @param	mixed $fields
      * @param	string $referencedModel
      * @param	mixed $referencedFields
@@ -186,7 +183,6 @@ interface ManagerInterface
     /**
      * Checks whether a model has a belongsTo relation with another model
      *
-     *
      * @param mixed $modelName
      * @param mixed $modelRelation
      * @param $string $modelRelation
@@ -196,7 +192,6 @@ interface ManagerInterface
 
     /**
      * Checks whether a model has a hasMany relation with another model
-     *
      *
      * @param mixed $modelName
      * @param mixed $modelRelation
@@ -208,7 +203,6 @@ interface ManagerInterface
     /**
      * Checks whether a model has a hasOne relation with another model
      *
-     *
      * @param mixed $modelName
      * @param mixed $modelRelation
      * @param $string $modelRelation
@@ -218,7 +212,6 @@ interface ManagerInterface
 
     /**
      * Gets belongsTo related records from a model
-     *
      *
      * @param mixed $method
      * @param mixed $modelName
@@ -237,7 +230,6 @@ interface ManagerInterface
     /**
      * Gets hasMany related records from a model
      *
-     *
      * @param mixed $method
      * @param mixed $modelName
      * @param mixed $modelRelation
@@ -254,7 +246,6 @@ interface ManagerInterface
 
     /**
      * Gets belongsTo related records from a model
-     *
      *
      * @param mixed $method
      * @param mixed $modelName
@@ -273,7 +264,6 @@ interface ManagerInterface
     /**
      * Gets belongsTo relations defined on a model
      *
-     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param \Phalcon\Mvc\ModelInterface $$model
      * @return array
@@ -282,7 +272,6 @@ interface ManagerInterface
 
     /**
      * Gets hasMany relations defined on a model
-     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param \Phalcon\Mvc\ModelInterface $$model
@@ -293,7 +282,6 @@ interface ManagerInterface
     /**
      * Gets hasOne relations defined on a model
      *
-     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param \Phalcon\Mvc\ModelInterface $$model
      * @return array
@@ -302,7 +290,6 @@ interface ManagerInterface
 
     /**
      * Gets hasOne relations defined on a model
-     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param \Phalcon\Mvc\ModelInterface $$model
@@ -313,7 +300,6 @@ interface ManagerInterface
     /**
      * Query all the relationships defined on a model
      *
-     *
      * @param mixed $modelName
      * @param string $$modelName
      * @return \Phalcon\Mvc\Model\RelationInterface[]
@@ -322,7 +308,6 @@ interface ManagerInterface
 
     /**
      * Query the relations between two models
-     *
      *
      * @param mixed $first
      * @param mixed $second
@@ -335,7 +320,6 @@ interface ManagerInterface
     /**
      * Creates a Phalcon\Mvc\Model\Query without execute it
      *
-     *
      * @param mixed $phql
      * @param string $$phql
      * @return \Phalcon\Mvc\Model\QueryInterface
@@ -344,7 +328,6 @@ interface ManagerInterface
 
     /**
      * Creates a Phalcon\Mvc\Model\Query and execute it
-     *
      *
      * @param mixed $phql
      * @param mixed $placeholders
@@ -356,7 +339,6 @@ interface ManagerInterface
 
     /**
      * Creates a Phalcon\Mvc\Model\Query\Builder
-     *
      *
      * @param mixed $params
      * @param string $$params
@@ -376,7 +358,6 @@ interface ManagerInterface
      * Receives events generated in the models and dispatches them to an events-manager if available
      * Notify the behaviors that are listening in the model
      *
-     *
      * @param mixed $eventName
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param string $$eventName
@@ -387,7 +368,6 @@ interface ManagerInterface
      * Dispatch an event to the listeners and behaviors
      * This method expects that the endpoint listeners/behaviors returns true
      * meaning that a least one is implemented
-     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param mixed $eventName
@@ -401,14 +381,12 @@ interface ManagerInterface
     /**
      * Returns the last query created or executed in the models manager
      *
-     *
      * @return \Phalcon\Mvc\Model\QueryInterface
      */
     public function getLastQuery();
 
     /**
      * Returns a relation by its alias
-     *
      *
      * @param string $modelName
      * @param string $alias

@@ -40,7 +40,6 @@ class Reflection
     /**
      * Phalcon\Annotations\Reflection constructor
      *
-     *
      * @param array $reflectionData
      */
     public function __construct($reflectionData = null) {}
@@ -69,14 +68,12 @@ class Reflection
     /**
      * Returns the raw parsing intermediate definitions used to construct the reflection
      *
-     *
      * @return array
      */
     public function getReflectionData() {}
 
     /**
      * Restores the state of a Phalcon\Annotations\Reflection variable export
-     *
      *
      * @param mixed $data
      * @return Reflection

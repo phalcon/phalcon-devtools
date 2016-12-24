@@ -22,7 +22,6 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
     /**
      * Phalcon\Mvc\Model\Resultset\Complex constructor
      *
-     *
      * @param array $columnTypes
      * @param \Phalcon\Db\ResultInterface $result
      * @param \Phalcon\Cache\BackendInterface $cache

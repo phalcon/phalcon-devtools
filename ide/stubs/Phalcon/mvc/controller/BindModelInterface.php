@@ -13,9 +13,8 @@ interface BindModelInterface
     /**
      * Return the model name associated with this controller
      *
-     *
      * @return string
      */
-    abstract static function getModelName();
+    public static function getModelName();
 
 }

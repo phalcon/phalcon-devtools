@@ -28,14 +28,12 @@ interface CollectionInterface
     /**
      * Returns the registered handlers
      *
-     *
      * @return array
      */
     public function getHandlers();
 
     /**
      * Sets the main handler
-     *
      *
      * @param mixed $handler
      * @param boolean $lazy
@@ -61,14 +59,12 @@ interface CollectionInterface
     /**
      * Returns the main handler
      *
-     *
      * @return mixed
      */
     public function getHandler();
 
     /**
      * Maps a route to a handler
-     *
      *
      * @param string $routePattern
      * @param callable $handler
@@ -80,7 +76,6 @@ interface CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is GET
      *
-     *
      * @param string $routePattern
      * @param callable $handler
      * @param string $name
@@ -90,7 +85,6 @@ interface CollectionInterface
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is POST
-     *
      *
      * @param string $routePattern
      * @param callable $handler
@@ -102,7 +96,6 @@ interface CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is PUT
      *
-     *
      * @param string $routePattern
      * @param callable $handler
      * @param string $name
@@ -112,7 +105,6 @@ interface CollectionInterface
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is PATCH
-     *
      *
      * @param string $routePattern
      * @param callable $handler
@@ -124,7 +116,6 @@ interface CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is HEAD
      *
-     *
      * @param string $routePattern
      * @param callable $handler
      * @param string $name
@@ -135,7 +126,6 @@ interface CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is DELETE
      *
-     *
      * @param string $routePattern
      * @param callable $handler
      * @param string $name
@@ -145,7 +135,6 @@ interface CollectionInterface
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is OPTIONS
-     *
      *
      * @param string $routePattern
      * @param callable $handler

@@ -13,7 +13,6 @@ interface ResultInterface
     /**
      * Sets the object's state
      *
-     *
      * @param boolean $dirtyState
      */
     public function setDirtyState($dirtyState);

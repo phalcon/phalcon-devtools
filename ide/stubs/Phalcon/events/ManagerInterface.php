@@ -15,7 +15,6 @@ interface ManagerInterface
     /**
      * Attach a listener to the events manager
      *
-     *
      * @param string $eventType
      * @param object|callable $handler
      */
@@ -23,7 +22,6 @@ interface ManagerInterface
 
     /**
      * Detach the listener from the events manager
-     *
      *
      * @param string $eventType
      * @param object $handler
@@ -40,7 +38,6 @@ interface ManagerInterface
     /**
      * Fires an event in the events manager causing the active listeners to be notified about it
      *
-     *
      * @param string $eventType
      * @param object $source
      * @param mixed $data
@@ -50,7 +47,6 @@ interface ManagerInterface
 
     /**
      * Returns all the attached listeners of a certain type
-     *
      *
      * @param string $type
      * @return array

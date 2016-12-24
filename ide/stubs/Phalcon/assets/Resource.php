@@ -85,7 +85,6 @@ class Resource
     /**
      * Phalcon\Assets\Resource constructor
      *
-     *
      * @param string $type
      * @param string $path
      * @param boolean $local

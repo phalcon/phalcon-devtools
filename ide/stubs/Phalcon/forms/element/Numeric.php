@@ -13,7 +13,6 @@ class Numeric extends \Phalcon\Forms\Element
     /**
      * Renders the element widget returning html
      *
-     *
      * @param mixed $attributes
      * @param array $$attributes
      * @return string

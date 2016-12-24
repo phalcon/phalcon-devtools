@@ -23,7 +23,6 @@ class Csv extends \Phalcon\Translate\Adapter implements \ArrayAccess
     /**
      * Load translates from file
      *
-     *
      * @param string $file
      * @param int $length
      * @param string $delimiter

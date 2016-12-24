@@ -64,14 +64,12 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Sets a value for the _id property, creates a MongoId object if needed
      *
-     *
      * @param mixed $id
      */
     public function setId($id) {}
 
     /**
      * Returns the value of the _id property
-     *
      *
      * @return \MongoId
      */
@@ -159,7 +157,6 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Retrieves a database connection
      *
-     *
      * @return \MongoDb
      */
     public function getConnection() {}
@@ -170,7 +167,6 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * <code>
      * echo $robot->readAttribute("name");
      * </code>
-     *
      *
      * @param string $attribute
      * @return mixed
@@ -183,7 +179,6 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * <code>
      * $robot->writeAttribute("name", "Rosey");
      * </code>
-     *
      *
      * @param string $attribute
      * @param mixed $value
@@ -202,7 +197,6 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Returns a collection resultset
      *
-     *
      * @param array $params
      * @param \Phalcon\Mvc\Collection $collection
      * @param \MongoDb $connection
@@ -214,7 +208,6 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     /**
      * Perform a count over a resultset
      *
-     *
      * @param array $params
      * @param \Phalcon\Mvc\Collection $collection
      * @param \MongoDb $connection
@@ -224,7 +217,6 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
 
     /**
      * Executes internal hooks before save a document
-     *
      *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param boolean $disableEvents
@@ -329,7 +321,6 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
 
     /**
      * Checks if the document exists in the collection
-     *
      *
      * @param \MongoCollection $collection
      * @return bool

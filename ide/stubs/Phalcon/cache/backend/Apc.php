@@ -47,10 +47,9 @@ class Apc extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the APC backend and stops the frontend
      *
-     *
-     * @param string|long $keyName
+     * @param string|int $keyName
      * @param string $content
-     * @param long $lifetime
+     * @param int $lifetime
      * @param boolean $stopBuffer
      * @return bool
      */
@@ -59,20 +58,18 @@ class Apc extends \Phalcon\Cache\Backend
     /**
      * Increment of a given key, by number $value
      *
-     *
      * @param string $keyName
-     * @param long $value
-     * @return mixed
+     * @param int $value
+     * @return int|bool
      */
     public function increment($keyName = null, $value = 1) {}
 
     /**
      * Decrement of a given key, by number $value
      *
-     *
      * @param string $keyName
-     * @param long $value
-     * @return mixed
+     * @param int $value
+     * @return int|bool
      */
     public function decrement($keyName = null, $value = 1) {}
 
@@ -85,8 +82,14 @@ class Apc extends \Phalcon\Cache\Backend
     public function delete($keyName) {}
 
     /**
-     * Query the existing cached keys
+     * Query the existing cached keys.
      *
+     * <code>
+     * $cache->save("users-ids", [1, 2, 3]);
+     * $cache->save("projects-ids", [4, 5, 6]);
+     *
+     * var_dump($cache->queryKeys("users")); // ["users-ids"]
+     * </code>
      *
      * @param string $prefix
      * @return array
@@ -96,9 +99,8 @@ class Apc extends \Phalcon\Cache\Backend
     /**
      * Checks if cache exists and it hasn't expired
      *
-     *
-     * @param string|long $keyName
-     * @param long $lifetime
+     * @param string|int $keyName
+     * @param int $lifetime
      * @return bool
      */
     public function exists($keyName = null, $lifetime = null) {}

@@ -162,7 +162,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the columns to be queried
      *
-     *
      * @return string|array
      */
     public function getColumns() {}
@@ -229,7 +228,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the models who makes part of the query
      *
-     *
      * @return string|array
      */
     public function getFrom() {}
@@ -250,7 +248,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * // Left Join model 'Robots' specifying conditions, alias and type of join
      * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
      * </code>
-     *
      *
      * @param string $model
      * @param string $conditions
@@ -274,7 +271,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
      *
-     *
      * @param string $model
      * @param string $conditions
      * @param string $alias
@@ -290,7 +286,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
      *
-     *
      * @param string $model
      * @param string $conditions
      * @param string $alias
@@ -305,7 +300,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
      * </code>
      *
-     *
      * @param string $model
      * @param string $conditions
      * @param string $alias
@@ -315,7 +309,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Return join parts of the query
-     *
      *
      * @return array
      */
@@ -337,7 +330,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      *     ]
      * );
      * </code>
-     *
      *
      * @param mixed $conditions
      * @param array $bindParams
@@ -361,7 +353,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * );
      * </code>
      *
-     *
      * @param string $conditions
      * @param array $bindParams
      * @param array $bindTypes
@@ -383,7 +374,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      *     ]
      * );
      * </code>
-     *
      *
      * @param string $conditions
      * @param array $bindParams
@@ -453,7 +443,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the conditions for the query
      *
-     *
      * @return string|array
      */
     public function getWhere() {}
@@ -466,7 +455,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * $builder->orderBy(["1", "Robots.name"]);
      * </code>
      *
-     *
      * @param string|array $orderBy
      * @return Builder
      */
@@ -474,7 +462,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
     /**
      * Returns the set ORDER BY clause
-     *
      *
      * @return string|array
      */
@@ -507,7 +494,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Return the current having clause
      *
-     *
      * @return string|array
      */
     public function getHaving() {}
@@ -518,17 +504,17 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * <code>
      * $builder->limit(100);
      * $builder->limit(100, 20);
+     * $builder->limit("100", "20");
      * </code>
      *
-     * @param mixed $limit
+     * @param int $limit
      * @param mixed $offset
      * @return Builder
      */
-    public function limit($limit = null, $offset = null) {}
+    public function limit($limit, $offset = null) {}
 
     /**
      * Returns the current LIMIT clause
-     *
      *
      * @return string|array
      */
@@ -549,7 +535,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Returns the current OFFSET clause
      *
-     *
      * @return string|array
      */
     public function getOffset() {}
@@ -565,7 +550,6 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * );
      * </code>
      *
-     *
      * @param string|array $group
      * @return Builder
      */
@@ -574,14 +558,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
     /**
      * Returns the GROUP BY clause
      *
-     *
      * @return string
      */
     public function getGroupBy() {}
 
     /**
      * Returns a PHQL statement built based on the builder parameters
-     *
      *
      * @return string
      */

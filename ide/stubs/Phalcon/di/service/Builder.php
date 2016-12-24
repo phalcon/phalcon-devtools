@@ -13,7 +13,6 @@ class Builder
     /**
      * Resolves a constructor/call parameter
      *
-     *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param int $position
      * @param array $argument
@@ -32,7 +31,6 @@ class Builder
 
     /**
      * Builds a service using a complex service definition
-     *
      *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param array $definition

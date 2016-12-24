@@ -5,6 +5,7 @@ namespace @@FQMN@@;
 use Phalcon\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 @@iniConfigImport@@
 @@useConfig@@
@@ -39,6 +40,9 @@ class Module implements ModuleDefinitionInterface
          * Try to load local configuration
          */
         if (file_exists(@@configName@@)) {
+            
+            $config = $di['config'];
+            
             $override = @@configLoader@@;
 
             if ($config instanceof Config) {
@@ -56,6 +60,11 @@ class Module implements ModuleDefinitionInterface
 
             $view = new View();
             $view->setViewsDir($config->get('application')->viewsDir);
+            
+            $view->registerEngines([
+                '.volt'  => 'voltShared',
+                '.phtml' => PhpEngine::class
+            ]);
 
             return $view;
         };

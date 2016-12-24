@@ -36,7 +36,6 @@ interface MessageInterface
     /**
      * Returns verbose message
      *
-     *
      * @return string
      */
     public function getMessage();
@@ -51,7 +50,6 @@ interface MessageInterface
 
     /**
      * Returns field name related to message
-     *
      *
      * @return string
      */

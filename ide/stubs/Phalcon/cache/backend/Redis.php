@@ -48,7 +48,6 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Phalcon\Cache\Backend\Redis constructor
      *
-     *
      * @param	Phalcon\Cache\FrontendInterface frontend
      * @param	array options
      * @param \Phalcon\Cache\FrontendInterface $frontend
@@ -73,6 +72,12 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the file backend and stops the frontend
      *
+     * <code>
+     * $cache->save("my-key", $data);
+     *
+     * // Save data termlessly
+     * $cache->save("my-key", $data, -1);
+     * </code>
      *
      * @param int|string $keyName
      * @param string $content
@@ -85,15 +90,20 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Deletes a value from the cache by its key
      *
-     *
      * @param int|string $keyName
      * @return bool
      */
     public function delete($keyName) {}
 
     /**
-     * Query the existing cached keys
+     * Query the existing cached keys.
      *
+     * <code>
+     * $cache->save("users-ids", [1, 2, 3]);
+     * $cache->save("projects-ids", [4, 5, 6]);
+     *
+     * var_dump($cache->queryKeys("users")); // ["users-ids"]
+     * </code>
      *
      * @param string $prefix
      * @return array
@@ -102,7 +112,6 @@ class Redis extends \Phalcon\Cache\Backend
 
     /**
      * Checks if cache exists and it isn't expired
-     *
      *
      * @param string $keyName
      * @param int $lifetime
@@ -113,22 +122,20 @@ class Redis extends \Phalcon\Cache\Backend
     /**
      * Increment of given $keyName by $value
      *
-     *
      * @param string $keyName
      * @param int $value
      * @return int
      */
-    public function increment($keyName = null, $value = null) {}
+    public function increment($keyName = null, $value = 1) {}
 
     /**
      * Decrement of $keyName by given $value
      *
-     *
      * @param string $keyName
      * @param int $value
      * @return int
      */
-    public function decrement($keyName = null, $value = null) {}
+    public function decrement($keyName = null, $value = 1) {}
 
     /**
      * Immediately invalidates all existing items.

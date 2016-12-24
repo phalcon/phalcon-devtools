@@ -12,14 +12,12 @@ abstract class Adapter implements \Phalcon\Logger\AdapterInterface
     /**
      * Tells if there is an active transaction or not
      *
-     *
      * @var boolean
      */
     protected $_transaction = false;
 
     /**
      * Array with messages queued in the transaction
-     *
      *
      * @var array
      */
@@ -28,14 +26,12 @@ abstract class Adapter implements \Phalcon\Logger\AdapterInterface
     /**
      * Formatter
      *
-     *
      * @var object
      */
     protected $_formatter;
 
     /**
      * Log level
-     *
      *
      * @var int
      */

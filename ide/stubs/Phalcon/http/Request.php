@@ -15,10 +15,8 @@ namespace Phalcon\Http;
  *
  * $request = new Request();
  *
- * if ($request->isPost()) {
- *     if ($request->isAjax()) {
- *         echo "Request was made using POST and AJAX";
- *     }
+ * if ($request->isPost() && $request->isAjax()) {
+ *     echo "Request was made using POST and AJAX";
  * }
  *
  * $request->getServer("HTTP_HOST"); // Retrieve SERVER variables
@@ -525,6 +523,17 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
     /**
      * Returns the available headers in the request
      *
+     * <code>
+     * $_SERVER = [
+     *     "PHP_AUTH_USER" => "phalcon",
+     *     "PHP_AUTH_PW"   => "secret",
+     * ];
+     *
+     * $headers = $request->getHeaders();
+     *
+     * echo $headers["Authorization"]; // Basic cGhhbGNvbjpzZWNyZXQ=
+     * </code>
+     *
      * @return array
      */
     public function getHeaders() {}
@@ -535,15 +544,6 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * @return string
      */
     public function getHTTPReferer() {}
-
-    /**
-     * Process a request header and return an array of values with their qualities
-     *
-     * @param string $serverIndex
-     * @param string $name
-     * @return array
-     */
-    protected final function _getQualityHeader($serverIndex, $name) {}
 
     /**
      * Process a request header and return the one with best quality
@@ -616,5 +616,14 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
      * @return array
      */
     public function getDigestAuth() {}
+
+    /**
+     * Process a request header and return an array of values with their qualities
+     *
+     * @param string $serverIndex
+     * @param string $name
+     * @return array
+     */
+    protected final function _getQualityHeader($serverIndex, $name) {}
 
 }

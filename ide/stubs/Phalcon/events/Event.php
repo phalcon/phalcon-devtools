@@ -12,14 +12,12 @@ class Event implements \Phalcon\Events\EventInterface
     /**
      * Event type
      *
-     *
      * @var string
      */
     protected $_type;
 
     /**
      * Event source
-     *
      *
      * @var object
      */
@@ -28,7 +26,6 @@ class Event implements \Phalcon\Events\EventInterface
     /**
      * Event data
      *
-     *
      * @var mixed
      */
     protected $_data;
@@ -36,14 +33,12 @@ class Event implements \Phalcon\Events\EventInterface
     /**
      * Is event propagation stopped?
      *
-     *
      * @var boolean
      */
     protected $_stopped = false;
 
     /**
      * Is event cancelable?
-     *
      *
      * @var boolean
      */
@@ -73,7 +68,6 @@ class Event implements \Phalcon\Events\EventInterface
 
     /**
      * Phalcon\Events\Event constructor
-     *
      *
      * @param string $type
      * @param object $source

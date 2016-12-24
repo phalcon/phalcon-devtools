@@ -19,7 +19,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
     /**
      * Phalcon\Validation\Message\Group constructor
      *
-     *
      * @param array $messages
      */
     public function __construct($messages = null) {}
@@ -33,7 +32,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
      * );
      * </code>
      *
-     *
      * @param int $index
      * @return bool|\Phalcon\Validation\Message
      */
@@ -45,7 +43,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
      * <code>
      * $messages[0] = new \Phalcon\Validation\Message("This is a message");
      * </code>
-     *
      *
      * @param int $index
      * @param \Phalcon\Validation\Message $message
@@ -61,7 +58,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
      * );
      * </code>
      *
-     *
      * @param int $index
      * @return bool
      */
@@ -73,7 +69,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
      * <code>
      * unset($message["database"]);
      * </code>
-     *
      *
      * @param string $index
      */
@@ -99,14 +94,12 @@ class Group implements \Countable, \ArrayAccess, \Iterator
      * $messages->appendMessages($messagesArray);
      * </code>
      *
-     *
      * @param \Phalcon\Validation\MessageInterface[] $messages
      */
     public function appendMessages($messages) {}
 
     /**
      * Filters the message group by field name
-     *
      *
      * @param string $fieldName
      * @return array
@@ -153,7 +146,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
     /**
      * Magic __set_state helps to re-build messages variable when exporting
-     *
      *
      * @param array $group
      * @return \Phalcon\Validation\Message\Group

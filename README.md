@@ -4,6 +4,7 @@
 [![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][:license:]
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
 [![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)][:packagist:]
+[![Build Status](https://travis-ci.org/phalcon/phalcon-devtools.svg?branch=master)][:travis:]
 
 ![Phalcon WebTools](https://cloud.githubusercontent.com/assets/1256298/18617851/b7d31558-7de2-11e6-83e0-30e5902af714.png)
 
@@ -34,8 +35,8 @@ Create the composer.json file as follows:
 
 ```json
 {
-    "require": {
-        "phalcon/devtools": "~3.0.2"
+    "require-dev": {
+        "phalcon/devtools": "~3.0.3"
     }
 }
 ```
@@ -44,7 +45,7 @@ If you are still using Phalcon 2.0.x, create a `composer.json` with the followin
 
 ```json
 {
-    "require": {
+    "require-dev": {
         "phalcon/devtools": "^2.0"
     }
 }
@@ -112,6 +113,7 @@ Help:
   Lists the commands available in Phalcon devtools
 
 Available commands:
+  info             (alias of: i)
   commands         (alias of: list, enumerate)
   controller       (alias of: create-controller)
   module           (alias of: create-module)
@@ -147,3 +149,4 @@ Phalcon Developer Tools is open source software licensed under the [New BSD Lice
 [:packagist:]: https://packagist.org/packages/phalcon/devtools
 [:devtools:]: https://github.com/phalcon/phalcon-devtools
 [:license:]: https://github.com/phalcon/phalcon-devtools/blob/master/LICENSE.txt
+[:travis:]: https://travis-ci.org/phalcon/phalcon-devtools

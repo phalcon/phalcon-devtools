@@ -76,7 +76,6 @@ class Column implements \Phalcon\Db\ColumnInterface
 
     /**
      * Double abstract data type
-     *
      */
     const TYPE_DOUBLE = 9;
 
@@ -158,14 +157,12 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column's name
      *
-     *
      * @var string
      */
     protected $_name;
 
     /**
      * Schema which table related is
-     *
      *
      * @var string
      */
@@ -174,7 +171,6 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column data type
      *
-     *
      * @var int|string
      */
     protected $_type;
@@ -182,14 +178,12 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column data type reference
      *
-     *
      * @var int
      */
     protected $_typeReference = -1;
 
     /**
      * Column data type values
-     *
      *
      * @var array|string
      */
@@ -203,14 +197,12 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Integer column size
      *
-     *
      * @var int
      */
     protected $_size = 0;
 
     /**
      * Integer column number scale
-     *
      *
      * @var int
      */
@@ -224,14 +216,12 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Integer column unsigned?
      *
-     *
      * @var boolean
      */
     protected $_unsigned = false;
 
     /**
      * Column not nullable?
-     *
      *
      * @var boolean
      */
@@ -245,7 +235,6 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Column is autoIncrement?
      *
-     *
      * @var boolean
      */
     protected $_autoIncrement = false;
@@ -253,14 +242,12 @@ class Column implements \Phalcon\Db\ColumnInterface
     /**
      * Position is first
      *
-     *
      * @var boolean
      */
     protected $_first = false;
 
     /**
      * Column Position
-     *
      *
      * @var string
      */
@@ -378,7 +365,6 @@ class Column implements \Phalcon\Db\ColumnInterface
 
     /**
      * Check whether field absolute to position in table
-     *
      *
      * @return string
      */

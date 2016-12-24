@@ -8,7 +8,6 @@ namespace Phalcon\Events;
  * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
  * the normal flow of operation. With the EventsManager the developer can create hooks or
  * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
- *
  */
 class Manager implements \Phalcon\Events\ManagerInterface
 {
@@ -28,7 +27,6 @@ class Manager implements \Phalcon\Events\ManagerInterface
     /**
      * Attach a listener to the events manager
      *
-     *
      * @param string $eventType
      * @param object|callable $handler
      * @param int $priority
@@ -37,7 +35,6 @@ class Manager implements \Phalcon\Events\ManagerInterface
 
     /**
      * Detach the listener from the events manager
-     *
      *
      * @param string $eventType
      * @param object $handler
@@ -77,7 +74,6 @@ class Manager implements \Phalcon\Events\ManagerInterface
     /**
      * Returns all the responses returned by every handler executed by the last 'fire' executed
      *
-     *
      * @return array
      */
     public function getResponses() {}
@@ -92,7 +88,6 @@ class Manager implements \Phalcon\Events\ManagerInterface
     /**
      * Internal handler to call a queue of events
      *
-     *
      * @param \SplPriorityQueue|array $queue
      * @param \Phalcon\Events\Event $event
      * @return mixed
@@ -105,7 +100,6 @@ class Manager implements \Phalcon\Events\ManagerInterface
      * <code>
      * $eventsManager->fire("db", $connection);
      * </code>
-     *
      *
      * @param string $eventType
      * @param object $source
@@ -125,7 +119,6 @@ class Manager implements \Phalcon\Events\ManagerInterface
 
     /**
      * Returns all the attached listeners of a certain type
-     *
      *
      * @param string $type
      * @return array

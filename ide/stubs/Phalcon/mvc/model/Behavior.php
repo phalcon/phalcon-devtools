@@ -16,7 +16,6 @@ abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
     /**
      * Phalcon\Mvc\Model\Behavior
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}
@@ -31,7 +30,6 @@ abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
 
     /**
      * Returns the behavior options related to an event
-     *
      *
      * @param string $eventName
      * @return array
@@ -48,7 +46,6 @@ abstract class Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
 
     /**
      * Acts as fallbacks when a missing method is called on the model
-     *
      *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @param string $method

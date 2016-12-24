@@ -26,7 +26,6 @@ namespace Phalcon\Mvc\Model;
  *     }
  * }
  * </code>
- *
  */
 class Message implements \Phalcon\Mvc\Model\MessageInterface
 {
@@ -48,7 +47,6 @@ class Message implements \Phalcon\Mvc\Model\MessageInterface
 
     /**
      * Phalcon\Mvc\Model\Message constructor
-     *
      *
      * @param string $message
      * @param string|array $field

@@ -14,7 +14,6 @@ class Manager
     /**
      * Creates a form registering it in the forms manager
      *
-     *
      * @param string $name
      * @param object $entity
      * @return Form

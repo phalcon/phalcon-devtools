@@ -41,10 +41,9 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Stores cached content into the backend and stops the frontend
      *
-     *
      * @param string $keyName
      * @param string $content
-     * @param long $lifetime
+     * @param int $lifetime
      * @param boolean $stopBuffer
      * @return bool
      */
@@ -53,17 +52,22 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Deletes a value from the cache by its key
      *
-     *
      * @param string $keyName
      * @return bool
      */
     public function delete($keyName) {}
 
     /**
-     * Query the existing cached keys
+     * Query the existing cached keys.
      *
+     * <code>
+     * $cache->save("users-ids", [1, 2, 3]);
+     * $cache->save("projects-ids", [4, 5, 6]);
      *
-     * @param string|int $prefix
+     * var_dump($cache->queryKeys("users")); // ["users-ids"]
+     * </code>
+     *
+     * @param string $prefix
      * @return array
      */
     public function queryKeys($prefix = null) {}
@@ -71,9 +75,8 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Checks if cache exists and it hasn't expired
      *
-     *
      * @param string|int $keyName
-     * @param long $lifetime
+     * @param int $lifetime
      * @return bool
      */
     public function exists($keyName = null, $lifetime = null) {}
@@ -81,23 +84,20 @@ class Memory extends \Phalcon\Cache\Backend implements \Serializable
     /**
      * Increment of given $keyName by $value
      *
-     *
      * @param string $keyName
-     * @param mixed $value
-     * @param long $lifetime
+     * @param int $value
      * @return int|null
      */
-    public function increment($keyName = null, $value = null) {}
+    public function increment($keyName = null, $value = 1) {}
 
     /**
      * Decrement of $keyName by given $value
      *
-     *
      * @param string $keyName
-     * @param long $value
+     * @param int $value
      * @return int|null
      */
-    public function decrement($keyName = null, $value = null) {}
+    public function decrement($keyName = null, $value = 1) {}
 
     /**
      * Immediately invalidates all existing items.

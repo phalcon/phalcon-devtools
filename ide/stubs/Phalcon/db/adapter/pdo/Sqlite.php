@@ -59,7 +59,6 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo
      * );
      * </code>
      *
-     *
      * @param string $table
      * @param string $schema
      * @return \Phalcon\Db\IndexInterface[]
@@ -68,7 +67,6 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo
 
     /**
      * Lists table references
-     *
      *
      * @param	string table
      * @param	string schema

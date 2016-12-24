@@ -53,7 +53,6 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * This method scales the images using liquid rescaling method. Only support Imagick
      *
-     *
      * @param int $width
      * @param int $height
      * @param int $deltaX
@@ -150,7 +149,6 @@ class Imagick extends \Phalcon\Image\Adapter
     /**
      * Blur image
      *
-     *
      * @param int $radius
      * @param int $$radius Blur radius
      */
@@ -158,7 +156,6 @@ class Imagick extends \Phalcon\Image\Adapter
 
     /**
      * Pixelate image
-     *
      *
      * @param int $amount
      * @param int $$amount amount to pixelate
@@ -196,7 +193,6 @@ class Imagick extends \Phalcon\Image\Adapter
 
     /**
      * Sets the limit for a particular resource in megabytes
-     *
      *
      * @link http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes
      * @param int $type

@@ -12,7 +12,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
     /**
      * Event Manager
      *
-     *
      * @var Phalcon\Events\Manager
      */
     protected $_eventsManager;
@@ -40,14 +39,12 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
     /**
      * Active connection ID
      *
-     *
      * @var long
      */
     protected $_connectionId;
 
     /**
      * Active SQL Statement
-     *
      *
      * @var string
      */
@@ -56,14 +53,12 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
     /**
      * Active SQL bound parameter variables
      *
-     *
      * @var string
      */
     protected $_sqlVariables;
 
     /**
      * Active SQL Bind Types
-     *
      *
      * @var string
      */
@@ -185,7 +180,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * }
      * </code>
      *
-     *
      * @param string $sqlQuery
      * @param int $fetchMode
      * @param array $bindParams
@@ -210,7 +204,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * print_r($robot);
      * </code>
      *
-     *
      * @param string $sqlQuery
      * @param array $placeholders
      * @param int|string $column
@@ -232,7 +225,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * </code>
-     *
      *
      * @param string|array $table
      * @param array $values
@@ -259,7 +251,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * </code>
-     *
      *
      * @param mixed $table
      * @param mixed $data
@@ -304,7 +295,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      *
      * Warning! If $whereCondition is string it not escaped.
      *
-     *
      * @param string|array $table
      * @param mixed $fields
      * @param mixed $values
@@ -334,7 +324,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
      * </code>
      *
-     *
      * @param mixed $table
      * @param mixed $data
      * @param mixed $whereCondition
@@ -358,7 +347,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * // Next SQL sentence is generated
      * DELETE FROM `robots` WHERE `id` = 101
      * </code>
-     *
      *
      * @param string|array $table
      * @param string $whereCondition
@@ -384,7 +372,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     *
      * @param array|string $identifier
      * @return string
      */
@@ -392,7 +379,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
 
     /**
      * Gets a list of columns
-     *
      *
      * @param	array columnList
      * @return	string
@@ -635,7 +621,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
      * );
      * </code>
      *
-     *
      * @param	string table
      * @param	string schema
      * @return	Phalcon\Db\Index[]
@@ -791,7 +776,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
     /**
      * Gets the active connection unique identifier
      *
-     *
      * @return string
      */
     public function getConnectionId() {}
@@ -812,7 +796,6 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
 
     /**
      * Active SQL statement in the object
-     *
      *
      * @return array
      */

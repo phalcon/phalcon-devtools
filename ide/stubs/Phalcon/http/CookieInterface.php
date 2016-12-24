@@ -13,7 +13,6 @@ interface CookieInterface
     /**
      * Sets the cookie's value
      *
-     *
      * @param string $value
      * @return CookieInterface
      */
@@ -21,7 +20,6 @@ interface CookieInterface
 
     /**
      * Returns the cookie's value
-     *
      *
      * @param string|array $filters
      * @param string $defaultValue

@@ -43,7 +43,6 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Default to false for backwards compatibility
      *
-     *
      * @var boolean
      */
     private $_useSafeKey = false;
@@ -69,7 +68,6 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the file backend and stops the frontend
      *
-     *
      * @param int|string $keyName
      * @param string $content
      * @param int $lifetime
@@ -81,24 +79,28 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Deletes a value from the cache by its key
      *
-     *
      * @param int|string $keyName
      * @return bool
      */
     public function delete($keyName) {}
 
     /**
-     * Query the existing cached keys
+     * Query the existing cached keys.
      *
+     * <code>
+     * $cache->save("users-ids", [1, 2, 3]);
+     * $cache->save("projects-ids", [4, 5, 6]);
      *
-     * @param string|int $prefix
+     * var_dump($cache->queryKeys("users")); // ["users-ids"]
+     * </code>
+     *
+     * @param string $prefix
      * @return array
      */
     public function queryKeys($prefix = null) {}
 
     /**
      * Checks if cache exists and it isn't expired
-     *
      *
      * @param string|int $keyName
      * @param int $lifetime
@@ -109,20 +111,18 @@ class File extends \Phalcon\Cache\Backend
     /**
      * Increment of a given key, by number $value
      *
-     *
      * @param string|int $keyName
      * @param int $value
-     * @return mixed
+     * @return int|null
      */
     public function increment($keyName = null, $value = 1) {}
 
     /**
      * Decrement of a given key, by number $value
      *
-     *
      * @param string|int $keyName
      * @param int $value
-     * @return mixed
+     * @return int|null
      */
     public function decrement($keyName = null, $value = 1) {}
 

@@ -23,7 +23,6 @@ class RawValue
     /**
      * Raw value without quoting or formatting
      *
-     *
      * @var string
      */
     protected $_value;

@@ -37,7 +37,7 @@ defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_TIME', microtime(true))
 /**
  * @const DEVTOOLS_START_MEMORY The memory usage at the start of the application. Used for profiling.
  */
-defined('DEVTOOLS_START_TIME') || define('DEVTOOLS_START_MEMORY', memory_get_usage());
+defined('DEVTOOLS_START_MEMORY') || define('DEVTOOLS_START_MEMORY', memory_get_usage());
 
 /**
  * @const PTOOLSPATH The path to the Phalcon Developers Tools.
@@ -127,8 +127,8 @@ if (file_exists(PTOOLSPATH . DS .'vendor' . DS . 'autoload.php')) {
 /**
  * Register the custom loader (if any)
  */
-if (file_exists(PTOOLSPATH . DS . '.phalcon' . DS . 'autoload.php')) {
-    require_once PTOOLSPATH . DS .  '.phalcon' . DS . 'autoload.php';
+if (file_exists('.phalcon' . DS . 'autoload.php')) {
+    require_once '.phalcon' . DS . 'autoload.php';
 }
 
 if (Version::getId() < COMPATIBLE_VERSION) {

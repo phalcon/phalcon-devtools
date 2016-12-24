@@ -57,7 +57,6 @@ class Firephp extends \Phalcon\Logger\Formatter
     /**
      * Applies a format to a message before sending it to the log
      *
-     *
      * @param array $context
      *
      * @param string $message

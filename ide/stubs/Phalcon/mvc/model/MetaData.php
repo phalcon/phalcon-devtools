@@ -314,7 +314,6 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface, \Phalcon
      * );
      * </code>
      *
-     *
      * @param \Phalcon\Mvc\ModelInterface $model
      * @return string
      */

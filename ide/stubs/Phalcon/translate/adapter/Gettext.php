@@ -73,7 +73,6 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
     /**
      * Returns the translation related to the given key
      *
-     *
      * @param string $index
      * @param array $placeholders
      * @param string $domain
@@ -139,7 +138,6 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
      *     ]
      * );
      * </code>
-     *
      *
      * @param string|array $directory The directory path or an array of directories and domains
      */

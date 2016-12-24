@@ -31,25 +31,21 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 {
     /**
      * Render Level: To the main layout
-     *
      */
     const LEVEL_MAIN_LAYOUT = 5;
 
     /**
      * Render Level: Render to the templates "after"
-     *
      */
     const LEVEL_AFTER_TEMPLATE = 4;
 
     /**
      * Render Level: To the controller layout
-     *
      */
     const LEVEL_LAYOUT = 3;
 
     /**
      * Render Level: To the templates "before"
-     *
      */
     const LEVEL_BEFORE_TEMPLATE = 2;
 
@@ -60,7 +56,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
     /**
      * Render Level: No render any view
-     *
      */
     const LEVEL_NO_RENDER = 0;
 
@@ -441,7 +436,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
     /**
      * Checks whether view exists on registered extensions and render it
      *
-     *
      * @param array $engines
      * @param string $viewPath
      * @param boolean $silence
@@ -484,7 +478,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      * // Shows recent posts view (app/views/posts/recent.phtml)
      * $view->start()->render("posts", "recent")->finish();
      * </code>
-     *
      *
      * @param string $controllerName
      * @param string $actionName
@@ -575,7 +568,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
      *     ]
      * );
      * </code>
-     *
      *
      * @param string $controllerName
      * @param string $actionName
