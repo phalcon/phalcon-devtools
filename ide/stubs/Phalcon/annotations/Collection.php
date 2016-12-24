@@ -32,7 +32,6 @@ class Collection implements \Iterator, \Countable
     /**
      * Phalcon\Annotations\Collection constructor
      *
-     *
      * @param array $reflectionData
      */
     public function __construct($reflectionData = null) {}
@@ -51,7 +50,6 @@ class Collection implements \Iterator, \Countable
 
     /**
      * Returns the current annotation in the iterator
-     *
      *
      * @return bool|\Phalcon\Annotations\Annotation
      */

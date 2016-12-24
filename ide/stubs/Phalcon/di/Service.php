@@ -37,7 +37,6 @@ class Service implements \Phalcon\Di\ServiceInterface
     /**
      * Phalcon\Di\Service
      *
-     *
      * @param string $name
      * @param mixed $definition
      * @param boolean $shared
@@ -68,14 +67,12 @@ class Service implements \Phalcon\Di\ServiceInterface
     /**
      * Sets/Resets the shared instance related to the service
      *
-     *
      * @param mixed $sharedInstance
      */
     public function setSharedInstance($sharedInstance) {}
 
     /**
      * Set the service definition
-     *
      *
      * @param mixed $definition
      */
@@ -84,14 +81,12 @@ class Service implements \Phalcon\Di\ServiceInterface
     /**
      * Returns the service definition
      *
-     *
      * @return mixed
      */
     public function getDefinition() {}
 
     /**
      * Resolves the service
-     *
      *
      * @param array $parameters
      * @param \Phalcon\DiInterface $dependencyInjector
@@ -110,7 +105,6 @@ class Service implements \Phalcon\Di\ServiceInterface
 
     /**
      * Returns a parameter in a specific position
-     *
      *
      * @param int $position
      * @return array

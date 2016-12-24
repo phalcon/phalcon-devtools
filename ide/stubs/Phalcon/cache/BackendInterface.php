@@ -13,7 +13,6 @@ interface BackendInterface
     /**
      * Starts a cache. The keyname allows to identify the created fragment
      *
-     *
      * @param int|string $keyName
      * @param int $lifetime
      * @return mixed
@@ -23,7 +22,6 @@ interface BackendInterface
     /**
      * Stops the frontend without store any cached content
      *
-     *
      * @param boolean $stopBuffer
      */
     public function stop($stopBuffer = true);
@@ -31,14 +29,12 @@ interface BackendInterface
     /**
      * Returns front-end instance adapter related to the back-end
      *
-     *
      * @return mixed
      */
     public function getFrontend();
 
     /**
      * Returns the backend options
-     *
      *
      * @return array
      */
@@ -61,14 +57,12 @@ interface BackendInterface
     /**
      * Sets the last key used in the cache
      *
-     *
      * @param string $lastKey
      */
     public function setLastKey($lastKey);
 
     /**
      * Gets the last key stored by the cache
-     *
      *
      * @return string
      */
@@ -86,7 +80,6 @@ interface BackendInterface
     /**
      * Stores cached content into the file backend and stops the frontend
      *
-     *
      * @param int|string $keyName
      * @param string $content
      * @param int $lifetime
@@ -98,7 +91,6 @@ interface BackendInterface
     /**
      * Deletes a value from the cache by its key
      *
-     *
      * @param int|string $keyName
      * @return boolean
      */
@@ -107,7 +99,6 @@ interface BackendInterface
     /**
      * Query the existing cached keys
      *
-     *
      * @param string $prefix
      * @return array
      */
@@ -115,7 +106,6 @@ interface BackendInterface
 
     /**
      * Checks if cache exists and it hasn't expired
-     *
      *
      * @param string $keyName
      * @param int $lifetime

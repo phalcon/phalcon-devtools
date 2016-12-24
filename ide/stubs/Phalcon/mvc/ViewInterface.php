@@ -92,7 +92,6 @@ interface ViewInterface extends \Phalcon\Mvc\ViewBaseInterface
     /**
      * Appends template before controller layout
      *
-     *
      * @param string|array $templateBefore
      */
     public function setTemplateBefore($templateBefore);
@@ -104,7 +103,6 @@ interface ViewInterface extends \Phalcon\Mvc\ViewBaseInterface
 
     /**
      * Appends template after controller layout
-     *
      *
      * @param string|array $templateAfter
      */
@@ -150,7 +148,6 @@ interface ViewInterface extends \Phalcon\Mvc\ViewBaseInterface
 
     /**
      * Executes render process from dispatching data
-     *
      *
      * @param string $controllerName
      * @param string $actionName

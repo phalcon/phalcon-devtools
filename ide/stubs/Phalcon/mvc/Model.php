@@ -325,7 +325,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * );
      * </code>
      *
-     *
      * @param array $data
      * @param array $dataColumnMap array to transform keys of data to another
      * @param array $whiteList
@@ -347,7 +346,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * );
      * </code>
      *
-     *
      * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row $base
      * @param array $data
      * @param array $columnMap
@@ -359,7 +357,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
 
     /**
      * Returns an hydrated result based on the data and the column map
-     *
      *
      * @param array $data
      * @param array $columnMap
@@ -381,7 +378,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *     ]
      * );
      * </code>
-     *
      *
      * @param ModelInterface $base
      * @param array $data
@@ -465,7 +461,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * echo "The first virtual robot name is ", $robot->name;
      * </code>
      *
-     *
      * @param string|array $parameters
      * @return Model
      */
@@ -482,7 +477,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Checks whether the current record already exists
      *
-     *
      * @param \Phalcon\Mvc\Model\MetaDataInterface $metaData
      * @param \Phalcon\Db\AdapterInterface $connection
      * @param string|array $table
@@ -492,7 +486,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
 
     /**
      * Generate a PHQL SELECT statement for an aggregate
-     *
      *
      * @param string $functionName
      * @param string $alias
@@ -516,7 +509,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * echo "There are ", $number, " mechanical robots\n";
      * </code>
-     *
      *
      * @param array $parameters
      * @return mixed
@@ -547,7 +539,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * echo "The total price of mechanical robots is  ", $sum, "\n";
      * </code>
      *
-     *
      * @param array $parameters
      * @return mixed
      */
@@ -576,7 +567,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * echo "The maximum robot id of mechanical robots is ", $id, "\n";
      * </code>
-     *
      *
      * @param array $parameters
      * @return mixed
@@ -607,7 +597,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * echo "The minimum robot id of mechanical robots is ", $id;
      * </code>
      *
-     *
      * @param array $parameters
      * @return mixed
      */
@@ -636,7 +625,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * echo "The average price of mechanical robots is ", $average, "\n";
      * </code>
-     *
      *
      * @param array $parameters
      * @return double
@@ -835,7 +823,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Sends a pre-build INSERT SQL statement to the relational database system
      *
-     *
      * @param \Phalcon\Mvc\Model\MetaDataInterface $metaData
      * @param \Phalcon\Db\AdapterInterface $connection
      * @param string|array $table
@@ -847,7 +834,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Sends a pre-build UPDATE SQL statement to the relational database system
      *
-     *
      * @param \Phalcon\Mvc\Model\MetaDataInterface $metaData
      * @param \Phalcon\Db\AdapterInterface $connection
      * @param string|array $table
@@ -858,7 +844,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Saves related records that must be stored prior to save the master record
      *
-     *
      * @param \Phalcon\Db\AdapterInterface $connection
      * @param \Phalcon\Mvc\ModelInterface[] $related
      * @return bool
@@ -867,7 +852,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
 
     /**
      * Save the related records assigned in the has-one/has-many relations
-     *
      *
      * @param \Phalcon\Db\AdapterInterface $connection
      * @param \Phalcon\Mvc\ModelInterface[] $related
@@ -895,7 +879,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * $robot->save();
      * </code>
-     *
      *
      * @param array $data
      * @param array $whiteList
@@ -1206,7 +1189,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * }
      * </code>
      *
-     *
      * @param	string|array fields
      * @param	string intermediateModel
      * @param	string|array intermediateFields
@@ -1279,7 +1261,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * Sets the record's snapshot data.
      * This method is used internally to set snapshot data when the model was set up to keep snapshot data
      *
-     *
      * @param array $data
      * @param array $columnMap
      */
@@ -1302,7 +1283,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Check if a specific attribute has changed
      * This only works if the model is keeping data snapshots
-     *
      *
      * @param string|array $fieldName
      * @return bool
@@ -1340,7 +1320,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Returns related records based on defined relations
      *
-     *
      * @param string $alias
      * @param array $arguments
      * @return ResultsetInterface
@@ -1349,7 +1328,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
 
     /**
      * Returns related records defined relations depending on the method name
-     *
      *
      * @param string $modelName
      * @param string $method
@@ -1361,7 +1339,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Try to check if the query must invoke a finder
      *
-     *
      * @param string $method
      * @param array $arguments
      * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
@@ -1370,7 +1347,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
 
     /**
      * Handles method calls when a method is not implemented
-     *
      *
      * @param	string method
      * @param	array arguments
@@ -1383,7 +1359,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Handles method calls when a static method is not implemented
      *
-     *
      * @param	string method
      * @param	array arguments
      * @return	mixed
@@ -1395,7 +1370,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Magic method to assign values to the the model
      *
-     *
      * @param string $property
      * @param mixed $value
      */
@@ -1403,7 +1377,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
 
     /**
      * Check for, and attempt to use, possible setter.
-     *
      *
      * @param string $property
      * @param mixed $value
@@ -1413,7 +1386,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
 
     /**
      * Magic method to get related records using the relation alias as a property
-     *
      *
      * @param string $property
      * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
@@ -1464,7 +1436,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * );
      * </code>
      *
-     *
      * @param mixed $columns
      * @param array $$columns
      * @return array
@@ -1477,7 +1448,6 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * <code>
      * echo json_encode($robot);
      * </code>
-     *
      *
      * @return array
      */

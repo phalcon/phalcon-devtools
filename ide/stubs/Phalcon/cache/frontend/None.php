@@ -71,7 +71,6 @@ class None implements \Phalcon\Cache\FrontendInterface
     /**
      * Returns output cached content
      *
-     *
      * @return string
      */
     public function getContent() {}

@@ -34,7 +34,6 @@ class Syslog extends \Phalcon\Logger\Adapter
     /**
      * Phalcon\Logger\Adapter\Syslog constructor
      *
-     *
      * @param string $name
      * @param array $options
      */

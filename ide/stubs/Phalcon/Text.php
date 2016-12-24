@@ -171,7 +171,6 @@ abstract class Text
      * echo $str;
      * </code>
      *
-     *
      * @param string $separator
      * @param string $a
      * @param string $b

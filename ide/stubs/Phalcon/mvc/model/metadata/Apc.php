@@ -35,7 +35,6 @@ class Apc extends \Phalcon\Mvc\Model\MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Apc constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}

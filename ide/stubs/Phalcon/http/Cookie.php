@@ -49,7 +49,6 @@ class Cookie implements \Phalcon\Http\CookieInterface, \Phalcon\Di\InjectionAwar
     /**
      * Phalcon\Http\Cookie constructor
      *
-     *
      * @param string $name
      * @param mixed $value
      * @param int $expire
@@ -77,7 +76,6 @@ class Cookie implements \Phalcon\Http\CookieInterface, \Phalcon\Di\InjectionAwar
     /**
      * Sets the cookie's value
      *
-     *
      * @param string $value
      * @return CookieInterface
      */
@@ -85,7 +83,6 @@ class Cookie implements \Phalcon\Http\CookieInterface, \Phalcon\Di\InjectionAwar
 
     /**
      * Returns the cookie's value
-     *
      *
      * @param string|array $filters
      * @param string $defaultValue

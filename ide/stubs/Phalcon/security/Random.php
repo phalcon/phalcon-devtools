@@ -69,7 +69,6 @@ namespace Phalcon\Security;
  *
  * This class partially borrows SecureRandom library from Ruby
  *
- *
  * @link http://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
  */
 class Random
@@ -92,7 +91,6 @@ class Random
      * // Possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
      * </code>
      *
-     *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      * @param int $len
      * @return string
@@ -110,7 +108,6 @@ class Random
      *
      * echo $random->hex(10); // a29f470508d5ccb8e289
      * </code>
-     *
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      * @param int $len
@@ -133,7 +130,6 @@ class Random
      * echo $random->base58(); // 4kUgL2pdQMSCQtjE
      * </code>
      *
-     *
      * @link https://en.wikipedia.org/wiki/Base58
      * @throws Exception If secure random number generator is not available or unexpected partial read
      * @param mixed $n
@@ -153,7 +149,6 @@ class Random
      *
      * echo $random->base64(12); // 3rcq39QzGK9fUqh8
      * </code>
-     *
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      * @param int $len
@@ -176,7 +171,6 @@ class Random
      *
      * echo $random->base64Safe(); // GD8JojhzSTrqX7Q8J6uug
      * </code>
-     *
      *
      * @link https://www.ietf.org/rfc/rfc3548.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -202,7 +196,6 @@ class Random
      *
      * echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
      * </code>
-     *
      *
      * @link https://www.ietf.org/rfc/rfc4122.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read

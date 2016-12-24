@@ -13,14 +13,12 @@ interface ReferenceInterface
     /**
      * Gets the index name
      *
-     *
      * @return string
      */
     public function getName();
 
     /**
      * Gets the schema where referenced table is
-     *
      *
      * @return string
      */
@@ -29,14 +27,12 @@ interface ReferenceInterface
     /**
      * Gets the schema where referenced table is
      *
-     *
      * @return string
      */
     public function getReferencedSchema();
 
     /**
      * Gets local columns which reference is based
-     *
      *
      * @return array
      */
@@ -45,14 +41,12 @@ interface ReferenceInterface
     /**
      * Gets the referenced table
      *
-     *
      * @return string
      */
     public function getReferencedTable();
 
     /**
      * Gets referenced columns
-     *
      *
      * @return array
      */
@@ -61,14 +55,12 @@ interface ReferenceInterface
     /**
      * Gets the referenced on delete
      *
-     *
      * @return string
      */
     public function getOnDelete();
 
     /**
      * Gets the referenced on update
-     *
      *
      * @return string
      */

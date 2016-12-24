@@ -47,7 +47,6 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Phalcon\Cache\Backend\Mongo constructor
      *
-     *
      * @param \Phalcon\Cache\FrontendInterface $frontend
      * @param array $options
      */
@@ -55,7 +54,6 @@ class Mongo extends \Phalcon\Cache\Backend
 
     /**
      * Returns a MongoDb collection based on the backend parameters
-     *
      *
      * @return MongoCollection
      */
@@ -73,10 +71,9 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Stores cached content into the file backend and stops the frontend
      *
-     *
      * @param int|string $keyName
      * @param string $content
-     * @param long $lifetime
+     * @param int $lifetime
      * @param boolean $stopBuffer
      * @return bool
      */
@@ -85,15 +82,20 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Deletes a value from the cache by its key
      *
-     *
      * @param int|string $keyName
      * @return bool
      */
     public function delete($keyName) {}
 
     /**
-     * Query the existing cached keys
+     * Query the existing cached keys.
      *
+     * <code>
+     * $cache->save("users-ids", [1, 2, 3]);
+     * $cache->save("projects-ids", [4, 5, 6]);
+     *
+     * var_dump($cache->queryKeys("users")); // ["users-ids"]
+     * </code>
      *
      * @param string $prefix
      * @return array
@@ -103,9 +105,8 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Checks if cache exists and it isn't expired
      *
-     *
      * @param string $keyName
-     * @param long $lifetime
+     * @param int $lifetime
      * @return bool
      */
     public function exists($keyName = null, $lifetime = null) {}
@@ -120,22 +121,19 @@ class Mongo extends \Phalcon\Cache\Backend
     /**
      * Increment of a given key by $value
      *
-     *
      * @param int|string $keyName
-     * @param long $value
-     * @return mixed
+     * @param int $value
+     * @return int|null
      */
     public function increment($keyName, $value = 1) {}
 
     /**
      * Decrement of a given key by $value
      *
-     *
      * @param mixed $keyName
-     * @param mixed $value
+     * @param int $value
      * @param int|string $$keyName
-     * @param long $$value
-     * @return mixed
+     * @return int|null
      */
     public function decrement($keyName, $value = 1) {}
 

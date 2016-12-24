@@ -25,7 +25,6 @@ abstract class Lang
     /**
      * Parses a PHQL statement returning an intermediate representation (IR)
      *
-     *
      * @param string $phql
      * @return string
      */

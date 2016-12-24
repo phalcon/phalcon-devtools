@@ -41,7 +41,6 @@ interface UrlInterface
     /**
      * Generates a URL
      *
-     *
      * @param string|array $uri
      * @param array|object $args Optional arguments to be appended to the query string
      * @param bool $local
@@ -52,7 +51,6 @@ interface UrlInterface
 
     /**
      * Generates a local path
-     *
      *
      * @param string $path
      * @return string

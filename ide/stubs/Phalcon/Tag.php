@@ -87,7 +87,6 @@ class Tag
     /**
      * Obtains the 'escaper' service if required
      *
-     *
      * @param array $params
      * @return EscaperInterface
      */
@@ -148,7 +147,6 @@ class Tag
      * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
      * </code>
      *
-     *
      * @param string $id
      * @param string $value
      */
@@ -177,7 +175,6 @@ class Tag
     /**
      * Alias of Phalcon\Tag::setDefault
      *
-     *
      * @param string $id
      * @param string $value
      */
@@ -185,7 +182,6 @@ class Tag
 
     /**
      * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
-     *
      *
      * @param string $name
      * @return bool
@@ -195,7 +191,6 @@ class Tag
     /**
      * Every helper calls this function to check whether a component has a predefined
      * value using Phalcon\Tag::setDefault or value from $_POST
-     *
      *
      * @param string $name
      * @param array $params
@@ -260,7 +255,6 @@ class Tag
      *
      * </code>
      *
-     *
      * @param array|string $parameters
      * @param string $text
      * @param boolean $local
@@ -270,7 +264,6 @@ class Tag
 
     /**
      * Builds generic INPUT tags
-     *
      *
      * @param string $type
      * @param array $parameters
@@ -282,7 +275,6 @@ class Tag
     /**
      * Builds INPUT tags that implements the checked attribute
      *
-     *
      * @param string $type
      * @param array $parameters
      * @return string
@@ -291,7 +283,6 @@ class Tag
 
     /**
      * Builds a HTML input[type="color"] tag
-     *
      *
      * @param array $parameters
      * @return string
@@ -309,7 +300,6 @@ class Tag
      *     ]
      * );
      * </code>
-     *
      *
      * @param array $parameters
      * @return string
@@ -329,7 +319,6 @@ class Tag
      * );
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -337,7 +326,6 @@ class Tag
 
     /**
      * Builds a HTML input[type="range"] tag
-     *
      *
      * @param array $parameters
      * @return string
@@ -350,7 +338,6 @@ class Tag
      * <code>
      * echo Phalcon\Tag::emailField("email");
      * </code>
-     *
      *
      * @param array $parameters
      * @return string
@@ -369,7 +356,6 @@ class Tag
      * );
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -377,7 +363,6 @@ class Tag
 
     /**
      * Builds a HTML input[type="datetime"] tag
-     *
      *
      * @param array $parameters
      * @return string
@@ -387,7 +372,6 @@ class Tag
     /**
      * Builds a HTML input[type="datetime-local"] tag
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -395,7 +379,6 @@ class Tag
 
     /**
      * Builds a HTML input[type="month"] tag
-     *
      *
      * @param array $parameters
      * @return string
@@ -405,7 +388,6 @@ class Tag
     /**
      * Builds a HTML input[type="time"] tag
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -413,7 +395,6 @@ class Tag
 
     /**
      * Builds a HTML input[type="week"] tag
-     *
      *
      * @param array $parameters
      * @return string
@@ -432,7 +413,6 @@ class Tag
      * );
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -450,7 +430,6 @@ class Tag
      * );
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -463,7 +442,6 @@ class Tag
      * echo Phalcon\Tag::fileField("file");
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -471,7 +449,6 @@ class Tag
 
     /**
      * Builds a HTML input[type="search"] tag
-     *
      *
      * @param array $parameters
      * @return string
@@ -481,7 +458,6 @@ class Tag
     /**
      * Builds a HTML input[type="tel"] tag
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -489,7 +465,6 @@ class Tag
 
     /**
      * Builds a HTML input[type="url"] tag
-     *
      *
      * @param array $parameters
      * @return string
@@ -513,7 +488,6 @@ class Tag
      * {{ check_field("terms") }}
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -536,7 +510,6 @@ class Tag
      * {{ radio_field("Save") }}
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -558,7 +531,6 @@ class Tag
      * {{ image_input("src": "/img/button.png") }}
      * </code>
      *
-     *
      * @param array $parameters
      * @return string
      */
@@ -575,7 +547,6 @@ class Tag
      * <code>
      * {{ submit_button("Save") }}
      * </code>
-     *
      *
      * @param array $parameters
      * @return string
@@ -594,7 +565,6 @@ class Tag
      *     ]
      * );
      * </code>
-     *
      *
      * @param array $parameters
      * @param array $data
@@ -620,7 +590,6 @@ class Tag
      * {{ select("robotId", robots, "using": ["id", "name"]) }}
      * </code>
      *
-     *
      * @param array $parameters
      * @param array $data
      * @return string
@@ -644,7 +613,6 @@ class Tag
      * <code>
      * {{ text_area("comments", "cols": 10, "rows": 4) }}
      * </code>
-     *
      *
      * @param array $parameters
      * @return string
@@ -670,7 +638,6 @@ class Tag
      * {{ form("posts/save") }}
      * {{ form("posts/save", "method": "post") }}
      * </code>
-     *
      *
      * @param array $parameters
      * @return string
@@ -766,7 +733,6 @@ class Tag
      * {{ stylesheet_link("css/style.css") }}
      * </code>
      *
-     *
      * @param array $parameters
      * @param boolean $local
      * @return string
@@ -786,7 +752,6 @@ class Tag
      * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false) }}
      * {{ javascript_include("javascript/jquery.js") }}
      * </code>
-     *
      *
      * @param array $parameters
      * @param boolean $local
@@ -814,7 +779,6 @@ class Tag
      * {{ image("img/photo.jpg", "alt": "Some Photo") }}
      * {{ image("http://static.mywebsite.com/img/bg.png", false) }}
      * </code>
-     *
      *
      * @param array $parameters
      * @param boolean $local

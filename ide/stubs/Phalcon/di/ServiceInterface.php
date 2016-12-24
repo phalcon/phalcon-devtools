@@ -13,7 +13,6 @@ interface ServiceInterface
     /**
      * Returns the service's name
      *
-     *
      * @param string
      */
     public function getName();
@@ -35,7 +34,6 @@ interface ServiceInterface
     /**
      * Set the service definition
      *
-     *
      * @param mixed $definition
      */
     public function setDefinition($definition);
@@ -43,14 +41,12 @@ interface ServiceInterface
     /**
      * Returns the service definition
      *
-     *
      * @return mixed
      */
     public function getDefinition();
 
     /**
      * Resolves the service
-     *
      *
      * @param array $parameters
      * @param \Phalcon\DiInterface $dependencyInjector

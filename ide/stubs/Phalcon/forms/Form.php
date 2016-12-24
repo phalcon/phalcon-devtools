@@ -48,7 +48,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
     /**
      * Phalcon\Forms\Form constructor
      *
-     *
      * @param object $entity
      * @param array $userOptions
      */
@@ -72,7 +71,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
     /**
      * Sets an option for the form
      *
-     *
      * @param string $option
      * @param mixed $value
      * @return Form
@@ -81,7 +79,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 
     /**
      * Returns the value of an option if present
-     *
      *
      * @param string $option
      * @param mixed $defaultValue
@@ -107,7 +104,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
     /**
      * Sets the entity related to the model
      *
-     *
      * @param object $entity
      * @return Form
      */
@@ -115,7 +111,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 
     /**
      * Returns the entity related to the model
-     *
      *
      * @return object
      */
@@ -131,7 +126,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
     /**
      * Binds data to the entity
      *
-     *
      * @param array $data
      * @param object $entity
      * @param array $whitelist
@@ -141,7 +135,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 
     /**
      * Validates the form
-     *
      *
      * @param array $data
      * @param object $entity
@@ -185,7 +178,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 
     /**
      * Renders a specific item in the form
-     *
      *
      * @param string $name
      * @param array $attributes
@@ -244,7 +236,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 
     /**
      * Clears every element in the form to its default value
-     *
      *
      * @param array $fields
      * @return Form

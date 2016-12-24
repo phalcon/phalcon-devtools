@@ -114,7 +114,6 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
     /**
      * Returns cookies set by the user
      *
-     *
      * @return \Phalcon\Http\Response\CookiesInterface
      */
     public function getCookies() {}

@@ -129,7 +129,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Handles routing information received from command-line arguments
      *
-     *
      * @param array $arguments
      */
     public function handle($arguments = null) {}
@@ -140,7 +139,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * <code>
      * $router->add("/about", "About::main");
      * </code>
-     *
      *
      * @param string $pattern
      * @param string/array $paths
@@ -172,7 +170,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Returns processed extra params
      *
-     *
      * @return array
      */
     public function getParams() {}
@@ -186,7 +183,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Returns the sub expressions in the regular expression matched
-     *
      *
      * @return array
      */
@@ -208,7 +204,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
     /**
      * Returns a route object by its id
-     *
      *
      * @param int $id
      * @return bool|RouteInterface

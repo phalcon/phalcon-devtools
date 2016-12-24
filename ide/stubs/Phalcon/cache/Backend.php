@@ -58,7 +58,6 @@ abstract class Backend implements \Phalcon\Cache\BackendInterface
     /**
      * Phalcon\Cache\Backend constructor
      *
-     *
      * @param \Phalcon\Cache\FrontendInterface $frontend
      * @param array $options
      */
@@ -66,7 +65,6 @@ abstract class Backend implements \Phalcon\Cache\BackendInterface
 
     /**
      * Starts a cache. The keyname allows to identify the created fragment
-     *
      *
      * @param int|string $keyName
      * @param int $lifetime
@@ -97,7 +95,6 @@ abstract class Backend implements \Phalcon\Cache\BackendInterface
 
     /**
      * Gets the last lifetime set
-     *
      *
      * @return int
      */

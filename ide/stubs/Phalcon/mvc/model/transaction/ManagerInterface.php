@@ -39,7 +39,6 @@ interface ManagerInterface
      * Rollbacks active transactions within the manager
      * Collect will remove transaction from the manager
      *
-     *
      * @param boolean $collect
      */
     public function rollback($collect = false);

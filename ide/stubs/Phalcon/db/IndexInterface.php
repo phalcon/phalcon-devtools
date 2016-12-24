@@ -13,7 +13,6 @@ interface IndexInterface
     /**
      * Gets the index name
      *
-     *
      * @return string
      */
     public function getName();
@@ -21,14 +20,12 @@ interface IndexInterface
     /**
      * Gets the columns that corresponds the index
      *
-     *
      * @return array
      */
     public function getColumns();
 
     /**
      * Gets the index type
-     *
      *
      * @return string
      */

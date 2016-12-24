@@ -8,7 +8,9 @@ namespace Phalcon\Annotations\Adapter;
  * Stores the parsed annotations in APC. This adapter is suitable for production
  *
  * <code>
- * $annotations = new \Phalcon\Annotations\Adapter\Apc();
+ * use Phalcon\Annotations\Adapter\Apc;
+ *
+ * $annotations = new Apc();
  * </code>
  */
 class Apc extends \Phalcon\Annotations\Adapter
@@ -23,14 +25,12 @@ class Apc extends \Phalcon\Annotations\Adapter
     /**
      * Phalcon\Annotations\Adapter\Apc constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads parsed annotations from APC
-     *
      *
      * @param string $key
      * @return bool|\Phalcon\Annotations\Reflection

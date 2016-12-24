@@ -23,7 +23,6 @@ class Stream extends \Phalcon\Logger\Adapter
     /**
      * File handler resource
      *
-     *
      * @var resource
      */
     protected $_stream;
@@ -31,7 +30,6 @@ class Stream extends \Phalcon\Logger\Adapter
 
     /**
      * Phalcon\Logger\Adapter\Stream constructor
-     *
      *
      * @param string $name
      * @param array $options

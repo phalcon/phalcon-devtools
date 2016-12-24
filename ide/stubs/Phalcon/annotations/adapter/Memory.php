@@ -20,7 +20,6 @@ class Memory extends \Phalcon\Annotations\Adapter
     /**
      * Reads parsed annotations from memory
      *
-     *
      * @param string $key
      * @return bool|\Phalcon\Annotations\Reflection
      */

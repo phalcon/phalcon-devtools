@@ -30,7 +30,6 @@ class Reference implements \Phalcon\Db\ReferenceInterface
     /**
      * Constraint name
      *
-     *
      * @var string
      */
     protected $_name;
@@ -44,14 +43,12 @@ class Reference implements \Phalcon\Db\ReferenceInterface
     /**
      * Referenced Table
      *
-     *
      * @var string
      */
     protected $_referencedTable;
 
     /**
      * Local reference columns
-     *
      *
      * @var array
      */
@@ -60,7 +57,6 @@ class Reference implements \Phalcon\Db\ReferenceInterface
     /**
      * Referenced Columns
      *
-     *
      * @var array
      */
     protected $_referencedColumns;
@@ -68,14 +64,12 @@ class Reference implements \Phalcon\Db\ReferenceInterface
     /**
      * ON DELETE
      *
-     *
      * @var array
      */
     protected $_onDelete;
 
     /**
      * ON UPDATE
-     *
      *
      * @var array
      */

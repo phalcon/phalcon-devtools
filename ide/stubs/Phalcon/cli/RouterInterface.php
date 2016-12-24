@@ -41,7 +41,6 @@ interface RouterInterface
     /**
      * Handles routing information received from the rewrite engine
      *
-     *
      * @param array $arguments
      */
     public function handle($arguments = null);

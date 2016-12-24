@@ -13,7 +13,6 @@ abstract class Select
     /**
      * Generates a SELECT tag
      *
-     *
      * @param array $parameters
      * @param array $data
      */
@@ -21,7 +20,6 @@ abstract class Select
 
     /**
      * Generate the OPTION tags based on a resultset
-     *
      *
      * @param \Phalcon\Mvc\Model\Resultset $resultset
      * @param array $using
@@ -32,7 +30,6 @@ abstract class Select
 
     /**
      * Generate the OPTION tags based on an array
-     *
      *
      * @param array $data
      * @param mixed $value

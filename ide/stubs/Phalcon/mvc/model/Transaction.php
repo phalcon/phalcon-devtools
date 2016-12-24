@@ -69,7 +69,6 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
     /**
      * Phalcon\Mvc\Model\Transaction constructor
      *
-     *
      * @param \Phalcon\DiInterface $dependencyInjector
      * @param boolean $autoBegin
      * @param string $service
@@ -99,7 +98,6 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 
     /**
      * Rollbacks the transaction
-     *
      *
      * @param string $rollbackMessage
      * @param \Phalcon\Mvc\ModelInterface $rollbackRecord

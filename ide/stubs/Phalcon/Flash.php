@@ -167,7 +167,6 @@ abstract class Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAw
      * $flash->outputMessage("error", $message);
      * </code>
      *
-     *
      * @param string $type
      * @param string|array $message
      * @return string|void

@@ -13,7 +13,6 @@ interface AdapterInterface
     /**
      * Returns the translation string of the given key
      *
-     *
      * @param	string translateKey
      * @param	array placeholders
      * @return	string
@@ -25,7 +24,6 @@ interface AdapterInterface
 
     /**
      * Returns the translation related to the given key
-     *
      *
      * @param	string index
      * @param	array placeholders

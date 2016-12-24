@@ -29,7 +29,6 @@ class LazyLoader
     /**
      * Initializes the internal handler, calling functions on it
      *
-     *
      * @param string $method
      * @param array $arguments
      * @return mixed

@@ -23,7 +23,6 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
     /**
      * Phalcon\Mvc\Model\Resultset\Simple constructor
      *
-     *
      * @param array $columnMap
      * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row $model
      * @param \Phalcon\Db\Result\Pdo|null $result

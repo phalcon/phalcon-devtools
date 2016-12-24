@@ -40,7 +40,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Phalcon\Forms\Element constructor
      *
-     *
      * @param string $name
      * @param array $attributes
      */
@@ -79,7 +78,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Sets the element filters
      *
-     *
      * @param array|string $filters
      * @return ElementInterface
      */
@@ -96,14 +94,12 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Returns the element filters
      *
-     *
      * @return mixed
      */
     public function getFilters() {}
 
     /**
      * Adds a group of validators
-     *
      *
      * @param array $validators
      * @param bool $merge
@@ -140,7 +136,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Sets a default attribute for the element
      *
-     *
      * @param string $attribute
      * @param mixed $value
      * @return ElementInterface
@@ -149,7 +144,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
 
     /**
      * Returns the value of an attribute if present
-     *
      *
      * @param string $attribute
      * @param mixed $defaultValue
@@ -175,7 +169,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Sets an option for the element
      *
-     *
      * @param string $option
      * @param mixed $value
      * @return ElementInterface
@@ -184,7 +177,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
 
     /**
      * Returns the value of an option if present
-     *
      *
      * @param string $option
      * @param mixed $defaultValue
@@ -225,7 +217,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Generate the HTML to label the element
      *
-     *
      * @param array $attributes
      * @return string
      */
@@ -234,7 +225,6 @@ abstract class Element implements \Phalcon\Forms\ElementInterface
     /**
      * Sets a default value in case the form does not use an entity
      * or there is no value available for the element in _POST
-     *
      *
      * @param mixed $value
      * @return ElementInterface

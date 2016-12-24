@@ -26,14 +26,12 @@ class Files extends \Phalcon\Annotations\Adapter
     /**
      * Phalcon\Annotations\Adapter\Files constructor
      *
-     *
      * @param array $options
      */
     public function __construct($options = null) {}
 
     /**
      * Reads parsed annotations from files
-     *
      *
      * @param string $key
      * @return bool|int|\Phalcon\Annotations\Reflection

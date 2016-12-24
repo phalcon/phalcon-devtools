@@ -13,7 +13,6 @@ interface RelationInterface
     /**
      * Sets the intermediate model dat for has--through relations
      *
-     *
      * @param string|array $intermediateFields
      * @param string $intermediateModel
      * @param string|array $intermediateReferencedFields
@@ -44,7 +43,6 @@ interface RelationInterface
     /**
      * Returns the fields
      *
-     *
      * @return string|array
      */
     public function getFields();
@@ -52,14 +50,12 @@ interface RelationInterface
     /**
      * Returns the referenced fields
      *
-     *
      * @return string|array
      */
     public function getReferencedFields();
 
     /**
      * Returns the options
-     *
      *
      * @return string|array
      */
@@ -83,7 +79,6 @@ interface RelationInterface
     /**
      * Returns the foreign key configuration
      *
-     *
      * @return string|array
      */
     public function getForeignKey();
@@ -98,7 +93,6 @@ interface RelationInterface
     /**
      * Gets the intermediate fields for has--through relations
      *
-     *
      * @return string|array
      */
     public function getIntermediateFields();
@@ -112,7 +106,6 @@ interface RelationInterface
 
     /**
      * Gets the intermediate referenced fields for has--through relations
-     *
      *
      * @return string|array
      */
