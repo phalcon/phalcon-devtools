@@ -3,6 +3,7 @@
   "output": "phalcon.phar",
   "chmod": "0755",
   "directories": [
+    "bootstrap",
     "resources",
     "scripts",
     "templates"
