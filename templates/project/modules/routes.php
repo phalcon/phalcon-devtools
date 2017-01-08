@@ -26,3 +26,5 @@ foreach ($application->getModules() as $key => $module) {
         'params' => 3
     ]);
 }
+
+$router = $di->set("router", $router);
