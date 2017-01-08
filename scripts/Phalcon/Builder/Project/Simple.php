@@ -148,6 +148,10 @@ class Simple extends ProjectBuilder
         $putFile = $this->options->get('projectPath') . 'app/config/services.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
+        $getFile = $this->options->get('templatePath') . '/project/simple/router.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/router.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
         return $this;
     }
 
