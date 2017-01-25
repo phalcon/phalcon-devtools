@@ -491,7 +491,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param string $alias
      * @param array $parameters
      * @param string $function
-     * @return ResultsetInterface
+     * @return Model\ResultsetInterface
      */
     protected static function _groupResult($functionName, $alias, $parameters) {}
 
@@ -1322,7 +1322,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      *
      * @param string $alias
      * @param array $arguments
-     * @return ResultsetInterface
+     * @return Model\ResultsetInterface
      */
     public function getRelated($alias, $arguments = null) {}
 
