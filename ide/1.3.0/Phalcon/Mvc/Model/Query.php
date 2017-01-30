@@ -452,7 +452,7 @@ namespace Phalcon\Mvc\Model {
          *
          * @param array $bindParams
          * @param array $bindTypes
-         * @return Ṕhalcon\Mvc\ModelInterface
+         * @return \Phalcon\Mvc\ModelInterface
          */
         public function getSingleResult($bindParams=null, $bindTypes=null)
         {
