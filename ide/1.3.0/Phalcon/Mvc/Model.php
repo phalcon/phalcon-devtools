@@ -1118,7 +1118,7 @@ namespace Phalcon\Mvc {
          * @param   array $options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function hasOne()
+        public function hasOne($fields, $referenceModel, $referencedFields, $options=null)
         {
         }
 
@@ -1145,7 +1145,7 @@ namespace Phalcon\Mvc {
          * @param   array $options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function belongsTo()
+        public function belongsTo($fields, $referenceModel, $referencedFields, $options=null)
         {
         }
 
@@ -1172,7 +1172,7 @@ namespace Phalcon\Mvc {
          * @param   array $options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function hasMany()
+        public function hasMany($fields, $referenceModel, $referencedFields, $options=null)
         {
         }
 
@@ -1210,7 +1210,7 @@ namespace Phalcon\Mvc {
          * @param   array $options
          * @return  \Phalcon\Mvc\Model\Relation
          */
-        public function hasManyToMany()
+        public function hasManyToMany($fields, $intermediateModel, $intermediateFields, $intermediateReferencedFields, $referencedModel, $referencedFields, $options=null)
         {
         }
 
