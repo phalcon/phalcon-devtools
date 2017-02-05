@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-0" : {
-            "Phalcon" : "scripts/"
+            "Phalcon" : "scripts/Phalcon/"
         }
     },
     "bin": ["phalcon.php"]
