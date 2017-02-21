@@ -43,7 +43,7 @@ namespace Phalcon\Validation {
          * @param string $attribute
          * @return \Phalcon\Validation\Message\Group
          */
-        public function validate($validator, $attribute);
+        public function validate(\Phalcon\Validation $validator, $attribute);
 
     }
 }
