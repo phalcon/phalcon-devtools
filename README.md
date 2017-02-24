@@ -36,7 +36,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "~3.0.3"
+        "phalcon/devtools": "~3.0"
     }
 }
 ```
@@ -113,7 +113,7 @@ This command should display something similar to:
 ```sh
 $ phalcon --help
 
-Phalcon DevTools (3.0.2)
+Phalcon DevTools (3.0.4)
 
 Help:
   Lists the commands available in Phalcon devtools

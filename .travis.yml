@@ -31,7 +31,7 @@ env:
     - CC="ccache gcc"
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
-    - PHALCON_VERSION="v3.0.2"
+    - PHALCON_VERSION="v3.0.4"
 
 script:
   - tests/lint.sh --lint ${TRAVIS_BUILD_DIR}/ide/stubs
