@@ -39,6 +39,6 @@ class Version extends PhVersion
      */
     protected static function _getVersion()
     {
-        return [3, 0, 5, 0, 0];
+        return [3, 1, 0, 0, 0];
     }
 }
