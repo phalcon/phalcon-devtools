@@ -51,7 +51,7 @@ class Migrations
      * Filename or db connection to store migrations log
      * @var mixed|Adapter\Pdo
      */
-    private static $_storage;
+    protected static $_storage;
 
     /**
      * Check if the script is running on Console mode

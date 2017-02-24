@@ -94,6 +94,12 @@ ln -s ~/phalcon-devtools/phalcon.php /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```
 
+If you get a `"phalcon: command not found"` message while creating the symlink, make an alias.
+
+```bash
+alias phalcon=/home/[USERNAME]/phalcon-devtools/phalcon.php
+```
+
 ## Usage
 
 To get a list of available commands just execute following:

@@ -71,11 +71,14 @@ class Gettext extends \Phalcon\Translate\Adapter implements \ArrayAccess
     public function __construct(array $options) {}
 
     /**
-     * Returns the translation related to the given key
+     * Returns the translation related to the given key.
+     *
+     * <code>
+     * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
+     * </code>
      *
      * @param string $index
-     * @param array $placeholders
-     * @param string $domain
+     * @param mixed $placeholders
      * @return string
      */
     public function query($index, $placeholders = null) {}
