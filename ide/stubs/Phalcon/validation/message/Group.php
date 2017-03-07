@@ -70,7 +70,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
      * unset($message["database"]);
      * </code>
      *
-     * @param string $index
+     * @param mixed $index
      */
     public function offsetUnset($index) {}
 

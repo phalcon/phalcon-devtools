@@ -52,7 +52,7 @@ class Options extends Config
      */
     public function has($key)
     {
-        return (isset($this->key) || array_key_exists($key, $this->toArray()));
+        return (isset($this->{$key}) || array_key_exists($key, $this->toArray()));
     }
 
     /**
@@ -66,7 +66,7 @@ class Options extends Config
      */
     public function contains($key)
     {
-        return $this->has($key) && $this->$key;
+        return $this->has($key) && $this->{$key};
     }
 
     /**
@@ -79,6 +79,6 @@ class Options extends Config
      */
     public function get($key, $default = null)
     {
-        return $this->contains($key) ? $this->$key : $default;
+        return $this->contains($key) ? $this->{$key} : $default;
     }
 }

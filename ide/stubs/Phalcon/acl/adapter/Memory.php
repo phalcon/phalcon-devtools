@@ -315,8 +315,8 @@ class Memory extends \Phalcon\Acl\Adapter
      * $acl->isAllowed("guests", "", "edit");
      * </code>
      *
-     * @param mixed $roleName
-     * @param mixed $resourceName
+     * @param RoleInterface|RoleAware|string $roleName
+     * @param ResourceInterface|ResourceAware|string $resourceName
      * @param string $access
      * @param array $parameters
      * @return bool
