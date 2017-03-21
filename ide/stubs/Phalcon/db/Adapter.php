@@ -93,7 +93,7 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
     /**
      * Active SQL bound parameter variables
      *
-     * @return string
+     * @return array
      */
     public function getSqlVariables() {}
 
