@@ -676,14 +676,14 @@ class Tag
     /**
      * Appends a text to current document title
      *
-     * @param string $title
+     * @param mixed $title
      */
     public static function appendTitle($title) {}
 
     /**
      * Prepends a text to current document title
      *
-     * @param string $title
+     * @param mixed $title
      */
     public static function prependTitle($title) {}
 

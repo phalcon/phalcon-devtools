@@ -92,6 +92,9 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     protected $_modelBinding = false;
 
 
+    protected $_modelBinder = null;
+
+
     /**
      * Sets the dependency injector
      *
@@ -268,9 +271,47 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
     /**
      * Enable/Disable model binding during dispatch
      *
-     * @param boolean $value
+     * <code>
+     * $di->set('dispatcher', function() {
+     *     $dispatcher = new Dispatcher();
+     *
+     *     $dispatcher->setModelBinding(true, 'cache');
+     *     return $dispatcher;
+     * });
+     * </code>
+     *
+     * @deprecated 3.1.0 Use setModelBinder method
+     * @see Phalcon\Dispatcher::setModelBinder()
+     * @param bool $value
+     * @param mixed $cache
+     * @return Dispatcher
      */
-    public function setModelBinding($value) {}
+    public function setModelBinding($value, $cache = null) {}
+
+    /**
+     * Enable model binding during dispatch
+     *
+     * <code>
+     * $di->set('dispatcher', function() {
+     *     $dispatcher = new Dispatcher();
+     *
+     *     $dispatcher->setModelBinder(new Binder(), 'cache');
+     *     return $dispatcher;
+     * });
+     * </code>
+     *
+     * @param \Phalcon\Mvc\Model\BinderInterface $modelBinder
+     * @param mixed $cache
+     * @return Dispatcher
+     */
+    public function setModelBinder(\Phalcon\Mvc\Model\BinderInterface $modelBinder, $cache = null) {}
+
+    /**
+     * Gets model binder
+     *
+     * @return null|\Phalcon\Mvc\Model\BinderInterface
+     */
+    public function getModelBinder() {}
 
     /**
      * Dispatches a handle action taking into account the routing parameters
@@ -323,6 +364,23 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
      * @param array $params
      */
     public function callActionMethod($handler, $actionMethod, array $params = array()) {}
+
+    /**
+     * Returns bound models from binder instance
+     *
+     * <code>
+     * class UserController extends Controller
+     * {
+     *     public function showAction(User $user)
+     *     {
+     *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
+     *     }
+     * }
+     * </code>
+     *
+     * @return array
+     */
+    public function getBoundModels() {}
 
     /**
      * Set empty properties to their defaults (where defaults are available)

@@ -490,6 +490,7 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
      * @param string $functionName
      * @param string $alias
      * @param array $parameters
+     * @param string $function
      * @return \Phalcon\Mvc\Model\ResultsetInterface
      */
     protected static function _groupResult($functionName, $alias, $parameters) {}
@@ -1289,7 +1290,17 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     public function hasChanged($fieldName = null) {}
 
     /**
-     * Returns a list of changed values
+     * Returns a list of changed values.
+     *
+     * <code>
+     * $robots = Robots::findFirst();
+     * print_r($robots->getChangedFields()); // []
+     *
+     * $robots->deleted = 'Y';
+     *
+     * $robots->getChangedFields();
+     * print_r($robots->getChangedFields()); // ["deleted"]
+     * </code>
      *
      * @return array
      */
@@ -1347,8 +1358,8 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Handles method calls when a method is not implemented
      *
-     * @param	string $method
-     * @param	array $arguments
+     * @param	string method
+     * @param	array arguments
      * @return	mixed
      * @param string $method
      * @param mixed $arguments
@@ -1358,8 +1369,8 @@ abstract class Model implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\Model
     /**
      * Handles method calls when a static method is not implemented
      *
-     * @param	string $method
-     * @param	array $arguments
+     * @param	string method
+     * @param	array arguments
      * @return	mixed
      * @param string $method
      * @param mixed $arguments

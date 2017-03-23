@@ -32,6 +32,9 @@ namespace Phalcon\Mvc\Model\Validator;
  *     }
  * }
  * </code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\InclusionIn
  */
 class Inclusionin extends \Phalcon\Mvc\Model\Validator
 {

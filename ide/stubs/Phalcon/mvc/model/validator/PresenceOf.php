@@ -32,6 +32,9 @@ namespace Phalcon\Mvc\Model\Validator;
  *     }
  * }
  * </code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\PresenceOf
  */
 class PresenceOf extends \Phalcon\Mvc\Model\Validator
 {

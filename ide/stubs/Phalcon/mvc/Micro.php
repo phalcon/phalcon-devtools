@@ -58,6 +58,12 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
     protected $_returnedValue;
 
 
+    protected $_modelBinder;
+
+
+    protected $_afterBindingHandlers;
+
+
     /**
      * Phalcon\Mvc\Micro constructor
      *
@@ -297,6 +303,14 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
     public function before($handler) {}
 
     /**
+     * Appends a afterBinding middleware to be called after model binding
+     *
+     * @param callable $handler
+     * @return Micro
+     */
+    public function afterBinding($handler) {}
+
+    /**
      * Appends an 'after' middleware to be called after execute the route
      *
      * @param callable $handler
@@ -318,5 +332,33 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
      * @return array
      */
     public function getHandlers() {}
+
+    /**
+     * Gets model binder
+     *
+     * @return null|\Phalcon\Mvc\Model\BinderInterface
+     */
+    public function getModelBinder() {}
+
+    /**
+     * Sets model binder
+     *
+     * <code>
+     * $micro = new Micro($di);
+     * $micro->setModelBinder(new Binder(), 'cache');
+     * </code>
+     *
+     * @param \Phalcon\Mvc\Model\BinderInterface $modelBinder
+     * @param mixed $cache
+     * @return Micro
+     */
+    public function setModelBinder(\Phalcon\Mvc\Model\BinderInterface $modelBinder, $cache = null) {}
+
+    /**
+     * Returns bound models from binder instance
+     *
+     * @return array
+     */
+    public function getBoundModels() {}
 
 }
