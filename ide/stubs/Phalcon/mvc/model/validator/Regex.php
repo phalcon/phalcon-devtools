@@ -32,6 +32,9 @@ namespace Phalcon\Mvc\Model\Validator;
  *     }
  * }
  * </code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\Regex
  */
 class Regex extends \Phalcon\Mvc\Model\Validator
 {

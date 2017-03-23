@@ -31,6 +31,9 @@ namespace Phalcon\Mvc\Model\Validator;
  *     }
  * }
  * </code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\Email
  */
 class Email extends \Phalcon\Mvc\Model\Validator
 {

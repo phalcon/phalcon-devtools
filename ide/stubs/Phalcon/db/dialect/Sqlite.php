@@ -122,6 +122,15 @@ class Sqlite extends \Phalcon\Db\Dialect
     public function createTable($tableName, $schemaName, array $definition) {}
 
     /**
+     * Generates SQL to truncate a table
+     *
+     * @param string $tableName
+     * @param string $schemaName
+     * @return string
+     */
+    public function truncateTable($tableName, $schemaName) {}
+
+    /**
      * Generates SQL to drop a table
      *
      * @param string $tableName

@@ -37,6 +37,9 @@ class Validation extends \Phalcon\Di\Injectable implements \Phalcon\ValidationIn
     protected $_values;
 
 
+
+    public function getData() {}
+
     /**
      * @param mixed $validators
      */

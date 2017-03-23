@@ -23,6 +23,15 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
     const OP_DELETE = 3;
 
 
+    const DIRTY_STATE_PERSISTENT = 0;
+
+
+    const DIRTY_STATE_TRANSIENT = 1;
+
+
+    const DIRTY_STATE_DETACHED = 2;
+
+
     public $_id;
 
 
@@ -36,6 +45,9 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
 
 
     protected $_operationMade = 0;
+
+
+    protected $_dirtyState = 1;
 
 
     protected $_connection;
@@ -245,6 +257,7 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * {
      *     public function validation()
      *     {
+     *         // Old, deprecated syntax, use new one below
      *         $this->validate(
      *             new ExclusionIn(
      *                 [
@@ -261,9 +274,31 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * }
      * </code>
      *
-     * @param Model\ValidatorInterface $validator
+     * <code>
+     * use Phalcon\Validation\Validator\ExclusionIn as ExclusionIn;
+     * use Phalcon\Validation;
+     *
+     * class Subscriptors extends \Phalcon\Mvc\Collection
+     * {
+     *     public function validation()
+     *     {
+     *         $validator = new Validation();
+     *         $validator->add("status",
+     *             new ExclusionIn(
+     *                 [
+     *                     "domain" => ["A", "I"]
+     *                 ]
+     *             )
+     *         );
+     *
+     *         return $this->validate($validator);
+     *     }
+     * }
+     * </code>
+     *
+     * @param mixed $validator
      */
-    protected function validate(Model\ValidatorInterface $validator) {}
+    protected function validate($validator) {}
 
     /**
      * Check whether validation process has generated any messages
@@ -611,6 +646,21 @@ abstract class Collection implements \Phalcon\Mvc\EntityInterface, \Phalcon\Mvc\
      * @return bool
      */
     public function delete() {}
+
+    /**
+     * Sets the dirty state of the object using one of the DIRTY_STATE_ constants
+     *
+     * @param int $dirtyState
+     * @return CollectionInterface
+     */
+    public function setDirtyState($dirtyState) {}
+
+    /**
+     * Returns one of the DIRTY_STATE_ constants telling if the document exists in the collection or not
+     *
+     * @return int
+     */
+    public function getDirtyState() {}
 
     /**
      * Sets up a behavior in a collection
