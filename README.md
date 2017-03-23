@@ -147,6 +147,26 @@ $config = [
 ];
 ```
 
+## Configuration file
+
+By creating **phalcon.json** or any other configuration file called **phalcon** in root project you can set options for all possible commands, for example:
+
+```json
+{
+  "migration" : {
+    "migrations": "App/Migrations",
+    "config": "App/Config/db.ini"
+  },
+  "controller" : {
+    "namespace": "Phalcon\\Test",
+    "directory": "App/Controllers",
+    "base-class": "App\\MyAbstractController"
+  }
+}
+```
+
+And then you can use use `phalcon migration run` or `phalcon controller SomeClass` and those commands will be executed with options from file. Arguments provided by developer from command line will overwrite existing one in file.
+
 ## License
 
 Phalcon Developer Tools is open source software licensed under the [New BSD License][:license:].<br>
