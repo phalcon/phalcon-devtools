@@ -102,4 +102,22 @@ class Uniqueness extends \Phalcon\Validation\CombinedFieldsValidator
      */
     protected function getColumnNameReal($record, $field) {}
 
+    /**
+     * Uniqueness method used for model
+     *
+     * @param mixed $record
+     * @param array $field
+     * @param array $values
+     */
+    protected function isUniquenessModel($record, array $field, array $values) {}
+
+    /**
+     * Uniqueness method used for collection
+     *
+     * @param mixed $record
+     * @param array $field
+     * @param array $values
+     */
+    protected function isUniquenessCollection($record, array $field, array $values) {}
+
 }

@@ -35,6 +35,9 @@ namespace Phalcon\Mvc\Model\Validator;
  *     }
  * }
  * </code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\StringLength
  */
 class StringLength extends \Phalcon\Mvc\Model\Validator
 {

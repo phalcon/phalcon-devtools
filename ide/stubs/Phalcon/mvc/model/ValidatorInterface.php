@@ -6,6 +6,9 @@ namespace Phalcon\Mvc\Model;
  * Phalcon\Mvc\Model\ValidatorInterface
  *
  * Interface for Phalcon\Mvc\Model validators
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\ValidatorInterface
  */
 interface ValidatorInterface
 {

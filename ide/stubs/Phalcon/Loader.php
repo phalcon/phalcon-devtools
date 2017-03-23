@@ -162,9 +162,10 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
     /**
      * Register the autoload method
      *
+     * @param bool $prepend
      * @return Loader
      */
-    public function register() {}
+    public function register($prepend = null) {}
 
     /**
      * Unregister the autoload method
