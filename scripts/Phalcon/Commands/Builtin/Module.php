@@ -41,13 +41,14 @@ class Module extends Command
     public function getPossibleParams()
     {
         return [
-            'name'            => 'Name of the new module',
-            'namespace=s'     => "Module's namespace [optional]",
-            'output=s'        => 'Folder where modules are located [optional]',
-            'config-type=s'   => 'The config type to be generated (ini, json, php, yaml) [optional]',
-            'template-path=s' => 'Specify a template path [optional]',
-            'help'            => 'Shows this help [optional]',
-
+            'name'                 => 'Name of the new module',
+            'namespace=s'          => "Module's namespace [optional]",
+            'output=s'             => 'Folder where modules are located [optional]',
+            'config-type=s'        => 'The config type to be generated (ini, json, php, yaml) [optional]',
+            'template-path=s'      => 'Specify a template path [optional]',
+            'module-directories=s' => 'What directories to create in module [optional]',
+            'namespace-alias=s'    => 'How to call model namespace alias in module [optional]',
+            'help'                 => 'Shows this help [optional]',
         ];
     }
 
@@ -59,18 +60,22 @@ class Module extends Command
      */
     public function run(array $parameters)
     {
-        $moduleName   = $this->getOption(['name', 1]);
-        $namespace    = $this->getOption('namespace', null, 'Application');
-        $configType   = $this->getOption('config-type', null, 'php');
-        $modulesDir   = $this->getOption('output');
-        $templatePath = $this->getOption('template-path', null, TEMPLATE_PATH . DIRECTORY_SEPARATOR . 'module');
+        $moduleName = $this->getOption(['name', 1]);
+        $namespace = $this->getOption('namespace', null, 'Application');
+        $configType = $this->getOption('config-type', null, 'php');
+        $modulesDir = $this->getOption('output');
+        $namespaceAlias = $this->getOption('namespace-alias');
+        $moduleDirectories = $this->getOption('module-directories');
+        $templatePath = $this->getOption('template-path', null, TEMPLATE_PATH.DIRECTORY_SEPARATOR.'module');
 
         $builder = new ModuleBuilder([
-            'name'         => $moduleName,
-            'namespace'    => $namespace,
-            'config-type'  => $configType,
-            'templatePath' => $templatePath,
-            'modulesDir'   => $modulesDir
+            'name'               => $moduleName,
+            'namespace'          => $namespace,
+            'config-type'        => $configType,
+            'templatePath'       => $templatePath,
+            'modulesDir'         => $modulesDir,
+            'namespace-alias'    => $namespaceAlias,
+            'module-directories' => $moduleDirectories,
         ]);
 
         return $builder->build();

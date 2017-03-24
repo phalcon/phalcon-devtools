@@ -21,6 +21,7 @@
 
 namespace Phalcon\Builder;
 
+use Phalcon\Config;
 use SplFileInfo;
 
 /**
@@ -75,6 +76,16 @@ class Module extends Component
 
         if ($this->options->contains('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
+        }
+
+        if ($this->options->contains('module-directories')) {
+            $moduleDirectories = $this->options->get('module-directories');
+            if (is_string($moduleDirectories)) {
+                $moduleDirectories = explode(",", $moduleDirectories);
+            } elseif(is_object($moduleDirectories) && $moduleDirectories instanceof Config) {
+                $moduleDirectories = $moduleDirectories->toArray();
+            }
+            $this->moduleDirectories = $moduleDirectories;
         }
 
         $config = $this->getConfig();
@@ -171,9 +182,10 @@ class Module extends Component
      * @param string $name
      * @param string $namespace
      *
+     * @param string $modelNamespaceAlias
      * @return $this
      */
-    protected function generateFile($getFile, $putFile, $name = '', $namespace = '')
+    protected function generateFile($getFile, $putFile, $name = '', $namespace = '', $modelNamespaceAlias = '')
     {
         if (false == file_exists($putFile)) {
             touch($putFile);
@@ -208,6 +220,7 @@ class Module extends Component
 
             $str = preg_replace('/@@name@@/', $name, $str);
             $str = preg_replace('/@@FQMN@@/', $namespace, $str);
+            $str = preg_replace('/@@MNA@@/', $modelNamespaceAlias, $str);
 
             if (count($this->variableValues) > 0) {
                 foreach ($this->variableValues as $variableValueKey => $variableValue) {
@@ -261,11 +274,12 @@ class Module extends Component
         $modulesDir = $this->options->get('modulesDir');
         $moduleName = $this->options->get('name');
         $namespace  = $this->options->get('namespace');
+        $modelNamespaceAlias = $this->options->get('namespace-alias');
 
         $getFile = $this->options->get('templatePath')  . DIRECTORY_SEPARATOR . 'Module.php';
         $putFile = $modulesDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'Module.php';
 
-        $this->generateFile($getFile, $putFile, $moduleName, $namespace);
+        $this->generateFile($getFile, $putFile, $moduleName, $namespace, $modelNamespaceAlias);
 
         return $this;
     }
@@ -282,9 +296,15 @@ class Module extends Component
         $moduleName = $this->options->get('name');
         $namespace  = $this->options->get('namespace');
 
-        $getFile = $this->options->get('templatePath')  . DIRECTORY_SEPARATOR . 'config.' . $type;
-        $putFile = $modulesDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.' . $type;
-        $this->generateFile($getFile, $putFile, $moduleName, $namespace);
+        if(in_array('config', $this->moduleDirectories)) {
+            $getFile = $this->options->get('templatePath').DIRECTORY_SEPARATOR.'config.'.$type;
+            $putFile = $modulesDir.DIRECTORY_SEPARATOR.$moduleName.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.'.$type;
+            $this->generateFile($getFile, $putFile, $moduleName, $namespace);
+        } elseif (in_array('Config', $this->moduleDirectories)) {
+            $getFile = $this->options->get('templatePath').DIRECTORY_SEPARATOR.'config.'.$type;
+            $putFile = $modulesDir.DIRECTORY_SEPARATOR.$moduleName.DIRECTORY_SEPARATOR.'Config'.DIRECTORY_SEPARATOR.'config.'.$type;
+            $this->generateFile($getFile, $putFile, $moduleName, $namespace);
+        }
 
         return $this;
     }
