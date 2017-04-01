@@ -53,14 +53,14 @@ abstract class Adapter implements \Phalcon\Db\AdapterInterface, \Phalcon\Events\
     /**
      * Active SQL bound parameter variables
      *
-     * @var string
+     * @var array
      */
     protected $_sqlVariables;
 
     /**
      * Active SQL Bind Types
      *
-     * @var string
+     * @var array
      */
     protected $_sqlBindTypes;
 
