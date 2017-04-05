@@ -250,7 +250,7 @@ class Beanstalk
      * @param string $data
      * @return bool|int
      */
-    protected function write($data) {}
+    public function write($data) {}
 
     /**
      * Closes the connection to the beanstalk server.
