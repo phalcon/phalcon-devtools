@@ -90,7 +90,8 @@ the `phalcon.php` to a directory in your `PATH`, so you can issue phalcon comman
 where a phalcon project resides.
 
 ```bash
-ln -s ~/phalcon-devtools/phalcon.php /usr/bin/phalcon
+cd phalcon-devtools
+ln -s $(pwd)/phalcon.php /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```
 
