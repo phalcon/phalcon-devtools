@@ -36,7 +36,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "~3.1"
+        "phalcon/devtools": "~3.2"
     }
 }
 ```
@@ -46,7 +46,7 @@ If you are still using Phalcon 2.0.x, create a `composer.json` with the followin
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "^3.0"
+        "phalcon/devtools": "^2.0"
     }
 }
 ```
@@ -90,7 +90,8 @@ the `phalcon.php` to a directory in your `PATH`, so you can issue phalcon comman
 where a phalcon project resides.
 
 ```bash
-ln -s ~/phalcon-devtools/phalcon.php /usr/bin/phalcon
+cd phalcon-devtools
+ln -s $(pwd)/phalcon.php /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```
 
@@ -113,7 +114,7 @@ This command should display something similar to:
 ```sh
 $ phalcon --help
 
-Phalcon DevTools (3.1.1)
+Phalcon DevTools (3.2.0)
 
 Help:
   Lists the commands available in Phalcon devtools
