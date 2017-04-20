@@ -27,7 +27,7 @@ use Phalcon\Db\Column;
 use Phalcon\Validation;
 use Phalcon\Generator\Snippet;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\Email as EmailValidator;
 
 /**
  * ModelBuilderComponent
