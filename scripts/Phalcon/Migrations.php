@@ -492,6 +492,9 @@ class Migrations
                 $version = array_pop($version);
             }
 
+            $versions = explode("\n", str_replace(array("\r\n", "\r"), "\n", $version));
+            $version  = end($versions);
+
             return VersionCollection::createItem($version);
         }
     }
