@@ -249,7 +249,7 @@ EOD;
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed \$parameters
-     * @return %s[]|%s
+     * @return %s[]|%s|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find(\$parameters = null)
     {
@@ -266,7 +266,7 @@ EOD;
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed \$parameters
-     * @return %s
+     * @return %s|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst(\$parameters = null)
     {

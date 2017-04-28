@@ -200,6 +200,7 @@ class AllModels extends Component
                     'belongsTo' => $belongsToModel,
                     'foreignKeys' => $foreignKeysModel,
                     'genSettersGetters' => $genSettersGetters,
+                    'genDocMethods' => $this->options->get('genDocMethods'),
                     'directory' => $this->options->get('directory'),
                     'modelsDir' => $this->options->get('modelsDir'),
                     'mapColumn' => $mapColumn,
