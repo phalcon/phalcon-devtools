@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -54,12 +54,12 @@ class Info extends Command
     {
         $info = new SystemInfo();
 
-        printf("%s:\n", Color::head('Environment:'));
+        printf("%s\n", Color::head('Environment:'));
         foreach ($info->getEnvironment() as $k => $v) {
             printf("  %s: %s\n", $k, $v);
         }
 
-        printf("%s:\n", Color::head('Versions:'));
+        printf("%s\n", Color::head('Versions:'));
         foreach ($info->getVersions() as $k => $v) {
             printf("  %s: %s\n", $k, $v);
         }
