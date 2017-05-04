@@ -3,7 +3,7 @@
 use Phalcon\Loader;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-
+@@iniConfigImport@@
 
 /**
  * Shared configuration service
@@ -52,14 +52,32 @@ $di->setShared('voltShared', function ($view) {
     $volt = new VoltEngine($view, $this);
     $volt->setOptions([
         'compiledPath' => function($templatePath) use ($config) {
+            $basePath = $config->application->appDir;
+            if ($basePath && substr($basePath, 0, 2) == '..') {
+                $basePath = dirname(__DIR__);
+            }
 
-            // Makes the view path into a portable fragment
-            $templateFrag = str_replace($config->application->appDir, '', $templatePath);
+            $basePath = realpath($basePath);
+            $templatePath = trim(substr($templatePath, strlen($basePath)), '\\/');
 
-            // Replace '/' with a safe '%%'
-            $templateFrag = str_replace('/', '%%', $templateFrag);
+            $filename = basename(str_replace(['\\', '/'], '_', $templatePath), '.volt') . '.php';
 
-            return $config->application->cacheDir . 'volt/' . $templateFrag . '.php';
+            $cacheDir = $config->application->cacheDir;
+            if ($cacheDir && substr($cacheDir, 0, 2) == '..') {
+                $cacheDir = __DIR__ . DIRECTORY_SEPARATOR . $cacheDir;
+            }
+
+            $cacheDir = realpath($cacheDir);
+
+            if (!$cacheDir) {
+                $cacheDir = sys_get_temp_dir();
+            }
+
+            if (!is_dir($cacheDir . DIRECTORY_SEPARATOR . 'volt' )) {
+                @mkdir($cacheDir . DIRECTORY_SEPARATOR . 'volt' , 0755, true);
+            }
+
+            return $cacheDir . DIRECTORY_SEPARATOR . 'volt' . DIRECTORY_SEPARATOR . $filename;
         }
     ]);
 
