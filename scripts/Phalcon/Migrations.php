@@ -349,21 +349,29 @@ class Migrations
         $completedVersions = self::getCompletedVersions($options);
         $versionItems = VersionCollection::sortDesc($versionItems);
 
+        $versionColumnWidth = 27;
+        foreach ($versionItems as $versionItem) {
+            if (strlen($versionItem) > ($versionColumnWidth - 2)) {
+                $versionColumnWidth = strlen($versionItem) + 2;
+            }
+        }
+        $format = "│ %-" . ($versionColumnWidth - 2) . "s │ %12s │";
+
         $report = [];
         foreach ($versionItems as $versionItem) {
             $versionNumber = $versionItem->getVersion();
-            $report[] = sprintf("│ %-25s │ %12s │", $versionNumber, isset($completedVersions[$versionNumber]) ? 'Y' : 'N');
+            $report[] = sprintf($format, $versionNumber, isset($completedVersions[$versionNumber]) ? 'Y' : 'N');
         }
 
-        $header = sprintf("│ %-25s │ %12s │", 'Version', 'Was applied');
-        $report[] = '├' . str_repeat('─', 27) . '┼'. str_repeat('─', 14) . '┤';
+        $header = sprintf($format, 'Version', 'Was applied');
+        $report[] = '├' . str_repeat('─', $versionColumnWidth) . '┼'. str_repeat('─', 14) . '┤';
         $report[] = $header;
 
         $report = array_reverse($report);
 
-        echo '┌' . str_repeat('─', 27) . '┬'. str_repeat('─', 14) . '┐' . PHP_EOL;
+        echo '┌' . str_repeat('─', $versionColumnWidth) . '┬'. str_repeat('─', 14) . '┐' . PHP_EOL;
         echo join(PHP_EOL, $report) . PHP_EOL;
-        echo '└' . str_repeat('─', 27) . '┴'. str_repeat('─', 14) . '┘'. PHP_EOL . PHP_EOL;
+        echo '└' . str_repeat('─', $versionColumnWidth) . '┴'. str_repeat('─', 14) . '┘'. PHP_EOL . PHP_EOL;
     }
 
     /**
