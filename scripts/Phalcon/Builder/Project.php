@@ -24,6 +24,8 @@ use Phalcon\Builder\Project\Cli;
 use Phalcon\Builder\Project\Micro;
 use Phalcon\Builder\Project\Simple;
 use Phalcon\Builder\Project\Modules;
+use Phalcon\Utils\FsUtils;
+use SplFileInfo;
 
 /**
  * Project Builder
@@ -112,6 +114,10 @@ class Project extends Component
         $builder = new $builderClass($this->options);
 
         $success = $builder->build();
+
+        $root = new SplFileInfo($this->path->getRootPath('public'));
+        $fsUtils = new FsUtils();
+        $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
 
         if ($success === true) {
             $this->notifySuccess(sprintf(

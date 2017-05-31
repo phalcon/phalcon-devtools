@@ -24,6 +24,10 @@ namespace Phalcon\Utils;
 use Phalcon\Text;
 use DirectoryIterator;
 use Phalcon\Exception\InvalidArgumentException;
+use SplFileInfo;
+use ArrayIterator;
+use Iterator;
+use RuntimeException;
 
 /**
  * \Phalcon\Utils\FsUtils
@@ -109,5 +113,84 @@ class FsUtils
         $groupName = !empty($group['name']) ? $group['name'] : '-?-';
 
         return $userName . ' / ' . $groupName;
+    }
+
+    /**
+     * Set permission to public folder
+     *
+     * @param SplFileInfo $root
+     * @param array $dir
+     */
+    public function setDirectoryPermission(SplFileInfo $root, $dir)
+    {
+        $this->createRecursiveDirectory($root);
+        $iterator = new ArrayIterator($dir);
+        $cb = function (Iterator $iterator, $basePath) {
+            while($iterator->valid()) {
+                $desiredPath = $basePath . DS . $iterator->key() . DS;
+                if (!file_exists($desiredPath)) {
+                    $this->createRecursiveDirectory(new SplFileInfo($desiredPath));
+                }
+                chmod($desiredPath . DS, $iterator->current());
+
+                $iterator->next();
+            }
+        };
+
+        $this->applyWithCallback($iterator, $cb, [$iterator, $root->getRealPath()]);
+    }
+
+    /**
+     * Callback function
+     *
+     * @param callable $cb
+     * @param array $rights
+     */
+    protected function applyWithCallback($iterator, $cb, $params)
+    {
+        iterator_apply($iterator, $cb, $params);
+    }
+
+    /**
+     * Create directory
+     *
+     * @param SplFileInfo $path
+     */
+    protected function createRecursiveDirectory(SplFileInfo $root)
+    {
+        if ($root->isDir()) {
+            return;
+        }
+
+        if ($root->isFile()) {
+            throw new RuntimeException("A {$root} can't be a file");
+        }
+
+        if (!mkdir($root, 0777, true)) {
+            throw new RuntimeException("Unable to create {$root} path");
+        }
+    }
+
+    /**
+     * Delete files from directory
+     *
+     * @param SplFileInfo $path
+     * @param array $files
+     */
+    public function deleteFilesFromDirectory(SplFileInfo $root, $files)
+    {
+        $iterator = new ArrayIterator($files);
+        $cb = function (Iterator $iterator, $basePath) {
+            while($iterator->valid()) {
+                $desiredPath = $basePath . DS . $iterator->current();
+                if (file_exists($desiredPath)) {
+                    unlink($desiredPath);
+                }
+
+                $iterator->next();
+            }
+        };
+
+        $this->applyWithCallback($iterator, $cb, [$iterator, $root->getRealPath()]);
     }
 }
