@@ -389,7 +389,7 @@ class Migration
         $classData .= "\n    }\n";
 
         // afterCreateTable()
-        if ($exportData == 'oncreate') {
+        if ($exportData == 'oncreate' || $exportData == 1) {
             $classData .= $snippet->getMigrationAfterCreateTable($table, $allFields);
         }
 
@@ -397,7 +397,7 @@ class Migration
         $classData .= "\n}\n";
 
         // dump data
-        if ($exportData == 'always' || $exportData == 'oncreate') {
+        if ($exportData) {
             $fileHandler = fopen(self::$_migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$_connection->query('SELECT * FROM '. self::$_connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
