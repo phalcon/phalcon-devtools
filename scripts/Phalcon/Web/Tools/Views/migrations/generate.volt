@@ -59,6 +59,23 @@
                         </div>
                     </div>
 
+                    <div class="choose_type_data" id="choose_type_data" style="margin-right: -125px; display: none;">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="radio">
+                                <label for="exportData">
+                                    <input type="radio" name="exportDataType" value="oncreate"> oncreate
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="radio">
+                                <label for="exportData">
+                                    <input type="radio" name="exportDataType" value="always""> always
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label for="noAi">
