@@ -192,7 +192,7 @@ return [
         // Phalcon Docs
         [
             'link'  => [
-                'href'  => 'http://docs.phalconphp.com/',
+                'href'  => 'https://docs.phalconphp.com/',
                 'icon'  => 'fa fa-book',
                 'local' => false,
                 'target' => '_blank',
@@ -216,7 +216,7 @@ return [
         // Awesome Phalcon
         [
             'link'  => [
-                'href'  => 'https://github.com/sergeyklay/awesome-phalcon',
+                'href'  => 'https://github.com/phalcon/awesome-phalcon',
                 'icon'  => 'fa fa-book',
                 'local' => false,
                 'target' => '_blank',
