@@ -103,7 +103,7 @@ class MigrationsController extends Base
                 Migrations::generate([
                     'directory'       => $this->request->getPost('basePath', 'string'),
                     'tableName'       => $this->request->getPost('tableName', 'string'),
-                    'exportData'      => $this->request->getPost('exportData', 'int'),
+                    'exportData'      => $this->request->getPost('exportDataType', 'string'),
                     'migrationsDir'   => $this->request->getPost('migrationsDir', 'string'),
                     'force'           => $this->request->getPost('force', 'int'),
                     'noAutoIncrement' => $this->request->getPost('noAi', 'int'),
@@ -118,7 +118,7 @@ class MigrationsController extends Base
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (\Exception $e) {
-                $this->flash->error('An unexpected error has occurred.');
+                $this->flash->error('An unexpected error has occurred. ' . $e->getMessage());
             }
         }
 
@@ -168,7 +168,7 @@ class MigrationsController extends Base
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (\Exception $e) {
-                $this->flash->error('An unexpected error has occurred.');
+                $this->flash->error('An unexpected error has occurred. ' . $e->getMessage());
             }
         }
 

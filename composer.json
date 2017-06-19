@@ -23,7 +23,7 @@
     },
     "require": {
         "php": ">=5.5",
-        "ext-phalcon": "^3.0",
+        "ext-phalcon": "~3.1",
         "psy/psysh": "@stable"
     },
     "require-dev": {

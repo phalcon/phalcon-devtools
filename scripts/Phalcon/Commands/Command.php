@@ -302,8 +302,9 @@ abstract class Command implements CommandsInterface
         }
 
         foreach (['ini', 'php', 'json', 'yaml'] as $extension) {
-            if (file_exists("phalcon.".$extension)) {
-                $config = $this->loadConfig("phalcon.".$extension);
+            $customConfig = "config.{$extension}";
+            if (file_exists($customConfig)) {
+                $config = $this->loadConfig($customConfig);
                 $commandName = $this->getCommands()[0];
                 $optionsToMerge = $config->get($commandName);
                 if (!empty($optionsToMerge)) {

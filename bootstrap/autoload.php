@@ -103,7 +103,7 @@ defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
 defined('ADMIN_LTE_VERSION') || define('ADMIN_LTE_VERSION', '2.3.6');
 
 /** @const COMPATIBLE_VERSION The compatible Phalcon version. */
-define('COMPATIBLE_VERSION', 3000040);
+defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
 
 /**
  * Register Devtools classes.

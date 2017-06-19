@@ -22,6 +22,8 @@
 namespace Phalcon\Web;
 
 use Phalcon\Exception;
+use Phalcon\Utils\FsUtils;
+use SplFileInfo;
 
 /**
  * \Phalcon\Web\Tools
@@ -41,11 +43,11 @@ class Tools
      */
     public static function install($path)
     {
-        $path = str_replace(["\\", '/'], DS, realpath($path)) . DS;
+        $fsUtils = new FsUtils();
+        $path = $fsUtils->normalize(realpath($path)) . DS;
 
-        if (!is_dir($path . 'public' . DS)) {
-            throw new Exception('Document root cannot be located');
-        }
+        $root = new SplFileInfo($path . 'public' . DS);
+        $fsUtils->setDirectoryPermission($root, ['js' => 0777]);
 
         $tools = rtrim(str_replace(["\\", '/'], DS, PTOOLSPATH), DS);
 
@@ -71,19 +73,17 @@ class Tools
      */
     public static function uninstall($path)
     {
-        $path = str_replace(["\\", '/'], DS, realpath($path)) . DS;
+        $fsUtils = new FsUtils();
+        $path = $fsUtils->normalize(realpath($path)) . DS;
 
-        if (!is_dir($path . 'public')) {
-            throw new \Exception('Document root cannot be located');
-        }
-
-        if (is_file($path . 'public' . DS . 'webtools.config.php')) {
-            unlink($path . 'public' . DS . 'webtools.config.php');
-        }
-
-        if (is_file($path . 'public' . DS . 'webtools.php')) {
-            unlink($path . 'public' . DS . 'webtools.php');
-        }
+        $root = new SplFileInfo($path . 'public' . DS);
+        $fsUtils->deleteFilesFromDirectory($root, [
+            'css' . DS . 'webtools.css',
+            'js' . DS . 'webtools.js',
+            'js' . DS . 'webtools-ie.js',
+            'webtools.config.php',
+            'webtools.php'
+        ]);
 
         return true;
     }
