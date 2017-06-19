@@ -21,7 +21,7 @@ with Phalcon framework.
 ## Requirements
 
 * PHP >= 5.5
-* Phalcon >= 3.1.0
+* Phalcon >= 3.2.0
 
 ## Installing via Composer
 
@@ -130,6 +130,7 @@ Available commands:
   scaffold         (alias of: create-scaffold)
   migration        (alias of: create-migration)
   webtools         (alias of: create-webtools)
+  console          (alias of: shell, psysh)
 ```
 
 ## Database adapter
