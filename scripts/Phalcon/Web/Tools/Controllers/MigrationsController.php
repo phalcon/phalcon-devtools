@@ -157,7 +157,7 @@ class MigrationsController extends Base
                     [
                         'config'        => $this->config,
                         'directory'     => $this->request->getPost('basePath', 'string'),
-                        'tableName'     => 'all', // @todo
+                        'tableName'     => '@', // @todo
                         'migrationsDir' => $this->request->getPost('migrationsDir', 'string'),
                     ]
                 );
