@@ -108,12 +108,8 @@ abstract class Base extends Controller
 
         $this->assets
             ->collection('js_ie')
-            ->setTargetPath('js/webtools-ie.js')
-            ->setTargetUri('js/webtools-ie.js?v=' . Version::get())
             ->addJs('https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js', false, false)
-            ->addJs('https://oss.maxcdn.com/respond/1.4.2/respond.min.js', false, false)
-            ->join(true)
-            ->addFilter(new Jsmin);
+            ->addJs('https://oss.maxcdn.com/respond/1.4.2/respond.min.js', false, false);
 
         return $this;
     }
