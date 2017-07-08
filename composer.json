@@ -27,7 +27,10 @@
         "psy/psysh": "@stable"
     },
     "require-dev": {
-        "kherge/box": "^2.7"
+        "kherge/box": "^2.7",
+        "codeception/codeception": "^2.3",
+        "phpdocumentor/reflection-docblock": "^2.0",
+        "phpunit/phpunit": "^4.8"
     },
     "autoload": {
         "psr-4" : {
