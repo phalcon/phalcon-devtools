@@ -41,6 +41,11 @@ class Serve extends Command
     const DEFAULT_PORT      = '8080';
     const DEFAULT_BASE_PATH = 'public/index.php';
 
+    protected $_hostname = '';
+    protected $_port = '';
+    protected $_base_path = '';
+    protected $_config = '';
+
     /**
      * {@inheritdoc}
      *
@@ -74,34 +79,63 @@ class Serve extends Command
         passthru($cmd);
     }
 
-    protected function shellCommand()
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
+    public function prepareOptions()
+    {
+        $this->_hostname  = $this->getOption(['hostname', 1], null, self::DEFAULT_HOSTNAME);
+        $this->_port      = $this->getOption(['port',     2], null, self::DEFAULT_PORT);
+        $this->_base_path = $this->getOption(['basepath', 3], null, self::DEFAULT_BASE_PATH);
+        $this->_config    = $this->customConfig($this->getOption(['config']));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
+    public function printServerDetails()
+    {
+        print Color::head('Preparing Development Server') . PHP_EOL;
+        print Color::colorize("  Host: $this->_hostname", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Port: $this->_port", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Base: $$this->_base_path", Color::FG_GREEN) . PHP_EOL;
+        if($this->_config != null) {
+            print Color::colorize("   ini: $$this->_config", Color::FG_GREEN) . PHP_EOL;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function shellCommand()
     {
         $systemInfo = new SystemInfo();
-
         $binary_path = $systemInfo->getEnvironment()['PHP Bin'];
 
-        $hostname =  $this->getOption(['hostname', 1], null, self::DEFAULT_HOSTNAME);
-        $port =      $this->getOption(['port',     2], null, self::DEFAULT_PORT);
-        $base_path = $this->getOption(['basepath', 3], null, self::DEFAULT_BASE_PATH);
-        $config = $this->customConfig($this->getOption(['config']));
-
-        print Color::head('Preparing Development Server') . PHP_EOL;
-        print Color::colorize("  Host: $hostname", Color::FG_GREEN) . PHP_EOL;
-        print Color::colorize("  Port: $port", Color::FG_GREEN) . PHP_EOL;
-        print Color::colorize("  Base: $base_path", Color::FG_GREEN) . PHP_EOL;
-        if($config != null) {
-            print Color::colorize("   ini: $config", Color::FG_GREEN) . PHP_EOL;
-        }
+        $this->prepareOptions();
+        $this->printServerDetails();
 
         return sprintf('%s -S %s:%s %s %s',
             $binary_path,
-            $hostname,
-            $port,
-            'public/index.php',
-            $config
+            $this->_hostname,
+            $this->_port,
+            $this->_base_path,
+            $this->_config
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param  string
+     * @return string
+     */
     protected function customConfig($config){
         if ($config === null) {
             return '';
@@ -150,5 +184,45 @@ class Serve extends Command
     public function getRequiredParams()
     {
         return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getHostname()
+    {
+        return $this->_hostname;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getPort()
+    {
+        return $this->_port;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->_base_path;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getConfigPath()
+    {
+        return $this->_config;
     }
 }
