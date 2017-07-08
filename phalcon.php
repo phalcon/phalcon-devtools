@@ -34,6 +34,7 @@ use Phalcon\Commands\Builtin\AllModels;
 use Phalcon\Commands\Builtin\Migration;
 use Phalcon\Commands\Builtin\Enumerate;
 use Phalcon\Commands\Builtin\Controller;
+use Phalcon\Commands\Builtin\Serve;
 use Phalcon\Commands\Builtin\Console;
 use Phalcon\Exception as PhalconException;
 use Phalcon\Events\Manager as EventsManager;
@@ -61,6 +62,7 @@ try {
         Scaffold::class,
         Migration::class,
         Webtools::class,
+        Serve::class,
         Console::class,
     ];
 
