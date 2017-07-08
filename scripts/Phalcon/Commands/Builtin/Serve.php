@@ -69,7 +69,9 @@ class Serve extends Command
         $di['registry'] = function () {
             return new Registry();
         };
-        passthru($this->shellCommand());
+        $cmd = $this->shellCommand();
+        print Color::head("Starting Server with $cmd") . PHP_EOL . PHP_EOL;
+        passthru($cmd);
     }
 
     protected function shellCommand()
@@ -82,6 +84,14 @@ class Serve extends Command
         $port =      $this->getOption(['port',     2], null, self::DEFAULT_PORT);
         $base_path = $this->getOption(['basepath', 3], null, self::DEFAULT_BASE_PATH);
         $config = $this->customConfig($this->getOption(['config']));
+
+        print Color::head('Preparing Development Server') . PHP_EOL;
+        print Color::colorize("  Host: $hostname", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Port: $port", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Base: $base_path", Color::FG_GREEN) . PHP_EOL;
+        if($config != null) {
+            print Color::colorize("   ini: $config", Color::FG_GREEN) . PHP_EOL;
+        }
 
         return sprintf('%s -S %s:%s %s %s',
             $binary_path,
