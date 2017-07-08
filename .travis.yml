@@ -33,8 +33,22 @@ env:
     - DISPLAY=":99.0"
     - PHALCON_VERSION="v3.0.4"
 
+before_install:
+  - export PHP_VERSION=$(php-config --version)
+  - export PHP_EXTENSION_DIR=$(php-config --extension-dir)
+  - phpenv config-rm xdebug.ini || true
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
+  - if [ ! -f "$HOME/cphalcon/tests/_ci/phalcon.ini" ]; then git clone -q --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon >/dev/null 2>&1; fi;
+
+install:
+  - if [ ! -f $HOME/ext/$PHP_VERSION/phalcon.so ]; then cd $HOME/cphalcon/build && bash ./install --phpize $(phpenv which phpize) --php-config $(phpenv which php-config) && mkdir -p $HOME/ext/$PHP_VERSION && cp $PHP_EXTENSION_DIR/phalcon.so $HOME/ext/$PHP_VERSION/phalcon.so; fi;
+  - if [ -f $HOME/ext/$PHP_VERSION/phalcon.so ]; then cp $HOME/ext/$PHP_VERSION/phalcon.so $PHP_EXTENSION_DIR/phalcon.so; fi;
+  - phpenv config-add $HOME/cphalcon/tests/_ci/phalcon.ini
+  - cd $TRAVIS_BUILD_DIR
+  - travis_retry composer install --prefer-dist --no-interaction
+
 script:
-  - true
+  - vendor/bin/codecept run unit
 
 notifications:
   email:
@@ -52,3 +66,4 @@ addons:
       - mysql-server-5.6
       - mysql-client-core-5.6
       - mysql-client-5.6
+language: php
