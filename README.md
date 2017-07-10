@@ -130,6 +130,7 @@ Available commands:
   scaffold         (alias of: create-scaffold)
   migration        (alias of: create-migration)
   webtools         (alias of: create-webtools)
+  serve            (alias of: server)
   console          (alias of: shell, psysh)
 ```
 
