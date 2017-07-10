@@ -121,6 +121,14 @@ class Serve extends Command
         $this->prepareOptions();
         $this->printServerDetails();
 
+        print Color::head('Preparing Development Server') . PHP_EOL;
+        print Color::colorize("  Host: $hostname", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Port: $port", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Base: $base_path", Color::FG_GREEN) . PHP_EOL;
+        if($config != null) {
+            print Color::colorize("   ini: $config", Color::FG_GREEN) . PHP_EOL;
+        }
+
         return sprintf('%s -S %s:%s %s %s',
             $binary_path,
             $this->_hostname,
