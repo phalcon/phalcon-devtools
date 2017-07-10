@@ -28,6 +28,7 @@ use Phalcon\Validation;
 use Phalcon\Generator\Snippet;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Text;
 
 
 /**
@@ -75,11 +76,11 @@ class Model extends Component
         }
 
         if (!isset($options['className'])) {
-            $options['className'] = Utils::camelize($options['name']);
+            $options['className'] = Text::camelize(Utils::camelize($options['name']));
         }
 
         if (!isset($options['fileName'])) {
-            $options['fileName'] = $options['name'];
+            $options['fileName'] = Text::camelize($options['name']);
         }
 
         if (!isset($options['abstract'])) {
@@ -229,6 +230,7 @@ class Model extends Component
         if ($schema) {
             $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
         }
+        $initialize['source'] = $this->snippet->getThisMethod('setSource', $this->options->get('name'));
 
         $table = $this->options->get('name');
         if ($this->options->get('fileName') != $table && !isset($initialize['schema'])) {
@@ -293,7 +295,7 @@ class Model extends Component
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
                         /** @var \Phalcon\Db\Column $field */
-                        $methodName = Utils::camelize($field->getName());
+                        $methodName = Text::camelize(Utils::camelize($field->getName()), '-');
 
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
@@ -376,9 +378,9 @@ class Model extends Component
         foreach ($fields as $field) {
             if ($field->getType() === Column::TYPE_CHAR) {
                 if ($this->options->get('camelize')) {
-                    $fieldName = Utils::lowerCamelize($field->getName());
+                    $fieldName = Text::camelize(Utils::lowerCamelize($field->getName()), '-');
                 } else {
-                    $fieldName = $field->getName();
+                    $fieldName = Text::camelize($field->getName(), '-');
                 }
                 $domain = [];
                 if (preg_match('/\((.*)\)/', $field->getType(), $matches)) {
@@ -393,9 +395,9 @@ class Model extends Component
             }
             if ($field->getName() == 'email') {
                 if ($this->options->get('camelize')) {
-                    $fieldName = Utils::lowerCamelize($field->getName());
+                    $fieldName = Text::camelize(Utils::lowerCamelize($field->getName()), '-');
                 } else {
-                    $fieldName = $field->getName();
+                    $fieldName = Text::camelize($field->getName(), '-');
                 }
                 $validations[] = $this->snippet->getValidateEmail($fieldName);
                 $uses[] = $this->snippet->getUseAs(EmailValidator::class, 'EmailValidator');
@@ -428,10 +430,11 @@ class Model extends Component
             }
             $type = $this->getPHPType($field->getType());
             $fieldName = $this->options->get('camelize') ? Utils::lowerCamelize($field->getName()) : $field->getName();
+            $fieldName = Text::camelize($fieldName, '-');
             $attributes[] = $this->snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->options->has( 'annotate' ), $fieldName);
-            if ($useSettersGetters) {
-                $methodName   = Utils::camelize($field->getName());
 
+            if ($useSettersGetters) {
+                $methodName = Text::camelize(Utils::camelize($field->getName()). '-');
                 $setters[] = $this->snippet->getSetter($fieldName, $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
