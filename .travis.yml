@@ -24,14 +24,14 @@ cache:
     - vendor
     - $HOME/.ccache
     - $HOME/.composer/cache
+    - $HOME/cphalcon
+    - $HOME/ext
 
 env:
   global:
-    - ZEND_DONT_UNLOAD_MODULES=1
-    - CC="ccache gcc"
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
-    - PHALCON_VERSION="v3.0.4"
+    - PHALCON_VERSION="v3.2.0"
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
@@ -48,6 +48,7 @@ install:
   - travis_retry composer install --prefer-dist --no-interaction
 
 script:
+  - vendor/bin/codecept build
   - vendor/bin/codecept run unit
 
 notifications:
@@ -60,10 +61,6 @@ notifications:
 addons:
   apt:
     packages:
-      - gdb
-      - re2c
-      - beanstalkd
       - mysql-server-5.6
       - mysql-client-core-5.6
       - mysql-client-5.6
-language: php
