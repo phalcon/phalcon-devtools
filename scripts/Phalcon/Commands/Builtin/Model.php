@@ -71,18 +71,14 @@ class Model extends Command
     public function run(array $parameters)
     {
         $name = $this->getOption(['name', 1]);
-
-        $className = Text::camelize(isset($parameters[1]) ? $parameters[1] : $name);
-        $fileName = Text::uncamelize($className);
-
-        $schema = $this->getOption('schema');
+        $className = Text::camelize(isset($parameters[1]) ? $parameters[1] : $name, '_-');
 
         $modelBuilder = new ModelBuilder(
             [
                 'name'              => $name,
-                'schema'            => $schema,
+                'schema'            => $this->getOption('schema'),
                 'className'         => $className,
-                'fileName'          => $fileName,
+                'fileName'          => Text::uncamelize($className),
                 'genSettersGetters' => $this->isReceivedOption('get-set'),
                 'genDocMethods'     => $this->isReceivedOption('doc'),
                 'namespace'         => $this->getOption('namespace'),
