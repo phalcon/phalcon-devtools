@@ -430,7 +430,8 @@ class Migrations
                         new Column(
                             'end_time',
                             [
-                                'type' => 'TIMESTAMP NOT NULL DEFAULT NOW()',
+                                'type' => Column::TYPE_TIMESTAMP,
+                                'notNull' => true,
                             ]
                         )
                     ],
