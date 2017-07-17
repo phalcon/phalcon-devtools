@@ -35,6 +35,8 @@ use Phalcon\Exception\Db\UnknownColumnTypeException;
 use Phalcon\Version\ItemCollection as VersionCollection;
 use Phalcon\Db\Dialect\MysqlExtended;
 use Phalcon\Db\Adapter\Pdo\MysqlExtended as AdapterMysqlExtended;
+use Phalcon\Db\Dialect\PostgresqlExtended;
+use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as AdapterPostgresqlExtended;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -83,6 +85,7 @@ class Migration
      * Prepares component
      *
      * @param \Phalcon\Config $database Database config
+     * @since 3.2.1 Using Postgresql::describeReferences and PostgresqlExtended dialect class
      *
      * @throws \Phalcon\Db\Exception
      */
@@ -99,6 +102,8 @@ class Migration
          */
         if ($database->adapter == 'Mysql') {
             $adapter = AdapterMysqlExtended::class;
+        } elseif ($database->adapter == 'Postgresql') {
+            $adapter = AdapterPostgresqlExtended::class;
         } else {
             $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\'.$database->adapter;
         }
@@ -115,6 +120,11 @@ class Migration
         //Connection custom dialect Dialect/MysqlExtended
         if ($database->adapter == 'Mysql') {
             self::$_connection->setDialect(new MysqlExtended);
+        }
+
+        //Connection custom dialect Dialect/PostgresqlExtended
+        if ($database->adapter == 'Postgresql') {
+            self::$_connection->setDialect(new PostgresqlExtended);
         }
 
         if (Migrations::isConsole()) {
