@@ -41,7 +41,7 @@ class ServeTest extends \Codeception\Test\Unit
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration
      *
      * @author Paul Scarrone <paul@savvysoftworks.com>
@@ -52,13 +52,14 @@ class ServeTest extends \Codeception\Test\Unit
         $this->command->parseParameters([], []);
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
-        $this->assertEquals('8080', $this->command->getPort());
-        $this->assertEquals('public/index.php', $this->command->getBasePath());
+        $this->assertEquals('8000', $this->command->getPort());
+        $this->assertEquals('.htrouter.php', $this->command->getBasePath());
+        $this->assertEquals('public', $this->command->getDocumentRoot());
         $this->assertEmpty($this->command->getConfigPath());
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration
      *
      * @author Paul Scarrone <paul@savvysoftworks.com>
@@ -68,11 +69,11 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['',''];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:8080 public/index.php', $command);
+        $this->assertContains('php -S 0.0.0.0:8000 -t public .htrouter.php', $command);
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * hostname is provided
      *
@@ -84,13 +85,14 @@ class ServeTest extends \Codeception\Test\Unit
         $this->command->parseParameters([], []);
         $this->command->prepareOptions();
         $this->assertEquals('localhost', $this->command->getHostname());
-        $this->assertEquals('8080', $this->command->getPort());
-        $this->assertEquals('public/index.php', $this->command->getBasePath());
+        $this->assertEquals('8000', $this->command->getPort());
+        $this->assertEquals('.htrouter.php', $this->command->getBasePath());
+        $this->assertEquals('public', $this->command->getDocumentRoot());
         $this->assertEmpty($this->command->getConfigPath());
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * hostname is provided
      *
@@ -101,11 +103,11 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', 'localhost'];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S localhost:8080 public/index.php', $command);
+        $this->assertContains('php -S localhost:8000 -t public .htrouter.php', $command);
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * port is provided
      *
@@ -118,12 +120,13 @@ class ServeTest extends \Codeception\Test\Unit
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
         $this->assertEquals('1111', $this->command->getPort());
-        $this->assertEquals('public/index.php', $this->command->getBasePath());
+        $this->assertEquals('.htrouter.php', $this->command->getBasePath());
+        $this->assertEquals('public', $this->command->getDocumentRoot());
         $this->assertEmpty($this->command->getConfigPath());
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * port is provided
      *
@@ -134,11 +137,11 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', null, 1111];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:1111 public/index.php', $command);
+        $this->assertContains('php -S 0.0.0.0:1111 -t public .htrouter.php', $command);
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * basepath is provided
      *
@@ -150,13 +153,14 @@ class ServeTest extends \Codeception\Test\Unit
         $this->command->parseParameters([], []);
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
-        $this->assertEquals('8080', $this->command->getPort());
+        $this->assertEquals('8000', $this->command->getPort());
         $this->assertEquals('/root/bin.php', $this->command->getBasePath());
+        $this->assertEquals('public', $this->command->getDocumentRoot());
         $this->assertEmpty($this->command->getConfigPath());
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * basepath is provided
      *
@@ -167,11 +171,45 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', null, null, '/root/bin.php'];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:8080 /root/bin.php', $command);
+        $this->assertContains('php -S 0.0.0.0:8000 -t public /root/bin.php', $command);
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
+     * this will provide a valid default configuration when only the
+     * rootpath is provided
+     *
+     * @author Paul Scarrone <paul@savvysoftworks.com>
+     */
+    public function testDefaultValuesWithDocumentRootOnly()
+    {
+        $_SERVER['argv'] = ['','', null, null, null, 'not_too_public'];
+        $this->command->parseParameters([], []);
+        $this->command->prepareOptions();
+        $this->assertEquals('0.0.0.0', $this->command->getHostname());
+        $this->assertEquals('8000', $this->command->getPort());
+        $this->assertEquals('.htrouter.php', $this->command->getBasePath());
+        $this->assertEquals('not_too_public', $this->command->getDocumentRoot());
+        $this->assertEmpty($this->command->getConfigPath());
+    }
+
+    /**
+     * Verify that if no arguments are passed via the command line
+     * this will provide a valid default configuration when only the
+     * rootpath is provided
+     *
+     * @author Paul Scarrone <paul@savvysoftworks.com>
+     */
+    public function testGeneratedCommandWithDocumentRootOnly()
+    {
+        $_SERVER['argv'] = ['','', null, null, null, 'not_too_public'];
+        $this->command->parseParameters([], []);
+        $command = $this->command->shellCommand();
+        $this->assertContains('php -S 0.0.0.0:8000 -t not_too_public .htrouter.php', $command);
+    }
+
+    /**
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * config is provided
      *
@@ -183,13 +221,14 @@ class ServeTest extends \Codeception\Test\Unit
         $this->command->parseParameters([], []);
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
-        $this->assertEquals('8080', $this->command->getPort());
-        $this->assertEquals('public/index.php', $this->command->getBasePath());
+        $this->assertEquals('8000', $this->command->getPort());
+        $this->assertEquals('.htrouter.php', $this->command->getBasePath());
+        $this->assertEquals('public', $this->command->getDocumentRoot());
         $this->assertEquals('-c awesome.ini', $this->command->getConfigPath());
     }
 
     /**
-     * Verify that is no arguments are passed via the command line
+     * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration when only the
      * config is provided
      *
@@ -200,6 +239,6 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', null, null, null, '--config=awesome.ini'];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:8080 public/index.php -c awesome.ini', $command);
+        $this->assertContains('php -S 0.0.0.0:8000 -t public .htrouter.php -c awesome.ini', $command);
     }
 }
