@@ -29,7 +29,7 @@ use Phalcon\Script\Color;
  *  In the CWD
  * @package Phalcon\Commands
  */
-class DotPhalconMissingException extends CommandsException
+class DotPhalconMissingException extends CommandsException implements iSelfHealingException
 {
     const DEFAULT_MESSAGE = "This command must be run inside a Phalcon project with a .phalcon directory.";
     const RESOLUTION_PROMPT = "Shall I create the .phalcon directory now? (y/n)";
