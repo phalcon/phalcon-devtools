@@ -37,14 +37,16 @@ use Phalcon\Bootstrap;
  */
 class Serve extends Command
 {
-    const DEFAULT_HOSTNAME  = '0.0.0.0';
-    const DEFAULT_PORT      = '8080';
-    const DEFAULT_BASE_PATH = 'public/index.php';
+    const DEFAULT_HOSTNAME      = '0.0.0.0';
+    const DEFAULT_PORT          = '8000';
+    const DEFAULT_BASE_PATH     = '.htrouter.php';
+    const DEFAULT_DOCUMENT_ROOT = 'public';
 
-    protected $_hostname = '';
-    protected $_port = '';
-    protected $_base_path = '';
-    protected $_config = '';
+    protected $_hostname =      '';
+    protected $_port =          '';
+    protected $_base_path =     '';
+    protected $_document_root = '';
+    protected $_config =        '';
 
     /**
      * {@inheritdoc}
@@ -57,6 +59,7 @@ class Serve extends Command
             'hostname=s'        => 'Server Hostname [default='.self::DEFAULT_HOSTNAME.']',
             'port=s'            => 'Server Port [default='.self::DEFAULT_PORT.']',
             'basepath=s'        => 'Project entry-point [default='.self::DEFAULT_BASE_PATH.']',
+            'rootpath=s'        => 'Document Root (public assets) [default='.self::DEFAULT_DOCUMENT_ROOT.']',
             'config=s'          => 'Server configuration ini [optional]',
             'help'              => 'Shows this help [optional]',
         ];
@@ -86,10 +89,11 @@ class Serve extends Command
      */
     public function prepareOptions()
     {
-        $this->_hostname  = $this->getOption(['hostname', 1], null, self::DEFAULT_HOSTNAME);
-        $this->_port      = $this->getOption(['port',     2], null, self::DEFAULT_PORT);
-        $this->_base_path = $this->getOption(['basepath', 3], null, self::DEFAULT_BASE_PATH);
-        $this->_config    = $this->customConfig($this->getOption(['config']));
+        $this->_hostname      = $this->getOption(['hostname', 1], null, self::DEFAULT_HOSTNAME);
+        $this->_port          = $this->getOption(['port',     2], null, self::DEFAULT_PORT);
+        $this->_base_path     = $this->getOption(['basepath', 3], null, self::DEFAULT_BASE_PATH);
+        $this->_document_root = $this->getOption(['rootpath', 4], null, self::DEFAULT_DOCUMENT_ROOT);
+        $this->_config        = $this->customConfig($this->getOption(['config']));
     }
 
     /**
@@ -102,7 +106,8 @@ class Serve extends Command
         print Color::head('Preparing Development Server') . PHP_EOL;
         print Color::colorize("  Host: $this->_hostname", Color::FG_GREEN) . PHP_EOL;
         print Color::colorize("  Port: $this->_port", Color::FG_GREEN) . PHP_EOL;
-        print Color::colorize("  Base: $$this->_base_path", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Base: $this->_base_path", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Document Root: $this->_document_root", Color::FG_GREEN) . PHP_EOL;
         if($this->_config != null) {
             print Color::colorize("   ini: $$this->_config", Color::FG_GREEN) . PHP_EOL;
         }
@@ -121,10 +126,11 @@ class Serve extends Command
         $this->prepareOptions();
         $this->printServerDetails();
 
-        return sprintf('%s -S %s:%s %s %s',
+        return sprintf('%s -S %s:%s -t %s %s %s',
             $binary_path,
             $this->_hostname,
             $this->_port,
+            $this->_document_root,
             $this->_base_path,
             $this->_config
         );
@@ -165,11 +171,12 @@ class Serve extends Command
         print Color::colorize('  Launch the built-in PHP development server') . PHP_EOL . PHP_EOL;
 
         print Color::head('Usage:') . PHP_EOL;
-        print Color::colorize('  serve [hostname] [port]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::colorize('  serve [hostname='.self::DEFAULT_HOSTNAME.
+            '] [port='.self::DEFAULT_PORT.
+            '] [entrypoint='.self::DEFAULT_BASE_PATH.
+            '] [document-root='.self::DEFAULT_DOCUMENT_ROOT.']', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
-        print Color::colorize('  config', Color::FG_GREEN);
-        print Color::colorize("\tSpecify a custom php.ini") . PHP_EOL . PHP_EOL;
         print Color::colorize('  help', Color::FG_GREEN);
         print Color::colorize("\t\tShows this help text") . PHP_EOL . PHP_EOL;
 
@@ -214,6 +221,16 @@ class Serve extends Command
     public function getBasePath()
     {
         return $this->_base_path;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getDocumentRoot()
+    {
+        return $this->_document_root;
     }
 
     /**
