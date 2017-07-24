@@ -37,6 +37,7 @@ use Phalcon\Commands\Builtin\Controller;
 use Phalcon\Commands\Builtin\Serve;
 use Phalcon\Commands\Builtin\Console;
 use Phalcon\Exception as PhalconException;
+use Phalcon\Commands\DotPhalconMissingException;
 use Phalcon\Events\Manager as EventsManager;
 
 try {
@@ -73,6 +74,13 @@ try {
     }
 
     $script->run();
+} catch (DotPhalconMissingException $e) {
+    fwrite(STDERR, Color::info($e->getMessage() . " " . $e->scanPathMessage()));
+    if ($e->promptResolution()) {
+        $script->run();
+    } else {
+        exit(1);
+    }
 } catch (PhalconException $e) {
     fwrite(STDERR, Color::error($e->getMessage()) . PHP_EOL);
     exit(1);
