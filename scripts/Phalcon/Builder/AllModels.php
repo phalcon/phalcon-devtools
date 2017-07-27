@@ -117,6 +117,7 @@ class AllModels extends Component
         $hasMany = [];
         $belongsTo = [];
         $foreignKeys = [];
+        $referenceList = [];
         if ($defineRelations || $defineForeignKeys) {
             foreach ($db->listTables($schema) as $name) {
                 if ($defineRelations) {
@@ -133,8 +134,9 @@ class AllModels extends Component
 
                 $camelCaseName = Utils::camelize($name);
                 $refSchema = ($adapter != 'Postgresql') ? $schema : $config->database->dbname;
+                $referenceList[$name] = $db->describeReferences($name, $schema);
 
-                foreach ($db->describeReferences($name, $schema) as $reference) {
+                foreach ($referenceList[$name] as $reference) {
                     $columns = $reference->getColumns();
                     $referencedColumns = $reference->getReferencedColumns();
                     $referencedModel = Utils::camelize($reference->getReferencedTable());
@@ -164,6 +166,7 @@ class AllModels extends Component
                     $belongsTo[$name] = [];
                     $foreignKeys[$name] = [];
                 }
+                $referenceList[$name] = $db->describeReferences($name, $schema);
             }
         }
 
@@ -204,7 +207,8 @@ class AllModels extends Component
                     'directory' => $this->options->get('directory'),
                     'modelsDir' => $this->options->get('modelsDir'),
                     'mapColumn' => $mapColumn,
-                    'abstract' => $this->options->get('abstract')
+                    'abstract' => $this->options->get('abstract'),
+                    'referenceList' => $referenceList
                 ]);
 
                 $modelBuilder->build();

@@ -242,8 +242,16 @@ class Model extends Component
         }
         $fields = $db->describeColumns($table, $schema);
 
-        foreach ($db->listTables() as $tableName) {
-            foreach ($db->describeReferences($tableName, $schema) as $reference) {
+        if (!$this->options->contains('referenceList')) {
+            foreach ($db->listTables($schema) as $name) {
+                $referenceList[$name] = $db->describeReferences($name, $schema);;
+            }
+        } else {
+            $referenceList = $this->options->get('referenceList');
+        }
+
+        foreach ($referenceList as $tableName => $references) {
+            foreach ($references as $reference) {
                 if ($reference->getReferencedTable() != $this->options->get('name')) {
                     continue;
                 }
