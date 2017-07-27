@@ -208,7 +208,8 @@ class AllModels extends Component
                     'modelsDir' => $this->options->get('modelsDir'),
                     'mapColumn' => $mapColumn,
                     'abstract' => $this->options->get('abstract'),
-                    'referenceList' => $referenceList
+                    'referenceList' => $referenceList,
+                    'camelize' => $this->options->get('camelize')
                 ]);
 
                 $modelBuilder->build();
