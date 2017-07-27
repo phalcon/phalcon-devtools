@@ -50,6 +50,7 @@ class AllModels extends Command
             'namespace=s' => "Model's namespace [optional]",
             'extends=s'   => 'Models extends [optional]',
             'force'       => 'Force script to rewrite all the models [optional]',
+            'camelize'    => 'Properties is in camelCase [optional]',
             'get-set'     => 'Attributes will be protected and have setters/getters [optional]',
             'doc'         => 'Helps to improve code completion on IDEs [optional]',
             'relations'   => 'Possible relations defined according to convention [optional]',
@@ -126,7 +127,8 @@ class AllModels extends Command
             'genDocMethods' => $this->isReceivedOption('doc'),
             'modelsDir' => $modelsDir,
             'mapColumn' => $this->isReceivedOption('mapcolumn'),
-            'abstract' => $this->isReceivedOption('abstract')
+            'abstract' => $this->isReceivedOption('abstract'),
+            'camelize' => $this->isReceivedOption('camelize'),
         ]);
 
         $modelBuilder->build();
