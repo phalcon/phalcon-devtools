@@ -30,11 +30,21 @@
         "kherge/box": "^2.7",
         "codeception/codeception": "^2.3",
         "phpdocumentor/reflection-docblock": "^2.0",
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^4.8",
+        "codeception/specify": "^0.4",
+        "codeception/verify": "^0.3"
+
     },
     "autoload": {
         "psr-4" : {
             "Phalcon\\" : "scripts/Phalcon/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phalcon\\Test\\": "tests/unit",
+            "Phalcon\\Test\\Models\\": "tests/_data/models",
+            "Phalcon\\Test\\Module\\": "tests/_support/Module"
         }
     },
     "bin": ["phalcon.php"]

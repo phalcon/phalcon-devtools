@@ -6,6 +6,10 @@ dist: trusty
 php:
   - 5.5
   - 5.6
+  - 7.1
+
+services:
+  - postgresql
 
 matrix:
   include:
@@ -29,6 +33,11 @@ cache:
 
 env:
   global:
+    - TEST_DB_POSTGRESQL_HOST="127.0.0.1"
+    - TEST_DB_POSTGRESQL_PORT="5432"
+    - TEST_DB_POSTGRESQL_USER="postgres"
+    - TEST_DB_POSTGRESQL_PASSWD=""
+    - TEST_DB_POSTGRESQL_NAME="devtools"
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
     - PHALCON_VERSION="v3.2.0"
@@ -39,6 +48,7 @@ before_install:
   - phpenv config-rm xdebug.ini || true
   - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
   - if [ ! -f "$HOME/cphalcon/tests/_ci/phalcon.ini" ]; then git clone -q --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon >/dev/null 2>&1; fi;
+  - bash tests/_ci/setup_dbs.sh
 
 install:
   - if [ ! -f $HOME/ext/$PHP_VERSION/phalcon.so ]; then cd $HOME/cphalcon/build && bash ./install --phpize $(phpenv which phpize) --php-config $(phpenv which php-config) && mkdir -p $HOME/ext/$PHP_VERSION && cp $PHP_EXTENSION_DIR/phalcon.so $HOME/ext/$PHP_VERSION/phalcon.so; fi;
@@ -49,7 +59,7 @@ install:
 
 script:
   - vendor/bin/codecept build
-  - vendor/bin/codecept run unit
+  - vendor/bin/codecept run unit -v
 
 notifications:
   email:
