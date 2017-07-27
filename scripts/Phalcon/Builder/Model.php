@@ -233,9 +233,6 @@ class Model extends Component
         $initialize['source'] = $this->snippet->getThisMethod('setSource', $this->options->get('name'));
 
         $table = $this->options->get('name');
-        if ($this->options->get('fileName') != $table && !isset($initialize['schema'])) {
-            $initialize[] = $this->snippet->getThisMethod('setSource', $table);
-        }
 
         if (!$db->tableExists($table, $schema)) {
             throw new BuilderException(sprintf('Table "%s" does not exist.', $table));
