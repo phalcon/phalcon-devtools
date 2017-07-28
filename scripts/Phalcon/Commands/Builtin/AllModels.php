@@ -55,7 +55,6 @@ class AllModels extends Command
             'doc'         => 'Helps to improve code completion on IDEs [optional]',
             'relations'   => 'Possible relations defined according to convention [optional]',
             'fk'          => 'Define any virtual foreign keys [optional]',
-            'validations' => 'Define possible domain validation according to conventions',
             'directory=s' => 'Base path on which project will be created [optional]',
             'mapcolumn'   => 'Get some code for map columns [optional]',
             'abstract'    => 'Abstract Model [optional]',
