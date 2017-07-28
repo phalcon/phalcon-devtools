@@ -83,7 +83,7 @@ class $className$Controller extends ControllerBase
                 return;
             }
 
-            $this->view->$pk$ = $singularVar$->$pk$;
+            $this->view->$pk$ = $singularVar$->$pkGet$;
 
             $assignTagDefaults$
         }
@@ -168,7 +168,7 @@ class $className$Controller extends ControllerBase
             $this->dispatcher->forward([
                 'controller' => "$plural$",
                 'action' => 'edit',
-                'params' => [$singularVar$->$pk$]
+                'params' => [$singularVar$->$pkGet$]
             ]);
 
             return;
