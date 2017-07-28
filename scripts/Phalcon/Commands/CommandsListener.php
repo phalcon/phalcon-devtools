@@ -36,7 +36,7 @@ class CommandsListener
      * @param Command $command
      *
      * @return bool
-     * @throws CommandsException
+     * @throws DotPhalconMissingException
      */
     public function beforeCommand(Event $event, Command $command)
     {
@@ -55,7 +55,7 @@ class CommandsListener
         if ($command->canBeExternal() == false) {
             $path = $command->getOption('directory');
             if (!file_exists($path.'.phalcon') || !is_dir($path.'.phalcon')) {
-                throw new CommandsException('This command should be invoked inside a Phalcon project directory.');
+                throw new DotPhalconMissingException();
             }
         }
 

@@ -1,0 +1,18 @@
+# Codeception Test Suite Configuration
+#
+# Suite for unit or integration tests.
+
+actor: UnitTester
+modules:
+    # enabled modules and helpers
+    enabled:
+        - Asserts
+        - \Helper\Unit
+    config:
+        Db:
+            dsn: "%TEST_DB_MYSQL_HOST%"
+            user: "%TEST_DB_MYSQL_USER%"
+            password: "%TEST_DB_MYSQL_PASSWD%"
+            dump: tests/_data/schemas/mysql/dump.sql
+            populate: false
+            cleanup: false

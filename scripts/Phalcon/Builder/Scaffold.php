@@ -520,6 +520,12 @@ class Scaffold extends Component
         $attributes = $this->options->get('attributes');
 
         $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
+
+        if ($this->options->get('genSettersGetters')) {
+            $code = str_replace('$pkGet$', 'get'.Text::camelize($attributes[0]).'()', $code);
+        } else {
+            $code = str_replace('$pkGet$', $attributes[0], $code);
+        }
         $code = str_replace('$pk$', $attributes[0], $code);
 
         if ($this->isConsole()) {

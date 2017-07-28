@@ -33,6 +33,10 @@ use Phalcon\Db\Exception as DbException;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Exception\Db\UnknownColumnTypeException;
 use Phalcon\Version\ItemCollection as VersionCollection;
+use Phalcon\Db\Dialect\MysqlExtended;
+use Phalcon\Db\Adapter\Pdo\MysqlExtended as AdapterMysqlExtended;
+use Phalcon\Db\Dialect\PostgresqlExtended;
+use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as AdapterPostgresqlExtended;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -81,6 +85,7 @@ class Migration
      * Prepares component
      *
      * @param \Phalcon\Config $database Database config
+     * @since 3.2.1 Using Postgresql::describeReferences and PostgresqlExtended dialect class
      *
      * @throws \Phalcon\Db\Exception
      */
@@ -90,10 +95,21 @@ class Migration
             throw new DbException('Unspecified database Adapter in your configuration!');
         }
 
-        $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\'.$database->adapter;
+        /**
+         * The original Phalcon\Db\Adapter\Pdo\Mysql::addForeignKey is broken until the v3.2.0
+         *
+         * @see: Phalcon\Db\Dialect\MysqlExtended The extended and fixed dialect class for MySQL
+         */
+        if ($database->adapter == 'Mysql') {
+            $adapter = AdapterMysqlExtended::class;
+        } elseif ($database->adapter == 'Postgresql') {
+            $adapter = AdapterPostgresqlExtended::class;
+        } else {
+            $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\'.$database->adapter;
+        }
 
         if (!class_exists($adapter)) {
-            throw new DbException('Invalid database Adapter!');
+            throw new DbException("Invalid database adapter: '{$adapter}'");
         }
 
         $configArray = $database->toArray();
@@ -101,8 +117,14 @@ class Migration
         self::$_connection = new $adapter($configArray);
         self::$_databaseConfig = $database;
 
+        //Connection custom dialect Dialect/MysqlExtended
         if ($database->adapter == 'Mysql') {
-            self::$_connection->query('SET FOREIGN_KEY_CHECKS=0');
+            self::$_connection->setDialect(new MysqlExtended);
+        }
+
+        //Connection custom dialect Dialect/PostgresqlExtended
+        if ($database->adapter == 'Postgresql') {
+            self::$_connection->setDialect(new PostgresqlExtended);
         }
 
         if (Migrations::isConsole()) {
