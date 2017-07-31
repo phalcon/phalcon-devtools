@@ -43,7 +43,7 @@ class PostgresqlExtended extends Postgresql
               tc.table_name as TABLE_NAME,
               kcu.column_name as COLUMN_NAME,
               tc.constraint_name as CONSTRAINT_NAME,
-              tc.table_catalog as REFERENCED_TABLE_SCHEMA,
+              tc.table_schema as REFERENCED_TABLE_SCHEMA,
               ccu.table_name AS REFERENCED_TABLE_NAME,
               ccu.column_name AS REFERENCED_COLUMN_NAME,
               rc.update_rule AS UPDATE_RULE,
