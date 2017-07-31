@@ -41,7 +41,7 @@ trait PostgresqlTrait
         return
             ['test_describereferences' => new Reference('test_describereferences', [
                 'referencedTable'   => 'foreign_key_parent',
-                'referencedSchema' => 'devtools',
+                'referencedSchema' => 'public',
                 'columns'           => ['child_int'],
                 'referencedColumns' => ['refer_int'],
                 'onUpdate'          => 'CASCADE',

@@ -355,6 +355,7 @@ class Migration
 
             $referenceDefinition = [];
             $referenceDefinition[] = "'referencedTable' => '".$dbReference->getReferencedTable()."'";
+            $referenceDefinition[] = "'referencedSchema' => '".$dbReference->getReferencedSchema()."'";
             $referenceDefinition[] = "'columns' => [".join(",", array_unique($columns))."]";
             $referenceDefinition[] = "'referencedColumns' => [".join(",", array_unique($referencedColumns))."]";
             $referenceDefinition[] = "'onUpdate' => '".$dbReference->getOnUpdate()."'";
@@ -693,6 +694,7 @@ class Migration
                 foreach ($activeReferences as $activeReference) {
                     $localReferences[$activeReference->getName()] = [
                         'referencedTable'   => $activeReference->getReferencedTable(),
+                        "referencedSchema"  => $activeReference->getReferencedSchema(),
                         'columns'           => $activeReference->getColumns(),
                         'referencedColumns' => $activeReference->getReferencedColumns(),
                     ];
