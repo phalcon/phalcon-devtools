@@ -277,11 +277,11 @@ class Scaffold extends Component
                 }
             }
 
-            $code .= '$'.$var.'->';
+            $code .= '$' . Text::camelize($var, '-') . '->';
             if ($useGetSetters) {
                 $code .= 'set' . Text::camelize($field) . '(' . $fieldCode . ')';
             } else {
-                $code .= $field . ' = ' . $fieldCode;
+                $code .= Text::camelize($field, '-') . ' = ' . $fieldCode;
             }
 
             $code .= ';' . PHP_EOL . "\t\t";
@@ -307,7 +307,7 @@ class Scaffold extends Component
                 $accessor = $field;
             }
 
-            $code .= '$this->tag->setDefault("' . $field . '", $' . $var . '->' . $accessor . ');' . PHP_EOL . "\t\t\t";
+            $code .= '$this->tag->setDefault("' . $field . '", $' . Text::camelize($var, '-') . '->' . $accessor . ');' . PHP_EOL . "\t\t\t";
         }
 
         return $code;
@@ -491,10 +491,10 @@ class Scaffold extends Component
 
         $code = str_replace('$fullyQualifiedModelName$', $this->options->get('modelClass'), $code);
 
-        $code = str_replace('$singularVar$', '$' . $this->options->get('singular'), $code);
+        $code = str_replace('$singularVar$', '$' . Text::camelize($this->options->get('singular'), '-'), $code);
         $code = str_replace('$singular$', $this->options->get('singular'), $code);
 
-        $code = str_replace('$pluralVar$', '$' . $this->options->get('plural'), $code);
+        $code = str_replace('$pluralVar$', '$' . Text::camelize($this->options->get('plural'), '-'), $code);
         $code = str_replace('$plural$', $this->options->get('plural'), $code);
 
         $code = str_replace('$className$', $this->options->get('className'), $code);
@@ -522,7 +522,7 @@ class Scaffold extends Component
         $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
 
         if ($this->options->get('genSettersGetters')) {
-            $code = str_replace('$pkGet$', 'get'.Text::camelize($attributes[0]).'()', $code);
+            $code = str_replace('$pkGet$', 'get' . Text::camelize($attributes[0]) . '()', $code);
         } else {
             $code = str_replace('$pkGet$', $attributes[0], $code);
         }
@@ -668,14 +668,14 @@ class Scaffold extends Component
             mkdir($dirPath, 0777, true);
         }
 
-        $viewPath = $dirPath . DIRECTORY_SEPARATOR .$type. '.volt';
+        $viewPath = $dirPath . DIRECTORY_SEPARATOR . $type . '.volt';
         if (file_exists($viewPath)) {
             if (!$this->options->contains('force')) {
                 return;
             }
         }
 
-        $templatePath = $this->options->templatePath . '/scaffold/no-forms/views/' .$type. '.volt';
+        $templatePath = $this->options->templatePath . '/scaffold/no-forms/views/' . $type . '.volt';
         if (!file_exists($templatePath)) {
             throw new BuilderException(sprintf('Template "%s" does not exist.', $templatePath));
         }
@@ -726,7 +726,7 @@ class Scaffold extends Component
             $rowCode .= "\t\t\t" . '<td><?php echo ';
             if (!isset($this->options->allReferences[$fieldName])) {
                 if ($this->options->genSettersGetters) {
-                    $rowCode .= '$' . $this->options->singular . '->get' . Text::camelize($fieldName) . '()';
+                    $rowCode .= '$' . Text::camelize($this->options->singular, '-') . '->get' . Text::camelize($fieldName) . '()';
                 } else {
                     $rowCode .= '$' . $this->options->singular . '->' . $fieldName;
                 }
@@ -747,7 +747,7 @@ class Scaffold extends Component
         $code = str_replace('$plural$', $this->options->plural, $code);
         $code = str_replace('$headerColumns$', $headerCode, $code);
         $code = str_replace('$rowColumns$', $rowCode, $code);
-        $code = str_replace('$singularVar$', '$' . $this->options->singular, $code);
+        $code = str_replace('$singularVar$', '$' . Text::camelize($this->options->singular, '-'), $code);
         $code = str_replace('$pk$', $idField, $code);
 
         if ($this->isConsole()) {
@@ -791,7 +791,7 @@ class Scaffold extends Component
             $rowCode .= "\t\t\t" . '<td>{{ ';
             if (!isset($this->options->allReferences[$fieldName])) {
                 if ($this->options->contains('genSettersGetters')) {
-                    $rowCode .= $this->options->singular . '.get' . Text::camelize($fieldName) . '()';
+                    $rowCode .= Text::camelize($this->options->singular, '-') . '.get' . Text::camelize($fieldName) . '()';
                 } else {
                     $rowCode .= $this->options->singular . '.' . $fieldName;
                 }
@@ -812,7 +812,7 @@ class Scaffold extends Component
         $code = str_replace('$plural$', $this->options->plural, $code);
         $code = str_replace('$headerColumns$', $headerCode, $code);
         $code = str_replace('$rowColumns$', $rowCode, $code);
-        $code = str_replace('$singularVar$', $this->options->singular, $code);
+        $code = str_replace('$singularVar$', Text::camelize($this->options->singular, '-'), $code);
         $code = str_replace('$pk$', $idField, $code);
 
         if ($this->isConsole()) {
