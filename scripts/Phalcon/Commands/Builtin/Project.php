@@ -41,7 +41,7 @@ class Project extends Command
     public function getPossibleParams()
     {
         return [
-            'name'            => 'Name of the new project',
+            'name=s'            => 'Name of the new project',
             'enable-webtools' => 'Determines if webtools should be enabled [optional]',
             'directory=s'     => 'Base path on which project will be created [optional]',
             'type=s'          => 'Type of the application to be generated (cli, micro, simple, modules)',
