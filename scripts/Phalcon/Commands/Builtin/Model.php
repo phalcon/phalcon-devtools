@@ -21,6 +21,7 @@
 namespace Phalcon\Commands\Builtin;
 
 use Phalcon\Text;
+use Phalcon\Utils;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
@@ -71,7 +72,7 @@ class Model extends Command
     public function run(array $parameters)
     {
         $name = $this->getOption(['name', 1]);
-        $className = Text::camelize(isset($parameters[1]) ? $parameters[1] : $name, '_-');
+        $className = Utils::camelize(isset($parameters[1]) ? $parameters[1] : $name, '_-');
 
         $modelBuilder = new ModelBuilder(
             [

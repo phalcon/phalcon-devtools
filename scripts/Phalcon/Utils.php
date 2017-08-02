@@ -31,14 +31,26 @@ class Utils
      * Converts the underscore_notation to the UpperCamelCase
      *
      * @param string $string
+     * @param string $delimiter
      * @return string
      */
-    public static function camelize($string)
+    public static function camelize($string, $delimiter = '_')
     {
-        $stringParts = explode('_', $string);
-        $stringParts = array_map('ucfirst', $stringParts);
+        if (empty($delimiter)) {
+            throw new \InvalidArgumentException('Please, specify the delimiter');
+        }
 
-        return implode('', $stringParts);
+        $delimiterArray = str_split($delimiter);
+
+        foreach ($delimiterArray as $delimiter) {
+            $stringParts = explode($delimiter, $string);
+            $stringParts = array_map('ucfirst', $stringParts);
+
+            $string = implode('', $stringParts);
+        }
+
+        return $string;
+
     }
 
     /**
