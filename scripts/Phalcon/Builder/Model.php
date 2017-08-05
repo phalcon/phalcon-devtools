@@ -435,7 +435,6 @@ class Model extends Component
             }
             $type = $this->getPHPType($field->getType());
             $fieldName = $this->options->get('camelize') ? Utils::lowerCamelize($field->getName()) : $field->getName();
-            $fieldName = Text::camelize($fieldName, '-');
             $attributes[] = $this->snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->options->has( 'annotate' ), $fieldName);
 
             if ($useSettersGetters) {
