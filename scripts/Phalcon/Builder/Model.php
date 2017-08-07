@@ -383,9 +383,9 @@ class Model extends Component
         foreach ($fields as $field) {
             if ($field->getType() === Column::TYPE_CHAR) {
                 if ($this->options->get('camelize')) {
-                    $fieldName = Text::camelize($field->getName(), '_-');
+                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
                 } else {
-                    $fieldName = Text::camelize($field->getName(), '-');
+                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
                 }
                 $domain = [];
                 if (preg_match('/\((.*)\)/', $field->getType(), $matches)) {
@@ -400,9 +400,9 @@ class Model extends Component
             }
             if ($field->getName() == 'email') {
                 if ($this->options->get('camelize')) {
-                    $fieldName = Text::camelize($field->getName(), '_-');
+                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
                 } else {
-                    $fieldName = Text::camelize($field->getName(), '-');
+                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
                 }
                 $validations[] = $this->snippet->getValidateEmail($fieldName);
                 $uses[] = $this->snippet->getUseAs(EmailValidator::class, 'EmailValidator');
@@ -434,12 +434,12 @@ class Model extends Component
                 continue;
             }
             $type = $this->getPHPType($field->getType());
-            $fieldName = $this->options->get('camelize') ? Utils::lowerCamelize($field->getName()) : $field->getName();
-            $fieldName = Text::camelize($fieldName, '-');
+            $fieldName = Utils::lowerCamelizeWithDelimiter($field->getName(), '-', true);
+            $fieldName = $this->options->get('camelize') ? Utils::lowerCamelize($fieldName) : $fieldName;
             $attributes[] = $this->snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->options->has( 'annotate' ), $fieldName);
 
             if ($useSettersGetters) {
-                $methodName = Text::camelize($field->getName(). '_-');
+                $methodName = Utils::camelize($field->getName(). '_-');
                 $setters[] = $this->snippet->getSetter($fieldName, $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {

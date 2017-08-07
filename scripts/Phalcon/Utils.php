@@ -54,6 +54,44 @@ class Utils
     }
 
     /**
+     * Convert string foo_bar to FooBar or fooBar
+     * 
+     * <code>
+     * echo Phalcon\Utils::lowerCamelizeWithDelimiter('coco_bongo'); // coco_bongo
+     * echo Phalcon\Utils::lowerCamelizeWithDelimiter('coco_bongo', '_'); // CocoBongo
+     * echo Phalcon\Utils::lowerCamelizeWithDelimiter('coco_bongo', '_', true); // cocoBongo
+     * </code>
+     *
+     * @param string $string
+     * @param string $delimiter
+     * @param boolean $useLow
+     * @return string
+     */
+    public static function lowerCamelizeWithDelimiter($string, $delimiter = '', $useLow = false)
+    {
+        if (empty($string)) {
+            throw new \InvalidArgumentException('Please, specify the string');
+        }
+        
+        if (!empty($delimiter)) {
+            $delimiterArray = str_split($delimiter);
+
+            foreach ($delimiterArray as $delimiter) {
+                $stringParts = explode($delimiter, $string);
+                $stringParts = array_map('ucfirst', $stringParts);
+
+                $string = implode('', $stringParts);
+            }
+        }
+        
+        if ($useLow) {
+            $string = lcfirst($string);
+        }
+        
+        return $string;
+    }
+
+    /**
      * Converts the underscore_notation to the lowerCamelCase
      *
      * @param string $string

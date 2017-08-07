@@ -53,6 +53,34 @@ class UtilsTest extends UnitTest
     }
 
     /**
+     * Tests Utils::lowerCamelizeWithDelimiter
+     *
+     * @test
+     * @issue  1070
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-08-07
+     */
+    public function shouldCamelizeStringWithDelimiter()
+    {
+        $this->specify(
+            "Method Utils::lowerCamelizeWithDelimiter hasn't returned proper string",
+            function($string, $expected)
+            {
+                expect($string)->equals($expected);
+            },
+            [
+                'examples' => [
+                    [Utils::lowerCamelizeWithDelimiter('myfoobar'), 'myfoobar'],
+                    [Utils::lowerCamelizeWithDelimiter('myfoobar', '_-'), 'Myfoobar'],
+                    [Utils::lowerCamelizeWithDelimiter('My-Foo_Bar', '_-'), 'MyFooBar'],
+                    [Utils::lowerCamelizeWithDelimiter('my-foo_bar', '_-'), 'MyFooBar'],
+                    [Utils::lowerCamelizeWithDelimiter('my-foo_bar', '_-', true), 'myFooBar']
+                ]
+            ]
+        );
+    }
+
+    /**
      * Tests Utils::lowerCamelize
      *
      * @test
