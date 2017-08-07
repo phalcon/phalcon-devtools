@@ -121,7 +121,7 @@ class Project extends Component
 
         if ($success === true) {
             $this->notifySuccess(sprintf(
-                'Project "%s" was successfully created.',
+                "Project '%s' was successfully created.\nPlease choose a password and username to use Database connection. Used default:'root' without password.",
                 $this->options->get('name')
             ));
         }
