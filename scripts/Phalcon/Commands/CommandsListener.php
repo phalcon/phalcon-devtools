@@ -54,7 +54,7 @@ class CommandsListener
 
         if ($command->canBeExternal() == false) {
             $path = $command->getOption('directory');
-            if (!file_exists($path.'.phalcon') || !is_dir($path.'.phalcon')) {
+            if (is_dir($path) && ( !file_exists($path.'.phalcon') || !is_dir($path.'.phalcon' )) ) {
                 throw new DotPhalconMissingException();
             }
         }
