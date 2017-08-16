@@ -439,7 +439,7 @@ class Model extends Component
             $attributes[] = $this->snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->options->has( 'annotate' ), $fieldName);
 
             if ($useSettersGetters) {
-                $methodName = Utils::camelize($field->getName(). '_-');
+                $methodName = Utils::camelize($field->getName(), '_-');
                 $setters[] = $this->snippet->getSetter($fieldName, $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
