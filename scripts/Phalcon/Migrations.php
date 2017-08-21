@@ -546,7 +546,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$_storage;
-            $connection->execute('DELETE FROM '. self::MIGRATION_LOG_TABLE .' WHERE version=\'' . $version . '\' LIMIT 1');
+            $connection->execute('DELETE FROM '. self::MIGRATION_LOG_TABLE .' WHERE version=\'' . $version . '\'');
         } else {
             $currentVersions = self::getCompletedVersions($options);
             unset($currentVersions[(string)$version]);
