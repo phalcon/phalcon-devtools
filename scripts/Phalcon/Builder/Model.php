@@ -273,7 +273,7 @@ class Model extends Component
         foreach ($db->describeReferences($this->options->get('name'), $schema) as $reference) {
             $entityNamespace = '';
             if ($this->options->contains('namespace')) {
-                $entityNamespace = $this->options->get('namespace')."\\";
+                $entityNamespace = $this->options->get('namespace');
             }
 
             $refColumns = $reference->getReferencedColumns();
