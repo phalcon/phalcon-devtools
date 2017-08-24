@@ -273,7 +273,7 @@ class Model extends Component
         foreach ($db->describeReferences($this->options->get('name'), $schema) as $reference) {
             $entityNamespace = '';
             if ($this->options->contains('namespace')) {
-                $entityNamespace = $this->options->get('namespace')."\\";
+                $entityNamespace = $this->options->get('namespace');
             }
 
             $refColumns = $reference->getReferencedColumns();
@@ -439,7 +439,7 @@ class Model extends Component
             $attributes[] = $this->snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->options->has( 'annotate' ), $fieldName);
 
             if ($useSettersGetters) {
-                $methodName = Utils::camelize($field->getName(). '_-');
+                $methodName = Utils::camelize($field->getName(), '_-');
                 $setters[] = $this->snippet->getSetter($fieldName, $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
