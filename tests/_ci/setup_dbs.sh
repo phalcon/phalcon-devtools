@@ -19,4 +19,9 @@ psql -c 'create database devtools;' -U postgres
 psql -U postgres devtools -q -f "${TRAVIS_BUILD_DIR}/tests/_data/schemas/postgresql/dump.sql"
 echo -e "Done\n"
 
+echo -e "Create MySQL database..."
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS devtools charset=utf8 collate=utf8_general_ci;"
+cat "${TRAVIS_BUILD_DIR}/tests/_data/schemas/mysql/dump.sql" | mysql -u root devtools
+echo -e "Done\n"
+
 wait
