@@ -116,12 +116,14 @@ class Simple extends ProjectBuilder
      */
     private function createIndexViewFiles()
     {
-        $getFile = $this->options->get('templatePath') . '/project/simple/views/index.volt';
-        $putFile = $this->options->get('projectPath').'app/views/index.volt';
+        $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
+
+        $getFile = $this->options->get('templatePath') . '/project/simple/views/index.' . $engine;
+        $putFile = $this->options->get('projectPath').'app/views/index.' . $engine;
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/simple/views/index/index.volt';
-        $putFile = $this->options->get('projectPath').'app/views/index/index.volt';
+        $getFile = $this->options->get('templatePath') . '/project/simple/views/index/index.' . $engine;
+        $putFile = $this->options->get('projectPath').'app/views/index/index.' . $engine;
         $this->generateFile($getFile, $putFile);
 
         return $this;
