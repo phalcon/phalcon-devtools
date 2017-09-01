@@ -8,23 +8,31 @@ $I = new ConsoleTester($scenario);
 
 $I->wantToTest('Running migration for MySQL database');
 
-$output=<<<OUT
-Success: Version 1.0.1 was successfully migrated
-OUT;
+//$output=<<<OUT
+//Success: Version 1.0.1 was successfully migrated
+//OUT;
 
 $I->amInPath(dirname(app_path()));
 
-$I->seeFileFound(app_path('migrations/1.0.1/test_migrations.php'));
-$I->seeFileFound(app_path('migrations/1.0.1/test_migrations.dat'));
+$I->seeFileFound(app_path('migrations/1.0.2/test_migrations.php'));
+$I->seeFileFound(app_path('migrations/1.0.2/test_migrations.dat'));
+
+$I->runShellCommand('phalcon migration --action=run --version=1.0.2');
+
+$I->runShellCommand('phalcon migration --action=run --version=1.0.1');
+$I->seeInShellOutput('Success: Version 1.0.2 was successfully rolled back');
 
 $I->runShellCommand('phalcon migration --action=run --version=1.0.0');
+$I->seeInShellOutput('Success: Version 1.0.1 was successfully rolled back');
+
 $I->runShellCommand('phalcon migration --action=run --version=1.0.1');
-$I->runShellCommand('phalcon migration --action=run --version=1.0.0');
-$I->runShellCommand('phalcon migration --action=run --version=1.0.1');
+$I->seeInShellOutput('Success: Version 1.0.1 was successfully migrated');
 
-$I->seeInShellOutput($output);
+$I->runShellCommand('phalcon migration --action=run --version=1.0.2');
+$I->seeInShellOutput('Success: Version 1.0.2 was successfully migrated');
 
-$I->deleteDir(app_path('migrations/1.0.1/'));
 
-$I->dontSeeFileFound(app_path('migrations/1.0.1/test_migrations.php'));
-$I->dontSeeFileFound(app_path('migrations/1.0.1/test_migrations.dat'));
+$I->deleteDir(app_path('migrations/1.0.2/'));
+
+$I->dontSeeFileFound(app_path('migrations/1.0.2/test_migrations.php'));
+$I->dontSeeFileFound(app_path('migrations/1.0.2/test_migrations.dat'));

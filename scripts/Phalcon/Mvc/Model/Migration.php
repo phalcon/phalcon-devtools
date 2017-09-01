@@ -440,7 +440,7 @@ class Migration
                     unset($value);
                 }
 
-                fputcsv($fileHandler, $data, '|');
+                fputcsv($fileHandler, $data);
                 unset($row);
                 unset($data);
             }
@@ -852,7 +852,7 @@ class Migration
         self::$_connection->begin();
         self::$_connection->delete($tableName);
         $batchHandler = fopen($migrationData, 'r');
-        while (($line = fgetcsv($batchHandler, 0, '|')) !== false) {
+        while (($line = fgetcsv($batchHandler)) !== false) {
             $values = array_map(
                 function ($value) {
                     return null === $value ? null : $value;
@@ -882,9 +882,15 @@ class Migration
         self::$_connection->begin();
         self::$_connection->delete($tableName);
         $batchHandler = fopen($migrationData, 'r');
-        while (($line = fgets($batchHandler)) !== false) {
-            $data = explode('|', rtrim($line), 2);
-            self::$_connection->delete($tableName, 'id=?', [$data[0]]);
+        while (($line = fgetcsv($batchHandler)) !== false) {
+            $values = array_map(
+                function ($value) {
+                    return null === $value ? null : $value;
+                },
+                $line
+            );
+
+            self::$_connection->delete($tableName, 'id=?', [$values[0]]);
             unset($line);
         }
         fclose($batchHandler);
