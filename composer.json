@@ -45,7 +45,10 @@
             "Phalcon\\Test\\": "tests/unit",
             "Phalcon\\Test\\Models\\": "tests/_data/models",
             "Phalcon\\Test\\Module\\": "tests/_support/Module"
-        }
+        },
+        "files": [
+            "tests/_support/helpers.php"
+        ]
     },
     "bin": ["phalcon.php"]
 }

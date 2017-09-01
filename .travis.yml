@@ -38,6 +38,13 @@ env:
     - TEST_DB_POSTGRESQL_USER="postgres"
     - TEST_DB_POSTGRESQL_PASSWD=""
     - TEST_DB_POSTGRESQL_NAME="devtools"
+    - TEST_DB_MYSQL_DSN="mysql:host=127.0.0.1;dbname=devtools"
+    - TEST_DB_MYSQL_HOST="127.0.0.1"
+    - TEST_DB_MYSQL_PORT="3306"
+    - TEST_DB_MYSQL_USER="root"
+    - TEST_DB_MYSQL_PASSWD=""
+    - TEST_DB_MYSQL_NAME="devtools"
+    - TEST_DB_MYSQL_CHARSET="utf8"
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
     - PHALCON_VERSION="v3.2.0"
@@ -57,9 +64,14 @@ install:
   - cd $TRAVIS_BUILD_DIR
   - travis_retry composer install --prefer-dist --no-interaction
 
+before_script:
+  - ln -s $PWD/phalcon.php ~/bin/phalcon
+
 script:
   - vendor/bin/codecept build
   - vendor/bin/codecept run unit -v
+  - vendor/bin/codecept run functional -v
+  - vendor/bin/codecept run console -v
 
 notifications:
   email:
