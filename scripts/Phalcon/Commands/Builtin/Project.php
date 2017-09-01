@@ -42,13 +42,14 @@ class Project extends Command
     {
         return [
             'name=s'            => 'Name of the new project',
-            'enable-webtools' => 'Determines if webtools should be enabled [optional]',
-            'directory=s'     => 'Base path on which project will be created [optional]',
-            'type=s'          => 'Type of the application to be generated (cli, micro, simple, modules)',
-            'template-path=s' => 'Specify a template path [optional]',
-            'use-config-ini'  => 'Use a ini file as configuration file [optional]',
-            'trace'           => 'Shows the trace of the framework in case of exception [optional]',
-            'help'            => 'Shows this help [optional]',
+            'enable-webtools'   => 'Determines if webtools should be enabled [optional]',
+            'directory=s'       => 'Base path on which project will be created [optional]',
+            'type=s'            => 'Type of the application to be generated (cli, micro, simple, modules)',
+            'template-path=s'   => 'Specify a template path [optional]',
+            'template-engine=s' => 'Define the template engine, default phtml (phtml, volt) [optional]',
+            'use-config-ini'    => 'Use a ini file as configuration file [optional]',
+            'trace'             => 'Shows the trace of the framework in case of exception [optional]',
+            'help'              => 'Shows this help [optional]',
         ];
     }
 
@@ -60,12 +61,13 @@ class Project extends Command
      */
     public function run(array $parameters)
     {
-        $projectName = $this->getOption(['name', 1], null, 'default');
-        $projectType = $this->getOption(['type', 2], null, 'simple');
-        $projectPath = $this->getOption(['directory', 3]);
-        $templatePath = $this->getOption(['template-path'], null, TEMPLATE_PATH);
+        $projectName    = $this->getOption(['name', 1], null, 'default');
+        $projectType    = $this->getOption(['type', 2], null, 'simple');
+        $projectPath    = $this->getOption(['directory', 3]);
+        $templatePath   = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $enableWebtools = $this->getOption(['enable-webtools', 4], null, false);
-        $useConfigIni = $this->getOption('use-config-ini');
+        $useConfigIni   = $this->getOption('use-config-ini');
+        $templateEngine = $this->getOption(['template-engine'], null, "phtml");
 
         $builder = new ProjectBuilder([
             'name'           => $projectName,
@@ -73,6 +75,7 @@ class Project extends Command
             'directory'      => $projectPath,
             'enableWebTools' => $enableWebtools,
             'templatePath'   => $templatePath,
+            'templateEngine' => $templateEngine,
             'useConfigIni'   => $useConfigIni
         ]);
 

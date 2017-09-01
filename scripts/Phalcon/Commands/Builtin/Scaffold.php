@@ -47,7 +47,7 @@ class Scaffold extends Command
             'get-set'           => 'Attributes will be protected and have setters/getters. [optional]',
             'directory=s'       => 'Base path on which project was created [optional]',
             'template-path=s'   => 'Specify a template path [optional]',
-            'template-engine=s' => 'Define the template engine, default php (php, volt) [optional]',
+            'template-engine=s' => 'Define the template engine, default phtml (phtml, volt) [optional]',
             'force'             => 'Forces to rewrite generated code if they already exists [optional]',
             'trace'             => 'Shows the trace of the framework in case of exception [optional]',
             'ns-models=s'       => "Model's namespace [optional]",
@@ -67,7 +67,7 @@ class Scaffold extends Command
         $name = $this->getOption(['table-name', 1]);
         $templatePath = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $schema = $this->getOption('schema');
-        $templateEngine = $this->getOption(['template-engine'], null, "php");
+        $templateEngine = $this->getOption(['template-engine'], null, "phtml");
 
         $scaffoldBuilder = new ScaffoldBuilder([
             'name'                 => $name,
