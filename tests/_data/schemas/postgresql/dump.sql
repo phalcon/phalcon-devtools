@@ -30,7 +30,7 @@ SET default_with_oids = false;
 
 
 CREATE USER phalcon_user WITH PASSWORD '1234';
-GRANT ALL PRIVILEGES ON DATABASE devtools TO devtools;
+GRANT ALL PRIVILEGES ON DATABASE devtools TO phalcon_user;
 
 --
 -- Tables for testing describeReferences()
@@ -56,3 +56,25 @@ CREATE TABLE foreign_key_child (
 );
 
 ALTER TABLE public.foreign_key_child OWNER TO postgres;
+
+--
+-- Table for testing generating migrations and methods batchInsert(), batchDelete()
+--
+-- Table: test_insert_delete
+CREATE TABLE test_insert_delete (
+  id SERIAL,
+  login_type_id INTEGER NOT NULL,
+  username VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  email_addr VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  phone_num BIGINT NULL,
+  token_id BIGINT NULL,
+  PRIMARY KEY (id),
+  UNIQUE (username)
+);
+
+ALTER TABLE public.test_insert_delete OWNER TO postgres;
+
+INSERT INTO public.test_insert_delete VALUES
+  (3, 3, 'superadmin3', 'First name Last name', 'email@test.com', '', NULL, null);

@@ -45,3 +45,14 @@ if (!function_exists('tests_path')) {
         return dirname(__DIR__) . DIRECTORY_SEPARATOR . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
+
+if (!function_exists('env')) {
+    function env($key, $default = null)
+    {
+        if (defined($key)) {
+            return constant($key);
+        }
+
+        return getenv($key) ?: $default;
+    }
+}

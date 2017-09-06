@@ -10,3 +10,5 @@ modules:
         - Filesystem
         - Asserts
         - Cli
+    Phalcon:
+        bootstrap: 'tests/_bootstrap.php'
