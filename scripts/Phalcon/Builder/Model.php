@@ -146,7 +146,11 @@ class Model extends Component
             $this->path->setRootPath($this->options->get('directory'));
         }
 
-        $config = $this->getConfig();
+        if (gettype($this->options->get('config')) == 'object') {
+            $config = $this->options->get('config');
+        } else {
+            $config = $this->getConfig();
+        }
 
         if (!$modelsDir = $this->options->get('modelsDir')) {
             if (!$config->get('application') || !isset($config->get('application')->modelsDir)) {
