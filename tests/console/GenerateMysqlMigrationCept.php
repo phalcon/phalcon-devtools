@@ -14,6 +14,7 @@ OUT;
 
 $I->amInPath(dirname(app_path()));
 
+$I->deleteDir(app_path('migrations/1.0.2/'));
 $I->dontSeeFileFound(app_path('migrations/1.0.2/test_migrations.php'));
 $I->dontSeeFileFound(app_path('migrations/1.0.2/test_migrations.dat'));
 

@@ -37,6 +37,7 @@ use Phalcon\Db\Dialect\MysqlExtended;
 use Phalcon\Db\Adapter\Pdo\MysqlExtended as AdapterMysqlExtended;
 use Phalcon\Db\Dialect\PostgresqlExtended;
 use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as AdapterPostgresqlExtended;
+use Phalcon\Utils\Nullify;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -860,7 +861,8 @@ class Migration
                 $line
             );
 
-            self::$_connection->insert($tableName, $values, $fields);
+            $nullify = new Nullify();
+            self::$_connection->insert($tableName, $nullify($values), $fields);
             unset($line);
         }
         fclose($batchHandler);
