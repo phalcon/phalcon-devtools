@@ -62,7 +62,11 @@ class AllModels extends Component
 
         $this->options->offsetSet('directory', $this->path->getRootPath());
 
-        $config = $this->getConfig();
+        if (gettype($this->options->get('config')) == 'object') {
+            $config = $this->options->get('config');
+        } else {
+            $config = $this->getConfig();
+        }
 
         if (!$modelsDir = $this->options->get('modelsDir')) {
             if (!isset($config->application->modelsDir)) {
@@ -195,6 +199,7 @@ class AllModels extends Component
 
                 $modelBuilder = new Model([
                     'name' => $name,
+                    'config' => $config,
                     'schema' => $schema,
                     'extends' => $this->options->get('extends'),
                     'namespace' => $this->options->get('namespace'),

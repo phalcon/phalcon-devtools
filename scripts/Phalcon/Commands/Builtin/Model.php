@@ -46,6 +46,7 @@ class Model extends Command
         return [
             'name=s'          => 'Table name',
             'schema=s'        => 'Name of the schema [optional]',
+            'config=s'        => 'Configuration file [optional]',
             'namespace=s'     => "Model's namespace [optional]",
             'get-set'         => 'Attributes will be protected and have setters/getters [optional]',
             'extends=s'       => 'Model extends the class name supplied [optional]',
@@ -74,10 +75,32 @@ class Model extends Command
         $name = $this->getOption(['name', 1]);
         $className = Utils::camelize(isset($parameters[1]) ? $parameters[1] : $name, '_-');
 
+        if ($this->isReceivedOption('config')) {
+            if (false == $this->path->isAbsolutePath($this->getOption('config'))) {
+                $configPath = $this->path->getRootPath() . $this->getOption('config');
+            } else {
+                $configPath = $this->getOption('config');
+            }
+
+            if (preg_match('/.*(:?\.ini)(?:\s)?$/i', $configPath)) {
+                $config = new ConfigIni($configPath);
+            } else {
+                $config = include $configPath;
+
+                if (is_array($config)) {
+                    $config = new Config($config);
+                }
+            }
+
+        } else {
+            $config = $this->path->getConfig();
+        }
+
         $modelBuilder = new ModelBuilder(
             [
                 'name'              => $name,
                 'schema'            => $this->getOption('schema'),
+                'config'            => $config,
                 'className'         => $className,
                 'fileName'          => Text::uncamelize($className),
                 'genSettersGetters' => $this->isReceivedOption('get-set'),
