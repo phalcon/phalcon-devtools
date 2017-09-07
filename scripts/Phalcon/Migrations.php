@@ -82,6 +82,7 @@ class Migrations
         $config = $options['config'];
         $descr = isset($options['descr']) ? $options['descr'] : null;
         $noAutoIncrement = isset($options['noAutoIncrement']) ? $options['noAutoIncrement'] : null;
+        $output = isset($options['output']) ? $options['output'] : 'screen';
 
         // Migrations directory
         if ($migrationsDir && !file_exists($migrationsDir)) {
@@ -131,7 +132,10 @@ class Migrations
         if (!isset($config->database)) {
             throw new \RuntimeException('Cannot load database configuration');
         }
-        ModelMigration::setup($config->database);
+
+        $setupData['output'] = $output;
+
+        ModelMigration::setup($config->database, $setupData);
         ModelMigration::setSkipAutoIncrement($noAutoIncrement);
         ModelMigration::setMigrationPath($migrationsDir);
 
@@ -186,6 +190,8 @@ class Migrations
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
 
+        $output = isset($options['output']) ? $options['output'] : 'screen';
+
         $migrationsDir = rtrim($options['migrationsDir'], '\\/');
         if (!file_exists($migrationsDir)) {
             throw new ModelException('Migrations directory was not found.');
@@ -223,7 +229,9 @@ class Migrations
             $finalVersion = VersionCollection::maximum($versionItems);
         }
 
-        ModelMigration::setup($config->database);
+        $setupData['output'] = $output;
+
+        ModelMigration::setup($config->database, $setupData);
         ModelMigration::setMigrationPath($migrationsDir);
         self::connectionSetup($options);
         $initialVersion = self::getCurrentVersion($options);

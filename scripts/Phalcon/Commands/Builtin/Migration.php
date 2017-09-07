@@ -25,6 +25,8 @@ use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Migrations;
 use Phalcon\Config;
+use Phalcon\Utils\FsUtils;
+use SplFileInfo;
 
 /**
  * Migration Command
@@ -54,6 +56,7 @@ class Migration extends Command
             'force'             => 'Forces to overwrite existing migrations',
             'ts-based'          => 'Timestamp based migration version',
             'log-in-db'         => 'Keep migrations log in the database table rather than in file',
+            'output=s'          => 'Output SQL queries into file or screen [screen | file] (Default: screen)',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'help'              => 'Shows this help [optional]',
         ];
@@ -92,6 +95,8 @@ class Migration extends Command
             $migrationsDir = $path . 'migrations';
         }
 
+        $output = $this->isReceivedOption('output') ? $this->getOption('output') : 'screen';
+
         // keep migrations log in db
         // either "log-in-db" option or "logInDb" config variable from "application" block
         $migrationsInDb = false;
@@ -115,9 +120,17 @@ class Migration extends Command
         $exportData = $this->getOption('data');
         $action = $this->getOption(['action', 1]);
         $version = $this->getOption('version');
+        $fsUtils = new FsUtils();
 
         switch ($action) {
             case 'generate':
+                $fsUtils->deleteFilesFromDirectory(
+                    new SplFileInfo(BASE_PATH . DS . '.phalcon' . DS),
+                    [
+                        'migartion.log'
+                    ]
+                );
+
                 Migrations::generate([
                     'directory'       => $path,
                     'tableName'       => $tableName,
@@ -128,9 +141,17 @@ class Migration extends Command
                     'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
                     'config'          => $config,
                     'descr'           => $descr,
+                    'output'          => $output,
                 ]);
                 break;
             case 'run':
+                $fsUtils->deleteFilesFromDirectory(
+                    new SplFileInfo(BASE_PATH . DS . '.phalcon' . DS),
+                    [
+                        'migartion.log'
+                    ]
+                );
+
                 Migrations::run([
                     'directory'      => $path,
                     'tableName'      => $tableName,
@@ -140,6 +161,7 @@ class Migration extends Command
                     'config'         => $config,
                     'version'        => $version,
                     'migrationsInDb' => $migrationsInDb,
+                    'output'         => $output,
                 ]);
                 break;
             case 'list':

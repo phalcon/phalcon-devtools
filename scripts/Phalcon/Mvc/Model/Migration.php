@@ -38,6 +38,7 @@ use Phalcon\Db\Adapter\Pdo\MysqlExtended as AdapterMysqlExtended;
 use Phalcon\Db\Dialect\PostgresqlExtended;
 use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as AdapterPostgresqlExtended;
 use Phalcon\Utils\Nullify;
+use Phalcon\Logger\Adapter\File as LoggerFile;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -86,14 +87,19 @@ class Migration
      * Prepares component
      *
      * @param \Phalcon\Config $database Database config
+     * @param array $setupData array with settings
      * @since 3.2.1 Using Postgresql::describeReferences and PostgresqlExtended dialect class
      *
      * @throws \Phalcon\Db\Exception
      */
-    public static function setup($database)
+    public static function setup($database, $setupData = null)
     {
         if (!isset($database->adapter)) {
             throw new DbException('Unspecified database Adapter in your configuration!');
+        }
+
+        if (empty($setupData)) {
+            $setupData['output'] = 'screen';
         }
 
         /**
@@ -134,12 +140,20 @@ class Migration
             $eventsManager = new EventsManager();
             $eventsManager->attach(
                 'db',
-                function ($event, $connection) use ($profiler) {
+                function ($event, $connection) use ($profiler, $setupData) {
                     if ($event->getType() == 'beforeQuery') {
-                        $profiler->startProfile($connection->getSQLStatement());
+                        if ($setupData['output'] == 'screen') {
+                            $profiler->startProfile($connection->getSQLStatement());
+                        } else {
+                            $logger = new LoggerFile('.phalcon/migartion.log');
+                            $logger->info($connection->getSQLStatement() . PHP_EOL);
+                            $logger->close();
+                        }
                     }
                     if ($event->getType() == 'afterQuery') {
-                        $profiler->stopProfile();
+                        if ($setupData['output'] == 'screen') {
+                            $profiler->stopProfile();
+                        }
                     }
                 }
             );
