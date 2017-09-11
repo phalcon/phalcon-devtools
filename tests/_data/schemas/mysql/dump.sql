@@ -24,3 +24,12 @@ INSERT into `test_migrations` SET
     `active` = 1,
     `created_at` = NOW(),
     `updated_at` = NOW();
+
+DROP TABLE IF EXISTS `test_many_running`;
+CREATE TABLE `test_many_running` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(45) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `active` tinyint(1) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

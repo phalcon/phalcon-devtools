@@ -498,6 +498,7 @@ class Migrations
 
             if ($version = trim($version) ?: null) {
                 $version = preg_split('/\r\n|\r|\n/', $version, -1, PREG_SPLIT_NO_EMPTY);
+                natsort($version);
                 $version = array_pop($version);
             }
 
