@@ -45,7 +45,7 @@ $defaults = [
     "TEST_DB_POSTGRESQL_HOST"   => '127.0.0.1',
     "TEST_DB_POSTGRESQL_PORT"   => 5432,
     "TEST_DB_POSTGRESQL_USER"   => 'postgres',
-    "TEST_DB_POSTGRESQL_PASSWD" => 'secret',
+    "TEST_DB_POSTGRESQL_PASSWD" => '',
     "TEST_DB_POSTGRESQL_NAME"   => 'devtools',
     "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
 ];
