@@ -54,6 +54,8 @@ class Migration extends Command
             'force'             => 'Forces to overwrite existing migrations',
             'ts-based'          => 'Timestamp based migration version',
             'log-in-db'         => 'Keep migrations log in the database table rather than in file',
+            'dry'               => 'Mode which should not modify anything',
+            'verbose'           => 'Shows details about the results of running',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'help'              => 'Shows this help [optional]',
         ];
@@ -115,6 +117,8 @@ class Migration extends Command
         $exportData = $this->getOption('data');
         $action = $this->getOption(['action', 1]);
         $version = $this->getOption('version');
+        $dryMode = $this->isReceivedOption('dry') ? true : false;
+        $verboseMode = $this->isReceivedOption('verbose') ? true : false;
 
         switch ($action) {
             case 'generate':
@@ -128,6 +132,7 @@ class Migration extends Command
                     'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
                     'config'          => $config,
                     'descr'           => $descr,
+                    'dry'             => $dryMode,
                 ]);
                 break;
             case 'run':
@@ -140,6 +145,7 @@ class Migration extends Command
                     'config'         => $config,
                     'version'        => $version,
                     'migrationsInDb' => $migrationsInDb,
+                    'verbose'        => $verboseMode,
                 ]);
                 break;
             case 'list':

@@ -82,6 +82,7 @@ class Migrations
         $config = $options['config'];
         $descr = isset($options['descr']) ? $options['descr'] : null;
         $noAutoIncrement = isset($options['noAutoIncrement']) ? $options['noAutoIncrement'] : null;
+        $dryMode = isset($options['dry']) ? $options['dry'] : false;
 
         // Migrations directory
         if ($migrationsDir && !file_exists($migrationsDir)) {
@@ -118,9 +119,9 @@ class Migrations
         // Path to migration dir
         $migrationPath = rtrim($migrationsDir, '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion();
         if (!file_exists($migrationPath)) {
-            if (is_writable(dirname($migrationPath))) {
+            if (is_writable(dirname($migrationPath)) && !$dryMode) {
                 mkdir($migrationPath);
-            } else {
+            } elseif (!is_writable(dirname($migrationPath))) {
                 throw new \RuntimeException("Unable to write '{$migrationPath}' directory. Permission denied");
             }
         } elseif (!$force) {
@@ -131,38 +132,45 @@ class Migrations
         if (!isset($config->database)) {
             throw new \RuntimeException('Cannot load database configuration');
         }
-        ModelMigration::setup($config->database);
+
+        $settings['showEvent'] = $dryMode;
+
+        ModelMigration::setup($config->database, $settings);
         ModelMigration::setSkipAutoIncrement($noAutoIncrement);
         ModelMigration::setMigrationPath($migrationsDir);
 
         $wasMigrated = false;
         if ($tableName === '@') {
             $migrations = ModelMigration::generateAll($versionItem, $exportData);
-            foreach ($migrations as $tableName => $migration) {
-                if ($tableName === self::MIGRATION_LOG_TABLE) {
-                    continue;
+            if (!$dryMode) {
+                foreach ($migrations as $tableName => $migration) {
+                    if ($tableName === self::MIGRATION_LOG_TABLE) {
+                        continue;
+                    }
+                    $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
+                    $wasMigrated = file_put_contents(
+                            $tableFile,
+                            '<?php ' . PHP_EOL . PHP_EOL . $migration
+                        ) || $wasMigrated;
                 }
-                $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
-                $wasMigrated = file_put_contents(
-                        $tableFile,
-                        '<?php ' . PHP_EOL . PHP_EOL . $migration
-                    ) || $wasMigrated;
             }
         } else {
             $tables = explode(',', $tableName);
             foreach ($tables as $table) {
                 $migration = ModelMigration::generate($versionItem, $table, $exportData);
-                $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
-                $wasMigrated = file_put_contents(
-                    $tableFile,
-                    '<?php ' . PHP_EOL . PHP_EOL . $migration
-                );
+                if (!$dryMode) {
+                    $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
+                    $wasMigrated = file_put_contents(
+                        $tableFile,
+                        '<?php ' . PHP_EOL . PHP_EOL . $migration
+                    );
+                }
             }
         }
 
         if (self::isConsole() && $wasMigrated) {
             print Color::success('Version ' . $versionItem->getVersion() . ' was successfully generated') . PHP_EOL;
-        } elseif (self::isConsole()) {
+        } elseif (self::isConsole() && !$dryMode) {
             print Color::info('Nothing to generate. You should create tables first.') . PHP_EOL;
         }
     }
@@ -185,6 +193,8 @@ class Migrations
         } else {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
+
+        $verboseMode = isset($options['verbose']) ? $options['verbose'] : false;
 
         $migrationsDir = rtrim($options['migrationsDir'], '\\/');
         if (!file_exists($migrationsDir)) {
@@ -223,7 +233,9 @@ class Migrations
             $finalVersion = VersionCollection::maximum($versionItems);
         }
 
-        ModelMigration::setup($config->database);
+        $settings['showEvent'] = $verboseMode;
+
+        ModelMigration::setup($config->database, $settings);
         ModelMigration::setMigrationPath($migrationsDir);
         self::connectionSetup($options);
         $initialVersion = self::getCurrentVersion($options);
