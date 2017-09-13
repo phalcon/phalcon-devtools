@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -215,7 +215,12 @@ class Migrations
         $versionItems = ModelMigration::scanForVersions($migrationsDir);
 
         if (!isset($versionItems[0])) {
-            throw new ModelException('Migrations were not found at ' . $migrationsDir);
+            if (php_sapi_name() == 'cli') {
+                fwrite(STDERR, PHP_EOL . 'Migrations were not found at ' . $migrationsDir . PHP_EOL);
+                exit;
+            } else {
+                throw new ModelException('Migrations were not found at ' . $migrationsDir);
+            }
         }
 
         // Set default final version
@@ -282,10 +287,10 @@ class Migrations
                     if (!$fileInfo->isFile() || 0 !== strcasecmp($fileInfo->getExtension(), 'php')) {
                         continue;
                     }
-                    ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'), $direction);
+                    ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'));
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $versionItem, $tableName, $direction);
+                ModelMigration::migrate($initialVersion, $versionItem, $tableName);
             }
 
             if (ModelMigration::DIRECTION_FORWARD == $direction) {
