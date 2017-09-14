@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -452,7 +452,7 @@ class Migration
         return $classData;
     }
 
-    public static function migrate($fromVersion, $toVersion, $tableName, $direction = self::DIRECTION_FORWARD)
+    public static function migrate($fromVersion, $toVersion, $tableName)
     {
         if (!is_object($fromVersion)) {
             $fromVersion = VersionCollection::createItem($fromVersion);
@@ -462,7 +462,7 @@ class Migration
             $toVersion = VersionCollection::createItem($toVersion);
         }
 
-        if ($fromVersion->getStamp() == $toVersion->getStamp() && self::DIRECTION_FORWARD == $direction) {
+        if ($fromVersion->getStamp() == $toVersion->getStamp()) {
             return; // nothing to do
         }
 
