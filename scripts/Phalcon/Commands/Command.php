@@ -135,7 +135,7 @@ abstract class Command implements CommandsInterface
     {
         foreach (['app/config/', 'config/'] as $configPath) {
             foreach (['ini', 'php', 'json', 'yaml', 'yml'] as $extension) {
-                if (file_exists($path . $configPath . "/config." . $extension)) {
+                if (file_exists($path . $configPath . "config." . $extension)) {
                     return $this->loadConfig($path . $configPath . "/config." . $extension);
                 }
             }
