@@ -282,7 +282,7 @@ class Scaffold extends Component
             if ($useGetSetters) {
                 $code .= 'set' . Text::camelize($field) . '(' . $fieldCode . ')';
             } else {
-                $code .= Text::camelize($field, '-') . ' = ' . $fieldCode;
+                $code .= $field . ' = ' . $fieldCode;
             }
 
             $code .= ';' . PHP_EOL . "\t\t";
