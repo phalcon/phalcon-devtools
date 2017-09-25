@@ -285,7 +285,7 @@ class Model extends Component
             $initialize[] = $this->snippet->getRelation(
                 'belongsTo',
                 $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
-                $this->getEntityClassName($reference, $entityNamespace),
+                $entityNamespace . Text::camelize($tableName, '_-'),
                 $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                 "['alias' => '" . Text::camelize($reference->getReferencedTable(), '_-') . "']"
             );
