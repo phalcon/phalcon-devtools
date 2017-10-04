@@ -38,6 +38,7 @@ use Phalcon\Db\Adapter\Pdo\MysqlExtended as AdapterMysqlExtended;
 use Phalcon\Db\Dialect\PostgresqlExtended;
 use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as AdapterPostgresqlExtended;
 use Phalcon\Utils\Nullify;
+use Phalcon\Listeners\DbProfilerListener;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -86,11 +87,12 @@ class Migration
      * Prepares component
      *
      * @param \Phalcon\Config $database Database config
+     * @param bool $verbose array with settings
      * @since 3.2.1 Using Postgresql::describeReferences and PostgresqlExtended dialect class
      *
      * @throws \Phalcon\Db\Exception
      */
-    public static function setup($database)
+    public static function setup($database, $verbose = false)
     {
         if (!isset($database->adapter)) {
             throw new DbException('Unspecified database Adapter in your configuration!');
@@ -128,24 +130,18 @@ class Migration
             self::$_connection->setDialect(new PostgresqlExtended);
         }
 
-        if (Migrations::isConsole()) {
-            $profiler = new Profiler();
-
-            $eventsManager = new EventsManager();
-            $eventsManager->attach(
-                'db',
-                function ($event, $connection) use ($profiler) {
-                    if ($event->getType() == 'beforeQuery') {
-                        $profiler->startProfile($connection->getSQLStatement());
-                    }
-                    if ($event->getType() == 'afterQuery') {
-                        $profiler->stopProfile();
-                    }
-                }
-            );
-
-            self::$_connection->setEventsManager($eventsManager);
+        if (!Migrations::isConsole() || !$verbose) {
+            return;
         }
+
+        $eventsManager = new EventsManager();
+
+        $eventsManager->attach(
+            'db',
+            new DbProfilerListener()
+        );
+
+        self::$_connection->setEventsManager($eventsManager);
     }
 
     /**
