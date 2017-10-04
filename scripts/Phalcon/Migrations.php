@@ -34,6 +34,7 @@ use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Version\IncrementalItem as IncrementalVersion;
 use Phalcon\Version\ItemCollection as VersionCollection;
+use Phalcon\Console\OptionStack;
 
 /**
  * Migrations Class
@@ -74,95 +75,73 @@ class Migrations
      */
     public static function generate(array $options)
     {
-        $tableName = $options['tableName'];
-        $exportData = $options['exportData'];
-        $migrationsDir = $options['migrationsDir'];
-        $version = isset($options['version']) ? $options['version'] : null;
-        $force = $options['force'];
-        $config = $options['config'];
-        $descr = isset($options['descr']) ? $options['descr'] : null;
-        $noAutoIncrement = isset($options['noAutoIncrement']) ? $options['noAutoIncrement'] : null;
+        $optionStack = new OptionStack();
+        $optionStack->setOptions($options);
+        $optionStack->setDefaultOption('version', null);
+        $optionStack->setDefaultOption('descr', null);
+        $optionStack->setDefaultOption('noAutoIncrement', null);
+        $optionStack->setDefaultOption('verbose', false);
 
         // Migrations directory
-        if ($migrationsDir && !file_exists($migrationsDir)) {
-            mkdir($migrationsDir, 0755, true);
+        if ($optionStack->getOption('migrationsDir') && !file_exists($optionStack->getOption('migrationsDir'))) {
+            mkdir($optionStack->getOption('migrationsDir'), 0755, true);
         }
 
-        // Use timestamped version if description is provided
-        if ($descr) {
-            $version = (string)(int)(microtime(true) * pow(10, 6));
-            VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
-            $versionItem = VersionCollection::createItem($version . '_' . $descr);
-
-            // Elsewhere use old-style incremental versioning
-            // The version is specified
-        } elseif ($version) {
-            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItem = VersionCollection::createItem($version);
-
-            // The version is guessed automatically
-        } else {
-            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItems = ModelMigration::scanForVersions($migrationsDir);
-
-            if (!isset($versionItems[0])) {
-                $versionItem = VersionCollection::createItem('1.0.0');
-
-            } else {
-                /** @var IncrementalVersion $versionItem */
-                $versionItem = VersionCollection::maximum($versionItems);
-                $versionItem = $versionItem->addMinor(1);
-            }
-        }
+        $versionItem = self::getVersionNameGeneratingMigration($optionStack);
 
         // Path to migration dir
-        $migrationPath = rtrim($migrationsDir, '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion();
+        $migrationPath = rtrim($optionStack->getOption('migrationsDir'), '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion();
         if (!file_exists($migrationPath)) {
-            if (is_writable(dirname($migrationPath))) {
+            if (is_writable(dirname($migrationPath)) && !$optionStack->getOption('verbose')) {
                 mkdir($migrationPath);
-            } else {
+            } elseif (!is_writable(dirname($migrationPath))) {
                 throw new \RuntimeException("Unable to write '{$migrationPath}' directory. Permission denied");
             }
-        } elseif (!$force) {
+        } elseif (!$optionStack->getOption('force')) {
             throw new \LogicException('Version ' . $versionItem->getVersion() . ' already exists');
         }
 
         // Try to connect to the DB
-        if (!isset($config->database)) {
+        if (!isset($optionStack->getOption('config')->database)) {
             throw new \RuntimeException('Cannot load database configuration');
         }
-        ModelMigration::setup($config->database);
-        ModelMigration::setSkipAutoIncrement($noAutoIncrement);
-        ModelMigration::setMigrationPath($migrationsDir);
+
+        ModelMigration::setup($optionStack->getOption('config')->database, $optionStack->getOption('verbose'));
+        ModelMigration::setSkipAutoIncrement($optionStack->getOption('noAutoIncrement'));
+        ModelMigration::setMigrationPath($optionStack->getOption('migrationsDir'));
 
         $wasMigrated = false;
-        if ($tableName === '@') {
-            $migrations = ModelMigration::generateAll($versionItem, $exportData);
-            foreach ($migrations as $tableName => $migration) {
-                if ($tableName === self::MIGRATION_LOG_TABLE) {
-                    continue;
+        if ($optionStack->getOption('tableName') === '@') {
+            $migrations = ModelMigration::generateAll($versionItem, $optionStack->getOption('exportData'));
+            if (!$optionStack->getOption('verbose')) {
+                foreach ($migrations as $tableName => $migration) {
+                    if ($tableName === self::MIGRATION_LOG_TABLE) {
+                        continue;
+                    }
+                    $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
+                    $wasMigrated = file_put_contents(
+                            $tableFile,
+                            '<?php ' . PHP_EOL . PHP_EOL . $migration
+                        ) || $wasMigrated;
                 }
-                $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
-                $wasMigrated = file_put_contents(
-                        $tableFile,
-                        '<?php ' . PHP_EOL . PHP_EOL . $migration
-                    ) || $wasMigrated;
             }
         } else {
-            $tables = explode(',', $tableName);
+            $tables = explode(',', $optionStack->getOption('tableName'));
             foreach ($tables as $table) {
-                $migration = ModelMigration::generate($versionItem, $table, $exportData);
-                $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
-                $wasMigrated = file_put_contents(
-                    $tableFile,
-                    '<?php ' . PHP_EOL . PHP_EOL . $migration
-                );
+                $migration = ModelMigration::generate($versionItem, $table, $optionStack->getOption('exportData'));
+                if (!$optionStack->getOption('verbose')) {
+                    $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
+                    $wasMigrated = file_put_contents(
+                        $tableFile,
+                        '<?php ' . PHP_EOL . PHP_EOL . $migration
+                    );
+                }
             }
         }
 
         if (self::isConsole() && $wasMigrated) {
             print Color::success('Version ' . $versionItem->getVersion() . ' was successfully generated') . PHP_EOL;
-        } elseif (self::isConsole()) {
+        } elseif (self::isConsole() && !$optionStack->getOption('verbose')) {
             print Color::info('Nothing to generate. You should create tables first.') . PHP_EOL;
         }
     }
@@ -179,38 +158,37 @@ class Migrations
      */
     public static function run(array $options)
     {
+        $optionStack = new OptionStack();
+        $optionStack->setOptions($options);
+        $optionStack->setDefaultOption('verbose', false);
+
         // Define versioning type to be used
-        if (isset($options['tsBased']) && true === $options['tsBased']) {
+        if (isset($options['tsBased']) && $optionStack->getOption('tsBased') === true) {
             VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
         } else {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
 
-        $migrationsDir = rtrim($options['migrationsDir'], '\\/');
+        $migrationsDir = rtrim($optionStack->getOption('migrationsDir'), '\\/');
         if (!file_exists($migrationsDir)) {
             throw new ModelException('Migrations directory was not found.');
         }
 
-        /** @var Config $config */
-        $config = $options['config'];
-        if (!$config instanceof Config) {
+        if (!$optionStack->getOption('config') instanceof Config) {
             throw new ModelException('Internal error. Config should be an instance of ' . Config::class);
         }
 
         // Init ModelMigration
-        if (!isset($config->database)) {
+        if (!isset($optionStack->getOption('config')->database)) {
             throw new ScriptException('Cannot load database configuration');
         }
 
         $finalVersion = null;
-        if (isset($options['version']) && $options['version'] !== null) {
+        if (isset($options['version']) && $optionStack->getOption('version') !== null) {
             $finalVersion = VersionCollection::createItem($options['version']);
         }
 
-        $tableName = '@';
-        if (isset($options['tableName'])) {
-            $tableName = $options['tableName'];
-        }
+        $optionStack->setOption('tableName', $options['tableName'], '@');
 
         $versionItems = ModelMigration::scanForVersions($migrationsDir);
 
@@ -228,11 +206,11 @@ class Migrations
             $finalVersion = VersionCollection::maximum($versionItems);
         }
 
-        ModelMigration::setup($config->database);
+        ModelMigration::setup($optionStack->getOption('config')->database, $optionStack->getOption('verbose'));
         ModelMigration::setMigrationPath($migrationsDir);
-        self::connectionSetup($options);
-        $initialVersion = self::getCurrentVersion($options);
-        $completedVersions = self::getCompletedVersions($options);
+        self::connectionSetup($optionStack->getOptions());
+        $initialVersion = self::getCurrentVersion($optionStack->getOptions());
+        $completedVersions = self::getCompletedVersions($optionStack->getOptions());
 
         // Everything is up to date
         if ($initialVersion->getStamp() === $finalVersion->getStamp()) {
@@ -278,7 +256,7 @@ class Migrations
             }
 
             $migrationStartTime = date("Y-m-d H:i:s");
-            if ($tableName === '@') {
+            if ($optionStack->getOption('tableName') === '@') {
                 // Directory depends on Forward or Back Migration
                 $iterator = new DirectoryIterator(
                     $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ? $initialVersion->getVersion() : $versionItem->getVersion())
@@ -290,14 +268,14 @@ class Migrations
                     ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'));
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $versionItem, $tableName);
+                ModelMigration::migrate($initialVersion, $versionItem, $optionStack->getOption('tableName'));
             }
 
             if (ModelMigration::DIRECTION_FORWARD == $direction) {
-                self::addCurrentVersion($options, (string)$versionItem, $migrationStartTime);
+                self::addCurrentVersion($optionStack->getOptions(), (string)$versionItem, $migrationStartTime);
                 print Color::success('Version ' . $versionItem . ' was successfully migrated');
             } else {
-                self::removeCurrentVersion($options, (string)$initialVersion);
+                self::removeCurrentVersion($optionStack->getOptions(), (string)$initialVersion);
                 print Color::success('Version ' . $initialVersion . ' was successfully rolled back');
             }
 
@@ -585,5 +563,43 @@ class Migrations
         }
 
         return array_flip($completedVersions);
+    }
+
+    /**
+     * Get version name to generate migration
+     *
+     * @param OptionStack $optionStack Applications options
+     * @return IncrementalVersion
+     */
+    protected function getVersionNameGeneratingMigration($optionStack)
+    {
+        // Use timestamped version if description is provided
+        if ($optionStack->getOption('descr')) {
+            $optionStack->setOption('version', (string)(int)(microtime(true) * pow(10, 6)));
+            VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
+            $versionItem = VersionCollection::createItem($optionStack->getOption('version') . '_' . $optionStack->getOption('descr'));
+
+            // Elsewhere use old-style incremental versioning
+            // The version is specified
+        } elseif ($optionStack->getOption('version')) {
+            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
+            $versionItem = VersionCollection::createItem($optionStack->getOption('version'));
+
+            // The version is guessed automatically
+        } else {
+            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
+            $versionItems = ModelMigration::scanForVersions($optionStack->getOption('migrationsDir'));
+
+            if (!isset($versionItems[0])) {
+                $versionItem = VersionCollection::createItem('1.0.0');
+
+            } else {
+                /** @var IncrementalVersion $versionItem */
+                $versionItem = VersionCollection::maximum($versionItems);
+                $versionItem = $versionItem->addMinor(1);
+            }
+        }
+
+        return $versionItem;
     }
 }
