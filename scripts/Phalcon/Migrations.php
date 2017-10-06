@@ -35,6 +35,8 @@ use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Version\IncrementalItem as IncrementalVersion;
 use Phalcon\Version\ItemCollection as VersionCollection;
 use Phalcon\Console\OptionStack;
+use Phalcon\Mvc\Model\Migration\TableAware\ListTablesIterator;
+use Phalcon\Mvc\Model\Migration\TableAware\ListTablesDb;
 
 /**
  * Migrations Class
@@ -76,6 +78,8 @@ class Migrations
     public static function generate(array $options)
     {
         $optionStack = new OptionStack();
+        $modelMigration = new ModelMigration();
+        $listTables = new ListTablesDb();
         $optionStack->setOptions($options);
         $optionStack->setDefaultOption('version', null);
         $optionStack->setDefaultOption('descr', null);
@@ -126,6 +130,16 @@ class Migrations
                 }
             }
         } else {
+            $prefix = $optionStack->getPrefixOption($optionStack->getOption('tableName'));
+            if (!empty($prefix)) {
+                $optionStack->setOption('tableName', $listTables->listTablesForPrefix($prefix));
+            }
+
+            if ($optionStack->getOption('tableName') == '') {
+                print Color::info('No one table is created. You should create tables first.') . PHP_EOL;
+                return;
+            }
+
             $tables = explode(',', $optionStack->getOption('tableName'));
             foreach ($tables as $table) {
                 $migration = ModelMigration::generate($versionItem, $table, $optionStack->getOption('exportData'));
@@ -159,6 +173,7 @@ class Migrations
     public static function run(array $options)
     {
         $optionStack = new OptionStack();
+        $listTables = new ListTablesIterator();
         $optionStack->setOptions($options);
         $optionStack->setDefaultOption('verbose', false);
 
@@ -235,6 +250,7 @@ class Migrations
 
         // Run migration
         $versionsBetween = VersionCollection::between($initialVersion, $finalVersion, $versionItems);
+        $prefix = $optionStack->getPrefixOption($optionStack->getOption('tableName'));
         foreach ($versionsBetween as $versionItem) {
 
             // If we are rolling back, we skip migrating when initialVersion is the same as current
@@ -256,11 +272,13 @@ class Migrations
             }
 
             $migrationStartTime = date("Y-m-d H:i:s");
+
+            // Directory depends on Forward or Back Migration
+            $iterator = new DirectoryIterator(
+                $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ? $initialVersion->getVersion() : $versionItem->getVersion())
+            );
+
             if ($optionStack->getOption('tableName') === '@') {
-                // Directory depends on Forward or Back Migration
-                $iterator = new DirectoryIterator(
-                    $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ? $initialVersion->getVersion() : $versionItem->getVersion())
-                );
                 foreach ($iterator as $fileInfo) {
                     if (!$fileInfo->isFile() || 0 !== strcasecmp($fileInfo->getExtension(), 'php')) {
                         continue;
@@ -268,7 +286,14 @@ class Migrations
                     ModelMigration::migrate($initialVersion, $versionItem, $fileInfo->getBasename('.php'));
                 }
             } else {
-                ModelMigration::migrate($initialVersion, $versionItem, $optionStack->getOption('tableName'));
+                if (!empty($prefix)) {
+                    $optionStack->setOption('tableName', $listTables->listTablesForPrefix($prefix, $iterator));
+                }
+
+                $tables =  explode(',', $optionStack->getOption('tableName'));
+                foreach ($tables as $tableName) {
+                    ModelMigration::migrate($initialVersion, $versionItem, $tableName);
+                }
             }
 
             if (ModelMigration::DIRECTION_FORWARD == $direction) {

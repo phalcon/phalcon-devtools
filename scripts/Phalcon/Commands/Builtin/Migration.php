@@ -47,7 +47,7 @@ class Migration extends Command
             'config=s'          => 'Configuration file',
             'migrations=s'      => 'Migrations directory',
             'directory=s'       => 'Directory where the project was created',
-            'table=s'           => 'Table to migrate. Default: all',
+            'table=s'           => 'Table to migrate. Table name or table prefix with asterisk. Default: all',
             'version=s'         => 'Version to migrate',
             'descr=s'           => 'Migration description (used for timestamp based migration)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
