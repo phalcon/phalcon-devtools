@@ -19,6 +19,8 @@
 
 namespace Phalcon\Console;
 
+use Phalcon\Console\OptionParserTrait;
+
 /**
  * Phalcon\Console\OptionStack
  *
@@ -30,6 +32,8 @@ namespace Phalcon\Console;
  */
 class OptionStack
 {
+    use OptionParserTrait;
+
     /**
      * Parameters received by the script.
      * @var array
@@ -127,5 +131,16 @@ class OptionStack
     public function countOptions()
     {
         return count($this->options);
+    }
+
+    /**
+     * Indicates whether the script was a particular option.
+     *
+     * @param  string  $key
+     * @return boolean
+     */
+    public function isReceivedOption($key)
+    {
+        return isset($this->options[$key]);
     }
 }

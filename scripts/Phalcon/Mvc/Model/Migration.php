@@ -894,4 +894,14 @@ class Migration
         fclose($batchHandler);
         self::$_connection->commit();
     }
+
+    /**
+     * Get db connection
+     *
+     * @return \Phalcon\Db\AdapterInterface
+     */
+    public function getConnection()
+    {
+        return self::$_connection;
+    }
 }

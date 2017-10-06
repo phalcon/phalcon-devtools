@@ -13,37 +13,25 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>             |
+  | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>             |
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Console;
+namespace Phalcon\Mvc\Model\Migration\TableAware;
 
 /**
- * \Phalcon\Utils\OptionParserTrait
+ * Phalcon\Mvc\Model\Migration\TableAware\ListTablesInterface
  *
- * Parsing CLI options
- *
- * @package   Phalcon\Utils
- * @copyright Copyright (c) 2011-2017 Phalcon Team (team@phalconphp.com)
- * @license   New BSD License
+ * @package Phalcon\Mvc\Model\Migration\TableAware
  */
-trait OptionParserTrait
+interface ListTablesInterface
 {
     /**
-     * Get prefix from the option
+     * Get list table from prefix
      *
-     * @param  string  $prefix
-     * @param  mixed  $prefixEnd
-     *
-     * @return mixed
+     * @param string $tablePrefix Table prefix
+     * @param \DirectoryIterator $iterator
+     * @return string
      */
-    public function getPrefixOption($prefix, $prefixEnd = '*')
-    {
-        if (substr($prefix, -1) != $prefixEnd) {
-            return '';
-        }
-
-        return substr($prefix, 0, -1);
-    }
+    public function listTablesForPrefix($tablePrefix, \DirectoryIterator $iterator = null);
 }

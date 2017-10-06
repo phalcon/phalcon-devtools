@@ -114,7 +114,7 @@ class OptionStackTest extends UnitTest
     }
 
     /**
-     * Tests OptionParserTrait::isReceivedOption
+     * Tests OptionStack::isReceivedOption
      *
      * @test
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
@@ -132,8 +132,8 @@ class OptionStackTest extends UnitTest
             },
             [
                 'examples' => [
-                    [$this->isReceivedOption('true-option', $this->options->getOptions()), true],
-                    [$this->isReceivedOption('false-option', $this->options->getOptions()), false]
+                    [$this->options->isReceivedOption('true-option', $this->options->getOptions()), true],
+                    [$this->options->isReceivedOption('false-option', $this->options->getOptions()), false]
                 ]
             ]
         );
@@ -160,6 +160,58 @@ class OptionStackTest extends UnitTest
                 'examples' => [
                     [$this->options->getValidOption('test', 'bar'), 'foo'],
                     [$this->options->getValidOption('false-option', 'bar'), 'bar'],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests OptionParserTrait::getPrefixOption
+     *
+     * @test
+     * @issue  595
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-10-06
+     */
+    public function shouldReturnPrefixFromOptionWithoutSetPrefix()
+    {
+        $this->options->setOptions(['test' => 'foo', 'test2' => 'bar']);
+
+        $this->specify(
+            'Method' . __METHOD__ . 'does not return option prefix',
+            function($prefix, $expected) {
+                expect($this->getPrefixOption($prefix))->equals($expected);
+            },
+            [
+                'examples' => [
+                    ['foo*', 'foo'],
+                    ['bar*', 'bar']
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests OptionParserTrait::getPrefixOption
+     *
+     * @test
+     * @issue  595
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-10-06
+     */
+    public function shouldReturnPrefixFromOptionWithSetPrefix()
+    {
+        $this->options->setOptions(['test' => 'foo', 'test2' => 'bar']);
+
+        $this->specify(
+            'Method' . __METHOD__ . 'does not return option prefix',
+            function($prefix, $prefixEnd, $expected) {
+                expect($this->getPrefixOption($prefix, $prefixEnd))->equals($expected);
+            },
+            [
+                'examples' => [
+                    ['foo^', '^', 'foo'],
+                    ['bar?', '?', 'bar']
                 ]
             ]
         );
