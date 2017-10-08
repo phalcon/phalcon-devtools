@@ -13,32 +13,37 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
+  | Authors: Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>             |
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Devtools;
-
-use Phalcon\Version as PhVersion;
+namespace Phalcon\Console;
 
 /**
- * \Phalcon\Devtools\Version
+ * \Phalcon\Utils\OptionParserTrait
  *
- * This class allows to get the installed version of the Developer Tools
+ * Parsing CLI options
  *
- * @package Phalcon\Devtools
+ * @package   Phalcon\Utils
+ * @copyright Copyright (c) 2011-2017 Phalcon Team (team@phalconphp.com)
+ * @license   New BSD License
  */
-class Version extends PhVersion
+trait OptionParserTrait
 {
     /**
-     * {@inheritdoc}
+     * Get prefix from the option
      *
-     * @return array
+     * @param  string  $prefix
+     * @param  mixed  $prefixEnd
+     *
+     * @return mixed
      */
-    protected static function _getVersion()
+    public function getPrefixOption($prefix, $prefixEnd = '*')
     {
-        return [3, 2, 5, 4, 0];
+        if (substr($prefix, -1) != $prefixEnd) {
+            return '';
+        }
+
+        return substr($prefix, 0, -1);
     }
 }

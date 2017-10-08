@@ -13,32 +13,40 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
+  | Authors: Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>             |
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Devtools;
+namespace Phalcon\Listeners;
 
-use Phalcon\Version as PhVersion;
+use Phalcon\Mvc\Model\Migration\Profiler;
+use Phalcon\Events\Event;
 
 /**
- * \Phalcon\Devtools\Version
+ * Phalcon\Listeners\DbProfilerListener
  *
- * This class allows to get the installed version of the Developer Tools
+ * Db event listener
  *
- * @package Phalcon\Devtools
+ * @package Phalcon\Listeners
  */
-class Version extends PhVersion
+class DbProfilerListener
 {
-    /**
-     * {@inheritdoc}
-     *
-     * @return array
-     */
-    protected static function _getVersion()
+    protected $_profiler;
+
+    public function __construct()
     {
-        return [3, 2, 5, 4, 0];
+        $this->_profiler = new Profiler();
+    }
+
+    public function beforeQuery(Event $event, $connection)
+    {
+        $this->_profiler->startProfile(
+            $connection->getSQLStatement()
+        );
+    }
+
+    public function afterQuery()
+    {
+        $this->_profiler->stopProfile();
     }
 }

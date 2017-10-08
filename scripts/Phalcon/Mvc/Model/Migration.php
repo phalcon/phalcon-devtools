@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -38,6 +38,7 @@ use Phalcon\Db\Adapter\Pdo\MysqlExtended as AdapterMysqlExtended;
 use Phalcon\Db\Dialect\PostgresqlExtended;
 use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as AdapterPostgresqlExtended;
 use Phalcon\Utils\Nullify;
+use Phalcon\Listeners\DbProfilerListener;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -86,11 +87,12 @@ class Migration
      * Prepares component
      *
      * @param \Phalcon\Config $database Database config
+     * @param bool $verbose array with settings
      * @since 3.2.1 Using Postgresql::describeReferences and PostgresqlExtended dialect class
      *
      * @throws \Phalcon\Db\Exception
      */
-    public static function setup($database)
+    public static function setup($database, $verbose = false)
     {
         if (!isset($database->adapter)) {
             throw new DbException('Unspecified database Adapter in your configuration!');
@@ -128,24 +130,18 @@ class Migration
             self::$_connection->setDialect(new PostgresqlExtended);
         }
 
-        if (Migrations::isConsole()) {
-            $profiler = new Profiler();
-
-            $eventsManager = new EventsManager();
-            $eventsManager->attach(
-                'db',
-                function ($event, $connection) use ($profiler) {
-                    if ($event->getType() == 'beforeQuery') {
-                        $profiler->startProfile($connection->getSQLStatement());
-                    }
-                    if ($event->getType() == 'afterQuery') {
-                        $profiler->stopProfile();
-                    }
-                }
-            );
-
-            self::$_connection->setEventsManager($eventsManager);
+        if (!Migrations::isConsole() || !$verbose) {
+            return;
         }
+
+        $eventsManager = new EventsManager();
+
+        $eventsManager->attach(
+            'db',
+            new DbProfilerListener()
+        );
+
+        self::$_connection->setEventsManager($eventsManager);
     }
 
     /**
@@ -452,7 +448,7 @@ class Migration
         return $classData;
     }
 
-    public static function migrate($fromVersion, $toVersion, $tableName, $direction = self::DIRECTION_FORWARD)
+    public static function migrate($fromVersion, $toVersion, $tableName)
     {
         if (!is_object($fromVersion)) {
             $fromVersion = VersionCollection::createItem($fromVersion);
@@ -462,7 +458,7 @@ class Migration
             $toVersion = VersionCollection::createItem($toVersion);
         }
 
-        if ($fromVersion->getStamp() == $toVersion->getStamp() && self::DIRECTION_FORWARD == $direction) {
+        if ($fromVersion->getStamp() == $toVersion->getStamp()) {
             return; // nothing to do
         }
 
@@ -897,5 +893,15 @@ class Migration
         }
         fclose($batchHandler);
         self::$_connection->commit();
+    }
+
+    /**
+     * Get db connection
+     *
+     * @return \Phalcon\Db\AdapterInterface
+     */
+    public function getConnection()
+    {
+        return self::$_connection;
     }
 }

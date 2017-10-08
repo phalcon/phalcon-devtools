@@ -280,9 +280,9 @@ class Scaffold extends Component
 
             $code .= '$' . Utils::lowerCamelizeWithDelimiter($var, '-', true) . '->';
             if ($useGetSetters) {
-                $code .= 'set' . Text::camelize($field) . '(' . $fieldCode . ')';
+                $code .= 'set' . Utils::lowerCamelizeWithDelimiter($field, '_', true) . '(' . $fieldCode . ')';
             } else {
-                $code .= Text::camelize($field, '-') . ' = ' . $fieldCode;
+                $code .= Utils::lowerCamelizeWithDelimiter($field, '-_', true) . ' = ' . $fieldCode;
             }
 
             $code .= ';' . PHP_EOL . "\t\t";

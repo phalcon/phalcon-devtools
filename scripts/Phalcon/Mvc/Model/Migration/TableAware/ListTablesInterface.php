@@ -13,32 +13,25 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
+  | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>             |
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Devtools;
-
-use Phalcon\Version as PhVersion;
+namespace Phalcon\Mvc\Model\Migration\TableAware;
 
 /**
- * \Phalcon\Devtools\Version
+ * Phalcon\Mvc\Model\Migration\TableAware\ListTablesInterface
  *
- * This class allows to get the installed version of the Developer Tools
- *
- * @package Phalcon\Devtools
+ * @package Phalcon\Mvc\Model\Migration\TableAware
  */
-class Version extends PhVersion
+interface ListTablesInterface
 {
     /**
-     * {@inheritdoc}
+     * Get list table from prefix
      *
-     * @return array
+     * @param string $tablePrefix Table prefix
+     * @param \DirectoryIterator $iterator
+     * @return string
      */
-    protected static function _getVersion()
-    {
-        return [3, 2, 5, 4, 0];
-    }
+    public function listTablesForPrefix($tablePrefix, \DirectoryIterator $iterator = null);
 }

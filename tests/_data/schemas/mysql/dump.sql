@@ -33,3 +33,31 @@ CREATE TABLE `test_many_running` (
     `active` tinyint(1) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `test_dry_verbose`;
+CREATE TABLE `test_dry_verbose` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(45) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `active` tinyint(1) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for testing table prefix, issue #595
+--
+DROP TABLE IF EXISTS `issue595_1`;
+CREATE TABLE `issue595_1` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(45) NOT NULL,
+    `version` int(45) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `issue595_2`;
+CREATE TABLE `issue595_2` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `version` int(45) NOT NULL,
+    `name` varchar(45) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

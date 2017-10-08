@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -47,13 +47,15 @@ class Migration extends Command
             'config=s'          => 'Configuration file',
             'migrations=s'      => 'Migrations directory',
             'directory=s'       => 'Directory where the project was created',
-            'table=s'           => 'Table to migrate. Default: all',
+            'table=s'           => 'Table to migrate. Table name or table prefix with asterisk. Default: all',
             'version=s'         => 'Version to migrate',
             'descr=s'           => 'Migration description (used for timestamp based migration)',
             'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
             'force'             => 'Forces to overwrite existing migrations',
             'ts-based'          => 'Timestamp based migration version',
             'log-in-db'         => 'Keep migrations log in the database table rather than in file',
+            'dry'               => 'Attempt requested operation without making changes to system (Generating only)',
+            'verbose'           => 'Output of debugging information during operation (Running only)',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
             'help'              => 'Shows this help [optional]',
         ];
@@ -111,23 +113,21 @@ class Migration extends Command
         }
 
         $tableName = $this->isReceivedOption('table') ? $this->getOption('table') : '@';
-        $descr = $this->getOption('descr');
-        $exportData = $this->getOption('data');
         $action = $this->getOption(['action', 1]);
-        $version = $this->getOption('version');
 
         switch ($action) {
             case 'generate':
                 Migrations::generate([
                     'directory'       => $path,
                     'tableName'       => $tableName,
-                    'exportData'      => $exportData,
+                    'exportData'      => $this->getOption('data'),
                     'migrationsDir'   => $migrationsDir,
-                    'version'         => $version,
+                    'version'         => $this->getOption('version'),
                     'force'           => $this->isReceivedOption('force'),
                     'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
                     'config'          => $config,
-                    'descr'           => $descr,
+                    'descr'           => $this->getOption('descr'),
+                    'verbose'         => $this->isReceivedOption('dry'),
                 ]);
                 break;
             case 'run':
@@ -138,8 +138,9 @@ class Migration extends Command
                     'force'          => $this->isReceivedOption('force'),
                     'tsBased'        => $migrationsTsBased,
                     'config'         => $config,
-                    'version'        => $version,
+                    'version'        => $this->getOption('version'),
                     'migrationsInDb' => $migrationsInDb,
+                    'verbose'        => $this->isReceivedOption('verbose'),
                 ]);
                 break;
             case 'list':
@@ -150,7 +151,7 @@ class Migration extends Command
                     'force'          => $this->isReceivedOption('force'),
                     'tsBased'        => $migrationsTsBased,
                     'config'         => $config,
-                    'version'        => $version,
+                    'version'        => $this->getOption('version'),
                     'migrationsInDb' => $migrationsInDb,
                 ]);
                 break;
