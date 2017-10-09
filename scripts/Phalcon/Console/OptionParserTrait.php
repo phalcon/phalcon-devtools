@@ -19,6 +19,11 @@
 
 namespace Phalcon\Console;
 
+use Phalcon\Version\IncrementalItem as IncrementalVersion;
+use Phalcon\Version\ItemCollection as VersionCollection;
+use Phalcon\Mvc\Model\Migration as ModelMigration;
+use InvalidArgumentException;
+
 /**
  * \Phalcon\Utils\OptionParserTrait
  *
@@ -45,5 +50,46 @@ trait OptionParserTrait
         }
 
         return substr($prefix, 0, -1);
+    }
+
+    /**
+     * Get version name to generate migration
+     *
+     * @return IncrementalVersion
+     */
+    public function getVersionNameGeneratingMigration()
+    {
+        if (empty($this->options)) {
+            throw new InvalidArgumentException('Options were not defined yet');
+        }
+
+        // Use timestamped version if description is provided
+        if ($this->options['descr']) {
+            $this->options['version'] = (string)(int)(microtime(true) * pow(10, 6));
+            VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
+            $versionItem = VersionCollection::createItem($this->options['version'] . '_' . $this->options['descr']);
+
+            // Elsewhere use old-style incremental versioning
+            // The version is specified
+        } elseif ($this->options['version']) {
+            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
+            $versionItem = VersionCollection::createItem($this->options['version']);
+
+            // The version is guessed automatically
+        } else {
+            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
+            $versionItems = ModelMigration::scanForVersions($this->options['migrationsDir']);
+
+            if (!isset($versionItems[0])) {
+                $versionItem = VersionCollection::createItem('1.0.0');
+
+            } else {
+                /** @var IncrementalVersion $versionItem */
+                $versionItem = VersionCollection::maximum($versionItems);
+                $versionItem = $versionItem->addMinor(1);
+            }
+        }
+
+        return $versionItem;
     }
 }
