@@ -78,7 +78,6 @@ class Migrations
     public static function generate(array $options)
     {
         $optionStack = new OptionStack();
-        $modelMigration = new ModelMigration();
         $listTables = new ListTablesDb();
         $optionStack->setOptions($options);
         $optionStack->setDefaultOption('version', null);
@@ -91,7 +90,7 @@ class Migrations
             mkdir($optionStack->getOption('migrationsDir'), 0755, true);
         }
 
-        $versionItem = self::getVersionNameGeneratingMigration($optionStack);
+        $versionItem = $optionStack->getVersionNameGeneratingMigration();
 
         // Path to migration dir
         $migrationPath = rtrim($optionStack->getOption('migrationsDir'), '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion();
@@ -588,43 +587,5 @@ class Migrations
         }
 
         return array_flip($completedVersions);
-    }
-
-    /**
-     * Get version name to generate migration
-     *
-     * @param OptionStack $optionStack Applications options
-     * @return IncrementalVersion
-     */
-    protected function getVersionNameGeneratingMigration($optionStack)
-    {
-        // Use timestamped version if description is provided
-        if ($optionStack->getOption('descr')) {
-            $optionStack->setOption('version', (string)(int)(microtime(true) * pow(10, 6)));
-            VersionCollection::setType(VersionCollection::TYPE_TIMESTAMPED);
-            $versionItem = VersionCollection::createItem($optionStack->getOption('version') . '_' . $optionStack->getOption('descr'));
-
-            // Elsewhere use old-style incremental versioning
-            // The version is specified
-        } elseif ($optionStack->getOption('version')) {
-            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItem = VersionCollection::createItem($optionStack->getOption('version'));
-
-            // The version is guessed automatically
-        } else {
-            VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItems = ModelMigration::scanForVersions($optionStack->getOption('migrationsDir'));
-
-            if (!isset($versionItems[0])) {
-                $versionItem = VersionCollection::createItem('1.0.0');
-
-            } else {
-                /** @var IncrementalVersion $versionItem */
-                $versionItem = VersionCollection::maximum($versionItems);
-                $versionItem = $versionItem->addMinor(1);
-            }
-        }
-
-        return $versionItem;
     }
 }
