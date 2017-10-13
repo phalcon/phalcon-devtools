@@ -28,6 +28,8 @@ use Phalcon\Mvc\Application as MvcApplication;
 /**
  * \Phalcon\Web\Tools\Library\Bootstrap
  *
+ * @method mixed getShared($name, $parameters=null)
+ * @method mixed get($name, $parameters=null)
  * @package Phalcon\Web\Tools\Library
  */
 class Bootstrap

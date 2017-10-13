@@ -44,6 +44,7 @@ use Phalcon\Listeners\DbProfilerListener;
  * Phalcon\Mvc\Model\Migration
  *
  * Migrations of DML y DDL over databases
+ * @method afterCreateTable()
  *
  * @package Phalcon\Mvc\Model
  */
@@ -605,6 +606,7 @@ class Migration
     {
         $defaultSchema = Utils::resolveDbSchema(self::$_databaseConfig);
         $tableExists = self::$_connection->tableExists($tableName, $defaultSchema);
+        $tableSchema = null;
 
         if (isset($definition['columns'])) {
             if (count($definition['columns']) == 0) {
@@ -621,6 +623,9 @@ class Migration
                  * @var \Phalcon\Db\ColumnInterface[] $fields
                  */
                 $fields[$tableColumn->getName()] = $tableColumn;
+                if (empty($tableSchema)) {
+                    $tableSchema = $tableColumn->getSchemaName();
+                }
             }
 
             if ($tableExists == true) {
@@ -789,9 +794,9 @@ class Migration
                 foreach ($definition['indexes'] as $tableIndex) {
                     if (!isset($localIndexes[$tableIndex->getName()])) {
                         if ($tableIndex->getName() == 'PRIMARY') {
-                            self::$_connection->addPrimaryKey($tableName, $tableColumn->getSchemaName(), $tableIndex);
+                            self::$_connection->addPrimaryKey($tableName, $tableSchema, $tableIndex);
                         } else {
-                            self::$_connection->addIndex($tableName, $tableColumn->getSchemaName(), $tableIndex);
+                            self::$_connection->addIndex($tableName, $tableSchema, $tableIndex);
                         }
                     } else {
                         $changed = false;
@@ -807,19 +812,19 @@ class Migration
                         }
                         if ($changed == true) {
                             if ($tableIndex->getName() == 'PRIMARY') {
-                                self::$_connection->dropPrimaryKey($tableName, $tableColumn->getSchemaName());
+                                self::$_connection->dropPrimaryKey($tableName, $tableSchema);
                                 self::$_connection->addPrimaryKey(
                                     $tableName,
-                                    $tableColumn->getSchemaName(),
+                                    $tableSchema,
                                     $tableIndex
                                 );
                             } else {
                                 self::$_connection->dropIndex(
                                     $tableName,
-                                    $tableColumn->getSchemaName(),
+                                    $tableSchema,
                                     $tableIndex->getName()
                                 );
-                                self::$_connection->addIndex($tableName, $tableColumn->getSchemaName(), $tableIndex);
+                                self::$_connection->addIndex($tableName, $tableSchema, $tableIndex);
                             }
                         }
                     }

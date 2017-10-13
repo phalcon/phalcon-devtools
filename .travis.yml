@@ -52,6 +52,7 @@ env:
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
+  - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1)"
   - export PHP_EXTENSION_DIR=$(php-config --extension-dir)
   - phpenv config-rm xdebug.ini || true
   - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
@@ -67,12 +68,14 @@ install:
 
 before_script:
   - ln -s $PWD/phalcon.php ~/bin/phalcon
+  - '[[ "$PHP_MAJOR" == "5" ]] || composer require --dev phpstan/phpstan'
 
 script:
   - vendor/bin/codecept build
   - vendor/bin/codecept run unit -v
   - vendor/bin/codecept run functional -v
   - vendor/bin/codecept run console -v
+  - '[[ "$PHP_MAJOR" == "5" ]] || vendor/bin/phpstan analyse -l 1 -c phpstan.neon scripts -vvv'
 
 notifications:
   email:

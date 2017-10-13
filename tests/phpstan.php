@@ -13,44 +13,9 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
+  | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com              |
   +------------------------------------------------------------------------+
 */
 
-namespace WebTools\Controllers;
-
-use Phalcon\Mvc\Controller\Base;
-
-/**
- * \WebTools\Controllers\IndexController
- *
- * @property \Phalcon\Tag $tag
- * 
- * @package WebTools\Controllers
- */
-class IndexController extends Base
-{
-    /**
-     * Initialize controller
-     */
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->view->setVar('page_title', 'Dashboard');
-    }
-
-    /**
-     * @Get("/", name="dashboard")
-     */
-    public function indexAction()
-    {
-        $this->view->setVars(
-            [
-                'page_subtitle' => 'Control panel',
-            ]
-        );
-    }
-}
+include dirname(dirname(__FILE__)) . '/bootstrap/autoload.php';
+include dirname(dirname(__FILE__)) . '/templates/webtools.config.php';

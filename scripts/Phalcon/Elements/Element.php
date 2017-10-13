@@ -26,6 +26,7 @@ use Phalcon\Mvc\User\Component;
 /**
  * \Phalcon\Elements\Element
  *
+ * @property \Phalcon\Tag $tag
  * @package Phalcon\Elements
  */
 class Element extends Component
