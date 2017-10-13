@@ -1,0 +1,5 @@
+parameters:
+    bootstrap: %rootDir%/../../../tests/phpstan.php
+
+    excludes_analyse:
+        - %rootDir%/../../../scripts/Phalcon/Generator/*

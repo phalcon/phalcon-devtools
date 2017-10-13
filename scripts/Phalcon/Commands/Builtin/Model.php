@@ -26,6 +26,8 @@ use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Builder\Model as ModelBuilder;
+use Phalcon\Config;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
 
 /**
  * Model Command

@@ -49,11 +49,10 @@ class TimestampedItem implements ItemInterface
 
     /**
      * @param string $version String representation of the version
-     * @param array  $options Item specific options
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($version, array $options = [])
+    public function __construct($version)
     {
         if ((1 !== preg_match('#^[\d]{7,}(?:\_[a-z0-9]+)*$#', $version)) && $version != '000') {
             throw new \InvalidArgumentException('Wrong version number provided');

@@ -28,7 +28,7 @@ use Phalcon\Mvc\User\Component;
 /**
  * \Phalcon\Mvc\View\NotFoundListener
  *
- * @property \Phalcon\Logger\AdapterInterface logger
+ * @property \Phalcon\Logger\AdapterInterface $logger
  *
  * @package Phalcon\Mvc\View
  */
