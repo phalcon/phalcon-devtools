@@ -29,6 +29,7 @@ use Phalcon\Generator\Snippet;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use Phalcon\Text;
+use \Phalcon\Db\Adapter\Pdo;
 
 
 /**
@@ -241,15 +242,9 @@ class Model extends Component
         if (!$db->tableExists($table, $schema)) {
             throw new BuilderException(sprintf('Table "%s" does not exist.', $table));
         }
-        $fields = $db->describeColumns($table, $schema);
 
-        if (!$this->options->contains('referenceList')) {
-            foreach ($db->listTables($schema) as $name) {
-                $referenceList[$name] = $db->describeReferences($name, $schema);;
-            }
-        } else {
-            $referenceList = $this->options->get('referenceList');
-        }
+        $fields = $db->describeColumns($table, $schema);
+        $referenceList = $this->getReferenceList($schema, $db);
 
         foreach ($referenceList as $tableName => $references) {
             foreach ($references as $reference) {
@@ -535,5 +530,26 @@ class Model extends Component
         $fqcn = "{$namespace}\\{$referencedTable}";
 
         return $fqcn;
+    }
+
+    /**
+     * Get reference list from option
+     *
+     * @param string $schema
+     * @param Pdo $db
+     * @return array
+     */
+    protected function getReferenceList($schema, Pdo $db)
+    {
+        if ($this->options->contains('referenceList')) {
+            return $this->options->get('referenceList');
+        }
+
+        $referenceList = [];
+        foreach ($db->listTables($schema) as $name) {
+            $referenceList[$name] = $db->describeReferences($name, $schema);;
+        }
+
+        return $referenceList;
     }
 }

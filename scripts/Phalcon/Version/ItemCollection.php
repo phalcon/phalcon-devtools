@@ -64,11 +64,10 @@ class ItemCollection
      * Create new version item
      *
      * @param null|string $version
-     * @param array       $options
      *
      * @return ItemInterface
      */
-    public static function createItem($version = null, array $options = [])
+    public static function createItem($version = null)
     {
         if (self::TYPE_INCREMENTAL === self::$type) {
             $version = $version ?: '0.0.0';
@@ -77,7 +76,7 @@ class ItemCollection
         } elseif (self::TYPE_TIMESTAMPED === self::$type) {
             $version = $version ?: '0000000_0';
 
-            return new TimestampedItem($version, $options);
+            return new TimestampedItem($version);
         }
 
         throw new \LogicException('Could not create an item of unknown type.');

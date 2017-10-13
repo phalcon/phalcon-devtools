@@ -29,6 +29,10 @@ use Phalcon\Builder\BuilderException;
 /**
  * \WebTools\Controllers\MigrationsController
  *
+ * @property \Phalcon\Flash\Session $flashSession
+ * @property \Phalcon\Flash\Direct $flash
+ * @property \Phalcon\Tag $tag
+ * 
  * @package WebTools\Controllers
  */
 class MigrationsController extends Base

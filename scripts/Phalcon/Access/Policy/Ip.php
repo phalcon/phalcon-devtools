@@ -27,6 +27,7 @@ use Phalcon\Access\PolicyInterface;
 /**
  * \Phalcon\Access\Policy\Ip
  *
+ * @property \Phalcon\Http\Request|\Phalcon\Http\RequestInterface $request
  * @package Phalcon\Access\Policy
  */
 class Ip extends Injectable implements PolicyInterface

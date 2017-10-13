@@ -31,6 +31,11 @@ use Phalcon\Builder\Controller as ControllerBuilder;
 /**
  * \WebTools\Controllers\ControllersController
  *
+ * @property \Phalcon\Flash\Direct $flash
+ * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher
+ * @property \Phalcon\Tag $tag
+ * @property \Phalcon\Flash\Session $flashSession
+ *
  * @package WebTools\Controllers
  */
 class ControllersController extends Base
