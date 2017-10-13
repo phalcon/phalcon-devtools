@@ -114,7 +114,7 @@ This command should display something similar to:
 ```sh
 $ phalcon --help
 
-Phalcon DevTools (3.2.0)
+Phalcon DevTools (3.2.7)
 
 Help:
   Lists the commands available in Phalcon devtools
