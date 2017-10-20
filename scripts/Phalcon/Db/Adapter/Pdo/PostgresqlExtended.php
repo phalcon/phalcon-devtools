@@ -37,7 +37,7 @@ class PostgresqlExtended extends Postgresql
      *
      * @param string $table
      * @param string $schema
-     * @return Reference
+     * @return ReferenceInterface[]
      *
      */
     public function describeReferences($table, $schema = NULL)

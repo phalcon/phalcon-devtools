@@ -39,7 +39,7 @@ class IncrementalItem implements ItemInterface
     private $_version;
 
     /**
-     * @var int|string
+     * @var int | string
      */
     private $_versionStamp = 0;
 
@@ -113,7 +113,7 @@ class IncrementalItem implements ItemInterface
     /**
      * @param $versions ItemInterface[]
      *
-     * @return ItemInterface
+     * @return null | IncrementalItem
      */
     public static function maximum($versions)
     {
@@ -169,7 +169,7 @@ class IncrementalItem implements ItemInterface
     }
 
     /**
-     * @return int|string
+     * @return int | string
      */
     public function getStamp()
     {
@@ -177,9 +177,9 @@ class IncrementalItem implements ItemInterface
     }
 
     /**
-     * @param $number
+     * @param int $number
      *
-     * @return string
+     * @return IncrementalItem
      */
     public function addMinor($number)
     {

@@ -689,7 +689,7 @@ trait Initializable
                 /** @noinspection PhpIncludeInspection */
                 $menu = new SidebarMenu(include $menuItems);
 
-                $menu->setDI($this);
+                $menu->setDI($this->di);
 
                 return $menu;
             }

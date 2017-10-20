@@ -535,7 +535,7 @@ class Migrations
             $connection->insert(self::MIGRATION_LOG_TABLE, [$version, $startTime, $endTime], ['version', 'start_time', 'end_time']);
         } else {
             $currentVersions = self::getCompletedVersions($options);
-            $currentVersions[(string)$version] = 1;
+            $currentVersions[$version] = 1;
             $currentVersions = array_keys($currentVersions);
             sort($currentVersions);
             file_put_contents(self::$_storage, implode("\n", $currentVersions));
@@ -558,7 +558,7 @@ class Migrations
             $connection->execute('DELETE FROM '. self::MIGRATION_LOG_TABLE .' WHERE version=\'' . $version . '\'');
         } else {
             $currentVersions = self::getCompletedVersions($options);
-            unset($currentVersions[(string)$version]);
+            unset($currentVersions[$version]);
             $currentVersions = array_keys($currentVersions);
             sort($currentVersions);
             file_put_contents(self::$_storage, implode("\n", $currentVersions));
