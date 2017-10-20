@@ -144,7 +144,7 @@ class ErrorHandler extends Injectable
      * Maps error code to a string.
      *
      * @param  integer $code
-     * @return string
+     * @return mixed
      */
     public function mapErrors($code)
     {

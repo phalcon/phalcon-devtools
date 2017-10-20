@@ -45,6 +45,11 @@ use Phalcon\Listeners\DbProfilerListener;
  *
  * Migrations of DML y DDL over databases
  * @method afterCreateTable()
+ * @method morph()
+ * @method up()
+ * @method afterUp()
+ * @method down()
+ * @method afterDown()
  *
  * @package Phalcon\Mvc\Model
  */
@@ -148,7 +153,7 @@ class Migration
     /**
      * Set the skip auto increment value
      *
-     * @param string $skip
+     * @param bool $skip
      */
     public static function setSkipAutoIncrement($skip)
     {
@@ -300,7 +305,7 @@ class Migration
                 $fieldDefinition[] = "'autoIncrement' => true";
             }
 
-            if (self::$_databaseConfig->adapter == 'Postgresql' &&
+            if (self::$_databaseConfig->path('adapter') == 'Postgresql' &&
                 in_array($field->getType(), [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])
             ) {
                 // nothing
