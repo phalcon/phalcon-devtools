@@ -43,7 +43,7 @@ class Project extends Component
 
     /**
      * Current Project Type
-     * @var null
+     * @var string
      */
     private $currentType = self::TYPE_SIMPLE;
 

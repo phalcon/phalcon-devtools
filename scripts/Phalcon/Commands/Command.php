@@ -422,7 +422,7 @@ abstract class Command implements CommandsInterface
     /**
      * Indicates whether the script was a particular option.
      *
-     * @param  string  $option
+     * @param  string | string[]  $option
      * @return boolean
      */
     public function isReceivedOption($option)
@@ -458,7 +458,7 @@ abstract class Command implements CommandsInterface
     /**
      * Gets the last parameter is not associated with any parameter name.
      *
-     * @return string
+     * @return string | bool
      */
     public function getLastUnNamedParam()
     {

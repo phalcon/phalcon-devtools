@@ -71,11 +71,11 @@ class Controller extends Component
 
         if (!$controllersDir = $this->options->get('controllersDir')) {
             $config = $this->getConfig();
-            if (!isset($config->application->controllersDir)) {
+            if (empty($config->path('application.controllersDir'))) {
                 throw new BuilderException('Please specify a controller directory.');
             }
 
-            $controllersDir = $config->application->controllersDir;
+            $controllersDir = $config->path('application.controllersDir');
         }
 
         if (!$this->options->contains('name')) {
