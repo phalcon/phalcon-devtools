@@ -208,9 +208,7 @@ trait Initializable
                 $compiledPath = function ($templatePath) use (
                     $voltConfig,
                     $basePath,
-                    $ptoolsPath,
-                    $appCacheDir,
-                    $defaultCacheDir
+                    $ptoolsPath
                 ) {
                     /**
                      * @var DiInterface $this
@@ -225,20 +223,8 @@ trait Initializable
                     $templatePath = trim($templatePath, '\\/');
                     $filename = str_replace(['\\', '/'], $voltConfig->get('separator', '_'), $templatePath);
                     $filename = basename($filename, '.volt') . $voltConfig->get('compiledExt', '.php');
-                    $cacheDir = $voltConfig->get('cacheDir', $appCacheDir);
 
-                    if (!$cacheDir || !is_dir($cacheDir) || !is_writable($cacheDir)) {
-                        $this->getShared('logger')->warning(
-                            'Unable to initialize Volt cache dir: {cache}. Used temp path: {default}',
-                            [
-                                'cache'   => $cacheDir,
-                                'default' => $defaultCacheDir
-                            ]
-                        );
-
-                        $cacheDir = $defaultCacheDir;
-                        mkdir($cacheDir, 0777, true);
-                    }
+                    $cacheDir = self::getCacheDir($voltConfig);
 
                     return rtrim($cacheDir, '\\/') . DS . $filename;
                 };
@@ -254,6 +240,38 @@ trait Initializable
                 return $volt;
             }
         );
+    }
+
+    /**
+     * get volt cache directory
+     *
+     * @param Config $voltConfig
+     *
+     * @return string
+     */
+    protected function getCacheDir(Config $voltConfig)
+    {
+        $appCacheDir = $this->di->getShared('config')->path('application.cacheDir');
+        $cacheDir = $voltConfig->get('cacheDir', $appCacheDir);
+        $defaultCacheDir = sys_get_temp_dir() . DS . 'phalcon' . DS . 'volt';
+
+        if ($cacheDir && is_dir($cacheDir) && is_writable($cacheDir)) {
+            return $cacheDir;
+        }
+
+        $this->di->getShared('logger')->warning(
+            'Unable to initialize Volt cache dir: {cache}. Used temp path: {default}',
+            [
+                'cache'   => $cacheDir,
+                'default' => $defaultCacheDir
+            ]
+        );
+
+        if (!is_dir($defaultCacheDir)) {
+            mkdir($defaultCacheDir, 0777, true);
+        }
+
+        return $defaultCacheDir;
     }
 
     /**
@@ -676,20 +694,21 @@ trait Initializable
      */
     protected function initUi()
     {
+        $that = $this;
+
         $this->di->setShared(
             'sidebar',
-            function () {
+            function () use ($that) {
                 /**
-                 * @var DiInterface $this
                  * @var Registry $registry
                  */
-                $registry = $this->getShared('registry');
+                $registry = $that->di->getShared('registry');
                 $menuItems = $registry->offsetGet('directories')->elementsDir . DS . 'sidebar-menu.php';
 
                 /** @noinspection PhpIncludeInspection */
                 $menu = new SidebarMenu(include $menuItems);
 
-                $menu->setDI($this->di);
+                $menu->setDI($that->di);
 
                 return $menu;
             }
