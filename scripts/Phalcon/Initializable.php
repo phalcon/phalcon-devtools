@@ -676,20 +676,21 @@ trait Initializable
      */
     protected function initUi()
     {
+        $that = $this;
+
         $this->di->setShared(
             'sidebar',
-            function () {
+            function () use ($that) {
                 /**
-                 * @var DiInterface $this
                  * @var Registry $registry
                  */
-                $registry = $this->getShared('registry');
+                $registry = $that->di->getShared('registry');
                 $menuItems = $registry->offsetGet('directories')->elementsDir . DS . 'sidebar-menu.php';
 
                 /** @noinspection PhpIncludeInspection */
                 $menu = new SidebarMenu(include $menuItems);
 
-                $menu->setDI($this->di);
+                $menu->setDI($that->di);
 
                 return $menu;
             }
