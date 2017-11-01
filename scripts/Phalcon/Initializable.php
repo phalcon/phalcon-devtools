@@ -173,10 +173,11 @@ trait Initializable
     {
         $basePath = $this->basePath;
         $ptoolsPath = $this->ptoolsPath;
+        $that = $this;
 
         $this->di->setShared(
             'volt',
-            function ($view, $di) use ($basePath, $ptoolsPath) {
+            function ($view, $di) use ($basePath, $ptoolsPath, $that) {
                 /**
                  * @var DiInterface $this
                  * @var Config $config
@@ -208,7 +209,8 @@ trait Initializable
                 $compiledPath = function ($templatePath) use (
                     $voltConfig,
                     $basePath,
-                    $ptoolsPath
+                    $ptoolsPath,
+                    $that
                 ) {
                     /**
                      * @var DiInterface $this
@@ -224,7 +226,7 @@ trait Initializable
                     $filename = str_replace(['\\', '/'], $voltConfig->get('separator', '_'), $templatePath);
                     $filename = basename($filename, '.volt') . $voltConfig->get('compiledExt', '.php');
 
-                    $cacheDir = self::getCacheDir($voltConfig);
+                    $cacheDir = $that->getCacheDir($voltConfig);
 
                     return rtrim($cacheDir, '\\/') . DS . $filename;
                 };
