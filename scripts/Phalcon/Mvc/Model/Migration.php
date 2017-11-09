@@ -862,7 +862,7 @@ class Migration
         while (($line = fgetcsv($batchHandler)) !== false) {
             $values = array_map(
                 function ($value) {
-                    return null === $value ? null : $value;
+                    return null === $value ? null : stripslashes($value);
                 },
                 $line
             );
@@ -893,7 +893,7 @@ class Migration
         while (($line = fgetcsv($batchHandler)) !== false) {
             $values = array_map(
                 function ($value) {
-                    return null === $value ? null : $value;
+                    return null === $value ? null : stripslashes($value);
                 },
                 $line
             );
