@@ -77,11 +77,11 @@ class Model extends Component
         }
 
         if (!isset($options['className'])) {
-            $options['className'] = Text::camelize($options['name'], '_-');
+            $options['className'] = Utils::lowerCamelizeWithDelimiter($options['name'], '_-');
         }
 
         if (!isset($options['fileName'])) {
-            $options['fileName'] = Text::camelize($options['name'], '_-');
+            $options['fileName'] = Utils::lowerCamelizeWithDelimiter($options['name'], '_-');
         }
 
         if (!isset($options['abstract'])) {
