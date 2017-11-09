@@ -61,3 +61,32 @@ CREATE TABLE `issue595_2` (
     `name` varchar(45) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structures for testing generating models
+--
+CREATE TABLE testModel (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `some-col` varchar(20) NOT NULL,
+    `someCol2` varchar(20) NOT NULL,
+    `SomeCol3` varchar(20) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `test-model2` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(45) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `test_model3` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(45) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Testmodel4` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(45) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
