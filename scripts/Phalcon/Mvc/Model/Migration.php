@@ -454,6 +454,12 @@ class Migration
         return $classData;
     }
 
+    /**
+     * Migrate
+     * @param \Phalcon\Version\IncrementalItem|\Phalcon\Version\TimestampedItem $fromVersion
+     * @param \Phalcon\Version\IncrementalItem|\Phalcon\Version\TimestampedItem $toVersion
+     * @param string  $tableName
+     */
     public static function migrate($fromVersion, $toVersion, $tableName)
     {
         if (!is_object($fromVersion)) {
@@ -602,8 +608,8 @@ class Migration
     /**
      * Look for table definition modifications and apply to real table
      *
-     * @param $tableName
-     * @param $definition
+     * @param string $tableName
+     * @param array $definition
      *
      * @throws \Phalcon\Db\Exception
      */
@@ -619,14 +625,12 @@ class Migration
             }
 
             $fields = [];
+            /** @var \Phalcon\Db\ColumnInterface $tableColumn */
             foreach ($definition['columns'] as $tableColumn) {
                 if (!is_object($tableColumn)) {
                     throw new DbException('Table must have at least one column');
                 }
-                /**
-                 * @var \Phalcon\Db\ColumnInterface   $tableColumn
-                 * @var \Phalcon\Db\ColumnInterface[] $fields
-                 */
+                /** @var \Phalcon\Db\ColumnInterface[] $fields */
                 $fields[$tableColumn->getName()] = $tableColumn;
                 if (empty($tableSchema)) {
                     $tableSchema = $tableColumn->getSchemaName();

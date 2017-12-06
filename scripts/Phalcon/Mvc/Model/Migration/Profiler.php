@@ -21,6 +21,7 @@
 namespace Phalcon\Mvc\Model\Migration;
 
 use Phalcon\Db\Profiler as DbProfiler;
+use Phalcon\Db\Profiler\Item;
 
 /**
  * Phalcon\Mvc\Model\Migration\Profiler
@@ -32,15 +33,15 @@ use Phalcon\Db\Profiler as DbProfiler;
 class Profiler extends DbProfiler
 {
     /**
-     * @param $profile DbProfiler
+     * @param Item $profile
      */
     public function beforeStartProfile($profile)
     {
-        echo $profile->getInitialTime() , ': ' , str_replace([ "\n", "\t" ], " ", $profile->getSQLStatement());
+        echo $profile->getInitialTime() , ': ' , str_replace([ "\n", "\t" ], " ", $profile->getSqlStatement());
     }
 
     /**
-     * @param $profile DbProfiler
+     * @param Item $profile
      */
     public function afterEndProfile($profile)
     {
