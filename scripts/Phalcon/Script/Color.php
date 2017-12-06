@@ -134,7 +134,7 @@ final class Color
      * Colorizes the string using provided colors.
      *
      * @static
-     * @param $string
+     * @param string $string
      * @param null|integer $fg
      * @param null|integer $at
      * @param null|integer $bg
@@ -180,7 +180,7 @@ final class Color
      * Color style for error messages.
      *
      * @static
-     * @param $msg
+     * @param string $msg
      * @return string
      */
     public static function error($msg)
@@ -198,7 +198,7 @@ final class Color
      * Color style for success messages.
      *
      * @static
-     * @param $msg
+     * @param string $msg
      * @return string
      */
     public static function success($msg)
@@ -216,7 +216,7 @@ final class Color
      * Color style for info messages.
      *
      * @static
-     * @param $msg
+     * @param string $msg
      * @return string
      */
     public static function info($msg)

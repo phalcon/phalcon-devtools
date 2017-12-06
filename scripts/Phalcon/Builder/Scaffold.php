@@ -23,7 +23,7 @@ namespace Phalcon\Builder;
 use Phalcon\Text;
 use Phalcon\Utils;
 use Phalcon\Builder\Model as ModelBuilder;
-use Phalcon\DI\FactoryDefault;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\Column;
 
 /**
@@ -36,7 +36,7 @@ use Phalcon\Db\Column;
 class Scaffold extends Component
 {
     /**
-     * @param $fieldName
+     * @param string $fieldName
      *
      * @return string
      */
@@ -51,7 +51,7 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $className
+     * @param string $className
      *
      * @return string
      */
@@ -65,7 +65,7 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $className
+     * @param string $className
      *
      * @return mixed
      */
@@ -253,10 +253,10 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $var
-     * @param $fields
-     * @param $useGetSetters
-     * @param $identityField
+     * @param string $var
+     * @param mixed $fields
+     * @param bool $useGetSetters
+     * @param string $identityField
      *
      * @return string
      */
@@ -292,9 +292,9 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $var
-     * @param $fields
-     * @param $useGetSetters
+     * @param string $var
+     * @param mixed $fields
+     * @param bool $useGetSetters
      *
      * @return string
      */
@@ -315,10 +315,10 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $attribute
-     * @param $dataType
-     * @param $relationField
-     * @param $selectDefinition
+     * @param string $attribute
+     * @param int $dataType
+     * @param mixed $relationField
+     * @param array $selectDefinition
      *
      * @return string
      */
@@ -363,10 +363,10 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $attribute
-     * @param $dataType
-     * @param $relationField
-     * @param $selectDefinition
+     * @param string $attribute
+     * @param int $dataType
+     * @param mixed $relationField
+     * @param array $selectDefinition
      *
      * @return string
      */
@@ -437,7 +437,7 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $action
+     * @param string $action
      *
      * @return string
      */
@@ -621,7 +621,7 @@ class Scaffold extends Component
     }
 
     /**
-     * @param $type
+     * @param string $type
      *
      * @throws BuilderException
      */

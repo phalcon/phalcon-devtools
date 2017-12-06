@@ -143,8 +143,9 @@ class FsUtils
     /**
      * Callback function
      *
+     * ArrayIterator $iterator
      * @param callable $cb
-     * @param array $rights
+     * @param array $params
      */
     protected function applyWithCallback($iterator, $cb, $params)
     {
@@ -154,7 +155,7 @@ class FsUtils
     /**
      * Create directory
      *
-     * @param SplFileInfo $path
+     * @param SplFileInfo $root
      */
     protected function createRecursiveDirectory(SplFileInfo $root)
     {
@@ -174,7 +175,7 @@ class FsUtils
     /**
      * Delete files from directory
      *
-     * @param SplFileInfo $path
+     * @param SplFileInfo $root
      * @param array $files
      */
     public function deleteFilesFromDirectory(SplFileInfo $root, $files)

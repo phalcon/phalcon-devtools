@@ -25,7 +25,7 @@ use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
 use Phalcon\Utils\SystemInfo;
 use Phalcon\Registry;
-use Phalcon\DI\FactoryDefault;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Bootstrap;
 
 /**
@@ -139,7 +139,7 @@ class Serve extends Command
     /**
      * {@inheritdoc}
      *
-     * @param  string
+     * @param  mixed $config
      * @return string
      */
     protected function customConfig($config){

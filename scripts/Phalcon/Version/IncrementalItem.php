@@ -79,7 +79,7 @@ class IncrementalItem implements ItemInterface
     }
 
     /**
-     * @param $versions ItemInterface[]
+     * @param ItemInterface[] $versions
      *
      * @return array ItemInterface[]
      */
@@ -95,7 +95,7 @@ class IncrementalItem implements ItemInterface
     }
 
     /**
-     * @param $versions ItemInterface[]
+     * @param ItemInterface[] $versions
      *
      * @return array
      */
@@ -111,7 +111,7 @@ class IncrementalItem implements ItemInterface
     }
 
     /**
-     * @param $versions ItemInterface[]
+     * @param ItemInterface[] $versions
      *
      * @return null | IncrementalItem
      */
@@ -129,8 +129,8 @@ class IncrementalItem implements ItemInterface
     /**
      * Allows to check whether a version is in a range between two values.
      *
-     * @param  string  $initialVersion
-     * @param  string  $finalVersion
+     * @param  IncrementalItem | string $initialVersion
+     * @param  IncrementalItem | string $finalVersion
      * @param  ItemInterface[] $versions
      * @return ItemInterface[]
      */

@@ -65,7 +65,7 @@ class ItemCollection
      *
      * @param null|string $version
      *
-     * @return ItemInterface
+     * @return IncrementalItem|TimestampedItem
      */
     public static function createItem($version = null)
     {
@@ -85,7 +85,7 @@ class ItemCollection
     /**
      * Check if provided version is correct
      *
-     * @param $version
+     * @param string $version
      *
      * @return bool
      */
