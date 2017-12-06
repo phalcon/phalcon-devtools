@@ -223,6 +223,8 @@ class Migrations
         ModelMigration::setup($optionStack->getOption('config')->database, $optionStack->getOption('verbose'));
         ModelMigration::setMigrationPath($migrationsDir);
         self::connectionSetup($optionStack->getOptions());
+
+        /** @var \Phalcon\Version\IncrementalItem $initialVersion */
         $initialVersion = self::getCurrentVersion($optionStack->getOptions());
         $completedVersions = self::getCompletedVersions($optionStack->getOptions());
 
@@ -250,6 +252,8 @@ class Migrations
         // Run migration
         $versionsBetween = VersionCollection::between($initialVersion, $finalVersion, $versionItems);
         $prefix = $optionStack->getPrefixOption($optionStack->getOption('tableName'));
+
+        /** @var \Phalcon\Version\IncrementalItem $versionItem */
         foreach ($versionsBetween as $versionItem) {
 
             // If we are rolling back, we skip migrating when initialVersion is the same as current
@@ -482,7 +486,7 @@ class Migrations
      * Get latest completed migration version
      *
      * @param array $options Applications options
-     * @return ItemInterface
+     * @return \Phalcon\Version\IncrementalItem|\Phalcon\Version\TimestampedItem.
      */
     public static function getCurrentVersion($options)
     {

@@ -108,7 +108,7 @@ class AllModels extends Component
         unset($configArray['adapter']);
 
         /**
-         * @var $db \Phalcon\Db\Adapter\Pdo
+         * @var \Phalcon\Db\Adapter\Pdo $db
          */
         $db = new $adapterName($configArray);
 

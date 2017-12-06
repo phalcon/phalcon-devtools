@@ -47,7 +47,7 @@ class Tools
         $path = $fsUtils->normalize(realpath($path)) . DS;
 
         $root = new SplFileInfo($path . 'public' . DS);
-        $fsUtils->setDirectoryPermission($root, ['js' => 0777]);
+        $fsUtils->setDirectoryPermission($root, ['js' => 0777, 'css' => 0777]);
 
         $tools = rtrim(str_replace(["\\", '/'], DS, PTOOLSPATH), DS);
 

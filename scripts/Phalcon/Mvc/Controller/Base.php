@@ -41,7 +41,7 @@ use Phalcon\Assets\Filters\Cssmin;
  * @property \Phalcon\Http\Request|\Phalcon\Http\RequestInterface $request
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
  * @property \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface $response
- * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
+ * @property \Phalcon\Mvc\View|\Phalcon\Mvc\View $view
  * @property \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface $url
  *
  * @package Phalcon\Mvc\Controller
