@@ -595,7 +595,7 @@ class Scaffold extends Component
 
         $fileName = Text::uncamelize($this->options->get('fileName'));
         $viewPath = $dirPathLayouts . DIRECTORY_SEPARATOR . $fileName . '.volt';
-        if (!file_exists($viewPath || $this->options->contains('force'))) {
+        if (!file_exists($viewPath) || $this->options->contains('force')) {
 
             // View model layout
             $code = '';
