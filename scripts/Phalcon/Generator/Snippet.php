@@ -162,33 +162,41 @@ EOD;
     {
         $fieldName = $customFieldName ?: $field->getName();
 
+        $fieldDefaultValue  = $field->getDefault();
+        if ($fieldDefaultValue === null || is_numeric($fieldDefaultValue)) {
+            $fieldDefaultValue = $fieldDefaultValue === null ? 'null' : $fieldDefaultValue;
+        } else {
+            $fieldDefaultValue = "\"{$fieldDefaultValue}\"";
+        }
+
         if ($annotate) {
             $templateAttributes = <<<EOD
     /**
      *
-     * @var %s%s%s
+     * @var %s%s%s%s
      * @Column(type="%s"%s, nullable=%s)
      */
-    %s \$%s;
+    %s \$%s = %s;
 EOD;
 
             return PHP_EOL.sprintf($templateAttributes,
-                $type,
+                $type, ' ' . $field->getFieldComment(),
                 $field->isPrimary() ? PHP_EOL.'     * @Primary' : '',
                 $field->isAutoIncrement() ? PHP_EOL.'     * @Identity' : '',
                 $type,
                 $field->getSize() ? ', length=' . $field->getSize() : '',
-                $field->isNotNull() ? 'false' : 'true', $visibility, $fieldName).PHP_EOL;
+                $field->isNotNull() ? 'false' : 'true', $visibility, $fieldName,
+                $fieldDefaultValue) . PHP_EOL;
         } else {
             $templateAttributes = <<<EOD
     /**
      *
-     * @var %s
+     * @var %s %s
      */
-    %s \$%s;
+    %s \$%s = %s;
 EOD;
 
-            return PHP_EOL.sprintf($templateAttributes, $type, $visibility, $fieldName).PHP_EOL;
+            return PHP_EOL.sprintf($templateAttributes, $type, $visibility, $fieldName, $fieldDisp).PHP_EOL;
         }
     }
 

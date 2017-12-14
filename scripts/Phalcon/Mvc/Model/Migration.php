@@ -305,6 +305,9 @@ class Migration
                 $fieldDefinition[] = "'autoIncrement' => true";
             }
 
+            $comment           = addcslashes($field->getFieldComment(), "'");
+            $fieldDefinition[] = "'fieldComment' => '{$comment}'";
+
             if (self::$_databaseConfig->path('adapter') == 'Postgresql' &&
                 in_array($field->getType(), [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])
             ) {
