@@ -35,6 +35,8 @@ use Phalcon\Db\Column;
  */
 class Scaffold extends Component
 {
+	private $fieldsToSkip = array();
+    
     /**
      * @param string $fieldName
      *
@@ -91,6 +93,9 @@ class Scaffold extends Component
         $name = $this->options->get('name');
         $config = $this->getConfig();
 
+		if (isset($config->application->fieldsToSkip)) {		
+			$this->fieldsToSkip = array_map('trim', explode(",", $config->application->fieldsToSkip));
+		}
         if (empty($config->path('database.adapter'))) {
             throw new BuilderException('Adapter was not found in the config. Please specify a config variable [database][adapter].');
         }
@@ -426,6 +431,8 @@ class Scaffold extends Component
 
         $code = '';
         foreach ($this->options->get('dataTypes') as $attribute => $dataType) {
+			if (in_array($attribute, $this->fieldsToSkip))
+				continue;
             if (($action == 'new' || $action == 'edit') && $attribute == $identityField) {
                 continue;
             }
@@ -451,6 +458,8 @@ class Scaffold extends Component
 
         $code = '';
         foreach ($this->options->get('dataTypes') as $attribute => $dataType) {
+			if (in_array($attribute, $this->fieldsToSkip))
+				continue;
             if (($action == 'new' || $action == 'edit') && $attribute == $identityField) {
                 continue;
             }
@@ -718,12 +727,16 @@ class Scaffold extends Component
 
         $headerCode = '';
         foreach ($this->options->get('attributes') as $attribute) {
+			if (in_array($attribute, $this->fieldsToSkip))
+				continue;
             $headerCode .= "\t\t\t" . '<th>' . $this->_getPossibleLabel($attribute) . '</th>' . PHP_EOL;
         }
 
         $rowCode = '';
         $this->options->offsetSet('allReferences', array_merge($this->options->get('autocompleteFields')->toArray(), $this->options->get('selectDefinition')->toArray()));
         foreach ($this->options->get('dataTypes') as $fieldName => $dataType) {
+			if (in_array($fieldName, $this->fieldsToSkip))
+				continue;
             $rowCode .= "\t\t\t" . '<td><?php echo ';
             if (!isset($this->options->get('allReferences')[$fieldName])) {
                 if ($this->options->get('genSettersGetters')) {
@@ -783,12 +796,16 @@ class Scaffold extends Component
 
         $headerCode = '';
         foreach ($this->options->get('attributes') as $attribute) {
+			if (in_array($attribute, $this->fieldsToSkip))
+				continue;
             $headerCode .= "\t\t\t" . '<th>' . $this->_getPossibleLabel($attribute) . '</th>' . PHP_EOL;
         }
 
         $rowCode = '';
         $this->options->offsetSet('allReferences', array_merge($this->options->get('autocompleteFields')->toArray(), $this->options->get('selectDefinition')->toArray()));
         foreach ($this->options->get('dataTypes') as $fieldName => $dataType) {
+			if (in_array($fieldName, $this->fieldsToSkip))
+				continue;
             $rowCode .= "\t\t\t" . '<td>{{ ';
             if (!isset($this->options->get('allReferences')[$fieldName])) {
                 if ($this->options->contains('genSettersGetters')) {
