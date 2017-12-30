@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phosphorum                                                             |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2013-2017 Phalcon Team and contributors                  |
+  | Copyright (c) 2013-present Phalcon Team and contributors                  |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file  LICENSE.txt.                            |
