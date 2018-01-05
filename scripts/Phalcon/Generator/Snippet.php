@@ -47,7 +47,7 @@ EOD;
         return PHP_EOL.sprintf($getSource, $source).PHP_EOL;
     }
 
-    public function getSetter($fieldName, $type, $setterName)
+    public function getSetter($originalFieldName, $fieldName, $type, $setterName)
     {
         $templateSetter = <<<EOD
     /**
@@ -63,7 +63,7 @@ EOD;
         return \$this;
     }
 EOD;
-        return PHP_EOL.sprintf($templateSetter, $fieldName, $type, $fieldName, $setterName, $fieldName, $fieldName, $fieldName).PHP_EOL;
+        return PHP_EOL.sprintf($templateSetter, $originalFieldName, $type, $fieldName, $setterName, $fieldName, $fieldName, $fieldName).PHP_EOL;
     }
 
     public function getValidateInclusion($fieldName, $varItems)

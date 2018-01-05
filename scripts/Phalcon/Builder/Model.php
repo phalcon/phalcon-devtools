@@ -439,7 +439,7 @@ class Model extends Component
 
             if ($useSettersGetters) {
                 $methodName = Utils::camelize($field->getName(), '_-');
-                $setters[] = $this->snippet->getSetter($fieldName, $type, $methodName);
+                $setters[] = $this->snippet->getSetter($field->getName(), $fieldName, $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
                     $getters[] = $this->snippet->getGetterMap($fieldName, $type, $methodName, $this->_typeMap[$type]);
