@@ -10,7 +10,7 @@ use Phalcon\Mvc\Model\Migration\TableAware\ListTablesIterator;
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2013-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -41,7 +41,10 @@ class ListTablesIteratorTest extends UnitTest
         $this->specify(
             'Method' . __METHOD__ . 'did not return table list',
             function($tablePrefix, $expected) use ($iterator, $listTables){
-                expect($listTables->listTablesForPrefix($tablePrefix, $iterator))->equals($expected);
+                $list = explode(',', $listTables->listTablesForPrefix($tablePrefix, $iterator));
+                natsort($list);
+
+                expect(implode(',', $list))->equals($expected);
             },
             [
                 'examples' => [

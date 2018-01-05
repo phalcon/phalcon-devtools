@@ -10,6 +10,7 @@ $I->wantToTest('Running migration for MySQL database');
 
 $I->amInPath(dirname(app_path()));
 $I->cleanDir(tests_path('_data/console/.phalcon'));
+$I->copyDir(tests_path('_data/console_data/run_mysql_migration/1.0.2/'), app_path('migrations/1.0.2'));
 
 $I->seeFileFound(app_path('migrations/1.0.2/test_migrations.php'));
 $I->seeFileFound(app_path('migrations/1.0.2/test_migrations.dat'));
