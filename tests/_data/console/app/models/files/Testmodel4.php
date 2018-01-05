@@ -8,14 +8,14 @@ class Testmodel4 extends \Phalcon\Mvc\Model
      * @var integer
      * @Primary
      * @Identity
-     * @Column(type="integer", length=10, nullable=false)
+     * @Column(column="id", type="integer", length=10, nullable=false)
      */
     public $id;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=45, nullable=false)
+     * @Column(column="name", type="string", length=45, nullable=false)
      */
     public $name;
 
