@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -29,7 +29,12 @@ use Phalcon\Generator\Snippet;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use Phalcon\Text;
-use \Phalcon\Db\Adapter\Pdo;
+use Phalcon\Db\Adapter\Pdo;
+use Phalcon\Options\OptionsAware as ModelOption;
+use Phalcon\Exception\InvalidArgumentException;
+use Phalcon\Exception\WriteFileException;
+use Phalcon\Exception\InvalidParameterException;
+use Phalcon\Exception\RuntimeException;
 
 
 /**
@@ -51,54 +56,40 @@ class Model extends Component
     ];
 
     /**
-     * Snippet component
-     * @var Snippet
+     * Options container
+     * @var ModelOption
      */
-    protected $snippet;
+    protected $modelOptions;
 
     /**
      * Create Builder object
      *
-     * @param array $options Builder options
-     * @throws BuilderException
+     * @param array $options
+     * @throws InvalidArgumentException
      */
     public function __construct(array $options)
     {
-        if (!isset($options['name'])) {
-            throw new BuilderException('Please, specify the model name');
+        $this->modelOptions = new ModelOption($options);
+
+        if (!$this->modelOptions->hasOption('name')) {
+            throw new InvalidArgumentException('Please, specify the table name');
         }
 
-        if (!isset($options['camelize'])) {
-            $options['camelize'] = false;
-        }
-
-        if (!isset($options['force'])) {
-            $options['force'] = false;
-        }
-
-        if (!isset($options['className'])) {
-            $options['className'] = Utils::lowerCamelizeWithDelimiter($options['name'], '_-');
-        }
-
-        if (!isset($options['fileName'])) {
-            $options['fileName'] = Utils::lowerCamelizeWithDelimiter($options['name'], '_-');
-        }
-
-        if (!isset($options['abstract'])) {
-            $options['abstract'] = false;
-        }
-
-        if (!isset($options['annotate'])) {
-            $options['annotate'] = false;
-        }
-
-        if ($options['abstract']) {
-            $options['className'] = 'Abstract' . $options['className'];
+        $this->modelOptions->setNotDefinedOption('camelize', false);
+        $this->modelOptions->setNotDefinedOption('force', false);
+        $this->modelOptions->setNotDefinedOption('className',
+            Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
+        $this->modelOptions->setNotDefinedOption('fileName', Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
+        $this->modelOptions->setNotDefinedOption('abstract', false);
+        $this->modelOptions->setNotDefinedOption('annotate', false);
+        if ($this->modelOptions->getOption('abstract')) {
+            $this->modelOptions->setOption('className', 'Abstract' . $this->modelOptions->getOption('className'));
         }
 
         parent::__construct($options);
+        $this->modelOptions->setOption('config', $this->modelOptions->getOption('config'));
 
-        $this->snippet = new Snippet();
+        $this->modelOptions->setOption('snippet', new Snippet());
     }
 
     /**
@@ -107,7 +98,7 @@ class Model extends Component
      * @param  string $type
      * @return string
      */
-    public function getPHPType($type)
+    protected function getPHPType($type)
     {
         switch ($type) {
             case Column::TYPE_INTEGER:
@@ -135,55 +126,39 @@ class Model extends Component
      * Module build
      *
      * @return mixed
-     * @throws \Phalcon\Builder\BuilderException
      */
     public function build()
     {
-        if (!$this->options->contains('name')) {
-            throw new BuilderException('You must specify the table name');
+        $config = $this->modelOptions->getOption('config');
+        $snippet = $this->modelOptions->getOption('snippet');
+
+        if ($this->modelOptions->hasOption('directory')) {
+            $this->path->setRootPath($this->modelOptions->getOption('directory'));
         }
 
-        if ($this->options->contains('directory')) {
-            $this->path->setRootPath($this->options->get('directory'));
-        }
-
-        if (gettype($this->options->get('config')) == 'object') {
-            $config = $this->options->get('config');
-        } else {
-            $config = $this->getConfig();
-        }
-
-        if (!$modelsDir = $this->options->get('modelsDir')) {
-            if (!$config->get('application') || !isset($config->get('application')->modelsDir)) {
-                throw new BuilderException("Builder doesn't know where is the models directory.");
-            }
-
-            $modelsDir = $config->get('application')->modelsDir;
-        }
-
-        $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+        $modelsDir = $this->getModelsDir();
         $modelPath = $modelsDir;
         if (false == $this->isAbsolutePath($modelsDir)) {
             $modelPath = $this->path->getRootPath($modelsDir);
         }
 
         $methodRawCode = [];
-        $className = $this->options->get('className');
+        $className = $this->modelOptions->getOption('className');
         $modelPath .= $className . '.php';
 
-        if (file_exists($modelPath) && !$this->options->contains('force')) {
-            throw new BuilderException(sprintf(
+        if (file_exists($modelPath) && !$this->modelOptions->getOption('force')) {
+            throw new WriteFileException(sprintf(
                 'The model file "%s.php" already exists in models dir',
                 $className
             ));
         }
 
         if (!isset($config->database)) {
-            throw new BuilderException('Database configuration cannot be loaded from your config file.');
+            throw new InvalidParameterException('Database configuration cannot be loaded from your config file.');
         }
 
         if (!isset($config->database->adapter)) {
-            throw new BuilderException(
+            throw new InvalidParameterException(
                 "Adapter was not found in the config. " .
                 "Please specify a config variable [database][adapter]"
             );
@@ -195,12 +170,12 @@ class Model extends Component
         }
 
         $namespace = '';
-        if ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
-            $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
+        if ($this->modelOptions->hasOption('namespace') && $this->checkNamespace($this->modelOptions->getOption('namespace'))) {
+            $namespace = 'namespace ' . $this->modelOptions->getOption('namespace') . ';' . PHP_EOL . PHP_EOL;
         }
 
-        $genDocMethods = $this->options->get('genDocMethods', false);
-        $useSettersGetters = $this->options->get('genSettersGetters', false);
+        $genDocMethods = $this->modelOptions->getValidOptionOrDefault('genDocMethods', false);
+        $useSettersGetters = $this->modelOptions->getValidOptionOrDefault('genSettersGetters', false);
 
         $adapter = $config->database->adapter;
         $this->isSupportedAdapter($adapter);
@@ -221,26 +196,26 @@ class Model extends Component
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
-        /** @var \Phalcon\Db\Adapter\Pdo $db */
+        /** @var Pdo $db */
         $db = new $adapterName($configArray);
 
         $initialize = [];
 
-        if ($this->options->contains('schema')) {
-            $schema = $this->options->get('schema');
+        if ($this->modelOptions->hasOption('schema')) {
+            $schema = $this->modelOptions->getOption('schema');
         } else {
             $schema = Utils::resolveDbSchema($config->database);
         }
 
         if ($schema) {
-            $initialize['schema'] = $this->snippet->getThisMethod('setSchema', $schema);
+            $initialize['schema'] = $snippet->getThisMethod('setSchema', $schema);
         }
-        $initialize['source'] = $this->snippet->getThisMethod('setSource', $this->options->get('name'));
+        $initialize['source'] = $snippet->getThisMethod('setSource', $this->modelOptions->getOption('name'));
 
-        $table = $this->options->get('name');
+        $table = $this->modelOptions->getOption('name');
 
         if (!$db->tableExists($table, $schema)) {
-            throw new BuilderException(sprintf('Table "%s" does not exist.', $table));
+            throw new InvalidArgumentException(sprintf('Table "%s" does not exist.', $table));
         }
 
         $fields = $db->describeColumns($table, $schema);
@@ -248,40 +223,40 @@ class Model extends Component
 
         foreach ($referenceList as $tableName => $references) {
             foreach ($references as $reference) {
-                if ($reference->getReferencedTable() != $this->options->get('name')) {
+                if ($reference->getReferencedTable() != $this->modelOptions->getOption('name')) {
                     continue;
                 }
 
                 $entityNamespace = '';
-                if ($this->options->contains('namespace')) {
-                    $entityNamespace = $this->options->get('namespace')."\\";
+                if ($this->modelOptions->getOption('namespace')) {
+                    $entityNamespace = $this->modelOptions->getOption('namespace')."\\";
                 }
 
                 $refColumns = $reference->getReferencedColumns();
                 $columns = $reference->getColumns();
-                $initialize[] = $this->snippet->getRelation(
+                $initialize[] = $snippet->getRelation(
                     'hasMany',
-                    $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
+                    $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                     $entityNamespace . Text::camelize($tableName, '_-'),
-                    $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
+                    $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
                     "['alias' => '" . Text::camelize($tableName, '_-') . "']"
                 );
             }
         }
 
-        foreach ($db->describeReferences($this->options->get('name'), $schema) as $reference) {
+        foreach ($db->describeReferences($this->modelOptions->getOption('name'), $schema) as $reference) {
             $entityNamespace = '';
-            if ($this->options->contains('namespace')) {
-                $entityNamespace = $this->options->get('namespace');
+            if ($this->modelOptions->getOption('namespace')) {
+                $entityNamespace = $this->modelOptions->getOption('namespace');
             }
 
             $refColumns = $reference->getReferencedColumns();
             $columns = $reference->getColumns();
-            $initialize[] = $this->snippet->getRelation(
+            $initialize[] = $snippet->getRelation(
                 'belongsTo',
-                $this->options->get('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
+                $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
                 $this->getEntityClassName($reference, $entityNamespace),
-                $this->options->get('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
+                $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                 "['alias' => '" . Text::camelize($reference->getReferencedTable(), '_-') . "']"
             );
         }
@@ -312,9 +287,9 @@ class Model extends Component
                 require_once $modelPath;
 
                 $linesCode = file($modelPath);
-                $fullClassName = $this->options->get('className');
-                if ($this->options->contains('namespace')) {
-                    $fullClassName = $this->options->get('namespace').'\\'.$fullClassName;
+                $fullClassName = $this->modelOptions->getOption('className');
+                if ($this->modelOptions->getOption('namespace')) {
+                    $fullClassName = $this->modelOptions->getOption('namespace').'\\'.$fullClassName;
                 }
                 $reflection = new ReflectionClass($fullClassName);
                 foreach ($reflection->getMethods() as $method) {
@@ -369,9 +344,9 @@ class Model extends Component
                     }
                 }
             } catch (\Exception $e) {
-                throw new BuilderException(
+                throw new RuntimeException(
                     sprintf('Failed to create the model "%s". Error: %s',
-                        $this->options->get('className'),
+                        $this->modelOptions->getOption('className'),
                         $e->getMessage()
                     )
                 );
@@ -381,7 +356,7 @@ class Model extends Component
         $validations = [];
         foreach ($fields as $field) {
             if ($field->getType() === Column::TYPE_CHAR) {
-                if ($this->options->get('camelize')) {
+                if ($this->modelOptions->getOption('camelize')) {
                     $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
                 } else {
                     $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
@@ -394,30 +369,30 @@ class Model extends Component
                 }
                 if (count($domain)) {
                     $varItems = join(', ', $domain);
-                    $validations[] = $this->snippet->getValidateInclusion($fieldName, $varItems);
+                    $validations[] = $snippet->getValidateInclusion($fieldName, $varItems);
                 }
             }
             if ($field->getName() == 'email') {
-                if ($this->options->get('camelize')) {
+                if ($this->modelOptions->getOption('camelize')) {
                     $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
                 } else {
                     $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
                 }
-                $validations[] = $this->snippet->getValidateEmail($fieldName);
-                $uses[] = $this->snippet->getUseAs(EmailValidator::class, 'EmailValidator');
+                $validations[] = $snippet->getValidateEmail($fieldName);
+                $uses[] = $snippet->getUseAs(EmailValidator::class, 'EmailValidator');
             }
         }
         if (count($validations)) {
-            $validations[] = $this->snippet->getValidationEnd();
+            $validations[] = $snippet->getValidationEnd();
         }
 
         // Check if there has been an extender class
-        $extends = $this->options->get('extends', '\Phalcon\Mvc\Model');
+        $extends = $this->modelOptions->getValidOptionOrDefault('extends', '\Phalcon\Mvc\Model');
 
         // Check if there have been any excluded fields
         $exclude = [];
-        if ($this->options->contains('excludeFields')) {
-            $keys = explode(',', $this->options->get('excludeFields'));
+        if ($this->modelOptions->hasOption('excludeFields')) {
+            $keys = explode(',', $this->modelOptions->getOption('excludeFields'));
             if (count($keys) > 0) {
                 foreach ($keys as $key) {
                     $exclude[trim($key)] = '';
@@ -434,30 +409,30 @@ class Model extends Component
             }
             $type = $this->getPHPType($field->getType());
             $fieldName = Utils::lowerCamelizeWithDelimiter($field->getName(), '-', true);
-            $fieldName = $this->options->get('camelize') ? Utils::lowerCamelize($fieldName) : $fieldName;
-            $attributes[] = $this->snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->options->has( 'annotate' ), $fieldName);
+            $fieldName = $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($fieldName) : $fieldName;
+            $attributes[] = $snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->modelOptions->getOption( 'annotate' ), $fieldName);
 
             if ($useSettersGetters) {
                 $methodName = Utils::camelize($field->getName(), '_-');
-                $setters[] = $this->snippet->getSetter($field->getName(), $fieldName, $type, $methodName);
+                $setters[] = $snippet->getSetter($field->getName(), $fieldName, $type, $methodName);
 
                 if (isset($this->_typeMap[$type])) {
-                    $getters[] = $this->snippet->getGetterMap($fieldName, $type, $methodName, $this->_typeMap[$type]);
+                    $getters[] = $snippet->getGetterMap($fieldName, $type, $methodName, $this->_typeMap[$type]);
                 } else {
-                    $getters[] = $this->snippet->getGetter($fieldName, $type, $methodName);
+                    $getters[] = $snippet->getGetter($fieldName, $type, $methodName);
                 }
             }
         }
 
         $validationsCode = '';
         if ($alreadyValidations == false && count($validations) > 0) {
-            $validationsCode = $this->snippet->getValidationsMethod($validations);
-            $uses[] = $this->snippet->getUse(Validation::class);
+            $validationsCode = $snippet->getValidationsMethod($validations);
+            $uses[] = $snippet->getUse(Validation::class);
         }
 
         $initCode = '';
         if ($alreadyInitialized == false && count($initialize) > 0) {
-            $initCode = $this->snippet->getInitialize($initialize);
+            $initCode = $snippet->getInitialize($initialize);
         }
 
         $license = '';
@@ -466,15 +441,15 @@ class Model extends Component
         }
 
         if (false == $alreadyGetSourced) {
-            $methodRawCode[] = $this->snippet->getModelSource($this->options->get('name'));
+            $methodRawCode[] = $snippet->getModelSource($this->modelOptions->getOption('name'));
         }
 
         if (false == $alreadyFind) {
-            $methodRawCode[] = $this->snippet->getModelFind($className);
+            $methodRawCode[] = $snippet->getModelFind($className);
         }
 
         if (false == $alreadyFindFirst) {
-            $methodRawCode[] = $this->snippet->getModelFindFirst($className);
+            $methodRawCode[] = $snippet->getModelFindFirst($className);
         }
 
         $content = join('', $attributes);
@@ -490,11 +465,11 @@ class Model extends Component
 
         $classDoc = '';
         if ($genDocMethods) {
-            $classDoc = $this->snippet->getClassDoc($className, $namespace);
+            $classDoc = $snippet->getClassDoc($className, $namespace);
         }
 
-        if ($this->options->contains('mapColumn') && false == $alreadyColumnMapped) {
-            $content .= $this->snippet->getColumnMap($fields, $this->options->get('camelize'));
+        if ($this->modelOptions->getOption('mapColumn') && false == $alreadyColumnMapped) {
+            $content .= $snippet->getColumnMap($fields, $this->modelOptions->getOption('camelize'));
         }
 
         $useDefinition = '';
@@ -506,21 +481,21 @@ class Model extends Component
             $useDefinition = join("\n", $uses) . PHP_EOL . PHP_EOL;
         }
 
-        $abstract = ($this->options->contains('abstract') ? 'abstract ' : '');
+        $abstract = ($this->modelOptions->getOption('abstract') ? 'abstract ' : '');
 
-        $code = $this->snippet->getClass($namespace, $useDefinition, $classDoc, $abstract, $className, $extends, $content, $license);
+        $code = $snippet->getClass($namespace, $useDefinition, $classDoc, $abstract, $className, $extends, $content, $license);
 
         if (file_exists($modelPath) && !is_writable($modelPath)) {
-            throw new BuilderException(sprintf('Unable to write to %s. Check write-access of a file.', $modelPath));
+            throw new WriteFileException(sprintf('Unable to write to %s. Check write-access of a file.', $modelPath));
         }
 
         if (!file_put_contents($modelPath, $code)) {
-            throw new BuilderException(sprintf('Unable to write to %s', $modelPath));
+            throw new WriteFileException(sprintf('Unable to write to %s', $modelPath));
         }
 
         if ($this->isConsole()) {
-            $msgSuccess = ($this->options->contains('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
-            $this->notifySuccess(sprintf($msgSuccess, Text::camelize($this->options->get('name'), '_-')));
+            $msgSuccess = ($this->modelOptions->getOption('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
+            $this->notifySuccess(sprintf($msgSuccess, Text::camelize($this->modelOptions->getOption('name'), '_-')));
         }
     }
 
@@ -541,8 +516,8 @@ class Model extends Component
      */
     protected function getReferenceList($schema, Pdo $db)
     {
-        if ($this->options->contains('referenceList')) {
-            return $this->options->get('referenceList');
+        if ($this->modelOptions->hasOption('referenceList')) {
+            return $this->modelOptions->getOption('referenceList');
         }
 
         $referenceList = [];
@@ -551,5 +526,24 @@ class Model extends Component
         }
 
         return $referenceList;
+    }
+
+    /**
+     * Get path to folder where models are
+     *
+     * @throw InvalidParameterException
+     * @return string
+     */
+    protected function getModelsDir()
+    {
+        if ($this->modelOptions->hasOption('modelsDir')) {
+            return rtrim($this->modelOptions->getOption('modelsDir'), '/\\') . DIRECTORY_SEPARATOR;
+        }
+
+        if ($modelsDir = $this->modelOptions->getOption('config')->path('application.modelsDir')) {
+            return rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+        }
+
+        throw new InvalidParameterException("Builder doesn't know where is the models directory.");
     }
 }
