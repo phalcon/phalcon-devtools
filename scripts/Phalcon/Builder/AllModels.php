@@ -214,7 +214,8 @@ class AllModels extends Component
                     'mapColumn' => $mapColumn,
                     'abstract' => $this->options->get('abstract'),
                     'referenceList' => $referenceList,
-                    'camelize' => $this->options->get('camelize')
+                    'camelize' => $this->options->get('camelize'),
+                    'annotate' => $this->options->get('annotate'),
                 ]);
 
                 $modelBuilder->build();
