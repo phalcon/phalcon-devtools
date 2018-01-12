@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -77,32 +77,11 @@ class Model extends Command
         $name = $this->getOption(['name', 1]);
         $className = Utils::camelize(isset($parameters[1]) ? $parameters[1] : $name, '_-');
 
-        if ($this->isReceivedOption('config')) {
-            if (false == $this->path->isAbsolutePath($this->getOption('config'))) {
-                $configPath = $this->path->getRootPath() . $this->getOption('config');
-            } else {
-                $configPath = $this->getOption('config');
-            }
-
-            if (preg_match('/.*(:?\.ini)(?:\s)?$/i', $configPath)) {
-                $config = new ConfigIni($configPath);
-            } else {
-                $config = include $configPath;
-
-                if (is_array($config)) {
-                    $config = new Config($config);
-                }
-            }
-
-        } else {
-            $config = $this->path->getConfig();
-        }
-
         $modelBuilder = new ModelBuilder(
             [
                 'name'              => $name,
                 'schema'            => $this->getOption('schema'),
-                'config'            => $config,
+                'config'            => $this->getConfigObject(),
                 'className'         => $className,
                 'fileName'          => Text::uncamelize($className),
                 'genSettersGetters' => $this->isReceivedOption('get-set'),
@@ -161,5 +140,33 @@ class Model extends Command
     public function getRequiredParams()
     {
         return 1;
+    }
+
+    /**
+     * Get Config object
+     *
+     * @return Config
+     */
+    protected function getConfigObject()
+    {
+        if (!$this->isReceivedOption('config')) {
+            return $this->path->getConfig();
+        }
+
+        $configPath = $this->getOption('config');
+        if (false == $this->path->isAbsolutePath($this->getOption('config'))) {
+            $configPath = $this->path->getRootPath() . $this->getOption('config');
+        }
+
+        if (preg_match('/.*(:?\.ini)(?:\s)?$/i', $configPath)) {
+            return new ConfigIni($configPath);
+        }
+
+        $config = include $configPath;
+        if (is_array($config)) {
+            return new Config($config);
+        }
+
+        return $config;
     }
 }
