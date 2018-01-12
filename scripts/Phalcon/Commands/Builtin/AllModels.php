@@ -58,6 +58,7 @@ class AllModels extends Command
             'output=s'    => 'Folder where models are located [optional]',
             'mapcolumn'   => 'Get some code for map columns [optional]',
             'abstract'    => 'Abstract Model [optional]',
+            'annotate'    => 'Annotate Attributes [optional]',
             'help'        => 'Shows this help [optional]',
         ];
     }
@@ -128,6 +129,7 @@ class AllModels extends Command
             'mapColumn' => $this->isReceivedOption('mapcolumn'),
             'abstract' => $this->isReceivedOption('abstract'),
             'camelize' => $this->isReceivedOption('camelize'),
+            'annotate' => $this->isReceivedOption('annotate'),
         ]);
 
         $modelBuilder->build();
