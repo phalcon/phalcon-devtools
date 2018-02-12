@@ -4,7 +4,7 @@
 [![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][:license:]
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
 [![Daily Downloads](https://img.shields.io/packagist/dd/phalcon/devtools.svg?style=flat-square)][:packagist:]
-[![Build Status](https://travis-ci.org/phalcon/phalcon-devtools.svg?branch=master)][:travis:]
+[![Build Status](https://api.travis-ci.org/phalcon/phalcon-devtools.svg?branch=master)][:travis:]
 
 ![Phalcon WebTools](https://cloud.githubusercontent.com/assets/1256298/18617851/b7d31558-7de2-11e6-83e0-30e5902af714.png)
 
