@@ -7,9 +7,9 @@
     |''Author''|PMario|
     |''Version''|0.1.7|
     |''Status''|''stable''|
-    |''Source''|[[GitHub|https://github.com/pmario/CodeMirror2/blob/tw-syntax/mode/tiddlywiki]]|
-    |''Documentation''|http://codemirror.tiddlyspace.com/|
-    |''License''|[[MIT License|http://www.opensource.org/licenses/mit-license.php]]|
+    |''Source''|[[GitHub|https://github.com/pmario/tiddlywiki]]|
+    |''Documentation''|http://tiddlyspace.com/|
+    |''License''|[[MIT License|https://opensource.org/licenses/mit-license.php]]|
     |''CoreVersion''|2.5.0|
     |''Requires''|codemirror.js|
     |''Keywords''|syntax highlighting color code mirror codemirror|
