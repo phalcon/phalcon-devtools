@@ -93,36 +93,6 @@ class Model extends Component
     }
 
     /**
-     * Returns the associated PHP type
-     *
-     * @param  string $type
-     * @return string
-     */
-    protected function getPHPType($type)
-    {
-        switch ($type) {
-            case Column::TYPE_INTEGER:
-            case Column::TYPE_BIGINTEGER:
-                return 'integer';
-                break;
-            case Column::TYPE_DECIMAL:
-            case Column::TYPE_FLOAT:
-                return 'double';
-                break;
-            case Column::TYPE_DATE:
-            case Column::TYPE_VARCHAR:
-            case Column::TYPE_DATETIME:
-            case Column::TYPE_CHAR:
-            case Column::TYPE_TEXT:
-                return 'string';
-                break;
-            default:
-                return 'string';
-                break;
-        }
-    }
-
-    /**
      * Module build
      *
      * @return mixed
@@ -136,33 +106,13 @@ class Model extends Component
             $this->path->setRootPath($this->modelOptions->getOption('directory'));
         }
 
-        $modelsDir = $this->getModelsDir();
-        $modelPath = $modelsDir;
-        if (false == $this->isAbsolutePath($modelsDir)) {
-            $modelPath = $this->path->getRootPath($modelsDir);
-        }
-
         $methodRawCode = [];
-        $className = $this->modelOptions->getOption('className');
-        $modelPath .= $className . '.php';
+        $this->setModelsDir();
+        $this->setModelPath();
 
-        if (file_exists($modelPath) && !$this->modelOptions->getOption('force')) {
-            throw new WriteFileException(sprintf(
-                'The model file "%s.php" already exists in models dir',
-                $className
-            ));
-        }
+        $modelPath = $this->modelOptions->getOption('modelPath');
 
-        if (!isset($config->database)) {
-            throw new InvalidParameterException('Database configuration cannot be loaded from your config file.');
-        }
-
-        if (!isset($config->database->adapter)) {
-            throw new InvalidParameterException(
-                "Adapter was not found in the config. " .
-                "Please specify a config variable [database][adapter]"
-            );
-        }
+        $this->checkDataBaseParam();
 
         if (isset($config->devtools->loader)) {
             /** @noinspection PhpIncludeInspection */
@@ -445,11 +395,11 @@ class Model extends Component
         }
 
         if (false == $alreadyFind) {
-            $methodRawCode[] = $snippet->getModelFind($className);
+            $methodRawCode[] = $snippet->getModelFind($this->modelOptions->getOption('className'));
         }
 
         if (false == $alreadyFindFirst) {
-            $methodRawCode[] = $snippet->getModelFindFirst($className);
+            $methodRawCode[] = $snippet->getModelFindFirst($this->modelOptions->getOption('className'));
         }
 
         $content = join('', $attributes);
@@ -465,7 +415,7 @@ class Model extends Component
 
         $classDoc = '';
         if ($genDocMethods) {
-            $classDoc = $snippet->getClassDoc($className, $namespace);
+            $classDoc = $snippet->getClassDoc($this->modelOptions->getOption('className'), $namespace);
         }
 
         if ($this->modelOptions->getOption('mapColumn') && false == $alreadyColumnMapped) {
@@ -483,7 +433,7 @@ class Model extends Component
 
         $abstract = ($this->modelOptions->getOption('abstract') ? 'abstract ' : '');
 
-        $code = $snippet->getClass($namespace, $useDefinition, $classDoc, $abstract, $className, $extends, $content, $license);
+        $code = $snippet->getClass($namespace, $useDefinition, $classDoc, $abstract, $this->modelOptions, $extends, $content, $license);
 
         if (file_exists($modelPath) && !is_writable($modelPath)) {
             throw new WriteFileException(sprintf('Unable to write to %s. Check write-access of a file.', $modelPath));
@@ -496,6 +446,48 @@ class Model extends Component
         if ($this->isConsole()) {
             $msgSuccess = ($this->modelOptions->getOption('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
             $this->notifySuccess(sprintf($msgSuccess, Text::camelize($this->modelOptions->getOption('name'), '_-')));
+        }
+    }
+
+    /**
+     * Set path to model
+     *
+     * @throw WriteFileException
+     */
+    protected function setModelPath()
+    {
+        $modelPath = $this->modelOptions->getOption('modelsDir');
+
+        if (false == $this->isAbsolutePath($modelPath)) {
+            $modelPath = $this->path->getRootPath($modelPath);
+        }
+
+        $modelPath .= $this->modelOptions->getOption('className') . '.php';
+
+        if (file_exists($modelPath) && !$this->modelOptions->getOption('force')) {
+            throw new WriteFileException(sprintf(
+                'The model file "%s.php" already exists in models dir',
+                $this->modelOptions->getOption('className')
+            ));
+        }
+
+        $this->modelOptions->setOption('modelPath', $modelPath);
+    }
+
+    /**
+     * @throw InvalidParameterException
+     */
+    protected function checkDataBaseParam()
+    {
+        if (!isset($this->modelOptions->getOption('config')->database)) {
+            throw new InvalidParameterException('Database configuration cannot be loaded from your config file.');
+        }
+
+        if (!isset($this->modelOptions->getOption('config')->database->adapter)) {
+            throw new InvalidParameterException(
+                "Adapter was not found in the config. " .
+                "Please specify a config variable [database][adapter]"
+            );
         }
     }
 
@@ -529,21 +521,52 @@ class Model extends Component
     }
 
     /**
-     * Get path to folder where models are
+     * Set path to folder where models are
      *
      * @throw InvalidParameterException
-     * @return string
      */
-    protected function getModelsDir()
+    protected function setModelsDir()
     {
         if ($this->modelOptions->hasOption('modelsDir')) {
-            return rtrim($this->modelOptions->getOption('modelsDir'), '/\\') . DIRECTORY_SEPARATOR;
+            $this->modelOptions->setOption('modelsDir', rtrim($this->modelOptions->getOption('modelsDir'), '/\\') . DIRECTORY_SEPARATOR);
+            return;
         }
 
         if ($modelsDir = $this->modelOptions->getOption('config')->path('application.modelsDir')) {
-            return rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
+            $this->modelOptions->setOption('modelsDir', rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR);
+            return;
         }
 
         throw new InvalidParameterException("Builder doesn't know where is the models directory.");
+    }
+
+    /**
+     * Returns the associated PHP type
+     *
+     * @param  string $type
+     * @return string
+     */
+    protected function getPHPType($type)
+    {
+        switch ($type) {
+            case Column::TYPE_INTEGER:
+            case Column::TYPE_BIGINTEGER:
+                return 'integer';
+                break;
+            case Column::TYPE_DECIMAL:
+            case Column::TYPE_FLOAT:
+                return 'double';
+                break;
+            case Column::TYPE_DATE:
+            case Column::TYPE_VARCHAR:
+            case Column::TYPE_DATETIME:
+            case Column::TYPE_CHAR:
+            case Column::TYPE_TEXT:
+                return 'string';
+                break;
+            default:
+                return 'string';
+                break;
+        }
     }
 }

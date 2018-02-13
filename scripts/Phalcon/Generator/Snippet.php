@@ -22,6 +22,7 @@
 namespace Phalcon\Generator;
 
 use Phalcon\Utils;
+use Phalcon\Options\OptionsAware as ModelOption;
 
 /**
  * Snippet Class
@@ -100,7 +101,11 @@ EOD;
         return PHP_EOL.sprintf($templateValidations, join('', $pieces)).PHP_EOL;
     }
 
-    public function getClass($namespace, $useDefinition, $classDoc = '', $abstract = '', $className, $extends = '', $content, $license = '')
+    /**
+     * @param ModelOption $modelOptions
+     * @return string
+     */
+    public function getClass($namespace, $useDefinition, $classDoc = '', $abstract = '', $modelOptions, $extends = '', $content, $license = '')
     {
         $templateCode = <<<EOD
 <?php
@@ -110,7 +115,17 @@ EOD;
 %s
 }
 EOD;
-        return sprintf($templateCode, $license, $namespace, $useDefinition, $classDoc, $abstract, $className, $extends, $content).PHP_EOL;
+        return sprintf(
+            $templateCode,
+            $license,
+            $namespace,
+            $useDefinition,
+            $classDoc,
+            $abstract,
+            $modelOptions->getOption('className'),
+            $extends,
+            $content)
+        .PHP_EOL;
     }
 
     public function getClassDoc($className, $namespace = '')
