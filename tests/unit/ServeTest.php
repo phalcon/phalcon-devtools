@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -17,9 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Commands\Builtin\Serve;
-use Phalcon\Commands\CommandsListener;
 use Phalcon\Script;
+use Phalcon\Commands\Builtin\Serve;
+use Phalcon\Listeners\CommandsListener;
 use Phalcon\Events\Manager as EventsManager;
 
 class ServeTest extends \Codeception\Test\Unit

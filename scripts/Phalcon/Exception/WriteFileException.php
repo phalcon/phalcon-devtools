@@ -19,6 +19,11 @@
 
 namespace Phalcon\Exception;
 
+/**
+ * Phalcon\Exception\WriteFileException
+ *
+ * @package Phalcon\Exception
+ */
 class WriteFileException extends \RuntimeException
 {
 }

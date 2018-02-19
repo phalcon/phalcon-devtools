@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -18,11 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Commands;
+namespace Phalcon\Listeners;
 
 use Phalcon\Events\Event;
+use Phalcon\Commands\Command;
+use Phalcon\Exception\Commands\DotPhalconMissingException;
 
 /**
+ * Phalcon\Listeners\CommandsListener
+ *
  * Commands Listener
  *
  * @package Phalcon\Commands

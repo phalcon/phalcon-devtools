@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -17,10 +17,38 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Commands;
+namespace Phalcon\Exception\Commands;
 
-interface iSelfHealingException
+use Phalcon\Exception;
+use Phalcon\Script\Color;
+
+/**
+ * Phalcon\Exception\Commands\DotPhalconMissingException
+ *
+ * .phalcon is missing Exception
+ * This is thrown when a CLI command is run without a .phalcon file
+ * In the CWD
+ *
+ * @package Phalcon\Exception\Commands
+ */
+class DotPhalconMissingException extends CommandsException
 {
-    public function promptResolution();
-    public function resolve();
+    const DEFAULT_MESSAGE = "This command must be run inside a Phalcon project with a .phalcon directory.";
+
+    public function __construct ($message = self::DEFAULT_MESSAGE , $code = 0)
+    {
+        if (!is_string($message)) {
+            $message = self::DEFAULT_MESSAGE;
+        }
+
+        $this->message = $message;
+        $this->code = $code;
+
+        parent::__construct();
+    }
+
+    public function scanPathMessage()
+    {
+        return "One was not found at " . getcwd();
+    }
 }

@@ -19,6 +19,11 @@
 
 namespace Phalcon\Exception;
 
+/**
+ * Phalcon\Exception\InvalidParameterException
+ *
+ * @package Phalcon\Exception
+ */
 class InvalidParameterException extends \InvalidArgumentException
 {
 }

@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -22,21 +22,24 @@
 namespace Phalcon\Commands;
 
 use Phalcon\Script;
+use Phalcon\Filter;
+use Phalcon\Config;
+use Phalcon\Builder\Path;
 use Phalcon\Script\Color;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Filter;
-use Phalcon\Builder\Path;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
-use Phalcon\Config;
+use Phalcon\Exception\Commands\CommandsException;
 
 /**
- * Command Class
+ * Phalcon\Commands\Command
  *
- * @package   Phalcon\Commands
- * @copyright Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
- * @license   New BSD License
+ * Base command class
+ *
+ * @package Phalcon\Commands
+ * 
+ * @todo Refactor this class and methods
  */
 abstract class Command implements CommandsInterface
 {
@@ -153,8 +156,7 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * Determines correct adapter by file name
-     * and load config
+     * Determines correct adapter by file name and load config
      *
      * @param string $fileName Config file name
      *
@@ -203,8 +205,6 @@ abstract class Command implements CommandsInterface
      * @return array
      *
      * @throws CommandsException
-     *
-     * @todo Refactor
      */
     public function parseParameters(array $parameters = [], $possibleAlias = [])
     {

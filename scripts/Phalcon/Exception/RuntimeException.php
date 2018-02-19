@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+/**
+ * Phalcon\Exception\RuntimeException
+ *
+ * @package Phalcon\Exception
+ */
 namespace Phalcon\Exception;
 
 class RuntimeException extends \RuntimeException

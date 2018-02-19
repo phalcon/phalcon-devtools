@@ -25,20 +25,23 @@ use Phalcon\Script\Color;
 use Phalcon\Devtools\Version;
 use Phalcon\Commands\Builtin\Info;
 use Phalcon\Commands\Builtin\Model;
+use Phalcon\Commands\Builtin\Serve;
 use Phalcon\Commands\Builtin\Module;
 use Phalcon\Commands\Builtin\Project;
+use Phalcon\Commands\Builtin\Console;
 use Phalcon\Commands\Builtin\Scaffold;
-use Phalcon\Commands\CommandsListener;
 use Phalcon\Commands\Builtin\Webtools;
+use Phalcon\Listeners\CommandsListener;
 use Phalcon\Commands\Builtin\AllModels;
 use Phalcon\Commands\Builtin\Migration;
 use Phalcon\Commands\Builtin\Enumerate;
 use Phalcon\Commands\Builtin\Controller;
-use Phalcon\Commands\Builtin\Serve;
-use Phalcon\Commands\Builtin\Console;
 use Phalcon\Exception as PhalconException;
-use Phalcon\Commands\DotPhalconMissingException;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Exception\Commands\DotPhalconMissingException;
+
+
+use Phalcon\Cli\Console as ConsoleApp;
 
 try {
     require dirname(__FILE__) . '/bootstrap/autoload.php';
@@ -76,11 +79,18 @@ try {
     $script->run();
 } catch (DotPhalconMissingException $e) {
     fwrite(STDERR, Color::info($e->getMessage() . " " . $e->scanPathMessage()));
-    if ($e->promptResolution()) {
-        $script->run();
-    } else {
-        exit(1);
+    fwrite(STDOUT, Color::info("Shall I create the .phalcon directory now? (y/n)"));
+
+    if ($script->hasPermissionToCreateDotPhalconFolder()) {
+        $script->createDotPhalconFolder();
+        echo "\nRetrying command...\n";
+        
+        exit(0);
     }
+
+    echo "ABORTING!\n";
+    exit(1);
+    
 } catch (PhalconException $e) {
     fwrite(STDERR, Color::error($e->getMessage()) . PHP_EOL);
     exit(1);

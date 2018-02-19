@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -24,6 +24,7 @@ namespace Phalcon;
 use DirectoryIterator;
 use Phalcon\Commands\Command;
 use Phalcon\Script\ScriptException;
+use Phalcon\Exception\RuntimeException;
 use Phalcon\Events\Manager as EventsManager;
 
 /**
@@ -216,6 +217,27 @@ class Script
 
                 $this->attach(new $className($this, $this->_eventsManager));
             }
+        }
+    }
+
+    public function hasPermissionToCreateDotPhalconFolder()
+    {
+        $handle = fopen ("php://stdin","r");
+
+        if(trim(fgets($handle)) != 'y'){
+            return false;
+        }
+
+        fclose($handle);
+
+        return true;
+    }
+
+    public function createDotPhalconFolder() {
+        try {
+            mkdir(getcwd() . "/.phalcon");
+        } catch (RuntimeException $e) {
+            echo $e->getMessage();
         }
     }
 }

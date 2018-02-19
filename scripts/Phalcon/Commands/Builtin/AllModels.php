@@ -20,12 +20,12 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Builder\AllModels as AllModelsBuilder;
-use Phalcon\Builder;
-use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Config;
+use Phalcon\Builder;
 use Phalcon\Commands\Command;
-use Phalcon\Commands\CommandsException;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Exception\Commands\CommandsException;
+use Phalcon\Builder\AllModels as AllModelsBuilder;
 
 /**
  * AllModels Command

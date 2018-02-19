@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -21,6 +21,11 @@
 
 namespace Phalcon\Exception;
 
+/**
+ * Phalcon\Exception\InvalidArgumentException
+ *
+ * @package Phalcon\Exception
+ */
 class InvalidArgumentException extends \InvalidArgumentException
 {
 }
