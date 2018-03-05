@@ -34,7 +34,7 @@ class DotPhalconMissingException extends CommandsException implements iSelfHeali
     const DEFAULT_MESSAGE = "This command must be run inside a Phalcon project with a .phalcon directory.";
     const RESOLUTION_PROMPT = "Shall I create the .phalcon directory now? (y/n)";
 
-    public function __construct (string $message = self::DEFAULT_MESSAGE , $code = 0)
+    public function __construct ($message = self::DEFAULT_MESSAGE , $code = 0)
     {
         $this->message = $message;
         $this->code = $code;
@@ -51,7 +51,7 @@ class DotPhalconMissingException extends CommandsException implements iSelfHeali
         fwrite(STDOUT, Color::info(self::RESOLUTION_PROMPT));
         $handle = fopen ("php://stdin","r");
         $line = fgets($handle);
-        if(trim($line) != 'y'){
+        if(trim(mb_strtolower($line)) != 'y'){
             echo "ABORTING!\n";
             return false;
         }
