@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -14,7 +14,6 @@
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
   | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>             |
-  |                                                                        |
   +------------------------------------------------------------------------+
 */
 
@@ -23,11 +22,11 @@ namespace Phalcon\Db\Dialect;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Dialect\PostgresqlExtended
+ * Phalcon\Db\Dialect\DialectPostgresql
  *
  * @package Phalcon\Db\Dialect
  */
-class PostgresqlExtended extends Postgresql
+class DialectPostgresql extends Postgresql
 {
     /**
      * Generates SQL to query foreign keys on a table

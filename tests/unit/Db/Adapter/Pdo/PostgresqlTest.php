@@ -1,19 +1,10 @@
 <?php
 
-namespace Phalcon\Test\Db\Adapter\Pdo;
-
-use Phalcon\Db\Reference;
-use Phalcon\Db\ReferenceInterface;
-use Phalcon\Test\Module\UnitTest;
-use Helper\Db\Dialect\PostgresqlTrait;
-use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as Postgresql;
-use Phalcon\Db\Dialect\PostgresqlExtended as PostgresqlDialect;
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -26,12 +17,21 @@ use Phalcon\Db\Dialect\PostgresqlExtended as PostgresqlDialect;
   +------------------------------------------------------------------------+
 */
 
+namespace Phalcon\Test\Db\Adapter\Pdo;
+
+use Phalcon\Db\Reference;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Db\ReferenceInterface;
+use Helper\Db\Dialect\PostgresqlTrait;
+use Phalcon\Db\Adapter\Pdo\PdoPostgresql;
+use Phalcon\Db\Dialect\DialectPostgresql;
+
 class MigrationTest extends UnitTest
 {
     use PostgresqlTrait;
 
     /**
-     * @var Postgresql
+     * @var PdoPostgresql
      */
     protected $connection;
 
@@ -40,7 +40,7 @@ class MigrationTest extends UnitTest
         parent::_before();
 
         try {
-            $this->connection = new Postgresql([
+            $this->connection = new PdoPostgresql([
                 'host'     => TEST_DB_POSTGRESQL_HOST,
                 'username' => TEST_DB_POSTGRESQL_USER,
                 'password' => TEST_DB_POSTGRESQL_PASSWD,
@@ -52,11 +52,11 @@ class MigrationTest extends UnitTest
             throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
         }
 
-        $this->connection->setDialect(new PostgresqlDialect);
+        $this->connection->setDialect(new DialectPostgresql);
     }
 
     /**
-     * Tests PostgresqlExtended::describeReferences
+     * Tests DialectPostgresql::describeReferences
      *
      * @test
      * @issue  438
