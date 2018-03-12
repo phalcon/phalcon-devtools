@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -14,7 +14,6 @@
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
   | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>             |
-  |                                                                        |
   +------------------------------------------------------------------------+
 */
 
@@ -24,11 +23,11 @@ use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\Exception;
 
 /**
- * Phalcon\Db\Dialect\MysqlExtended
+ * Phalcon\Db\Adapter\Pdo\PdoMysql
  *
  * @package Phalcon\Db\Adapter\Pdo
  */
-class MysqlExtended extends Mysql
+class PdoMysql extends Mysql
 {
     /**
      * Generates SQL to add an index to a table if FOREIGN_KEY_CHECKS=1

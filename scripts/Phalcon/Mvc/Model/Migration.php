@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -26,19 +26,19 @@ use Phalcon\Utils;
 use DirectoryIterator;
 use Phalcon\Db\Column;
 use Phalcon\Migrations;
+use Phalcon\Utils\Nullify;
 use Phalcon\Generator\Snippet;
 use Phalcon\Version\ItemInterface;
-use Phalcon\Mvc\Model\Migration\Profiler;
+use Phalcon\Db\Dialect\DialectMysql;
 use Phalcon\Db\Exception as DbException;
+use Phalcon\Mvc\Model\Migration\Profiler;
+use Phalcon\Listeners\DbProfilerListener;
+use Phalcon\Db\Dialect\DialectPostgresql;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Exception\Db\UnknownColumnTypeException;
 use Phalcon\Version\ItemCollection as VersionCollection;
-use Phalcon\Db\Dialect\MysqlExtended;
-use Phalcon\Db\Adapter\Pdo\MysqlExtended as AdapterMysqlExtended;
-use Phalcon\Db\Dialect\PostgresqlExtended;
-use Phalcon\Db\Adapter\Pdo\PostgresqlExtended as AdapterPostgresqlExtended;
-use Phalcon\Utils\Nullify;
-use Phalcon\Listeners\DbProfilerListener;
+use Phalcon\Db\Adapter\Pdo\PdoMysql;
+use Phalcon\Db\Adapter\Pdo\PdoPostgresql;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -94,7 +94,7 @@ class Migration
      *
      * @param \Phalcon\Config $database Database config
      * @param bool $verbose array with settings
-     * @since 3.2.1 Using Postgresql::describeReferences and PostgresqlExtended dialect class
+     * @since 3.2.1 Using Postgresql::describeReferences and DialectPostgresql dialect class
      *
      * @throws \Phalcon\Db\Exception
      */
@@ -107,12 +107,12 @@ class Migration
         /**
          * The original Phalcon\Db\Adapter\Pdo\Mysql::addForeignKey is broken until the v3.2.0
          *
-         * @see: Phalcon\Db\Dialect\MysqlExtended The extended and fixed dialect class for MySQL
+         * @see: Phalcon\Db\Dialect\PdoMysql The extended and fixed dialect class for MySQL
          */
         if ($database->adapter == 'Mysql') {
-            $adapter = AdapterMysqlExtended::class;
+            $adapter = PdoMysql::class;
         } elseif ($database->adapter == 'Postgresql') {
-            $adapter = AdapterPostgresqlExtended::class;
+            $adapter = PdoPostgresql::class;
         } else {
             $adapter = '\\Phalcon\\Db\\Adapter\\Pdo\\'.$database->adapter;
         }
@@ -126,14 +126,14 @@ class Migration
         self::$_connection = new $adapter($configArray);
         self::$_databaseConfig = $database;
 
-        //Connection custom dialect Dialect/MysqlExtended
+        //Connection custom dialect Dialect/DialectMysql
         if ($database->adapter == 'Mysql') {
-            self::$_connection->setDialect(new MysqlExtended);
+            self::$_connection->setDialect(new DialectMysql);
         }
 
-        //Connection custom dialect Dialect/PostgresqlExtended
+        //Connection custom dialect Dialect/DialectPostgresql
         if ($database->adapter == 'Postgresql') {
-            self::$_connection->setDialect(new PostgresqlExtended);
+            self::$_connection->setDialect(new DialectPostgresql);
         }
 
         if (!Migrations::isConsole() || !$verbose) {

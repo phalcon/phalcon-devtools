@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -14,23 +14,22 @@
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
   | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>             |
-  |                                                                        |
   +------------------------------------------------------------------------+
 */
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db\ReferenceInterface;
+use Phalcon\Db;
 use Phalcon\Db\Reference;
 use Phalcon\Db\Exception;
-use Phalcon\Db;
+use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Dialect\Postgresql
+ * Phalcon\Db\Adapter\Pdo\PdoPostgresql
  *
  * @package Phalcon\Db\Adapter\Pdo
  */
-class PostgresqlExtended extends Postgresql
+class PdoPostgresql extends Postgresql
 {
     /**
      * Lists table references
