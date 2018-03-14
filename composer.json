@@ -1,0 +1,51 @@
+{
+    "name": "phalcon/devtools",
+    "type": "library",
+    "description": "This tools provide you useful scripts to generate code helping to develop faster and easy applications that use with Phalcon framework.",
+    "keywords": ["framework", "phalcon", "devtools", "webtools", "phar"],
+    "homepage": "https://phalconphp.com",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Phalcon Team",
+            "email": "team@phalconphp.com",
+            "homepage": "https://phalconphp.com/en/team"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/phalcon/phalcon-devtools/graphs/contributors"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/phalcon/phalcon-devtools/issues",
+        "source": "https://github.com/phalcon/phalcon-devtools",
+        "forum": "https://forum.phalconphp.com/"
+    },
+    "require": {
+        "php": ">=7.0",
+        "ext-phalcon": "~3.3",
+        "psy/psysh": "@dev"
+    },
+    "require-dev": {
+        "kherge/box": "^2.7",
+        "codeception/codeception": "^2.3",
+        "phpdocumentor/reflection-docblock": "^2.0",
+        "phpunit/phpunit": "^4.8",
+        "codeception/specify": "^0.4",
+        "codeception/verify": "^0.3"
+
+    },
+    "autoload": {
+        "psr-4" : {
+            "Phalcon\\Devtools\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phalcon\\Test\\": "tests/",
+            "Phalcon\\Test\\Models\\": "tests/_data/models",
+            "Phalcon\\Test\\Module\\": "tests/_support/Module"
+        }
+    },
+    "bin": ["phalcon.php"]
+}
