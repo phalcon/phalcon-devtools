@@ -50,6 +50,7 @@ before_script:
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
 
 script:
+  - vendor/bin/phpcs
   - vendor/bin/codecept build
   - vendor/bin/codecept run unit -v
   - vendor/bin/codecept run console -v
