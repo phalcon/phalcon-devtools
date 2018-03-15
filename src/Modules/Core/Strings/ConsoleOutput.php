@@ -146,7 +146,9 @@ class ConsoleOutput
         $coloredString = '';
 
         foreach ($params as $color) {
-            $coloredString .= $this->addColor($color);
+            if (isset($color)) {
+                $coloredString .= $this->addColor($color);
+            }
         }
 
         $coloredString .= $string . "\033[0m";
@@ -176,11 +178,7 @@ class ConsoleOutput
      */
     protected function addColor(string $color)
     {
-        if (isset($color)) {
-            return "\033[" . $color . "m";
-        }
-
-        return '';
+        return "\033[" . $color . "m";
     }
 
     /**
