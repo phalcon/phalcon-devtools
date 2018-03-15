@@ -1,0 +1,59 @@
+language: php
+
+sudo: false
+dist: trusty
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+
+services:
+# TODO: Enable postgres service when tests will be added
+#  - postgresql
+
+matrix:
+   fast_finish: true
+
+git:
+  depth: 1
+
+cache:
+  apt: true
+  ccache: true
+  timeout: 604800
+  directories:
+    - .temp
+    - vendor
+    - $HOME/.ccache
+    - $HOME/.composer/cache
+
+env:
+  global:
+    - PATH="$PATH:~/bin"
+    - PHALCON_VERSION=v3.3.2 #TODO change this version to 4.0 later
+
+before_install:
+  - phpenv config-rm xdebug.ini || true
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
+
+install:
+  - bash tests/_ci/install_phalcon.sh
+  - cd $TRAVIS_BUILD_DIR
+  - travis_retry composer install --prefer-dist --no-interaction
+
+before_script:
+  - bash tests/_ci/setup_dbs.sh
+  - ln -s $PWD/phalcon.php ~/bin/phalcon
+  - source $TRAVIS_BUILD_DIR/tests/_ci/environment
+  - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
+
+script:
+  - vendor/bin/codecept build
+  - vendor/bin/codecept run unit -v
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never

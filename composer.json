@@ -24,16 +24,17 @@
     "require": {
         "php": ">=7.0",
         "ext-phalcon": "~3.3",
-        "psy/psysh": "@dev"
+        "psy/psysh": "@dev",
+        "squizlabs/php_codesniffer": "^3.2"
     },
     "require-dev": {
         "kherge/box": "^2.7",
-        "codeception/codeception": "^2.3",
-        "phpdocumentor/reflection-docblock": "^2.0",
-        "phpunit/phpunit": "^4.8",
-        "codeception/specify": "^0.4",
-        "codeception/verify": "^0.3"
-
+        "codeception/codeception": "^2.4",
+        "phpdocumentor/reflection-docblock": "^4.3",
+        "phpunit/phpunit": "^6.5",
+        "codeception/specify": "^1.0",
+        "codeception/verify": "^1.0",
+        "phpstan/phpstan": "^0.9"
     },
     "autoload": {
         "psr-4" : {
@@ -44,7 +45,8 @@
         "psr-4": {
             "Phalcon\\Test\\": "tests/",
             "Phalcon\\Test\\Models\\": "tests/_data/models",
-            "Phalcon\\Test\\Module\\": "tests/_support/Module"
+            "Phalcon\\Test\\Module\\": "tests/_support/Module",
+            "Phalcon\\Devtools\\": "src/"
         }
     },
     "bin": ["phalcon.php"]
