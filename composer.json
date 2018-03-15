@@ -34,7 +34,8 @@
         "phpunit/phpunit": "^6.5",
         "codeception/specify": "^1.0",
         "codeception/verify": "^1.0",
-        "phpstan/phpstan": "^0.9"
+        "phpstan/phpstan": "^0.9",
+        "squizlabs/php_codesniffer": "^3.2"
     },
     "autoload": {
         "psr-4" : {
