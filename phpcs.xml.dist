@@ -31,4 +31,5 @@
         custom standard so you don't have to specify the
         patterns on the command line.
     -->
+    <exclude-pattern>src/Modules/Core/Devtools/Version.php</exclude-pattern>
 </ruleset>
