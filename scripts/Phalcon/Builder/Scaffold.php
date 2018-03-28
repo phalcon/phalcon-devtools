@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -22,9 +22,10 @@ namespace Phalcon\Builder;
 
 use Phalcon\Text;
 use Phalcon\Utils;
-use Phalcon\Builder\Model as ModelBuilder;
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\Column;
+use Phalcon\Script\Color;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Builder\Model as ModelBuilder;
 
 /**
  * ScaffoldBuilderComponent
@@ -84,12 +85,8 @@ class Scaffold extends Component
      */
     public function build()
     {
-        if ($this->options->contains('directory')) {
-            $this->path->setRootPath($this->options->get('directory'));
-        }
-
         $name = $this->options->get('name');
-        $config = $this->getConfig();
+        $config = $this->options->get('config');
 
         if (empty($config->path('database.adapter'))) {
             throw new BuilderException('Adapter was not found in the config. Please specify a config variable [database][adapter].');
@@ -175,6 +172,7 @@ class Scaffold extends Component
                 'directory'         => $this->options->get('directory'),
                 'force'             => $this->options->get('force'),
                 'namespace'         => $this->options->get('modelsNamespace'),
+                'config'            => $this->options->get('config'),
             ]);
 
             $modelBuilder->build();
@@ -248,6 +246,8 @@ class Scaffold extends Component
             // View edit.phtml
             $this->makeView('edit');
         }
+
+        print Color::success('Scaffold was successfully created.');
 
         return true;
     }

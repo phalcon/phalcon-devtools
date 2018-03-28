@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -44,6 +44,7 @@ class Scaffold extends Command
         return [
             'table-name=s'      => 'Table used as base to generate the scaffold',
             'schema=s'          => 'Name of the schema [optional]',
+            'config=s'          => 'Configuration file [optional]',
             'get-set'           => 'Attributes will be protected and have setters/getters. [optional]',
             'directory=s'       => 'Base path on which project was created [optional]',
             'template-path=s'   => 'Specify a template path [optional]',
@@ -68,17 +69,19 @@ class Scaffold extends Command
         $templatePath = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $schema = $this->getOption('schema');
         $templateEngine = $this->getOption(['template-engine'], null, "phtml");
+        $path = $this->getDirectoryPath();
 
         $scaffoldBuilder = new ScaffoldBuilder([
             'name'                 => $name,
             'schema'               => $schema,
             'force'                => $this->isReceivedOption('force'),
             'genSettersGetters'    => $this->isReceivedOption('get-set'),
-            'directory'            => $this->getOption('directory'),
+            'directory'            => $path,
             'templatePath'         => $templatePath,
             'templateEngine'       => $templateEngine,
             'modelsNamespace'      => $this->getOption('ns-models'),
             'controllersNamespace' => $this->getOption('ns-controllers'),
+            'config'               => $this->getreceivedOrDefaultConfig($path),
         ]);
 
         return $scaffoldBuilder->build();
@@ -112,6 +115,25 @@ class Scaffold extends Command
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
         $this->printParameters($this->getPossibleParams());
+    }
+
+    protected function getDirectoryPath()
+    {
+        $path = $this->isReceivedOption('directory') ? $this->getOption('directory') : '';
+
+        return realpath($path) . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @param string $path
+     */
+    protected function getreceivedOrDefaultConfig($path)
+    {
+        if ($this->isReceivedOption('config')) {
+            return $this->loadConfig($path . $this->getOption('config'));
+        }
+
+        return $this->getConfig($path);
     }
 
     /**
