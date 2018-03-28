@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -21,15 +21,15 @@
 
 namespace Phalcon\Commands;
 
+use Phalcon\Config;
 use Phalcon\Script;
-use Phalcon\Script\Color;
-use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
+use Phalcon\Script\Color;
 use Phalcon\Builder\Path;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
-use Phalcon\Config;
 
 /**
  * Command Class
