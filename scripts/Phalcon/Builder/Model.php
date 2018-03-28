@@ -418,7 +418,8 @@ class Model extends Component
             $classDoc = $snippet->getClassDoc($this->modelOptions->getOption('className'), $namespace);
         }
 
-        if ($this->modelOptions->getOption('mapColumn') && false == $alreadyColumnMapped) {
+        if ($this->modelOptions->hasOption('mapColumn') && $this->modelOptions->getOption('mapColumn')
+                && false == $alreadyColumnMapped) {
             $content .= $snippet->getColumnMap($fields, $this->modelOptions->getOption('camelize'));
         }
 
