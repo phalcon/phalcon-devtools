@@ -31,22 +31,20 @@ use Phalcon\Events\Event;
  */
 class DbProfilerListener
 {
-    protected $_profiler;
+    protected $profiler;
 
     public function __construct()
     {
-        $this->_profiler = new Profiler();
+        $this->profiler = new Profiler();
     }
 
     public function beforeQuery(Event $event, $connection)
     {
-        $this->_profiler->startProfile(
-            $connection->getSQLStatement()
-        );
+        $this->profiler->startProfile($connection->getSQLStatement());
     }
 
     public function afterQuery()
     {
-        $this->_profiler->stopProfile();
+        $this->profiler->stopProfile();
     }
 }

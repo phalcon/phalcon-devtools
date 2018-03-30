@@ -69,7 +69,8 @@ class Module extends Component
         }
 
         if (!$templatePath = $this->options->get('templatePath')) {
-            $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__)
+            $templatePath =
+                str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__)
                 . 'templates' . DIRECTORY_SEPARATOR . 'module';
         }
 
@@ -283,8 +284,15 @@ class Module extends Component
         $namespace  = $this->options->get('namespace');
 
         $getFile = $this->options->get('templatePath')  . DIRECTORY_SEPARATOR . 'config.' . $type;
-        $putFile = $modulesDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.' . $type;
-        $this->generateFile($getFile, $putFile, $moduleName, $namespace);
+        $putFile = $modulesDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
+        $putFile .= 'config' . DIRECTORY_SEPARATOR . 'config.' . $type;
+
+        $this->generateFile(
+            $getFile,
+            $putFile,
+            $moduleName,
+            $namespace
+        );
 
         return $this;
     }

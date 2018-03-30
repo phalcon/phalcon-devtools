@@ -35,7 +35,7 @@ class DialectPostgresql extends Postgresql
      * @param string $schema
      * @return string
      */
-    public function describeReferences($table, $schema = NULL)
+    public function describeReferences($table, $schema = null)
     {
         $sql = "
             SELECT DISTINCT
@@ -62,9 +62,9 @@ class DialectPostgresql extends Postgresql
 
         if ($schema) {
             $sql .= "tc.table_schema = '" . $schema . "' AND tc.table_name='" . $table . "'";
-		} else {
+        } else {
             $sql .= "tc.table_schema = 'public' AND tc.table_name='" . $table . "'";
-		}
+        }
 
         return $sql;
     }

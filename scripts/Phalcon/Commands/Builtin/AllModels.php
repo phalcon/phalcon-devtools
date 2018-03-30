@@ -96,7 +96,6 @@ class AllModels extends Command
                     $config = new Config($config);
                 }
             }
-
         } else {
             $config = $this->path->getConfig();
         }

@@ -42,7 +42,9 @@ class DialectMysql extends Mysql
         if ($reference->getName()) {
             $sql .= ' CONSTRAINT `' . $reference->getName() . '`';
         }
-        $sql .= ' FOREIGN KEY (' . $this->getColumnList($reference->getColumns()) . ') REFERENCES ' . $this->prepareTable($reference->getReferencedTable(), $reference->getReferencedSchema()) . '(' . $this->getColumnList($reference->getReferencedColumns()) . ')';
+        $sql .= ' FOREIGN KEY (' . $this->getColumnList($reference->getColumns()) . ') REFERENCES ' .
+            $this->prepareTable($reference->getReferencedTable(), $reference->getReferencedSchema()) . '(' .
+            $this->getColumnList($reference->getReferencedColumns()) . ')';
 
         $onDelete = $reference->getOnDelete();
         if ($onDelete) {

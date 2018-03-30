@@ -43,12 +43,12 @@ class ErrorHandler extends Injectable
                 ini_set('display_errors', 1);
                 ini_set('display_startup_errors', 1);
                 error_reporting(-1);
-            break;
+                break;
             default:
                 ini_set('display_errors', 0);
                 ini_set('display_startup_errors', 0);
                 error_reporting(0);
-            break;
+                break;
         }
 
         if (PHP_SAPI == 'cli') {
@@ -130,7 +130,7 @@ class ErrorHandler extends Injectable
             case E_DEPRECATED:
             case E_USER_DEPRECATED:
             case E_ALL:
-            break;
+                break;
             default:
                 if ($di->has('view')) {
                     // @todo
