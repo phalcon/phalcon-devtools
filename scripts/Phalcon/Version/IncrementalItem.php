@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -36,17 +36,17 @@ class IncrementalItem implements ItemInterface
     /**
      * @var string
      */
-    private $_version;
+    private $version;
 
     /**
      * @var int | string
      */
-    private $_versionStamp = 0;
+    private $versionStamp = 0;
 
     /**
      * @var array
      */
-    private $_parts = [];
+    private $parts = [];
 
     /**
      * @param string $version
@@ -55,25 +55,25 @@ class IncrementalItem implements ItemInterface
     public function __construct($version, $numberParts = 3)
     {
         $version = trim($version);
-        $this->_parts = explode('.', $version);
-        $nParts = count($this->_parts);
+        $this->parts = explode('.', $version);
+        $nParts = count($this->parts);
 
         if ($nParts < $numberParts) {
             for ($i = $numberParts; $i >= $nParts; $i--) {
-                $this->_parts[] = '0';
+                $this->parts[] = '0';
                 $version.='.0';
             }
         } elseif ($nParts > $numberParts) {
             for ($i = $nParts; $i <= $numberParts; $i++) {
-                if (isset($this->_parts[$i-1])) {
-                    unset($this->_parts[$i-1]);
+                if (isset($this->parts[$i-1])) {
+                    unset($this->parts[$i-1]);
                 }
             }
 
-            $version = join('.', $this->_parts);
+            $version = join('.', $this->parts);
         }
 
-        $this->_version = $version;
+        $this->version = $version;
 
         $this->regenerateVersionStamp();
     }
@@ -160,7 +160,8 @@ class IncrementalItem implements ItemInterface
 
         foreach ($versions as $version) {
             /** @var ItemInterface $version */
-            if (($version->getStamp() >= $initialVersion->getStamp()) && ($version->getStamp() <= $finalVersion->getStamp())) {
+            if (($version->getStamp() >= $initialVersion->getStamp())
+                && ($version->getStamp() <= $finalVersion->getStamp())) {
                 $betweenVersions[] = $version;
             }
         }
@@ -173,7 +174,7 @@ class IncrementalItem implements ItemInterface
      */
     public function getStamp()
     {
-        return $this->_versionStamp;
+        return $this->versionStamp;
     }
 
     /**
@@ -183,7 +184,7 @@ class IncrementalItem implements ItemInterface
      */
     public function addMinor($number)
     {
-        $parts = array_reverse($this->_parts);
+        $parts = array_reverse($this->parts);
         if (isset($parts[0])) {
             if (is_numeric($parts[0])) {
                 $parts[0] += $number;
@@ -197,7 +198,7 @@ class IncrementalItem implements ItemInterface
         $this->setParts($parts)
             ->regenerateVersionStamp();
 
-        $this->_version = join('.', $parts);
+        $this->version = join('.', $parts);
 
         return $this;
     }
@@ -207,12 +208,12 @@ class IncrementalItem implements ItemInterface
      */
     public function __toString()
     {
-        return $this->_version;
+        return $this->version;
     }
 
     public function getVersion()
     {
-        return $this->_version;
+        return $this->version;
     }
 
     protected function regenerateVersionStamp()
@@ -220,7 +221,7 @@ class IncrementalItem implements ItemInterface
         $n = 2;
         $versionStamp = 0;
 
-        foreach ($this->_parts as $part) {
+        foreach ($this->parts as $part) {
             if (is_numeric($part)) {
                 $versionStamp += $part * pow(10, $n);
             } else {
@@ -230,14 +231,14 @@ class IncrementalItem implements ItemInterface
             $n -= 1;
         }
 
-        $this->_versionStamp = $versionStamp;
+        $this->versionStamp = $versionStamp;
 
         return $this;
     }
 
     protected function setParts(array $parts)
     {
-        $this->_parts = array_map(function ($v) {
+        $this->parts = array_map(function ($v) {
             return strval($v);
         }, $parts);
 

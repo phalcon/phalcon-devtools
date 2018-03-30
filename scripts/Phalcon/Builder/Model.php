@@ -21,21 +21,20 @@
 
 namespace Phalcon\Builder;
 
+use Phalcon\Text;
 use Phalcon\Utils;
 use ReflectionClass;
 use Phalcon\Db\Column;
 use Phalcon\Validation;
+use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Generator\Snippet;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Validation\Validator\Email as EmailValidator;
-use Phalcon\Text;
-use Phalcon\Db\Adapter\Pdo;
-use Phalcon\Options\OptionsAware as ModelOption;
-use Phalcon\Exception\InvalidArgumentException;
-use Phalcon\Exception\WriteFileException;
-use Phalcon\Exception\InvalidParameterException;
 use Phalcon\Exception\RuntimeException;
-
+use Phalcon\Exception\WriteFileException;
+use Phalcon\Exception\InvalidArgumentException;
+use Phalcon\Options\OptionsAware as ModelOption;
+use Phalcon\Exception\InvalidParameterException;
+use Phalcon\Validation\Validator\Email as EmailValidator;
 
 /**
  * ModelBuilderComponent
@@ -50,7 +49,7 @@ class Model extends Component
      * Map of scalar data objects
      * @var array
      */
-    private $_typeMap = [
+    private $typeMap = [
         //'Date' => 'Date',
         //'Decimal' => 'Decimal'
     ];
@@ -77,8 +76,10 @@ class Model extends Component
 
         $this->modelOptions->setNotDefinedOption('camelize', false);
         $this->modelOptions->setNotDefinedOption('force', false);
-        $this->modelOptions->setNotDefinedOption('className',
-            Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
+        $this->modelOptions->setNotDefinedOption(
+            'className',
+            Utils::lowerCamelizeWithDelimiter($options['name'], '_-')
+        );
         $this->modelOptions->setNotDefinedOption('fileName', Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
         $this->modelOptions->setNotDefinedOption('abstract', false);
         $this->modelOptions->setNotDefinedOption('annotate', false);
@@ -120,7 +121,8 @@ class Model extends Component
         }
 
         $namespace = '';
-        if ($this->modelOptions->hasOption('namespace') && $this->checkNamespace($this->modelOptions->getOption('namespace'))) {
+        if ($this->modelOptions->hasOption('namespace') &&
+            $this->checkNamespace($this->modelOptions->getOption('namespace'))) {
             $namespace = 'namespace ' . $this->modelOptions->getOption('namespace') . ';' . PHP_EOL . PHP_EOL;
         }
 
@@ -295,7 +297,8 @@ class Model extends Component
                 }
             } catch (\Exception $e) {
                 throw new RuntimeException(
-                    sprintf('Failed to create the model "%s". Error: %s',
+                    sprintf(
+                        'Failed to create the model "%s". Error: %s',
                         $this->modelOptions->getOption('className'),
                         $e->getMessage()
                     )
@@ -360,14 +363,20 @@ class Model extends Component
             $type = $this->getPHPType($field->getType());
             $fieldName = Utils::lowerCamelizeWithDelimiter($field->getName(), '-', true);
             $fieldName = $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($fieldName) : $fieldName;
-            $attributes[] = $snippet->getAttributes($type, $useSettersGetters ? 'protected' : 'public', $field, $this->modelOptions->getOption( 'annotate' ), $fieldName);
+            $attributes[] = $snippet->getAttributes(
+                $type,
+                $useSettersGetters ? 'protected' : 'public',
+                $field,
+                $this->modelOptions->getOption('annotate'),
+                $fieldName
+            );
 
             if ($useSettersGetters) {
                 $methodName = Utils::camelize($field->getName(), '_-');
                 $setters[] = $snippet->getSetter($field->getName(), $fieldName, $type, $methodName);
 
-                if (isset($this->_typeMap[$type])) {
-                    $getters[] = $snippet->getGetterMap($fieldName, $type, $methodName, $this->_typeMap[$type]);
+                if (isset($this->typeMap[$type])) {
+                    $getters[] = $snippet->getGetterMap($fieldName, $type, $methodName, $this->typeMap[$type]);
                 } else {
                     $getters[] = $snippet->getGetter($fieldName, $type, $methodName);
                 }
@@ -434,7 +443,16 @@ class Model extends Component
 
         $abstract = ($this->modelOptions->getOption('abstract') ? 'abstract ' : '');
 
-        $code = $snippet->getClass($namespace, $useDefinition, $classDoc, $abstract, $this->modelOptions, $extends, $content, $license);
+        $code = $snippet->getClass(
+            $namespace,
+            $useDefinition,
+            $classDoc,
+            $abstract,
+            $this->modelOptions,
+            $extends,
+            $content,
+            $license
+        );
 
         if (file_exists($modelPath) && !is_writable($modelPath)) {
             throw new WriteFileException(sprintf('Unable to write to %s. Check write-access of a file.', $modelPath));
@@ -445,7 +463,8 @@ class Model extends Component
         }
 
         if ($this->isConsole()) {
-            $msgSuccess = ($this->modelOptions->getOption('abstract') ? 'Abstract ' : '') . 'Model "%s" was successfully created.';
+            $msgSuccess = ($this->modelOptions->getOption('abstract') ? 'Abstract ' : '');
+            $msgSuccess .= 'Model "%s" was successfully created.';
             $this->notifySuccess(sprintf($msgSuccess, Text::camelize($this->modelOptions->getOption('name'), '_-')));
         }
     }
@@ -515,7 +534,7 @@ class Model extends Component
 
         $referenceList = [];
         foreach ($db->listTables($schema) as $name) {
-            $referenceList[$name] = $db->describeReferences($name, $schema);;
+            $referenceList[$name] = $db->describeReferences($name, $schema);
         }
 
         return $referenceList;
@@ -529,7 +548,10 @@ class Model extends Component
     protected function setModelsDir()
     {
         if ($this->modelOptions->hasOption('modelsDir')) {
-            $this->modelOptions->setOption('modelsDir', rtrim($this->modelOptions->getOption('modelsDir'), '/\\') . DIRECTORY_SEPARATOR);
+            $this->modelOptions->setOption(
+                'modelsDir',
+                rtrim($this->modelOptions->getOption('modelsDir'), '/\\') . DIRECTORY_SEPARATOR
+            );
             return;
         }
 

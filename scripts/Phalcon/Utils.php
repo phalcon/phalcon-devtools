@@ -50,12 +50,11 @@ class Utils
         }
 
         return $string;
-
     }
 
     /**
      * Convert string foo_bar to FooBar or fooBar
-     * 
+     *
      * <code>
      * echo Phalcon\Utils::lowerCamelizeWithDelimiter('coco_bongo'); // coco_bongo
      * echo Phalcon\Utils::lowerCamelizeWithDelimiter('coco_bongo', '_'); // CocoBongo
@@ -72,7 +71,7 @@ class Utils
         if (empty($string)) {
             throw new \InvalidArgumentException('Please, specify the string');
         }
-        
+
         if (!empty($delimiter)) {
             $delimiterArray = str_split($delimiter);
 
@@ -83,11 +82,11 @@ class Utils
                 $string = implode('', $stringParts);
             }
         }
-        
+
         if ($useLow) {
             $string = lcfirst($string);
         }
-        
+
         return $string;
     }
 

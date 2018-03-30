@@ -113,7 +113,8 @@ class Project extends Command
         print Color::colorize('  Creates a project') . PHP_EOL . PHP_EOL;
 
         print Color::head('Usage:') . PHP_EOL;
-        print Color::colorize('  project [name] [type] [directory] [enable-webtools]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::colorize('  project [name] [type] [directory] [enable-webtools]', Color::FG_GREEN)
+            . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
         print Color::colorize('  help', Color::FG_GREEN);

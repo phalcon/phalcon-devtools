@@ -60,6 +60,7 @@ before_script:
   - '[[ "$PHP_MAJOR" == "5" ]] || composer require --dev phpstan/phpstan'
 
 script:
+  - vendor/bin/phpcs
   - vendor/bin/codecept build
   - vendor/bin/codecept run unit -v
   - vendor/bin/codecept run functional -v
