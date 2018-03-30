@@ -19,7 +19,7 @@
 
 namespace Phalcon\Commands;
 
-interface iSelfHealingException
+interface ISelfHealingException
 {
     public function promptResolution();
     public function resolve();

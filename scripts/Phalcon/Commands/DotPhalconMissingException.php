@@ -29,12 +29,12 @@ use Phalcon\Script\Color;
  *  In the CWD
  * @package Phalcon\Commands
  */
-class DotPhalconMissingException extends CommandsException implements iSelfHealingException
+class DotPhalconMissingException extends CommandsException implements ISelfHealingException
 {
     const DEFAULT_MESSAGE = "This command must be run inside a Phalcon project with a .phalcon directory.";
     const RESOLUTION_PROMPT = "Shall I create the .phalcon directory now? (y/n)";
 
-    public function __construct ($message = self::DEFAULT_MESSAGE , $code = 0)
+    public function __construct($message = self::DEFAULT_MESSAGE, $code = 0)
     {
         $this->message = $message;
         $this->code = $code;
@@ -47,11 +47,12 @@ class DotPhalconMissingException extends CommandsException implements iSelfHeali
         return "One was not found at " . getcwd();
     }
 
-    public function promptResolution() {
+    public function promptResolution()
+    {
         fwrite(STDOUT, Color::info(self::RESOLUTION_PROMPT));
-        $handle = fopen ("php://stdin","r");
+        $handle = fopen("php://stdin", "r");
         $line = fgets($handle);
-        if(trim(mb_strtolower($line)) != 'y'){
+        if (trim(mb_strtolower($line)) != 'y') {
             echo "ABORTING!\n";
             return false;
         }
@@ -62,7 +63,8 @@ class DotPhalconMissingException extends CommandsException implements iSelfHeali
         return true;
     }
 
-    public function resolve() {
+    public function resolve()
+    {
         return mkdir(getcwd() . "/.phalcon");
     }
 }

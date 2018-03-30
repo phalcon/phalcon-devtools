@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -25,7 +25,7 @@ class Nullify
     {
         $vals = array_map(
             function ($value) {
-                if (function_exists('mb_strtolower')){
+                if (function_exists('mb_strtolower')) {
                     return mb_strtolower($value);
                 }
             },
@@ -33,7 +33,7 @@ class Nullify
         );
 
         foreach ($vals as $key => $value) {
-            if ($value == 'null'){
+            if ($value == 'null') {
                 $values[$key] = null;
             }
         }

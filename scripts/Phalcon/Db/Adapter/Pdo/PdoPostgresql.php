@@ -39,11 +39,11 @@ class PdoPostgresql extends Postgresql
      * @return ReferenceInterface[]
      *
      */
-    public function describeReferences($table, $schema = NULL)
+    public function describeReferences($table, $schema = null)
     {
-		$references = [];
+        $references = [];
 
-        foreach ($this->fetchAll($this->_dialect->describeReferences($table, $schema),Db::FETCH_NUM) as $reference) {
+        foreach ($this->fetchAll($this->_dialect->describeReferences($table, $schema), Db::FETCH_NUM) as $reference) {
             $constraintName = $reference[2];
             if (!isset($references[$constraintName])) {
                 $referencedSchema  = $reference[3];
@@ -73,20 +73,20 @@ class PdoPostgresql extends Postgresql
                 "onDelete"          => $referenceDelete
             ];
         }
-        
+
         $referenceObjects = [];
 
         foreach ($references as $name => $arrayReference) {
             $referenceObjects[$name] = new Reference($name, [
                 "referencedSchema"  => $arrayReference["referencedSchema"],
-				"referencedTable"   => $arrayReference["referencedTable"],
-				"columns"           => $arrayReference["columns"],
-				"referencedColumns" => $arrayReference["referencedColumns"],
-				"onUpdate"          => $arrayReference["onUpdate"],
-				"onDelete"          => $arrayReference["onDelete"]
-			]);
+                "referencedTable"   => $arrayReference["referencedTable"],
+                "columns"           => $arrayReference["columns"],
+                "referencedColumns" => $arrayReference["referencedColumns"],
+                "onUpdate"          => $arrayReference["onUpdate"],
+                "onDelete"          => $arrayReference["onDelete"]
+            ]);
         }
 
-		return $referenceObjects;
+        return $referenceObjects;
     }
 }

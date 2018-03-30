@@ -30,7 +30,6 @@ use Phalcon\Assets\Filters\Cssmin;
  * \WebTools\Controllers\ErrorController
  *
  * @property \Phalcon\Tag $tag
- * 
  * @package WebTools\Controllers
  */
 class ErrorController extends Base

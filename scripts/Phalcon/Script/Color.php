@@ -68,7 +68,7 @@ final class Color
     /**
      * @var array Map of supported foreground colors
      */
-    private static $_fg = array(
+    private static $fg = array(
         self::FG_BLACK        => '0;30',
         self::FG_DARK_GRAY    => '1;30',
         self::FG_RED          => '0;31',
@@ -90,7 +90,7 @@ final class Color
     /**
      * @var array Map of supported background colors
      */
-    private static $_bg = array(
+    private static $bg = array(
         self::BG_BLACK      => '40',
         self::BG_RED        => '41',
         self::BG_GREEN      => '42',
@@ -104,7 +104,7 @@ final class Color
     /**
      * @var array Map of supported attributes
      */
-    private static $_at = array(
+    private static $at = array(
         self::AT_NORMAL    => '0',
         self::AT_BOLD      => '1',
         self::AT_ITALIC    => '3',
@@ -151,18 +151,18 @@ final class Color
         $colored = '';
 
         // Check if given foreground color is supported
-        if (isset(static::$_fg[$fg])) {
-            $colored .= "\033[" . static::$_fg[$fg] . "m";
+        if (isset(static::$fg[$fg])) {
+            $colored .= "\033[" . static::$fg[$fg] . "m";
         }
 
         // Check if given background color is supported
-        if (isset(static::$_bg[$bg])) {
-            $colored .= "\033[" . static::$_bg[$bg] . "m";
+        if (isset(static::$bg[$bg])) {
+            $colored .= "\033[" . static::$bg[$bg] . "m";
         }
 
         // Check if given attribute is supported
-        if (isset(static::$_at[$at])) {
-            $colored .= "\033[" . static::$_at[$at] . "m";
+        if (isset(static::$at[$at])) {
+            $colored .= "\033[" . static::$at[$at] . "m";
         }
 
         // Add string and end coloring

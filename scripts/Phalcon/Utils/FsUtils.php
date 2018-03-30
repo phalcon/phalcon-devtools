@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -126,7 +126,7 @@ class FsUtils
         $this->createRecursiveDirectory($root);
         $iterator = new ArrayIterator($dir);
         $cb = function (Iterator $iterator, $basePath) {
-            while($iterator->valid()) {
+            while ($iterator->valid()) {
                 $desiredPath = $basePath . DS . $iterator->key() . DS;
                 if (!file_exists($desiredPath)) {
                     $this->createRecursiveDirectory(new SplFileInfo($desiredPath));
@@ -182,7 +182,7 @@ class FsUtils
     {
         $iterator = new ArrayIterator($files);
         $cb = function (Iterator $iterator, $basePath) {
-            while($iterator->valid()) {
+            while ($iterator->valid()) {
                 $desiredPath = $basePath . DS . $iterator->current();
                 if (file_exists($desiredPath)) {
                     unlink($desiredPath);

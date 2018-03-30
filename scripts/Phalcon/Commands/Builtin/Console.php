@@ -57,7 +57,7 @@ class Console extends Command
     {
         $config = new Configuration;
         $shell = new Shell($config);
-        
+
         if ($this->isReceivedOption('include')) {
             $shell->setIncludes([substr($this->getOption('include'), 2)]);
         }
