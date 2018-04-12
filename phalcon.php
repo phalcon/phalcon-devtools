@@ -36,6 +36,7 @@ use Phalcon\Commands\Builtin\Enumerate;
 use Phalcon\Commands\Builtin\Controller;
 use Phalcon\Commands\Builtin\Serve;
 use Phalcon\Commands\Builtin\Console;
+use Phalcon\Commands\Builtin\Xiapi;
 use Phalcon\Exception as PhalconException;
 use Phalcon\Commands\DotPhalconMissingException;
 use Phalcon\Events\Manager as EventsManager;
@@ -65,6 +66,7 @@ try {
         Webtools::class,
         Serve::class,
         Console::class,
+        Xiapi::class,
     ];
 
     $script->loadUserScripts();

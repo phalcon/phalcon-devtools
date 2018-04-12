@@ -1,0 +1,14 @@
+{
+  "require-dev": {
+    "phalcon/ide-stubs": "^3.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phalcon\\": "vendor/phalcon/ide-stubs/src/Phalcon",
+      "Xiapi\\": "../xiapi/src/Xiapi",
+      "Api\\": "app/controller",
+      "Model\\": "app/model"
+    },
+    "files": ["../xiapi/src/Function.php"]
+  }
+}

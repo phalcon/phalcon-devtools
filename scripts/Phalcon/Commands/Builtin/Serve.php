@@ -39,8 +39,8 @@ class Serve extends Command
 {
     const DEFAULT_HOSTNAME      = '0.0.0.0';
     const DEFAULT_PORT          = '8000';
-    const DEFAULT_BASE_PATH     = '.htrouter.php';
-    const DEFAULT_DOCUMENT_ROOT = 'public';
+    const DEFAULT_BASE_PATH     = 'index.php';
+    const DEFAULT_DOCUMENT_ROOT = './public';
 
     protected $_hostname =      '';
     protected $_port =          '';
