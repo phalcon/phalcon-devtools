@@ -1,0 +1,24 @@
+http://{{host}}
+
+### 首页
+
+http://{{host}}/v1/test/demo?type=object
+
+### 测试 返回不同类型 type= string , array , object
+
+POST http://{{host}}/v1/test/demo
+
+http://{{host}}/v1/test/validateParams?type=number&name=-79
+
+### 测试参数校验 type= alnum, alpha, bewteen, date, digit, email, equal, in, md5, number, out, strlen
+
+http://{{host}}/v1/test/db
+
+###
+
+POST http://{{host}}/v1/test/db
+Content-Type: Application/x-www-form-urlencoded
+
+name=龙女&age=22&sex=1
+
+###

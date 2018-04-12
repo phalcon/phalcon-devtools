@@ -1,0 +1,3 @@
+middleware:
+  finish:
+    - Xiapi\Middleware\JsonResponseMiddleware
