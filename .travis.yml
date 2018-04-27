@@ -53,11 +53,11 @@ install:
   - if [ -f $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so ]; then cp $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so $PHP_EXTENSION_DIR/phalcon.so; fi;
   - phpenv config-add $HOME/cphalcon/$PHALCON_VERSION/tests/_ci/phalcon.ini
   - cd $TRAVIS_BUILD_DIR
+  - if [ "$PHP_MAJOR" == "7" ]; then composer require --dev phpstan/phpstan; fi;
   - travis_retry composer install --prefer-dist --no-interaction
 
 before_script:
   - ln -s $PWD/phalcon.php ~/bin/phalcon
-  - '[[ "$PHP_MAJOR" == "5" ]] || composer require --dev phpstan/phpstan'
 
 script:
   - vendor/bin/phpcs

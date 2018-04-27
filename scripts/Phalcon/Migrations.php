@@ -451,6 +451,7 @@ class Migrations
                             [
                                 'type' => Column::TYPE_TIMESTAMP,
                                 'notNull' => true,
+                                'default' => 'CURRENT_TIMESTAMP',
                             ]
                         )
                     ],
