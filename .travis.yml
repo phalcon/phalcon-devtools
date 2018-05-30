@@ -6,7 +6,6 @@ dist: trusty
 php:
   - 5.5
   - 5.6
-  - 7.1
 
 services:
   - postgresql
@@ -14,6 +13,10 @@ services:
 matrix:
   include:
     - php: 7.0
+      env: ZEND_BACKEND="--backend=ZendEngine3"
+    - php: 7.1
+      env: ZEND_BACKEND="--backend=ZendEngine3"
+    - php: 7.2
       env: ZEND_BACKEND="--backend=ZendEngine3"
 
 git:
@@ -35,7 +38,7 @@ env:
   global:
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
-    - PHALCON_VERSION="v3.3.2"
+    - PHALCON_VERSION="v3.4.0"
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
