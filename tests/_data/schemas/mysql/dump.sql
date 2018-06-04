@@ -90,3 +90,16 @@ CREATE TABLE `Testmodel4` (
     `name` varchar(45) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structures for testing generating scaffold
+--
+DROP TABLE IF EXISTS `genScaffold`;
+CREATE TABLE genScaffold(
+  id integer auto_increment,
+  firstname Varchar(30),
+  surname Varchar(30),
+  membertype Varchar(6),
+  dateofbirth date,
+  PRIMARY KEY(id)
+);

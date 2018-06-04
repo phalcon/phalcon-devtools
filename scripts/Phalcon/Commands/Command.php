@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -21,15 +21,15 @@
 
 namespace Phalcon\Commands;
 
+use Phalcon\Config;
 use Phalcon\Script;
-use Phalcon\Script\Color;
-use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
+use Phalcon\Script\Color;
 use Phalcon\Builder\Path;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
-use Phalcon\Config;
 
 /**
  * Command Class
@@ -44,31 +44,31 @@ abstract class Command implements CommandsInterface
      * Script
      * @var \Phalcon\Script
      */
-    protected $_script;
+    protected $script;
 
     /**
      * Events Manager
      * @var \Phalcon\Events\Manager
      */
-    protected $_eventsManager;
+    protected $eventsManager;
 
     /**
      * Output encoding of the script.
      * @var string
      */
-    protected $_encoding = 'UTF-8';
+    protected $encoding = 'UTF-8';
 
     /**
      * Parameters received by the script.
      * @var array
      */
-    protected $_parameters = [];
+    protected $parameters = [];
 
     /**
      * Possible prepared arguments.
      * @var array
      */
-    protected $_preparedArguments = [];
+    protected $preparedArguments = [];
 
     protected $path;
 
@@ -80,8 +80,8 @@ abstract class Command implements CommandsInterface
      */
     final public function __construct(Script $script, EventsManager $eventsManager)
     {
-        $this->_script = $script;
-        $this->_eventsManager = $eventsManager;
+        $this->script = $script;
+        $this->eventsManager = $eventsManager;
         $this->path = new Path();
     }
 
@@ -92,7 +92,7 @@ abstract class Command implements CommandsInterface
      */
     public function setEventsManager(EventsManager $eventsManager)
     {
-        $this->_eventsManager = $eventsManager;
+        $this->eventsManager = $eventsManager;
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class Command implements CommandsInterface
      */
     public function getEventsManager()
     {
-        return $this->_eventsManager;
+        return $this->eventsManager;
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class Command implements CommandsInterface
      */
     public function setScript(Script $script)
     {
-        $this->_script = $script;
+        $this->script = $script;
     }
 
     /**
@@ -122,7 +122,7 @@ abstract class Command implements CommandsInterface
      */
     public function getScript()
     {
-        return $this->_script;
+        return $this->script;
     }
 
     /**
@@ -225,7 +225,7 @@ abstract class Command implements CommandsInterface
                 if (!in_array($parameterParts[1], ['s', 'i', 'l'])) {
                     throw new CommandsException("Incorrect data type on parameter '$parameter'");
                 }
-                $this->_preparedArguments[$parameterParts[0]] = true;
+                $this->preparedArguments[$parameterParts[0]] = true;
                 $arguments[$parameterParts[0]] = [
                     'have-option' => true,
                     'option-required' => true,
@@ -236,7 +236,7 @@ abstract class Command implements CommandsInterface
                     throw new CommandsException("Invalid parameter '$parameter'");
                 }
 
-                $this->_preparedArguments[$parameter] = true;
+                $this->preparedArguments[$parameter] = true;
                 $arguments[$parameter] = [
                     'have-option'     => false,
                     'option-required' => false
@@ -262,7 +262,7 @@ abstract class Command implements CommandsInterface
                     $paramName = $matches[2];
                 }
 
-                if (!isset($this->_preparedArguments[$paramName])) {
+                if (!isset($this->preparedArguments[$paramName])) {
                     if (!isset($possibleAlias[$paramName])) {
                         throw new CommandsException("Unknown parameter '$paramName'");
                     }
@@ -314,7 +314,7 @@ abstract class Command implements CommandsInterface
             }
         }
 
-        $this->_parameters = $receivedParams;
+        $this->parameters = $receivedParams;
 
         return $receivedParams;
     }
@@ -329,7 +329,7 @@ abstract class Command implements CommandsInterface
     public function checkRequired($required)
     {
         foreach ($required as $fieldRequired) {
-            if (!isset($this->_parameters[$fieldRequired])) {
+            if (!isset($this->parameters[$fieldRequired])) {
                 throw new CommandsException("The parameter '$fieldRequired' is required for this script");
             }
         }
@@ -343,7 +343,7 @@ abstract class Command implements CommandsInterface
      */
     public function setEncoding($encoding)
     {
-        $this->_encoding = $encoding;
+        $this->encoding = $encoding;
 
         return $this;
     }
@@ -357,7 +357,7 @@ abstract class Command implements CommandsInterface
     {
         echo get_class($this).' - Usage:'.PHP_EOL.PHP_EOL;
         foreach ($possibleParameters as $parameter => $description) {
-            echo html_entity_decode($description, ENT_COMPAT, $this->_encoding).PHP_EOL;
+            echo html_entity_decode($description, ENT_COMPAT, $this->encoding).PHP_EOL;
         }
     }
 
@@ -371,12 +371,12 @@ abstract class Command implements CommandsInterface
     public function getOptions($filters = null)
     {
         if (!$filters) {
-            return $this->_parameters;
+            return $this->parameters;
         }
 
         $result = [];
 
-        foreach ($this->_parameters as $param) {
+        foreach ($this->parameters as $param) {
             $result[] = $this->filter($param, $filters);
         }
 
@@ -396,24 +396,24 @@ abstract class Command implements CommandsInterface
     {
         if (is_array($option)) {
             foreach ($option as $optionItem) {
-                if (isset($this->_parameters[$optionItem])) {
+                if (isset($this->parameters[$optionItem])) {
                     if ($filters !== null) {
-                        return $this->filter($this->_parameters[$optionItem], $filters);
+                        return $this->filter($this->parameters[$optionItem], $filters);
                     }
 
-                    return $this->_parameters[$optionItem];
+                    return $this->parameters[$optionItem];
                 }
             }
 
             return $defaultValue;
         }
 
-        if (isset($this->_parameters[$option])) {
+        if (isset($this->parameters[$option])) {
             if ($filters !== null) {
-                return $this->filter($this->_parameters[$option], $filters);
+                return $this->filter($this->parameters[$option], $filters);
             }
 
-            return $this->_parameters[$option];
+            return $this->parameters[$option];
         }
 
         return $defaultValue;
@@ -432,7 +432,7 @@ abstract class Command implements CommandsInterface
         }
 
         foreach ($option as $op) {
-            if (isset($this->_parameters[$op])) {
+            if (isset($this->parameters[$op])) {
                 return true;
             }
         }
@@ -462,7 +462,7 @@ abstract class Command implements CommandsInterface
      */
     public function getLastUnNamedParam()
     {
-        foreach (array_reverse($this->_parameters) as $key => $value) {
+        foreach (array_reverse($this->parameters) as $key => $value) {
             if (is_numeric($key)) {
                 return $value;
             }
@@ -480,7 +480,7 @@ abstract class Command implements CommandsInterface
      */
     public function isSetUnNamedParam($number)
     {
-        return isset($this->_parameters[$number]);
+        return isset($this->parameters[$number]);
     }
 
     /**
@@ -514,7 +514,7 @@ abstract class Command implements CommandsInterface
      */
     public function getParameters()
     {
-        return $this->_parameters;
+        return $this->parameters;
     }
 
     /**

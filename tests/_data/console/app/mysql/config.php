@@ -17,5 +17,10 @@ return new Config([
         'date'     => 'D j H:i:s',
         'logLevel' => Logger::DEBUG,
         'filename' => 'tests.log',
-    ]
+    ],
+    'application' => [
+        'controllersDir' => app_path() . '/controllers/',
+        'modelsDir'      => app_path() . '/models/',
+        'viewsDir'       => app_path() . '/views/',
+    ],
 ]);

@@ -42,11 +42,11 @@ class Serve extends Command
     const DEFAULT_BASE_PATH     = '.htrouter.php';
     const DEFAULT_DOCUMENT_ROOT = 'public';
 
-    protected $_hostname =      '';
-    protected $_port =          '';
-    protected $_base_path =     '';
-    protected $_document_root = '';
-    protected $_config =        '';
+    protected $hostname =      '';
+    protected $port =          '';
+    protected $base_path =     '';
+    protected $document_root = '';
+    protected $config =        '';
 
     /**
      * {@inheritdoc}
@@ -89,11 +89,11 @@ class Serve extends Command
      */
     public function prepareOptions()
     {
-        $this->_hostname      = $this->getOption(['hostname', 1], null, self::DEFAULT_HOSTNAME);
-        $this->_port          = $this->getOption(['port',     2], null, self::DEFAULT_PORT);
-        $this->_base_path     = $this->getOption(['basepath', 3], null, self::DEFAULT_BASE_PATH);
-        $this->_document_root = $this->getOption(['rootpath', 4], null, self::DEFAULT_DOCUMENT_ROOT);
-        $this->_config        = $this->customConfig($this->getOption(['config']));
+        $this->hostname      = $this->getOption(['hostname', 1], null, self::DEFAULT_HOSTNAME);
+        $this->port          = $this->getOption(['port',     2], null, self::DEFAULT_PORT);
+        $this->base_path     = $this->getOption(['basepath', 3], null, self::DEFAULT_BASE_PATH);
+        $this->document_root = $this->getOption(['rootpath', 4], null, self::DEFAULT_DOCUMENT_ROOT);
+        $this->config        = $this->customConfig($this->getOption(['config']));
     }
 
     /**
@@ -104,12 +104,12 @@ class Serve extends Command
     public function printServerDetails()
     {
         print Color::head('Preparing Development Server') . PHP_EOL;
-        print Color::colorize("  Host: $this->_hostname", Color::FG_GREEN) . PHP_EOL;
-        print Color::colorize("  Port: $this->_port", Color::FG_GREEN) . PHP_EOL;
-        print Color::colorize("  Base: $this->_base_path", Color::FG_GREEN) . PHP_EOL;
-        print Color::colorize("  Document Root: $this->_document_root", Color::FG_GREEN) . PHP_EOL;
-        if($this->_config != null) {
-            print Color::colorize("   ini: $$this->_config", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Host: $this->hostname", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Port: $this->port", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Base: $this->base_path", Color::FG_GREEN) . PHP_EOL;
+        print Color::colorize("  Document Root: $this->document_root", Color::FG_GREEN) . PHP_EOL;
+        if ($this->config != null) {
+            print Color::colorize("   ini: $$this->config", Color::FG_GREEN) . PHP_EOL;
         }
     }
 
@@ -126,13 +126,14 @@ class Serve extends Command
         $this->prepareOptions();
         $this->printServerDetails();
 
-        return sprintf('%s -S %s:%s -t %s %s %s',
+        return sprintf(
+            '%s -S %s:%s -t %s %s %s',
             $binary_path,
-            $this->_hostname,
-            $this->_port,
-            $this->_document_root,
-            $this->_base_path,
-            $this->_config
+            $this->hostname,
+            $this->port,
+            $this->document_root,
+            $this->base_path,
+            $this->config
         );
     }
 
@@ -142,7 +143,8 @@ class Serve extends Command
      * @param  mixed $config
      * @return string
      */
-    protected function customConfig($config){
+    protected function customConfig($config)
+    {
         if ($config === null) {
             return '';
         } else {
@@ -200,7 +202,7 @@ class Serve extends Command
      */
     public function getHostname()
     {
-        return $this->_hostname;
+        return $this->hostname;
     }
 
     /**
@@ -210,7 +212,7 @@ class Serve extends Command
      */
     public function getPort()
     {
-        return $this->_port;
+        return $this->port;
     }
 
     /**
@@ -220,7 +222,7 @@ class Serve extends Command
      */
     public function getBasePath()
     {
-        return $this->_base_path;
+        return $this->base_path;
     }
 
     /**
@@ -230,7 +232,7 @@ class Serve extends Command
      */
     public function getDocumentRoot()
     {
-        return $this->_document_root;
+        return $this->document_root;
     }
 
     /**
@@ -240,6 +242,6 @@ class Serve extends Command
      */
     public function getConfigPath()
     {
-        return $this->_config;
+        return $this->config;
     }
 }

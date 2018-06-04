@@ -27,7 +27,6 @@ use Phalcon\Mvc\Controller\Base;
  * \WebTools\Controllers\IndexController
  *
  * @property \Phalcon\Tag $tag
- * 
  * @package WebTools\Controllers
  */
 class IndexController extends Base
