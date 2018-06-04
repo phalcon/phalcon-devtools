@@ -25,7 +25,7 @@
         "php": ">=5.5",
         "ext-phalcon": "~3.3",
         "psy/psysh": "~0.9",
-        "nikic/php-parser": "^3.1"
+        "ext-phalcon": "~3.1"
     },
     "require-dev": {
         "kherge/box": "^2.7",
