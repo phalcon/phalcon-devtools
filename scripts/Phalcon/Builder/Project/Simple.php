@@ -102,7 +102,8 @@ class Simple extends ProjectBuilder
         }
 
         if (file_exists($this->options->get('projectPath').'index.html') == false) {
-            $code = '<html><body><h1>Mod-Rewrite is not enabled</h1><p>Please enable rewrite module on your web server to continue</body></html>';
+            $code = '<html><body><h1>Mod-Rewrite is not enabled</h1>' .
+                '<p>Please enable rewrite module on your web server to continue</body></html>';
             file_put_contents($this->options->get('projectPath').'index.html', $code);
         }
 

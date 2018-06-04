@@ -55,11 +55,11 @@ Thanks! <br />
 Phalcon Team
 
 
-[pr]: https://help.github.com/articles/using-pull-requests/
+[pr]: https://help.github.com/articles/about-pull-requests/
 [forum]: https://forum.phalconphp.com/
 [cphalcon]: https://github.com/phalcon/cphalcon
-[srt]: https://github.com/phalcon/cphalcon/wiki/Submit-Reproducible-Test
-[gb]: https://github.com/phalcon/cphalcon/wiki/Generating-a-backtrace
-[support]: https://phalconphp.com/support
-[nfr]: https://github.com/phalcon/cphalcon/wiki/New-Feature-Request---NFR
-[psr]: http://www.php-fig.org/psr/
+[srt]: https://docs.phalconphp.com/en/latest/reproducible-tests
+[gb]: https://docs.phalconphp.com/en/latest/generating-backtrace
+[support]: https://phalconphp.com/en/support/
+[nfr]: https://docs.phalconphp.com/en/latest/new-feature-request
+[psr]: https://www.php-fig.org/psr/

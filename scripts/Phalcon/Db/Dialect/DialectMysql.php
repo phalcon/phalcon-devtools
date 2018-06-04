@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -14,7 +14,6 @@
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
   | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>             |
-  |                                                                        |
   +------------------------------------------------------------------------+
 */
 
@@ -23,11 +22,11 @@ namespace Phalcon\Db\Dialect;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Dialect\MysqlExtended
+ * Phalcon\Db\Dialect\DialectMysql
  *
  * @package Phalcon\Db\Dialect
  */
-class MysqlExtended extends Mysql
+class DialectMysql extends Mysql
 {
     /**
      * Generates SQL to add an foreign key to a table.
@@ -43,7 +42,9 @@ class MysqlExtended extends Mysql
         if ($reference->getName()) {
             $sql .= ' CONSTRAINT `' . $reference->getName() . '`';
         }
-        $sql .= ' FOREIGN KEY (' . $this->getColumnList($reference->getColumns()) . ') REFERENCES ' . $this->prepareTable($reference->getReferencedTable(), $reference->getReferencedSchema()) . '(' . $this->getColumnList($reference->getReferencedColumns()) . ')';
+        $sql .= ' FOREIGN KEY (' . $this->getColumnList($reference->getColumns()) . ') REFERENCES ' .
+            $this->prepareTable($reference->getReferencedTable(), $reference->getReferencedSchema()) . '(' .
+            $this->getColumnList($reference->getReferencedColumns()) . ')';
 
         $onDelete = $reference->getOnDelete();
         if ($onDelete) {

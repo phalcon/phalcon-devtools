@@ -507,7 +507,7 @@
 		}
 
 		// If no for attribute exists, attempt to retrieve the first labellable descendant element
-		// the list of which is defined here: http://www.w3.org/TR/html5/forms.html#category-label
+		// the list of which is defined here: https://www.w3.org/TR/html5/forms.html#category-label
 		return labelElement.querySelector('button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea');
 	};
 
@@ -806,7 +806,7 @@
 		}
 
 		// IE11: prefixed -ms-touch-action is no longer supported and it's recomended to use non-prefixed version
-		// http://msdn.microsoft.com/en-us/library/windows/apps/Hh767313.aspx
+		// https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
 		if (layer.style.touchAction === 'none' || layer.style.touchAction === 'manipulation') {
 			return true;
 		}

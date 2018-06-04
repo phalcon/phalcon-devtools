@@ -13,38 +13,14 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>             |
+  | Authors: Paul Scarrone <paul@savvysoftworks.com>                       |
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Listeners;
+namespace Phalcon\Commands;
 
-use Phalcon\Mvc\Model\Migration\Profiler;
-use Phalcon\Events\Event;
-
-/**
- * Phalcon\Listeners\DbProfilerListener
- *
- * Db event listener
- *
- * @package Phalcon\Listeners
- */
-class DbProfilerListener
+interface ISelfHealingException
 {
-    protected $profiler;
-
-    public function __construct()
-    {
-        $this->profiler = new Profiler();
-    }
-
-    public function beforeQuery(Event $event, $connection)
-    {
-        $this->profiler->startProfile($connection->getSQLStatement());
-    }
-
-    public function afterQuery()
-    {
-        $this->profiler->stopProfile();
-    }
+    public function promptResolution();
+    public function resolve();
 }

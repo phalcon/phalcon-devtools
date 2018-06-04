@@ -82,7 +82,6 @@ trait OptionParserTrait
 
             if (!isset($versionItems[0])) {
                 $versionItem = VersionCollection::createItem('1.0.0');
-
             } else {
                 /** @var IncrementalVersion $versionItem */
                 $versionItem = VersionCollection::maximum($versionItems);
