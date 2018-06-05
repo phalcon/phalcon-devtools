@@ -5,7 +5,7 @@
 * This script provides syntax highlighting support for
 * the Ntriples format.
 * Ntriples format specification:
-*     http://www.w3.org/TR/rdf-testcases/#ntriples
+*     https://www.w3.org/TR/rdf-testcases/#ntriples
 ***********************************************************/
 
 /*

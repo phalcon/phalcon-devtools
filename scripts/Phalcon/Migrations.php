@@ -54,7 +54,7 @@ class Migrations
      * Filename or db connection to store migrations log
      * @var mixed|Adapter\Pdo
      */
-    protected static $_storage;
+    protected static $storage;
 
     /**
      * Check if the script is running on Console mode
@@ -93,7 +93,9 @@ class Migrations
         $versionItem = $optionStack->getVersionNameGeneratingMigration();
 
         // Path to migration dir
-        $migrationPath = rtrim($optionStack->getOption('migrationsDir'), '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion();
+        $migrationPath = rtrim($optionStack->getOption('migrationsDir'), '\\/') .
+            DIRECTORY_SEPARATOR . $versionItem->getVersion();
+
         if (!file_exists($migrationPath)) {
             if (is_writable(dirname($migrationPath)) && !$optionStack->getOption('verbose')) {
                 mkdir($migrationPath);
@@ -123,9 +125,9 @@ class Migrations
                     }
                     $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
                     $wasMigrated = file_put_contents(
-                            $tableFile,
-                            '<?php ' . PHP_EOL . PHP_EOL . $migration
-                        ) || $wasMigrated;
+                        $tableFile,
+                        '<?php ' . PHP_EOL . PHP_EOL . $migration
+                    ) || $wasMigrated;
                 }
             }
         } else {
@@ -244,7 +246,10 @@ class Migrations
             $versionItemsTmp = VersionCollection::sortAsc(array_merge($versionItems, [$initialVersion]));
             $initialVersion = $versionItemsTmp[0];
         } else {
-            // If we migrate downs, we should go from the last migration to revert some migrations which may have been missed
+            /*
+             * If we migrate downs,
+             * we should go from the last migration to revert some migrations which may have been missed
+             */
             $versionItemsTmp = VersionCollection::sortDesc(array_merge($versionItems, [$initialVersion]));
             $initialVersion = $versionItemsTmp[0];
         }
@@ -255,22 +260,24 @@ class Migrations
 
         /** @var \Phalcon\Version\IncrementalItem $versionItem */
         foreach ($versionsBetween as $versionItem) {
-
             // If we are rolling back, we skip migrating when initialVersion is the same as current
-            if ($initialVersion->getVersion() === $versionItem->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
+            if ($initialVersion->getVersion() === $versionItem->getVersion() &&
+                ModelMigration::DIRECTION_BACK === $direction) {
                 continue;
             }
 
             if ((ModelMigration::DIRECTION_FORWARD === $direction) && isset($completedVersions[(string)$versionItem])) {
                 print Color::info('Version ' . (string)$versionItem . ' was already applied');
                 continue;
-            } elseif ((ModelMigration::DIRECTION_BACK === $direction) && !isset($completedVersions[(string)$initialVersion])) {
+            } elseif ((ModelMigration::DIRECTION_BACK === $direction) &&
+                !isset($completedVersions[(string)$initialVersion])) {
                 print Color::info('Version ' . (string)$initialVersion . ' was already rolled back');
                 $initialVersion = $versionItem;
                 continue;
             }
 
-            if ($initialVersion->getVersion() === $finalVersion->getVersion() && ModelMigration::DIRECTION_BACK === $direction) {
+            if ($initialVersion->getVersion() === $finalVersion->getVersion() &&
+                ModelMigration::DIRECTION_BACK === $direction) {
                 break;
             }
 
@@ -278,7 +285,8 @@ class Migrations
 
             // Directory depends on Forward or Back Migration
             $iterator = new DirectoryIterator(
-                $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ? $initialVersion->getVersion() : $versionItem->getVersion())
+                $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ?
+                    $initialVersion->getVersion() : $versionItem->getVersion())
             );
 
             if ($optionStack->getOption('tableName') === '@') {
@@ -393,7 +401,7 @@ class Migrations
      */
     private static function connectionSetup($options)
     {
-        if (self::$_storage) {
+        if (self::$storage) {
             return;
         }
 
@@ -413,14 +421,14 @@ class Migrations
 
             $configArray = $database->toArray();
             unset($configArray['adapter']);
-            self::$_storage = new $adapter($configArray);
+            self::$storage = new $adapter($configArray);
 
             if ($database->adapter === 'Mysql') {
-                self::$_storage->query('SET FOREIGN_KEY_CHECKS=0');
+                self::$storage->query('SET FOREIGN_KEY_CHECKS=0');
             }
 
-            if (!self::$_storage->tableExists(self::MIGRATION_LOG_TABLE)) {
-                self::$_storage->createTable(self::MIGRATION_LOG_TABLE, null, [
+            if (!self::$storage->tableExists(self::MIGRATION_LOG_TABLE)) {
+                self::$storage->createTable(self::MIGRATION_LOG_TABLE, null, [
                     'columns' => [
                         new Column(
                             'version',
@@ -443,6 +451,7 @@ class Migrations
                             [
                                 'type' => Column::TYPE_TIMESTAMP,
                                 'notNull' => true,
+                                'default' => 'CURRENT_TIMESTAMP',
                             ]
                         )
                     ],
@@ -451,7 +460,6 @@ class Migrations
                     ]
                 ]);
             }
-
         } else {
             if (empty($options['directory'])) {
                 $path = defined('BASE_PATH') ? BASE_PATH : defined('APP_PATH') ? dirname(APP_PATH) : '';
@@ -471,13 +479,13 @@ class Migrations
                 chmod($path, 0775);
             }
 
-            self::$_storage = $path . '/migration-version';
+            self::$storage = $path . '/migration-version';
 
-            if (!file_exists(self::$_storage)) {
+            if (!file_exists(self::$storage)) {
                 if (!is_writable($path)) {
-                    throw new \RuntimeException("Unable to write '" . self::$_storage . "' file. Permission denied");
+                    throw new \RuntimeException("Unable to write '" . self::$storage . "' file. Permission denied");
                 }
-                touch(self::$_storage);
+                touch(self::$storage);
             }
         }
     }
@@ -494,8 +502,10 @@ class Migrations
 
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
-            $connection = self::$_storage;
-            $lastGoodMigration = $connection->query('SELECT * FROM '. self::MIGRATION_LOG_TABLE .' ORDER BY version DESC LIMIT 1');
+            $connection = self::$storage;
+            $query = 'SELECT * FROM '. self::MIGRATION_LOG_TABLE .' ORDER BY version DESC LIMIT 1';
+            $lastGoodMigration = $connection->query($query);
+
             if (0 == $lastGoodMigration->numRows()) {
                 return VersionCollection::createItem(null);
             } else {
@@ -505,7 +515,7 @@ class Migrations
             }
         } else {
             // Get and clean migration
-            $version = file_exists(self::$_storage) ? file_get_contents(self::$_storage) : null;
+            $version = file_exists(self::$storage) ? file_get_contents(self::$storage) : null;
 
             if ($version = trim($version) ?: null) {
                 $version = preg_split('/\r\n|\r|\n/', $version, -1, PREG_SPLIT_NO_EMPTY);
@@ -535,14 +545,18 @@ class Migrations
 
         if (isset($options['migrationsInDb']) && (bool) $options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
-            $connection = self::$_storage;
-            $connection->insert(self::MIGRATION_LOG_TABLE, [$version, $startTime, $endTime], ['version', 'start_time', 'end_time']);
+            $connection = self::$storage;
+            $connection->insert(
+                self::MIGRATION_LOG_TABLE,
+                [$version, $startTime, $endTime],
+                ['version', 'start_time', 'end_time']
+            );
         } else {
             $currentVersions = self::getCompletedVersions($options);
             $currentVersions[$version] = 1;
             $currentVersions = array_keys($currentVersions);
             sort($currentVersions);
-            file_put_contents(self::$_storage, implode("\n", $currentVersions));
+            file_put_contents(self::$storage, implode("\n", $currentVersions));
         }
     }
 
@@ -558,19 +572,19 @@ class Migrations
 
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
-            $connection = self::$_storage;
+            $connection = self::$storage;
             $connection->execute('DELETE FROM '. self::MIGRATION_LOG_TABLE .' WHERE version=\'' . $version . '\'');
         } else {
             $currentVersions = self::getCompletedVersions($options);
             unset($currentVersions[$version]);
             $currentVersions = array_keys($currentVersions);
             sort($currentVersions);
-            file_put_contents(self::$_storage, implode("\n", $currentVersions));
+            file_put_contents(self::$storage, implode("\n", $currentVersions));
         }
     }
 
     /**
-     * Scan $_storage for all completed versions
+     * Scan $storage for all completed versions
      *
      * @param array $options Applications options
      * @return array
@@ -581,13 +595,14 @@ class Migrations
 
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
-            $connection = self::$_storage;
-            $completedVersions = $connection->query('SELECT version FROM '. self::MIGRATION_LOG_TABLE .' ORDER BY version DESC')->fetchAll();
+            $connection = self::$storage;
+            $query = 'SELECT version FROM ' . self::MIGRATION_LOG_TABLE . ' ORDER BY version DESC';
+            $completedVersions = $connection->query($query)->fetchAll();
             $completedVersions = array_map(function ($version) {
                 return $version['version'];
             }, $completedVersions);
         } else {
-            $completedVersions = file(self::$_storage, FILE_IGNORE_NEW_LINES);
+            $completedVersions = file(self::$storage, FILE_IGNORE_NEW_LINES);
         }
 
         return array_flip($completedVersions);

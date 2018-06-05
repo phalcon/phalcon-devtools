@@ -87,7 +87,7 @@ Markdown:
 
     A First Level Header
     ====================
-    
+
     A Second Level Header
     ---------------------
 
@@ -97,11 +97,11 @@ Markdown:
 
     The quick brown fox jumped over the lazy
     dog's back.
-    
+
     ### Header 3
 
     &gt; This is a blockquote.
-    &gt; 
+    &gt;
     &gt; This is the second paragraph in the blockquote.
     &gt;
     &gt; ## This is an H2 in a blockquote
@@ -110,23 +110,23 @@ Markdown:
 Output:
 
     &lt;h1&gt;A First Level Header&lt;/h1&gt;
-    
+
     &lt;h2&gt;A Second Level Header&lt;/h2&gt;
-    
+
     &lt;p&gt;Now is the time for all good men to come to
     the aid of their country. This is just a
     regular paragraph.&lt;/p&gt;
-    
+
     &lt;p&gt;The quick brown fox jumped over the lazy
     dog's back.&lt;/p&gt;
-    
+
     &lt;h3&gt;Header 3&lt;/h3&gt;
-    
+
     &lt;blockquote&gt;
         &lt;p&gt;This is a blockquote.&lt;/p&gt;
-        
+
         &lt;p&gt;This is the second paragraph in the blockquote.&lt;/p&gt;
-        
+
         &lt;h2&gt;This is an H2 in a blockquote&lt;/h2&gt;
     &lt;/blockquote&gt;
 
@@ -140,7 +140,7 @@ Markdown:
 
     Some of these words *are emphasized*.
     Some of these words _are emphasized also_.
-    
+
     Use two asterisks for **strong emphasis**.
     Or, if you prefer, __use two underscores instead__.
 
@@ -148,10 +148,10 @@ Output:
 
     &lt;p&gt;Some of these words &lt;em&gt;are emphasized&lt;/em&gt;.
     Some of these words &lt;em&gt;are emphasized also&lt;/em&gt;.&lt;/p&gt;
-    
+
     &lt;p&gt;Use two asterisks for &lt;strong&gt;strong emphasis&lt;/strong&gt;.
     Or, if you prefer, &lt;strong&gt;use two underscores instead&lt;/strong&gt;.&lt;/p&gt;
-   
+
 
 
 ## Lists ##
@@ -204,7 +204,7 @@ list item text. You can create multi-paragraph list items by indenting
 the paragraphs by 4 spaces or 1 tab:
 
     *   A list item.
-    
+
         With multiple paragraphs.
 
     *   Another item in the list.
@@ -216,7 +216,7 @@ Output:
     &lt;p&gt;With multiple paragraphs.&lt;/p&gt;&lt;/li&gt;
     &lt;li&gt;&lt;p&gt;Another item in the list.&lt;/p&gt;&lt;/li&gt;
     &lt;/ul&gt;
-    
+
 
 
 ### Links ###
@@ -250,15 +250,15 @@ you define elsewhere in your document:
     I get 10 times more traffic from [Google][1] than from
     [Yahoo][2] or [MSN][3].
 
-    [1]: http://google.com/        "Google"
-    [2]: http://search.yahoo.com/  "Yahoo Search"
-    [3]: http://search.msn.com/    "MSN Search"
+    [1]: https://www.google.com/   "Google"
+    [2]: https://search.yahoo.com/ "Yahoo Search"
+    [3]: https://www.bing.com/     "MSN Search"
 
 Output:
 
-    &lt;p&gt;I get 10 times more traffic from &lt;a href="http://google.com/"
-    title="Google"&gt;Google&lt;/a&gt; than from &lt;a href="http://search.yahoo.com/"
-    title="Yahoo Search"&gt;Yahoo&lt;/a&gt; or &lt;a href="http://search.msn.com/"
+    &lt;p&gt;I get 10 times more traffic from &lt;a href="https://www.google.com/"
+    title="Google"&gt;Google&lt;/a&gt; than from &lt;a href="https://search.yahoo.com/"
+    title="Yahoo Search"&gt;Yahoo&lt;/a&gt; or &lt;a href="https://www.bing.com/"
     title="MSN Search"&gt;MSN&lt;/a&gt;.&lt;/p&gt;
 
 The title attribute is optional. Link names may contain letters,
@@ -267,12 +267,12 @@ numbers and spaces, but are *not* case sensitive:
     I start my morning with a cup of coffee and
     [The New York Times][NY Times].
 
-    [ny times]: http://www.nytimes.com/
+    [ny times]: https://www.nytimes.com/
 
 Output:
 
     &lt;p&gt;I start my morning with a cup of coffee and
-    &lt;a href="http://www.nytimes.com/"&gt;The New York Times&lt;/a&gt;.&lt;/p&gt;
+    &lt;a href="https://www.nytimes.com/"&gt;The New York Times&lt;/a&gt;.&lt;/p&gt;
 
 
 ### Images ###
@@ -311,7 +311,7 @@ Output:
 
     &lt;p&gt;I strongly recommend against using any
     &lt;code&gt;&amp;lt;blink&amp;gt;&lt;/code&gt; tags.&lt;/p&gt;
-    
+
     &lt;p&gt;I wish SmartyPants used named entities like
     &lt;code&gt;&amp;amp;mdash;&lt;/code&gt; instead of decimal-encoded
     entites like &lt;code&gt;&amp;amp;#8212;&lt;/code&gt;.&lt;/p&gt;
@@ -334,7 +334,7 @@ Output:
 
     &lt;p&gt;If you want your page to validate under XHTML 1.0 Strict,
     you've got to put paragraph tags in your blockquotes:&lt;/p&gt;
-    
+
     &lt;pre&gt;&lt;code&gt;&amp;lt;blockquote&amp;gt;
         &amp;lt;p&amp;gt;For example.&amp;lt;/p&amp;gt;
     &amp;lt;/blockquote&amp;gt;

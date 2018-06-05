@@ -30,23 +30,23 @@
 
 <article>
 <h2>XQuery mode</h2>
- 
- 
-<div class="cm-s-default"> 
-	<textarea id="code" name="code"> 
+
+
+<div class="cm-s-default">
+	<textarea id="code" name="code">
 xquery version &quot;1.0-ml&quot;;
 (: this is
- : a 
+ : a
    "comment" :)
 let $let := &lt;x attr=&quot;value&quot;&gt;&quot;test&quot;&lt;func&gt;function() $var {function()} {$var}&lt;/func&gt;&lt;/x&gt;
 let $joe:=1
 return element element {
 	attribute attribute { 1 },
-	element test { &#39;a&#39; }, 
+	element test { &#39;a&#39; },
 	attribute foo { &quot;bar&quot; },
 	fn:doc()[ foo/@bar eq $let ],
-	//x }    
- 
+	//x }
+
 (: a more 'evil' test :)
 (: Modified Blakeley example (: with nested comment :) ... :)
 declare private function local:declare() {()};
@@ -82,8 +82,8 @@ xquery version &quot;1.0-ml&quot;;
  : limitations under the License.
  :)
 
-module namespace json = &quot;http://marklogic.com/json&quot;;
-declare default function namespace &quot;http://www.w3.org/2005/xpath-functions&quot;;
+module namespace json = &quot;https://www.marklogic.com/json&quot;;
+declare default function namespace &quot;https://www.w3.org/2005/xpath-functions/&quot;;
 
 (: Need to backslash escape any double quotes, backslashes, and newlines :)
 declare function json:escape($s as xs:string) as xs:string {
@@ -144,12 +144,12 @@ declare function json:print-name-value($x as element()) as xs:string? {
 };
 
 (:~
-  Transforms an XML element into a JSON string representation.  See http://json.org.
+  Transforms an XML element into a JSON string representation.  See http://json.org/.
   &lt;p/&gt;
   Sample usage:
   &lt;pre&gt;
     xquery version &quot;1.0-ml&quot;;
-    import module namespace json=&quot;http://marklogic.com/json&quot; at &quot;json.xqy&quot;;
+    import module namespace json=&quot;https://www.marklogic.com/json&quot; at &quot;json.xqy&quot;;
     json:serialize(&amp;lt;foo&amp;gt;&amp;lt;bar&amp;gt;kid&amp;lt;/bar&amp;gt;&amp;lt;/foo&amp;gt;)
   &lt;/pre&gt;
   Sample transformations:
@@ -183,28 +183,28 @@ declare function json:print-name-value($x as element()) as xs:string? {
 
   @author Jason Hunter
   @version 1.0.1
-  
+
   Ported to xquery 1.0-ml; double escaped backslashes in json:escape
 :)
 declare function json:serialize($x as element())  as xs:string {
   string-join(('{', json:print-name-value($x), '}'), &quot;&quot;)
 };
-  </textarea> 
-</div> 
- 
-    <script> 
+  </textarea>
+</div>
+
+    <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         lineNumbers: true,
         matchBrackets: true,
         theme: "xq-dark"
       });
-    </script> 
- 
-    <p><strong>MIME types defined:</strong> <code>application/xquery</code>.</p> 
- 
-    <p>Development of the CodeMirror XQuery mode was sponsored by 
-      <a href="http://marklogic.com">MarkLogic</a> and developed by 
+    </script>
+
+    <p><strong>MIME types defined:</strong> <code>application/xquery</code>.</p>
+
+    <p>Development of the CodeMirror XQuery mode was sponsored by
+      <a href="http://marklogic.com">MarkLogic</a> and developed by
       <a href="https://twitter.com/mbrevoort">Mike Brevoort</a>.
     </p>
- 
+
   </article>

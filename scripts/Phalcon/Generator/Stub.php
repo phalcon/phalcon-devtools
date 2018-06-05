@@ -25,12 +25,12 @@ class Stub
     /**
      * @var \ReflectionExtension
      */
-    protected $_extension;
+    protected $extension;
 
     /**
      * @var string
      */
-    protected $_targetDir;
+    protected $targetDir;
 
     /**
      * @param string $extension
@@ -45,11 +45,11 @@ class Stub
             throw new \Exception("Extension '{$extension}' was not loaded");
         }
 
-        $this->_extension = new \ReflectionExtension($extension);
-        $this->_targetDir = rtrim($targetDir, DIRECTORY_SEPARATOR);
+        $this->extension = new \ReflectionExtension($extension);
+        $this->targetDir = rtrim($targetDir, DIRECTORY_SEPARATOR);
 
-        if (is_dir($this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion())) {
-            $this->_cleanup($this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion());
+        if (is_dir($this->targetDir . DIRECTORY_SEPARATOR . $this->extension->getVersion())) {
+            $this->cleanup($this->targetDir . DIRECTORY_SEPARATOR . $this->extension->getVersion());
         }
     }
 
@@ -58,37 +58,39 @@ class Stub
      */
     public function generate()
     {
-        $this->_generateFileStructure();
+        $this->generateFileStructure();
     }
 
     /**
      * @return void
      */
-    protected function _generateFileStructure()
+    protected function generateFileStructure()
     {
-        $classes = $this->_extension->getClassNames();
+        $classes = $this->extension->getClassNames();
 
         foreach ($classes as $class) {
             $reflectionClass = new \ReflectionClass($class);
 
             $output = "<?php\n\n";
-            $output .= $this->_exportNamespace($reflectionClass);
-            $output .= $this->_exportDefinition($reflectionClass);
+            $output .= $this->exportNamespace($reflectionClass);
+            $output .= $this->exportDefinition($reflectionClass);
             $output .= "\n{\n\n";
-            $output .= $this->_exportClassConstants($reflectionClass);
-            $output .= $this->_exportClassProperties($reflectionClass);
-            $output .= $this->_exportClassMethods($reflectionClass);
+            $output .= $this->exportClassConstants($reflectionClass);
+            $output .= $this->exportClassProperties($reflectionClass);
+            $output .= $this->exportClassMethods($reflectionClass);
             $output .= "}";
 
             $dir_class = str_replace('\\', DIRECTORY_SEPARATOR, $reflectionClass->getNamespaceName());
-            $dir = $this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion() . DIRECTORY_SEPARATOR . $dir_class;
+            $dir = $this->targetDir .
+                DIRECTORY_SEPARATOR . $this->extension->getVersion() . DIRECTORY_SEPARATOR . $dir_class;
 
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
 
             $file = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-            $path = $this->_targetDir . DIRECTORY_SEPARATOR . $this->_extension->getVersion() . DIRECTORY_SEPARATOR . $file;
+            $path = $this->targetDir .
+                DIRECTORY_SEPARATOR . $this->extension->getVersion() . DIRECTORY_SEPARATOR . $file;
 
             $fp = fopen($path, 'w+');
             fputs($fp, $output);
@@ -100,7 +102,7 @@ class Stub
      * @param  \ReflectionClass $reflectionClass
      * @return string
      */
-    protected function _exportNamespace(\ReflectionClass $reflectionClass)
+    protected function exportNamespace(\ReflectionClass $reflectionClass)
     {
         return 'namespace ' . $reflectionClass->getNamespaceName() . ";\n\n";
     }
@@ -109,9 +111,9 @@ class Stub
      * @param  \ReflectionClass $reflectionClass
      * @return string
      */
-    protected function _exportDefinition(\ReflectionClass $reflectionClass)
+    protected function exportDefinition(\ReflectionClass $reflectionClass)
     {
-        $definition = [$this->_removeNamespace($reflectionClass)];
+        $definition = [$this->removeNamespace($reflectionClass)];
 
         if ($reflectionClass->isInterface()) {
             array_unshift($definition, 'interface');
@@ -146,7 +148,7 @@ class Stub
      * @param  \ReflectionClass $reflectionClass
      * @return string
      */
-    protected function _removeNamespace(\ReflectionClass $reflectionClass)
+    protected function removeNamespace(\ReflectionClass $reflectionClass)
     {
         $class = str_replace($reflectionClass->getNamespaceName(), '', $reflectionClass->getName());
 
@@ -157,7 +159,7 @@ class Stub
      * @param  \ReflectionClass $reflectionClass
      * @return null|string
      */
-    protected function _exportClassConstants(\ReflectionClass $reflectionClass)
+    protected function exportClassConstants(\ReflectionClass $reflectionClass)
     {
         $constants = $reflectionClass->getConstants();
         $all = [];
@@ -179,7 +181,7 @@ class Stub
      * @param  \ReflectionClass $reflectionClass
      * @return null|string
      */
-    protected function _exportClassProperties(\ReflectionClass $reflectionClass)
+    protected function exportClassProperties(\ReflectionClass $reflectionClass)
     {
         $properties = $reflectionClass->getProperties();
 
@@ -222,7 +224,7 @@ class Stub
      * @param  \ReflectionClass $reflectionClass
      * @return null|string
      */
-    protected function _exportClassMethods(\ReflectionClass $reflectionClass)
+    protected function exportClassMethods(\ReflectionClass $reflectionClass)
     {
         $methods = $reflectionClass->getMethods();
 
@@ -299,9 +301,12 @@ class Stub
     /**
      * @param string $dir
      */
-    protected function _cleanup($dir)
+    protected function cleanup($dir)
     {
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir), \RecursiveIteratorIterator::CHILD_FIRST);
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($dir),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
 
         foreach ($iterator as $path) {
             if ($path->isDir() && !in_array($path->getFileName(), ['.', '..'])) {
@@ -314,5 +319,6 @@ class Stub
         rmdir($dir);
     }
 }
+
 $s = new Stub('phalcon', __DIR__ . '/../../../ide');
 $s->generate();

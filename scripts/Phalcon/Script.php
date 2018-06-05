@@ -40,14 +40,14 @@ class Script
      *
      * @var \Phalcon\Events\Manager
      */
-    protected $_eventsManager;
+    protected $eventsManager;
 
     /**
      * Commands attached to the Script
      *
      * @var \Phalcon\Commands\Command[]
      */
-    protected $_commands;
+    protected $commands;
 
     /**
      * Script Constructor
@@ -56,8 +56,8 @@ class Script
      */
     public function __construct(EventsManager $eventsManager)
     {
-        $this->_commands = [];
-        $this->_eventsManager = $eventsManager;
+        $this->commands = [];
+        $this->eventsManager = $eventsManager;
     }
 
     /**
@@ -67,7 +67,7 @@ class Script
      */
     public function setEventsManager(EventsManager $eventsManager)
     {
-        $this->_eventsManager = $eventsManager;
+        $this->eventsManager = $eventsManager;
     }
 
     /**
@@ -77,7 +77,7 @@ class Script
      */
     public function getEventsManager()
     {
-        return $this->_eventsManager;
+        return $this->eventsManager;
     }
 
     /**
@@ -87,7 +87,7 @@ class Script
      */
     public function attach(Command $command)
     {
-        $this->_commands[] = $command;
+        $this->commands[] = $command;
     }
 
     /**
@@ -97,7 +97,7 @@ class Script
      */
     public function getCommands()
     {
-        return $this->_commands;
+        return $this->commands;
     }
 
     /**
@@ -109,7 +109,7 @@ class Script
     public function dispatch(Command $command)
     {
         // If beforeCommand fails abort
-        if ($this->_eventsManager->fire('command:beforeCommand', $command) === false) {
+        if ($this->eventsManager->fire('command:beforeCommand', $command) === false) {
             return false;
         }
 
@@ -118,7 +118,7 @@ class Script
             return false;
         }
 
-        $this->_eventsManager->fire('command:afterCommand', $command);
+        $this->eventsManager->fire('command:afterCommand', $command);
 
         return true;
     }
@@ -146,7 +146,7 @@ class Script
         }
 
         // Try to dispatch the command
-        foreach ($this->_commands as $command) {
+        foreach ($this->commands as $command) {
             if ($command->hasIdentifier($input)) {
                 return $this->dispatch($command);
             }
@@ -154,7 +154,7 @@ class Script
 
         // Check for alternatives
         $available = [];
-        foreach ($this->_commands as $command) {
+        foreach ($this->commands as $command) {
             $providedCommands = $command->getCommands();
             foreach ($providedCommands as $alias) {
                 $soundex = soundex($alias);
@@ -214,7 +214,7 @@ class Script
                     );
                 }
 
-                $this->attach(new $className($this, $this->_eventsManager));
+                $this->attach(new $className($this, $this->eventsManager));
             }
         }
     }
