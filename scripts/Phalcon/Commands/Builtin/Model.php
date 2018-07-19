@@ -48,6 +48,7 @@ class Model extends Command
         return [
             'name=s'          => 'Table name',
             'schema=s'        => 'Name of the schema [optional]',
+            'no-init-schema'  => 'Do not add schema into initialize function [optional]',
             'config=s'        => 'Configuration file [optional]',
             'namespace=s'     => "Model's namespace [optional]",
             'get-set'         => 'Attributes will be protected and have setters/getters [optional]',
@@ -84,6 +85,7 @@ class Model extends Command
                 'config'            => $this->getConfigObject(),
                 'className'         => $className,
                 'fileName'          => Text::uncamelize($className),
+                'noInitSchema'      => $this->isReceivedOption('no-init-schema'),
                 'genSettersGetters' => $this->isReceivedOption('get-set'),
                 'genDocMethods'     => $this->isReceivedOption('doc'),
                 'namespace'         => $this->getOption('namespace'),
