@@ -159,7 +159,7 @@ class Model extends Component
             $schema = Utils::resolveDbSchema($config->database);
         }
 
-        if ($schema && !$this->modelOptions->hasOption('noInitSchema')) {
+        if ($schema && !$this->modelOptions->getOption('noInitSchema')) {
             $initialize['schema'] = $snippet->getThisMethod('setSchema', $schema);
         }
         $initialize['source'] = $snippet->getThisMethod('setSource', $this->modelOptions->getOption('name'));
