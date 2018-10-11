@@ -89,7 +89,7 @@ class Path
 
         $directory = new RecursiveDirectoryIterator('.', FilesystemIterator::SKIP_DOTS);
         /** Ignore known third party application folders to improve search performance */
-        $directory = new RecursiveCallbackFilterIterator($directory, function(SplFileInfo $current){
+        $directory = new RecursiveCallbackFilterIterator($directory, function (SplFileInfo $current) {
             return !in_array($current->getFilename(), ['.svn', '.git', '.hg', '.idea', 'nbproject'], true);
         });
         $iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::LEAVES_ONLY);
