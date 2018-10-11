@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -22,6 +22,7 @@
 namespace Phalcon\Generator;
 
 use Phalcon\Utils;
+use Phalcon\Options\OptionsAware as ModelOption;
 
 /**
  * Snippet Class
@@ -47,7 +48,7 @@ EOD;
         return PHP_EOL.sprintf($getSource, $source).PHP_EOL;
     }
 
-    public function getSetter($fieldName, $type, $setterName)
+    public function getSetter($originalFieldName, $fieldName, $type, $setterName)
     {
         $templateSetter = <<<EOD
     /**
@@ -63,7 +64,7 @@ EOD;
         return \$this;
     }
 EOD;
-        return PHP_EOL.sprintf($templateSetter, $fieldName, $type, $fieldName, $setterName, $fieldName, $fieldName, $fieldName).PHP_EOL;
+        return PHP_EOL.sprintf($templateSetter, $originalFieldName, $type, $fieldName, $setterName, $fieldName, $fieldName, $fieldName).PHP_EOL;
     }
 
     public function getValidateInclusion($fieldName, $varItems)
@@ -100,7 +101,11 @@ EOD;
         return PHP_EOL.sprintf($templateValidations, join('', $pieces)).PHP_EOL;
     }
 
-    public function getClass($namespace, $useDefinition, $classDoc = '', $abstract = '', $className, $extends = '', $content, $license = '')
+    /**
+     * @param ModelOption $modelOptions
+     * @return string
+     */
+    public function getClass($namespace, $useDefinition, $classDoc = '', $abstract = '', $modelOptions, $extends = '', $content, $license = '')
     {
         $templateCode = <<<EOD
 <?php
@@ -110,7 +115,17 @@ EOD;
 %s
 }
 EOD;
-        return sprintf($templateCode, $license, $namespace, $useDefinition, $classDoc, $abstract, $className, $extends, $content).PHP_EOL;
+        return sprintf(
+            $templateCode,
+            $license,
+            $namespace,
+            $useDefinition,
+            $classDoc,
+            $abstract,
+            $modelOptions->getOption('className'),
+            $extends,
+            $content)
+        .PHP_EOL;
     }
 
     public function getClassDoc($className, $namespace = '')

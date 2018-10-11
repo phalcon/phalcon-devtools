@@ -36,10 +36,10 @@ use SplFileInfo;
  */
 class Project extends Component
 {
-    CONST TYPE_MICRO   = 'micro';
-    CONST TYPE_SIMPLE  = 'simple';
-    CONST TYPE_MODULES = 'modules';
-    CONST TYPE_CLI     = 'cli';
+    const TYPE_MICRO   = 'micro';
+    const TYPE_SIMPLE  = 'simple';
+    const TYPE_MODULES = 'modules';
+    const TYPE_CLI     = 'cli';
 
     /**
      * Current Project Type
@@ -51,7 +51,7 @@ class Project extends Component
      * Available Project Types
      * @var array
      */
-    private $_types = [
+    private $types = [
         self::TYPE_MICRO   => Micro::class,
         self::TYPE_SIMPLE  => Simple::class,
         self::TYPE_MODULES => Modules::class,
@@ -70,7 +70,10 @@ class Project extends Component
             $this->path->setRootPath($this->options->get('directory'));
         }
 
-        $templatePath = str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) . 'templates';
+        $templatePath =
+            str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) .
+            'templates';
+
         if ($this->options->contains('templatePath')) {
             $templatePath = $this->options->get('templatePath');
         }
@@ -81,15 +84,15 @@ class Project extends Component
 
         $this->currentType = $this->options->get('type');
 
-        if (!isset($this->_types[$this->currentType])) {
+        if (!isset($this->types[$this->currentType])) {
             throw new BuilderException(sprintf(
                 'Type "%s" is not a valid type. Choose among [%s] ',
                 $this->currentType,
-                implode(', ', array_keys($this->_types))
+                implode(', ', array_keys($this->types))
             ));
         }
 
-        $builderClass = $this->_types[$this->currentType];
+        $builderClass = $this->types[$this->currentType];
 
         if ($this->options->contains('name')) {
             $this->path->appendRootPath($this->options->get('name'));
@@ -120,10 +123,10 @@ class Project extends Component
         $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
 
         if ($success === true) {
-            $this->notifySuccess(sprintf(
-                "Project '%s' was successfully created.\nPlease choose a password and username to use Database connection. Used default:'root' without password.",
-                $this->options->get('name')
-            ));
+            $sprintMessage = "Project '%s' was successfully created.\n" .
+                "Please choose a password and username to use Database connection." .
+                "Used default:'root' without password.";
+            $this->notifySuccess(sprintf($sprintMessage, $this->options->get('name')));
         }
 
         return $success;

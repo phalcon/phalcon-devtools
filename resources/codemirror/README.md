@@ -1,6 +1,6 @@
 # CodeMirror
-[![Build Status](https://travis-ci.org/codemirror/CodeMirror.svg)](https://travis-ci.org/codemirror/CodeMirror)
-[![NPM version](https://img.shields.io/npm/v/codemirror.svg)](https://www.npmjs.org/package/codemirror)  
+[![Build Status](https://api.travis-ci.org/codemirror/CodeMirror.svg)](https://travis-ci.org/codemirror/CodeMirror)
+[![NPM version](https://img.shields.io/npm/v/codemirror.svg)](https://www.npmjs.com/package/codemirror)  
 [Funding status: ![maintainer happiness](https://marijnhaverbeke.nl/fund/status_s.png?again)](https://marijnhaverbeke.nl/fund/)
 
 CodeMirror is a JavaScript component that provides a code editor in

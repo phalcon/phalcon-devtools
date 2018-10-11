@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Developer Tools                                                |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
+  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file LICENSE.txt.                             |
@@ -13,14 +13,12 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Paul Scarrone <paul@savvysoftworks.com>                       |
+  | Authors: Sergii Svyrydenko <sergey.v.sviridenko@gmail.com              |
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Commands;
+namespace Phalcon\Exception;
 
-interface iSelfHealingException
+class RuntimeException extends \RuntimeException
 {
-    public function promptResolution();
-    public function resolve();
 }

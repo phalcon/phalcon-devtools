@@ -130,7 +130,8 @@ class Cli extends ProjectBuilder
             ->createDefaultTasks()
             ->createLauncher();
 
-        print Color::success(sprintf('You can create a symlink to %s to invoke the application', $this->options->get('projectPath') . 'run')) . PHP_EOL;
+        $sprintMessage = 'You can create a symlink to %s to invoke the application';
+        print Color::success(sprintf($sprintMessage, $this->options->get('projectPath') . 'run')) . PHP_EOL;
 
         return true;
     }

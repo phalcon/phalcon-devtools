@@ -6,7 +6,6 @@ dist: trusty
 php:
   - 5.5
   - 5.6
-  - 7.1
 
 services:
   - postgresql
@@ -14,6 +13,10 @@ services:
 matrix:
   include:
     - php: 7.0
+      env: ZEND_BACKEND="--backend=ZendEngine3"
+    - php: 7.1
+      env: ZEND_BACKEND="--backend=ZendEngine3"
+    - php: 7.2
       env: ZEND_BACKEND="--backend=ZendEngine3"
 
 git:
@@ -28,54 +31,44 @@ cache:
     - vendor
     - $HOME/.ccache
     - $HOME/.composer/cache
-    - $HOME/cphalcon
-    - $HOME/ext
+    - $HOME/cphalcon/$PHALCON_VERSION
+    - $HOME/ext/$PHALCON_VERSION
 
 env:
   global:
-    - TEST_DB_POSTGRESQL_HOST="127.0.0.1"
-    - TEST_DB_POSTGRESQL_PORT="5432"
-    - TEST_DB_POSTGRESQL_USER="postgres"
-    - TEST_DB_POSTGRESQL_PASSWD=""
-    - TEST_DB_POSTGRESQL_NAME="devtools"
-    - TEST_DB_POSTGRESQL_SCHEMA="public"
-    - TEST_DB_MYSQL_DSN="mysql:host=127.0.0.1;dbname=devtools"
-    - TEST_DB_MYSQL_HOST="127.0.0.1"
-    - TEST_DB_MYSQL_PORT="3306"
-    - TEST_DB_MYSQL_USER="root"
-    - TEST_DB_MYSQL_PASSWD=""
-    - TEST_DB_MYSQL_NAME="devtools"
-    - TEST_DB_MYSQL_CHARSET="utf8"
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
-    - PHALCON_VERSION="v3.2.0"
+    - PHALCON_VERSION="v3.4.0"
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1)"
   - export PHP_EXTENSION_DIR=$(php-config --extension-dir)
+  - source $TRAVIS_BUILD_DIR/tests/_ci/environment
+  - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
   - phpenv config-rm xdebug.ini || true
   - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
-  - if [ ! -f "$HOME/cphalcon/tests/_ci/phalcon.ini" ]; then git clone -q --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon >/dev/null 2>&1; fi;
+  - if [ ! -f "$HOME/cphalcon/$PHALCON_VERSION/tests/_ci/phalcon.ini" ]; then git clone -q --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon/$PHALCON_VERSION >/dev/null 2>&1; fi;
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - if [ ! -f $HOME/ext/$PHP_VERSION/phalcon.so ]; then cd $HOME/cphalcon/build && bash ./install --phpize $(phpenv which phpize) --php-config $(phpenv which php-config) && mkdir -p $HOME/ext/$PHP_VERSION && cp $PHP_EXTENSION_DIR/phalcon.so $HOME/ext/$PHP_VERSION/phalcon.so; fi;
-  - if [ -f $HOME/ext/$PHP_VERSION/phalcon.so ]; then cp $HOME/ext/$PHP_VERSION/phalcon.so $PHP_EXTENSION_DIR/phalcon.so; fi;
-  - phpenv config-add $HOME/cphalcon/tests/_ci/phalcon.ini
+  - if [ ! -f $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so ]; then cd $HOME/cphalcon/$PHALCON_VERSION/build && bash ./install --phpize $(phpenv which phpize) --php-config $(phpenv which php-config) && mkdir -p $HOME/ext/$PHP_VERSION && cp $PHP_EXTENSION_DIR/phalcon.so $HOME/ext/$PHP_VERSION/phalcon.so; fi;
+  - if [ -f $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so ]; then cp $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so $PHP_EXTENSION_DIR/phalcon.so; fi;
+  - phpenv config-add $HOME/cphalcon/$PHALCON_VERSION/tests/_ci/phalcon.ini
   - cd $TRAVIS_BUILD_DIR
   - travis_retry composer install --prefer-dist --no-interaction
+  - if [ "$PHP_MAJOR" == "7" ]; then composer require --dev phpstan/phpstan:^0.9; fi;
 
 before_script:
   - ln -s $PWD/phalcon.php ~/bin/phalcon
-  - '[[ "$PHP_MAJOR" == "5" ]] || composer require --dev phpstan/phpstan'
 
 script:
+  - vendor/bin/phpcs
   - vendor/bin/codecept build
   - vendor/bin/codecept run unit -v
   - vendor/bin/codecept run functional -v
   - vendor/bin/codecept run console -v
-  - '[[ "$PHP_MAJOR" == "5" ]] || vendor/bin/phpstan analyse -l 5 -c phpstan.neon scripts -vvv'
+  - '[[ "$PHP_MAJOR" == "5" ]] || vendor/bin/phpstan analyse -l 5 -c phpstan.neon scripts -v'
 
 notifications:
   email:
