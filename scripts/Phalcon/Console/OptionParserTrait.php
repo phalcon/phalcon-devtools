@@ -38,8 +38,8 @@ trait OptionParserTrait
     /**
      * Get prefix from the option
      *
-     * @param  string  $prefix
-     * @param  mixed  $prefixEnd
+     * @param  string $prefix
+     * @param  mixed $prefixEnd
      *
      * @return mixed
      */
@@ -74,12 +74,27 @@ trait OptionParserTrait
         } elseif ($this->options['version']) {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
             $versionItem = VersionCollection::createItem($this->options['version']);
+            //check version is exist
+            foreach ($this->options['migrationsDir'] ?? [] as $migrationsDir) {
+                foreach (ModelMigration::scanForVersions($migrationsDir) ?? [] as $item) {
+                    if ($item->getVersion() != $versionItem->getVersion()) {
+                        continue;
+                    }
+                    if (!$optionStack->getOption('force')) {
+                        throw new \LogicException('Version ' . $item->getVersion() . ' already exists');
+                    } else {
+                        rmdir(rtrim($migrationsDir, '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion());
+                    }
+                }
+            }
 
             // The version is guessed automatically
         } else {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
-            $versionItems = ModelMigration::scanForVersions($this->options['migrationsDir']);
-
+            $versionItems = [];
+            foreach ($this->options['migrationsDir'] ?? [] as $migrationsDir) {
+                $versionItems = $versionItems + ModelMigration::scanForVersions($migrationsDir);
+            }
             if (!isset($versionItems[0])) {
                 $versionItem = VersionCollection::createItem('1.0.0');
             } else {

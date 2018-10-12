@@ -33,6 +33,12 @@ class IncrementalItem implements ItemInterface
 {
     use VersionAwareTrait;
 
+
+    /**
+     * @var string
+     */
+    private $path;
+
     /**
      * @var string
      */
@@ -50,7 +56,7 @@ class IncrementalItem implements ItemInterface
 
     /**
      * @param string $version
-     * @param int    $numberParts
+     * @param int $numberParts
      */
     public function __construct($version, $numberParts = 3)
     {
@@ -61,12 +67,12 @@ class IncrementalItem implements ItemInterface
         if ($nParts < $numberParts) {
             for ($i = $numberParts; $i >= $nParts; $i--) {
                 $this->parts[] = '0';
-                $version.='.0';
+                $version .= '.0';
             }
         } elseif ($nParts > $numberParts) {
             for ($i = $nParts; $i <= $numberParts; $i++) {
-                if (isset($this->parts[$i-1])) {
-                    unset($this->parts[$i-1]);
+                if (isset($this->parts[$i - 1])) {
+                    unset($this->parts[$i - 1]);
                 }
             }
 
@@ -166,7 +172,7 @@ class IncrementalItem implements ItemInterface
             }
         }
 
-        return $betweenVersions ;
+        return $betweenVersions;
     }
 
     /**
@@ -214,6 +220,16 @@ class IncrementalItem implements ItemInterface
     public function getVersion()
     {
         return $this->version;
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
 
     protected function regenerateVersionStamp()

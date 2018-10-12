@@ -85,15 +85,34 @@ class Migrations
         $optionStack->setDefaultOption('noAutoIncrement', null);
         $optionStack->setDefaultOption('verbose', false);
 
+        $migrationsDirs = $optionStack->getOption('migrationsDir');
+        //select multiple dir
+        if (count($migrationsDirs) > 1) {
+            $question = 'Which migrations path would you like to use?' . PHP_EOL;
+            foreach ($migrationsDirs as $id => $dir) {
+                $question .= " [{$id}] $dir" . PHP_EOL;
+            }
+            fwrite(STDOUT, Color::info($question));
+            $handle = fopen("php://stdin", "r");
+            $line = (int)fgets($handle);
+            if (!isset($migrationsDirs[$line])) {
+                echo "ABORTING!\n";
+                return false;
+            }
+            fclose($handle);
+            $migrationsDir = $migrationsDirs[$line];
+        } else {
+            $migrationsDir = $migrationsDirs[0];
+        }
         // Migrations directory
-        if ($optionStack->getOption('migrationsDir') && !file_exists($optionStack->getOption('migrationsDir'))) {
-            mkdir($optionStack->getOption('migrationsDir'), 0755, true);
+        if ($migrationsDir && !file_exists($migrationsDir)) {
+            mkdir($migrationsDir, 0755, true);
         }
 
         $versionItem = $optionStack->getVersionNameGeneratingMigration();
 
         // Path to migration dir
-        $migrationPath = rtrim($optionStack->getOption('migrationsDir'), '\\/') .
+        $migrationPath = rtrim($migrationsDir, '\\/') .
             DIRECTORY_SEPARATOR . $versionItem->getVersion();
 
         if (!file_exists($migrationPath)) {
@@ -113,7 +132,7 @@ class Migrations
 
         ModelMigration::setup($optionStack->getOption('config')->database, $optionStack->getOption('verbose'));
         ModelMigration::setSkipAutoIncrement($optionStack->getOption('noAutoIncrement'));
-        ModelMigration::setMigrationPath($optionStack->getOption('migrationsDir'));
+        ModelMigration::setMigrationPath($migrationsDir);
 
         $wasMigrated = false;
         if ($optionStack->getOption('tableName') === '@') {
@@ -125,9 +144,9 @@ class Migrations
                     }
                     $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $tableName . '.php';
                     $wasMigrated = file_put_contents(
-                        $tableFile,
-                        '<?php ' . PHP_EOL . PHP_EOL . $migration
-                    ) || $wasMigrated;
+                            $tableFile,
+                            '<?php ' . PHP_EOL . PHP_EOL . $migration
+                        ) || $wasMigrated;
                 }
             }
         } else {
@@ -185,10 +204,6 @@ class Migrations
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
 
-        $migrationsDir = rtrim($optionStack->getOption('migrationsDir'), '\\/');
-        if (!file_exists($migrationsDir)) {
-            throw new ModelException('Migrations directory was not found.');
-        }
 
         if (!$optionStack->getOption('config') instanceof Config) {
             throw new ModelException('Internal error. Config should be an instance of ' . Config::class);
@@ -199,6 +214,23 @@ class Migrations
             throw new ScriptException('Cannot load database configuration');
         }
 
+        /** @var \Phalcon\Version\IncrementalItem $initialVersion */
+        $initialVersion = self::getCurrentVersion($optionStack->getOptions());
+        $completedVersions = self::getCompletedVersions($optionStack->getOptions());
+
+        $migrationsDirs = [];
+        $versionItems = [];
+        foreach ($optionStack->getOption('migrationsDir') ?? [] as $migrationsDir) {
+            $migrationsDir = rtrim($migrationsDir, '\\/');
+            if (!file_exists($migrationsDir)) {
+                throw new ModelException('Migrations directory was not found.');
+            }
+            $migrationsDirs[] = $migrationsDir;
+            foreach (ModelMigration::scanForVersions($migrationsDir) ?? [] as $items) {
+                $items->setPath($migrationsDir);
+                $versionItems [] = $items;
+            }
+        }
         $finalVersion = null;
         if (isset($options['version']) && $optionStack->getOption('version') !== null) {
             $finalVersion = VersionCollection::createItem($options['version']);
@@ -206,14 +238,13 @@ class Migrations
 
         $optionStack->setOption('tableName', $options['tableName'], '@');
 
-        $versionItems = ModelMigration::scanForVersions($migrationsDir);
 
         if (!isset($versionItems[0])) {
             if (php_sapi_name() == 'cli') {
-                fwrite(STDERR, PHP_EOL . 'Migrations were not found at ' . $migrationsDir . PHP_EOL);
+                fwrite(STDERR, PHP_EOL . 'Migrations were not found at ' . $optionStack->getOption('migrationsDir') . PHP_EOL);
                 exit;
             } else {
-                throw new ModelException('Migrations were not found at ' . $migrationsDir);
+                throw new ModelException('Migrations were not found at ' . $optionStack->getOption('migrationsDir'));
             }
         }
 
@@ -223,12 +254,7 @@ class Migrations
         }
 
         ModelMigration::setup($optionStack->getOption('config')->database, $optionStack->getOption('verbose'));
-        ModelMigration::setMigrationPath($migrationsDir);
         self::connectionSetup($optionStack->getOptions());
-
-        /** @var \Phalcon\Version\IncrementalItem $initialVersion */
-        $initialVersion = self::getCurrentVersion($optionStack->getOptions());
-        $completedVersions = self::getCompletedVersions($optionStack->getOptions());
 
         // Everything is up to date
         if ($initialVersion->getStamp() === $finalVersion->getStamp()) {
@@ -260,6 +286,17 @@ class Migrations
 
         /** @var \Phalcon\Version\IncrementalItem $versionItem */
         foreach ($versionsBetween as $versionItem) {
+            $migrationsDir = $versionItem->getPath();
+            ModelMigration::setMigrationPath($migrationsDir);
+
+            // Directory depends on Forward or Back Migration
+            $directoryIterator = $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ?
+                    $initialVersion->getVersion() : $versionItem->getVersion());
+            if (!is_dir($directoryIterator)) {
+                continue;
+            }
+            $iterator = new DirectoryIterator($directoryIterator);
+
             // If we are rolling back, we skip migrating when initialVersion is the same as current
             if ($initialVersion->getVersion() === $versionItem->getVersion() &&
                 ModelMigration::DIRECTION_BACK === $direction) {
@@ -283,11 +320,6 @@ class Migrations
 
             $migrationStartTime = date("Y-m-d H:i:s");
 
-            // Directory depends on Forward or Back Migration
-            $iterator = new DirectoryIterator(
-                $migrationsDir . DIRECTORY_SEPARATOR . (ModelMigration::DIRECTION_BACK === $direction ?
-                    $initialVersion->getVersion() : $versionItem->getVersion())
-            );
 
             if ($optionStack->getOption('tableName') === '@') {
                 foreach ($iterator as $fileInfo) {
@@ -301,7 +333,7 @@ class Migrations
                     $optionStack->setOption('tableName', $listTables->listTablesForPrefix($prefix, $iterator));
                 }
 
-                $tables =  explode(',', $optionStack->getOption('tableName'));
+                $tables = explode(',', $optionStack->getOption('tableName'));
                 foreach ($tables as $tableName) {
                     ModelMigration::migrate($initialVersion, $versionItem, $tableName);
                 }
@@ -317,6 +349,7 @@ class Migrations
 
             $initialVersion = $versionItem;
         }
+
     }
 
     /**
@@ -338,10 +371,6 @@ class Migrations
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
         }
 
-        $migrationsDir = rtrim($options['migrationsDir'], '/');
-        if (!file_exists($migrationsDir)) {
-            throw new ModelException('Migrations directory was not found.');
-        }
 
         /** @var Config $config */
         $config = $options['config'];
@@ -353,16 +382,24 @@ class Migrations
         if (!isset($config->database)) {
             throw new ScriptException('Cannot load database configuration');
         }
+        $versionItems = [];
+        foreach ($options['migrationsDir'] ?? [] as $migrationsDir) {
+            $migrationsDir = rtrim($migrationsDir, '/');
+            if (!file_exists($migrationsDir)) {
+                throw new ModelException('Migrations directory was not found.');
+            }
+            $versionItem = ModelMigration::scanForVersions($migrationsDir);
 
-        $versionItems = ModelMigration::scanForVersions($migrationsDir);
-
-        if (!isset($versionItems[0])) {
-            print Color::info('Migrations were not found at ' . $migrationsDir);
-            return;
+            if (!isset($versionItem[0])) {
+                print Color::info('Migrations were not found at ' . $migrationsDir);
+                return;
+            }
+            $versionItems = $versionItems + $versionItem;
         }
 
+
         ModelMigration::setup($config->database);
-        ModelMigration::setMigrationPath($migrationsDir);
+
         self::connectionSetup($options);
 
         $completedVersions = self::getCompletedVersions($options);
@@ -383,14 +420,14 @@ class Migrations
         }
 
         $header = sprintf($format, 'Version', 'Was applied');
-        $report[] = '├' . str_repeat('─', $versionColumnWidth) . '┼'. str_repeat('─', 14) . '┤';
+        $report[] = '├' . str_repeat('─', $versionColumnWidth) . '┼' . str_repeat('─', 14) . '┤';
         $report[] = $header;
 
         $report = array_reverse($report);
 
-        echo '┌' . str_repeat('─', $versionColumnWidth) . '┬'. str_repeat('─', 14) . '┐' . PHP_EOL;
+        echo '┌' . str_repeat('─', $versionColumnWidth) . '┬' . str_repeat('─', 14) . '┐' . PHP_EOL;
         echo join(PHP_EOL, $report) . PHP_EOL;
-        echo '└' . str_repeat('─', $versionColumnWidth) . '┴'. str_repeat('─', 14) . '┘'. PHP_EOL . PHP_EOL;
+        echo '└' . str_repeat('─', $versionColumnWidth) . '┴' . str_repeat('─', 14) . '┘' . PHP_EOL . PHP_EOL;
     }
 
     /**
@@ -503,7 +540,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$storage;
-            $query = 'SELECT * FROM '. self::MIGRATION_LOG_TABLE .' ORDER BY version DESC LIMIT 1';
+            $query = 'SELECT * FROM ' . self::MIGRATION_LOG_TABLE . ' ORDER BY version DESC LIMIT 1';
             $lastGoodMigration = $connection->query($query);
 
             if (0 == $lastGoodMigration->numRows()) {
@@ -543,7 +580,7 @@ class Migrations
         }
         $endTime = date("Y-m-d H:i:s");
 
-        if (isset($options['migrationsInDb']) && (bool) $options['migrationsInDb']) {
+        if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$storage;
             $connection->insert(
@@ -573,7 +610,7 @@ class Migrations
         if (isset($options['migrationsInDb']) && (bool)$options['migrationsInDb']) {
             /** @var AdapterInterface $connection */
             $connection = self::$storage;
-            $connection->execute('DELETE FROM '. self::MIGRATION_LOG_TABLE .' WHERE version=\'' . $version . '\'');
+            $connection->execute('DELETE FROM ' . self::MIGRATION_LOG_TABLE . ' WHERE version=\'' . $version . '\'');
         } else {
             $currentVersions = self::getCompletedVersions($options);
             unset($currentVersions[$version]);
@@ -602,6 +639,8 @@ class Migrations
                 return $version['version'];
             }, $completedVersions);
         } else {
+            var_dump(self::$storage);
+            die;
             $completedVersions = file(self::$storage, FILE_IGNORE_NEW_LINES);
         }
 
