@@ -221,12 +221,20 @@ class IncrementalItem implements ItemInterface
     {
         return $this->version;
     }
-
+    /**
+     * Get integer payload of the Path
+     *
+     * @return string
+     */
     public function getPath()
     {
         return $this->path;
     }
-
+    /**
+     * Set integer payload of the Path
+     *
+     * @param string $path
+     */
     public function setPath($path)
     {
         $this->path = $path;

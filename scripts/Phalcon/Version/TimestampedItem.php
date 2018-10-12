@@ -36,7 +36,7 @@ class TimestampedItem implements ItemInterface
      * @var string
      */
     private $path;
-    
+
     /**
      * @var string
      */
@@ -101,8 +101,7 @@ class TimestampedItem implements ItemInterface
     /**
      * Set integer payload of the Path
      *
-     * @param $path
-     * @return integer
+     * @param string $path
      */
     public function setPath($path)
     {
@@ -113,7 +112,7 @@ class TimestampedItem implements ItemInterface
     /**
      * Get integer payload of the Path
      *
-     * @return integer
+     * @return string
      */
     public function getPath()
     {

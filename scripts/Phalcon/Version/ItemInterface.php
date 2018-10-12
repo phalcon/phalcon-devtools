@@ -54,8 +54,7 @@ interface ItemInterface
     /**
      * Set integer payload of the Path
      *
-     * @param $path
-     * @return integer
+     * @param string $path
      */
     public function setPath($path);
 
@@ -63,7 +62,7 @@ interface ItemInterface
     /**
      * Get integer payload of the Path
      *
-     * @return integer
+     * @return string
      */
     public function getPath();
 }
