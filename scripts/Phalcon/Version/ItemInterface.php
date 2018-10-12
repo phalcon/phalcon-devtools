@@ -50,4 +50,20 @@ interface ItemInterface
      * @return string
      */
     public function __toString();
+
+    /**
+     * Set integer payload of the Path
+     *
+     * @param $path
+     * @return integer
+     */
+    public function setPath($path);
+
+
+    /**
+     * Get integer payload of the Path
+     *
+     * @return integer
+     */
+    public function getPath();
 }

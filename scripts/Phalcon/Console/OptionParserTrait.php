@@ -75,15 +75,21 @@ trait OptionParserTrait
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
             $versionItem = VersionCollection::createItem($this->options['version']);
             //check version is exist
-            foreach ($this->options['migrationsDir'] ?? [] as $migrationsDir) {
-                foreach (ModelMigration::scanForVersions($migrationsDir) ?? [] as $item) {
-                    if ($item->getVersion() != $versionItem->getVersion()) {
-                        continue;
-                    }
-                    if (!$optionStack->getOption('force')) {
-                        throw new \LogicException('Version ' . $item->getVersion() . ' already exists');
-                    } else {
-                        rmdir(rtrim($migrationsDir, '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion());
+            $migrationsDirList = $this->options['migrationsDir'];
+            if (is_array($migrationsDirList)) {
+                foreach ($migrationsDirList as $migrationsDir) {
+                    $migrationsDirList = ModelMigration::scanForVersions($migrationsDir);
+                    if (is_array($migrationsDirList)) {
+                        foreach ($migrationsDirList as $item) {
+                            if ($item->getVersion() != $versionItem->getVersion()) {
+                                continue;
+                            }
+                            if (!$this->options['force']) {
+                                throw new \LogicException('Version ' . $item->getVersion() . ' already exists');
+                            } else {
+                                rmdir(rtrim($migrationsDir, '\\/') . DIRECTORY_SEPARATOR . $versionItem->getVersion());
+                            }
+                        }
                     }
                 }
             }
@@ -92,8 +98,11 @@ trait OptionParserTrait
         } else {
             VersionCollection::setType(VersionCollection::TYPE_INCREMENTAL);
             $versionItems = [];
-            foreach ($this->options['migrationsDir'] ?? [] as $migrationsDir) {
-                $versionItems = $versionItems + ModelMigration::scanForVersions($migrationsDir);
+            $migrationsDirList = $this->options['migrationsDir'];
+            if (is_array($migrationsDirList)) {
+                foreach ($migrationsDirList as $migrationsDir) {
+                    $versionItems = $versionItems + ModelMigration::scanForVersions($migrationsDir);
+                }
             }
             if (!isset($versionItems[0])) {
                 $versionItem = VersionCollection::createItem('1.0.0');

@@ -35,6 +35,11 @@ class TimestampedItem implements ItemInterface
     /**
      * @var string
      */
+    private $path;
+    
+    /**
+     * @var string
+     */
     protected $version;
 
     /**
@@ -91,5 +96,27 @@ class TimestampedItem implements ItemInterface
     public function getDescription()
     {
         return $this->isFullVersion() ? $this->parts[1] : '';
+    }
+
+    /**
+     * Set integer payload of the Path
+     *
+     * @param $path
+     * @return integer
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+
+
+    /**
+     * Get integer payload of the Path
+     *
+     * @return integer
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 }

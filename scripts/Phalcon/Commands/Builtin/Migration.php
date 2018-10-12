@@ -26,7 +26,6 @@ use Phalcon\Commands\Command;
 use Phalcon\Migrations;
 use Phalcon\Config;
 
-
 /**
  * Migration Command
  *
@@ -125,43 +124,44 @@ class Migration extends Command
 
         $tableName = $this->isReceivedOption('table') ? $this->getOption('table') : '@';
         $action = $this->getOption(['action', 1]);
+
         switch ($action) {
             case 'generate':
                 Migrations::generate([
-                    'directory' => $path,
-                    'tableName' => $tableName,
-                    'exportData' => $this->getOption('data'),
-                    'migrationsDir' => $migrationsDir,
-                    'version' => $this->getOption('version'),
-                    'force' => $this->isReceivedOption('force'),
+                    'directory'       => $path,
+                    'tableName'       => $tableName,
+                    'exportData'      => $this->getOption('data'),
+                    'migrationsDir'   => $migrationsDir,
+                    'version'         => $this->getOption('version'),
+                    'force'           => $this->isReceivedOption('force'),
                     'noAutoIncrement' => $this->isReceivedOption('no-auto-increment'),
-                    'config' => $config,
-                    'descr' => $this->getOption('descr'),
-                    'verbose' => $this->isReceivedOption('dry'),
+                    'config'          => $config,
+                    'descr'           => $this->getOption('descr'),
+                    'verbose'         => $this->isReceivedOption('dry'),
                 ]);
                 break;
             case 'run':
                 Migrations::run([
-                    'directory' => $path,
-                    'tableName' => $tableName,
-                    'migrationsDir' => $migrationsDir,
-                    'force' => $this->isReceivedOption('force'),
-                    'tsBased' => $migrationsTsBased,
-                    'config' => $config,
-                    'version' => $this->getOption('version'),
+                    'directory'      => $path,
+                    'tableName'      => $tableName,
+                    'migrationsDir'  => $migrationsDir,
+                    'force'          => $this->isReceivedOption('force'),
+                    'tsBased'        => $migrationsTsBased,
+                    'config'         => $config,
+                    'version'        => $this->getOption('version'),
                     'migrationsInDb' => $migrationsInDb,
-                    'verbose' => $this->isReceivedOption('verbose'),
+                    'verbose'        => $this->isReceivedOption('verbose'),
                 ]);
                 break;
             case 'list':
                 Migrations::listAll([
-                    'directory' => $path,
-                    'tableName' => $tableName,
-                    'migrationsDir' => $migrationsDir,
-                    'force' => $this->isReceivedOption('force'),
-                    'tsBased' => $migrationsTsBased,
-                    'config' => $config,
-                    'version' => $this->getOption('version'),
+                    'directory'      => $path,
+                    'tableName'      => $tableName,
+                    'migrationsDir'  => $migrationsDir,
+                    'force'          => $this->isReceivedOption('force'),
+                    'tsBased'        => $migrationsTsBased,
+                    'config'         => $config,
+                    'version'        => $this->getOption('version'),
                     'migrationsInDb' => $migrationsInDb,
                 ]);
                 break;
