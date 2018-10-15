@@ -241,7 +241,7 @@ class Model extends Component
 
                 $linesCode = file($modelPath);
                 $fullClassName = $this->modelOptions->getOption('className');
-                if ($this->modelOptions->getOption('namespace')) {
+                if ($this->modelOptions->hasOption('namespace')) {
                     $fullClassName = $this->modelOptions->getOption('namespace').'\\'.$fullClassName;
                 }
                 $reflection = new ReflectionClass($fullClassName);
@@ -297,54 +297,56 @@ class Model extends Component
                     }
                 }
 
-                $defaultProperties = $reflection->getDefaultProperties();
                 $possibleFields = [];
                 foreach ($fields as $field) {
                     $possibleFields[$field->getName()] = true;
                 }
-
-                foreach ($reflection->getReflectionConstants() as $constant) {
-                    if ($constant->getDeclaringClass()->getName() != $fullClassName) {
-                        continue;
-                    }
-                    $constantsPreg = '/^(\s*)const(\s+)'.$constant->getName().'([\s=;]+)/';
-                    $endLine = $startLine = 0;
-                    foreach ($linesCode as $line => $code) {
-                        if (preg_match($constantsPreg, $code)) {
-                            $startLine = $line;
-                            break;
+                if (method_exists($reflection, 'getReflectionConstants')) {
+                    foreach ($reflection->getReflectionConstants() as $constant) {
+                        if ($constant->getDeclaringClass()->getName() != $fullClassName) {
+                            continue;
                         }
-                    }
-                    if (!empty($startLine)) {
-                        $countLines = count($linesCode);
-                        for ($i = $startLine; $i < $countLines; $i++) {
-                            if (preg_match('/;(\s*)$/', $linesCode[$i])) {
-                                $endLine = $i;
+                        $constantsPreg = '/^(\s*)const(\s+)'.$constant->getName().'([\s=;]+)/';
+                        $endLine = $startLine = 0;
+                        foreach ($linesCode as $line => $code) {
+                            if (preg_match($constantsPreg, $code)) {
+                                $startLine = $line;
                                 break;
                             }
                         }
-                    }
+                        if (!empty($startLine)) {
+                            $countLines = count($linesCode);
+                            for ($i = $startLine; $i < $countLines; $i++) {
+                                if (preg_match('/;(\s*)$/', $linesCode[$i])) {
+                                    $endLine = $i;
+                                    break;
+                                }
+                            }
+                        }
 
-                    if (!empty($startLine) && !empty($endLine)) {
-                        $constantDeclaration = join(
-                            '',
-                            array_slice(
-                                $linesCode,
-                                $startLine,
-                                $endLine - $startLine + 1
-                            )
-                        );
-                        $attributes[] = PHP_EOL . "    " . $constant->getDocComment() . PHP_EOL . $constantDeclaration;
-
+                        if (!empty($startLine) && !empty($endLine)) {
+                            $constantDeclaration = join(
+                                '',
+                                array_slice(
+                                    $linesCode,
+                                    $startLine,
+                                    $endLine - $startLine + 1
+                                )
+                            );
+                            $attributes[] = PHP_EOL . "    " . $constant->getDocComment() .
+                                PHP_EOL . $constantDeclaration;
+                        }
                     }
                 }
+
                 foreach ($reflection->getProperties() as $propertie) {
                     $propertieName = $propertie->getName();
 
-                    if ($propertie->getDeclaringClass()->getName() != $fullClassName || !empty($possibleFields[$propertieName])) {
+                    if ($propertie->getDeclaringClass()->getName() != $fullClassName ||
+                        !empty($possibleFields[$propertieName])) {
                         continue;
                     }
-                    $modifiers = '';
+                    $modifiersPreg = '';
                     switch ($propertie->getModifiers()) {
                         case \ReflectionProperty::IS_PUBLIC:
                             $modifiersPreg = '^(\s*)public(\s+)';
@@ -391,11 +393,10 @@ class Model extends Component
                                 $endLine - $startLine + 1
                             )
                         );
-                        $attributes[] = PHP_EOL . "    " . $propertie->getDocComment() . PHP_EOL . $propertieDeclaration;
-
+                        $attributes[] = PHP_EOL . "    " . $propertie->getDocComment() . PHP_EOL .
+                            $propertieDeclaration;
                     }
                 }
-
             } catch (\Exception $e) {
                 throw new RuntimeException(
                     sprintf(
