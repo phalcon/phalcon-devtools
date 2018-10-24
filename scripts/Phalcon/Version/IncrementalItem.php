@@ -222,7 +222,7 @@ class IncrementalItem implements ItemInterface
         return $this->version;
     }
     /**
-     * Get integer payload of the Path
+     * Get migrations directory of incremental item
      *
      * @return string
      */
@@ -231,7 +231,7 @@ class IncrementalItem implements ItemInterface
         return $this->path;
     }
     /**
-     * Set integer payload of the Path
+     * Set migrations directory of incremental item
      *
      * @param string $path
      */

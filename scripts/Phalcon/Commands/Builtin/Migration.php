@@ -45,7 +45,7 @@ class Migration extends Command
         return [
             'action=s' => 'Generates a Migration [generate|run]',
             'config=s' => 'Configuration file',
-            'migrations=s' => 'Migrations directory,multiple dir use `,` separate',
+            'migrations=s' => 'Migrations directory. Use comma separated string to specify multiple directories',
             'directory=s' => 'Directory where the project was created',
             'table=s' => 'Table to migrate. Table name or table prefix with asterisk. Default: all',
             'version=s' => 'Version to migrate',

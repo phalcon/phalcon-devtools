@@ -52,7 +52,7 @@ interface ItemInterface
     public function __toString();
 
     /**
-     * Set integer payload of the Path
+     * Set migrations directory of incremental item
      *
      * @param string $path
      */
@@ -60,7 +60,7 @@ interface ItemInterface
 
 
     /**
-     * Get integer payload of the Path
+     * Get migrations directory of incremental item
      *
      * @return string
      */

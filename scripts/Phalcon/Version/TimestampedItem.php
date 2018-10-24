@@ -99,7 +99,7 @@ class TimestampedItem implements ItemInterface
     }
 
     /**
-     * Set integer payload of the Path
+     * Set migrations directory of incremental item
      *
      * @param string $path
      */
@@ -110,7 +110,7 @@ class TimestampedItem implements ItemInterface
 
 
     /**
-     * Get integer payload of the Path
+     * Get migrations directory of incremental item
      *
      * @return string
      */
