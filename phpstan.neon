@@ -9,3 +9,4 @@ parameters:
         - '#supplied for foreach, only iterables are supported#'
         - '#Call to an undefined method [a-zA-Z0-9\\_]+::addMinor().#'
         - '#Call to an undefined method ReflectionClass::getReflectionConstants\(\)\.#'
+    reportUnmatchedIgnoredErrors: false
