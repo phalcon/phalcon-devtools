@@ -13,9 +13,9 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label for="modelNamespace" class="col-sm-2 control-label">Model's namespace</label>
+                        <label for="modelsNamespace" class="col-sm-2 control-label">Model's namespace</label>
                         <div class="col-sm-10">
-                            {{ input("modelNamespace", 'eg. My\Awesome\Namespace') }}
+                            {{ input("modelsNamespace", 'eg. My\Awesome\Namespace') }}
                         </div>
                     </div>
 

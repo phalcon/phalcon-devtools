@@ -50,4 +50,19 @@ interface ItemInterface
      * @return string
      */
     public function __toString();
+
+    /**
+     * Set migrations directory of incremental item
+     *
+     * @param string $path
+     */
+    public function setPath($path);
+
+
+    /**
+     * Get migrations directory of incremental item
+     *
+     * @return string
+     */
+    public function getPath();
 }
