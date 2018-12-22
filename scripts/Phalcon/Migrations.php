@@ -29,6 +29,8 @@ use Phalcon\Script\Color;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Version\ItemInterface;
 use Phalcon\Script\ScriptException;
+use Phalcon\Db\Dialect\DialectMysql;
+use Phalcon\Db\Dialect\DialectPostgresql;
 use Phalcon\Db\Exception as DbException;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
@@ -469,6 +471,16 @@ class Migrations
             $configArray = $database->toArray();
             unset($configArray['adapter']);
             self::$storage = new $adapter($configArray);
+
+            //Connection custom dialect Dialect/DialectMysql
+            if ($database->adapter == 'Mysql') {
+                self::$storage->setDialect(new DialectMysql);
+            }
+
+            //Connection custom dialect Dialect/DialectPostgresql
+            if ($database->adapter == 'Postgresql') {
+                self::$storage->setDialect(new DialectPostgresql);
+            }
 
             if ($database->adapter === 'Mysql') {
                 self::$storage->query('SET FOREIGN_KEY_CHECKS=0');
