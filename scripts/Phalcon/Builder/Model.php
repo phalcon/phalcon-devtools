@@ -219,6 +219,7 @@ class Model extends Component
         $alreadyFindFirst    = false;
         $alreadyColumnMapped = false;
         $alreadyGetSourced   = false;
+        $attributes          = [];
 
         if (file_exists($modelPath)) {
             try {
@@ -240,7 +241,7 @@ class Model extends Component
 
                 $linesCode = file($modelPath);
                 $fullClassName = $this->modelOptions->getOption('className');
-                if ($this->modelOptions->getOption('namespace')) {
+                if ($this->modelOptions->hasOption('namespace')) {
                     $fullClassName = $this->modelOptions->getOption('namespace').'\\'.$fullClassName;
                 }
                 $reflection = new ReflectionClass($fullClassName);
@@ -293,6 +294,107 @@ class Model extends Component
                         case 'getSource':
                             $alreadyGetSourced = true;
                             break;
+                    }
+                }
+
+                $possibleFields = [];
+                foreach ($fields as $field) {
+                    $possibleFields[$field->getName()] = true;
+                }
+                if (method_exists($reflection, 'getReflectionConstants')) {
+                    foreach ($reflection->getReflectionConstants() as $constant) {
+                        if ($constant->getDeclaringClass()->getName() != $fullClassName) {
+                            continue;
+                        }
+                        $constantsPreg = '/^(\s*)const(\s+)'.$constant->getName().'([\s=;]+)/';
+                        $endLine = $startLine = 0;
+                        foreach ($linesCode as $line => $code) {
+                            if (preg_match($constantsPreg, $code)) {
+                                $startLine = $line;
+                                break;
+                            }
+                        }
+                        if (!empty($startLine)) {
+                            $countLines = count($linesCode);
+                            for ($i = $startLine; $i < $countLines; $i++) {
+                                if (preg_match('/;(\s*)$/', $linesCode[$i])) {
+                                    $endLine = $i;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!empty($startLine) && !empty($endLine)) {
+                            $constantDeclaration = join(
+                                '',
+                                array_slice(
+                                    $linesCode,
+                                    $startLine,
+                                    $endLine - $startLine + 1
+                                )
+                            );
+                            $attributes[] = PHP_EOL . "    " . $constant->getDocComment() .
+                                PHP_EOL . $constantDeclaration;
+                        }
+                    }
+                }
+
+                foreach ($reflection->getProperties() as $propertie) {
+                    $propertieName = $propertie->getName();
+
+                    if ($propertie->getDeclaringClass()->getName() != $fullClassName ||
+                        !empty($possibleFields[$propertieName])) {
+                        continue;
+                    }
+                    $modifiersPreg = '';
+                    switch ($propertie->getModifiers()) {
+                        case \ReflectionProperty::IS_PUBLIC:
+                            $modifiersPreg = '^(\s*)public(\s+)';
+                            break;
+                        case \ReflectionProperty::IS_PRIVATE:
+                            $modifiersPreg = '^(\s*)private(\s+)';
+                            break;
+                        case \ReflectionProperty::IS_PROTECTED:
+                            $modifiersPreg = '^(\s*)protected(\s+)';
+                            break;
+                        case \ReflectionProperty::IS_STATIC + \ReflectionProperty::IS_PUBLIC:
+                            $modifiersPreg = '^(\s*)(public?)(\s+)static(\s+)';
+                            break;
+                        case \ReflectionProperty::IS_STATIC + \ReflectionProperty::IS_PROTECTED:
+                            $modifiersPreg = '^(\s*)protected(\s+)static(\s+)';
+                            break;
+                        case \ReflectionProperty::IS_STATIC + \ReflectionProperty::IS_PRIVATE:
+                            $modifiersPreg = '^(\s*)private(\s+)static(\s+)';
+                            break;
+                    }
+                    $modifiersPreg = '/' . $modifiersPreg . '\$' . $propertieName . '([\s=;]+)/';
+                    $endLine = $startLine = 0;
+                    foreach ($linesCode as $line => $code) {
+                        if (preg_match($modifiersPreg, $code)) {
+                            $startLine = $line;
+                            break;
+                        }
+                    }
+                    if (!empty($startLine)) {
+                        $countLines = count($linesCode);
+                        for ($i = $startLine; $i < $countLines; $i++) {
+                            if (preg_match('/;(\s*)$/', $linesCode[$i])) {
+                                $endLine = $i;
+                                break;
+                            }
+                        }
+                    }
+                    if (!empty($startLine) && !empty($endLine)) {
+                        $propertieDeclaration = join(
+                            '',
+                            array_slice(
+                                $linesCode,
+                                $startLine,
+                                $endLine - $startLine + 1
+                            )
+                        );
+                        $attributes[] = PHP_EOL . "    " . $propertie->getDocComment() . PHP_EOL .
+                            $propertieDeclaration;
                     }
                 }
             } catch (\Exception $e) {
@@ -353,7 +455,6 @@ class Model extends Component
             }
         }
 
-        $attributes = [];
         $setters = [];
         $getters = [];
         foreach ($fields as $field) {

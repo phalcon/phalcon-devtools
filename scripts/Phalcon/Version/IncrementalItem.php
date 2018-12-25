@@ -33,6 +33,12 @@ class IncrementalItem implements ItemInterface
 {
     use VersionAwareTrait;
 
+
+    /**
+     * @var string
+     */
+    private $path;
+
     /**
      * @var string
      */
@@ -214,6 +220,24 @@ class IncrementalItem implements ItemInterface
     public function getVersion()
     {
         return $this->version;
+    }
+    /**
+     * Get migrations directory of incremental item
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+    /**
+     * Set migrations directory of incremental item
+     *
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
 
     protected function regenerateVersionStamp()

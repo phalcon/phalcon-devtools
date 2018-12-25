@@ -43,21 +43,21 @@ class Migration extends Command
     public function getPossibleParams()
     {
         return [
-            'action=s'          => 'Generates a Migration [generate|run]',
-            'config=s'          => 'Configuration file',
-            'migrations=s'      => 'Migrations directory',
-            'directory=s'       => 'Directory where the project was created',
-            'table=s'           => 'Table to migrate. Table name or table prefix with asterisk. Default: all',
-            'version=s'         => 'Version to migrate',
-            'descr=s'           => 'Migration description (used for timestamp based migration)',
-            'data=s'            => 'Export data [always|oncreate] (Import data when run migration)',
-            'force'             => 'Forces to overwrite existing migrations',
-            'ts-based'          => 'Timestamp based migration version',
-            'log-in-db'         => 'Keep migrations log in the database table rather than in file',
-            'dry'               => 'Attempt requested operation without making changes to system (Generating only)',
-            'verbose'           => 'Output of debugging information during operation (Running only)',
+            'action=s' => 'Generates a Migration [generate|run]',
+            'config=s' => 'Configuration file',
+            'migrations=s' => 'Migrations directory. Use comma separated string to specify multiple directories',
+            'directory=s' => 'Directory where the project was created',
+            'table=s' => 'Table to migrate. Table name or table prefix with asterisk. Default: all',
+            'version=s' => 'Version to migrate',
+            'descr=s' => 'Migration description (used for timestamp based migration)',
+            'data=s' => 'Export data [always|oncreate] (Import data when run migration)',
+            'force' => 'Forces to overwrite existing migrations',
+            'ts-based' => 'Timestamp based migration version',
+            'log-in-db' => 'Keep migrations log in the database table rather than in file',
+            'dry' => 'Attempt requested operation without making changes to system (Generating only)',
+            'verbose' => 'Output of debugging information during operation (Running only)',
             'no-auto-increment' => 'Disable auto increment (Generating only)',
-            'help'              => 'Shows this help [optional]',
+            'help' => 'Shows this help [optional]',
         ];
     }
 
@@ -79,20 +79,30 @@ class Migration extends Command
             $config = $this->getConfig($path);
         }
 
+
+        //multiple dir
+        $migrationsDir = [];
         if ($this->isReceivedOption('migrations')) {
-            $migrationsDir = $path . $this->getOption('migrations');
+            $migrationsDir = explode(',', $this->getOption('migrations'));
         } elseif (isset($config['application']['migrationsDir'])) {
-            $migrationsDir = $config['application']['migrationsDir'];
-            if (!$this->path->isAbsolutePath($migrationsDir)) {
-                $migrationsDir = $path . $migrationsDir;
+            $migrationsDir = explode(',', $config['application']['migrationsDir']);
+        }
+
+
+        if (!empty($migrationsDir)) {
+            foreach ($migrationsDir as $id => $dir) {
+                if (!$this->path->isAbsolutePath($dir)) {
+                    $migrationsDir[$id] = $path . $dir;
+                }
             }
         } elseif (file_exists($path . 'app')) {
-            $migrationsDir = $path . 'app/migrations';
+            $migrationsDir[] = $path . 'app/migrations';
         } elseif (file_exists($path . 'apps')) {
-            $migrationsDir = $path . 'apps/migrations';
+            $migrationsDir[] = $path . 'apps/migrations';
         } else {
-            $migrationsDir = $path . 'migrations';
+            $migrationsDir[] = $path . 'migrations';
         }
+
 
         // keep migrations log in db
         // either "log-in-db" option or "logInDb" config variable from "application" block
