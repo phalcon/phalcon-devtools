@@ -472,18 +472,13 @@ class Migrations
             unset($configArray['adapter']);
             self::$storage = new $adapter($configArray);
 
-            //Connection custom dialect Dialect/DialectMysql
-            if ($database->adapter == 'Mysql') {
+            if ($database->adapter === 'Mysql') {
                 self::$storage->setDialect(new DialectMysql);
+                self::$storage->query('SET FOREIGN_KEY_CHECKS=0');
             }
 
-            //Connection custom dialect Dialect/DialectPostgresql
             if ($database->adapter == 'Postgresql') {
                 self::$storage->setDialect(new DialectPostgresql);
-            }
-
-            if ($database->adapter === 'Mysql') {
-                self::$storage->query('SET FOREIGN_KEY_CHECKS=0');
             }
 
             if (!self::$storage->tableExists(self::MIGRATION_LOG_TABLE)) {
