@@ -178,13 +178,13 @@ class Migration
      *
      * @return array
      */
-    public static function generateAll(ItemInterface $version, $exportData = null)
+    public static function generateAll(ItemInterface $version, $exportData = null, array $exportDataOfTables = null)
     {
         $classDefinition = [];
         $schema = Utils::resolveDbSchema(self::$databaseConfig);
 
         foreach (self::$connection->listTables($schema) as $table) {
-            $classDefinition[$table] = self::generate($version, $table, $exportData);
+            $classDefinition[$table] = self::generate($version, $table, $exportData, $exportDataOfTables);
         }
 
         return $classDefinition;
@@ -200,6 +200,11 @@ class Migration
         return self::$databaseConfig->get('dbname');
     }
 
+    public static function shouldExportDataOfTable($table, $exportDataFromTables)
+    {
+        return in_array($table, $exportDataFromTables);
+    }
+
     /**
      * Generate specified table migration
      *
@@ -210,7 +215,7 @@ class Migration
      * @return string
      * @throws \Phalcon\Db\Exception
      */
-    public static function generate(ItemInterface $version, $table, $exportData = null)
+    public static function generate(ItemInterface $version, $table, $exportData = null, array $exportDataOfTables = null)
     {
         $oldColumn = null;
         $allFields = [];
@@ -290,7 +295,7 @@ class Migration
                 $fieldDefinition[] = "'default' => \"$default\"";
             }
             //if ($field->isPrimary()) {
-                //$fieldDefinition[] = "'primary' => true";
+            //$fieldDefinition[] = "'primary' => true";
             //}
 
             if ($field->isUnsigned()) {
@@ -399,7 +404,7 @@ class Migration
         // up()
         $classData .= $snippet->getMigrationUp();
 
-        if ($exportData == 'always') {
+        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
             $classData .= $snippet->getMigrationBatchInsert($table, $allFields);
         }
 
@@ -408,14 +413,14 @@ class Migration
         // down()
         $classData .= $snippet->getMigrationDown();
 
-        if ($exportData == 'always') {
+        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
             $classData .= $snippet->getMigrationBatchDelete($table);
         }
 
         $classData .= "\n    }\n";
 
         // afterCreateTable()
-        if ($exportData == 'oncreate') {
+        if ($exportData == 'oncreate' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
             $classData .= $snippet->getMigrationAfterCreateTable($table, $allFields);
         }
 
@@ -423,7 +428,7 @@ class Migration
         $classData .= "\n}\n";
 
         // dump data
-        if ($exportData == 'always' || $exportData == 'oncreate') {
+        if ($exportData == 'always' || $exportData == 'oncreate' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
             $fileHandler = fopen(self::$migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$connection->query('SELECT * FROM '. self::$connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);

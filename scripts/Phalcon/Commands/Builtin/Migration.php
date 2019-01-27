@@ -51,6 +51,7 @@ class Migration extends Command
             'version=s' => 'Version to migrate',
             'descr=s' => 'Migration description (used for timestamp based migration)',
             'data=s' => 'Export data [always|oncreate] (Import data when run migration)',
+            'exportDataFromTables=s' => 'Export data from specific tables',
             'force' => 'Forces to overwrite existing migrations',
             'ts-based' => 'Timestamp based migration version',
             'log-in-db' => 'Keep migrations log in the database table rather than in file',
@@ -79,6 +80,10 @@ class Migration extends Command
             $config = $this->getConfig($path);
         }
 
+        $exportDataFromTables= [];
+        if ($this->isReceivedOption('exportDataFromTables')) {
+            $exportDataFromTables = explode(',', $this->getOption('exportDataFromTables'));
+        }
 
         //multiple dir
         $migrationsDir = [];
@@ -131,6 +136,7 @@ class Migration extends Command
                     'directory'       => $path,
                     'tableName'       => $tableName,
                     'exportData'      => $this->getOption('data'),
+                    'exportDataFromTables'      => $exportDataFromTables,
                     'migrationsDir'   => $migrationsDir,
                     'version'         => $this->getOption('version'),
                     'force'           => $this->isReceivedOption('force'),
