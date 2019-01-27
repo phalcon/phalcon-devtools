@@ -51,7 +51,7 @@ class Migration extends Command
             'version=s' => 'Version to migrate',
             'descr=s' => 'Migration description (used for timestamp based migration)',
             'data=s' => 'Export data [always|oncreate] (Import data when run migration)',
-            'exportDataFromTables=s' => 'Export data from specific tables',
+            'exportDataFromTables=s' => 'Export data from specific tables, use comma separated string.',
             'force' => 'Forces to overwrite existing migrations',
             'ts-based' => 'Timestamp based migration version',
             'log-in-db' => 'Keep migrations log in the database table rather than in file',
