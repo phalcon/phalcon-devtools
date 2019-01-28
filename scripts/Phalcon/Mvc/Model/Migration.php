@@ -215,7 +215,12 @@ class Migration
      * @return string
      * @throws \Phalcon\Db\Exception
      */
-    public static function generate(ItemInterface $version, $table, $exportData = null, array $exportDataOfTables = null)
+    public static function generate(
+        ItemInterface $version,
+        $table,
+        $exportData = null,
+        array $exportDataOfTables = null
+    )
     {
         $oldColumn = null;
         $allFields = [];
@@ -428,7 +433,11 @@ class Migration
         $classData .= "\n}\n";
 
         // dump data
-        if ($exportData == 'always' || $exportData == 'oncreate' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
+        if (
+            $exportData == 'always' ||
+            $exportData == 'oncreate' ||
+            self::shouldExportDataOfTable($table, $exportDataOfTables)
+        ) {
             $fileHandler = fopen(self::$migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$connection->query('SELECT * FROM '. self::$connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
