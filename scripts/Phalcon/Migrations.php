@@ -138,8 +138,11 @@ class Migrations
 
         $wasMigrated = false;
         if ($optionStack->getOption('tableName') === '@') {
-            $migrations = ModelMigration::generateAll($versionItem, $optionStack->getOption('exportData'),
-                $optionStack->getOption('exportDataFromTables'));
+            $migrations = ModelMigration::generateAll(
+                $versionItem,
+                $optionStack->getOption('exportData'),
+                $optionStack->getOption('exportDataFromTables')
+            );
             if (!$optionStack->getOption('verbose')) {
                 foreach ($migrations as $tableName => $migration) {
                     if ($tableName === self::MIGRATION_LOG_TABLE) {
@@ -165,8 +168,12 @@ class Migrations
 
             $tables = explode(',', $optionStack->getOption('tableName'));
             foreach ($tables as $table) {
-                $migration = ModelMigration::generate($versionItem, $table, $optionStack->getOption('exportData'),
-                    $optionStack->getOption('exportDataFromTables'));
+                $migration = ModelMigration::generate(
+                    $versionItem,
+                    $table,
+                    $optionStack->getOption('exportData'),
+                    $optionStack->getOption('exportDataFromTables')
+                );
                 if (!$optionStack->getOption('verbose')) {
                     $tableFile = $migrationPath . DIRECTORY_SEPARATOR . $table . '.php';
                     $wasMigrated = file_put_contents(
@@ -297,7 +304,7 @@ class Migrations
             if ($initialVersion->getVersion() == $versionItem->getVersion()) {
                 $initialVersion->setPath($versionItem->getPath());
             }
-            
+
             // If we are rolling back, we skip migrating when initialVersion is the same as current
             if ($initialVersion->getVersion() === $versionItem->getVersion() &&
                 ModelMigration::DIRECTION_BACK === $direction) {
