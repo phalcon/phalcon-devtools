@@ -178,13 +178,13 @@ class Migration
      *
      * @return array
      */
-    public static function generateAll(ItemInterface $version, $exportData = null, $exportDataOfTables = null)
+    public static function generateAll(ItemInterface $version, $exportData = null, $exportDataFromTables = null)
     {
         $classDefinition = [];
         $schema = Utils::resolveDbSchema(self::$databaseConfig);
 
         foreach (self::$connection->listTables($schema) as $table) {
-            $classDefinition[$table] = self::generate($version, $table, $exportData, $exportDataOfTables);
+            $classDefinition[$table] = self::generate($version, $table, $exportData, $exportDataFromTables);
         }
 
         return $classDefinition;
@@ -219,7 +219,7 @@ class Migration
         ItemInterface $version,
         $table,
         $exportData = null,
-        $exportDataOfTables = null
+        $exportDataFromTables = null
     ) {
         $oldColumn = null;
         $allFields = [];
@@ -408,7 +408,7 @@ class Migration
         // up()
         $classData .= $snippet->getMigrationUp();
 
-        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
+        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationBatchInsert($table, $allFields);
         }
 
@@ -417,14 +417,14 @@ class Migration
         // down()
         $classData .= $snippet->getMigrationDown();
 
-        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
+        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationBatchDelete($table);
         }
 
         $classData .= "\n    }\n";
 
         // afterCreateTable()
-        if ($exportData == 'oncreate' || self::shouldExportDataOfTable($table, $exportDataOfTables)) {
+        if ($exportData == 'oncreate' || self::shouldExportDataOfTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationAfterCreateTable($table, $allFields);
         }
 
@@ -434,7 +434,7 @@ class Migration
         // dump data
         if ($exportData == 'always' ||
             $exportData == 'oncreate' ||
-            self::shouldExportDataOfTable($table, $exportDataOfTables)) {
+            self::shouldExportDataOfTable($table, $exportDataFromTables)) {
             $fileHandler = fopen(self::$migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$connection->query('SELECT * FROM '. self::$connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
