@@ -84,7 +84,11 @@ class Migration extends Command
         if ($this->isReceivedOption('exportDataFromTables')) {
             $exportDataFromTables = explode(',', $this->getOption('exportDataFromTables'));
         } elseif (isset($config['application']['exportDataFromTables'])) {
-            $exportDataFromTables = explode(',', $config['application']['exportDataFromTables']);
+            if ($config['application']['exportDataFromTables'] instanceof Config) {
+                $exportDataFromTables = $config['application']['exportDataFromTables']->toArray();
+            } else {
+                $exportDataFromTables = explode(',', $config['application']['exportDataFromTables']);
+            }
         }
 
         //multiple dir
