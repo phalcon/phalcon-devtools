@@ -304,7 +304,6 @@ class Migrations
             if ($initialVersion->getVersion() == $versionItem->getVersion()) {
                 $initialVersion->setPath($versionItem->getPath());
             }
-
             // If we are rolling back, we skip migrating when initialVersion is the same as current
             if ($initialVersion->getVersion() === $versionItem->getVersion() &&
                 ModelMigration::DIRECTION_BACK === $direction) {
