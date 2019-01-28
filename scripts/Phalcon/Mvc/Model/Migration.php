@@ -219,8 +219,8 @@ class Migration
         ItemInterface $version,
         $table,
         $exportData = null,
-        $exportDataOfTables = null)
-    {
+        $exportDataOfTables = null
+    ) {
         $oldColumn = null;
         $allFields = [];
         $numericFields = [];
@@ -434,8 +434,7 @@ class Migration
         // dump data
         if ($exportData == 'always' ||
             $exportData == 'oncreate' ||
-            self::shouldExportDataOfTable($table, $exportDataOfTables))
-        {
+            self::shouldExportDataOfTable($table, $exportDataOfTables)) {
             $fileHandler = fopen(self::$migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$connection->query('SELECT * FROM '. self::$connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
