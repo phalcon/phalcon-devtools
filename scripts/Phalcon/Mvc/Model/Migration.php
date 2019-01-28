@@ -200,7 +200,7 @@ class Migration
         return self::$databaseConfig->get('dbname');
     }
 
-    public static function shouldExportDataOfTable($table, $exportDataFromTables)
+    public static function shouldExportDataFromTable($table, $exportDataFromTables)
     {
         return in_array($table, $exportDataFromTables);
     }
@@ -408,7 +408,7 @@ class Migration
         // up()
         $classData .= $snippet->getMigrationUp();
 
-        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataFromTables)) {
+        if ($exportData == 'always' || self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationBatchInsert($table, $allFields);
         }
 
@@ -417,14 +417,14 @@ class Migration
         // down()
         $classData .= $snippet->getMigrationDown();
 
-        if ($exportData == 'always' || self::shouldExportDataOfTable($table, $exportDataFromTables)) {
+        if ($exportData == 'always' || self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationBatchDelete($table);
         }
 
         $classData .= "\n    }\n";
 
         // afterCreateTable()
-        if ($exportData == 'oncreate' || self::shouldExportDataOfTable($table, $exportDataFromTables)) {
+        if ($exportData == 'oncreate' || self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationAfterCreateTable($table, $allFields);
         }
 
@@ -434,7 +434,7 @@ class Migration
         // dump data
         if ($exportData == 'always' ||
             $exportData == 'oncreate' ||
-            self::shouldExportDataOfTable($table, $exportDataFromTables)) {
+            self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $fileHandler = fopen(self::$migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$connection->query('SELECT * FROM '. self::$connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
