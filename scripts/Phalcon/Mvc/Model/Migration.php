@@ -178,7 +178,7 @@ class Migration
      *
      * @return array
      */
-    public static function generateAll(ItemInterface $version, $exportData = null, array $exportDataOfTables = null)
+    public static function generateAll(ItemInterface $version, $exportData = null, $exportDataOfTables = null)
     {
         $classDefinition = [];
         $schema = Utils::resolveDbSchema(self::$databaseConfig);
@@ -219,8 +219,7 @@ class Migration
         ItemInterface $version,
         $table,
         $exportData = null,
-        array $exportDataOfTables = null
-    )
+        $exportDataOfTables = null)
     {
         $oldColumn = null;
         $allFields = [];
