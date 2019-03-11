@@ -602,7 +602,7 @@ class Scaffold extends Component
                 $code .= '<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
-                $code .= '<div class="row center-block">' . PHP_EOL;
+                $code .= '<div class="center-block">' . PHP_EOL;
             }
             $code .= "\t" . '<?php echo $this->getContent(); ?>' . PHP_EOL . '</div>';
 
@@ -642,7 +642,7 @@ class Scaffold extends Component
                 $code .= '{{ stylesheet_link("themes/base") }}'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
-                $code .= '<div class="row center-block">' . PHP_EOL;
+                $code .= '<div class="center-block">' . PHP_EOL;
             }
 
             $code .= "\t" . '{{ content() }}' . PHP_EOL . '</div>';

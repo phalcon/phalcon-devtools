@@ -45,10 +45,10 @@
     <div class="col-sm-11">
         <nav>
             <ul class="pagination">
-                <li>{{ link_to("$plural$/search", "First") }}</li>
-                <li>{{ link_to("$plural$/search?page="~page.before, "Previous") }}</li>
-                <li>{{ link_to("$plural$/search?page="~page.next, "Next") }}</li>
-                <li>{{ link_to("$plural$/search?page="~page.last, "Last") }}</li>
+                <li>{{ link_to("$plural$/search", "First", false, "class": "page-link") }}</li>
+                <li>{{ link_to("$plural$/search?page="~page.before, "Previous", false, "class": "page-link") }}</li>
+                <li>{{ link_to("$plural$/search?page="~page.next, "Next", false, "class": "page-link") }}</li>
+                <li>{{ link_to("$plural$/search?page="~page.last, "Last", false, "class": "page-link") }}</li>
             </ul>
         </nav>
     </div>
