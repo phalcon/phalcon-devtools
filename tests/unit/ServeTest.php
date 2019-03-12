@@ -69,7 +69,7 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['',''];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:8000 -t public .htrouter.php', $command);
+        $this->assertContains('php -S 0.0.0.0:8000 -t .htrouter.php -t public', $command);
     }
 
     /**
@@ -103,7 +103,7 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', 'localhost'];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S localhost:8000 -t public .htrouter.php', $command);
+        $this->assertContains('php -S localhost:8000 -t .htrouter.php -t public', $command);
     }
 
     /**
@@ -137,7 +137,7 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', null, 1111];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:1111 -t public .htrouter.php', $command);
+        $this->assertContains('php -S 0.0.0.0:1111 -t .htrouter.php -t public', $command);
     }
 
     /**
@@ -171,7 +171,7 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', null, null, '/root/bin.php'];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:8000 -t public /root/bin.php', $command);
+        $this->assertContains('php -S 0.0.0.0:8000 -t /root/bin.php -t public', $command);
     }
 
     /**
@@ -205,7 +205,7 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', null, null, null, 'not_too_public'];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:8000 -t not_too_public .htrouter.php', $command);
+        $this->assertContains('php -S 0.0.0.0:8000 -t .htrouter.php -t not_too_public', $command);
     }
 
     /**
@@ -239,6 +239,6 @@ class ServeTest extends \Codeception\Test\Unit
         $_SERVER['argv'] = ['','', null, null, null, '--config=awesome.ini'];
         $this->command->parseParameters([], []);
         $command = $this->command->shellCommand();
-        $this->assertContains('php -S 0.0.0.0:8000 -t public .htrouter.php -c awesome.ini', $command);
+        $this->assertContains('php -S 0.0.0.0:8000 -t .htrouter.php -t public -c awesome.ini', $command);
     }
 }
