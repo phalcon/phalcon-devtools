@@ -7,6 +7,11 @@
  *
  * *nix:    CPHALCON_DIR=/path/to/cphalcon/ext/ php ide/gen-stubs.php
  *  Win:    set CPHALCON_DIR=C:\Path\To\cphalcon\ext\ php ide/gen-stubs.php
+ *
+ * Alternative stubs generation
+ *
+ * cd cphalcon
+ * zephir stubs
  */
 
 if (!extension_loaded('phalcon')) {
@@ -17,6 +22,11 @@ if (getenv('CPHALCON_DIR') === false || !file_exists(getenv('CPHALCON_DIR'))) {
 	throw new Exception("CPHALCON directory does not exist");
 }
 
+/**
+ * Class Stubs_Generator
+ *
+ * @deprecated In version 4.x current class will be removed
+ */
 class Stubs_Generator
 {
 
