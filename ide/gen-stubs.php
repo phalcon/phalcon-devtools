@@ -3,18 +3,17 @@
 /**
  * This scripts generates the stubs to be used on IDEs
  *
- * Change the CPHALCON_DIR constant to point to the dev/ directory in the Phalcon source code
+ * Specify CPHALCON_DIR env variable to point to the dev/ directory in the Phalcon source code
  *
- * php ide/gen-stubs.php
+ * *nix:    CPHALCON_DIR=/path/to/cphalcon/ext/ php ide/gen-stubs.php
+ *  Win:    set CPHALCON_DIR=C:\Path\To\cphalcon\ext\ php ide/gen-stubs.php
  */
 
 if (!extension_loaded('phalcon')) {
 	throw new Exception("phalcon extension isn't installed");
 }
 
-define('CPHALCON_DIR' , '/Users/micate/Code/cphalcon/ext/');
-
-if (!file_exists(CPHALCON_DIR)) {
+if (getenv('CPHALCON_DIR') === false || !file_exists(getenv('CPHALCON_DIR'))) {
 	throw new Exception("CPHALCON directory does not exist");
 }
 
@@ -123,7 +122,7 @@ $version = Phalcon\Version::get();
 $versionPieces = explode(' ', $version);
 $genVersion = $versionPieces[0];
 
-$api = new Stubs_Generator(CPHALCON_DIR);
+$api = new Stubs_Generator(getenv('CPHALCON_DIR'));
 
 $classDocs = $api->getClassDocs();
 $docs = $api->getDocs();
