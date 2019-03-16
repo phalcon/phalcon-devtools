@@ -86,19 +86,19 @@ cd phalcon-devtools
 ```
 
 This method requires a little bit more of setup. Probably the best way would be to symlink
-the `phalcon.php` to a directory in your `PATH`, so you can issue phalcon commands in each directory
+the `phalcon` file to a directory in your `PATH`, so you can issue phalcon commands in each directory
 where a phalcon project resides.
 
 ```bash
 cd phalcon-devtools
-ln -s $(pwd)/phalcon.php /usr/bin/phalcon
+ln -s $(pwd)/phalcon /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```
 
 If you get a `"phalcon: command not found"` message while creating the symlink, make an alias.
 
 ```bash
-alias phalcon=/home/[USERNAME]/phalcon-devtools/phalcon.php
+alias phalcon=/home/[USERNAME]/phalcon-devtools/phalcon
 ```
 
 ## Usage
