@@ -60,7 +60,7 @@ install:
   - if [ "$PHP_MAJOR" == "7" ]; then composer require --dev phpstan/phpstan:^0.9; fi;
 
 before_script:
-  - ln -s $PWD/phalcon.php ~/bin/phalcon
+  - ln -s $PWD/phalcon ~/bin/phalcon
 
 script:
   - vendor/bin/phpcs
