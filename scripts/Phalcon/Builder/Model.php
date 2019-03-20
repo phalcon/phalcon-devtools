@@ -180,7 +180,7 @@ class Model extends Component
                 }
 
                 $entityNamespace = '';
-                if ($this->modelOptions->getOption('namespace')) {
+                if ($this->modelOptions->hasOption('namespace')) {
                     $entityNamespace = $this->modelOptions->getOption('namespace')."\\";
                 }
 
@@ -198,8 +198,8 @@ class Model extends Component
 
         foreach ($db->describeReferences($this->modelOptions->getOption('name'), $schema) as $reference) {
             $entityNamespace = '';
-            if ($this->modelOptions->getOption('namespace')) {
-                $entityNamespace = $this->modelOptions->getOption('namespace');
+            if ($this->modelOptions->hasOption('namespace')) {
+                $entityNamespace = $this->modelOptions->getOption('namespace')."\\";
             }
 
             $refColumns = $reference->getReferencedColumns();
@@ -207,7 +207,7 @@ class Model extends Component
             $initialize[] = $snippet->getRelation(
                 'belongsTo',
                 $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
-                $this->getEntityClassName($reference, $entityNamespace),
+                $entityNamespace . Utils::camelize($reference->getReferencedTable()),
                 $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                 "['alias' => '" . Text::camelize($reference->getReferencedTable(), '_-') . "']"
             );
