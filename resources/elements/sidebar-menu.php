@@ -229,7 +229,7 @@ return [
         [
             'link' => [
                 'href' => 'https://forum.phalconphp.com/',
-                'icon' => 'fa fa-comment-alt',
+                'icon' => 'fa fa-comment-o',
                 'local' => false,
                 'target' => '_blank',
                 'text' => 'Phalcon Forum',
@@ -241,7 +241,7 @@ return [
         [
             'link' => [
                 'href' => 'https://phalcon.link/discord',
-                'icon' => 'fa fa-discord',
+                'icon' => 'fa fa-comments',
                 'local' => false,
                 'target' => '_blank',
                 'text' => 'Discord Server',
