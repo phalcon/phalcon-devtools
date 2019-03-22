@@ -192,7 +192,7 @@ return [
         // Phalcon Docs
         [
             'link'  => [
-                'href'  => 'https://docs.phalconphp.com/3.4/en/',
+                'href'  => 'https://phalcon.link/docs',
                 'icon'  => 'fa fa-book',
                 'local' => false,
                 'target' => '_blank',
