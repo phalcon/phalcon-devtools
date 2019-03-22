@@ -224,5 +224,17 @@ return [
                 'wrap'  => 'span',
             ],
         ],
+
+        // Phalcon Discord Server
+        [
+            'link' => [
+                'href' => 'https://phalcon.link/discord',
+                'icon' => 'fa fa-discord',
+                'local' => false,
+                'target' => '_blank',
+                'text' => 'Discord Server',
+                'wrap' => 'span',
+            ]
+        ]
     ],
 ];
