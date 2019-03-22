@@ -228,7 +228,7 @@ return [
         // Phalcon Official Forum
         [
             'link' => [
-                'href' => 'https://forum.phalconphp.com/',
+                'href' => 'https://phalcon.link/forum',
                 'icon' => 'fa fa-comment-o',
                 'local' => false,
                 'target' => '_blank',
