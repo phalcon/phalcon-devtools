@@ -225,6 +225,18 @@ return [
             ],
         ],
 
+        // Phalcon Official Forum
+        [
+            'link' => [
+                'href' => 'https://forum.phalconphp.com/',
+                'icon' => 'fa fa-comment-alt',
+                'local' => false,
+                'target' => '_blank',
+                'text' => 'Phalcon Forum',
+                'wrap' => 'span',
+            ],
+        ],
+
         // Phalcon Discord Server
         [
             'link' => [
