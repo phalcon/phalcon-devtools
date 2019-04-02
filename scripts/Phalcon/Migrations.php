@@ -496,7 +496,7 @@ class Migrations
                             'version',
                             [
                                 'type' => Column::TYPE_VARCHAR,
-                                'size' => 255,
+                                'size' => 190, // utf8: 255*3 = 765 bytes, utf8mb4: 255*4 = 1020 bytes
                                 'notNull' => true,
                             ]
                         ),
