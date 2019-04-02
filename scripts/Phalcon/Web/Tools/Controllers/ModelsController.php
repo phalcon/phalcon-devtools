@@ -235,7 +235,8 @@ class ModelsController extends Base
                     'genSettersGetters'     => $this->request->getPost('genSettersGetters', 'int'),
                     'namespace'             => $this->request->getPost('namespace', 'string'),
                     'schema'                => $this->request->getPost('schema', 'string'),
-                    'mapColumn'             => $this->request->getPost('mapcolumn', 'int')
+                    'mapColumn'             => $this->request->getPost('mapcolumn', 'int'),
+                    'config'                => $this->config,
                 ]);
 
                 $modelBuilder->build();
