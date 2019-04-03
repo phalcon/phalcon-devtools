@@ -928,4 +928,25 @@ class Migration
     {
         return self::$connection;
     }
+
+    /**
+     * Determine if column has size
+     *
+     * @param string $type
+     * @return bool
+     */
+    public static function columnHasSize($type)
+    {
+        $adapter = self::$databaseConfig->path('adapter');
+        if ($adapter == 'Postgresql' &&
+            in_array($type, [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])) {
+            return false;
+        }
+
+        if ($type == Column::TYPE_TEXT) {
+            return false;
+        }
+
+        return true;
+    }
 }
