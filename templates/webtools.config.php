@@ -26,6 +26,8 @@
  *
  *        For example:
  *          192.168.0.1 or SUBNET 192., 10.0.2., 86.84.124.
+ *        For docker or dynamic IPs:
+ *          $_SERVER['REMOTE_ADDR']
  */
 defined('PTOOLS_IP') || define('PTOOLS_IP', '192.168.');
 defined('BASE_PATH') || define('BASE_PATH', dirname(dirname(__FILE__)));
