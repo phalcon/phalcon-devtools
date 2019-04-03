@@ -298,9 +298,6 @@ class Migration
                 $default = $field->getDefault();
                 $fieldDefinition[] = "'default' => \"$default\"";
             }
-            //if ($field->isPrimary()) {
-            //$fieldDefinition[] = "'primary' => true";
-            //}
 
             if ($field->isUnsigned()) {
                 $fieldDefinition[] = "'unsigned' => true";
