@@ -298,9 +298,6 @@ class Migration
                 $default = $field->getDefault();
                 $fieldDefinition[] = "'default' => \"$default\"";
             }
-            //if ($field->isPrimary()) {
-            //$fieldDefinition[] = "'primary' => true";
-            //}
 
             if ($field->isUnsigned()) {
                 $fieldDefinition[] = "'unsigned' => true";
@@ -314,16 +311,9 @@ class Migration
                 $fieldDefinition[] = "'autoIncrement' => true";
             }
 
-            if (self::$databaseConfig->path('adapter') == 'Postgresql' &&
-                in_array($field->getType(), [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])
-            ) {
-                // nothing
-            } else {
-                if ($field->getSize()) {
-                    $fieldDefinition[] = "'size' => ".$field->getSize();
-                } else {
-                    $fieldDefinition[] = "'size' => 1";
-                }
+            if (self::columnHasSize($field->getType())) {
+                $columnSize = $field->getSize();
+                $fieldDefinition[] = "'size' => " . ($columnSize ? $columnSize : 1);
             }
 
             if ($field->getScale()) {
@@ -930,5 +920,26 @@ class Migration
     public function getConnection()
     {
         return self::$connection;
+    }
+
+    /**
+     * Determine if column has size
+     *
+     * @param string $type
+     * @return bool
+     */
+    public static function columnHasSize($type)
+    {
+        $adapter = self::$databaseConfig->path('adapter');
+        if ($adapter == 'Postgresql' &&
+            in_array($type, [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])) {
+            return false;
+        }
+
+        if ($type == Column::TYPE_TEXT) {
+            return false;
+        }
+
+        return true;
     }
 }
