@@ -52,7 +52,7 @@ class Namespaces extends Validator implements ValidatorInterface
      *
      * @return bool
      */
-    public function validate(Validation $validation, $field)
+    public function validate(Validation $validation, $field): bool
     {
         $value = $validation->getValue($field);
 
