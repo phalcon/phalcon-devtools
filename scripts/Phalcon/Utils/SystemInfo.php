@@ -22,14 +22,14 @@
 namespace Phalcon\Utils;
 
 use Phalcon\Devtools\Version;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable as Component;
 use Phalcon\Version as PhVersion;
 
 /**
  * \Phalcon\Utils\SystemInfo
  *
  * @property \Phalcon\Registry $registry
- * @property \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface $url
+ * @property \Phalcon\Url|\Phalcon\UrlInterface $url
  *
  * @package Phalcon\Utils
  */
