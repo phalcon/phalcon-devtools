@@ -37,8 +37,8 @@ class Version extends PhVersion
      *
      * @return array
      */
-    protected static function _getVersion()
+    protected static function _getVersion():array
     {
-        return [3, 4, 0, 4, 0];
+        return [4, 0, 0, 1, 4];
     }
 }
