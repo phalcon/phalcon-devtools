@@ -22,8 +22,8 @@
         "forum": "https://forum.phalconphp.com/"
     },
     "require": {
-        "php": ">=5.5",
-        "ext-phalcon": "~3.3",
+        "php": ">=7.2",
+        "ext-phalcon": "~4.0",
         "psy/psysh": "~0.9",
         "nikic/php-parser": "^3.1"
     },
