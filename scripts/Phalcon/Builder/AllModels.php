@@ -200,7 +200,7 @@ class AllModels extends Component
                 $modelBuilder = new Model([
                     'name' => $name,
                     'config' => $config,
-                    'schema' => $schema,
+                    'schema' => $this->options->get('schema', ''),
                     'extends' => $this->options->get('extends'),
                     'namespace' => $this->options->get('namespace'),
                     'force' => $forceProcess,
