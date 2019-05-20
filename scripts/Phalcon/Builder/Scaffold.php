@@ -283,7 +283,7 @@ class Scaffold extends Component
 
             $code .= '$' . Utils::lowerCamelizeWithDelimiter($var, '-', true) . '->';
             if ($useGetSetters) {
-                $code .= 'set' . Utils::lowerCamelizeWithDelimiter($field, '_', true) . '(' . $fieldCode . ')';
+                $code .= 'set' . Utils::lowerCamelizeWithDelimiter($field, '_') . '(' . $fieldCode . ')';
             } else {
                 $code .= Utils::lowerCamelizeWithDelimiter($field, '-_', true) . ' = ' . $fieldCode;
             }
