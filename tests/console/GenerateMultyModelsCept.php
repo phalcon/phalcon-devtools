@@ -10,7 +10,7 @@ $I->wantToTest('Generating models');
 $I->amInPath(dirname(app_path()));
 mkdir(tests_path('_data/console/app/models/all_model_test'), 0777, true);
 
-$I->runShellCommand('phalcon all-models --config=app/mysql/config.php --output=app/models/all_model_test --annotate');
+$I->runShellCommand('phalcon all-models --config=app/mysql/config.php --output=app/models/all_model_test --annotate --schema=devtools');
 
 $I->seeFileFound(app_path('models/all_model_test/TestModel.php'));
 $I->seeFileFound(app_path('models/all_model_test/TestModel2.php'));
