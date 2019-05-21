@@ -153,15 +153,14 @@ class Model extends Component
 
         $initialize = [];
 
-        if ($this->modelOptions->hasOption('schema')) {
+        // use option schema if exists and is not empty
+        if ($this->modelOptions->hasOption('schema') && !empty($this->modelOptions->getOption('schema'))) {
             $schema = $this->modelOptions->getOption('schema');
+            $initialize['schema'] = $snippet->getThisMethod('setSchema', $schema);
         } else {
             $schema = Utils::resolveDbSchema($config->database);
         }
 
-        if (!empty($this->modelOptions->getOption('schema'))) {
-            $initialize['schema'] = $snippet->getThisMethod('setSchema', $schema);
-        }
         $initialize['source'] = $snippet->getThisMethod('setSource', $this->modelOptions->getOption('name'));
 
         $table = $this->modelOptions->getOption('name');
