@@ -200,7 +200,9 @@ class AllModels extends Component
                 $modelBuilder = new Model([
                     'name' => $name,
                     'config' => $config,
-                    'schema' => $this->options->get('schema', null),
+                    // We need to pass schema exactly as set in argv or config to Model
+                    // get disallows empty values, so we need to access raw options
+                    'schema' => isset($this->options->schema) ? $this->options->schema : null,
                     'extends' => $this->options->get('extends'),
                     'namespace' => $this->options->get('namespace'),
                     'force' => $forceProcess,
