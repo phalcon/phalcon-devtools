@@ -66,6 +66,21 @@ class ModelTest extends UnitTest
             );
             $this->assertSame('correct_schema', $model->getSchema());
         });
+
+        $this->specify('should get schema from config->database if modelOptions schema is empty', function() {
+            $model = new Model(
+                [
+                    'name' => 'test',
+                    'schema' => null,
+                    'config' => new Config([
+                        'database' => [
+                            'schema' => 'correct_schema'
+                        ]
+                    ]),
+                ]
+            );
+            $this->assertSame('correct_schema', $model->getSchema());
+        });
     }
 
     /**
