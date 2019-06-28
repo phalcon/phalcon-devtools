@@ -51,10 +51,10 @@
     <div class="col-sm-11">
         <nav>
             <ul class="pagination">
-                <li><?php echo $this->tag->linkTo("$plural$/search", "First") ?></li>
-                <li><?php echo $this->tag->linkTo("$plural$/search?page=" . $page->before, "Previous") ?></li>
-                <li><?php echo $this->tag->linkTo("$plural$/search?page=" . $page->next, "Next") ?></li>
-                <li><?php echo $this->tag->linkTo("$plural$/search?page=" . $page->last, "Last") ?></li>
+                <li><?php echo $this->tag->linkTo(["$plural$/search", "First", 'class' => 'page-link']) ?></li>
+                <li><?php echo $this->tag->linkTo(["$plural$/search?page=" . $page->before, "Previous", 'class' => 'page-link']) ?></li>
+                <li><?php echo $this->tag->linkTo(["$plural$/search?page=" . $page->next, "Next", 'class' => 'page-link']) ?></li>
+                <li><?php echo $this->tag->linkTo(["$plural$/search?page=" . $page->last, "Last", 'class' => 'page-link']) ?></li>
             </ul>
         </nav>
     </div>

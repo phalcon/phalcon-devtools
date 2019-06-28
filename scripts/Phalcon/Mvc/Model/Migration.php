@@ -178,13 +178,13 @@ class Migration
      *
      * @return array
      */
-    public static function generateAll(ItemInterface $version, $exportData = null)
+    public static function generateAll(ItemInterface $version, $exportData = null, $exportDataFromTables = null)
     {
         $classDefinition = [];
         $schema = Utils::resolveDbSchema(self::$databaseConfig);
 
         foreach (self::$connection->listTables($schema) as $table) {
-            $classDefinition[$table] = self::generate($version, $table, $exportData);
+            $classDefinition[$table] = self::generate($version, $table, $exportData, $exportDataFromTables);
         }
 
         return $classDefinition;
@@ -200,6 +200,11 @@ class Migration
         return self::$databaseConfig->get('dbname');
     }
 
+    public static function shouldExportDataFromTable($table, $exportDataFromTables)
+    {
+        return in_array($table, $exportDataFromTables);
+    }
+
     /**
      * Generate specified table migration
      *
@@ -210,8 +215,12 @@ class Migration
      * @return string
      * @throws \Phalcon\Db\Exception
      */
-    public static function generate(ItemInterface $version, $table, $exportData = null)
-    {
+    public static function generate(
+        ItemInterface $version,
+        $table,
+        $exportData = null,
+        $exportDataFromTables = null
+    ) {
         $oldColumn = null;
         $allFields = [];
         $numericFields = [];
@@ -289,9 +298,6 @@ class Migration
                 $default = $field->getDefault();
                 $fieldDefinition[] = "'default' => \"$default\"";
             }
-            //if ($field->isPrimary()) {
-                //$fieldDefinition[] = "'primary' => true";
-            //}
 
             if ($field->isUnsigned()) {
                 $fieldDefinition[] = "'unsigned' => true";
@@ -305,16 +311,9 @@ class Migration
                 $fieldDefinition[] = "'autoIncrement' => true";
             }
 
-            if (self::$databaseConfig->path('adapter') == 'Postgresql' &&
-                in_array($field->getType(), [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])
-            ) {
-                // nothing
-            } else {
-                if ($field->getSize()) {
-                    $fieldDefinition[] = "'size' => ".$field->getSize();
-                } else {
-                    $fieldDefinition[] = "'size' => 1";
-                }
+            if (self::columnHasSize($field->getType())) {
+                $columnSize = $field->getSize();
+                $fieldDefinition[] = "'size' => " . ($columnSize ? $columnSize : 1);
             }
 
             if ($field->getScale()) {
@@ -399,7 +398,7 @@ class Migration
         // up()
         $classData .= $snippet->getMigrationUp();
 
-        if ($exportData == 'always') {
+        if ($exportData == 'always' || self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationBatchInsert($table, $allFields);
         }
 
@@ -408,14 +407,14 @@ class Migration
         // down()
         $classData .= $snippet->getMigrationDown();
 
-        if ($exportData == 'always') {
+        if ($exportData == 'always' || self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationBatchDelete($table);
         }
 
         $classData .= "\n    }\n";
 
         // afterCreateTable()
-        if ($exportData == 'oncreate') {
+        if ($exportData == 'oncreate' || self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $classData .= $snippet->getMigrationAfterCreateTable($table, $allFields);
         }
 
@@ -423,7 +422,9 @@ class Migration
         $classData .= "\n}\n";
 
         // dump data
-        if ($exportData == 'always' || $exportData == 'oncreate') {
+        if ($exportData == 'always' ||
+            $exportData == 'oncreate' ||
+            self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $fileHandler = fopen(self::$migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$connection->query('SELECT * FROM '. self::$connection->escapeIdentifier($table));
             $cursor->setFetchMode(Db::FETCH_ASSOC);
@@ -919,5 +920,26 @@ class Migration
     public function getConnection()
     {
         return self::$connection;
+    }
+
+    /**
+     * Determine if column has size
+     *
+     * @param string $type
+     * @return bool
+     */
+    public static function columnHasSize($type)
+    {
+        $adapter = self::$databaseConfig->path('adapter');
+        if ($adapter == 'Postgresql' &&
+            in_array($type, [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])) {
+            return false;
+        }
+
+        if ($type == Column::TYPE_TEXT) {
+            return false;
+        }
+
+        return true;
     }
 }

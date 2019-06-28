@@ -37,7 +37,7 @@ if [ -z "$PTOOLSPATH" ]; then
 fi
 
 if [ ! -z "$PTOOLSPATH" ]; then
-	php "$PTOOLSPATH/phalcon.php" $*
+	php "$PTOOLSPATH/phalcon" $*
 else
 	if [ -n "$ZSH_VERSION" ]; then
 		echo "Error: Add environment variable PTOOLSPATH to your $HOME/.zsh"

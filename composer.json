@@ -22,7 +22,7 @@
         "forum": "https://forum.phalconphp.com/"
     },
     "require": {
-        "php": ">=5.5",
+        "php": ">=5.5 < 7.3.2 || >7.3.3",
         "ext-phalcon": "~3.3",
         "psy/psysh": "~0.9",
         "nikic/php-parser": "^3.1"
@@ -52,5 +52,5 @@
             "tests/_support/helpers.php"
         ]
     },
-    "bin": ["phalcon.php"]
+    "bin": ["phalcon"]
 }

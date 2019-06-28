@@ -192,7 +192,7 @@ return [
         // Phalcon Docs
         [
             'link'  => [
-                'href'  => 'https://docs.phalconphp.com/en/3.2',
+                'href'  => 'https://phalcon.link/docs',
                 'icon'  => 'fa fa-book',
                 'local' => false,
                 'target' => '_blank',
@@ -224,5 +224,29 @@ return [
                 'wrap'  => 'span',
             ],
         ],
+
+        // Phalcon Official Forum
+        [
+            'link' => [
+                'href' => 'https://phalcon.link/forum',
+                'icon' => 'fa fa-comment-o',
+                'local' => false,
+                'target' => '_blank',
+                'text' => 'Phalcon Forum',
+                'wrap' => 'span',
+            ],
+        ],
+
+        // Phalcon Discord Server
+        [
+            'link' => [
+                'href' => 'https://phalcon.link/discord',
+                'icon' => 'fa fa-comments',
+                'local' => false,
+                'target' => '_blank',
+                'text' => 'Discord Server',
+                'wrap' => 'span',
+            ]
+        ]
     ],
 ];

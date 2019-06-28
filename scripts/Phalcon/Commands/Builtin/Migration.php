@@ -51,6 +51,7 @@ class Migration extends Command
             'version=s' => 'Version to migrate',
             'descr=s' => 'Migration description (used for timestamp based migration)',
             'data=s' => 'Export data [always|oncreate] (Import data when run migration)',
+            'exportDataFromTables=s' => 'Export data from specific tables, use comma separated string.',
             'force' => 'Forces to overwrite existing migrations',
             'ts-based' => 'Timestamp based migration version',
             'log-in-db' => 'Keep migrations log in the database table rather than in file',
@@ -79,6 +80,16 @@ class Migration extends Command
             $config = $this->getConfig($path);
         }
 
+        $exportDataFromTables = [];
+        if ($this->isReceivedOption('exportDataFromTables')) {
+            $exportDataFromTables = explode(',', $this->getOption('exportDataFromTables'));
+        } elseif (isset($config['application']['exportDataFromTables'])) {
+            if ($config['application']['exportDataFromTables'] instanceof Config) {
+                $exportDataFromTables = $config['application']['exportDataFromTables']->toArray();
+            } else {
+                $exportDataFromTables = explode(',', $config['application']['exportDataFromTables']);
+            }
+        }
 
         //multiple dir
         $migrationsDir = [];
@@ -87,7 +98,6 @@ class Migration extends Command
         } elseif (isset($config['application']['migrationsDir'])) {
             $migrationsDir = explode(',', $config['application']['migrationsDir']);
         }
-
 
         if (!empty($migrationsDir)) {
             foreach ($migrationsDir as $id => $dir) {
@@ -102,7 +112,6 @@ class Migration extends Command
         } else {
             $migrationsDir[] = $path . 'migrations';
         }
-
 
         // keep migrations log in db
         // either "log-in-db" option or "logInDb" config variable from "application" block
@@ -131,6 +140,7 @@ class Migration extends Command
                     'directory'       => $path,
                     'tableName'       => $tableName,
                     'exportData'      => $this->getOption('data'),
+                    'exportDataFromTables'      => $exportDataFromTables,
                     'migrationsDir'   => $migrationsDir,
                     'version'         => $this->getOption('version'),
                     'force'           => $this->isReceivedOption('force'),

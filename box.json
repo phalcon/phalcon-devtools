@@ -1,5 +1,5 @@
 {
-  "main": "phalcon.php",
+  "main": "phalcon",
   "output": "phalcon.phar",
   "chmod": "0755",
   "directories": [

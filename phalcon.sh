@@ -96,7 +96,7 @@ check_install(){
 	if [ -z "$PTOOLSPATH" ]; then
 		printf "\n${YELLOW}Phalcon Developer Tools Installer${NC}"
 		printf "\n"
-		printf "\n${PURPLE}Make sure phalcon.sh is in the same dir as phalcon.php${NC}"
+		printf "\n${PURPLE}Make sure phalcon.sh is in the same dir as phalcon file${NC}"
 		printf "\n${PURPLE}and that you are running this with sudo or as root.${NC}"
 		printf "\n"
 		printf "\nInstalling Devtools..."
@@ -147,5 +147,5 @@ init
 
 if check_install; then
 	devtools=${PTOOLSPATH%/}
-	php "$devtools/phalcon.php" $*
+	php "$devtools/phalcon" $*
 fi
