@@ -121,7 +121,8 @@ class Serve extends Command
     public function shellCommand()
     {
         $systemInfo = new SystemInfo();
-        $binary_path = $systemInfo->getEnvironment()['PHP Bin'];
+        //$binary_path = $systemInfo->getEnvironment()['PHP Bin'];
+        $binary_path = 'php';
 
         $this->prepareOptions();
         $this->printServerDetails();
