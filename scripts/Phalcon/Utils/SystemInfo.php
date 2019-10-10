@@ -22,7 +22,7 @@
 namespace Phalcon\Utils;
 
 use Phalcon\Devtools\Version;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 use Phalcon\Version as PhVersion;
 
 /**
@@ -33,7 +33,7 @@ use Phalcon\Version as PhVersion;
  *
  * @package Phalcon\Utils
  */
-class SystemInfo extends Component
+class SystemInfo extends Injectable
 {
     public function get()
     {
