@@ -23,18 +23,18 @@
     },
     "require": {
         "php": ">=7.2",
-        "ext-phalcon": "~4.0",
+        "ext-phalcon": "4.0.0-rc.1",
         "psy/psysh": "~0.9",
-        "nikic/php-parser": "^3.1"
+        "nikic/php-parser": "^4.2.4"
     },
     "require-dev": {
         "kherge/box": "^2.7",
-        "codeception/codeception": "^2.3",
-        "phpdocumentor/reflection-docblock": "^2.0",
-        "phpunit/phpunit": "^4.8",
-        "codeception/specify": "^0.4",
-        "codeception/verify": "^0.3",
-        "squizlabs/php_codesniffer": "^3.2",
+        "codeception/codeception": "^3.1",
+        "phpdocumentor/reflection-docblock": "^4.3",
+        "phpunit/phpunit": "^8.0",
+        "codeception/specify": "^1.2",
+        "codeception/verify": "^1.2",
+        "squizlabs/php_codesniffer": "^3.5",
         "phalcon/ide-stubs": "4.0.0-rc.1"
     },
     "autoload": {
