@@ -8,7 +8,11 @@ $I = new ConsoleTester($scenario);
 
 $I->wantToTest('Generating models');
 $I->amInPath(dirname(app_path()));
-mkdir(tests_path('_data/console/app/models/all_model_test'), 0777, true);
+
+$modelsTestDir = tests_path('_data/console/app/models/all_model_test');
+if (!is_dir($modelsTestDir)) {
+    mkdir($modelsTestDir, 0777, true);
+}
 
 $I->runShellCommand('phalcon all-models --config=app/mysql/config.php --output=app/models/all_model_test --annotate');
 
