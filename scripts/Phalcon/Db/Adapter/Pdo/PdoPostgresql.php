@@ -19,9 +19,8 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db;
+use Phalcon\Db\Enum;
 use Phalcon\Db\Reference;
-use Phalcon\Db\Exception;
 use Phalcon\Db\ReferenceInterface;
 
 /**
@@ -39,11 +38,11 @@ class PdoPostgresql extends Postgresql
      * @return ReferenceInterface[]
      *
      */
-    public function describeReferences($table, $schema = null)
+    public function describeReferences(string $table, string $schema = null): array
     {
         $references = [];
 
-        foreach ($this->fetchAll($this->_dialect->describeReferences($table, $schema), Db::FETCH_NUM) as $reference) {
+        foreach ($this->fetchAll(parent::describeReferences($table, $schema), Enum::FETCH_NUM) as $reference) {
             $constraintName = $reference[2];
             if (!isset($references[$constraintName])) {
                 $referencedSchema  = $reference[3];

@@ -36,7 +36,7 @@ class DialectMysql extends Mysql
      * @param ReferenceInterface $reference
      * @return string
      */
-    public function addForeignKey($tableName, $schemaName, ReferenceInterface $reference)
+    public function addForeignKey(string $tableName, string $schemaName, ReferenceInterface $reference): string
     {
         $sql = 'ALTER TABLE ' . $this->prepareTable($tableName, $schemaName) . ' ADD';
         if ($reference->getName()) {
@@ -64,7 +64,7 @@ class DialectMysql extends Mysql
      *
      * @return string
      */
-    public function getForeignKeyChecks()
+    public function getForeignKeyChecks(): string
     {
         $sql = 'SELECT @@foreign_key_checks';
 
