@@ -41,7 +41,7 @@ before_install:
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
   - phpenv config-rm xdebug.ini || true
   - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
-  - if [ ! -f "$HOME/cphalcon/$PHALCON_VERSION/tests/_ci/phalcon.ini" ]; then git clone -q --branch $PHALCON_VERSION --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon/$PHALCON_VERSION >/dev/null 2>&1; fi;
+  - git clone -q --branch $PHALCON_VERSION --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon/$PHALCON_VERSION
   - bash tests/_ci/setup_dbs.sh
 
 install:
