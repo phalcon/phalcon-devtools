@@ -31,7 +31,7 @@ env:
   global:
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
-    - PHALCON_VERSION="v4.0.0-rc.1"
+    - PHALCON_VERSION=v4.0.0-rc.1
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
@@ -41,17 +41,15 @@ before_install:
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
   - phpenv config-rm xdebug.ini || true
   - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
-  - git clone -q --branch $PHALCON_VERSION --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon/$PHALCON_VERSION
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - if [ ! -f $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so ]; then cd $HOME/cphalcon/$PHALCON_VERSION/build && bash ./install --phpize $(phpenv which phpize) --php-config $(phpenv which php-config) && mkdir -p $HOME/ext/$PHP_VERSION && cp $PHP_EXTENSION_DIR/phalcon.so $HOME/ext/$PHP_VERSION/phalcon.so; fi;
-  - if [ -f $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so ]; then cp $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so $PHP_EXTENSION_DIR/phalcon.so; fi;
-  - cd $TRAVIS_BUILD_DIR
-  - travis_retry composer install --prefer-dist --no-interaction
+  - pecl install --force psr
+  - .ci/install-phalcon.sh
   - if [ "$PHP_MAJOR" == "7" ]; then composer require --dev phpstan/phpstan:^0.9; fi;
 
 before_script:
+  - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest
   - ln -s $PWD/phalcon ~/bin/phalcon
 
 script:
