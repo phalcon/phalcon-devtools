@@ -21,10 +21,9 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
-use Phalcon\Validation\Message;
-use Phalcon\Validation\ValidatorInterface;
+use Phalcon\Validation\AbstractValidator;
 
 /**
  * Phalcon\Validation\Validator\Namespaces
@@ -42,7 +41,7 @@ use Phalcon\Validation\ValidatorInterface;
  *
  * @package Phalcon\Validation\Validator
  */
-class Namespaces extends Validator implements ValidatorInterface
+class Namespaces extends AbstractValidator
 {
     /**
      * Executes the namespaces validation
