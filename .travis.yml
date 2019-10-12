@@ -46,10 +46,10 @@ before_install:
 install:
   - pecl install --force psr
   - .ci/install-phalcon.sh
-  - if [ "$PHP_MAJOR" == "7" ]; then composer require --dev phpstan/phpstan:^0.9; fi;
 
 before_script:
   - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest
+  - composer require --dev phpstan/phpstan
   - ln -s $PWD/phalcon ~/bin/phalcon
 
 script:
