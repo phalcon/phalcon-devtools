@@ -66,7 +66,7 @@ class Project extends Component
      */
     public function build()
     {
-        if ($this->options->contains('directory')) {
+        if ($this->options->offsetExists('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
 
@@ -74,7 +74,7 @@ class Project extends Component
             str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) .
             'templates';
 
-        if ($this->options->contains('templatePath')) {
+        if ($this->options->offsetExists('templatePath')) {
             $templatePath = $this->options->get('templatePath');
         }
 
@@ -94,7 +94,7 @@ class Project extends Component
 
         $builderClass = $this->types[$this->currentType];
 
-        if ($this->options->contains('name')) {
+        if ($this->options->offsetExists('name')) {
             $this->path->appendRootPath($this->options->get('name'));
         }
 

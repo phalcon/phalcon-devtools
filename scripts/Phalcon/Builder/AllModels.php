@@ -56,7 +56,7 @@ class AllModels extends Component
 
     public function build()
     {
-        if ($this->options->contains('directory')) {
+        if ($this->options->offsetExists('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
 
@@ -112,7 +112,7 @@ class AllModels extends Component
          */
         $db = new $adapterName($configArray);
 
-        if ($this->options->contains('schema')) {
+        if ($this->options->offsetExists('schema')) {
             $schema = $this->options->get('schema');
         } else {
             $schema = Utils::resolveDbSchema($config->database);
@@ -175,7 +175,7 @@ class AllModels extends Component
         }
 
         foreach ($db->listTables($schema) as $name) {
-            $className = ($this->options->contains('abstract') ? 'Abstract' : '');
+            $className = ($this->options->offsetExists('abstract') ? 'Abstract' : '');
             $className .= Utils::camelize($name);
 
             if (!file_exists($modelPath . $className . '.php') || $forceProcess) {
