@@ -21,7 +21,7 @@
 
 namespace Phalcon\Builder\Project;
 
-use Phalcon\Builder\Options;
+use Phalcon\Config;
 
 /**
  * ProjectBuilder
@@ -40,7 +40,7 @@ abstract class ProjectBuilder
 
     /**
      * Builder options
-     * @var Options
+     * @var Config
      */
     protected $options = null;
 
@@ -50,7 +50,7 @@ abstract class ProjectBuilder
      */
     protected $projectDirectories = [];
 
-    public function __construct(Options $options)
+    public function __construct(Config $options)
     {
         $this->options = $options;
     }

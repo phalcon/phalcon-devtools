@@ -21,6 +21,7 @@
 
 namespace Phalcon\Builder;
 
+use Phalcon\Config;
 use Phalcon\Validation;
 use Phalcon\Script\Color;
 use Phalcon\Validation\Validator\Namespaces;
@@ -36,7 +37,7 @@ abstract class Component
 {
     /**
      * Builder Options
-     * @var Options
+     * @var Config
      */
     protected $options = null;
 
@@ -53,7 +54,7 @@ abstract class Component
      */
     public function __construct(array $options = [])
     {
-        $this->options = new Options($options);
+        $this->options = new Config($options);
         $this->path = new Path(realpath('.') . DIRECTORY_SEPARATOR);
     }
 

@@ -56,7 +56,7 @@ class AllModels extends Component
 
     public function build()
     {
-        if ($this->options->contains('directory')) {
+        if ($this->options->offsetExists('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
 

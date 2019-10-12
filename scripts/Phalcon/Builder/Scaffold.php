@@ -150,7 +150,7 @@ class Scaffold extends Component
         $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
-        if ($this->options->contains('modelsNamespace') &&
+        if ($this->options->offsetExists('modelsNamespace') &&
             $this->checkNamespace($this->options->get('modelsNamespace'))) {
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
