@@ -22,7 +22,7 @@
 
 namespace Phalcon\Utils;
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
 /**
  * \Phalcon\Utils\DbUtils
@@ -31,7 +31,7 @@ use Phalcon\Mvc\User\Component;
  *
  * @package Phalcon\Utils
  */
-class DbUtils extends Component
+class DbUtils extends Injectable
 {
     /**
      * List database tables

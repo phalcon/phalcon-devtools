@@ -21,16 +21,16 @@
 
 namespace Phalcon\Access;
 
+use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\User\Component;
 
 /**
  * \Phalcon\Access\Manager
  *
  * @package Phalcon\Access
  */
-class Manager extends Component
+class Manager extends Injectable
 {
     const EXCEPTION_ACTION_DISALLOWED = 10;
 

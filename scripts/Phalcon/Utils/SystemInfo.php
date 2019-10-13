@@ -29,7 +29,7 @@ use Phalcon\Version as PhVersion;
  * \Phalcon\Utils\SystemInfo
  *
  * @property \Phalcon\Registry $registry
- * @property \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface $url
+ * @property \Phalcon\Url|\Phalcon\Url\UrlInterface $url
  *
  * @package Phalcon\Utils
  */

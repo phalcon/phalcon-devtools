@@ -21,7 +21,7 @@
 
 namespace Phalcon\Resources;
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
 /**
  * \Phalcon\Resources\AssetsResource
@@ -30,7 +30,7 @@ use Phalcon\Mvc\User\Component;
  *
  * @package Phalcon\Resources
  */
-class AssetsResource extends Component
+class AssetsResource extends Injectable
 {
     /**
      * Returns assets resource path.
