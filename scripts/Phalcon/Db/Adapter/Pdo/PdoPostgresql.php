@@ -42,7 +42,7 @@ class PdoPostgresql extends Postgresql
     {
         $references = [];
 
-        foreach ($this->fetchAll(parent::describeReferences($table, $schema), Enum::FETCH_NUM) as $reference) {
+        foreach ($this->fetchAll($this->getDialect()->describeReferences($table, $schema), Enum::FETCH_NUM) as $reference) {
             $constraintName = $reference[2];
             if (!isset($references[$constraintName])) {
                 $referencedSchema  = $reference[3];
