@@ -74,6 +74,6 @@ script:
 notifications:
   email:
     recipients:
-      - build@phalconphp.com
+      - build@phalcon.io
     on_success: change
     on_failure: always
