@@ -58,12 +58,12 @@ class Controller extends Component
      */
     public function build()
     {
-        if ($this->options->contains('directory')) {
+        if ($this->options->offsetExists('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
 
         $namespace = '';
-        if ($this->options->contains('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
+        if ($this->options->offsetExists('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
             $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
         }
 
@@ -78,7 +78,7 @@ class Controller extends Component
             $controllersDir = $config->path('application.controllersDir');
         }
 
-        if (!$this->options->contains('name')) {
+        if (!$this->options->offsetExists('name')) {
             throw new BuilderException('The controller name is required.');
         }
 
@@ -97,7 +97,7 @@ class Controller extends Component
             $baseClass . "\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
         $code = str_replace("\t", "    ", $code);
 
-        if (file_exists($controllerPath) && !$this->options->contains('force')) {
+        if (file_exists($controllerPath) && !$this->options->offsetExists('force')) {
             throw new BuilderException(sprintf('The Controller %s already exists.', $name));
         }
 

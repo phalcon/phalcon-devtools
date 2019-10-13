@@ -168,7 +168,7 @@ class Modules extends ProjectBuilder
      */
     private function createConfig()
     {
-        $type = $this->options->contains('useConfigIni') ? 'ini' : 'php';
+        $type = $this->options->offsetExists('useConfigIni') ? 'ini' : 'php';
 
         $getFile = $this->options->get('templatePath') . '/project/modules/config.' . $type;
         $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
@@ -276,7 +276,7 @@ class Modules extends ProjectBuilder
             ->createControllerFile()
             ->createHtrouterFile();
 
-        $this->options->contains('enableWebTools') && Tools::install($this->options->get('projectPath'));
+        $this->options->offsetExists('enableWebTools') && Tools::install($this->options->get('projectPath'));
 
         return true;
     }
