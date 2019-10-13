@@ -64,7 +64,7 @@ class Module extends Component
      */
     public function build()
     {
-        if (!$this->options->contains('name')) {
+        if (!$this->options->offsetExists('name')) {
             throw new BuilderException('Please, specify the model name');
         }
 
@@ -74,7 +74,7 @@ class Module extends Component
                 . 'templates' . DIRECTORY_SEPARATOR . 'module';
         }
 
-        if ($this->options->contains('directory')) {
+        if ($this->options->offsetExists('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
 

@@ -21,12 +21,12 @@
 
 namespace Phalcon\Builder\Project;
 
-use Phalcon\Builder\Options;
+use Phalcon\Config;
 
 /**
  * \Phalcon\Builder\Project\ProjectAware
  *
- * @property Options $options
+ * @property Config $options
  * @method static generateFile(string $fromFile, string $toFile, string $name = '')
  *
  * @package Phalcon\Builder\Project
