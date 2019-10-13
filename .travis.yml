@@ -53,6 +53,7 @@ before_script:
   - ln -s $PWD/phalcon ~/bin/phalcon
 
 script:
+  - mkdir .phalcon
   - vendor/bin/phpcs
   - vendor/bin/codecept build
   - vendor/bin/codecept run unit -v
