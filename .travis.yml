@@ -1,7 +1,5 @@
 language: php
 
-sudo: required
-
 services:
   - postgresql
   - mysql
@@ -18,7 +16,7 @@ git:
 
 cache:
   ccache: true
-  timeout: 691200
+  timeout: 604800
   directories:
     - .temp
     - vendor
