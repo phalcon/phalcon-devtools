@@ -21,7 +21,7 @@
 
 namespace Phalcon\Mvc\Dispatcher;
 
-use Phalcon\Dispatcher;
+use Phalcon\Dispatcher\Exception as DispatcherException;
 use Phalcon\Events\Event;
 use Phalcon\Access\Manager;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
@@ -47,14 +47,14 @@ class ErrorHandler
     {
         if ($exception instanceof DispatchException) {
             switch ($exception->getCode()) {
-                case Dispatcher::EXCEPTION_INVALID_HANDLER:
-                case Dispatcher::EXCEPTION_CYCLIC_ROUTING:
+                case DispatcherException::EXCEPTION_INVALID_HANDLER:
+                case DispatcherException::EXCEPTION_CYCLIC_ROUTING:
                     $action = 'route500';
                     break;
                 case Manager::EXCEPTION_ACTION_DISALLOWED:
                     $action = 'route403';
                     break;
-                case Dispatcher::EXCEPTION_INVALID_PARAMS:
+                case DispatcherException::EXCEPTION_INVALID_PARAMS:
                     $action = 'route400';
                     break;
                 default:

@@ -19,6 +19,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Db\Dialect\DialectMysql;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\Exception;
 
@@ -40,11 +41,13 @@ class PdoMysql extends Mysql
      */
     public function addForeignKey(string $tableName, string $schemaName, ReferenceInterface $reference): bool
     {
-        $foreignKeyCheck = $this->{"prepare"}($this->getDialect()->getForeignKeyChecks());
+        /** @var DialectMysql $dialect */
+        $dialect = $this->getDialect();
+        $foreignKeyCheck = $this->{"prepare"}($dialect->getForeignKeyChecks());
         if (!$foreignKeyCheck->execute()) {
             throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
         }
 
-        return $this->{"execute"}($this->_dialect->addForeignKey($tableName, $schemaName, $reference));
+        return $this->{"execute"}($dialect->addForeignKey($tableName, $schemaName, $reference));
     }
 }

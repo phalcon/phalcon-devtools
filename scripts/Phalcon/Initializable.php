@@ -21,37 +21,36 @@
 
 namespace Phalcon;
 
-use Phalcon\Mvc\View;
 use DirectoryIterator;
+use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Access\Policy\Ip as IpPolicy;
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Assets\Manager as AssetsManager;
+use Phalcon\Cache\Backend\Memory as BackendCache;
+use Phalcon\Cache\Frontend\None as FrontendNone;
+use Phalcon\Cache\Frontend\Output as FrontOutput;
+use Phalcon\Di\DiInterface;
+use Phalcon\Elements\Menu\SidebarMenu;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Logger\Adapter\File as FileLogger;
+use Phalcon\Logger\Formatter\Line as LineFormatter;
+use Phalcon\Mvc\Dispatcher as MvcDispatcher;
+use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
+use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
+use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php;
+use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
+use Phalcon\Mvc\View\NotFoundListener;
+use Phalcon\Resources\AssetsResource;
+use Phalcon\Scanners\Config as ConfigScanner;
+use Phalcon\Session\Adapter\Stream as SessionStream;
 use Phalcon\Utils\DbUtils;
 use Phalcon\Utils\FsUtils;
 use Phalcon\Utils\SystemInfo;
-use Phalcon\Mvc\View\Engine\Php;
-use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Resources\AssetsResource;
-use Phalcon\Elements\Menu\SidebarMenu;
-use Phalcon\Mvc\View\NotFoundListener;
-use Phalcon\Flash\Direct as FlashDirect;
-use Phalcon\Access\Policy\Ip as IpPolicy;
-use Phalcon\Flash\Session as FlashSession;
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Assets\Manager as AssetsManager;
-use Phalcon\Access\Manager as AccessManager;
-use Phalcon\Mvc\Dispatcher as MvcDispatcher;
-use Phalcon\Scanners\Config as ConfigScanner;
-use Phalcon\Session\Adapter\Files as Session;
-use Phalcon\Logger\Adapter\File as FileLogger;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Config\Exception as ConfigException;
-use Phalcon\Cache\Frontend\None as FrontendNone;
-use Phalcon\Cache\Backend\Memory as BackendCache;
-use Phalcon\Cache\Frontend\Output as FrontOutput;
-use Phalcon\Logger\Formatter\Line as LineFormatter;
-use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
-use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
-use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
-use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 
 /**
  * \Phalcon\Initializable
@@ -478,8 +477,10 @@ trait Initializable
         $this->di->setShared(
             'session',
             function () {
-                $session = new Session;
-                $session->start();
+                $session = new SessionStream();
+                $session->open([
+                    'savePath' => '/tmp',
+                ]);
 
                 return $session;
             }

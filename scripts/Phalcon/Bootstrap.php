@@ -21,6 +21,7 @@
 
 namespace Phalcon;
 
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Error\ErrorHandler;
 use Phalcon\Mvc\Application as MvcApplication;
@@ -38,7 +39,7 @@ class Bootstrap
 
     /**
      * Application instance.
-     * @var \Phalcon\Application
+     * @var MvcApplication
      */
     protected $app;
 
@@ -168,7 +169,7 @@ class Bootstrap
     /**
      * Runs the Application.
      *
-     * @return \Phalcon\Application|string
+     * @return MvcApplication|string
      */
     public function run()
     {
@@ -190,7 +191,7 @@ class Bootstrap
      */
     public function getOutput()
     {
-        return $this->app->handle()->getContent();
+        return $this->app->handle($_SERVER['REQUEST_URI'])->getContent();
     }
 
     /**

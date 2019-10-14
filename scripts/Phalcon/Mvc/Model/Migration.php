@@ -634,12 +634,12 @@ class Migration
             }
 
             $fields = [];
-            /** @var \Phalcon\Db\ReferenceInterface $tableColumn */
+            /** @var \Phalcon\Db\ColumnInterface $tableColumn */
             foreach ($definition['columns'] as $tableColumn) {
                 if (!is_object($tableColumn)) {
                     throw new DbException('Table must have at least one column');
                 }
-                /** @var \Phalcon\Db\ReferenceInterface[] $fields */
+                /** @var \Phalcon\Db\ColumnInterface[] $fields */
                 $fields[$tableColumn->getName()] = $tableColumn;
                 if (empty($tableSchema)) {
                     $tableSchema = $tableColumn->getSchemaName();
@@ -657,38 +657,34 @@ class Migration
                     $localFields[$field->getName()] = $field;
                 }
 
-                foreach ($fields as $fieldName => $tableColumn) {
-                    /**
-                     * @var \Phalcon\Db\ColumnInterface   $tableColumn
-                     * @var \Phalcon\Db\ColumnInterface[] $localFields
-                     */
+                foreach ($fields as $fieldName => $column) {
                     if (!isset($localFields[$fieldName])) {
-                        self::$connection->addColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);
+                        self::$connection->addColumn($tableName, $column->getSchemaName(), $column);
                     } else {
                         $changed = false;
 
-                        if ($localFields[$fieldName]->getType() != $tableColumn->getType()) {
+                        if ($localFields[$fieldName]->getType() != $column->getType()) {
                             $changed = true;
                         }
 
-                        if ($localFields[$fieldName]->getSize() != $tableColumn->getSize()) {
+                        if ($localFields[$fieldName]->getSize() != $column->getSize()) {
                             $changed = true;
                         }
 
-                        if ($tableColumn->isNotNull() != $localFields[$fieldName]->isNotNull()) {
+                        if ($column->isNotNull() != $localFields[$fieldName]->isNotNull()) {
                             $changed = true;
                         }
 
-                        if ($tableColumn->getDefault() != $localFields[$fieldName]->getDefault()) {
+                        if ($column->getDefault() != $localFields[$fieldName]->getDefault()) {
                             $changed = true;
                         }
 
                         if ($changed == true) {
                             self::$connection->modifyColumn(
                                 $tableName,
-                                $tableColumn->getSchemaName(),
-                                $tableColumn,
-                                $tableColumn
+                                $column->getSchemaName(),
+                                $column,
+                                $column
                             );
                         }
                     }
