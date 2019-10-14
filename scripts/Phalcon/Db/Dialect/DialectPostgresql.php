@@ -35,7 +35,7 @@ class DialectPostgresql extends Postgresql
      * @param string $schema
      * @return string
      */
-    public function describeReferences($table, $schema = null)
+    public function describeReferences(string $table, string $schema = null): string
     {
         $sql = "
             SELECT DISTINCT

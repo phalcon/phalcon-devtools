@@ -42,7 +42,7 @@ use Phalcon\Assets\Filters\Cssmin;
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
  * @property \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface $response
  * @property \Phalcon\Mvc\View|\Phalcon\Mvc\View $view
- * @property \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface $url
+ * @property \Phalcon\Url|\Phalcon\Url\UrlInterface $url
  *
  * @package Phalcon\Mvc\Controller
  */

@@ -21,9 +21,9 @@
 
 namespace Phalcon\Scanners;
 
+use Phalcon\Di\Injectable;
 use Phalcon\Utils\FsUtils;
 use Phalcon\Config\Exception;
-use Phalcon\Mvc\User\Component;
 use Phalcon\Config as PhConfig;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
@@ -34,7 +34,7 @@ use Phalcon\Config\Adapter\Yaml as YamlConfig;
  *
  * @package Phalcon\Scanners
  */
-class Config extends Component
+class Config extends Injectable
 {
     protected $configDirs = [
         'config',

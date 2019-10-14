@@ -52,5 +52,5 @@
             "tests/_support/helpers.php"
         ]
     },
-    "bin": ["phalcon.php"]
+    "bin": ["phalcon"]
 }

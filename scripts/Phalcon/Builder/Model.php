@@ -21,12 +21,12 @@
 
 namespace Phalcon\Builder;
 
+use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Text;
 use Phalcon\Utils;
 use ReflectionClass;
 use Phalcon\Db\Column;
 use Phalcon\Validation;
-use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Generator\Snippet;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Exception\RuntimeException;
@@ -148,7 +148,7 @@ class Model extends Component
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
-        /** @var Pdo $db */
+        /** @var AbstractPdo $db */
         $db = new $adapterName($configArray);
 
         $initialize = [];
@@ -500,10 +500,6 @@ class Model extends Component
             $license = trim(file_get_contents('license.txt')) . PHP_EOL . PHP_EOL;
         }
 
-        if (false == $alreadyGetSourced) {
-            $methodRawCode[] = $snippet->getModelSource($this->modelOptions->getOption('name'));
-        }
-
         if (false == $alreadyFind) {
             $methodRawCode[] = $snippet->getModelFind($this->modelOptions->getOption('className'));
         }
@@ -624,10 +620,10 @@ class Model extends Component
      * Get reference list from option
      *
      * @param string $schema
-     * @param Pdo $db
+     * @param AbstractPdo $db
      * @return array
      */
-    protected function getReferenceList($schema, Pdo $db)
+    protected function getReferenceList($schema, AbstractPdo $db)
     {
         if ($this->modelOptions->hasOption('referenceList')) {
             return $this->modelOptions->getOption('referenceList');

@@ -1,7 +1,7 @@
 <?php
 
 use Phalcon\Mvc\View\Simple as View;
-use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Url as UrlResolver;
 
 /**
  * Shared configuration service

@@ -20,25 +20,24 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Db;
-use Phalcon\Text;
-use Phalcon\Utils;
 use DirectoryIterator;
-use Phalcon\Db\Column;
-use Phalcon\Migrations;
-use Phalcon\Utils\Nullify;
-use Phalcon\Generator\Snippet;
-use Phalcon\Version\ItemInterface;
-use Phalcon\Db\Dialect\DialectMysql;
-use Phalcon\Db\Exception as DbException;
-use Phalcon\Mvc\Model\Migration\Profiler;
-use Phalcon\Listeners\DbProfilerListener;
-use Phalcon\Db\Dialect\DialectPostgresql;
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Exception\Db\UnknownColumnTypeException;
-use Phalcon\Version\ItemCollection as VersionCollection;
 use Phalcon\Db\Adapter\Pdo\PdoMysql;
 use Phalcon\Db\Adapter\Pdo\PdoPostgresql;
+use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\DialectMysql;
+use Phalcon\Db\Dialect\DialectPostgresql;
+use Phalcon\Db\Enum;
+use Phalcon\Db\Exception as DbException;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Exception\Db\UnknownColumnTypeException;
+use Phalcon\Generator\Snippet;
+use Phalcon\Listeners\DbProfilerListener;
+use Phalcon\Migrations;
+use Phalcon\Text;
+use Phalcon\Utils;
+use Phalcon\Utils\Nullify;
+use Phalcon\Version\ItemCollection as VersionCollection;
+use Phalcon\Version\ItemInterface;
 
 /**
  * Phalcon\Mvc\Model\Migration
@@ -60,7 +59,7 @@ class Migration
 
     /**
      * Migration database connection
-     * @var \Phalcon\Db\AdapterInterface
+     * @var \Phalcon\Db\Adapter\AbstractAdapter
      */
     protected static $connection;
 
@@ -231,7 +230,7 @@ class Migration
         $description = self::$connection->describeColumns($table, $defaultSchema);
 
         foreach ($description as $field) {
-            /** @var \Phalcon\Db\ColumnInterface $field */
+            /** @var \Phalcon\Db\ReferenceInterface $field */
             $fieldDefinition = [];
             switch ($field->getType()) {
                 case Column::TYPE_INTEGER:
@@ -385,7 +384,7 @@ class Migration
             $optionsDefinition[] = "'".strtoupper($optionName)."' => '".$optionValue."'";
         }
 
-        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', $version->getStamp());
+        $classVersion = preg_replace('/[^0-9A-Za-z]/', '', (string)$version->getStamp());
         $className = Text::camelize($table).'Migration_'.$classVersion;
 
         // morph()
@@ -437,7 +436,7 @@ class Migration
             self::shouldExportDataFromTable($table, $exportDataFromTables)) {
             $fileHandler = fopen(self::$migrationPath . $version->getVersion() . '/' . $table . '.dat', 'w');
             $cursor = self::$connection->query('SELECT * FROM '. self::$connection->escapeIdentifier($table));
-            $cursor->setFetchMode(Db::FETCH_ASSOC);
+            $cursor->setFetchMode(Enum::FETCH_ASSOC);
             while ($row = $cursor->fetchArray()) {
                 $data = [];
                 foreach ($row as $key => $value) {
@@ -635,12 +634,12 @@ class Migration
             }
 
             $fields = [];
-            /** @var \Phalcon\Db\ColumnInterface $tableColumn */
+            /** @var \Phalcon\Db\Column $tableColumn */
             foreach ($definition['columns'] as $tableColumn) {
                 if (!is_object($tableColumn)) {
                     throw new DbException('Table must have at least one column');
                 }
-                /** @var \Phalcon\Db\ColumnInterface[] $fields */
+                /** @var \Phalcon\Db\Column[] $fields */
                 $fields[$tableColumn->getName()] = $tableColumn;
                 if (empty($tableSchema)) {
                     $tableSchema = $tableColumn->getSchemaName();
@@ -650,8 +649,8 @@ class Migration
             if ($tableExists == true) {
                 $localFields = [];
                 /**
-                 * @var \Phalcon\Db\ColumnInterface[] $description
-                 * @var \Phalcon\Db\ColumnInterface[] $localFields
+                 * @var \Phalcon\Db\ReferenceInterface[] $description
+                 * @var \Phalcon\Db\ReferenceInterface[] $localFields
                  */
                 $description = self::$connection->describeColumns($tableName, $defaultSchema);
                 foreach ($description as $field) {
@@ -660,8 +659,8 @@ class Migration
 
                 foreach ($fields as $fieldName => $tableColumn) {
                     /**
-                     * @var \Phalcon\Db\ColumnInterface   $tableColumn
-                     * @var \Phalcon\Db\ColumnInterface[] $localFields
+                     * @var \Phalcon\Db\Column   $tableColumn
+                     * @var \Phalcon\Db\Column[] $localFields
                      */
                     if (!isset($localFields[$fieldName])) {
                         self::$connection->addColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);

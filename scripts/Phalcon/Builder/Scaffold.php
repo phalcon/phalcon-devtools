@@ -150,7 +150,7 @@ class Scaffold extends Component
         $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
-        if ($this->options->contains('modelsNamespace') &&
+        if ($this->options->offsetExists('modelsNamespace') &&
             $this->checkNamespace($this->options->get('modelsNamespace'))) {
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
@@ -489,7 +489,7 @@ class Scaffold extends Component
         $controllerPath = $this->options->get('controllersDir') . $this->options->get('className') . 'Controller.php';
 
         if (file_exists($controllerPath)) {
-            if (!$this->options->contains('force')) {
+            if (!$this->options->has('force')) {
                 return;
             }
         }
@@ -497,7 +497,7 @@ class Scaffold extends Component
         $code = file_get_contents($this->options->get('templatePath') . '/scaffold/no-forms/Controller.php');
         $usesNamespaces = false;
 
-        if ($this->options->contains('controllersNamespace') &&
+        if ($this->options->has('controllersNamespace') &&
             $this->checkNamespace($this->options->get('controllersNamespace'))) {
             $code = str_replace(
                 '$namespace$',
@@ -509,7 +509,7 @@ class Scaffold extends Component
             $code = str_replace('$namespace$', ' ', $code);
         }
 
-        if (($this->options->contains('modelsNamespace') &&
+        if (($this->options->has('modelsNamespace') &&
                 $this->checkNamespace($this->options->get('modelsNamespace'))) || $usesNamespaces) {
             $code = str_replace(
                 '$useFullyQualifiedModelName$',
@@ -594,10 +594,10 @@ class Scaffold extends Component
 
         $fileName = $this->options->get('fileName');
         $viewPath = $dirPathLayouts . DIRECTORY_SEPARATOR . $fileName . '.phtml';
-        if (!file_exists($viewPath) || $this->options->contains('force')) {
+        if (!file_exists($viewPath) || $this->options->has('force')) {
             // View model layout
             $code = '';
-            if ($this->options->contains('theme')) {
+            if ($this->options->has('theme')) {
                 $code .= '<?php $this->tag->stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
                 $code .= '<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
@@ -634,10 +634,10 @@ class Scaffold extends Component
 
         $fileName = Text::uncamelize($this->options->get('fileName'));
         $viewPath = $dirPathLayouts . DIRECTORY_SEPARATOR . $fileName . '.volt';
-        if (!file_exists($viewPath) || $this->options->contains('force')) {
+        if (!file_exists($viewPath) || $this->options->has('force')) {
             // View model layout
             $code = '';
-            if ($this->options->contains('theme')) {
+            if ($this->options->has('theme')) {
                 $code .= '{{ stylesheet_link("themes/lightness/style") }}'.PHP_EOL;
                 $code .= '{{ stylesheet_link("themes/base") }}'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
@@ -672,7 +672,7 @@ class Scaffold extends Component
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR .$type. '.phtml';
         if (file_exists($viewPath)) {
-            if (!$this->options->contains('force')) {
+            if (!$this->options->has('force')) {
                 return;
             }
         }
@@ -709,7 +709,7 @@ class Scaffold extends Component
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . $type . '.volt';
         if (file_exists($viewPath)) {
-            if (!$this->options->contains('force')) {
+            if (!$this->options->has('force')) {
                 return;
             }
         }
@@ -745,7 +745,7 @@ class Scaffold extends Component
         }
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . 'search.phtml';
-        if (file_exists($viewPath) && !$this->options->contains('force')) {
+        if (file_exists($viewPath) && !$this->options->has('force')) {
             return;
         }
 
@@ -782,7 +782,7 @@ class Scaffold extends Component
         }
 
         $idField =  $this->options->get('attributes')[0];
-        if ($this->options->contains('genSettersGetters')) {
+        if ($this->options->has('genSettersGetters')) {
             $idField = 'get' . Text::camelize($this->options->get('attributes')[0]) . '()';
         }
 
@@ -818,7 +818,7 @@ class Scaffold extends Component
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . 'search.volt';
         if (file_exists($viewPath)) {
-            if (!$this->options->contains('force')) {
+            if (!$this->options->has('force')) {
                 return;
             }
         }
@@ -841,7 +841,7 @@ class Scaffold extends Component
         foreach ($this->options->get('dataTypes') as $fieldName => $dataType) {
             $rowCode .= "\t\t\t" . '<td>{{ ';
             if (!isset($this->options->get('allReferences')[$fieldName])) {
-                if ($this->options->contains('genSettersGetters')) {
+                if ($this->options->has('genSettersGetters')) {
                     $rowCode .= Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true) .
                         '.get' . Text::camelize($fieldName) . '()';
                 } else {
@@ -856,7 +856,7 @@ class Scaffold extends Component
         }
 
         $idField = $this->options->get('attributes')[0];
-        if ($this->options->contains('genSettersGetters')) {
+        if ($this->options->has('genSettersGetters')) {
             $idField = 'get' . Text::camelize($this->options->get('attributes')[0]) . '()';
         }
 

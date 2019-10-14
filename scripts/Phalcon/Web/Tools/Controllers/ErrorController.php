@@ -44,7 +44,7 @@ class ErrorController extends Base
         $this->view->setLayout('error');
         $this->view->setVars(
             [
-                'is_debug' => (ENV_PRODUCTION !== APPLICATION_ENV && ENV_STAGING !== APPLICATION_ENV),
+                'is_debug' => !in_array(APPLICATION_ENV, [ENV_PRODUCTION, ENV_STAGING]),
             ]
         );
     }

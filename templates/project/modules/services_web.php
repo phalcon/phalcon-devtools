@@ -2,10 +2,8 @@
 
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+use Phalcon\Url as UrlResolver;
+use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 
 /**
@@ -36,7 +34,9 @@ $di->setShared('url', function () {
  */
 $di->setShared('session', function () {
     $session = new SessionAdapter();
-    $session->start();
+    $session->open([
+        'savePath' => '/tmp',
+    ]);
 
     return $session;
 });

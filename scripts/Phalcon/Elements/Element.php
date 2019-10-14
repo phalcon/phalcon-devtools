@@ -21,7 +21,7 @@
 
 namespace Phalcon\Elements;
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
 /**
  * \Phalcon\Elements\Element
@@ -29,7 +29,7 @@ use Phalcon\Mvc\User\Component;
  * @property \Phalcon\Tag $tag
  * @package Phalcon\Elements
  */
-class Element extends Component
+class Element extends Injectable
 {
     /**
      * Builds a HTML A tag using framework conventions

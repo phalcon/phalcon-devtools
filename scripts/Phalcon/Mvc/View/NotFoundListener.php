@@ -21,18 +21,18 @@
 
 namespace Phalcon\Mvc\View;
 
+use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\ViewInterface;
-use Phalcon\Mvc\User\Component;
 
 /**
  * \Phalcon\Mvc\View\NotFoundListener
  *
- * @property \Phalcon\Logger\AdapterInterface $logger
+ * @property \Psr\Log\LoggerInterface $logger
  *
  * @package Phalcon\Mvc\View
  */
-class NotFoundListener extends Component
+class NotFoundListener extends Injectable
 {
     /**
      * Notify about not found views.

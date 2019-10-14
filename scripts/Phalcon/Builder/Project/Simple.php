@@ -137,7 +137,7 @@ class Simple extends ProjectBuilder
      */
     private function createConfig()
     {
-        $type = $this->options->contains('useConfigIni') ? 'ini' : 'php';
+        $type = $this->options->has('useConfigIni') ? 'ini' : 'php';
 
         $getFile = $this->options->get('templatePath') . '/project/simple/config.' . $type;
         $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
@@ -204,7 +204,7 @@ class Simple extends ProjectBuilder
             ->createControllerFile()
             ->createHtrouterFile();
 
-        $this->options->contains('enableWebTools') && Tools::install($this->options->get('projectPath'));
+        $this->options->has('enableWebTools') && Tools::install($this->options->get('projectPath'));
 
         return true;
     }

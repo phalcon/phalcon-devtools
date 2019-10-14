@@ -38,9 +38,9 @@ class PdoMysql extends Mysql
      *
      * @throws \Phalcon\Db\Exception
      */
-    public function addForeignKey($tableName, $schemaName, ReferenceInterface $reference)
+    public function addForeignKey(string $tableName, string $schemaName, ReferenceInterface $reference): bool
     {
-        $foreignKeyCheck = $this->{"prepare"}($this->_dialect->getForeignKeyChecks());
+        $foreignKeyCheck = $this->{"prepare"}($this->getDialect()->getForeignKeyChecks());
         if (!$foreignKeyCheck->execute()) {
             throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
         }

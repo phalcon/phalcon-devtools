@@ -31,23 +31,6 @@ use Phalcon\Options\OptionsAware as ModelOption;
  */
 class Snippet
 {
-    public function getModelSource($source)
-    {
-        $getSource = <<<EOD
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return '%s';
-    }
-EOD;
-
-        return PHP_EOL.sprintf($getSource, $source).PHP_EOL;
-    }
-
     public function getSetter($originalFieldName, $fieldName, $type, $setterName)
     {
         $templateSetter = <<<EOD
@@ -267,7 +250,7 @@ EOD;
      * @param mixed \$parameters
      * @return %s[]|%s|\Phalcon\Mvc\Model\ResultSetInterface
      */
-    public static function find(\$parameters = null)
+    public static function find(\$parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
     {
         return parent::find(\$parameters);
     }

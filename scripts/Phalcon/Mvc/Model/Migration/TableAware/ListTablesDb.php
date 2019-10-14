@@ -19,7 +19,6 @@
 
 namespace Phalcon\Mvc\Model\Migration\TableAware;
 
-use Phalcon\Mvc\Model\Migration\TableAware\ListTablesInterface;
 use InvalidArgumentException;
 use Phalcon\Mvc\Model\Migration as ModelMigration;
 use Phalcon\Db\Exception as DbException;

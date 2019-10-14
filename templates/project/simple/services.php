@@ -2,10 +2,10 @@
 
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
+use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 
 /**
@@ -106,7 +106,9 @@ $di->set('flash', function () {
  */
 $di->setShared('session', function () {
     $session = new SessionAdapter();
-    $session->start();
+    $session->open([
+        'savePath' => '/tmp',
+    ]);
 
     return $session;
 });
