@@ -34,7 +34,7 @@ trait Configurable
     /**
      * Sets the params by using passed config.
      *
-     * @param array|Traversable $parameters
+     * @param mixed $parameters
      * @return $this
      * @throws InvalidArgumentException
      */

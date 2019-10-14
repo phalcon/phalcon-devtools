@@ -417,7 +417,7 @@ class Model extends Component
                     $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
                 }
                 $domain = [];
-                if (preg_match('/\((.*)\)/', $field->getType(), $matches)) {
+                if (preg_match('/\((.*)\)/', (string)$field->getType(), $matches)) {
                     foreach (explode(',', $matches[1]) as $item) {
                         $domain[] = $item;
                     }

@@ -634,12 +634,12 @@ class Migration
             }
 
             $fields = [];
-            /** @var \Phalcon\Db\Column $tableColumn */
+            /** @var \Phalcon\Db\ReferenceInterface $tableColumn */
             foreach ($definition['columns'] as $tableColumn) {
                 if (!is_object($tableColumn)) {
                     throw new DbException('Table must have at least one column');
                 }
-                /** @var \Phalcon\Db\Column[] $fields */
+                /** @var \Phalcon\Db\ReferenceInterface[] $fields */
                 $fields[$tableColumn->getName()] = $tableColumn;
                 if (empty($tableSchema)) {
                     $tableSchema = $tableColumn->getSchemaName();
@@ -659,8 +659,8 @@ class Migration
 
                 foreach ($fields as $fieldName => $tableColumn) {
                     /**
-                     * @var \Phalcon\Db\Column   $tableColumn
-                     * @var \Phalcon\Db\Column[] $localFields
+                     * @var \Phalcon\Db\ColumnInterface   $tableColumn
+                     * @var \Phalcon\Db\ColumnInterface[] $localFields
                      */
                     if (!isset($localFields[$fieldName])) {
                         self::$connection->addColumn($tableName, $tableColumn->getSchemaName(), $tableColumn);
@@ -924,7 +924,7 @@ class Migration
     /**
      * Get db connection
      *
-     * @return \Phalcon\Db\AdapterInterface
+     * @return \Phalcon\Db\Adapter\AbstractAdapter
      */
     public function getConnection()
     {
