@@ -34,12 +34,13 @@ use Phalcon\Elements\Menu\SidebarMenu;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Flash\Session as FlashSession;
-use Phalcon\Logger\Adapter\File as FileLogger;
+use Phalcon\Logger\Adapter\Stream as FileLogger;
+use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
-use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Url as UrlResolver;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -86,7 +87,6 @@ trait Initializable
         $this->di->setShared(
             'config',
             function () use ($basePath) {
-                /** @var DiInterface $this */
                 $scanner = new ConfigScanner($basePath);
                 $config = $scanner->load('config');
 
@@ -124,9 +124,10 @@ trait Initializable
                     $logger    = new FileLogger($ptoolsPath . 'devtools.log');
                 } else {
                     $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%", 'D j H:i:s');
-                    $logger    = new Stream('php://stderr');
+                    $logger    = new Syslog('php://stderr');
                 }
 
+                $logger = new Logger('devtools');
                 $logger->setFormatter($formatter);
                 $logger->setLogLevel($logLevel);
 
