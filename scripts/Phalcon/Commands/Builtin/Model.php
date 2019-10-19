@@ -11,14 +11,13 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Text;
-use Phalcon\Utils;
-use Phalcon\Builder;
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
 use Phalcon\Builder\Model as ModelBuilder;
+use Phalcon\Commands\Command;
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Script\Color;
+use Phalcon\Text;
+use Phalcon\Utils;
 
 /**
  * Model Command

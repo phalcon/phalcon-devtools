@@ -11,10 +11,10 @@
 
 namespace WebTools\Controllers;
 
-use Phalcon\Migrations;
 use DirectoryIterator;
-use Phalcon\Mvc\Controller\Base;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Migrations\Migrations;
+use Phalcon\Mvc\Controller\Base;
 
 /**
  * \WebTools\Controllers\MigrationsController

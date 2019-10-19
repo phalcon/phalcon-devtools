@@ -14,7 +14,7 @@ namespace Phalcon\Commands\Builtin;
 use Phalcon\Builder;
 use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Migrations;
+use Phalcon\Migrations\Migrations;
 use Phalcon\Config;
 
 /**
