@@ -3,13 +3,13 @@
     "type": "library",
     "description": "This tools provide you useful scripts to generate code helping to develop faster and easy applications that use with Phalcon framework.",
     "keywords": ["framework", "phalcon", "devtools", "webtools", "phar"],
-    "homepage": "https://phalconphp.com",
+    "homepage": "https://phalcon.io",
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Phalcon Team",
-            "email": "team@phalconphp.com",
-            "homepage": "https://phalconphp.com/en/team"
+            "email": "team@phalcon.io",
+            "homepage": "https://phalcon.io/en/team"
         },
         {
             "name": "Contributors",
@@ -19,7 +19,7 @@
     "support": {
         "issues": "https://github.com/phalcon/phalcon-devtools/issues",
         "source": "https://github.com/phalcon/phalcon-devtools",
-        "forum": "https://forum.phalconphp.com/"
+        "forum": "https://forum.phalcon.io"
     },
     "require": {
         "php": ">=7.2",
