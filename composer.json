@@ -25,7 +25,8 @@
         "php": ">=7.2",
         "ext-phalcon": "4.0.0-rc.1",
         "psy/psysh": "~0.9",
-        "nikic/php-parser": "^4.2.4"
+        "nikic/php-parser": "^4.2.4",
+        "phalcon/migrations": "dev-master"
     },
     "require-dev": {
         "kherge/box": "^2.7",
