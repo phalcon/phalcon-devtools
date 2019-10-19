@@ -21,7 +21,7 @@
 
 namespace WebTools\Controllers;
 
-use Phalcon\Migrations;
+use Phalcon\Migrations\Migrations;
 use DirectoryIterator;
 use Phalcon\Mvc\Controller\Base;
 use Phalcon\Builder\BuilderException;
