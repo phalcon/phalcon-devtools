@@ -20,8 +20,3 @@
 </div>
 
 {{ assets.outputJs('codemirror') }}
-
-
-
-
-
