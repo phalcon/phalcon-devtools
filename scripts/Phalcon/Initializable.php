@@ -427,19 +427,19 @@ trait Initializable
      */
     protected function initDispatcher()
     {
+        /** @var EventsManager $eventsManager */
+        $eventsManager = $this->di->get('eventsManager');
+
         $this->di->setShared(
             'dispatcher',
-            function () {
-                /** @var DiInterface $this */
-                $em = $this->get('eventsManager');
-
+            function () use ($eventsManager) {
                 $dispatcher = new MvcDispatcher;
                 $dispatcher->setDefaultNamespace('WebTools\Controllers');
 
-                $em->attach('dispatch', $this->getShared('access'), 1000);
-                $em->attach('dispatch:beforeException', new DispatchErrorHandler, 999);
+                $eventsManager->attach('dispatch', $this->getShared('access'), 1000);
+                $eventsManager->attach('dispatch:beforeException', new DispatchErrorHandler, 999);
 
-                $dispatcher->setEventsManager($em);
+                $dispatcher->setEventsManager($eventsManager);
 
                 return $dispatcher;
             }
@@ -481,19 +481,19 @@ trait Initializable
      */
     protected function initFlash()
     {
+        $cssClasses = [
+            'error'   => 'alert alert-danger fade in',
+            'success' => 'alert alert-success fade in',
+            'notice'  => 'alert alert-info fade in',
+            'warning' => 'alert alert-warning fade in',
+        ];
+
         $this->di->setShared(
             'flash',
-            function () {
-                $flash = new FlashDirect(
-                    [
-                        'error'   => 'alert alert-danger fade in',
-                        'success' => 'alert alert-success fade in',
-                        'notice'  => 'alert alert-info fade in',
-                        'warning' => 'alert alert-warning fade in',
-                    ]
-                );
-
+            function () use ($cssClasses) {
+                $flash = new FlashDirect();
                 $flash->setAutoescape(false);
+                $flash->setCssClasses($cssClasses);
 
                 return $flash;
             }
@@ -501,18 +501,10 @@ trait Initializable
 
         $this->di->setShared(
             'flashSession',
-            function () {
-                $flash = new FlashSession(
-                    [
-                        'error'   => 'alert alert-danger fade in',
-                        'success' => 'alert alert-success fade in',
-                        'notice'  => 'alert alert-info fade in',
-                        'warning' => 'alert alert-warning fade in',
-                    ]
-                );
-
-
+            function () use ($cssClasses) {
+                $flash = new FlashSession();
                 $flash->setAutoescape(false);
+                $flash->setCssClasses($cssClasses);
 
                 return $flash;
             }
