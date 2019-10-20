@@ -429,14 +429,15 @@ trait Initializable
     {
         /** @var EventsManager $eventsManager */
         $eventsManager = $this->di->get('eventsManager');
+        $access = $this->di->getShared('access');
 
         $this->di->setShared(
             'dispatcher',
-            function () use ($eventsManager) {
+            function () use ($eventsManager, $access) {
                 $dispatcher = new MvcDispatcher;
                 $dispatcher->setDefaultNamespace('WebTools\Controllers');
 
-                $eventsManager->attach('dispatch', $this->getShared('access'), 1000);
+                $eventsManager->attach('dispatch', $access, 1000);
                 $eventsManager->attach('dispatch:beforeException', new DispatchErrorHandler, 999);
 
                 $dispatcher->setEventsManager($eventsManager);
