@@ -76,6 +76,7 @@ class AllModels extends Component
 
         $forceProcess = $this->options->get('force');
 
+        /** @var bool $defineRelations */
         $defineRelations = $this->options->get('defineRelations', false);
         $defineForeignKeys = $this->options->get('foreignKeys', false);
         $genSettersGetters = $this->options->get('genSettersGetters', false);
@@ -161,6 +162,7 @@ class AllModels extends Component
                     $belongsTo[$name] = [];
                     $foreignKeys[$name] = [];
                 }
+
                 $referenceList[$name] = $db->describeReferences($name, $schema);
             }
         }

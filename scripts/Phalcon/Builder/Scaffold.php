@@ -332,7 +332,7 @@ class Scaffold extends Component
                 '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"] ?>';
         } else {
             switch ($dataType) {
-                case 5: // enum
+                case Column::TYPE_ENUM: // enum
                     $code .= "\t\t" . '<?php echo $this->tag->selectStatic(["' . $attribute .
                         '", [], "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
@@ -388,7 +388,7 @@ class Scaffold extends Component
                 '", "useDummy" => true], "class" : "form-control", "id" : "' . $id . '") }}';
         } else {
             switch ($dataType) {
-                case 5: // enum
+                case Column::TYPE_ENUM: // enum
                     $code .= "\t\t" . '{{ select_static("' . $attribute .
                         '", "using": [], "class" : "form-control", "id" : "' . $id . '") }}';
                     break;

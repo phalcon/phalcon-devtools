@@ -11,6 +11,14 @@
 
 namespace Phalcon\Generator;
 
+use Exception;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use ReflectionParameter;
+
 class Stub
 {
     /**
@@ -28,12 +36,12 @@ class Stub
      * @param string $targetDir
      *
      * @return \Phalcon\Generator\Stub
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($extension, $targetDir)
     {
         if (!extension_loaded($extension)) {
-            throw new \Exception("Extension '{$extension}' was not loaded");
+            throw new Exception("Extension '{$extension}' was not loaded");
         }
 
         $this->extension = new \ReflectionExtension($extension);
@@ -45,22 +53,22 @@ class Stub
     }
 
     /**
-     * @return void
+     * @throws ReflectionException
      */
-    public function generate()
+    public function generate(): void
     {
         $this->generateFileStructure();
     }
 
     /**
-     * @return void
+     * @throws ReflectionException
      */
-    protected function generateFileStructure()
+    protected function generateFileStructure(): void
     {
         $classes = $this->extension->getClassNames();
 
         foreach ($classes as $class) {
-            $reflectionClass = new \ReflectionClass($class);
+            $reflectionClass = new ReflectionClass($class);
 
             $output = "<?php\n\n";
             $output .= $this->exportNamespace($reflectionClass);
@@ -90,19 +98,19 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return string
      */
-    protected function exportNamespace(\ReflectionClass $reflectionClass)
+    protected function exportNamespace(ReflectionClass $reflectionClass)
     {
         return 'namespace ' . $reflectionClass->getNamespaceName() . ";\n\n";
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return string
      */
-    protected function exportDefinition(\ReflectionClass $reflectionClass)
+    protected function exportDefinition(ReflectionClass $reflectionClass)
     {
         $definition = [$this->removeNamespace($reflectionClass)];
 
@@ -121,7 +129,7 @@ class Stub
         }
 
         $parent = $reflectionClass->getParentClass();
-        if (method_exists('getName', $parent)) {
+        if (method_exists($parent, 'getName')) {
             array_push($definition, 'extends');
             array_push($definition, $parent->getName());
         }
@@ -136,10 +144,10 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return string
      */
-    protected function removeNamespace(\ReflectionClass $reflectionClass)
+    protected function removeNamespace(ReflectionClass $reflectionClass)
     {
         $class = str_replace($reflectionClass->getNamespaceName(), '', $reflectionClass->getName());
 
@@ -147,10 +155,10 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return null|string
      */
-    protected function exportClassConstants(\ReflectionClass $reflectionClass)
+    protected function exportClassConstants(ReflectionClass $reflectionClass)
     {
         $constants = $reflectionClass->getConstants();
         $all = [];
@@ -169,10 +177,10 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return null|string
      */
-    protected function exportClassProperties(\ReflectionClass $reflectionClass)
+    protected function exportClassProperties(ReflectionClass $reflectionClass)
     {
         $properties = $reflectionClass->getProperties();
 
@@ -212,10 +220,11 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param ReflectionClass $reflectionClass
      * @return null|string
+     * @throws ReflectionException
      */
-    protected function exportClassMethods(\ReflectionClass $reflectionClass)
+    protected function exportClassMethods(ReflectionClass $reflectionClass)
     {
         $methods = $reflectionClass->getMethods();
 
@@ -226,6 +235,7 @@ class Stub
         $output = '';
 
         foreach ($methods as $method) {
+            /** @var ReflectionMethod|ReflectionParameter $method */
             $doc = ["\t/**"];
             $func = [];
 
@@ -294,9 +304,9 @@ class Stub
      */
     protected function cleanup($dir)
     {
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($dir),
-            \RecursiveIteratorIterator::CHILD_FIRST
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir),
+            RecursiveIteratorIterator::CHILD_FIRST
         );
 
         foreach ($iterator as $path) {

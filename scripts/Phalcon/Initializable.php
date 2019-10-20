@@ -17,9 +17,8 @@ use Phalcon\Access\Manager as AccessManager;
 use Phalcon\Access\Policy\Ip as IpPolicy;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Assets\Manager as AssetsManager;
-use Phalcon\Cache\Backend\Memory as BackendCache;
-use Phalcon\Cache\Frontend\None as FrontendNone;
-use Phalcon\Cache\Frontend\Output as FrontOutput;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Di\DiInterface;
 use Phalcon\Elements\Menu\SidebarMenu;
 use Phalcon\Events\Manager as EventsManager;
@@ -39,17 +38,14 @@ use Phalcon\Mvc\View\NotFoundListener;
 use Phalcon\Resources\AssetsResource;
 use Phalcon\Scanners\Config as ConfigScanner;
 use Phalcon\Session\Adapter\Stream as SessionStream;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url as UrlResolver;
 use Phalcon\Utils\DbUtils;
 use Phalcon\Utils\FsUtils;
 use Phalcon\Utils\SystemInfo;
 
 /**
- * \Phalcon\Initializable
- *
  * @property DiInterface $di
- *
- * @package Phalcon
  */
 trait Initializable
 {
@@ -104,11 +100,6 @@ trait Initializable
         $this->di->setShared(
             'logger',
             function () use ($hostName, $basePath) {
-                $logLevel = Logger::ERROR;
-                if (ENV_DEVELOPMENT === APPLICATION_ENV) {
-                    $logLevel = Logger::DEBUG;
-                }
-
                 $ptoolsPath = $basePath . DS . '.phalcon' . DS;
                 if (is_dir($ptoolsPath) && is_writable($ptoolsPath)) {
                     $formatter = new LineFormatter("%date% {$hostName} php: [%type%] %message%", 'D j H:i:s');
@@ -118,9 +109,7 @@ trait Initializable
                     $logger    = new Syslog('php://stderr');
                 }
 
-                $logger = new Logger('devtools');
                 $logger->setFormatter($formatter);
-                $logger->setLogLevel($logLevel);
 
                 return $logger;
             }
@@ -135,24 +124,33 @@ trait Initializable
      */
     protected function initCache()
     {
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+
         $this->di->set(
             'viewCache',
-            function () {
-                return new BackendCache(new FrontOutput);
+            function () use ($adapterFactory) {
+                $adapter = $adapterFactory->newInstance('stream');
+
+                return new Cache($adapter);
             }
         );
 
         $this->di->setShared(
             'modelsCache',
-            function () {
-                return new BackendCache(new FrontendNone);
+            function () use ($adapterFactory) {
+                $adapter = $adapterFactory->newInstance('stream');
+
+                return new Cache($adapter);
             }
         );
 
         $this->di->setShared(
             'dataCache',
-            function () {
-                return new BackendCache(new FrontendNone);
+            function () use ($adapterFactory) {
+                $adapter = $adapterFactory->newInstance('stream');
+
+                return new Cache($adapter);
             }
         );
     }
@@ -469,8 +467,7 @@ trait Initializable
         $this->di->setShared(
             'session',
             function () {
-                $session = new SessionStream();
-                $session->open([
+                $session = new SessionStream([
                     'savePath' => '/tmp',
                 ]);
 
@@ -551,9 +548,8 @@ trait Initializable
                 $adapter = 'Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
                 unset($config['adapter']);
 
-                /** @var \Phalcon\Db\Adapter\Pdo $connection */
+                /** @var AbstractPdo $connection */
                 $connection = new $adapter($config);
-
                 $connection->setEventsManager($em);
 
                 return $connection;
