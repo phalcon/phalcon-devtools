@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,28 +12,45 @@
 
 namespace Phalcon\Mvc\Controller;
 
-use Phalcon\Mvc\Controller;
-use Phalcon\Devtools\Version;
-use Phalcon\Version as PhVersion;
-use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\Cssmin;
+use Phalcon\Assets\Filters\Jsmin;
+use Phalcon\Assets\Manager;
+use Phalcon\Config;
+use Phalcon\Devtools\Version;
+use Phalcon\Elements\Menu\SidebarMenu;
+use Phalcon\Http\Request;
+use Phalcon\Http\RequestInterface;
+use Phalcon\Http\Response;
+use Phalcon\Http\ResponseInterface;
+use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\RouterInterface;
+use Phalcon\Mvc\View;
+use Phalcon\Registry;
+use Phalcon\Resources\AssetsResource;
+use Phalcon\Url;
+use Phalcon\Url\UrlInterface;
+use Phalcon\Utils\DbUtils;
+use Phalcon\Utils\FsUtils;
+use Phalcon\Utils\SystemInfo;
+use Phalcon\Version as PhVersion;
 
 /**
  * \Phalcon\Mvc\Controller\Base
  *
- * @property \Phalcon\Config $config
- * @property \Phalcon\Utils\FsUtils $fs
- * @property \Phalcon\Utils\SystemInfo $info
- * @property \Phalcon\Utils\DbUtils $dbUtils
- * @property \Phalcon\Registry $registry
- * @property \Phalcon\Elements\Menu\SidebarMenu $sidebar
- * @property \Phalcon\Resources\AssetsResource $resource
- * @property \Phalcon\Assets\Manager $assets
- * @property \Phalcon\Http\Request|\Phalcon\Http\RequestInterface $request
- * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
- * @property \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface $response
- * @property \Phalcon\Mvc\View|\Phalcon\Mvc\View $view
- * @property \Phalcon\Url|\Phalcon\Url\UrlInterface $url
+ * @property Config $config
+ * @property FsUtils $fs
+ * @property SystemInfo $info
+ * @property DbUtils $dbUtils
+ * @property Registry $registry
+ * @property SidebarMenu $sidebar
+ * @property AssetsResource $resource
+ * @property Manager $assets
+ * @property Request|RequestInterface $request
+ * @property Router|RouterInterface $router
+ * @property Response|ResponseInterface $response
+ * @property View|View $view
+ * @property Url|UrlInterface $url
  *
  * @package Phalcon\Mvc\Controller
  */
@@ -113,7 +131,7 @@ abstract class Base extends Controller
     /**
      * Returns to the WebTools
      *
-     * @return \Phalcon\Http\ResponseInterface
+     * @return ResponseInterface
      */
     protected function webtoolsRedirect()
     {
@@ -127,7 +145,7 @@ abstract class Base extends Controller
     }
 
     /**
-     * @return \Phalcon\Http\ResponseInterface
+     * @return ResponseInterface
      */
     protected function indexRedirect()
     {

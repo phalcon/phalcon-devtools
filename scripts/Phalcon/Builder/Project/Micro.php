@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -12,16 +13,13 @@
 namespace Phalcon\Builder\Project;
 
 /**
- * Micro
- *
  * Builder to create Micro application skeletons
- *
- * @package Phalcon\Builder\Project
  */
 class Micro extends ProjectBuilder
 {
     /**
      * Project directories
+     *
      * @var array
      */
     protected $projectDirectories = [

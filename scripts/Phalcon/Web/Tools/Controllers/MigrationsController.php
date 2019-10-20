@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -13,15 +14,18 @@ namespace WebTools\Controllers;
 
 use DirectoryIterator;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Flash\Direct;
+use Phalcon\Flash\Session;
 use Phalcon\Migrations\Migrations;
 use Phalcon\Mvc\Controller\Base;
+use Phalcon\Tag;
 
 /**
  * \WebTools\Controllers\MigrationsController
  *
- * @property \Phalcon\Flash\Session $flashSession
- * @property \Phalcon\Flash\Direct $flash
- * @property \Phalcon\Tag $tag
+ * @property Session $flashSession
+ * @property Direct $flash
+ * @property Tag $tag
  * @package WebTools\Controllers
  */
 class MigrationsController extends Base

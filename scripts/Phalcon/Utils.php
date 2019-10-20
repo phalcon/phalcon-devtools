@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -10,6 +11,8 @@
  */
 
 namespace Phalcon;
+
+use InvalidArgumentException;
 
 class Utils
 {
@@ -27,7 +30,7 @@ class Utils
     public static function camelize($string, $delimiter = '_')
     {
         if (empty($delimiter)) {
-            throw new \InvalidArgumentException('Please, specify the delimiter');
+            throw new InvalidArgumentException('Please, specify the delimiter');
         }
 
         $delimiterArray = str_split($delimiter);
@@ -59,7 +62,7 @@ class Utils
     public static function lowerCamelizeWithDelimiter($string, $delimiter = '', $useLow = false)
     {
         if (empty($string)) {
-            throw new \InvalidArgumentException('Please, specify the string');
+            throw new InvalidArgumentException('Please, specify the string');
         }
 
         if (!empty($delimiter)) {

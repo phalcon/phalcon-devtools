@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -27,7 +28,7 @@ class Version extends PhVersion
      *
      * @return array
      */
-    protected static function _getVersion():array
+    protected static function _getVersion(): array
     {
         return [4, 0, 0, 1, 4];
     }

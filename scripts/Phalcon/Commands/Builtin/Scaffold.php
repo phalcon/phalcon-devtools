@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,10 +12,12 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Builder;
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
+use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold as ScaffoldBuilder;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsException;
+use Phalcon\Config;
+use Phalcon\Script\Color;
 
 /**
  * Scaffold Command
@@ -30,7 +33,7 @@ class Scaffold extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'table-name=s'      => 'Table used as base to generate the scaffold',
@@ -53,6 +56,8 @@ class Scaffold extends Command
      *
      * @param array $parameters
      * @return mixed
+     * @throws CommandsException
+     * @throws BuilderException
      */
     public function run(array $parameters)
     {
@@ -83,7 +88,7 @@ class Scaffold extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['scaffold', 'create-scaffold'];
     }
@@ -93,7 +98,7 @@ class Scaffold extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Creates a scaffold from a database table') . PHP_EOL . PHP_EOL;
@@ -117,8 +122,10 @@ class Scaffold extends Command
 
     /**
      * @param string $path
+     * @return Config
+     * @throws CommandsException
      */
-    protected function getreceivedOrDefaultConfig($path)
+    protected function getreceivedOrDefaultConfig(string $path): Config
     {
         if ($this->isReceivedOption('config')) {
             return $this->loadConfig($path . $this->getOption('config'));
@@ -132,7 +139,7 @@ class Scaffold extends Command
      *
      * @return integer
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -14,11 +15,12 @@ namespace Phalcon\Mvc\View;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\ViewInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * \Phalcon\Mvc\View\NotFoundListener
  *
- * @property \Psr\Log\LoggerInterface $logger
+ * @property LoggerInterface $logger
  *
  * @package Phalcon\Mvc\View
  */

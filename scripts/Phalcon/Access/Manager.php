@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -15,17 +16,13 @@ use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
 
-/**
- * \Phalcon\Access\Manager
- *
- * @package Phalcon\Access
- */
 class Manager extends Injectable
 {
     const EXCEPTION_ACTION_DISALLOWED = 10;
 
     /**
      * The access policy instance.
+     *
      * @var PolicyInterface
      */
     protected $policy;
@@ -41,23 +38,11 @@ class Manager extends Injectable
     }
 
     /**
-     * Checks whether a user is allowed to access an resource.
-     *
-     * @param string $resourceName Resource name.
-     * @param array  $data         Data. [Optional]
-     * @return bool
-     */
-    public function isAllowedAccess($resourceName, array $data = null)
-    {
-        return $resourceName == 'error' || $this->policy->isAllowedAccess($resourceName, $data);
-    }
-
-    /**
      * This action is executed before execute any action in the application.
      *
-     * @param Event      $event      Event object.
+     * @param Event $event Event object.
      * @param Dispatcher $dispatcher Dispatcher object.
-     * @param array      $data       Data.
+     * @param array $data Data.
      *
      * @return mixed
      */
@@ -77,5 +62,17 @@ class Manager extends Injectable
         }
 
         return !$event->isStopped();
+    }
+
+    /**
+     * Checks whether a user is allowed to access an resource.
+     *
+     * @param string $resourceName Resource name.
+     * @param array $data Data. [Optional]
+     * @return bool
+     */
+    public function isAllowedAccess(string $resourceName, array $data = null): bool
+    {
+        return $resourceName == 'error' || $this->policy->isAllowedAccess($resourceName, $data);
     }
 }

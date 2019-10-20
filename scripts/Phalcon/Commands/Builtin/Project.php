@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,9 +12,9 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
 use Phalcon\Builder\Project as ProjectBuilder;
+use Phalcon\Commands\Command;
+use Phalcon\Script\Color;
 
 /**
  * Project Command
@@ -29,7 +30,7 @@ class Project extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'name=s'            => 'Name of the new project',
@@ -78,7 +79,7 @@ class Project extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['project', 'create-project'];
     }
@@ -88,7 +89,7 @@ class Project extends Command
      *
      * @return boolean
      */
-    public function canBeExternal()
+    public function canBeExternal(): bool
     {
         return true;
     }
@@ -98,7 +99,7 @@ class Project extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Creates a project') . PHP_EOL . PHP_EOL;
@@ -122,7 +123,7 @@ class Project extends Command
      *
      * @return integer
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

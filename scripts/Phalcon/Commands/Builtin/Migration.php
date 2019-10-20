@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,11 +12,10 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Builder;
-use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Migrations\Migrations;
 use Phalcon\Config;
+use Phalcon\Migrations\Migrations;
+use Phalcon\Script\Color;
 
 /**
  * Migration Command

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -47,12 +48,14 @@ abstract class ProjectBuilder
 
     /**
      * Build Project
+     *
      * @return mixed
      */
     abstract public function build();
 
     /**
      * Build project directories
+     *
      * @return $this
      */
     public function buildDirectories()

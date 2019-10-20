@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -14,16 +15,13 @@ namespace Phalcon\Builder\Project;
 use Phalcon\Script\Color;
 
 /**
- * Cli
- *
  * Builder to create Cli application skeletons
- *
- * @package Phalcon\Builder\Project
  */
 class Cli extends ProjectBuilder
 {
     /**
      * Project directories
+     *
      * @var array
      */
     protected $projectDirectories = [
@@ -110,7 +108,7 @@ class Cli extends ProjectBuilder
      *
      * @return bool
      */
-    public function build()
+    public function build(): bool
     {
         $this
             ->buildDirectories()

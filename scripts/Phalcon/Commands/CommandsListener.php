@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -46,7 +47,8 @@ class CommandsListener
             $path = $command->getOption('directory');
             if ($path) {
                 $path = realpath($path) . DIRECTORY_SEPARATOR;
-            };
+            }
+
             if (!file_exists($path . '.phalcon') || !is_dir($path . '.phalcon')) {
                 throw new DotPhalconMissingException();
             }

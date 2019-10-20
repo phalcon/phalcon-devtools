@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -25,5 +26,5 @@ interface PolicyInterface
      * @param array  $data         Data. [Optional]
      * @return bool
      */
-    public function isAllowedAccess($resourceName, array $data = null);
+    public function isAllowedAccess(string $resourceName, array $data = null);
 }

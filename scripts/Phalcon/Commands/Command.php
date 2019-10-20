@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,15 +12,15 @@
 
 namespace Phalcon\Commands;
 
-use Phalcon\Config;
-use Phalcon\Script;
-use Phalcon\Filter;
-use Phalcon\Script\Color;
 use Phalcon\Builder\Path;
-use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Filter;
+use Phalcon\Script;
+use Phalcon\Script\Color;
 
 /**
  * Command Class

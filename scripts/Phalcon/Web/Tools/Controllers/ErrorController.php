@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,15 +12,16 @@
 
 namespace WebTools\Controllers;
 
+use Phalcon\Assets\Filters\Cssmin;
+use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Devtools\Version;
 use Phalcon\Mvc\Controller\Base;
-use Phalcon\Assets\Filters\Jsmin;
-use Phalcon\Assets\Filters\Cssmin;
+use Phalcon\Tag;
 
 /**
  * \WebTools\Controllers\ErrorController
  *
- * @property \Phalcon\Tag $tag
+ * @property Tag $tag
  * @package WebTools\Controllers
  */
 class ErrorController extends Base

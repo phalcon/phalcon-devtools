@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,22 +12,26 @@
 
 namespace WebTools\Controllers;
 
-use Phalcon\Text;
-use Phalcon\Config;
 use DirectoryIterator;
-use Phalcon\Builder\Model;
 use Phalcon\Builder\AllModels;
-use Phalcon\Mvc\Controller\Base;
 use Phalcon\Builder\BuilderException;
+use Phalcon\Builder\Model;
+use Phalcon\Flash\Direct;
+use Phalcon\Flash\Session;
+use Phalcon\Mvc\Controller\Base;
 use Phalcon\Mvc\Controller\CodemirrorTrait;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\DispatcherInterface;
+use Phalcon\Tag;
+use Phalcon\Text;
 
 /**
  * \WebTools\Controllers\ModelsController
  *
- * @property \Phalcon\Flash\Direct $flash
- * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher
- * @property \Phalcon\Tag $tag
- * @property \Phalcon\Flash\Session $flashSession
+ * @property Direct $flash
+ * @property Dispatcher|DispatcherInterface $dispatcher
+ * @property Tag $tag
+ * @property Session $flashSession
  *
  * @package WebTools\Controllers
  */

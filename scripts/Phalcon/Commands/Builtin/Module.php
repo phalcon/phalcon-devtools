@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -29,7 +30,7 @@ class Module extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'name'            => 'Name of the new module',
@@ -72,7 +73,7 @@ class Module extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['module', 'create-module'];
     }
@@ -82,7 +83,7 @@ class Module extends Command
      *
      * @return boolean
      */
-    public function canBeExternal()
+    public function canBeExternal(): bool
     {
         return false;
     }
@@ -92,7 +93,7 @@ class Module extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Creates a module') . PHP_EOL . PHP_EOL;
@@ -108,7 +109,7 @@ class Module extends Command
      *
      * @return integer
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

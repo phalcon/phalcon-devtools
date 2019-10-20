@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,12 +12,11 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Utils\SystemInfo;
-use Phalcon\Registry;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Bootstrap;
+use Phalcon\Registry;
+use Phalcon\Script\Color;
+use Phalcon\Utils\SystemInfo;
 
 /**
  * Serve Command

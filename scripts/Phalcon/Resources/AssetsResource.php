@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -12,11 +13,12 @@
 namespace Phalcon\Resources;
 
 use Phalcon\Di\Injectable;
+use Phalcon\Utils\FsUtils;
 
 /**
  * \Phalcon\Resources\AssetsResource
  *
- * @property \Phalcon\Utils\FsUtils $fs
+ * @property FsUtils $fs
  *
  * @package Phalcon\Resources
  */
@@ -26,10 +28,9 @@ class AssetsResource extends Injectable
      * Returns assets resource path.
      *
      * @param string $path
-     *
      * @return string
      */
-    public function path($path)
+    public function path(string $path): string
     {
         return PTOOLSPATH . DS . 'resources' . DS . $this->fs->normalize($path);
     }

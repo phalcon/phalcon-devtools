@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -30,7 +31,6 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
-use Phalcon\Url as UrlResolver;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -39,6 +39,7 @@ use Phalcon\Mvc\View\NotFoundListener;
 use Phalcon\Resources\AssetsResource;
 use Phalcon\Scanners\Config as ConfigScanner;
 use Phalcon\Session\Adapter\Stream as SessionStream;
+use Phalcon\Url as UrlResolver;
 use Phalcon\Utils\DbUtils;
 use Phalcon\Utils\FsUtils;
 use Phalcon\Utils\SystemInfo;

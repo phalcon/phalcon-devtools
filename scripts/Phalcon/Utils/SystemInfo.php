@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -13,24 +14,27 @@ namespace Phalcon\Utils;
 
 use Phalcon\Devtools\Version;
 use Phalcon\Di\Injectable;
+use Phalcon\Registry;
+use Phalcon\Url;
+use Phalcon\Url\UrlInterface;
 use Phalcon\Version as PhVersion;
 
 /**
  * \Phalcon\Utils\SystemInfo
  *
- * @property \Phalcon\Registry $registry
- * @property \Phalcon\Url|\Phalcon\Url\UrlInterface $url
+ * @property Registry $registry
+ * @property Url|UrlInterface $url
  *
  * @package Phalcon\Utils
  */
 class SystemInfo extends Injectable
 {
-    public function get()
+    public function get(): array
     {
         return $this->getVersions() + $this->getUris() + $this->getDirectories() + $this->getEnvironment();
     }
 
-    public function getDirectories()
+    public function getDirectories(): array
     {
         return [
             'DevTools Path' => $this->registry->offsetGet('directories')->ptoolsPath,
@@ -45,7 +49,7 @@ class SystemInfo extends Injectable
         ];
     }
 
-    public function getUris()
+    public function getUris(): array
     {
         return [
             'Base URI' => $this->url->getBaseUri(),
@@ -53,7 +57,7 @@ class SystemInfo extends Injectable
         ];
     }
 
-    public function getVersions()
+    public function getVersions(): array
     {
         return [
             'Phalcon DevTools Version' => Version::get(),
@@ -62,7 +66,7 @@ class SystemInfo extends Injectable
         ];
     }
 
-    public function getEnvironment()
+    public function getEnvironment(): array
     {
         return [
             'OS' => php_uname(),

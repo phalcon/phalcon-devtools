@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,12 +12,13 @@
 
 namespace Phalcon\Utils;
 
+use Phalcon\Config;
 use Phalcon\Di\Injectable;
 
 /**
  * \Phalcon\Utils\DbUtils
  *
- * @property \Phalcon\Config $config
+ * @property Config $config
  *
  * @package Phalcon\Utils
  */

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,10 +12,9 @@
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Builder;
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
 use Phalcon\Builder\Controller as ControllerBuilder;
+use Phalcon\Commands\Command;
+use Phalcon\Script\Color;
 
 /**
  * Controller Command

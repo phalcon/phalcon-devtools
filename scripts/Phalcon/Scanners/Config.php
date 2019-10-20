@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,13 +12,13 @@
 
 namespace Phalcon\Scanners;
 
-use Phalcon\Di\Injectable;
-use Phalcon\Utils\FsUtils;
-use Phalcon\Config\Exception;
 use Phalcon\Config as PhConfig;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
+use Phalcon\Config\Exception;
+use Phalcon\Di\Injectable;
+use Phalcon\Utils\FsUtils;
 
 /**
  * \Phalcon\Scanners\Config

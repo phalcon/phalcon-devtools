@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,15 +12,17 @@
 
 namespace Phalcon\Mvc\Controller;
 
-use Phalcon\Devtools\Version;
-use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\Cssmin;
+use Phalcon\Assets\Filters\Jsmin;
+use Phalcon\Assets\Manager;
+use Phalcon\Devtools\Version;
+use Phalcon\Resources\AssetsResource;
 
 /**
  * \Phalcon\Mvc\Controller\CodemirrorTrait
  *
- * @property \Phalcon\Assets\Manager $assets
- * @property \Phalcon\Resources\AssetsResource $resource
+ * @property Manager $assets
+ * @property AssetsResource $resource
  *
  * @package Phalcon\Mvc\Controller
  */

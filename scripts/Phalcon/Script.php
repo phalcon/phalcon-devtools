@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -28,21 +29,21 @@ class Script
     /**
      * Events Manager
      *
-     * @var \Phalcon\Events\Manager
+     * @var EventsManager
      */
     protected $eventsManager;
 
     /**
      * Commands attached to the Script
      *
-     * @var \Phalcon\Commands\Command[]
+     * @var Command[]
      */
     protected $commands;
 
     /**
      * Script Constructor
      *
-     * @param \Phalcon\Events\Manager $eventsManager
+     * @param EventsManager $eventsManager
      */
     public function __construct(EventsManager $eventsManager)
     {
@@ -53,7 +54,7 @@ class Script
     /**
      * Events Manager
      *
-     * @param \Phalcon\Events\Manager $eventsManager
+     * @param EventsManager $eventsManager
      */
     public function setEventsManager(EventsManager $eventsManager)
     {
@@ -63,7 +64,7 @@ class Script
     /**
      * Returns the events manager
      *
-     * @return \Phalcon\Events\Manager
+     * @return EventsManager
      */
     public function getEventsManager()
     {
@@ -73,7 +74,7 @@ class Script
     /**
      * Adds commands to the Script
      *
-     * @param \Phalcon\Commands\Command $command
+     * @param Command $command
      */
     public function attach(Command $command)
     {
@@ -83,7 +84,7 @@ class Script
     /**
      * Returns the commands registered in the script
      *
-     * @return \Phalcon\Commands\Command[]
+     * @return Command[]
      */
     public function getCommands()
     {

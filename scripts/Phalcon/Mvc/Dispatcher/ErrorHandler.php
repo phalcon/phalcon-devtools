@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,9 +12,10 @@
 
 namespace Phalcon\Mvc\Dispatcher;
 
+use Phalcon\Access\Manager;
 use Phalcon\Dispatcher\Exception as DispatcherException;
 use Phalcon\Events\Event;
-use Phalcon\Access\Manager;
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
 /**

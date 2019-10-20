@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -16,7 +17,6 @@ use Phalcon\Mvc\Controller\Base;
 /**
  * \WebTools\Controllers\IndexController
  *
- * @property \Phalcon\Tag $tag
  * @package WebTools\Controllers
  */
 class IndexController extends Base
