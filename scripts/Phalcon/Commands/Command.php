@@ -33,30 +33,35 @@ abstract class Command implements CommandsInterface
 {
     /**
      * Script
-     * @var \Phalcon\Script
+     *
+     * @var Script
      */
     protected $script;
 
     /**
      * Events Manager
-     * @var \Phalcon\Events\Manager
+     *
+     * @var EventsManager
      */
     protected $eventsManager;
 
     /**
      * Output encoding of the script.
+     *
      * @var string
      */
     protected $encoding = 'UTF-8';
 
     /**
      * Parameters received by the script.
+     *
      * @var array
      */
     protected $parameters = [];
 
     /**
      * Possible prepared arguments.
+     *
      * @var array
      */
     protected $preparedArguments = [];
@@ -66,8 +71,8 @@ abstract class Command implements CommandsInterface
     /**
      * Phalcon\Commands\Command
      *
-     * @param \Phalcon\Script         $script
-     * @param \Phalcon\Events\Manager $eventsManager
+     * @param Script $script
+     * @param EventsManager $eventsManager
      */
     final public function __construct(Script $script, EventsManager $eventsManager)
     {
@@ -79,7 +84,7 @@ abstract class Command implements CommandsInterface
     /**
      * Events Manager
      *
-     * @param \Phalcon\Events\Manager $eventsManager
+     * @param EventsManager $eventsManager
      */
     public function setEventsManager(EventsManager $eventsManager)
     {
@@ -89,7 +94,7 @@ abstract class Command implements CommandsInterface
     /**
      * Returns the events manager
      *
-     * @return \Phalcon\Events\Manager
+     * @return EventsManager
      */
     public function getEventsManager()
     {
@@ -99,7 +104,7 @@ abstract class Command implements CommandsInterface
     /**
      * Sets the script that will execute the command
      *
-     * @param \Phalcon\Script $script
+     * @param Script $script
      */
     public function setScript(Script $script)
     {
@@ -109,7 +114,7 @@ abstract class Command implements CommandsInterface
     /**
      * Returns the script that will execute the command
      *
-     * @return \Phalcon\Script
+     * @return Script
      */
     public function getScript()
     {
@@ -119,7 +124,7 @@ abstract class Command implements CommandsInterface
     /**
      * @param string $path Config path
      *
-     * @return \Phalcon\Config
+     * @return Config
      * @throws CommandsException
      */
     protected function getConfig($path)
@@ -149,7 +154,7 @@ abstract class Command implements CommandsInterface
      *
      * @param string $fileName Config file name
      *
-     * @return \Phalcon\Config
+     * @return Config
      * @throws CommandsException
      */
     protected function loadConfig($fileName)
@@ -242,7 +247,7 @@ abstract class Command implements CommandsInterface
 
         for ($i = 1; $i < $numberArguments; $i++) {
             $argv = $_SERVER['argv'][$i];
-            if (preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)(=(.*)){0,1}$#', $argv, $matches)) {
+            if (is_string($argv) && preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)(=(.*)){0,1}$#', $argv, $matches)) {
                 if (strlen($matches[1]) == 1) {
                     $param = substr($matches[2], 1);
                     $paramName = substr($matches[2], 0, 1);

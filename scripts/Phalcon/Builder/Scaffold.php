@@ -263,7 +263,7 @@ class Scaffold extends Component
                 continue;
             }
 
-            if (strpos($dataType, 'int') !== false) {
+            if (is_int($dataType) !== false) {
                 $fieldCode = '$this->request->getPost("'.$field.'", "int")';
             } else {
                 if ($field == 'email') {

@@ -16,7 +16,10 @@ use Phalcon\Events\Manager as EventsManager;
 
 class ServeTest extends \Codeception\Test\Unit
 {
-    protected $command = null;
+    /**
+     * @var Serve
+     */
+    protected $command;
 
     public function _before()
     {
@@ -27,11 +30,6 @@ class ServeTest extends \Codeception\Test\Unit
         //$this->command->activateTestMode();
     }
 
-    public function _after()
-    {
-        //$this->command->resetTestMode();
-    }
-
     /**
      * Verify that if no arguments are passed via the command line
      * this will provide a valid default configuration
@@ -40,9 +38,10 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testDefaultValuesWithNoParameters()
     {
-        $_SERVER['argv'] = ['',''];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['','', null];
+        $this->command->parseParameters();
         $this->command->prepareOptions();
+
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
         $this->assertEquals('8000', $this->command->getPort());
         $this->assertEquals('.htrouter.php', $this->command->getBasePath());
@@ -59,7 +58,7 @@ class ServeTest extends \Codeception\Test\Unit
     public function testGeneratedCommandWithNoParameters()
     {
         $_SERVER['argv'] = ['',''];
-        $this->command->parseParameters([], []);
+        $this->command->parseParameters();
         $command = $this->command->shellCommand();
         $this->assertStringContainsString(PHP_BINARY . ' -S 0.0.0.0:8000 -t .htrouter.php -t public', $command);
     }
@@ -73,9 +72,10 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testDefaultValuesWithHostnameOnly()
     {
-        $_SERVER['argv'] = ['','', 'localhost'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', 'localhost'];
+        $this->command->parseParameters();
         $this->command->prepareOptions();
+
         $this->assertEquals('localhost', $this->command->getHostname());
         $this->assertEquals('8000', $this->command->getPort());
         $this->assertEquals('.htrouter.php', $this->command->getBasePath());
@@ -92,8 +92,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testGeneratedCommandWithHostnameOnly()
     {
-        $_SERVER['argv'] = ['','', 'localhost'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', 'localhost'];
+        $this->command->parseParameters();
         $command = $this->command->shellCommand();
         $this->assertStringContainsString(PHP_BINARY . ' -S localhost:8000 -t .htrouter.php -t public', $command);
     }
@@ -107,8 +107,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testDefaultValuesWithPortOnly()
     {
-        $_SERVER['argv'] = ['','', null, 1111];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, 1111];
+        $this->command->parseParameters();
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
         $this->assertEquals('1111', $this->command->getPort());
@@ -126,8 +126,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testGeneratedCommandWithPortOnly()
     {
-        $_SERVER['argv'] = ['','', null, 1111];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, 1111];
+        $this->command->parseParameters();
         $command = $this->command->shellCommand();
         $this->assertStringContainsString(PHP_BINARY . ' -S 0.0.0.0:1111 -t .htrouter.php -t public', $command);
     }
@@ -141,8 +141,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testDefaultValuesWithBasepathOnly()
     {
-        $_SERVER['argv'] = ['','', null, null, '/root/bin.php'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, null, '/root/bin.php'];
+        $this->command->parseParameters();
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
         $this->assertEquals('8000', $this->command->getPort());
@@ -160,8 +160,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testGeneratedCommandWithBasepathOnly()
     {
-        $_SERVER['argv'] = ['','', null, null, '/root/bin.php'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, null, '/root/bin.php'];
+        $this->command->parseParameters();
         $command = $this->command->shellCommand();
         $this->assertStringContainsString(PHP_BINARY . ' -S 0.0.0.0:8000 -t /root/bin.php -t public', $command);
     }
@@ -175,8 +175,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testDefaultValuesWithDocumentRootOnly()
     {
-        $_SERVER['argv'] = ['','', null, null, null, 'not_too_public'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, null, null, 'not_too_public'];
+        $this->command->parseParameters();
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
         $this->assertEquals('8000', $this->command->getPort());
@@ -194,8 +194,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testGeneratedCommandWithDocumentRootOnly()
     {
-        $_SERVER['argv'] = ['','', null, null, null, 'not_too_public'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, null, null, 'not_too_public'];
+        $this->command->parseParameters();
         $command = $this->command->shellCommand();
         $this->assertStringContainsString(PHP_BINARY . ' -S 0.0.0.0:8000 -t .htrouter.php -t not_too_public', $command);
     }
@@ -209,8 +209,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testDefaultValuesWithConfigOnly()
     {
-        $_SERVER['argv'] = ['','', null, null, null, '--config=awesome.ini'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, null, null, '--config=awesome.ini'];
+        $this->command->parseParameters();
         $this->command->prepareOptions();
         $this->assertEquals('0.0.0.0', $this->command->getHostname());
         $this->assertEquals('8000', $this->command->getPort());
@@ -228,8 +228,8 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testGeneratedCommandWithConfigOnly()
     {
-        $_SERVER['argv'] = ['','', null, null, null, '--config=awesome.ini'];
-        $this->command->parseParameters([], []);
+        $_SERVER['argv'] = ['', '', null, null, null, '--config=awesome.ini'];
+        $this->command->parseParameters();
         $command = $this->command->shellCommand();
         $this->assertStringContainsString(PHP_BINARY . ' -S 0.0.0.0:8000 -t .htrouter.php -t public -c awesome.ini', $command);
     }
