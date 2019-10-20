@@ -247,7 +247,9 @@ abstract class Command implements CommandsInterface
 
         for ($i = 1; $i < $numberArguments; $i++) {
             $argv = $_SERVER['argv'][$i];
-            if (is_string($argv) && preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)(=(.*)){0,1}$#', $argv, $matches)) {
+            if (is_string($argv) &&
+                preg_match('#^([\-]{1,2})([a-zA-Z0-9][a-zA-Z0-9\-]*)(=(.*)){0,1}$#', $argv, $matches)
+            ) {
                 if (strlen($matches[1]) == 1) {
                     $param = substr($matches[2], 1);
                     $paramName = substr($matches[2], 0, 1);
