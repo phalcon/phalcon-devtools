@@ -1,29 +1,23 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Builder;
-use Phalcon\Script\Color;
-use Phalcon\Commands\Command;
+use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold as ScaffoldBuilder;
+use Phalcon\Commands\Command;
+use Phalcon\Commands\CommandsException;
+use Phalcon\Config;
+use Phalcon\Script\Color;
 
 /**
  * Scaffold Command
@@ -39,7 +33,7 @@ class Scaffold extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'table-name=s'      => 'Table used as base to generate the scaffold',
@@ -62,6 +56,8 @@ class Scaffold extends Command
      *
      * @param array $parameters
      * @return mixed
+     * @throws CommandsException
+     * @throws BuilderException
      */
     public function run(array $parameters)
     {
@@ -92,7 +88,7 @@ class Scaffold extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['scaffold', 'create-scaffold'];
     }
@@ -102,7 +98,7 @@ class Scaffold extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Creates a scaffold from a database table') . PHP_EOL . PHP_EOL;
@@ -126,8 +122,10 @@ class Scaffold extends Command
 
     /**
      * @param string $path
+     * @return Config
+     * @throws CommandsException
      */
-    protected function getreceivedOrDefaultConfig($path)
+    protected function getreceivedOrDefaultConfig(string $path): Config
     {
         if ($this->isReceivedOption('config')) {
             return $this->loadConfig($path . $this->getOption('config'));
@@ -141,7 +139,7 @@ class Scaffold extends Command
      *
      * @return integer
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

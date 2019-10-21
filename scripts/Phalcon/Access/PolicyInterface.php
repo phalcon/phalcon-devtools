@@ -1,23 +1,14 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Access;
 
@@ -35,5 +26,5 @@ interface PolicyInterface
      * @param array  $data         Data. [Optional]
      * @return bool
      */
-    public function isAllowedAccess($resourceName, array $data = null);
+    public function isAllowedAccess(string $resourceName, array $data = null);
 }

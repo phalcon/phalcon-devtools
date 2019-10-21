@@ -1,29 +1,21 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Mvc\Dispatcher;
 
-use Phalcon\Dispatcher;
-use Phalcon\Events\Event;
 use Phalcon\Access\Manager;
+use Phalcon\Dispatcher\Exception as DispatcherException;
+use Phalcon\Events\Event;
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
 /**
@@ -47,14 +39,14 @@ class ErrorHandler
     {
         if ($exception instanceof DispatchException) {
             switch ($exception->getCode()) {
-                case Dispatcher::EXCEPTION_INVALID_HANDLER:
-                case Dispatcher::EXCEPTION_CYCLIC_ROUTING:
+                case DispatcherException::EXCEPTION_INVALID_HANDLER:
+                case DispatcherException::EXCEPTION_CYCLIC_ROUTING:
                     $action = 'route500';
                     break;
                 case Manager::EXCEPTION_ACTION_DISALLOWED:
                     $action = 'route403';
                     break;
-                case Dispatcher::EXCEPTION_INVALID_PARAMS:
+                case DispatcherException::EXCEPTION_INVALID_PARAMS:
                     $action = 'route400';
                     break;
                 default:

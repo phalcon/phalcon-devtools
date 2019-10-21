@@ -1,22 +1,14 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Commands\Builtin;
 
@@ -38,7 +30,7 @@ class Module extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'name'            => 'Name of the new module',
@@ -81,7 +73,7 @@ class Module extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['module', 'create-module'];
     }
@@ -91,7 +83,7 @@ class Module extends Command
      *
      * @return boolean
      */
-    public function canBeExternal()
+    public function canBeExternal(): bool
     {
         return false;
     }
@@ -101,7 +93,7 @@ class Module extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Creates a module') . PHP_EOL . PHP_EOL;
@@ -117,7 +109,7 @@ class Module extends Command
      *
      * @return integer
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

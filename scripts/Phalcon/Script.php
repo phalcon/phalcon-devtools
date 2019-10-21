@@ -1,23 +1,14 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon;
 
@@ -38,21 +29,21 @@ class Script
     /**
      * Events Manager
      *
-     * @var \Phalcon\Events\Manager
+     * @var EventsManager
      */
     protected $eventsManager;
 
     /**
      * Commands attached to the Script
      *
-     * @var \Phalcon\Commands\Command[]
+     * @var Command[]
      */
     protected $commands;
 
     /**
      * Script Constructor
      *
-     * @param \Phalcon\Events\Manager $eventsManager
+     * @param EventsManager $eventsManager
      */
     public function __construct(EventsManager $eventsManager)
     {
@@ -63,7 +54,7 @@ class Script
     /**
      * Events Manager
      *
-     * @param \Phalcon\Events\Manager $eventsManager
+     * @param EventsManager $eventsManager
      */
     public function setEventsManager(EventsManager $eventsManager)
     {
@@ -73,7 +64,7 @@ class Script
     /**
      * Returns the events manager
      *
-     * @return \Phalcon\Events\Manager
+     * @return EventsManager
      */
     public function getEventsManager()
     {
@@ -83,7 +74,7 @@ class Script
     /**
      * Adds commands to the Script
      *
-     * @param \Phalcon\Commands\Command $command
+     * @param Command $command
      */
     public function attach(Command $command)
     {
@@ -93,7 +84,7 @@ class Script
     /**
      * Returns the commands registered in the script
      *
-     * @return \Phalcon\Commands\Command[]
+     * @return Command[]
      */
     public function getCommands()
     {

@@ -1,26 +1,18 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon;
 
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Error\ErrorHandler;
 use Phalcon\Mvc\Application as MvcApplication;
@@ -38,7 +30,7 @@ class Bootstrap
 
     /**
      * Application instance.
-     * @var \Phalcon\Application
+     * @var MvcApplication
      */
     protected $app;
 
@@ -168,7 +160,7 @@ class Bootstrap
     /**
      * Runs the Application.
      *
-     * @return \Phalcon\Application|string
+     * @return MvcApplication|string
      */
     public function run()
     {
@@ -190,7 +182,7 @@ class Bootstrap
      */
     public function getOutput()
     {
-        return $this->app->handle()->getContent();
+        return $this->app->handle($_SERVER['REQUEST_URI'])->getContent();
     }
 
     /**

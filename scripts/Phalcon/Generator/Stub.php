@@ -1,24 +1,23 @@
 <?php
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Generator;
+
+use Exception;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use ReflectionParameter;
 
 class Stub
 {
@@ -37,12 +36,12 @@ class Stub
      * @param string $targetDir
      *
      * @return \Phalcon\Generator\Stub
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($extension, $targetDir)
     {
         if (!extension_loaded($extension)) {
-            throw new \Exception("Extension '{$extension}' was not loaded");
+            throw new Exception("Extension '{$extension}' was not loaded");
         }
 
         $this->extension = new \ReflectionExtension($extension);
@@ -54,22 +53,22 @@ class Stub
     }
 
     /**
-     * @return void
+     * @throws ReflectionException
      */
-    public function generate()
+    public function generate(): void
     {
         $this->generateFileStructure();
     }
 
     /**
-     * @return void
+     * @throws ReflectionException
      */
-    protected function generateFileStructure()
+    protected function generateFileStructure(): void
     {
         $classes = $this->extension->getClassNames();
 
         foreach ($classes as $class) {
-            $reflectionClass = new \ReflectionClass($class);
+            $reflectionClass = new ReflectionClass($class);
 
             $output = "<?php\n\n";
             $output .= $this->exportNamespace($reflectionClass);
@@ -99,19 +98,19 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return string
      */
-    protected function exportNamespace(\ReflectionClass $reflectionClass)
+    protected function exportNamespace(ReflectionClass $reflectionClass)
     {
         return 'namespace ' . $reflectionClass->getNamespaceName() . ";\n\n";
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return string
      */
-    protected function exportDefinition(\ReflectionClass $reflectionClass)
+    protected function exportDefinition(ReflectionClass $reflectionClass)
     {
         $definition = [$this->removeNamespace($reflectionClass)];
 
@@ -130,7 +129,7 @@ class Stub
         }
 
         $parent = $reflectionClass->getParentClass();
-        if (method_exists('getName', $parent)) {
+        if (method_exists($parent, 'getName')) {
             array_push($definition, 'extends');
             array_push($definition, $parent->getName());
         }
@@ -145,10 +144,10 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return string
      */
-    protected function removeNamespace(\ReflectionClass $reflectionClass)
+    protected function removeNamespace(ReflectionClass $reflectionClass)
     {
         $class = str_replace($reflectionClass->getNamespaceName(), '', $reflectionClass->getName());
 
@@ -156,10 +155,10 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return null|string
      */
-    protected function exportClassConstants(\ReflectionClass $reflectionClass)
+    protected function exportClassConstants(ReflectionClass $reflectionClass)
     {
         $constants = $reflectionClass->getConstants();
         $all = [];
@@ -178,10 +177,10 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param  ReflectionClass $reflectionClass
      * @return null|string
      */
-    protected function exportClassProperties(\ReflectionClass $reflectionClass)
+    protected function exportClassProperties(ReflectionClass $reflectionClass)
     {
         $properties = $reflectionClass->getProperties();
 
@@ -221,10 +220,11 @@ class Stub
     }
 
     /**
-     * @param  \ReflectionClass $reflectionClass
+     * @param ReflectionClass $reflectionClass
      * @return null|string
+     * @throws ReflectionException
      */
-    protected function exportClassMethods(\ReflectionClass $reflectionClass)
+    protected function exportClassMethods(ReflectionClass $reflectionClass)
     {
         $methods = $reflectionClass->getMethods();
 
@@ -235,6 +235,7 @@ class Stub
         $output = '';
 
         foreach ($methods as $method) {
+            /** @var ReflectionMethod|ReflectionParameter $method */
             $doc = ["\t/**"];
             $func = [];
 
@@ -303,9 +304,9 @@ class Stub
      */
     protected function cleanup($dir)
     {
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($dir),
-            \RecursiveIteratorIterator::CHILD_FIRST
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir),
+            RecursiveIteratorIterator::CHILD_FIRST
         );
 
         foreach ($iterator as $path) {

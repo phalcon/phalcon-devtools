@@ -1,46 +1,40 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Utils;
 
 use Phalcon\Devtools\Version;
 use Phalcon\Di\Injectable;
+use Phalcon\Registry;
+use Phalcon\Url;
+use Phalcon\Url\UrlInterface;
 use Phalcon\Version as PhVersion;
 
 /**
  * \Phalcon\Utils\SystemInfo
  *
- * @property \Phalcon\Registry $registry
- * @property \Phalcon\Url|\Phalcon\Url\UrlInterface $url
+ * @property Registry $registry
+ * @property Url|UrlInterface $url
  *
  * @package Phalcon\Utils
  */
 class SystemInfo extends Injectable
 {
-    public function get()
+    public function get(): array
     {
         return $this->getVersions() + $this->getUris() + $this->getDirectories() + $this->getEnvironment();
     }
 
-    public function getDirectories()
+    public function getDirectories(): array
     {
         return [
             'DevTools Path' => $this->registry->offsetGet('directories')->ptoolsPath,
@@ -55,7 +49,7 @@ class SystemInfo extends Injectable
         ];
     }
 
-    public function getUris()
+    public function getUris(): array
     {
         return [
             'Base URI' => $this->url->getBaseUri(),
@@ -63,7 +57,7 @@ class SystemInfo extends Injectable
         ];
     }
 
-    public function getVersions()
+    public function getVersions(): array
     {
         return [
             'Phalcon DevTools Version' => Version::get(),
@@ -72,7 +66,7 @@ class SystemInfo extends Injectable
         ];
     }
 
-    public function getEnvironment()
+    public function getEnvironment(): array
     {
         return [
             'OS' => php_uname(),

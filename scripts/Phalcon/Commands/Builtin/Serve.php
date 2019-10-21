@@ -1,32 +1,22 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Paul Scarrone <paul@savvysoftworks.com>                       |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Commands\Builtin;
 
-use Phalcon\Script\Color;
 use Phalcon\Commands\Command;
-use Phalcon\Utils\SystemInfo;
-use Phalcon\Registry;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Bootstrap;
+use Phalcon\Registry;
+use Phalcon\Script\Color;
+use Phalcon\Utils\SystemInfo;
 
 /**
  * Serve Command
@@ -118,7 +108,7 @@ class Serve extends Command
      *
      * @return string
      */
-    public function shellCommand()
+    public function shellCommand(): string
     {
         $systemInfo = new SystemInfo();
         $binary_path = $systemInfo->getEnvironment()['PHP Bin'];

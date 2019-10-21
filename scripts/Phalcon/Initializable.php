@@ -1,64 +1,51 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon;
 
-use Phalcon\Mvc\View;
 use DirectoryIterator;
+use Phalcon\Access\Manager as AccessManager;
+use Phalcon\Access\Policy\Ip as IpPolicy;
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Assets\Manager as AssetsManager;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Db\Adapter\Pdo\AbstractPdo;
+use Phalcon\Di\DiInterface;
+use Phalcon\Elements\Menu\SidebarMenu;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Logger\Adapter\Stream as FileLogger;
+use Phalcon\Logger\Adapter\Syslog;
+use Phalcon\Logger\Formatter\Line as LineFormatter;
+use Phalcon\Mvc\Dispatcher as MvcDispatcher;
+use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
+use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php;
+use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
+use Phalcon\Mvc\View\NotFoundListener;
+use Phalcon\Resources\AssetsResource;
+use Phalcon\Scanners\Config as ConfigScanner;
+use Phalcon\Session\Adapter\Stream as SessionStream;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Url as UrlResolver;
 use Phalcon\Utils\DbUtils;
 use Phalcon\Utils\FsUtils;
 use Phalcon\Utils\SystemInfo;
-use Phalcon\Mvc\View\Engine\Php;
-use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Resources\AssetsResource;
-use Phalcon\Elements\Menu\SidebarMenu;
-use Phalcon\Mvc\View\NotFoundListener;
-use Phalcon\Flash\Direct as FlashDirect;
-use Phalcon\Access\Policy\Ip as IpPolicy;
-use Phalcon\Flash\Session as FlashSession;
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Assets\Manager as AssetsManager;
-use Phalcon\Access\Manager as AccessManager;
-use Phalcon\Mvc\Dispatcher as MvcDispatcher;
-use Phalcon\Scanners\Config as ConfigScanner;
-use Phalcon\Session\Adapter\Files as Session;
-use Phalcon\Logger\Adapter\File as FileLogger;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Config\Exception as ConfigException;
-use Phalcon\Cache\Frontend\None as FrontendNone;
-use Phalcon\Cache\Backend\Memory as BackendCache;
-use Phalcon\Cache\Frontend\Output as FrontOutput;
-use Phalcon\Logger\Formatter\Line as LineFormatter;
-use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
-use Phalcon\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
-use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
-use Phalcon\Mvc\Dispatcher\ErrorHandler as DispatchErrorHandler;
 
 /**
- * \Phalcon\Initializable
- *
  * @property DiInterface $di
- *
- * @package Phalcon
  */
 trait Initializable
 {
@@ -87,7 +74,6 @@ trait Initializable
         $this->di->setShared(
             'config',
             function () use ($basePath) {
-                /** @var DiInterface $this */
                 $scanner = new ConfigScanner($basePath);
                 $config = $scanner->load('config');
 
@@ -114,22 +100,16 @@ trait Initializable
         $this->di->setShared(
             'logger',
             function () use ($hostName, $basePath) {
-                $logLevel = Logger::ERROR;
-                if (ENV_DEVELOPMENT === APPLICATION_ENV) {
-                    $logLevel = Logger::DEBUG;
-                }
-
                 $ptoolsPath = $basePath . DS . '.phalcon' . DS;
                 if (is_dir($ptoolsPath) && is_writable($ptoolsPath)) {
                     $formatter = new LineFormatter("%date% {$hostName} php: [%type%] %message%", 'D j H:i:s');
                     $logger    = new FileLogger($ptoolsPath . 'devtools.log');
                 } else {
                     $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%", 'D j H:i:s');
-                    $logger    = new Stream('php://stderr');
+                    $logger    = new Syslog('php://stderr');
                 }
 
                 $logger->setFormatter($formatter);
-                $logger->setLogLevel($logLevel);
 
                 return $logger;
             }
@@ -144,24 +124,33 @@ trait Initializable
      */
     protected function initCache()
     {
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+
         $this->di->set(
             'viewCache',
-            function () {
-                return new BackendCache(new FrontOutput);
+            function () use ($adapterFactory) {
+                $adapter = $adapterFactory->newInstance('stream');
+
+                return new Cache($adapter);
             }
         );
 
         $this->di->setShared(
             'modelsCache',
-            function () {
-                return new BackendCache(new FrontendNone);
+            function () use ($adapterFactory) {
+                $adapter = $adapterFactory->newInstance('stream');
+
+                return new Cache($adapter);
             }
         );
 
         $this->di->setShared(
             'dataCache',
-            function () {
-                return new BackendCache(new FrontendNone);
+            function () use ($adapterFactory) {
+                $adapter = $adapterFactory->newInstance('stream');
+
+                return new Cache($adapter);
             }
         );
     }
@@ -438,19 +427,20 @@ trait Initializable
      */
     protected function initDispatcher()
     {
+        /** @var EventsManager $eventsManager */
+        $eventsManager = $this->di->get('eventsManager');
+        $access = $this->di->getShared('access');
+
         $this->di->setShared(
             'dispatcher',
-            function () {
-                /** @var DiInterface $this */
-                $em = $this->get('eventsManager');
-
+            function () use ($eventsManager, $access) {
                 $dispatcher = new MvcDispatcher;
                 $dispatcher->setDefaultNamespace('WebTools\Controllers');
 
-                $em->attach('dispatch', $this->getShared('access'), 1000);
-                $em->attach('dispatch:beforeException', new DispatchErrorHandler, 999);
+                $eventsManager->attach('dispatch', $access, 1000);
+                $eventsManager->attach('dispatch:beforeException', new DispatchErrorHandler, 999);
 
-                $dispatcher->setEventsManager($em);
+                $dispatcher->setEventsManager($eventsManager);
 
                 return $dispatcher;
             }
@@ -478,8 +468,9 @@ trait Initializable
         $this->di->setShared(
             'session',
             function () {
-                $session = new Session;
-                $session->start();
+                $session = new SessionStream([
+                    'savePath' => '/tmp',
+                ]);
 
                 return $session;
             }
@@ -491,19 +482,19 @@ trait Initializable
      */
     protected function initFlash()
     {
+        $cssClasses = [
+            'error'   => 'alert alert-danger fade in',
+            'success' => 'alert alert-success fade in',
+            'notice'  => 'alert alert-info fade in',
+            'warning' => 'alert alert-warning fade in',
+        ];
+
         $this->di->setShared(
             'flash',
-            function () {
-                $flash = new FlashDirect(
-                    [
-                        'error'   => 'alert alert-danger fade in',
-                        'success' => 'alert alert-success fade in',
-                        'notice'  => 'alert alert-info fade in',
-                        'warning' => 'alert alert-warning fade in',
-                    ]
-                );
-
+            function () use ($cssClasses) {
+                $flash = new FlashDirect();
                 $flash->setAutoescape(false);
+                $flash->setCssClasses($cssClasses);
 
                 return $flash;
             }
@@ -511,18 +502,10 @@ trait Initializable
 
         $this->di->setShared(
             'flashSession',
-            function () {
-                $flash = new FlashSession(
-                    [
-                        'error'   => 'alert alert-danger fade in',
-                        'success' => 'alert alert-success fade in',
-                        'notice'  => 'alert alert-info fade in',
-                        'warning' => 'alert alert-warning fade in',
-                    ]
-                );
-
-
+            function () use ($cssClasses) {
+                $flash = new FlashSession();
                 $flash->setAutoescape(false);
+                $flash->setCssClasses($cssClasses);
 
                 return $flash;
             }
@@ -558,9 +541,8 @@ trait Initializable
                 $adapter = 'Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
                 unset($config['adapter']);
 
-                /** @var \Phalcon\Db\Adapter\Pdo $connection */
+                /** @var AbstractPdo $connection */
                 $connection = new $adapter($config);
-
                 $connection->setEventsManager($em);
 
                 return $connection;

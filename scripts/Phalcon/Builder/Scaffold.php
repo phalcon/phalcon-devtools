@@ -1,22 +1,14 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Builder;
 
@@ -271,7 +263,7 @@ class Scaffold extends Component
                 continue;
             }
 
-            if (strpos($dataType, 'int') !== false) {
+            if (is_int($dataType) !== false) {
                 $fieldCode = '$this->request->getPost("'.$field.'", "int")';
             } else {
                 if ($field == 'email') {
@@ -340,7 +332,7 @@ class Scaffold extends Component
                 '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"] ?>';
         } else {
             switch ($dataType) {
-                case 5: // enum
+                case Column::TYPE_ENUM: // enum
                     $code .= "\t\t" . '<?php echo $this->tag->selectStatic(["' . $attribute .
                         '", [], "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
@@ -396,7 +388,7 @@ class Scaffold extends Component
                 '", "useDummy" => true], "class" : "form-control", "id" : "' . $id . '") }}';
         } else {
             switch ($dataType) {
-                case 5: // enum
+                case Column::TYPE_ENUM: // enum
                     $code .= "\t\t" . '{{ select_static("' . $attribute .
                         '", "using": [], "class" : "form-control", "id" : "' . $id . '") }}';
                     break;

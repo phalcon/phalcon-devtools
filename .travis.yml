@@ -57,7 +57,8 @@ script:
   - vendor/bin/codecept run unit -v
   - vendor/bin/codecept run functional -v
   - vendor/bin/codecept run console -v
-#  - vendor/bin/phpstan analyse -l 5 -c phpstan.neon scripts -v
+  - vendor/bin/psalm --show-info=false
+  - vendor/bin/phpstan analyse -l 5 -c phpstan.neon scripts -v
 
 notifications:
   email:
