@@ -29,7 +29,7 @@ env:
   global:
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
-    - PHALCON_VERSION=v4.0.0-rc.1
+    - PHALCON_VERSION=v4.0.0-rc.2
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
