@@ -5,10 +5,10 @@
  */
 
 $I = new ConsoleTester($scenario);
-$I->wantToTest('Generating scaffold');
+$I->wantToTest('Generating project');
 
 $output=<<<OUT
-Success: Scaffold was successfully created.
+Success: Project was successfully created.
 OUT;
 
 $projectsFolder = 'projects';
