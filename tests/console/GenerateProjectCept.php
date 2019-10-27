@@ -12,6 +12,7 @@ Success: Project was successfully created.
 OUT;
 
 $projectsFolder = 'projects';
+chmod(app_path($projectsFolder), 0777);
 
 $I->amInPath(app_path($projectsFolder));
 
