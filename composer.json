@@ -37,7 +37,7 @@
         "codeception/specify": "^1.2",
         "codeception/verify": "^1.2",
         "squizlabs/php_codesniffer": "^3.5",
-        "phalcon/ide-stubs": "4.0.0-rc.1",
+        "phalcon/ide-stubs": "4.0.0-rc.2",
         "vimeo/psalm": "^3.6"
     },
     "autoload": {
