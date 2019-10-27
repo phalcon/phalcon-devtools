@@ -51,7 +51,7 @@ class Manager extends Injectable
         $controller = $dispatcher->getControllerName();
 
         if (!$this->isAllowedAccess($controller, $data)) {
-            $this->getEventsManager()->fire(
+            $this->eventsManager->fire(
                 'dispatch:beforeException',
                 $dispatcher,
                 new Dispatcher\Exception(
