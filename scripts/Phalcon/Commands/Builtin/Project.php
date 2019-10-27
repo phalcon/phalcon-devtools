@@ -63,7 +63,7 @@ class Project extends Command
     {
         $projectName    = $this->getOption(['name', 1], null, 'default');
         $projectType    = $this->getOption(['type', 2], null, 'simple');
-        $projectPath    = $this->getOption(['directory', 3]);
+        $projectPath    = $this->getOption(['directory', 3], null, ".");
         $templatePath   = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $enableWebtools = $this->getOption(['enable-webtools', 4], null, false);
         $useConfigIni   = $this->getOption('use-config-ini');
