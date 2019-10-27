@@ -560,13 +560,8 @@ trait Initializable
         $this->di->setShared(
             'access',
             function () use ($ptoolsIp) {
-                /** @var DiInterface $this */
-                $em = $this->getShared('eventsManager');
-
                 $policy = new IpPolicy($ptoolsIp);
-
                 $manager = new AccessManager($policy);
-                $manager->setEventsManager($em);
 
                 return $manager;
             }
