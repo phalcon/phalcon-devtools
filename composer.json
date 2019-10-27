@@ -24,7 +24,7 @@
     "require": {
         "php": ">=7.2",
         "ext-posix": "*",
-        "ext-phalcon": "4.0.0-rc.1",
+        "ext-phalcon": "4.0.0-rc.2",
         "psy/psysh": "~0.9",
         "nikic/php-parser": "^4.2.4",
         "phalcon/migrations": "dev-master"
