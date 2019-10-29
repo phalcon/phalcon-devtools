@@ -39,7 +39,7 @@ class Cli extends ProjectBuilder
      */
     private function createConfig()
     {
-        $type = $this->options->has('useConfigIni') ? 'ini' : 'php';
+        $type = $this->options->get('useConfigIni') ? 'ini' : 'php';
 
         $getFile = $this->options->get('templatePath') . '/project/cli/config.' . $type;
         $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
