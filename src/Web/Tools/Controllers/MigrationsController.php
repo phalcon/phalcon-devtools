@@ -17,7 +17,7 @@ use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
 use Phalcon\Migrations\Migrations;
-use Phalcon\Mvc\Controller\Base;
+use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\Tag;
 
 /**
