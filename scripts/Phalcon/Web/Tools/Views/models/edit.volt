@@ -3,7 +3,7 @@
         {{ content() }}
         {{ flashSession.output() }}
         <div class="box box-success">
-            <form role="form" name="edit-model" method="post" action="{{ url.get("/webtools.php?_url=/models/update") }}">
+            <form role="form" name="edit-model" method="post" action="{{ url.get(webtools_uri ~ "?_url=/models/update") }}">
                 <div class="box-header with-border">
                     <p class="pull-left">{{ model_name }} - [{{ model_path }}]</p>
                     {{ submit_button("Save", "class": "btn btn-success pull-right") }}

@@ -5,7 +5,7 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Migrations List</h3>
-                {{ link_to("/webtools.php?_url=/migrations/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
+                {{ link_to(webtools_uri ~ "?_url=/migrations/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-bordered">
