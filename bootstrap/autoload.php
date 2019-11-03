@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -32,7 +33,7 @@ defined('DEVTOOLS_START_MEMORY') || define('DEVTOOLS_START_MEMORY', memory_get_u
 /**
  * @const PTOOLSPATH The path to the Phalcon Developers Tools.
  */
-defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(trim(getenv('PTOOLSPATH'), '\"\'') ?: dirname(dirname(__FILE__)), '\\/'));
+defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(trim((string)getenv('PTOOLSPATH'), '\"\'') ?: dirname(dirname(__FILE__)), '\\/'));
 
 /**
  * Check for old versions
@@ -102,7 +103,7 @@ defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
         PTOOLSPATH . DS . 'src' . DS
     ])
     ->registerNamespaces([
-        'Phalcon\DevTools' => PTOOLSPATH . DS . 'src' . DS . 'Phalcon' . DS,
+        'Phalcon\DevTools' => PTOOLSPATH . DS . 'src' . DS,
         'WebTools\Controllers' => PTOOLSPATH . DS . str_replace('/', DS, 'src/Web/Tools/Controllers') . DS,
     ])
     ->register();
@@ -116,6 +117,8 @@ if (file_exists(PTOOLSPATH . DS .'vendor' . DS . 'autoload.php')) {
 
 /**
  * Register the custom loader (if any)
+ *
+ * @psalm-suppress MissingFile
  */
 if (file_exists('.phalcon' . DS . 'autoload.php')) {
     require_once '.phalcon' . DS . 'autoload.php';

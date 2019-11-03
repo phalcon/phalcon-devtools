@@ -11,9 +11,15 @@
 
 use Phalcon\DevTools\Bootstrap;
 
+/**
+ * @psalm-suppress MissingFile
+ */
 include 'webtools.config.php';
 include PTOOLSPATH . '/bootstrap/autoload.php';
 
+/**
+ * @psalm-suppress UndefinedConstant
+ */
 $bootstrap = new Bootstrap([
     'ptools_path' => PTOOLSPATH,
     'ptools_ip'   => PTOOLS_IP,

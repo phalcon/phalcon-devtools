@@ -9,7 +9,9 @@
 >
     <projectFiles>
         <directory name="src/" />
+        <file name="bootstrap/autoload.php" />
         <file name="phalcon" />
+        <file name="webtools.php" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
