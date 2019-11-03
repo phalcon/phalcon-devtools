@@ -9,7 +9,7 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-use Phalcon\Bootstrap;
+use Phalcon\DevTools\Bootstrap;
 
 include 'webtools.config.php';
 include PTOOLSPATH . '/bootstrap/autoload.php';
