@@ -52,9 +52,10 @@ class AppError
      * Magic method to retrieve the attributes.
      *
      * @param string $method
+     * @param $args
      * @return mixed|null
      */
-    public function __call($method)
+    public function __call($method, $args)
     {
         return in_array($method, array_keys($this->attributes), true) ? $this->attributes[$method] : null;
     }

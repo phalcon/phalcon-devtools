@@ -27,7 +27,6 @@
     <file>src</file>
 
     <exclude-pattern>src/Generator/</exclude-pattern>
-    <exclude-pattern>src/Devtools/</exclude-pattern>
 
     <!--
         You can hard-code ignore patterns directly into your
