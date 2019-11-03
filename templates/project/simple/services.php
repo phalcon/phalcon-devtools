@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -109,4 +110,16 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+/**
+ * Register router
+ */
+$di->setShared('router', function () {
+    $router = new Router();
+    $router->setUriSource(
+        Router::URI_SOURCE_SERVER_REQUEST_URI
+    );
+
+    return $router;
 });
