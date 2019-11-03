@@ -99,11 +99,11 @@ defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
  * Register Devtools classes.
  */
 (new Loader)->registerDirs([
-        PTOOLSPATH . DS . 'scripts' . DS
+        PTOOLSPATH . DS . 'src' . DS
     ])
     ->registerNamespaces([
-        'Phalcon'              => PTOOLSPATH . DS . 'scripts' . DS . 'Phalcon' . DS,
-        'WebTools\Controllers' => PTOOLSPATH . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers') . DS,
+        'Phalcon\DevTools' => PTOOLSPATH . DS . 'src' . DS . 'Phalcon' . DS,
+        'WebTools\Controllers' => PTOOLSPATH . DS . str_replace('/', DS, 'src/Web/Tools/Controllers') . DS,
     ])
     ->register();
 

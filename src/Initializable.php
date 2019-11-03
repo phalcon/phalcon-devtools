@@ -207,8 +207,8 @@ trait Initializable
                      */
                     if (0 === strpos($templatePath, $basePath)) {
                         $templatePath = substr($templatePath, strlen($basePath));
-                    } elseif (0 === strpos($templatePath, $ptoolsPath . DS . 'scripts')) {
-                        $templatePath = substr($templatePath, strlen($ptoolsPath . DS . 'scripts'));
+                    } elseif (0 === strpos($templatePath, $ptoolsPath . DS . 'src')) {
+                        $templatePath = substr($templatePath, strlen($ptoolsPath . DS . 'src'));
                     }
 
                     $templatePath = trim($templatePath, '\\/');
@@ -332,7 +332,7 @@ trait Initializable
                 $router->removeExtraSlashes(true);
 
                 // @todo Use Path::normalize()
-                $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers');
+                $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'src/Web/Tools/Controllers');
                 $dir = new DirectoryIterator($controllersDir);
 
                 $resources = [];
@@ -607,7 +607,7 @@ trait Initializable
                     'basePath'       => $basePath,
                     'ptoolsPath'     => $ptoolsPath,
                     'templatesPath'  => $templatesPath,
-                    'webToolsViews'  => $fs->normalize($ptoolsPath . '/scripts/Phalcon/Web/Tools/Views'),
+                    'webToolsViews'  => $fs->normalize($ptoolsPath . '/src/Web/Tools/Views'),
                     'resourcesDir'   => $fs->normalize($ptoolsPath . '/resources'),
                     'elementsDir'    => $fs->normalize($ptoolsPath . '/resources/elements')
                 ];

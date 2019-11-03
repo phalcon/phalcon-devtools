@@ -8,7 +8,7 @@
     autoloader="bootstrap/autoload.php"
 >
     <projectFiles>
-        <directory name="scripts/" />
+        <directory name="src/" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>

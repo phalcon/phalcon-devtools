@@ -63,7 +63,7 @@ class Project extends Component
         }
 
         $templatePath =
-            str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) .
+            str_replace('src/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__) .
             'templates';
 
         if ($this->options->has('templatePath')) {

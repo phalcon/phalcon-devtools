@@ -61,7 +61,7 @@ class Module extends Component
 
         if (!$templatePath = $this->options->get('templatePath')) {
             $templatePath =
-                str_replace('scripts/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__)
+                str_replace('src/' . str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.php', '', __FILE__)
                 . 'templates' . DIRECTORY_SEPARATOR . 'module';
         }
 

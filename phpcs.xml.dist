@@ -24,10 +24,10 @@
         Note that specifying any file or directory path
         on the command line will ignore all file tags.
     -->
-    <file>scripts</file>
+    <file>src</file>
 
-    <exclude-pattern>scripts/Phalcon/Generator/</exclude-pattern>
-    <exclude-pattern>scripts/Phalcon/Devtools/</exclude-pattern>
+    <exclude-pattern>src/Generator/</exclude-pattern>
+    <exclude-pattern>src/Devtools/</exclude-pattern>
 
     <!--
         You can hard-code ignore patterns directly into your
