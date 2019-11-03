@@ -15,11 +15,7 @@ namespace Phalcon\DevTools;
 use Phalcon\Version as PhVersion;
 
 /**
- * \Phalcon\Devtools\Version
- *
  * This class allows to get the installed version of the Developer Tools
- *
- * @package Phalcon\Devtools
  */
 class Version extends PhVersion
 {
