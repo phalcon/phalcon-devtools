@@ -196,9 +196,9 @@ class Serve extends Command
     /**
      * {@inheritdoc}
      *
-     * @return string
+     * @return int|string
      */
-    public function getPort(): string
+    public function getPort()
     {
         return $this->port;
     }

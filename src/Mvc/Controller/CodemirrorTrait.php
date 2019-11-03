@@ -16,7 +16,7 @@ use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
 use Phalcon\DevTools\Resources\AssetsResource;
-use Phalcon\Devtools\Version;
+use Phalcon\DevTools\Version;
 
 /**
  * @property Manager $assets

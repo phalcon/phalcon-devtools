@@ -87,7 +87,7 @@ class Webtools extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         echo Color::head('Help:') . PHP_EOL;
         echo Color::colorize('  Enables/disables webtools in a project') . PHP_EOL . PHP_EOL;
