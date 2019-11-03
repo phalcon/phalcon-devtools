@@ -252,6 +252,7 @@ class Modules extends ProjectBuilder
      * Build project
      *
      * @return bool
+     * @throws BuilderException
      */
     public function build()
     {
@@ -268,7 +269,9 @@ class Modules extends ProjectBuilder
             ->createControllerFile()
             ->createHtrouterFile();
 
-        $this->options->has('enableWebTools') && Tools::install($this->options->get('projectPath'));
+        if ($this->options->has('enableWebTools')) {
+            Tools::install($this->options->get('projectPath'));
+        }
 
         return true;
     }
