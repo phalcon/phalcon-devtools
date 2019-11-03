@@ -5,7 +5,7 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Controllers List</h3>
-                {{ link_to("/webtools.php?_url=/controllers/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
+                {{ link_to(webtools_uri ~ "?_url=/controllers/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
@@ -41,7 +41,7 @@
                                 <td>{{ controller.owner }}</td>
                                 <td>{{ controller.modified_time }}</td>
                                 <td>
-                                    {{ link_to("/webtools.php?_url=/controllers/edit/" ~ rawurlencode(controller.filename),
+                                    {{ link_to(webtools_uri ~ "?_url=/controllers/edit/" ~ rawurlencode(controller.filename),
                                     '<i class="fa fa-pencil"></i>', 'class': 'btn btn-default btn-xs') }}
                                 </td>
                             </tr>

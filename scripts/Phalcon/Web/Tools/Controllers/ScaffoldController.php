@@ -21,6 +21,7 @@
 
 namespace WebTools\Controllers;
 
+use PDOException;
 use Phalcon\Text;
 use Phalcon\Builder\Scaffold;
 use Phalcon\Mvc\Controller\Base;
@@ -107,10 +108,17 @@ class ScaffoldController extends Base
         $this->tag->setDefault('templatesPath', $templatesPath);
         $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
 
+        try {
+            $tables = $this->dbUtils->listTables();
+        } catch (PDOException $PDOException) {
+            $tables = [];
+            $this->flash->error($PDOException->getMessage());
+        }
+
         $this->view->setVars(
             [
                 'page_subtitle'   => 'Generate code from template',
-                'tables'          => $this->dbUtils->listTables(),
+                'tables'          => $tables,
                 'template_path'   => $templatesPath,
                 'templateEngines' => [
                     'volt' => 'Volt',
