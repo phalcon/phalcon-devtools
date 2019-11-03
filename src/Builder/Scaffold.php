@@ -135,8 +135,9 @@ class Scaffold extends Component
         $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
-        if ($this->options->offsetExists('modelsNamespace') &&
-            $this->checkNamespace($this->options->get('modelsNamespace'))) {
+        if ($this->options->has('modelsNamespace') &&
+            $this->checkNamespace((string)$this->options->get('modelsNamespace'))
+        ) {
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
@@ -483,7 +484,7 @@ class Scaffold extends Component
         $usesNamespaces = false;
 
         if ($this->options->has('controllersNamespace') &&
-            $this->checkNamespace($this->options->get('controllersNamespace'))) {
+            $this->checkNamespace((string)$this->options->get('controllersNamespace'))) {
             $code = str_replace(
                 '$namespace$',
                 'namespace ' . $this->options->get('controllersNamespace').';' . PHP_EOL,
@@ -495,7 +496,7 @@ class Scaffold extends Component
         }
 
         if (($this->options->has('modelsNamespace') &&
-                $this->checkNamespace($this->options->get('modelsNamespace'))) || $usesNamespaces) {
+                $this->checkNamespace((string)$this->options->get('modelsNamespace'))) || $usesNamespaces) {
             $code = str_replace(
                 '$useFullyQualifiedModelName$',
                 "use " . ltrim($this->options->get('modelClass'), '\\') . ';',

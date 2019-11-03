@@ -111,7 +111,7 @@ class Model extends Component
 
         $namespace = '';
         if ($this->modelOptions->hasOption('namespace') &&
-            $this->checkNamespace($this->modelOptions->getOption('namespace'))) {
+            $this->checkNamespace((string)$this->modelOptions->getOption('namespace'))) {
             $namespace = 'namespace ' . $this->modelOptions->getOption('namespace') . ';' . PHP_EOL . PHP_EOL;
         }
 

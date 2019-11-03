@@ -49,7 +49,7 @@ class Controller extends Component
         }
 
         $namespace = '';
-        if ($this->options->has('namespace') && $this->checkNamespace($this->options->get('namespace'))) {
+        if ($this->options->has('namespace') && $this->checkNamespace((string)$this->options->get('namespace'))) {
             $namespace = 'namespace '.$this->options->get('namespace').';'.PHP_EOL.PHP_EOL;
         }
 
