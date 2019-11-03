@@ -9,34 +9,46 @@ $I = new ConsoleTester($scenario);
 $I->wantToTest('Generating models');
 $I->amInPath(dirname(app_path()));
 
-$modelsTestDir = tests_path('_data/console/app/models/model_test');
+$modelsTestDir = app_path('models/model_test');
 if (!is_dir($modelsTestDir)) {
     mkdir($modelsTestDir, 0777, true);
 }
+
+$file1 = app_path('models/model_test/TestModel.php');
+$file2 = app_path('models/model_test/TestModel2.php');
+$file3 = app_path('models/model_test/TestModel3.php');
+$file4 = app_path('models/model_test/Testmodel4.php');
+
+$I->dontSeeFileFound($file1);
+$I->dontSeeFileFound($file2);
+$I->dontSeeFileFound($file3);
+$I->dontSeeFileFound($file4);
 
 $I->runShellCommand('phalcon model --config=app/mysql/config.php --name=testModel --output=app/models/model_test --annotate');
 $I->runShellCommand('phalcon model --config=app/mysql/config.php --name=test-model2 --output=app/models/model_test --annotate');
 $I->runShellCommand('phalcon model --config=app/mysql/config.php --name=test_model3 --output=app/models/model_test --annotate');
 $I->runShellCommand('phalcon model --config=app/mysql/config.php --name=Testmodel4 --output=app/models/model_test --annotate');
 
-$I->seeFileFound(app_path('models/model_test/TestModel.php'));
-$I->seeFileFound(app_path('models/model_test/TestModel2.php'));
-$I->seeFileFound(app_path('models/model_test/TestModel3.php'));
-$I->seeFileFound(app_path('models/model_test/Testmodel4.php'));
+$I->seeFileFound($file1);
+$I->seeFileFound($file2);
+$I->seeFileFound($file3);
+$I->seeFileFound($file4);
 
-$file1 = file_get_contents(app_path('models/files/TestModel.php'));
-$file2 = file_get_contents(app_path('models/files/TestModel2.php'));
-$file3 = file_get_contents(app_path('models/files/TestModel3.php'));
-$file4 = file_get_contents(app_path('models/files/Testmodel4.php'));
+$content1 = file_get_contents($file1);
+$content2 = file_get_contents($file2);
+$content3 = file_get_contents($file3);
+$content4 = file_get_contents($file4);
 
 $I->openFile(app_path('models/model_test/TestModel.php'));
-$I->seeFileContentsEqual($file1);
+$I->seeFileContentsEqual($content1);
 
 $I->openFile(app_path('models/model_test/TestModel2.php'));
-$I->seeFileContentsEqual($file2);
+$I->seeFileContentsEqual($content2);
 
 $I->openFile(app_path('models/model_test/TestModel3.php'));
-$I->seeFileContentsEqual($file3);
+$I->seeFileContentsEqual($content3);
 
 $I->openFile(app_path('models/model_test/Testmodel4.php'));
-$I->seeFileContentsEqual($file4);
+$I->seeFileContentsEqual($content4);
+
+$I->deleteDir($modelsTestDir);
