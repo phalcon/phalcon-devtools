@@ -18,11 +18,7 @@ use Phalcon\DevTools\Script\ScriptException;
 use Phalcon\Events\Manager as EventsManager;
 
 /**
- * \Phalcon\Script
- *
  * Component that allows you to write scripts to use CLI.
- *
- * @package Phalcon
  */
 class Script
 {

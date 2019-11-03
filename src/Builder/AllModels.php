@@ -16,11 +16,7 @@ use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
 
 /**
- * AllModels Class
- *
  * Builder to generate all models
- *
- * @package Phalcon\Builder
  */
 class AllModels extends Component
 {
@@ -30,7 +26,6 @@ class AllModels extends Component
      * Create Builder object
      *
      * @param array $options Builder options
-     * @throws BuilderException
      */
     public function __construct(array $options = [])
     {

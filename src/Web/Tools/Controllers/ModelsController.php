@@ -26,14 +26,10 @@ use Phalcon\Tag;
 use Phalcon\Text;
 
 /**
- * \WebTools\Controllers\ModelsController
- *
  * @property Direct $flash
  * @property Dispatcher|DispatcherInterface $dispatcher
  * @property Tag $tag
  * @property Session $flashSession
- *
- * @package WebTools\Controllers
  */
 class ModelsController extends Base
 {
@@ -51,7 +47,6 @@ class ModelsController extends Base
 
     /**
      * @Get("/models/list", name="models-list")
-     *
      */
     public function indexAction()
     {

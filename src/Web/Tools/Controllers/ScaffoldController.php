@@ -25,14 +25,10 @@ use Phalcon\Tag;
 use Phalcon\Text;
 
 /**
- * \WebTools\Controllers\ScaffoldController
- *
  * @property Direct $flash
  * @property Dispatcher|DispatcherInterface $dispatcher
  * @property Tag $tag
  * @property Session $flashSession
- *
- * @package WebTools\Controllers
  */
 class ScaffoldController extends Base
 {

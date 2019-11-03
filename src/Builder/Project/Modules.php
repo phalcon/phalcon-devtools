@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Project;
 
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Builder\Controller as ControllerBuilder;
 use Phalcon\DevTools\Web\Tools;
 
@@ -61,6 +62,7 @@ class Modules extends ProjectBuilder
      * Create indexController file
      *
      * @return $this
+     * @throws BuilderException
      */
     private function createControllerFile()
     {

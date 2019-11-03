@@ -24,10 +24,6 @@ use Phalcon\Filter;
 
 /**
  * Command Class
- *
- * @package   Phalcon\Commands
- * @copyright Copyright (c) 2011-2016 Phalcon Team (team@phalconphp.com)
- * @license   New BSD License
  */
 abstract class Command implements CommandsInterface
 {
@@ -66,11 +62,12 @@ abstract class Command implements CommandsInterface
      */
     protected $preparedArguments = [];
 
+    /**
+     * @var Path
+     */
     protected $path;
 
     /**
-     * Phalcon\Commands\Command
-     *
      * @param Script $script
      * @param EventsManager $eventsManager
      */
@@ -86,7 +83,7 @@ abstract class Command implements CommandsInterface
      *
      * @param EventsManager $eventsManager
      */
-    public function setEventsManager(EventsManager $eventsManager)
+    public function setEventsManager(EventsManager $eventsManager): void
     {
         $this->eventsManager = $eventsManager;
     }
@@ -96,7 +93,7 @@ abstract class Command implements CommandsInterface
      *
      * @return EventsManager
      */
-    public function getEventsManager()
+    public function getEventsManager(): EventsManager
     {
         return $this->eventsManager;
     }
@@ -106,7 +103,7 @@ abstract class Command implements CommandsInterface
      *
      * @param Script $script
      */
-    public function setScript(Script $script)
+    public function setScript(Script $script): void
     {
         $this->script = $script;
     }
@@ -116,7 +113,7 @@ abstract class Command implements CommandsInterface
      *
      * @return Script
      */
-    public function getScript()
+    public function getScript(): Script
     {
         return $this->script;
     }
@@ -127,7 +124,7 @@ abstract class Command implements CommandsInterface
      * @return Config
      * @throws CommandsException
      */
-    protected function getConfig($path)
+    protected function getConfig(string $path): Config
     {
         foreach (['app/config/', 'config/'] as $configPath) {
             foreach (['ini', 'php', 'json', 'yaml', 'yml'] as $extension) {
@@ -157,7 +154,7 @@ abstract class Command implements CommandsInterface
      * @return Config
      * @throws CommandsException
      */
-    protected function loadConfig($fileName)
+    protected function loadConfig(string $fileName): Config
     {
         $pathInfo = pathinfo($fileName);
 
@@ -202,7 +199,7 @@ abstract class Command implements CommandsInterface
      *
      * @todo Refactor
      */
-    public function parseParameters(array $parameters = [], $possibleAlias = [])
+    public function parseParameters(array $parameters = [], $possibleAlias = []): array
     {
         if (count($parameters) == 0) {
             $parameters = $this->getPossibleParams();
@@ -321,10 +318,9 @@ abstract class Command implements CommandsInterface
      * Check that a set of parameters has been received.
      *
      * @param array $required
-     *
      * @throws CommandsException
      */
-    public function checkRequired($required)
+    public function checkRequired($required): void
     {
         foreach ($required as $fieldRequired) {
             if (!isset($this->parameters[$fieldRequired])) {
@@ -351,10 +347,10 @@ abstract class Command implements CommandsInterface
      *
      * @param array $possibleParameters
      */
-    public function showHelp($possibleParameters)
+    public function showHelp($possibleParameters): void
     {
         echo get_class($this).' - Usage:'.PHP_EOL.PHP_EOL;
-        foreach ($possibleParameters as $parameter => $description) {
+        foreach ($possibleParameters as $description) {
             echo html_entity_decode($description, ENT_COMPAT, $this->encoding).PHP_EOL;
         }
     }
@@ -366,7 +362,7 @@ abstract class Command implements CommandsInterface
      *
      * @return array
      */
-    public function getOptions($filters = null)
+    public function getOptions($filters = null): array
     {
         if (!$filters) {
             return $this->parameters;
@@ -420,10 +416,10 @@ abstract class Command implements CommandsInterface
     /**
      * Indicates whether the script was a particular option.
      *
-     * @param  string | string[]  $option
-     * @return boolean
+     * @param string|string[] $option
+     * @return bool
      */
-    public function isReceivedOption($option)
+    public function isReceivedOption($option): bool
     {
         if (!is_array($option)) {
             $option = [$option];
@@ -456,7 +452,7 @@ abstract class Command implements CommandsInterface
     /**
      * Gets the last parameter is not associated with any parameter name.
      *
-     * @return string | bool
+     * @return string|bool
      */
     public function getLastUnNamedParam()
     {
@@ -476,7 +472,7 @@ abstract class Command implements CommandsInterface
      *
      * @return bool
      */
-    public function isSetUnNamedParam($number)
+    public function isSetUnNamedParam($number): bool
     {
         return isset($this->parameters[$number]);
     }
@@ -486,7 +482,7 @@ abstract class Command implements CommandsInterface
      *
      * @param array $parameters
      */
-    public function printParameters($parameters)
+    public function printParameters($parameters): void
     {
         $length = 0;
         foreach ($parameters as $parameter => $description) {
@@ -510,7 +506,7 @@ abstract class Command implements CommandsInterface
      *
      * @return array
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -518,9 +514,9 @@ abstract class Command implements CommandsInterface
     /**
      * {@inheritdoc}
      *
-     * @return boolean
+     * @return bool
      */
-    public function canBeExternal()
+    public function canBeExternal(): bool
     {
         return false;
     }
@@ -530,9 +526,9 @@ abstract class Command implements CommandsInterface
      *
      * @param string $identifier
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasIdentifier($identifier)
+    public function hasIdentifier($identifier): bool
     {
         return in_array($identifier, $this->getCommands(), true);
     }

@@ -13,11 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools;
 
 /**
- * Phalcon\FactoryOptions
- *
  * Interface for options and data that were generated
- *
- * @package Phalcon
  */
 interface FactoryOptions
 {

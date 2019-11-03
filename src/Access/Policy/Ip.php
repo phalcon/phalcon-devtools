@@ -42,10 +42,10 @@ class Ip extends Injectable implements PolicyInterface
      * {@inheritdoc}
      *
      * @param string $resourceName Resource name.
-     * @param array  $data         Data. [Optional]
+     * @param array $data Data. [Optional]
      * @return bool
      */
-    public function isAllowedAccess(string $resourceName, array $data = null)
+    public function isAllowedAccess(string $resourceName, array $data = null): bool
     {
         $ip = $this->request->getClientAddress();
 

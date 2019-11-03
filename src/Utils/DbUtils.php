@@ -16,11 +16,7 @@ use Phalcon\Config;
 use Phalcon\Di\Injectable;
 
 /**
- * \Phalcon\Utils\DbUtils
- *
  * @property Config $config
- *
- * @package Phalcon\Utils
  */
 class DbUtils extends Injectable
 {
@@ -31,7 +27,7 @@ class DbUtils extends Injectable
      * @param  string $connection
      * @return array
      */
-    public function listTables($all = false, $connection = 'db')
+    public function listTables(bool $all = false, $connection = 'db'): array
     {
         $tables = $all ? ['@' => 'all'] : [];
 
@@ -52,7 +48,7 @@ class DbUtils extends Injectable
      *
      * @return null|string
      */
-    public function resolveDbSchema()
+    public function resolveDbSchema(): ?string
     {
         if (!$this->config->offsetExists('database')) {
             return null;

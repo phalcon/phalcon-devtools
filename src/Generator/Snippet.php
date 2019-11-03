@@ -15,11 +15,6 @@ namespace Phalcon\DevTools\Generator;
 use Phalcon\DevTools\Options\OptionsAware as ModelOption;
 use Phalcon\DevTools\Utils;
 
-/**
- * Snippet Class
- *
- * @package Phalcon\Generator
- */
 class Snippet
 {
     public function getSetter($originalFieldName, $fieldName, $type, $setterName)

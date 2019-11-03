@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Builder\Module as ModuleBuilder;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
@@ -20,8 +21,6 @@ use Phalcon\DevTools\Script\Color;
  * Module Command
  *
  * Create a module from command line
- *
- * @package Phalcon\Commands\Builtin
  */
 class Module extends Command
 {
@@ -48,6 +47,7 @@ class Module extends Command
      *
      * @param array $parameters
      * @return mixed
+     * @throws BuilderException
      */
     public function run(array $parameters)
     {
@@ -107,7 +107,7 @@ class Module extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
     public function getRequiredParams(): int
     {

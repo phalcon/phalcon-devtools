@@ -23,8 +23,6 @@ use Phalcon\DevTools\Script\Color;
  * Scaffold Command
  *
  * Scaffold a controller, model and view for a database table
- *
- * @package Phalcon\Commands\Builtin
  */
 class Scaffold extends Command
 {

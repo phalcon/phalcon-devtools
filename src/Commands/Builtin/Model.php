@@ -25,8 +25,6 @@ use Phalcon\Text;
  * Model Command
  *
  * Create a model from command line
- *
- * @package Phalcon\Commands\Builtin
  */
 class Model extends Command
 {
@@ -35,7 +33,7 @@ class Model extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'name=s'          => 'Table name',
@@ -63,6 +61,7 @@ class Model extends Command
      *
      * @param array $parameters
      * @return mixed
+     * @throws BuilderException
      */
     public function run(array $parameters)
     {
@@ -140,7 +139,7 @@ class Model extends Command
      * @return Config
      * @throws BuilderException
      */
-    protected function getConfigObject()
+    protected function getConfigObject(): Config
     {
         if (!$this->isReceivedOption('config')) {
             return $this->path->getConfig();

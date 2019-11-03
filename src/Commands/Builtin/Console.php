@@ -19,8 +19,6 @@ use Psy\Shell;
 
 /**
  * Console Command
- *
- * @package Phalcon\Commands\Builtin
  */
 class Console extends Command
 {
@@ -29,7 +27,7 @@ class Console extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'include=s'    => 'Script to include [optional]',
@@ -62,7 +60,7 @@ class Console extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['console', 'shell', 'psysh'];
     }
@@ -72,7 +70,7 @@ class Console extends Command
      *
      * @return boolean
      */
-    public function canBeExternal()
+    public function canBeExternal(): bool
     {
         return true;
     }
@@ -82,7 +80,7 @@ class Console extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Start a runtime developer console') . PHP_EOL . PHP_EOL;
@@ -94,7 +92,7 @@ class Console extends Command
      *
      * @return integer
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 0;
     }

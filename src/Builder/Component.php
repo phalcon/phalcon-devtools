@@ -18,22 +18,20 @@ use Phalcon\DevTools\Validation\Validator\Namespaces;
 use Phalcon\Validation;
 
 /**
- * Abstract Component
- *
  * Base class for builder components
- *
- * @package Phalcon\Builder
  */
 abstract class Component
 {
     /**
      * Builder Options
+     *
      * @var Config
      */
     protected $options = null;
 
     /**
      * Path Component
+     *
      * @var Path
      */
     protected $path;
@@ -75,7 +73,7 @@ abstract class Component
      * Tries to find the current configuration in the application
      *
      * @param string $type Config type: ini | php
-     * @return \Phalcon\Config
+     * @return Config
      * @throws BuilderException
      */
     protected function getConfig($type = null)

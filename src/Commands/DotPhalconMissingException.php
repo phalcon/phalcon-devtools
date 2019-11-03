@@ -16,9 +16,9 @@ use Phalcon\DevTools\Script\Color;
 
 /**
  * .phalcon is missing Exception
+ *
  *  This is thrown when a CLI command is run without a .phalcon file
  *  In the CWD
- * @package Phalcon\Commands
  */
 class DotPhalconMissingException extends CommandsException implements ISelfHealingException
 {
@@ -33,12 +33,12 @@ class DotPhalconMissingException extends CommandsException implements ISelfHeali
         parent::__construct();
     }
 
-    public function scanPathMessage()
+    public function scanPathMessage(): string
     {
-        return "One was not found at " . getcwd();
+        return 'One was not found at ' . getcwd();
     }
 
-    public function promptResolution()
+    public function promptResolution(): bool
     {
         fwrite(STDOUT, Color::info(self::RESOLUTION_PROMPT));
         $handle = fopen("php://stdin", "r");
@@ -47,15 +47,17 @@ class DotPhalconMissingException extends CommandsException implements ISelfHeali
             echo "ABORTING!\n";
             return false;
         }
+
         fclose($handle);
         echo "\n";
         echo "Retrying command...\n";
         $this->resolve();
+
         return true;
     }
 
-    public function resolve()
+    public function resolve(): bool
     {
-        return mkdir(getcwd() . "/.phalcon");
+        return mkdir(getcwd() . '/.phalcon');
     }
 }

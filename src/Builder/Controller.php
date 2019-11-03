@@ -16,11 +16,7 @@ use Phalcon\DevTools\Utils;
 use SplFileObject;
 
 /**
- * Controller Class
- *
  * Builder to generate controller
- *
- * @package Phalcon\Builder
  */
 class Controller extends Component
 {
@@ -45,7 +41,7 @@ class Controller extends Component
 
     /**
      * @return string
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     public function build()
     {

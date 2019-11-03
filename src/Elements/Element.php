@@ -13,12 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Elements;
 
 use Phalcon\Di\Injectable;
+use Phalcon\Tag;
 
 /**
- * \Phalcon\Elements\Element
- *
- * @property \Phalcon\Tag $tag
- * @package Phalcon\Elements
+ * @property Tag $tag
  */
 class Element extends Injectable
 {
@@ -29,7 +27,7 @@ class Element extends Injectable
      *
      * @return string
      */
-    public function createLink(array $link)
+    public function createLink(array $link): string
     {
         $local = $this->isLocalLink($link);
         $text  = isset($link['text']) ? $link['text'] : '';
@@ -62,7 +60,7 @@ class Element extends Injectable
         return $this->tag->linkTo([$href, $text] + $link + ['local' => $local]);
     }
 
-    public function isLocalLink(array $link)
+    public function isLocalLink(array $link): bool
     {
         return isset($link['local']) ? boolval($link['local']) : true;
     }

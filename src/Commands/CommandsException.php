@@ -16,8 +16,6 @@ use Phalcon\Exception;
 
 /**
  * Commands Exception
- *
- * @package Phalcon\Commands
  */
 class CommandsException extends Exception
 {

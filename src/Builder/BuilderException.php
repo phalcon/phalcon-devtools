@@ -15,11 +15,7 @@ namespace Phalcon\DevTools\Builder;
 use Phalcon\Exception;
 
 /**
- * Builder Exception
- *
  * Exception Builder made
- *
- * @package Phalcon\Builder
  */
 class BuilderException extends Exception
 {

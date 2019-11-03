@@ -19,10 +19,7 @@ use Phalcon\Devtools\Version;
 use Phalcon\Tag;
 
 /**
- * \WebTools\Controllers\ErrorController
- *
  * @property Tag $tag
- * @package WebTools\Controllers
  */
 class ErrorController extends Base
 {
@@ -44,7 +41,7 @@ class ErrorController extends Base
     /**
      * @Get("/route400", name="error-400")
      */
-    public function route400Action()
+    public function route400Action(): void
     {
         $this->tag->prependTitle('Bad Request');
         $this->response->resetHeaders()->setStatusCode(400, null);
@@ -62,7 +59,7 @@ class ErrorController extends Base
     /**
      * @Get("/route403", name="error-403")
      */
-    public function route403Action()
+    public function route403Action(): void
     {
         $this->tag->prependTitle('Forbidden');
         $this->response->resetHeaders()->setStatusCode(403, null);
@@ -79,7 +76,7 @@ class ErrorController extends Base
     /**
      * @Get("/route404", name="error-404")
      */
-    public function route404Action()
+    public function route404Action(): void
     {
         $this->tag->prependTitle('Not Found');
         $this->response->resetHeaders()->setStatusCode(404, null);
@@ -96,7 +93,7 @@ class ErrorController extends Base
     /**
      * @Get("/route500", name="error-500")
      */
-    public function route500Action()
+    public function route500Action(): void
     {
         $this->tag->prependTitle('Internal Server Error');
         $this->response->resetHeaders()->setStatusCode(500, null);

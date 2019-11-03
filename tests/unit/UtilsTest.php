@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test;
 
-use Phalcon\Utils;
+use Phalcon\DevTools\Utils;
 use Phalcon\Text;
 use Phalcon\Test\Module\UnitTest;
 

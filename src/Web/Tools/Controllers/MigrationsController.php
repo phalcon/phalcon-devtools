@@ -21,12 +21,9 @@ use Phalcon\Migrations\Migrations;
 use Phalcon\Tag;
 
 /**
- * \WebTools\Controllers\MigrationsController
- *
  * @property Session $flashSession
  * @property Direct $flash
  * @property Tag $tag
- * @package WebTools\Controllers
  */
 class MigrationsController extends Base
 {
@@ -43,7 +40,7 @@ class MigrationsController extends Base
     /**
      * @Get("/migrations/list", name="migrations-list")
      */
-    public function indexAction()
+    public function indexAction(): void
     {
         $migrations = [];
 
@@ -192,7 +189,7 @@ class MigrationsController extends Base
         );
     }
 
-    protected function prepareVersions()
+    protected function prepareVersions(): void
     {
         $migrationsDir = $this->registry->offsetGet('directories')->migrationsDir;
 

@@ -36,8 +36,6 @@ use Phalcon\Url\UrlInterface;
 use Phalcon\Version as PhVersion;
 
 /**
- * \Phalcon\Mvc\Controller\Base
- *
  * @property Config $config
  * @property FsUtils $fs
  * @property SystemInfo $info
@@ -51,8 +49,6 @@ use Phalcon\Version as PhVersion;
  * @property Response|ResponseInterface $response
  * @property View|View $view
  * @property Url|UrlInterface $url
- *
- * @package Phalcon\Mvc\Controller
  */
 abstract class Base extends Controller
 {

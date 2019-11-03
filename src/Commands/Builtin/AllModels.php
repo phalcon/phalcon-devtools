@@ -15,6 +15,7 @@ namespace Phalcon\DevTools\Commands\Builtin;
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\DevTools\Builder\AllModels as AllModelsBuilder;
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Commands\CommandsException;
 
@@ -22,8 +23,6 @@ use Phalcon\DevTools\Commands\CommandsException;
  * AllModels Command
  *
  * Create all models from a database
- *
- * @package Phalcon\Commands\Builtin
  */
 class AllModels extends Command
 {
@@ -32,7 +31,7 @@ class AllModels extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'config=s'    => 'Configuration file [optional]',
@@ -60,6 +59,7 @@ class AllModels extends Command
      * @param array $parameters
      * @return mixed
      * @throws CommandsException
+     * @throws BuilderException
      */
     public function run(array $parameters)
     {
@@ -130,7 +130,7 @@ class AllModels extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['all-models', 'create-all-models'];
     }
@@ -140,7 +140,7 @@ class AllModels extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         $this->printParameters($this->getPossibleParams());
     }
@@ -150,7 +150,7 @@ class AllModels extends Command
      *
      * @return integer
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 0;
     }

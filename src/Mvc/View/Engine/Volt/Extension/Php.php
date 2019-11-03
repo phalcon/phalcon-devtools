@@ -13,11 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Mvc\View\Engine\Volt\Extension;
 
 /**
- * \Phalcon\Mvc\View\Engine\Volt\Extension\Php
- *
  * Allows to use any PHP function in Volt.
- *
- * @package Phalcon\Mvc\View\Engine\Volt\Extension
  */
 class Php
 {

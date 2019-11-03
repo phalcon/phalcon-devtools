@@ -19,12 +19,8 @@ use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\Devtools\Version;
 
 /**
- * \Phalcon\Mvc\Controller\CodemirrorTrait
- *
  * @property Manager $assets
  * @property AssetsResource $resource
- *
- * @package Phalcon\Mvc\Controller
  */
 trait CodemirrorTrait
 {

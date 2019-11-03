@@ -20,11 +20,6 @@ use Phalcon\Text;
 use RuntimeException;
 use SplFileInfo;
 
-/**
- * \Phalcon\Utils\FsUtils
- *
- * @package Phalcon\Utils
- */
 class FsUtils
 {
     /**
@@ -38,10 +33,10 @@ class FsUtils
      *
      * @param string $path Path to normalize
      *
-     * @return mixed
+     * @return string
      * @throws InvalidArgumentException
      */
-    public function normalize($path)
+    public function normalize(string $path): string
     {
         if (!is_string($path)) {
             throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
@@ -66,7 +61,7 @@ class FsUtils
      * @return bool
      * @throws InvalidArgumentException
      */
-    public function isAbsolute($path)
+    public function isAbsolute(string $path): bool
     {
         if (!is_string($path)) {
             throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
@@ -90,7 +85,7 @@ class FsUtils
      *
      * @return string
      */
-    public function getOwner(DirectoryIterator $file)
+    public function getOwner(DirectoryIterator $file): string
     {
         if (!function_exists('posix_getpwuid')) {
             // Windows, fallback, etc.
@@ -112,7 +107,7 @@ class FsUtils
      * @param SplFileInfo $root
      * @param array $dir
      */
-    public function setDirectoryPermission(SplFileInfo $root, $dir)
+    public function setDirectoryPermission(SplFileInfo $root, array $dir): void
     {
         $this->createRecursiveDirectory($root);
         $iterator = new ArrayIterator($dir);
@@ -134,11 +129,11 @@ class FsUtils
     /**
      * Callback function
      *
-     * ArrayIterator $iterator
+     * @param ArrayIterator $iterator
      * @param callable $cb
      * @param array $params
      */
-    protected function applyWithCallback($iterator, $cb, $params)
+    protected function applyWithCallback(ArrayIterator $iterator, $cb, array $params): void
     {
         iterator_apply($iterator, $cb, $params);
     }
@@ -148,7 +143,7 @@ class FsUtils
      *
      * @param SplFileInfo $root
      */
-    protected function createRecursiveDirectory(SplFileInfo $root)
+    protected function createRecursiveDirectory(SplFileInfo $root): void
     {
         if ($root->isDir()) {
             return;
@@ -169,7 +164,7 @@ class FsUtils
      * @param SplFileInfo $root
      * @param array $files
      */
-    public function deleteFilesFromDirectory(SplFileInfo $root, $files)
+    public function deleteFilesFromDirectory(SplFileInfo $root, array $files): void
     {
         $iterator = new ArrayIterator($files);
         $cb = function (Iterator $iterator, $basePath) {

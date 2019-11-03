@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Builder\Project as ProjectBuilder;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
@@ -20,8 +21,6 @@ use Phalcon\DevTools\Script\Color;
  * Project Command
  *
  * Creates project skeletons
- *
- * @package Phalcon\Commands\Builtin
 */
 class Project extends Command
 {
@@ -50,6 +49,7 @@ class Project extends Command
      *
      * @param array $parameters
      * @return mixed
+     * @throws BuilderException
      */
     public function run(array $parameters)
     {
@@ -87,7 +87,7 @@ class Project extends Command
     /**
      * {@inheritdoc}
      *
-     * @return boolean
+     * @return bool
      */
     public function canBeExternal(): bool
     {
@@ -121,7 +121,7 @@ class Project extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
     public function getRequiredParams(): int
     {

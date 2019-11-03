@@ -15,16 +15,13 @@ namespace Phalcon\DevTools\Builder;
 use Phalcon\DevTools\Builder\Project\Cli;
 use Phalcon\DevTools\Builder\Project\Micro;
 use Phalcon\DevTools\Builder\Project\Modules;
+use Phalcon\DevTools\Builder\Project\ProjectBuilder;
 use Phalcon\DevTools\Builder\Project\Simple;
 use Phalcon\DevTools\Utils\FsUtils;
 use SplFileInfo;
 
 /**
- * Project Builder
- *
  * Builder to create application skeletons
- *
- * @package  Phalcon\Builder
  */
 class Project extends Component
 {
@@ -35,12 +32,14 @@ class Project extends Component
 
     /**
      * Current Project Type
+     *
      * @var string
      */
     private $currentType = self::TYPE_SIMPLE;
 
     /**
      * Available Project Types
+     *
      * @var array
      */
     private $types = [
@@ -54,7 +53,7 @@ class Project extends Component
      * Project build
      *
      * @return mixed
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     public function build()
     {
@@ -105,7 +104,7 @@ class Project extends Component
         $this->options->offsetSet('templatePath', $templatePath);
         $this->options->offsetSet('projectPath', $this->path->getRootPath());
 
-        /** @var \Phalcon\Builder\Project\ProjectBuilder $builder */
+        /** @var ProjectBuilder $builder */
         $builder = new $builderClass($this->options);
 
         $success = $builder->build();

@@ -16,21 +16,20 @@ use Phalcon\Events\Event;
 
 /**
  * Commands Listener
- *
- * @package Phalcon\Commands
  */
 class CommandsListener
 {
     /**
      * Before command executing
      *
-     * @param Event   $event
+     * @param Event $event
      * @param Command $command
      *
      * @return bool
+     * @throws CommandsException
      * @throws DotPhalconMissingException
      */
-    public function beforeCommand(Event $event, Command $command)
+    public function beforeCommand(Event $event, Command $command): bool
     {
         $parameters = $command->parseParameters([], ['h' => 'help']);
 
@@ -43,7 +42,7 @@ class CommandsListener
             return false;
         }
 
-        if ($command->canBeExternal() == false) {
+        if (!$command->canBeExternal()) {
             $path = $command->getOption('directory');
             if ($path) {
                 $path = realpath($path) . DIRECTORY_SEPARATOR;

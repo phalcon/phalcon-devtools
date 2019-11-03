@@ -20,13 +20,11 @@ use Phalcon\Config\Exception;
 use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\Injectable;
 
-/**
- * \Phalcon\Scanners\Config
- *
- * @package Phalcon\Scanners
- */
 class Config extends Injectable
 {
+    /**
+     * @var array
+     */
     protected $configDirs = [
         'config',
         'app/config',
@@ -37,6 +35,9 @@ class Config extends Injectable
         'apps/backend/config',
     ];
 
+    /**
+     * @var array
+     */
     protected $configAdapters = [
         'ini'  => IniConfig::class,
         'json' => JsonConfig::class,
@@ -47,6 +48,9 @@ class Config extends Injectable
         'yaml' => YamlConfig::class,
     ];
 
+    /**
+     * @var string
+     */
     protected $basePath = '';
 
     public function __construct($basePath)
@@ -62,7 +66,7 @@ class Config extends Injectable
      * @param string $filename The config basename.
      * @return null|PhConfig
      */
-    public function scan($filename)
+    public function scan($filename): ?PhConfig
     {
         $config = null;
         $filename = pathinfo($filename, PATHINFO_FILENAME);
@@ -98,7 +102,7 @@ class Config extends Injectable
      * @return PhConfig
      * @throws Exception
      */
-    public function load($filename)
+    public function load($filename): PhConfig
     {
         $config = $this->scan($filename);
 
@@ -119,7 +123,7 @@ class Config extends Injectable
      *
      * @return array
      */
-    public function getConfigPaths()
+    public function getConfigPaths(): array
     {
         /** @var FsUtils $fsUtils */
         $fsUtils  = $this->getDI()->getShared('fs');

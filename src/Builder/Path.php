@@ -17,13 +17,11 @@ use Phalcon\Config\Adapter\Ini as ConfigIni;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-/**
- * Path Class
- *
- * @package Phalcon\Builder
- */
 class Path
 {
+    /**
+     * @var string|null
+     */
     protected $rootPath = null;
 
     public function __construct($rootPath = null)
@@ -35,10 +33,10 @@ class Path
      * Tries to find the current configuration in the application
      *
      * @param string $type Config type: ini | php
-     * @return \Phalcon\Config
+     * @return Config
      * @throws BuilderException
      */
-    public function getConfig($type = null)
+    public function getConfig($type = null): ?Config
     {
         $types = ['php' => true, 'ini' => true];
         $type  = isset($types[$type]) ? $type : 'ini';
@@ -85,16 +83,15 @@ class Path
         return $this;
     }
 
-    public function getRootPath($path = null)
+    public function getRootPath($path = null): string
     {
         return $this->rootPath . ($path ? trim($path, '\\/') . DIRECTORY_SEPARATOR : '');
     }
 
-    public function appendRootPath($pathPath)
+    public function appendRootPath($pathPath): void
     {
         $this->setRootPath($this->getRootPath() . rtrim($pathPath, '\\/') . DIRECTORY_SEPARATOR);
     }
-
 
     /**
      * Check if a path is absolute
@@ -103,7 +100,7 @@ class Path
      *
      * @return bool
      */
-    public function isAbsolutePath($path)
+    public function isAbsolutePath($path): bool
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             if (preg_match('/^[A-Z]:\\\\/', $path)) {
@@ -123,7 +120,7 @@ class Path
      *
      * @return bool
      */
-    public function hasPhalconDir()
+    public function hasPhalconDir(): bool
     {
         return file_exists($this->rootPath . '.phalcon');
     }

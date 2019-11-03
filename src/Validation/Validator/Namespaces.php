@@ -17,20 +17,16 @@ use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Namespaces
- *
  * Check for namespace
  *
  *<code>
- *use Phalcon\Validation\Validator\Namespaces as NSValidator;
+ *use Phalcon\DevTools\Validation\Validator\Namespaces as NSValidator;
  *
  *$validation->add('namespace', new Namespaces(array(
  *    'allowEmpty' => true,
  *    'message' => ':field must be a valid namespace'
  *)));
  *</code>
- *
- * @package Phalcon\Validation\Validator
  */
 class Namespaces extends AbstractValidator
 {
@@ -38,7 +34,7 @@ class Namespaces extends AbstractValidator
      * Executes the namespaces validation
      *
      * @param Validation $validation
-     * @param string     $field
+     * @param string $field
      *
      * @return bool
      */
@@ -52,7 +48,7 @@ class Namespaces extends AbstractValidator
 
         $re = '#^(?:(?:\\\)?[a-z](?:[a-z0-9_]+)?)+(?:\\\\(?:[a-z](?:[a-z0-9_]+)?)+)*$#i';
 
-        if (false === (bool) preg_match($re, $value)) {
+        if (false === (bool)preg_match($re, $value)) {
             $label = $this->getOption('label') ?: $validation->getLabel($field);
             $message = $this->getOption('message') ?: 'Invalid namespace syntax!';
             $replacePairs = array(':field' => $label);

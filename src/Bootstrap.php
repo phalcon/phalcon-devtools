@@ -17,13 +17,11 @@ use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application as MvcApplication;
+use Traversable;
 
 /**
- * \Phalcon\Web\Tools\Library\Bootstrap
- *
  * @method mixed getShared($name, $parameters=null)
  * @method mixed get($name, $parameters=null)
- * @package Phalcon\Web\Tools\Library
  */
 class Bootstrap
 {
@@ -31,54 +29,63 @@ class Bootstrap
 
     /**
      * Application instance.
+     *
      * @var MvcApplication
      */
     protected $app;
 
     /**
      * The services container.
+     *
      * @var DiInterface
      */
     protected $di;
 
     /**
      * The path to the Phalcon Developers Tools.
+     *
      * @var string
      */
     protected $ptoolsPath = '';
 
     /**
      * The allowed IP for access.
+     *
      * @var string
      */
     protected $ptoolsIp = '';
 
     /**
      * The path where the project was created.
+     *
      * @var string
      */
     protected $basePath = '';
 
     /**
      * The DevTools templates path.
+     *
      * @var string
      */
     protected $templatesPath = '';
 
     /**
      * The current hostname.
+     *
      * @var string
      */
     protected $hostName = 'Unknown';
 
     /**
      * The current application mode.
+     *
      * @var string
      */
     protected $mode = 'web';
 
     /**
      * Configurable parameters
+     *
      * @var array
      */
     protected $configurable = [
@@ -91,6 +98,7 @@ class Bootstrap
 
     /**
      * Parameters that can be set using constants
+     *
      * @var array
      */
     protected $defines = [
@@ -101,6 +109,9 @@ class Bootstrap
         'TEMPLATE_PATH',
     ];
 
+    /**
+     * @var array
+     */
     protected $loaders = [
         'web' => [
             'eventsManager',
@@ -131,7 +142,7 @@ class Bootstrap
     /**
      * Bootstrap constructor.
      *
-     * @param array|\Traversable $parameters
+     * @param array|Traversable $parameters
      */
     public function __construct($parameters = [])
     {

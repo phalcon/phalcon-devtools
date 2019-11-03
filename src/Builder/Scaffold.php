@@ -20,11 +20,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Text;
 
 /**
- * ScaffoldBuilderComponent
- *
  * Build CRUDs using Phalcon
- *
- * @package Phalcon\Builder
  */
 class Scaffold extends Component
 {
@@ -33,7 +29,7 @@ class Scaffold extends Component
      *
      * @return string
      */
-    private function getPossibleLabel($fieldName)
+    private function getPossibleLabel($fieldName): string
     {
         $fieldName = preg_replace('/_id$/', '', $fieldName);
         $fieldName = preg_replace('/_at$/', '', $fieldName);
@@ -48,7 +44,7 @@ class Scaffold extends Component
      *
      * @return string
      */
-    private function getPossibleSingular($className)
+    private function getPossibleSingular($className): string
     {
         if (substr($className, strlen($className) - 1, 1) == 's') {
             return substr($className, 0, strlen($className) - 1);
@@ -75,7 +71,7 @@ class Scaffold extends Component
      * @return bool
      * @throws BuilderException
      */
-    public function build()
+    public function build(): bool
     {
         $name = $this->options->get('name');
         $config = $this->options->get('config');
@@ -690,7 +686,7 @@ class Scaffold extends Component
     /**
      * @param string $type
      *
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     private function makeViewVolt($type)
     {
@@ -727,7 +723,7 @@ class Scaffold extends Component
     /**
      * Creates the view to display search results
      *
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     private function makeViewSearch()
     {
@@ -799,7 +795,7 @@ class Scaffold extends Component
     }
 
     /**
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     private function makeViewSearchVolt()
     {

@@ -14,11 +14,6 @@ namespace Phalcon\DevTools\Script;
 
 use Phalcon\Exception as PhalconException;
 
-/**
- * \Phalcon\Script\ScriptException
- *
- * @package Phalcon\Script
- */
 class ScriptException extends PhalconException
 {
 }

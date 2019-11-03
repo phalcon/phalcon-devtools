@@ -12,19 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Access;
 
-/**
- * \Phalcon\Access\PolicyInterface
- *
- * @package Phalcon\Access
- */
 interface PolicyInterface
 {
     /**
      * Checks whether a user is allowed to access an resource.
      *
      * @param string $resourceName Resource name.
-     * @param array  $data         Data. [Optional]
+     * @param array $data Data. [Optional]
      * @return bool
      */
-    public function isAllowedAccess(string $resourceName, array $data = null);
+    public function isAllowedAccess(string $resourceName, array $data = null): bool;
 }

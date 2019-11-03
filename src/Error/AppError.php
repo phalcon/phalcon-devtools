@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Error;
 
 /**
- * \Phalcon\Error\AppError
- *
  * @method int type()
  * @method string message()
  * @method string file()
@@ -22,11 +20,12 @@ namespace Phalcon\DevTools\Error;
  * @method \Exception|null exception()
  * @method bool isException()
  * @method bool isError()
- *
- * @package Phalcon\Error
  */
 class AppError
 {
+    /**
+     * @var array
+     */
     protected $attributes = [];
 
     /**
@@ -53,14 +52,10 @@ class AppError
      * Magic method to retrieve the attributes.
      *
      * @param string $method
-     * @param array $args
-     *
      * @return mixed|null
      */
-    public function __call($method, $args)
+    public function __call($method)
     {
-        $attributes = array_keys($this->attributes);
-
-        return in_array($method, $attributes, true) ? $this->attributes[$method] : null;
+        return in_array($method, array_keys($this->attributes), true) ? $this->attributes[$method] : null;
     }
 }

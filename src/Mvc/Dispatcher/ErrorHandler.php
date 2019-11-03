@@ -12,28 +12,24 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Mvc\Dispatcher;
 
+use Exception;
 use Phalcon\DevTools\Access\Manager;
 use Phalcon\Dispatcher\Exception as DispatcherException;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
-/**
- * \Phalcon\Mvc\Dispatcher\ErrorHandler
- *
- * @package Phalcon\Mvc\Dispatcher
- */
 class ErrorHandler
 {
     /**
      * Before exception is happening.
      *
-     * @param Event      $event      Event object.
+     * @param Event $event Event object.
      * @param Dispatcher $dispatcher Dispatcher object.
-     * @param \Exception $exception  Exception object.
+     * @param Exception $exception Exception object.
      *
-     * @throws \Exception
      * @return bool
+     * @throws Exception
      */
     public function beforeException(Event $event, Dispatcher $dispatcher, $exception)
     {
@@ -56,21 +52,21 @@ class ErrorHandler
             $dispatcher->forward(
                 [
                     'controller' => 'error',
-                    'action'     => $action,
+                    'action' => $action,
                 ]
             );
 
             return false;
         }
 
-        if (ENV_PRODUCTION !== APPLICATION_ENV && $exception instanceof \Exception) {
+        if (ENV_PRODUCTION !== APPLICATION_ENV && $exception instanceof Exception) {
             throw $exception;
         }
 
         $dispatcher->forward(
             [
                 'controller' => 'error',
-                'action'     => 'route500'
+                'action' => 'route500'
             ]
         );
 

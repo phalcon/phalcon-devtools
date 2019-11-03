@@ -15,28 +15,27 @@ namespace Phalcon\DevTools\Builder\Project;
 use Phalcon\Config;
 
 /**
- * ProjectBuilder
- *
  * Abstract Builder to create application skeletons
- *
- * @package Phalcon\Builder\Project
  */
 abstract class ProjectBuilder
 {
     /**
      * Stores variable values depending on parameters
+     *
      * @var array
      */
     protected $variableValues = [];
 
     /**
      * Builder options
+     *
      * @var Config
      */
     protected $options = null;
 
     /**
      * Project directories
+     *
      * @var array
      */
     protected $projectDirectories = [];

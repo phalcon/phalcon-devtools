@@ -22,8 +22,6 @@ use Phalcon\Registry;
  * Serve Command
  *
  * Launch the built-in PHP development server
- *
- * @package Phalcon\Commands\Builtin
  */
 class Serve extends Command
 {
@@ -43,7 +41,7 @@ class Serve extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'hostname=s'        => 'Server Hostname [default='.self::DEFAULT_HOSTNAME.']',
@@ -77,7 +75,7 @@ class Serve extends Command
      *
      * @return void
      */
-    public function prepareOptions()
+    public function prepareOptions(): void
     {
         $this->hostname      = $this->getOption(['hostname', 1], null, self::DEFAULT_HOSTNAME);
         $this->port          = $this->getOption(['port',     2], null, self::DEFAULT_PORT);
@@ -91,7 +89,7 @@ class Serve extends Command
      *
      * @return void
      */
-    public function printServerDetails()
+    public function printServerDetails(): void
     {
         print Color::head('Preparing Development Server') . PHP_EOL;
         print Color::colorize("  Host: $this->hostname", Color::FG_GREEN) . PHP_EOL;
@@ -133,13 +131,13 @@ class Serve extends Command
      * @param  mixed $config
      * @return string
      */
-    protected function customConfig($config)
+    protected function customConfig($config): string
     {
         if ($config === null) {
             return '';
-        } else {
-            return sprintf('-c %s', $config);
         }
+
+        return sprintf('-c %s', $config);
     }
 
     /**
@@ -147,7 +145,7 @@ class Serve extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['serve', 'server'];
     }
@@ -157,7 +155,7 @@ class Serve extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Launch the built-in PHP development server') . PHP_EOL . PHP_EOL;
@@ -178,9 +176,9 @@ class Serve extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 0;
     }
@@ -190,7 +188,7 @@ class Serve extends Command
      *
      * @return string
      */
-    public function getHostname()
+    public function getHostname(): string
     {
         return $this->hostname;
     }
@@ -200,7 +198,7 @@ class Serve extends Command
      *
      * @return string
      */
-    public function getPort()
+    public function getPort(): string
     {
         return $this->port;
     }
@@ -210,7 +208,7 @@ class Serve extends Command
      *
      * @return string
      */
-    public function getBasePath()
+    public function getBasePath(): string
     {
         return $this->base_path;
     }
@@ -220,7 +218,7 @@ class Serve extends Command
      *
      * @return string
      */
-    public function getDocumentRoot()
+    public function getDocumentRoot(): string
     {
         return $this->document_root;
     }
@@ -230,7 +228,7 @@ class Serve extends Command
      *
      * @return string
      */
-    public function getConfigPath()
+    public function getConfigPath(): string
     {
         return $this->config;
     }

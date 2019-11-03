@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Builder\Controller as ControllerBuilder;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
@@ -20,8 +21,6 @@ use Phalcon\DevTools\Script\Color;
  * Controller Command
  *
  * Create a handler for the command line.
- *
- * @package Phalcon\Commands\Builtin
  */
 class Controller extends Command
 {
@@ -30,7 +29,7 @@ class Controller extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'name=s'        => 'Controller name',
@@ -48,6 +47,7 @@ class Controller extends Command
      *
      * @param array $parameters
      * @return mixed
+     * @throws BuilderException
      */
     public function run(array $parameters)
     {
@@ -70,7 +70,7 @@ class Controller extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['controller', 'create-controller'];
     }
@@ -80,7 +80,7 @@ class Controller extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Creates a controller') . PHP_EOL . PHP_EOL;
@@ -98,9 +98,9 @@ class Controller extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

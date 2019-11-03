@@ -19,11 +19,7 @@ use Phalcon\Mvc\ViewInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * \Phalcon\Mvc\View\NotFoundListener
- *
  * @property LoggerInterface $logger
- *
- * @package Phalcon\Mvc\View
  */
 class NotFoundListener extends Injectable
 {

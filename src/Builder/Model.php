@@ -28,16 +28,13 @@ use Phalcon\Validation\Validator\Email as EmailValidator;
 use ReflectionClass;
 
 /**
- * ModelBuilderComponent
- *
  * Builder to generate models
- *
- * @package Phalcon\Builder
  */
 class Model extends Component
 {
     /**
      * Map of scalar data objects
+     *
      * @var array
      */
     private $typeMap = [
@@ -47,6 +44,7 @@ class Model extends Component
 
     /**
      * Options container
+     *
      * @var ModelOption
      */
     protected $modelOptions;
@@ -88,6 +86,7 @@ class Model extends Component
      * Module build
      *
      * @return mixed
+     * @throws BuilderException
      */
     public function build()
     {

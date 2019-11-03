@@ -14,11 +14,6 @@ namespace Phalcon\DevTools\Elements\Menu;
 
 use Phalcon\DevTools\Elements\Element;
 
-/**
- * \Phalcon\Elements\Menu\SidebarMenu
- *
- * @package Phalcon\Elements\Menu
- */
 class SidebarMenu extends Element
 {
     protected $menuItems = [];
@@ -30,12 +25,12 @@ class SidebarMenu extends Element
         }
     }
 
-    public function addMenuItems($className, array $menuData)
+    public function addMenuItems($className, array $menuData): void
     {
         $this->menuItems[$className] = $menuData;
     }
 
-    protected function renderItems($items)
+    protected function renderItems($items): string
     {
         if (empty($items) || !is_array($items)) {
             return '';
@@ -77,7 +72,7 @@ class SidebarMenu extends Element
         return $html;
     }
 
-    public function render()
+    public function render(): string
     {
         $menu = '';
 

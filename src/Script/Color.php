@@ -13,11 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Script;
 
 /**
- * \Phalcon\Script\Color
- *
  * Allows to generate messages using colors on xterm, ddterm, linux, etc.
- *
- * @package Phalcon\Script
  */
 final class Color
 {
@@ -111,9 +107,9 @@ final class Color
     /**
      * Identify if console supports colors
      *
-     * @return boolean
+     * @return bool
      */
-    public static function isSupportedShell()
+    public static function isSupportedShell(): bool
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI') || 'xterm' === getenv('TERM');
@@ -133,7 +129,7 @@ final class Color
      *
      * @return string
      */
-    public static function colorize($string, $fg = null, $at = null, $bg = null)
+    public static function colorize(string $string, $fg = null, $at = null, $bg = null): string
     {
         // Shell not supported, exit early
         if (!static::isSupportedShell()) {
@@ -163,7 +159,7 @@ final class Color
         return $colored;
     }
 
-    public static function head($msg)
+    public static function head(string $msg): string
     {
         return static::colorize($msg, Color::FG_BROWN);
     }
@@ -175,7 +171,7 @@ final class Color
      * @param string $msg
      * @return string
      */
-    public static function error($msg)
+    public static function error(string $msg): string
     {
         $msg = 'Error: ' . $msg;
         $space = strlen($msg) + 4;
@@ -193,7 +189,7 @@ final class Color
      * @param string $msg
      * @return string
      */
-    public static function success($msg)
+    public static function success(string $msg): string
     {
         $msg = 'Success: ' . $msg;
         $space = strlen($msg) + 4;
@@ -211,7 +207,7 @@ final class Color
      * @param string $msg
      * @return string
      */
-    public static function info($msg)
+    public static function info(string $msg): string
     {
         $msg = 'Info: ' . $msg;
         $space = strlen($msg) + 4;

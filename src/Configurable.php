@@ -13,13 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\DevTools;
 
 use Phalcon\DevTools\Exception\InvalidArgumentException;
+use Phalcon\Text;
 use Traversable;
 
-/**
- * \Phalcon\Configurable
- *
- * @package Phalcon
- */
 trait Configurable
 {
     /**

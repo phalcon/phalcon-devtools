@@ -16,11 +16,7 @@ use Phalcon\DevTools\Exception\InvalidArgumentException;
 use Phalcon\DevTools\FactoryOptions;
 
 /**
- * Phalcon\Options\OptionsAware
- *
  * Class that has option container and processing with it
- *
- * @package Phalcon\Options
  */
 class OptionsAware implements FactoryOptions
 {
@@ -46,7 +42,7 @@ class OptionsAware implements FactoryOptions
      *
      * @param array $options
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = $options;
     }
@@ -57,7 +53,7 @@ class OptionsAware implements FactoryOptions
      * @param mixed $key
      * @param mixed $option
      */
-    public function setOption($key, $option)
+    public function setOption($key, $option): void
     {
         $this->options[$key] = $option;
     }
@@ -68,7 +64,7 @@ class OptionsAware implements FactoryOptions
      * @param mixed $key
      * @param mixed $option
      */
-    public function setNotDefinedOption($key, $option)
+    public function setNotDefinedOption($key, $option): void
     {
         if (!isset($this->options[$key])) {
             $this->options[$key] = $option;
@@ -82,7 +78,7 @@ class OptionsAware implements FactoryOptions
      * @param mixed $option
      * @param mixed $defaultValue
      */
-    public function setValidOptionOrDefaultValue($key, $option, $defaultValue = '')
+    public function setValidOptionOrDefaultValue($key, $option, $defaultValue = ''): void
     {
         if (!empty($option)) {
             $this->options[$key] = $option;
@@ -98,7 +94,7 @@ class OptionsAware implements FactoryOptions
      *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -124,10 +120,9 @@ class OptionsAware implements FactoryOptions
      * Check whether option container has value with this key
      *
      * @param mixed $key
-     *
-     * @return mixed
+     * @return bool
      */
-    public function hasOption($key)
+    public function hasOption($key): bool
     {
         return isset($this->options[$key]);
     }

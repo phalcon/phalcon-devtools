@@ -16,13 +16,12 @@ use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Commands\CommandsException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Web\Tools;
+use Phalcon\Exception;
 
 /**
  * Webtools Command
  *
  * Enables/disables webtools in a project
- *
- * @package Phalcon\Commands\Builtin
  */
 class Webtools extends Command
 {
@@ -31,7 +30,7 @@ class Webtools extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'action=s' => 'Enables/Disables webtools in a project [enable|disable]',
@@ -43,10 +42,11 @@ class Webtools extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
      * @throws CommandsException
+     * @throws Exception
+     * @throws \Exception
      */
-    public function run(array $parameters)
+    public function run(array $parameters): void
     {
         $action = $this->getOption(['action', 1]);
         $directory = './';
@@ -77,7 +77,7 @@ class Webtools extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['webtools', 'create-webtools'];
     }
@@ -108,9 +108,9 @@ class Webtools extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

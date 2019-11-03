@@ -15,11 +15,7 @@ namespace Phalcon\DevTools\Builder;
 use SplFileInfo;
 
 /**
- * Module Builder
- *
  * Builder to create module skeletons
- *
- * @package Phalcon\Builder
  */
 class Module extends Component
 {
@@ -32,6 +28,7 @@ class Module extends Component
 
     /**
      * Stores variable values depending on parameters
+     *
      * @var array
      */
     protected $variableValues = [];
@@ -40,7 +37,6 @@ class Module extends Component
      * Create Builder object
      *
      * @param array $options Builder options
-     * @throws BuilderException
      */
     public function __construct(array $options)
     {
@@ -51,7 +47,7 @@ class Module extends Component
      * Module build
      *
      * @return mixed
-     * @throws \Phalcon\Builder\BuilderException
+     * @throws BuilderException
      */
     public function build()
     {

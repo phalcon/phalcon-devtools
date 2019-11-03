@@ -12,15 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Project;
 
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Builder\Controller as ControllerBuilder;
 use Phalcon\DevTools\Web\Tools;
+use Phalcon\Exception;
 
 /**
- * Simple
- *
  * Builder to create Simple application skeletons
- *
- * @package Phalcon\Builder\Project
  */
 class Simple extends ProjectBuilder
 {
@@ -28,6 +26,7 @@ class Simple extends ProjectBuilder
 
     /**
      * Project directories
+     *
      * @var array
      */
     protected $projectDirectories = [
@@ -54,6 +53,7 @@ class Simple extends ProjectBuilder
      * Create indexController file
      *
      * @return $this
+     * @throws BuilderException
      */
     private function createControllerFile()
     {
@@ -181,6 +181,8 @@ class Simple extends ProjectBuilder
      * Build project
      *
      * @return bool
+     * @throws BuilderException
+     * @throws Exception
      */
     public function build()
     {

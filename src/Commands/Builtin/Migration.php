@@ -14,15 +14,16 @@ namespace Phalcon\DevTools\Commands\Builtin;
 
 use Phalcon\Config;
 use Phalcon\DevTools\Commands\Command;
+use Phalcon\DevTools\Commands\CommandsException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\Migrations\Migrations;
+use Phalcon\Migrations\Script\ScriptException;
+use Phalcon\Mvc\Model\Exception;
 
 /**
  * Migration Command
  *
  * Generates/Run a migration
- *
- * @package Phalcon\Commands\Builtin
  */
 class Migration extends Command
 {
@@ -31,7 +32,7 @@ class Migration extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'action=s' => 'Generates a Migration [generate|run]',
@@ -59,6 +60,9 @@ class Migration extends Command
      * @param array $parameters
      *
      * @return mixed
+     * @throws CommandsException
+     * @throws ScriptException
+     * @throws Exception
      */
     public function run(array $parameters)
     {
@@ -176,7 +180,7 @@ class Migration extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['migration', 'create-migration'];
     }
@@ -186,7 +190,7 @@ class Migration extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Generates/Run a Migration') . PHP_EOL . PHP_EOL;
@@ -210,9 +214,9 @@ class Migration extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 1;
     }

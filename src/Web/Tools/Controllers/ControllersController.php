@@ -19,20 +19,17 @@ use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\DevTools\Mvc\Controller\CodemirrorTrait;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Tag;
 
 /**
- * \WebTools\Controllers\ControllersController
- *
  * @property Direct $flash
  * @property Dispatcher|DispatcherInterface $dispatcher
  * @property Tag $tag
  * @property Session $flashSession
- *
- * @package WebTools\Controllers
  */
 class ControllersController extends Base
 {
@@ -51,7 +48,7 @@ class ControllersController extends Base
     /**
      * @Get("/controllers/list", name="controllers-list")
      */
-    public function indexAction()
+    public function indexAction(): void
     {
         $controllers = [];
 
@@ -85,7 +82,7 @@ class ControllersController extends Base
      * @Get("/controllers/edit/{file:[\w\d_.~%-]+}", name="controllers-edit")
      * @param string $file
      */
-    public function editAction($file)
+    public function editAction($file): void
     {
         if (empty($file) || !$fileName = rawurldecode($file)) {
             $this->flash->error('Controller could not be found.');
@@ -137,7 +134,7 @@ class ControllersController extends Base
      * @Get("/controllers/view/{file:[\w\d_.~%-]+}", name="controllers-view")
      * @param string $file
      */
-    public function viewAction($file)
+    public function viewAction($file): void
     {
         if (empty($file) || !$fileName = rawurldecode($file)) {
             $this->flash->error('Controller could not be found.');
@@ -211,8 +208,10 @@ class ControllersController extends Base
 
     /**
      * @Route("/controllers/generate", methods={"POST", "GET"}, name="controllers-generate")
+     *
+     * @return ResponseInterface
      */
-    public function generateAction()
+    public function generateAction(): ?ResponseInterface
     {
         if ($this->request->isPost()) {
             try {

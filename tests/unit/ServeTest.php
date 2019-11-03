@@ -9,9 +9,9 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-use Phalcon\Commands\Builtin\Serve;
-use Phalcon\Commands\CommandsListener;
-use Phalcon\Script;
+use Phalcon\DevTools\Commands\Builtin\Serve;
+use Phalcon\DevTools\Commands\CommandsListener;
+use Phalcon\DevTools\Script;
 use Phalcon\Events\Manager as EventsManager;
 
 class ServeTest extends \Codeception\Test\Unit

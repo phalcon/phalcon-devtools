@@ -12,27 +12,22 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Web;
 
+use Exception;
 use Phalcon\DevTools\Utils\FsUtils;
-use Phalcon\Exception;
 use SplFileInfo;
 
 /**
- * \Phalcon\Web\Tools
- *
  * Allows to use Phalcon Developer Tools with a web interface.
- *
- * @package Phalcon\Web
  */
 class Tools
 {
     /**
      * Install webtools
      *
-     * @param  string     $path
+     * @param string $path
      * @return bool
-     * @throws Exception if document root cannot be located
      */
-    public static function install($path)
+    public static function install($path): bool
     {
         $fsUtils = new FsUtils();
         $path = $fsUtils->normalize(realpath($path)) . DS;
@@ -57,12 +52,12 @@ class Tools
     /**
      * Uninstall webtools
      *
-     * @param  string $path
+     * @param string $path
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function uninstall($path)
+    public static function uninstall($path): bool
     {
         $fsUtils = new FsUtils();
         $path = $fsUtils->normalize(realpath($path)) . DS;

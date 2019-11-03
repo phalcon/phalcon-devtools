@@ -17,8 +17,6 @@ use Phalcon\DevTools\Script\Color;
 
 /**
  * Enumerate Command
- *
- * @package Phalcon\Commands\Builtin
  */
 class Enumerate extends Command
 {
@@ -29,7 +27,7 @@ class Enumerate extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'help' => 'Shows this help [optional]',
@@ -40,9 +38,8 @@ class Enumerate extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
      */
-    public function run(array $parameters)
+    public function run(array $parameters): void
     {
         print Color::colorize('Available commands:', Color::FG_BROWN) . PHP_EOL;
         foreach ($this->getScript()->getCommands() as $commands) {
@@ -55,8 +52,10 @@ class Enumerate extends Command
                 $spacer = str_repeat(' ', self::COMMAND_COLUMN_LEN - $commandLen);
                 print $spacer.' (alias of: ' . Color::colorize(join(', ', $providedCommands)) . ')';
             }
+
             print PHP_EOL;
         }
+
         print PHP_EOL;
     }
 
@@ -65,7 +64,7 @@ class Enumerate extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['commands', 'list', 'enumerate'];
     }
@@ -73,9 +72,9 @@ class Enumerate extends Command
     /**
      * {@inheritdoc}
      *
-     * @return boolean
+     * @return bool
      */
-    public function canBeExternal()
+    public function canBeExternal(): bool
     {
         return true;
     }
@@ -85,7 +84,7 @@ class Enumerate extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Lists the commands available in Phalcon DevTools') . PHP_EOL . PHP_EOL;
@@ -96,9 +95,9 @@ class Enumerate extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 0;
     }

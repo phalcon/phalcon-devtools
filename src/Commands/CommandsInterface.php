@@ -16,8 +16,6 @@ namespace Phalcon\DevTools\Commands;
  * Commands Interface
  *
  * This interface must be implemented by all commands
- *
- * @package Phalcon\Commands
  */
 interface CommandsInterface
 {
@@ -34,37 +32,36 @@ interface CommandsInterface
      *
      * @return array
      */
-    public function getCommands();
+    public function getCommands(): array;
 
     /**
      * Checks whether the command can be executed outside a Phalcon project.
      *
-     * @return boolean
+     * @return bool
      */
-    public function canBeExternal();
+    public function canBeExternal(): bool;
 
     /**
      * Prints help on the usage of the command.
      *
      * @return void
      */
-    public function getHelp();
+    public function getHelp(): void;
 
     /**
      * Return required parameters.
      *
-     * @return integer
+     * @return int
      */
-    public function getRequiredParams();
+    public function getRequiredParams(): int;
 
     /**
      * Checks whether the command has identifier.
      *
      * @param string $identifier
-     *
-     * @return boolean
+     * @return bool
      */
-    public function hasIdentifier($identifier);
+    public function hasIdentifier($identifier): bool;
 
     /**
      * Gets possible command parameters.
@@ -75,5 +72,5 @@ interface CommandsInterface
      *
      * @return array
      */
-    public function getPossibleParams();
+    public function getPossibleParams(): array;
 }

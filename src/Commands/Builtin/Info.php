@@ -18,8 +18,6 @@ use Phalcon\DevTools\Utils\SystemInfo;
 
 /**
  * Info Command
- *
- * @package Phalcon\Commands\Builtin
  */
 class Info extends Command
 {
@@ -28,7 +26,7 @@ class Info extends Command
      *
      * @return array
      */
-    public function getPossibleParams()
+    public function getPossibleParams(): array
     {
         return [
             'help' => 'Shows this help [optional]',
@@ -65,7 +63,7 @@ class Info extends Command
      *
      * @return array
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return ['info', 'i'];
     }
@@ -73,9 +71,9 @@ class Info extends Command
     /**
      * {@inheritdoc}
      *
-     * @return boolean
+     * @return bool
      */
-    public function canBeExternal()
+    public function canBeExternal(): bool
     {
         return true;
     }
@@ -85,7 +83,7 @@ class Info extends Command
      *
      * @return void
      */
-    public function getHelp()
+    public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
         print Color::colorize('  Shows versions and environment configuration') . PHP_EOL . PHP_EOL;
@@ -94,9 +92,9 @@ class Info extends Command
     /**
      * {@inheritdoc}
      *
-     * @return integer
+     * @return int
      */
-    public function getRequiredParams()
+    public function getRequiredParams(): int
     {
         return 0;
     }

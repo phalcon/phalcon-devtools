@@ -20,12 +20,8 @@ use Phalcon\Url\UrlInterface;
 use Phalcon\Version as PhVersion;
 
 /**
- * \Phalcon\Utils\SystemInfo
- *
  * @property Registry $registry
  * @property Url|UrlInterface $url
- *
- * @package Phalcon\Utils
  */
 class SystemInfo extends Injectable
 {

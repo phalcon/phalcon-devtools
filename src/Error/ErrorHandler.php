@@ -15,11 +15,6 @@ namespace Phalcon\DevTools\Error;
 use Phalcon\Di\Injectable;
 use Phalcon\Logger;
 
-/**
- * \Phalcon\Error\ErrorHandler
- *
- * @package Phalcon\Error
- */
 class ErrorHandler extends Injectable
 {
     /**
@@ -94,9 +89,8 @@ class ErrorHandler extends Injectable
 
     /**
      * @param AppError $error
-     *
      */
-    public function handle(AppError $error)
+    public function handle(AppError $error): void
     {
         $di = $this->getDI();
 
@@ -133,10 +127,10 @@ class ErrorHandler extends Injectable
     /**
      * Maps error code to a string.
      *
-     * @param  integer $code
+     * @param int $code
      * @return mixed
      */
-    public function mapErrors($code)
+    public function mapErrors(int $code)
     {
         switch ($code) {
             case 0:
@@ -179,10 +173,10 @@ class ErrorHandler extends Injectable
     /**
      * Maps error code to a log type.
      *
-     * @param  integer $code
-     * @return integer
+     * @param  int $code
+     * @return int
      */
-    public function mapErrorsToLogType($code)
+    public function mapErrorsToLogType(int $code): int
     {
         switch ($code) {
             case E_ERROR:

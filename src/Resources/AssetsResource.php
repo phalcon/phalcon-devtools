@@ -16,11 +16,7 @@ use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\Injectable;
 
 /**
- * \Phalcon\Resources\AssetsResource
- *
  * @property FsUtils $fs
- *
- * @package Phalcon\Resources
  */
 class AssetsResource extends Injectable
 {

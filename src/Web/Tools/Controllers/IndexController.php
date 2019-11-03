@@ -14,11 +14,6 @@ namespace Phalcon\DevTools\Controllers;
 
 use Phalcon\DevTools\Mvc\Controller\Base;
 
-/**
- * \WebTools\Controllers\IndexController
- *
- * @package WebTools\Controllers
- */
 class IndexController extends Base
 {
     /**
@@ -34,7 +29,7 @@ class IndexController extends Base
     /**
      * @Get("/", name="dashboard")
      */
-    public function indexAction()
+    public function indexAction(): void
     {
         $this->view->setVars(
             [

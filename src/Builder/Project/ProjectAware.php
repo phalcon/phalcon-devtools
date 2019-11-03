@@ -15,12 +15,8 @@ namespace Phalcon\DevTools\Builder\Project;
 use Phalcon\Config;
 
 /**
- * \Phalcon\Builder\Project\ProjectAware
- *
  * @property Config $options
  * @method static generateFile(string $fromFile, string $toFile, string $name = '')
- *
- * @package Phalcon\Builder\Project
  */
 trait ProjectAware
 {
@@ -43,7 +39,7 @@ trait ProjectAware
         }
 
         $fromFile = rtrim($templatePath, '\\/') . DIRECTORY_SEPARATOR . '.htrouter.php';
-        $toFile   = $projectPath  . '.htrouter.php';
+        $toFile = $projectPath . '.htrouter.php';
 
         $this->generateFile($fromFile, $toFile);
 
