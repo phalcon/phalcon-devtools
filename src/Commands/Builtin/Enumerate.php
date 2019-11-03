@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Commands\Command;
+use Phalcon\DevTools\Script\Color;
 
 /**
  * Enumerate Command

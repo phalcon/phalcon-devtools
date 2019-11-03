@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools;
 
-use Traversable;
 use Phalcon\DevTools\Exception\InvalidArgumentException;
+use Traversable;
 
 /**
  * \Phalcon\Configurable

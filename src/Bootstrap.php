@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools;
 
+use Phalcon\DevTools\Error\ErrorHandler;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\DevTools\Error\ErrorHandler;
 use Phalcon\Mvc\Application as MvcApplication;
 
 /**

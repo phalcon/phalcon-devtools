@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\DevTools\Builder\AllModels as AllModelsBuilder;
-use Phalcon\DevTools\Builder;
-use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Config;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\DevTools\Builder\AllModels as AllModelsBuilder;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Commands\CommandsException;
 

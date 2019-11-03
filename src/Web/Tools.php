@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Web;
 
-use Phalcon\Exception;
 use Phalcon\DevTools\Utils\FsUtils;
+use Phalcon\Exception;
 use SplFileInfo;
 
 /**

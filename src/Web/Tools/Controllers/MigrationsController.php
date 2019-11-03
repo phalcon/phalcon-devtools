@@ -14,10 +14,10 @@ namespace Phalcon\DevTools\Controllers;
 
 use DirectoryIterator;
 use Phalcon\DevTools\Builder\BuilderException;
+use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
 use Phalcon\Migrations\Migrations;
-use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\Tag;
 
 /**

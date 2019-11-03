@@ -12,11 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Commands\Command;
-use Phalcon\DevTools\Utils\SystemInfo;
-use Psy\Shell;
+use Phalcon\DevTools\Script\Color;
 use Psy\Configuration;
+use Psy\Shell;
 
 /**
  * Console Command

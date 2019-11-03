@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Builder;
 
 use Phalcon\Config;
-use Phalcon\Validation;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Validation\Validator\Namespaces;
+use Phalcon\Validation;
 
 /**
  * Abstract Component

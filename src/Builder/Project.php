@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Builder;
 
 use Phalcon\DevTools\Builder\Project\Cli;
 use Phalcon\DevTools\Builder\Project\Micro;
-use Phalcon\DevTools\Builder\Project\Simple;
 use Phalcon\DevTools\Builder\Project\Modules;
+use Phalcon\DevTools\Builder\Project\Simple;
 use Phalcon\DevTools\Utils\FsUtils;
 use SplFileInfo;
 

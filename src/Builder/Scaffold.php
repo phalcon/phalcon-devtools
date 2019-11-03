@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder;
 
-use Phalcon\Text;
-use Phalcon\DevTools\Utils;
 use Phalcon\Db\Column;
-use Phalcon\DevTools\Script\Color;
-use Phalcon\Di\FactoryDefault;
 use Phalcon\DevTools\Builder\Model as ModelBuilder;
+use Phalcon\DevTools\Script\Color;
+use Phalcon\DevTools\Utils;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Text;
 
 /**
  * ScaffoldBuilderComponent

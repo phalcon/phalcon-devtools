@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Commands\Command;
-use Phalcon\DevTools\Web\Tools;
 use Phalcon\DevTools\Commands\CommandsException;
+use Phalcon\DevTools\Script\Color;
+use Phalcon\DevTools\Web\Tools;
 
 /**
  * Webtools Command

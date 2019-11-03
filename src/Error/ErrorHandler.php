@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Error;
 
-use Phalcon\Logger;
 use Phalcon\Di\Injectable;
+use Phalcon\Logger;
 
 /**
  * \Phalcon\Error\ErrorHandler

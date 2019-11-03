@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Generator;
 
-use Phalcon\DevTools\Utils;
 use Phalcon\DevTools\Options\OptionsAware as ModelOption;
+use Phalcon\DevTools\Utils;
 
 /**
  * Snippet Class

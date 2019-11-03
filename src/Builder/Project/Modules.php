@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Project;
 
-use Phalcon\DevTools\Web\Tools;
 use Phalcon\DevTools\Builder\Controller as ControllerBuilder;
+use Phalcon\DevTools\Web\Tools;
 
 /**
  * Multi-Module

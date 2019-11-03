@@ -13,15 +13,22 @@ declare(strict_types=1);
 namespace Phalcon\DevTools;
 
 use DirectoryIterator;
-use Phalcon\Config;
-use Phalcon\DevTools\Access\Manager as AccessManager;
-use Phalcon\DevTools\Access\Policy\Ip as IpPolicy;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Config;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo;
-use Phalcon\Di\DiInterface;
+use Phalcon\DevTools\Access\Manager as AccessManager;
+use Phalcon\DevTools\Access\Policy\Ip as IpPolicy;
 use Phalcon\DevTools\Elements\Menu\SidebarMenu;
+use Phalcon\DevTools\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
+use Phalcon\DevTools\Mvc\View\NotFoundListener;
+use Phalcon\DevTools\Resources\AssetsResource;
+use Phalcon\DevTools\Scanners\Config as ConfigScanner;
+use Phalcon\DevTools\Utils\DbUtils;
+use Phalcon\DevTools\Utils\FsUtils;
+use Phalcon\DevTools\Utils\SystemInfo;
+use Phalcon\Di\DiInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Flash\Session as FlashSession;
@@ -34,18 +41,11 @@ use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\DevTools\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
-use Phalcon\DevTools\Mvc\View\NotFoundListener;
-use Phalcon\DevTools\Resources\AssetsResource;
-use Phalcon\DevTools\Scanners\Config as ConfigScanner;
 use Phalcon\Registry;
 use Phalcon\Session\Adapter\Stream as SessionStream;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tag;
 use Phalcon\Url as UrlResolver;
-use Phalcon\DevTools\Utils\DbUtils;
-use Phalcon\DevTools\Utils\FsUtils;
-use Phalcon\DevTools\Utils\SystemInfo;
 
 /**
  * @property DiInterface $di

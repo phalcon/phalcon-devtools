@@ -13,19 +13,19 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Builder;
 
 use Phalcon\Db\Adapter\Pdo\AbstractPdo;
-use Phalcon\Text;
-use Phalcon\DevTools\Utils;
-use ReflectionClass;
 use Phalcon\Db\Column;
-use Phalcon\Validation;
-use Phalcon\DevTools\Generator\Snippet;
 use Phalcon\Db\ReferenceInterface;
+use Phalcon\DevTools\Exception\InvalidArgumentException;
+use Phalcon\DevTools\Exception\InvalidParameterException;
 use Phalcon\DevTools\Exception\RuntimeException;
 use Phalcon\DevTools\Exception\WriteFileException;
-use Phalcon\DevTools\Exception\InvalidArgumentException;
+use Phalcon\DevTools\Generator\Snippet;
 use Phalcon\DevTools\Options\OptionsAware as ModelOption;
-use Phalcon\DevTools\Exception\InvalidParameterException;
+use Phalcon\DevTools\Utils;
+use Phalcon\Text;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+use ReflectionClass;
 
 /**
  * ModelBuilderComponent

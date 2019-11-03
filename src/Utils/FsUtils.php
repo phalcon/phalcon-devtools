@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Utils;
 
-use Phalcon\Text;
-use DirectoryIterator;
-use Phalcon\DevTools\Exception\InvalidArgumentException;
-use SplFileInfo;
 use ArrayIterator;
+use DirectoryIterator;
 use Iterator;
+use Phalcon\DevTools\Exception\InvalidArgumentException;
+use Phalcon\Text;
 use RuntimeException;
+use SplFileInfo;
 
 /**
  * \Phalcon\Utils\FsUtils

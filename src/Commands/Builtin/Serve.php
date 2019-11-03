@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Commands\Builtin;
 
 use Phalcon\DevTools\Commands\Command;
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Registry;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils\SystemInfo;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Registry;
 
 /**
  * Serve Command

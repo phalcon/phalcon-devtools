@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Controllers;
 
 use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
-use Phalcon\Devtools\Version;
 use Phalcon\DevTools\Mvc\Controller\Base;
+use Phalcon\Devtools\Version;
 use Phalcon\Tag;
 
 /**

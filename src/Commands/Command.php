@@ -12,15 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands;
 
-use Phalcon\DevTools\Builder\Path;
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Filter;
+use Phalcon\DevTools\Builder\Path;
 use Phalcon\DevTools\Script;
 use Phalcon\DevTools\Script\Color;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Filter;
 
 /**
  * Command Class

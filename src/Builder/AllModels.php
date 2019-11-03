@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder;
 
-use Phalcon\DevTools\Utils;
 use Phalcon\DevTools\Script\Color;
+use Phalcon\DevTools\Utils;
 
 /**
  * AllModels Class

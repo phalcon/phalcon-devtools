@@ -15,8 +15,8 @@ namespace Phalcon\DevTools\Mvc\Controller;
 use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
-use Phalcon\Devtools\Version;
 use Phalcon\DevTools\Resources\AssetsResource;
+use Phalcon\Devtools\Version;
 
 /**
  * \Phalcon\Mvc\Controller\CodemirrorTrait

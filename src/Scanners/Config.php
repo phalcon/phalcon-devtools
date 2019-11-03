@@ -17,8 +17,8 @@ use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Exception;
-use Phalcon\Di\Injectable;
 use Phalcon\DevTools\Utils\FsUtils;
+use Phalcon\Di\Injectable;
 
 /**
  * \Phalcon\Scanners\Config

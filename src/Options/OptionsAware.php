@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Options;
 
-use Phalcon\DevTools\FactoryOptions;
 use Phalcon\DevTools\Exception\InvalidArgumentException;
+use Phalcon\DevTools\FactoryOptions;
 
 /**
  * Phalcon\Options\OptionsAware

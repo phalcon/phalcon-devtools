@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
+use Phalcon\Config;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Builder\Model as ModelBuilder;
 use Phalcon\DevTools\Commands\Command;
-use Phalcon\Config;
-use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\DevTools\Script\Color;
-use Phalcon\Text;
 use Phalcon\DevTools\Utils;
+use Phalcon\Text;
 
 /**
  * Model Command

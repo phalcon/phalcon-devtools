@@ -17,6 +17,10 @@ use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
 use Phalcon\Config;
 use Phalcon\DevTools\Elements\Menu\SidebarMenu;
+use Phalcon\DevTools\Resources\AssetsResource;
+use Phalcon\DevTools\Utils\DbUtils;
+use Phalcon\DevTools\Utils\FsUtils;
+use Phalcon\DevTools\Utils\SystemInfo;
 use Phalcon\DevTools\Version;
 use Phalcon\Http\Request;
 use Phalcon\Http\RequestInterface;
@@ -27,12 +31,8 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Registry;
-use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\Url;
 use Phalcon\Url\UrlInterface;
-use Phalcon\DevTools\Utils\DbUtils;
-use Phalcon\DevTools\Utils\FsUtils;
-use Phalcon\DevTools\Utils\SystemInfo;
 use Phalcon\Version as PhVersion;
 
 /**
