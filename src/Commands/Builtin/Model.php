@@ -12,13 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Builder\Model as ModelBuilder;
-use Phalcon\Commands\Command;
+use Phalcon\DevTools\Commands\Command;
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
-use Phalcon\Script\Color;
+use Phalcon\DevTools\Script\Color;
 use Phalcon\Text;
-use Phalcon\Utils;
+use Phalcon\DevTools\Utils;
 
 /**
  * Model Command
@@ -137,6 +138,7 @@ class Model extends Command
      * Get Config object
      *
      * @return Config
+     * @throws BuilderException
      */
     protected function getConfigObject()
     {
