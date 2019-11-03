@@ -57,14 +57,13 @@ class AllModels extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
      * @throws CommandsException
      * @throws BuilderException
      */
-    public function run(array $parameters)
+    public function run(array $parameters): void
     {
         if ($this->isReceivedOption('directory')) {
-            if (false == $this->path->isAbsolutePath($this->getOption('directory'))) {
+            if (!$this->path->isAbsolutePath($this->getOption('directory'))) {
                 $this->path->appendRootPath($this->getOption('directory'));
             } else {
                 $this->path->setRootPath($this->getOption('directory'));
@@ -72,7 +71,7 @@ class AllModels extends Command
         }
 
         if ($this->isReceivedOption('config')) {
-            if (false == $this->path->isAbsolutePath($this->getOption('config'))) {
+            if (!$this->path->isAbsolutePath($this->getOption('config'))) {
                 $configPath = $this->path->getRootPath() . $this->getOption('config');
             } else {
                 $configPath = $this->getOption('config');
@@ -100,7 +99,7 @@ class AllModels extends Command
             $modelsDir = $this->getOption('output');
         }
 
-        if (false == $this->path->isAbsolutePath($modelsDir)) {
+        if (!$this->path->isAbsolutePath($modelsDir)) {
             $modelsDir = $this->path->getRootPath($modelsDir);
         }
 

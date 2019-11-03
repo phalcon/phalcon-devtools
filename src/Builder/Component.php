@@ -76,7 +76,7 @@ abstract class Component
      * @return Config
      * @throws BuilderException
      */
-    protected function getConfig($type = null)
+    protected function getConfig($type = null): Config
     {
         return $this->path->getConfig($type);
     }
@@ -85,10 +85,9 @@ abstract class Component
      * Check if a path is absolute
      *
      * @param string $path Path to check
-     *
      * @return bool
      */
-    public function isAbsolutePath($path)
+    public function isAbsolutePath(string $path): bool
     {
         return $this->path->isAbsolutePath($path);
     }
@@ -96,9 +95,9 @@ abstract class Component
     /**
      * Check if the script is running on Console mode
      *
-     * @return boolean
+     * @return bool
      */
-    public function isConsole()
+    public function isConsole(): bool
     {
         return PHP_SAPI == 'cli';
     }
@@ -111,7 +110,7 @@ abstract class Component
      * @return bool
      * @throws BuilderException
      */
-    public function isSupportedAdapter($adapter)
+    public function isSupportedAdapter($adapter): bool
     {
         if (!class_exists('\Phalcon\Db\Adapter\Pdo\\' . $adapter)) {
             throw new BuilderException("Adapter $adapter is not supported");
@@ -125,7 +124,7 @@ abstract class Component
      *
      * @param string $message
      */
-    protected function notifySuccess($message)
+    protected function notifySuccess($message): void
     {
         print Color::success($message);
     }

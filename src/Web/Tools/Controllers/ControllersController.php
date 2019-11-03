@@ -209,9 +209,9 @@ class ControllersController extends Base
     /**
      * @Route("/controllers/generate", methods={"POST", "GET"}, name="controllers-generate")
      *
-     * @return ResponseInterface
+     * @return ResponseInterface|void
      */
-    public function generateAction(): ?ResponseInterface
+    public function generateAction()
     {
         if ($this->request->isPost()) {
             try {

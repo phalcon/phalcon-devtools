@@ -85,10 +85,9 @@ class Model extends Component
     /**
      * Module build
      *
-     * @return mixed
      * @throws BuilderException
      */
-    public function build()
+    public function build(): void
     {
         $config = $this->modelOptions->getOption('config');
         $snippet = $this->modelOptions->getOption('snippet');

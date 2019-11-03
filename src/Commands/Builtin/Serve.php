@@ -57,14 +57,14 @@ class Serve extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
      */
-    public function run(array $parameters)
+    public function run(array $parameters): void
     {
         $di = new FactoryDefault();
         $di['registry'] = function () {
             return new Registry();
         };
+
         $cmd = $this->shellCommand();
         print Color::head("Starting Server with $cmd") . PHP_EOL . PHP_EOL;
         passthru($cmd);

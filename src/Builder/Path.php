@@ -24,7 +24,7 @@ class Path
      */
     protected $rootPath = null;
 
-    public function __construct($rootPath = null)
+    public function __construct(string $rootPath = null)
     {
         $this->rootPath = $rootPath ?: realpath('.') . DIRECTORY_SEPARATOR;
     }
@@ -36,7 +36,7 @@ class Path
      * @return Config
      * @throws BuilderException
      */
-    public function getConfig($type = null): ?Config
+    public function getConfig($type = null): Config
     {
         $types = ['php' => true, 'ini' => true];
         $type  = isset($types[$type]) ? $type : 'ini';
@@ -97,10 +97,9 @@ class Path
      * Check if a path is absolute
      *
      * @param string $path Path to check
-     *
      * @return bool
      */
-    public function isAbsolutePath($path): bool
+    public function isAbsolutePath(string $path): bool
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             if (preg_match('/^[A-Z]:\\\\/', $path)) {

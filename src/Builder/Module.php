@@ -34,22 +34,11 @@ class Module extends Component
     protected $variableValues = [];
 
     /**
-     * Create Builder object
-     *
-     * @param array $options Builder options
-     */
-    public function __construct(array $options)
-    {
-        parent::__construct($options);
-    }
-
-    /**
      * Module build
      *
-     * @return mixed
      * @throws BuilderException
      */
-    public function build()
+    public function build(): void
     {
         if (!$this->options->has('name')) {
             throw new BuilderException('Please, specify the model name');
@@ -76,7 +65,7 @@ class Module extends Component
         }
 
         $modulesDir = rtrim($modulesDir, '/\\') . DIRECTORY_SEPARATOR;
-        if (false == $this->isAbsolutePath($modulesDir)) {
+        if (!$this->isAbsolutePath($modulesDir)) {
             $modulesDir = $this->path->getRootPath($modulesDir);
         }
 
@@ -163,7 +152,7 @@ class Module extends Component
      */
     protected function generateFile($getFile, $putFile, $name = '', $namespace = '')
     {
-        if (false == file_exists($putFile)) {
+        if (!file_exists($putFile)) {
             touch($putFile);
             $fh = fopen($putFile, "w+");
 

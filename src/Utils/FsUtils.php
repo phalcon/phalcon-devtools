@@ -82,14 +82,13 @@ class FsUtils
      * Return info about a user and group file iterator.
      *
      * @param DirectoryIterator $file
-     *
      * @return string
      */
     public function getOwner(DirectoryIterator $file): string
     {
         if (!function_exists('posix_getpwuid')) {
             // Windows, fallback, etc.
-            return getenv('USERNAME') ?: getenv('USER');
+            return getenv('USERNAME') ?: (string)getenv('USER');
         }
 
         $user  = posix_getpwuid($file->getOwner());

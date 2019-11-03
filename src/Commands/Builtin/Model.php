@@ -60,10 +60,9 @@ class Model extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
      * @throws BuilderException
      */
-    public function run(array $parameters)
+    public function run(array $parameters): void
     {
         $name = $this->getOption(['name', 1]);
         $className = Utils::camelize(isset($parameters[1]) ? $parameters[1] : $name, '_-');

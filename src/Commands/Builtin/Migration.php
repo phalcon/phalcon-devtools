@@ -58,13 +58,11 @@ class Migration extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     *
-     * @return mixed
      * @throws CommandsException
      * @throws ScriptException
      * @throws Exception
      */
-    public function run(array $parameters)
+    public function run(array $parameters): void
     {
         $path = $this->isReceivedOption('directory') ? $this->getOption('directory') : '';
         $path = realpath($path) . DIRECTORY_SEPARATOR;

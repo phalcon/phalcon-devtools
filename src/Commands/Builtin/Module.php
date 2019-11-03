@@ -46,10 +46,9 @@ class Module extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
      * @throws BuilderException
      */
-    public function run(array $parameters)
+    public function run(array $parameters): void
     {
         $moduleName   = $this->getOption(['name', 1]);
         $namespace    = $this->getOption('namespace', null, 'Application');
@@ -65,7 +64,7 @@ class Module extends Command
             'modulesDir'   => $modulesDir
         ]);
 
-        return $builder->build();
+        $builder->build();
     }
 
     /**

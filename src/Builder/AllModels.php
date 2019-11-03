@@ -40,7 +40,10 @@ class AllModels extends Component
         parent::__construct($options);
     }
 
-    public function build()
+    /**
+     * @throws BuilderException
+     */
+    public function build(): void
     {
         if ($this->options->offsetExists('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
@@ -58,12 +61,13 @@ class AllModels extends Component
             if (!isset($config->application->modelsDir)) {
                 throw new BuilderException("Builder doesn't know where is the models directory.");
             }
+
             $modelsDir = $config->application->modelsDir;
         }
 
         $modelsDir = rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR;
         $modelPath = $modelsDir;
-        if (false == $this->isAbsolutePath($modelsDir)) {
+        if (!$this->isAbsolutePath($modelsDir)) {
             $modelPath = $this->path->getRootPath($modelsDir);
         }
 
