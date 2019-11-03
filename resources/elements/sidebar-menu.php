@@ -11,7 +11,7 @@ return [
         // Home
         [
             'link'  => [
-                'href'  => '?_url=/',
+                'href'  => '/webtools.php?_url=/',
                 'icon'  => 'fa fa-dashboard',
                 'text'  => 'Home',
                 'wrap'  => 'span',
@@ -23,7 +23,7 @@ return [
             'class'   => 'treeview',
             'submenu' => [
                 'link'  => [
-                    'href'  => '?_url=/controllers',
+                    'href'  => '/webtools.php?_url=/controllers',
                     'icon'  => 'fa fa-cubes',
                     'text'  => 'Controllers',
                     'wrap'  => 'span',
@@ -33,7 +33,7 @@ return [
                 'items' => [
                     [
                         'link'  => [
-                            'href' => '?_url=/controllers/generate',
+                            'href' => '/webtools.php?_url=/controllers/generate',
                             'text' => 'Generate',
                             'wrap' => 'span',
                             'icon' => 'fa fa-plus',
@@ -41,7 +41,7 @@ return [
                     ],
                     [
                         'link'  => [
-                            'href' => '?_url=/controllers/list',
+                            'href' => '/webtools.php?_url=/controllers/list',
                             'text' => 'List all',
                             'wrap' => 'span',
                             'icon' => 'fa fa-reorder',
@@ -56,7 +56,7 @@ return [
             'class'   => 'treeview',
             'submenu' => [
                 'link'  => [
-                    'href'  => '?_url=/models',
+                    'href'  => '/webtools.php?_url=/models',
                     'icon'  => 'fa fa-database',
                     'text'  => 'Models',
                     'wrap'  => 'span',
@@ -66,7 +66,7 @@ return [
                 'items' => [
                     [
                         'link'  => [
-                            'href' => '?_url=/models/generate',
+                            'href' => '/webtools.php?_url=/models/generate',
                             'text' => 'Generate',
                             'wrap' => 'span',
                             'icon' => 'fa fa-plus',
@@ -74,7 +74,7 @@ return [
                     ],
                     [
                         'link'  => [
-                            'href' => '?_url=/models/list',
+                            'href' => '/webtools.php?_url=/models/list',
                             'text' => 'List all',
                             'wrap' => 'span',
                             'icon' => 'fa fa-reorder',
@@ -89,7 +89,7 @@ return [
             'class'   => 'treeview',
             'submenu' => [
                 'link'  => [
-                    'href'  => '?_url=/scaffold',
+                    'href'  => '/webtools.php?_url=/scaffold',
                     'icon'  => 'fa fa-file-code-o',
                     'text'  => 'Scaffold',
                     'wrap'  => 'span',
@@ -99,7 +99,7 @@ return [
                 'items' => [
                     [
                         'link'  => [
-                            'href' => '?_url=/scaffold/generate',
+                            'href' => '/webtools.php?_url=/scaffold/generate',
                             'text' => 'Generate',
                             'wrap' => 'span',
                             'icon' => 'fa fa-plus',
@@ -114,7 +114,7 @@ return [
             'class'   => 'treeview',
             'submenu' => [
                 'link'  => [
-                    'href'  => '?_url=/migrations',
+                    'href'  => '/webtools.php?_url=/migrations',
                     'icon'  => 'fa fa-magic',
                     'text'  => 'Migrations',
                     'wrap'  => 'span',
@@ -124,7 +124,7 @@ return [
                 'items' => [
                     [
                         'link'  => [
-                            'href' => '?_url=/migrations/generate',
+                            'href' => '/webtools.php?_url=/migrations/generate',
                             'text' => 'Generate',
                             'wrap' => 'span',
                             'icon' => 'fa fa-plus',
@@ -132,7 +132,7 @@ return [
                     ],
                     [
                         'link'  => [
-                            'href' => '?_url=/migrations/list',
+                            'href' => '/webtools.php?_url=/migrations/list',
                             'text' => 'List all',
                             'wrap' => 'span',
                             'icon' => 'fa fa-reorder',
@@ -140,7 +140,7 @@ return [
                     ],
                     [
                         'link'  => [
-                            'href' => '?_url=/migrations/run',
+                            'href' => '/webtools.php?_url=/migrations/run',
                             'text' => 'Run',
                             'wrap' => 'span',
                             'icon' => 'fa fa-play',
@@ -153,7 +153,7 @@ return [
         // System Info
         [
             'link'  => [
-                'href'  => '?_url=/info',
+                'href'  => '/webtools.php?_url=/info',
                 'icon'  => 'fa fa-info',
                 'text'  => 'System Info',
                 'wrap'  => 'span',
