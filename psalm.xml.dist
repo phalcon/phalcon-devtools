@@ -9,6 +9,7 @@
 >
     <projectFiles>
         <directory name="src/" />
+        <file name="phalcon" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
