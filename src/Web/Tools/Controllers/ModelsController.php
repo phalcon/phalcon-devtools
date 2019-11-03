@@ -214,7 +214,7 @@ class ModelsController extends Base
                 $tableName = $this->request->getPost('tableName', 'string');
                 $component = '@' == $tableName ? AllModels::class : Model::class;
 
-                /** @var  Model|AllModels $modelBuilder */
+                /** @var AllModels $modelBuilder */
                 $modelBuilder = new $component([
                     'name'                  => $tableName,
                     'force'                 => $this->request->getPost('force', 'int'),

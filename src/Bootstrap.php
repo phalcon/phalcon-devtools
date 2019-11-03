@@ -142,9 +142,9 @@ class Bootstrap
     /**
      * Bootstrap constructor.
      *
-     * @param array|Traversable $parameters
+     * @param array $parameters
      */
-    public function __construct($parameters = [])
+    public function __construct(array $parameters = [])
     {
         $this->defines = array_combine($this->defines, $this->configurable);
 

@@ -25,43 +25,26 @@ class ErrorHandler extends Injectable
         switch (APPLICATION_ENV) {
             case ENV_TESTING:
             case ENV_DEVELOPMENT:
-                ini_set('display_errors', 1);
-                ini_set('display_startup_errors', 1);
+                ini_set('display_errors', '1');
+                ini_set('display_startup_errors', '1');
                 error_reporting(-1);
                 break;
             default:
-                ini_set('display_errors', 0);
-                ini_set('display_startup_errors', 0);
+                ini_set('display_errors', '0');
+                ini_set('display_startup_errors', '0');
                 error_reporting(0);
                 break;
         }
 
         if (PHP_SAPI == 'cli') {
-            ini_set('html_errors', 0);
+            ini_set('html_errors', '0');
         } else {
-            ini_set('html_errors', 1);
+            ini_set('html_errors', '1');
         }
 
+        set_error_handler([self::class, 'customErrorHandler']);
+
         $that = $this;
-
-        set_error_handler(
-            function ($errno, $errstr, $errfile, $errline) use ($that) {
-                if (!($errno & error_reporting())) {
-                    return;
-                }
-
-                $options = [
-                    'type'    => $errno,
-                    'message' => $errstr,
-                    'file'    => $errfile,
-                    'line'    => $errline,
-                    'isError' => true,
-                ];
-
-                $that->handle(new AppError($options));
-            }
-        );
-
         set_exception_handler(
             function ($e) use ($that) {
                 /** @var \Exception|\Error $e */
@@ -201,5 +184,22 @@ class ErrorHandler extends Injectable
         }
 
         return Logger::ERROR;
+    }
+
+    public function customErrorHandler($errno, $errstr, $errfile, $errline)
+    {
+        if (!($errno & error_reporting())) {
+            return;
+        }
+
+        $options = [
+            'type'    => $errno,
+            'message' => $errstr,
+            'file'    => $errfile,
+            'line'    => $errline,
+            'isError' => true,
+        ];
+
+        $this->handle(new AppError($options));
     }
 }

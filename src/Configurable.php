@@ -14,23 +14,18 @@ namespace Phalcon\DevTools;
 
 use Phalcon\DevTools\Exception\InvalidArgumentException;
 use Phalcon\Text;
-use Traversable;
 
 trait Configurable
 {
     /**
      * Sets the params by using passed config.
      *
-     * @param mixed $parameters
+     * @param array $parameters
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setParameters($parameters)
+    public function setParameters(array $parameters)
     {
-        if (!is_array($parameters) && !($parameters instanceof Traversable)) {
-            throw new InvalidArgumentException('Parameters must be either an array or Traversable.');
-        }
-
         foreach ($this->configurable as $param) {
             if (!isset($parameters[$param])) {
                 continue;
@@ -49,7 +44,7 @@ trait Configurable
      * @param mixed $value The value
      * @return $this
      */
-    public function setParameter($parameter, $value)
+    public function setParameter(string $parameter, $value)
     {
         $method = 'set' . Text::camelize($parameter);
 
