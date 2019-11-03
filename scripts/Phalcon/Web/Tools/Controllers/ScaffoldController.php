@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace WebTools\Controllers;
 
 use Exception;
+use PDOException;
 use Phalcon\Builder\BuilderException;
 use Phalcon\Builder\Scaffold;
 use Phalcon\Flash\Direct;
@@ -104,10 +105,17 @@ class ScaffoldController extends Base
         $this->tag->setDefault('templatesPath', $templatesPath);
         $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
 
+        try {
+            $tables = $this->dbUtils->listTables();
+        } catch (PDOException $PDOException) {
+            $tables = [];
+            $this->flash->error($PDOException->getMessage());
+        }
+
         $this->view->setVars(
             [
                 'page_subtitle'   => 'Generate code from template',
-                'tables'          => $this->dbUtils->listTables(),
+                'tables'          => $tables,
                 'template_path'   => $templatesPath,
                 'templateEngines' => [
                     'volt' => 'Volt',
