@@ -40,7 +40,6 @@ class Controller extends Component
     }
 
     /**
-     * @return string
      * @throws BuilderException
      */
     public function build()

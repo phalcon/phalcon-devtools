@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\DevTools;
 
 use DirectoryIterator;
+use Phalcon\DevTools\Builder\BuilderException;
 use Phalcon\DevTools\Commands\Command;
+use Phalcon\DevTools\Commands\CommandsException;
 use Phalcon\DevTools\Script\ScriptException;
 use Phalcon\Events\Manager as EventsManager;
 
@@ -93,7 +95,7 @@ class Script
      * @param Command $command
      * @return bool
      */
-    public function dispatch(Command $command)
+    public function dispatch(Command $command): bool
     {
         // If beforeCommand fails abort
         if ($this->eventsManager->fire('command:beforeCommand', $command) === false) {
@@ -101,13 +103,18 @@ class Script
         }
 
         // If run the commands fails abort too
-        if ($command->run($command->getParameters()) === false) {
-            return false;
+        try {
+            $return = true;
+            $command->run($command->getParameters());
+        } catch (BuilderException $builderException) {
+            $return = false;
+        } catch (CommandsException $commandsException) {
+            $return = false;
         }
 
         $this->eventsManager->fire('command:afterCommand', $command);
 
-        return true;
+        return $return;
     }
 
     /**

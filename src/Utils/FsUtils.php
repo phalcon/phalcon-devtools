@@ -38,10 +38,6 @@ class FsUtils
      */
     public function normalize(string $path): string
     {
-        if (!is_string($path)) {
-            throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
-        }
-
         if (empty($path = trim($path))) {
             return '';
         }
@@ -63,10 +59,6 @@ class FsUtils
      */
     public function isAbsolute(string $path): bool
     {
-        if (!is_string($path)) {
-            throw new InvalidArgumentException('The $path parameter must be an string. Got: ' . gettype($path));
-        }
-
         if (empty($path = trim($path))) {
             return false;
         }

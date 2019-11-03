@@ -97,22 +97,9 @@
         <PossibleRawObjectIteration errorLevel="info" />
 
         <!-- level 5 issues - should be avoided at mosts costs... -->
-
-        <ForbiddenCode errorLevel="info" />
-        <ImplicitToStringCast errorLevel="info" />
-        <InvalidScalarArgument errorLevel="info" />
-        <InvalidToString errorLevel="info" />
-        <InvalidOperand errorLevel="info" />
-        <NoInterfaceProperties errorLevel="info" />
-        <TooManyArguments errorLevel="info" />
         <TypeDoesNotContainType errorLevel="info" />
-        <TypeDoesNotContainNull errorLevel="info" />
-        <MissingDocblockType errorLevel="info" />
-        <ImplementedReturnTypeMismatch errorLevel="info" />
-        <ImplementedParamTypeMismatch errorLevel="info" />
 
         <!-- level 8 issues - some fatal errors in PHP -->
-
         <MethodSignatureMismatch errorLevel="info" />
 
     </issueHandlers>

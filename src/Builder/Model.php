@@ -416,6 +416,7 @@ class Model extends Component
                     $validations[] = $snippet->getValidateInclusion($fieldName, $varItems);
                 }
             }
+
             if ($field->getName() == 'email') {
                 if ($this->modelOptions->getOption('camelize')) {
                     $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
@@ -450,6 +451,7 @@ class Model extends Component
             if (array_key_exists(strtolower($field->getName()), $exclude)) {
                 continue;
             }
+
             $type = $this->getPHPType($field->getType());
             $fieldName = Utils::lowerCamelizeWithDelimiter($field->getName(), '-', true);
             $fieldName = $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($fieldName) : $fieldName;
@@ -474,13 +476,13 @@ class Model extends Component
         }
 
         $validationsCode = '';
-        if ($alreadyValidations == false && count($validations) > 0) {
+        if (!$alreadyValidations && count($validations) > 0) {
             $validationsCode = $snippet->getValidationsMethod($validations);
             $uses[] = $snippet->getUse(Validation::class);
         }
 
         $initCode = '';
-        if ($alreadyInitialized == false && count($initialize) > 0) {
+        if (!$alreadyInitialized && count($initialize) > 0) {
             $initCode = $snippet->getInitialize($initialize);
         }
 
@@ -489,11 +491,11 @@ class Model extends Component
             $license = trim(file_get_contents('license.txt')) . PHP_EOL . PHP_EOL;
         }
 
-        if (false == $alreadyFind) {
+        if (!$alreadyFind) {
             $methodRawCode[] = $snippet->getModelFind($this->modelOptions->getOption('className'));
         }
 
-        if (false == $alreadyFindFirst) {
+        if (!$alreadyFindFirst) {
             $methodRawCode[] = $snippet->getModelFindFirst($this->modelOptions->getOption('className'));
         }
 
@@ -513,8 +515,10 @@ class Model extends Component
             $classDoc = $snippet->getClassDoc($this->modelOptions->getOption('className'), $namespace);
         }
 
-        if ($this->modelOptions->hasOption('mapColumn') && $this->modelOptions->getOption('mapColumn')
-                && false == $alreadyColumnMapped) {
+        if ($this->modelOptions->hasOption('mapColumn') &&
+            $this->modelOptions->getOption('mapColumn') &&
+            !$alreadyColumnMapped
+        ) {
             $content .= $snippet->getColumnMap($fields, $this->modelOptions->getOption('camelize'));
         }
 
@@ -560,11 +564,11 @@ class Model extends Component
      *
      * @throw WriteFileException
      */
-    protected function setModelPath()
+    protected function setModelPath(): void
     {
         $modelPath = $this->modelOptions->getOption('modelsDir');
 
-        if (false == $this->isAbsolutePath($modelPath)) {
+        if (!$this->isAbsolutePath($modelPath)) {
             $modelPath = $this->path->getRootPath($modelPath);
         }
 
@@ -583,7 +587,7 @@ class Model extends Component
     /**
      * @throw InvalidParameterException
      */
-    protected function checkDataBaseParam()
+    protected function checkDataBaseParam(): void
     {
         if (!isset($this->modelOptions->getOption('config')->database)) {
             throw new InvalidParameterException('Database configuration cannot be loaded from your config file.');
@@ -597,12 +601,16 @@ class Model extends Component
         }
     }
 
-    protected function getEntityClassName(ReferenceInterface $reference, $namespace)
+    /**
+     * @param ReferenceInterface $reference
+     * @param string $namespace
+     * @return string
+     */
+    protected function getEntityClassName(ReferenceInterface $reference, string $namespace): string
     {
         $referencedTable = Utils::camelize($reference->getReferencedTable());
-        $fqcn = "{$namespace}\\{$referencedTable}";
 
-        return $fqcn;
+        return "{$namespace}\\{$referencedTable}";
     }
 
     /**
@@ -612,7 +620,7 @@ class Model extends Component
      * @param AbstractPdo $db
      * @return array
      */
-    protected function getReferenceList($schema, AbstractPdo $db)
+    protected function getReferenceList(string $schema, AbstractPdo $db): array
     {
         if ($this->modelOptions->hasOption('referenceList')) {
             return $this->modelOptions->getOption('referenceList');
@@ -631,7 +639,7 @@ class Model extends Component
      *
      * @throw InvalidParameterException
      */
-    protected function setModelsDir()
+    protected function setModelsDir(): void
     {
         if ($this->modelOptions->hasOption('modelsDir')) {
             $this->modelOptions->setOption(
@@ -652,10 +660,10 @@ class Model extends Component
     /**
      * Returns the associated PHP type
      *
-     * @param  string $type
+     * @param  int $type
      * @return string
      */
-    protected function getPHPType($type)
+    protected function getPHPType(int $type): string
     {
         switch ($type) {
             case Column::TYPE_INTEGER:

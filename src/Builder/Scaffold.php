@@ -41,10 +41,9 @@ class Scaffold extends Component
 
     /**
      * @param string $className
-     *
      * @return string
      */
-    private function getPossibleSingular($className): string
+    private function getPossibleSingular(string $className): string
     {
         if (substr($className, strlen($className) - 1, 1) == 's') {
             return substr($className, 0, strlen($className) - 1);
@@ -55,10 +54,9 @@ class Scaffold extends Component
 
     /**
      * @param string $className
-     *
-     * @return mixed
+     * @return string
      */
-    private function getPossiblePlural($className)
+    private function getPossiblePlural(string $className): string
     {
         if (substr($className, strlen($className) - 1, 1) == 's') {
             return $className;
@@ -68,7 +66,6 @@ class Scaffold extends Component
     }
 
     /**
-     * @return bool
      * @throws BuilderException
      */
     public function build(): bool

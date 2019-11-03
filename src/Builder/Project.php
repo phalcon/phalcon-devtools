@@ -52,7 +52,6 @@ class Project extends Component
     /**
      * Project build
      *
-     * @return mixed
      * @throws BuilderException
      */
     public function build()

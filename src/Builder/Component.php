@@ -47,17 +47,20 @@ abstract class Component
         $this->path = new Path(realpath('.') . DIRECTORY_SEPARATOR);
     }
 
-    protected function checkNamespace($namespace)
+    /**
+     * @param string $namespace
+     * @return bool
+     * @throws BuilderException
+     */
+    protected function checkNamespace(string $namespace)
     {
         $validation = new Validation();
-
         $validation->add('namespace', new Namespaces([
             'allowEmpty' => true
         ]));
 
         $messages = $validation->validate(['namespace' => $namespace]);
-
-        if (count($messages)) {
+        if (count($messages) > 0) {
             $errors = [];
             foreach ($messages as $message) {
                 $errors[] = $message->getMessage();
