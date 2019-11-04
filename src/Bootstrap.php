@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\DevTools;
 
 use Phalcon\DevTools\Error\ErrorHandler;
+use Phalcon\DevTools\Exception\InvalidArgumentException;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application as MvcApplication;
-use Traversable;
+use Phalcon\Text;
 
 /**
  * @method mixed getShared($name, $parameters=null)
@@ -25,7 +26,7 @@ use Traversable;
  */
 class Bootstrap
 {
-    use Configurable, Initializable;
+    use Initializable;
 
     /**
      * Application instance.
@@ -345,5 +346,59 @@ class Bootstrap
     public function getHostName()
     {
         return $this->hostName;
+    }
+
+    /**
+     * Sets the params by using passed config.
+     *
+     * @param array $parameters
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function setParameters(array $parameters)
+    {
+        foreach ($this->configurable as $param) {
+            if (!isset($parameters[$param])) {
+                continue;
+            }
+
+            $this->setParameter($param, $parameters[$param]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets the parameter by using snake_case notation.
+     *
+     * @param string $parameter Parameter name
+     * @param mixed $value The value
+     * @return $this
+     */
+    public function setParameter(string $parameter, $value)
+    {
+        $method = 'set' . Text::camelize($parameter);
+
+        if (method_exists($this, $method)) {
+            $this->$method($value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets the params by using defined constants.
+     *
+     * @return $this
+     */
+    public function initFromConstants()
+    {
+        foreach ($this->defines as $const => $property) {
+            if (defined($const) && in_array($property, $this->configurable)) {
+                $this->setParameter($property, constant($const));
+            }
+        }
+
+        return $this;
     }
 }
