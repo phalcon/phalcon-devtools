@@ -115,6 +115,7 @@ class Bootstrap
      */
     protected $loaders = [
         'web' => [
+            'accessManager',
             'eventsManager',
             'config',
             'logger',
@@ -130,7 +131,6 @@ class Bootstrap
             'session',
             'flash',
             'database',
-            'accessManager',
             'registry',
             'utils',
             'ui',

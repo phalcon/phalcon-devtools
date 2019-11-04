@@ -358,7 +358,7 @@ trait Initializable
                 $router->setEventsManager($em);
                 $router->setDefaultAction('index');
                 $router->setDefaultController('index');
-                $router->setDefaultNamespace('WebTools\Controllers');
+                $router->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
                 $router->notFound(['controller' => 'error', 'action' => 'route404']);
 
                 return $router;
@@ -433,14 +433,14 @@ trait Initializable
     protected function initDispatcher()
     {
         /** @var EventsManager $eventsManager */
-        $eventsManager = $this->di->get('eventsManager');
+        $eventsManager = $this->di->getShared('eventsManager');
         $access = $this->di->getShared('access');
 
         $this->di->setShared(
             'dispatcher',
             function () use ($eventsManager, $access) {
                 $dispatcher = new MvcDispatcher;
-                $dispatcher->setDefaultNamespace('WebTools\Controllers');
+                $dispatcher->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
 
                 $eventsManager->attach('dispatch', $access, 1000);
                 $eventsManager->attach('dispatch:beforeException', new DispatchErrorHandler, 999);
@@ -566,9 +566,7 @@ trait Initializable
             'access',
             function () use ($ptoolsIp) {
                 $policy = new IpPolicy($ptoolsIp);
-                $manager = new AccessManager($policy);
-
-                return $manager;
+                return new AccessManager($policy);
             }
         );
     }

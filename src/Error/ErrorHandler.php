@@ -42,7 +42,7 @@ class ErrorHandler extends Injectable
             ini_set('html_errors', '1');
         }
 
-        set_error_handler([self::class, 'customErrorHandler']);
+        set_error_handler([$this, 'customErrorHandler']);
 
         $that = $this;
         set_exception_handler(

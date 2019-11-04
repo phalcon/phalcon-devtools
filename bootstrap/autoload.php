@@ -97,18 +97,6 @@ defined('ADMIN_LTE_VERSION') || define('ADMIN_LTE_VERSION', '2.3.6');
 defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
 
 /**
- * Register Devtools classes.
- */
-(new Loader)->registerDirs([
-        PTOOLSPATH . DS . 'src' . DS
-    ])
-    ->registerNamespaces([
-        'Phalcon\DevTools' => PTOOLSPATH . DS . 'src' . DS,
-        'WebTools\Controllers' => PTOOLSPATH . DS . str_replace('/', DS, 'src/Web/Tools/Controllers') . DS,
-    ])
-    ->register();
-
-/**
  * Register the Composer autoloader (if any)
  */
 if (file_exists(PTOOLSPATH . DS .'vendor' . DS . 'autoload.php')) {
