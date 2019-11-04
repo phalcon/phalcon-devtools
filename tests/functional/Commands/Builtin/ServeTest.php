@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Phalcon\DevTools\Tests\Unit;
+namespace Phalcon\DevTools\Tests\Functional;
 
 /**
  * This file is part of the Phalcon Developer Tools.
