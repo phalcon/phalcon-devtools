@@ -1,5 +1,5 @@
 parameters:
-    bootstrap: %rootDir%/../../../tests/phpstan.php
+    bootstrap: %rootDir%/../../../bootstrap/phpstan.php
 
     excludes_analyse:
         - %rootDir%/../../../src/Generator/*
