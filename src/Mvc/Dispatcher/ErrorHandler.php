@@ -49,12 +49,10 @@ class ErrorHandler
                     $action = 'route404';
             }
 
-            $dispatcher->forward(
-                [
-                    'controller' => 'error',
-                    'action' => $action,
-                ]
-            );
+            $dispatcher->forward([
+                'controller' => 'error',
+                'action' => $action,
+            ]);
 
             return false;
         }
@@ -63,12 +61,10 @@ class ErrorHandler
             throw $exception;
         }
 
-        $dispatcher->forward(
-            [
-                'controller' => 'error',
-                'action' => 'route500'
-            ]
-        );
+        $dispatcher->forward([
+            'controller' => 'error',
+            'action' => 'route500'
+        ]);
 
         return $event->isStopped();
     }

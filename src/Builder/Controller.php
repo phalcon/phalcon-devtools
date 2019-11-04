@@ -88,7 +88,6 @@ class Controller extends Component
         }
 
         $controller = new SplFileObject($controllerPath, 'w');
-
         if (!$controller->fwrite($code)) {
             throw new BuilderException(
                 sprintf('Unable to write to %s. Check write-access of a file.', $controller->getRealPath())
@@ -96,9 +95,7 @@ class Controller extends Component
         }
 
         if ($this->isConsole()) {
-            $this->notifySuccess(
-                sprintf('Controller "%s" was successfully created.', $name)
-            );
+            $this->notifySuccess(sprintf('Controller "%s" was successfully created.', $name));
             echo $controller->getRealPath(), PHP_EOL;
         }
 

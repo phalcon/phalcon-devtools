@@ -26,10 +26,9 @@ class Scaffold extends Component
 {
     /**
      * @param string $fieldName
-     *
      * @return string
      */
-    private function getPossibleLabel($fieldName): string
+    private function getPossibleLabel(string $fieldName): string
     {
         $fieldName = preg_replace('/_id$/', '', $fieldName);
         $fieldName = preg_replace('/_at$/', '', $fieldName);
@@ -86,7 +85,6 @@ class Scaffold extends Component
         }
 
         $di = new FactoryDefault();
-
         $di->set('db', function () use ($adapter, $config) {
             if (is_object($config->path('database'))) {
                 $configArray = $config->path('database')->toArray();
@@ -105,9 +103,10 @@ class Scaffold extends Component
         }
 
         $modelPath = $config->path('application.modelsDir');
-        if (false == $this->isAbsolutePath($modelPath)) {
+        if (!$this->isAbsolutePath($modelPath)) {
             $modelPath = $this->path->getRootPath($config->path('application.modelsDir'));
         }
+
         $this->options->offsetSet('modelsDir', rtrim($modelPath, '\\/') . DIRECTORY_SEPARATOR);
 
         if (empty($config->path('application.controllersDir'))) {
@@ -115,18 +114,21 @@ class Scaffold extends Component
         }
 
         $controllerPath = $config->path('application.controllersDir');
-        if (false == $this->isAbsolutePath($controllerPath)) {
+        if (!$this->isAbsolutePath($controllerPath)) {
             $controllerPath = $this->path->getRootPath($config->path('application.controllersDir'));
         }
+
         $this->options->offsetSet('controllersDir', rtrim($controllerPath, '\\/') . DIRECTORY_SEPARATOR);
 
         if (empty($config->path('application.viewsDir'))) {
             throw new BuilderException('The builder is unable to find the views directory.');
         }
+
         $viewPath = $config->path('application.viewsDir');
-        if (false == $this->isAbsolutePath($viewPath)) {
+        if (!$this->isAbsolutePath($viewPath)) {
             $viewPath = $this->path->getRootPath($config->path('application.viewsDir'));
         }
+
         $this->options->offsetSet('viewsDir', $viewPath);
 
 
@@ -149,7 +151,7 @@ class Scaffold extends Component
             $modelClass = $modelName;
         }
 
-        $modelPath = $this->options->get('modelsDir') . $modelName.'.php';
+        $modelPath = $this->options->get('modelsDir') . $modelName . '.php';
 
         if (!file_exists($modelPath) || $this->options->get('force')) {
             $modelBuilder = new ModelBuilder([
@@ -205,34 +207,16 @@ class Scaffold extends Component
         $this->makeController();
 
         if ($this->options->get('templateEngine') == 'volt') {
-            // View layouts
             $this->makeLayoutsVolt();
-
-            // View index.phtml
             $this->makeViewVolt('index');
-
-            // View search.phtml
             $this->makeViewSearchVolt();
-
-            // View new.phtml
             $this->makeViewVolt('new');
-
-            // View edit.phtml
             $this->makeViewVolt('edit');
         } else {
-            // View layouts
             $this->makeLayouts();
-
-            // View index.phtml
             $this->makeView('index');
-
-            // View search.phtml
             $this->makeViewSearch();
-
-            // View new.phtml
             $this->makeView('new');
-
-            // View edit.phtml
             $this->makeView('edit');
         }
 
@@ -249,7 +233,7 @@ class Scaffold extends Component
      *
      * @return string
      */
-    private function captureFilterInput($var, $fields, $useGetSetters, $identityField)
+    private function captureFilterInput(string $var, $fields, bool $useGetSetters, string $identityField): string
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
@@ -284,10 +268,9 @@ class Scaffold extends Component
      * @param string $var
      * @param mixed $fields
      * @param bool $useGetSetters
-     *
      * @return string
      */
-    private function assignTagDefaults($var, $fields, $useGetSetters)
+    private function assignTagDefaults(string $var, $fields, bool $useGetSetters): string
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
@@ -309,10 +292,9 @@ class Scaffold extends Component
      * @param int $dataType
      * @param mixed $relationField
      * @param array $selectDefinition
-     *
      * @return string
      */
-    private function makeField($attribute, $dataType, $relationField, $selectDefinition)
+    private function makeField(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
         $id = 'field' . Text::camelize($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
@@ -365,10 +347,9 @@ class Scaffold extends Component
      * @param int $dataType
      * @param mixed $relationField
      * @param array $selectDefinition
-     *
      * @return string
      */
-    private function makeFieldVolt($attribute, $dataType, $relationField, $selectDefinition)
+    private function makeFieldVolt(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
         $id = 'field' . Text::camelize($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
@@ -419,14 +400,12 @@ class Scaffold extends Component
     /**
      * Build fields for different actions
      *
-     * @param  string $action
+     * @param string $action
      * @return string
      */
-    private function makeFields($action)
+    private function makeFields(string $action): string
     {
-        $entity             = $this->options->get('entity');
         $relationField      = $this->options->get('relationField');
-        $autocompleteFields = $this->options->get('autocompleteFields');
         $selectDefinition   = $this->options->get('selectDefinition')->toArray();
         $identityField      = $this->options->get('identityField');
 
@@ -444,14 +423,11 @@ class Scaffold extends Component
 
     /**
      * @param string $action
-     *
      * @return string
      */
-    private function makeFieldsVolt($action)
+    private function makeFieldsVolt(string $action): string
     {
-        $entity             = $this->options->get('entity');
         $relationField      = $this->options->get('relationField');
-        $autocompleteFields = $this->options->get('autocompleteFields');
         $selectDefinition   = $this->options->get('selectDefinition')->toArray();
         $identityField      = $this->options->get('identityField');
 
@@ -469,15 +445,13 @@ class Scaffold extends Component
 
     /**
      * Generate controller using scaffold
+     * @throws BuilderException
      */
-    private function makeController()
+    private function makeController(): void
     {
         $controllerPath = $this->options->get('controllersDir') . $this->options->get('className') . 'Controller.php';
-
-        if (file_exists($controllerPath)) {
-            if (!$this->options->has('force')) {
-                return;
-            }
+        if (file_exists($controllerPath) && !$this->options->has('force')) {
+            return;
         }
 
         $code = file_get_contents($this->options->get('templatePath') . '/scaffold/no-forms/Controller.php');
@@ -553,6 +527,7 @@ class Scaffold extends Component
         } else {
             $code = str_replace('$pkGet$', $attributes[0], $code);
         }
+
         $code = str_replace('$pk$', $attributes[0], $code);
 
         if ($this->isConsole()) {
@@ -570,11 +545,8 @@ class Scaffold extends Component
      */
     private function makeLayouts()
     {
-        // Make Layouts dir
         $dirPathLayouts = $this->options->get('viewsDir') . 'layouts';
-
-        //If dir doesn't exist we make it
-        if (is_dir($dirPathLayouts) == false) {
+        if (!is_dir($dirPathLayouts)) {
             mkdir($dirPathLayouts, 0777, true);
         }
 
@@ -610,11 +582,8 @@ class Scaffold extends Component
      */
     private function makeLayoutsVolt()
     {
-        // Make Layouts dir
         $dirPathLayouts = $this->options->get('viewsDir') . 'layouts';
-
-        // If not exists dir; we make it
-        if (is_dir($dirPathLayouts) == false) {
+        if (!is_dir($dirPathLayouts)) {
             mkdir($dirPathLayouts, 0777, true);
         }
 
@@ -646,30 +615,26 @@ class Scaffold extends Component
 
     /**
      * @param string $type
-     *
      * @throws BuilderException
      */
-    private function makeView($type)
+    private function makeView(string $type): void
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (is_dir($dirPath) == false) {
+        if (!is_dir($dirPath)) {
             mkdir($dirPath);
         }
 
-        $viewPath = $dirPath . DIRECTORY_SEPARATOR .$type. '.phtml';
-        if (file_exists($viewPath)) {
-            if (!$this->options->has('force')) {
-                return;
-            }
+        $viewPath = $dirPath . DIRECTORY_SEPARATOR . $type . '.phtml';
+        if (file_exists($viewPath) && !$this->options->has('force')) {
+            return;
         }
 
-        $templatePath = $this->options->get('templatePath') . '/scaffold/no-forms/views/' .$type. '.phtml';
+        $templatePath = $this->options->get('templatePath') . '/scaffold/no-forms/views/' . $type . '.phtml';
         if (!file_exists($templatePath)) {
             throw new BuilderException(sprintf('Template "%s" does not exist', $templatePath));
         }
 
         $code = file_get_contents($templatePath);
-
         $code = str_replace('$plural$', $this->options->get('plural'), $code);
         $code = str_replace('$captureFields$', self::makeFields($type), $code);
 
@@ -683,21 +648,18 @@ class Scaffold extends Component
 
     /**
      * @param string $type
-     *
      * @throws BuilderException
      */
-    private function makeViewVolt($type)
+    private function makeViewVolt(string $type): void
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (is_dir($dirPath) == false) {
+        if (!is_dir($dirPath)) {
             mkdir($dirPath, 0777, true);
         }
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . $type . '.volt';
-        if (file_exists($viewPath)) {
-            if (!$this->options->has('force')) {
-                return;
-            }
+        if (file_exists($viewPath) && !$this->options->has('force')) {
+            return;
         }
 
         $templatePath = $this->options->get('templatePath') . '/scaffold/no-forms/views/' . $type . '.volt';
@@ -723,10 +685,10 @@ class Scaffold extends Component
      *
      * @throws BuilderException
      */
-    private function makeViewSearch()
+    private function makeViewSearch(): void
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (is_dir($dirPath) == false) {
+        if (!is_dir($dirPath)) {
             mkdir($dirPath);
         }
 
@@ -798,15 +760,13 @@ class Scaffold extends Component
     private function makeViewSearchVolt()
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (is_dir($dirPath) == false) {
+        if (!is_dir($dirPath)) {
             mkdir($dirPath);
         }
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . 'search.volt';
-        if (file_exists($viewPath)) {
-            if (!$this->options->has('force')) {
-                return;
-            }
+        if (file_exists($viewPath) && !$this->options->has('force')) {
+            return;
         }
 
         $templatePath = $this->options->get('templatePath') . '/scaffold/no-forms/views/search.volt';

@@ -335,6 +335,7 @@ class Model extends Component
                         !empty($possibleFields[$propertieName])) {
                         continue;
                     }
+
                     $modifiersPreg = '';
                     switch ($propertie->getModifiers()) {
                         case \ReflectionProperty::IS_PUBLIC:
@@ -356,6 +357,7 @@ class Model extends Component
                             $modifiersPreg = '^(\s*)private(\s+)static(\s+)';
                             break;
                     }
+
                     $modifiersPreg = '/' . $modifiersPreg . '\$' . $propertieName . '([\s=;]+)/';
                     $endLine = $startLine = 0;
                     foreach ($linesCode as $line => $code) {
@@ -364,6 +366,7 @@ class Model extends Component
                             break;
                         }
                     }
+
                     if (!empty($startLine)) {
                         $countLines = count($linesCode);
                         for ($i = $startLine; $i < $countLines; $i++) {
@@ -373,6 +376,7 @@ class Model extends Component
                             }
                         }
                     }
+
                     if (!empty($startLine) && !empty($endLine)) {
                         $propertieDeclaration = join(
                             '',
@@ -427,6 +431,7 @@ class Model extends Component
                 $uses[] = $snippet->getUseAs(EmailValidator::class, 'EmailValidator');
             }
         }
+
         if (count($validations)) {
             $validations[] = $snippet->getValidationEnd();
         }

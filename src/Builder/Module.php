@@ -150,7 +150,7 @@ class Module extends Component
      *
      * @return $this
      */
-    protected function generateFile($getFile, $putFile, $name = '', $namespace = '')
+    protected function generateFile(string $getFile, string $putFile, string $name = '', string $namespace = '')
     {
         if (!file_exists($putFile)) {
             touch($putFile);
@@ -170,7 +170,6 @@ class Module extends Component
 
                 $namespace = ucfirst($namespace);
             }
-
 
             if ($name && 0 != strcasecmp($namespace, $name)) {
                 $namespacePart = $name;

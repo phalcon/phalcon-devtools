@@ -108,12 +108,11 @@ abstract class Component
     /**
      * Check if the current adapter is supported by Phalcon
      *
-     * @param  string $adapter
-     *
+     * @param string $adapter
      * @return bool
      * @throws BuilderException
      */
-    public function isSupportedAdapter($adapter): bool
+    public function isSupportedAdapter(string $adapter): bool
     {
         if (!class_exists('\Phalcon\Db\Adapter\Pdo\\' . $adapter)) {
             throw new BuilderException("Adapter $adapter is not supported");

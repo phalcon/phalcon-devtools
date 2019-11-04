@@ -30,7 +30,7 @@ class Console extends Command
     public function getPossibleParams(): array
     {
         return [
-            'include=s'    => 'Script to include [optional]',
+            'include=s' => 'Script to include [optional]',
             'help' => 'Shows this help [optional]',
         ];
     }
