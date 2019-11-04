@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
-namespace Phalcon\Test;
+namespace Phalcon\DevTools\Tests\Unit;
 
 use Phalcon\DevTools\Utils;
-use Phalcon\Text;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Text;
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -14,8 +15,7 @@ use Phalcon\Test\Module\UnitTest;
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-
-class UtilsTest extends UnitTest
+final class UtilsTest extends UnitTest
 {
     /**
      * Tests Utils::camelize
@@ -29,8 +29,7 @@ class UtilsTest extends UnitTest
     {
         $this->specify(
             "Method Utils::camelize hasn't returned proper string",
-            function($string, $expected)
-            {
+            function ($string, $expected) {
                 expect($string)->equals($expected);
             },
             [
@@ -56,8 +55,7 @@ class UtilsTest extends UnitTest
     {
         $this->specify(
             "Method Utils::lowerCamelizeWithDelimiter hasn't returned proper string",
-            function($string, $expected)
-            {
+            function ($string, $expected) {
                 expect($string)->equals($expected);
             },
             [
@@ -83,8 +81,7 @@ class UtilsTest extends UnitTest
     {
         $this->specify(
             "Method Utils::lowerCamelize hasn't returned proper string",
-            function($string, $expected)
-            {
+            function ($string, $expected) {
                 expect($string)->equals($expected);
             },
             [
@@ -106,8 +103,7 @@ class UtilsTest extends UnitTest
     {
         $this->specify(
             "Method Text::uncamelize hasn't returned proper string",
-            function($string, $expected)
-            {
+            function ($string, $expected) {
                 expect($string)->equals($expected);
             },
             [

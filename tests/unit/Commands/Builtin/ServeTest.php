@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+namespace Phalcon\DevTools\Tests\Unit;
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -9,12 +12,13 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+use Codeception\Test\Unit;
 use Phalcon\DevTools\Commands\Builtin\Serve;
 use Phalcon\DevTools\Commands\CommandsListener;
 use Phalcon\DevTools\Script;
 use Phalcon\Events\Manager as EventsManager;
 
-class ServeTest extends \Codeception\Test\Unit
+final class ServeTest extends Unit
 {
     /**
      * @var Serve
@@ -27,7 +31,6 @@ class ServeTest extends \Codeception\Test\Unit
         $eventsManager->attach('command', new CommandsListener());
         $script = new Script($eventsManager);
         $this->command = new Serve($script, $eventsManager);
-        //$this->command->activateTestMode();
     }
 
     /**
@@ -38,7 +41,7 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testDefaultValuesWithNoParameters()
     {
-        $_SERVER['argv'] = ['','', null];
+        $_SERVER['argv'] = ['', '', null];
         $this->command->parseParameters();
         $this->command->prepareOptions();
 
@@ -57,7 +60,7 @@ class ServeTest extends \Codeception\Test\Unit
      */
     public function testGeneratedCommandWithNoParameters()
     {
-        $_SERVER['argv'] = ['',''];
+        $_SERVER['argv'] = ['', ''];
         $this->command->parseParameters();
         $command = $this->command->shellCommand();
         $this->assertStringContainsString(PHP_BINARY . ' -S 0.0.0.0:8000 -t .htrouter.php -t public', $command);
