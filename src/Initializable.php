@@ -33,6 +33,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream as FileLogger;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
@@ -107,15 +108,15 @@ trait Initializable
                 $ptoolsPath = $basePath . DS . '.phalcon' . DS;
                 if (is_dir($ptoolsPath) && is_writable($ptoolsPath)) {
                     $formatter = new LineFormatter("%date% {$hostName} php: [%type%] %message%", 'D j H:i:s');
-                    $logger    = new FileLogger($ptoolsPath . 'devtools.log');
+                    $adapter    = new FileLogger($ptoolsPath . 'devtools.log');
                 } else {
                     $formatter = new LineFormatter("[devtools@{$hostName}]: [%type%] %message%", 'D j H:i:s');
-                    $logger    = new Syslog('php://stderr');
+                    $adapter    = new Syslog('php://stderr');
                 }
 
-                $logger->setFormatter($formatter);
+                $adapter->setFormatter($formatter);
 
-                return $logger;
+                return new Logger('messages', ['main' => $adapter]);
             }
         );
     }

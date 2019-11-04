@@ -81,6 +81,7 @@ class ErrorHandler extends Injectable
         $message = "$type: {$error->message()} in {$error->file()} on line {$error->line()}";
 
         if ($di->has('logger')) {
+            /** @var Logger $logger */
             $logger = $this->getDI()->getShared('logger');
 
             $logger->log($this->mapErrorsToLogType($error->type()), $message);
