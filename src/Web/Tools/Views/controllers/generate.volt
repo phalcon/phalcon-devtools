@@ -6,7 +6,7 @@
         {{ flashSession.output() }}
 
         <div class="box box-success">
-            <form role="form" class="form-horizontal" name="generate-controller" method="post" action="{{ url.get("/webtools.php/controllers/generate") }}">
+            <form role="form" class="form-horizontal" name="generate-controller" method="post" action="{{ url.get(webtools_uri ~ "/controllers/generate") }}">
                 <div class="box-header with-border">
                     <p class="pull-left">{{ controller_name }} - [{{ controller_path }}]</p>
                     {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
