@@ -29,6 +29,7 @@ use Phalcon\DevTools\Scanners\Config as ConfigScanner;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\DevTools\Utils\SystemInfo;
+use Phalcon\DevTools\Web\Tools\Controllers\ControllersController;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Direct as FlashDirect;
@@ -226,8 +227,8 @@ trait Initializable
                 };
 
                 $options = [
-                    'compiledPath'  => $voltConfig->get('compiledPath', $compiledPath),
-                    'compileAlways' => ENV_DEVELOPMENT === APPLICATION_ENV || boolval($voltConfig->get('forceCompile')),
+                    'path'  => $voltConfig->get('compiledPath', $compiledPath),
+                    'always' => ENV_DEVELOPMENT === APPLICATION_ENV || boolval($voltConfig->get('forceCompile')),
                 ];
 
                 $volt->setOptions($options);
@@ -335,6 +336,9 @@ trait Initializable
 
                 $router = new AnnotationsRouter(false);
                 $router->removeExtraSlashes(true);
+                $router->setDefaultAction('index');
+                $router->setDefaultController('index');
+                $router->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
 
                 // @todo Use Path::normalize()
                 $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'src/Web/Tools/Controllers');
@@ -356,10 +360,7 @@ trait Initializable
                 }
 
                 $router->setEventsManager($em);
-                $router->setDefaultAction('index');
-                $router->setDefaultController('index');
-                $router->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
-                $router->notFound(['controller' => 'error', 'action' => 'route404']);
+                //$router->notFound(['controller' => 'error', 'action' => 'route404']);
 
                 return $router;
             }
