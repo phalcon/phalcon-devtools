@@ -29,7 +29,6 @@ use Phalcon\DevTools\Scanners\Config as ConfigScanner;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\DevTools\Utils\SystemInfo;
-use Phalcon\DevTools\Web\Tools\Controllers\ControllersController;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Direct as FlashDirect;
@@ -46,6 +45,7 @@ use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Registry;
 use Phalcon\Session\Adapter\Stream as SessionStream;
+use Phalcon\Session\Manager;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tag;
 use Phalcon\Url as UrlResolver;
@@ -474,9 +474,11 @@ trait Initializable
         $this->di->setShared(
             'session',
             function () {
-                $session = new SessionStream([
+                $session = new Manager();
+                $files = new SessionStream([
                     'savePath' => '/tmp',
                 ]);
+                $session->setAdapter($files);
 
                 return $session;
             }
