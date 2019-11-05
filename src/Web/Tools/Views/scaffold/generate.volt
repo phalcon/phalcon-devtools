@@ -29,14 +29,14 @@
                     <div class="form-group">
                         <label for="tableName" class="col-sm-2 control-label">Table name</label>
                         <div class="col-sm-10">
-                            {{ select_static("tableName", tables, 'useEmpty': false, "id": "tableName", "class": "form-control") }}
+                            {{ select_static(["tableName", tables, 'useEmpty': false, "id": "tableName", "class": "form-control"]) }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="templateEngine" class="col-sm-2 control-label">Template engine</label>
                         <div class="col-sm-10">
-                            {{ select_static("templateEngine", templateEngines, 'useEmpty': false, "id": "templateEngine", "class": "form-control") }}
+                            {{ select_static(["templateEngine", templateEngines, 'useEmpty': false, "id": "templateEngine", "class": "form-control"]) }}
                         </div>
                     </div>
 
