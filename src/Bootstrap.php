@@ -195,7 +195,7 @@ class Bootstrap
      */
     public function getOutput()
     {
-        return $this->app->handle($_SERVER['REQUEST_URI'])->getContent();
+        return $this->app->handle($this->getCurrentUri())->getContent();
     }
 
     /**
@@ -400,5 +400,12 @@ class Bootstrap
         }
 
         return $this;
+    }
+
+    public function getCurrentUri(): string
+    {
+        $webToolsFileName = basename($_SERVER['SCRIPT_FILENAME']);
+
+        return str_replace($webToolsFileName . '/', '', $_SERVER['REQUEST_URI']);
     }
 }
