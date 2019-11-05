@@ -177,7 +177,7 @@ class ControllersController extends Base
     {
         if (!$this->request->has('path') || !$this->request->has('code')) {
             $this->flashSession->error('Wrong form data.');
-            return $this->response->redirect('/webtools.php?_url=/controllers/list');
+            return $this->response->redirect('/webtools.php/controllers/list');
         }
 
         $path = $this->request->getPost('path', 'string');
@@ -185,7 +185,7 @@ class ControllersController extends Base
 
         if (!file_exists($path)) {
             $this->flashSession->error('Controller could not be found.');
-            return $this->response->redirect('/webtools.php?_url=/controllers/list');
+            return $this->response->redirect('/webtools.php/controllers/list');
         }
 
         $controllerName = basename($path, '.php');
@@ -194,7 +194,7 @@ class ControllersController extends Base
             $this->flashSession->error(
                 sprintf('You have not enough rights to edit %s using a browser.', $controllerName)
             );
-            return $this->response->redirect('/webtools.php?_url=/controllers/list');
+            return $this->response->redirect('/webtools.php/controllers/list');
         }
 
         if (false === file_put_contents($path, $code, LOCK_EX)) {
@@ -203,7 +203,7 @@ class ControllersController extends Base
             $this->flashSession->success(sprintf('The controller "%s" was saved successfully.', $controllerName));
         }
 
-        return $this->response->redirect('/webtools.php?_url=/controllers/list');
+        return $this->response->redirect('/webtools.php/controllers/list');
     }
 
     /**
@@ -232,7 +232,7 @@ class ControllersController extends Base
                     sprintf('Controller "%s" was created successfully', str_replace('.php', '', $fileName))
                 );
 
-                return $this->response->redirect('/webtools.php?_url=/controllers/list');
+                return $this->response->redirect('/webtools.php/controllers/list');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (\Exception $e) {

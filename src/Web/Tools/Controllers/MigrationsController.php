@@ -108,7 +108,7 @@ class MigrationsController extends Base
 
                 $this->flashSession->success('The migration was generated successfully.');
 
-                return $this->response->redirect('/webtools.php?_url=/migrations/list');
+                return $this->response->redirect('/webtools.php/migrations/list');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (\Exception $e) {
@@ -158,7 +158,7 @@ class MigrationsController extends Base
 
                 $this->flashSession->success('The migration was executed successfully.');
 
-                return $this->response->redirect('/webtools.php?_url=/migrations/list');
+                return $this->response->redirect('/webtools.php/migrations/list');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (\Exception $e) {

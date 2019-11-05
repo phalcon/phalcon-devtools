@@ -177,7 +177,7 @@ class ModelsController extends Base
     {
         if (!$this->request->has('path') || !$this->request->has('code')) {
             $this->flashSession->error('Wrong form data.');
-            return $this->response->redirect('/webtools.php?_url=/models/list');
+            return $this->response->redirect('/webtools.php/models/list');
         }
 
         $path = $this->request->getPost('path', 'string');
@@ -185,14 +185,14 @@ class ModelsController extends Base
 
         if (!file_exists($path)) {
             $this->flashSession->error('Model could not be found.');
-            return $this->response->redirect('/webtools.php?_url=/models/list');
+            return $this->response->redirect('/webtools.php/models/list');
         }
 
         $modelName = basename($path, '.php');
 
         if (!is_writable($path)) {
             $this->flashSession->error(sprintf('You have not enough rights to edit %s using a browser.', $modelName));
-            return $this->response->redirect('/webtools.php?_url=/models/list');
+            return $this->response->redirect('/webtools.php/models/list');
         }
 
         if (false === file_put_contents($path, $code, LOCK_EX)) {
@@ -201,7 +201,7 @@ class ModelsController extends Base
             $this->flashSession->success(sprintf('The model "%s" was saved successfully.', $modelName));
         }
 
-        return $this->response->redirect('/webtools.php?_url=/models/list');
+        return $this->response->redirect('/webtools.php/models/list');
     }
 
     /**
@@ -254,7 +254,7 @@ class ModelsController extends Base
 
                 $this->flashSession->success($message);
 
-                return $this->response->redirect('/webtools.php?_url=/models/list');
+                return $this->response->redirect('/webtools.php/models/list');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (\Exception $e) {

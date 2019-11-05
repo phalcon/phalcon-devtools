@@ -68,7 +68,7 @@ class ScaffoldController extends Base
                     sprintf('Scaffold for table "%s" was generated successfully', Text::camelize($tableName))
                 );
 
-                return $this->response->redirect('/webtools.php?_url=/migrations/list');
+                return $this->response->redirect('/webtools.php/migrations/list');
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (Exception $e) {
