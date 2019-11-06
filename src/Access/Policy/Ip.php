@@ -63,7 +63,7 @@ class Ip extends Injectable implements PolicyInterface
      * @param string $ip
      * @return bool
      */
-    private function checkIp(string $ip): bool
+    protected function checkIp(string $ip): bool
     {
         return 0 === strpos($ip, $this->allowedIp);
     }
