@@ -50,6 +50,33 @@ class Simple extends ProjectBuilder
     ];
 
     /**
+     * Build project
+     *
+     * @return bool
+     * @throws BuilderException
+     * @throws Exception
+     */
+    public function build()
+    {
+        $this
+            ->buildDirectories()
+            ->getVariableValues()
+            ->createConfig()
+            ->createBootstrapFiles()
+            ->createHtaccessFiles()
+            ->createControllerBase()
+            ->createIndexViewFiles()
+            ->createControllerFile()
+            ->createHtrouterFile();
+
+        if ($this->options->has('enableWebTools')) {
+            Tools::install($this->options->get('projectPath'));
+        }
+
+        return true;
+    }
+
+    /**
      * Create indexController file
      *
      * @return $this
@@ -58,45 +85,13 @@ class Simple extends ProjectBuilder
     private function createControllerFile()
     {
         $builder = new ControllerBuilder([
-            'name'           => 'index',
-            'directory'      => $this->options->get('projectPath') ,
-            'controllersDir' => $this->options->get('projectPath')  . 'app/controllers',
-            'baseClass'      => 'ControllerBase'
+            'name' => 'index',
+            'directory' => $this->options->get('projectPath'),
+            'controllersDir' => $this->options->get('projectPath') . 'app/controllers',
+            'baseClass' => 'ControllerBase'
         ]);
 
         $builder->build();
-
-        return $this;
-    }
-
-    /**
-     * Create .htaccess files by default of application
-     *
-     * @return $this
-     */
-    private function createHtaccessFiles()
-    {
-        if (file_exists($this->options->get('projectPath') . '.htaccess') == false) {
-            $code = '<IfModule mod_rewrite.c>'.PHP_EOL.
-                "\t".'RewriteEngine on'.PHP_EOL.
-                "\t".'RewriteRule  ^$ public/    [L]'.PHP_EOL.
-                "\t".'RewriteRule  (.*) public/$1 [L]'.PHP_EOL.
-                '</IfModule>';
-            file_put_contents($this->options->get('projectPath').'.htaccess', $code);
-        }
-
-        if (file_exists($this->options->get('projectPath') . 'public/.htaccess') == false) {
-            file_put_contents(
-                $this->options->get('projectPath').'public/.htaccess',
-                file_get_contents($this->options->get('templatePath') . '/project/simple/htaccess')
-            );
-        }
-
-        if (file_exists($this->options->get('projectPath').'index.html') == false) {
-            $code = '<html><body><h1>Mod-Rewrite is not enabled</h1>' .
-                '<p>Please enable rewrite module on your web server to continue</body></html>';
-            file_put_contents($this->options->get('projectPath').'index.html', $code);
-        }
 
         return $this;
     }
@@ -111,11 +106,71 @@ class Simple extends ProjectBuilder
         $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
 
         $getFile = $this->options->get('templatePath') . '/project/simple/views/index.' . $engine;
-        $putFile = $this->options->get('projectPath').'app/views/index.' . $engine;
+        $putFile = $this->options->get('projectPath') . 'app/views/index.' . $engine;
         $this->generateFile($getFile, $putFile);
 
         $getFile = $this->options->get('templatePath') . '/project/simple/views/index/index.' . $engine;
-        $putFile = $this->options->get('projectPath').'app/views/index/index.' . $engine;
+        $putFile = $this->options->get('projectPath') . 'app/views/index/index.' . $engine;
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
+    }
+
+    /**
+     * Create ControllerBase
+     *
+     * @return $this
+     */
+    private function createControllerBase()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/simple/ControllerBase.php';
+        $putFile = $this->options->get('projectPath') . 'app/controllers/ControllerBase.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        return $this;
+    }
+
+    /**
+     * Create .htaccess files by default of application
+     *
+     * @return $this
+     */
+    private function createHtaccessFiles()
+    {
+        if (file_exists($this->options->get('projectPath') . '.htaccess') == false) {
+            $code = '<IfModule mod_rewrite.c>' . PHP_EOL .
+                "\t" . 'RewriteEngine on' . PHP_EOL .
+                "\t" . 'RewriteRule  ^$ public/    [L]' . PHP_EOL .
+                "\t" . 'RewriteRule  (.*) public/$1 [L]' . PHP_EOL .
+                '</IfModule>';
+            file_put_contents($this->options->get('projectPath') . '.htaccess', $code);
+        }
+
+        if (file_exists($this->options->get('projectPath') . 'public/.htaccess') == false) {
+            file_put_contents(
+                $this->options->get('projectPath') . 'public/.htaccess',
+                file_get_contents($this->options->get('templatePath') . '/project/simple/htaccess')
+            );
+        }
+
+        if (file_exists($this->options->get('projectPath') . 'index.html') == false) {
+            $code = '<html><body><h1>Mod-Rewrite is not enabled</h1>' .
+                '<p>Please enable rewrite module on your web server to continue</body></html>';
+            file_put_contents($this->options->get('projectPath') . 'index.html', $code);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Create Bootstrap file by default of application
+     *
+     * @return $this
+     */
+    private function createBootstrapFiles()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/simple/index.php';
+        $putFile = $this->options->get('projectPath') . 'public/index.php';
         $this->generateFile($getFile, $putFile);
 
         return $this;
@@ -147,60 +202,5 @@ class Simple extends ProjectBuilder
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
-    }
-
-    /**
-     * Create ControllerBase
-     *
-     * @return $this
-     */
-    private function createControllerBase()
-    {
-        $getFile = $this->options->get('templatePath') . '/project/simple/ControllerBase.php';
-        $putFile = $this->options->get('projectPath') . 'app/controllers/ControllerBase.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        return $this;
-    }
-
-    /**
-     * Create Bootstrap file by default of application
-     *
-     * @return $this
-     */
-    private function createBootstrapFiles()
-    {
-        $getFile = $this->options->get('templatePath') . '/project/simple/index.php';
-        $putFile = $this->options->get('projectPath') . 'public/index.php';
-        $this->generateFile($getFile, $putFile);
-
-        return $this;
-    }
-
-    /**
-     * Build project
-     *
-     * @return bool
-     * @throws BuilderException
-     * @throws Exception
-     */
-    public function build()
-    {
-        $this
-            ->buildDirectories()
-            ->getVariableValues()
-            ->createConfig()
-            ->createBootstrapFiles()
-            ->createHtaccessFiles()
-            ->createControllerBase()
-            ->createIndexViewFiles()
-            ->createControllerFile()
-            ->createHtrouterFile();
-
-        if ($this->options->has('enableWebTools')) {
-            Tools::install($this->options->get('projectPath'));
-        }
-
-        return true;
     }
 }

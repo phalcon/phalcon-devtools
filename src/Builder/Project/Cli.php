@@ -33,39 +33,37 @@ class Cli extends ProjectBuilder
     ];
 
     /**
-     * Creates the configuration
+     * Build project
      *
-     * @return $this
+     * @return bool
      */
-    private function createConfig()
+    public function build(): bool
     {
-        $type = $this->options->get('useConfigIni') ? 'ini' : 'php';
+        $this
+            ->buildDirectories()
+            ->getVariableValues()
+            ->createConfig()
+            ->createBootstrapFiles()
+            ->createDefaultTasks()
+            ->createLauncher();
 
-        $getFile = $this->options->get('templatePath') . '/project/cli/config.' . $type;
-        $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
-        $this->generateFile($getFile, $putFile);
+        $sprintMessage = 'You can create a symlink to %s to invoke the application';
+        print Color::success(sprintf($sprintMessage, $this->options->get('projectPath') . 'run')) . PHP_EOL;
 
-        $getFile = $this->options->get('templatePath') . '/project/cli/services.php';
-        $putFile = $this->options->get('projectPath') . 'app/config/services.php';
-        $this->generateFile($getFile, $putFile);
-
-        $getFile = $this->options->get('templatePath') . '/project/cli/loader.php';
-        $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
-        $this->generateFile($getFile, $putFile);
-
-        return $this;
+        return true;
     }
 
     /**
-     * Create Bootstrap file by default of application
+     * Create a launcher file to launch the application simply with ./project/application
      *
      * @return $this
      */
-    private function createBootstrapFiles()
+    private function createLauncher()
     {
-        $getFile = $this->options->get('templatePath') . '/project/cli/bootstrap.php';
-        $putFile = $this->options->get('projectPath') . 'app/bootstrap.php';
+        $getFile = $this->options->get('templatePath') . '/project/cli/launcher';
+        $putFile = $this->options->get('projectPath') . 'run';
         $this->generateFile($getFile, $putFile);
+        chmod($putFile, 0755);
 
         return $this;
     }
@@ -89,38 +87,40 @@ class Cli extends ProjectBuilder
     }
 
     /**
-     * Create a launcher file to launch the application simply with ./project/application
+     * Create Bootstrap file by default of application
      *
      * @return $this
      */
-    private function createLauncher()
+    private function createBootstrapFiles()
     {
-        $getFile = $this->options->get('templatePath') . '/project/cli/launcher';
-        $putFile = $this->options->get('projectPath') . 'run';
+        $getFile = $this->options->get('templatePath') . '/project/cli/bootstrap.php';
+        $putFile = $this->options->get('projectPath') . 'app/bootstrap.php';
         $this->generateFile($getFile, $putFile);
-        chmod($putFile, 0755);
 
         return $this;
     }
 
     /**
-     * Build project
+     * Creates the configuration
      *
-     * @return bool
+     * @return $this
      */
-    public function build(): bool
+    private function createConfig()
     {
-        $this
-            ->buildDirectories()
-            ->getVariableValues()
-            ->createConfig()
-            ->createBootstrapFiles()
-            ->createDefaultTasks()
-            ->createLauncher();
+        $type = $this->options->get('useConfigIni') ? 'ini' : 'php';
 
-        $sprintMessage = 'You can create a symlink to %s to invoke the application';
-        print Color::success(sprintf($sprintMessage, $this->options->get('projectPath') . 'run')) . PHP_EOL;
+        $getFile = $this->options->get('templatePath') . '/project/cli/config.' . $type;
+        $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
+        $this->generateFile($getFile, $putFile);
 
-        return true;
+        $getFile = $this->options->get('templatePath') . '/project/cli/services.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/services.php';
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/cli/loader.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
     }
 }

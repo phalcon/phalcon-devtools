@@ -10,7 +10,6 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-use Phalcon\Loader;
 use Phalcon\Version;
 
 if (!extension_loaded('phalcon')) {

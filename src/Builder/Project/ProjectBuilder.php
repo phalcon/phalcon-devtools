@@ -108,7 +108,7 @@ abstract class ProjectBuilder
      */
     protected function generateFile($getFile, $putFile, $name = '')
     {
-        if (false == file_exists($putFile)) {
+        if (!file_exists($putFile)) {
             touch($putFile);
             $fh = fopen($putFile, "w+");
 
@@ -125,7 +125,7 @@ abstract class ProjectBuilder
 
             if (sizeof($this->variableValues) > 0) {
                 foreach ($this->variableValues as $variableValueKey => $variableValue) {
-                    $variableValueKeyRegEx = '/@@'.preg_quote($variableValueKey, '/').'@@/';
+                    $variableValueKeyRegEx = '/@@' . preg_quote($variableValueKey, '/') . '@@/';
                     $str = preg_replace($variableValueKeyRegEx, $variableValue, $str);
                 }
             }

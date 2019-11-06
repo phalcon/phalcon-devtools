@@ -59,6 +59,34 @@ class Modules extends ProjectBuilder
     ];
 
     /**
+     * Build project
+     *
+     * @return bool
+     * @throws BuilderException
+     */
+    public function build()
+    {
+        $this
+            ->buildDirectories()
+            ->getVariableValues()
+            ->createConfig()
+            ->createBootstrapFiles()
+            ->createHtaccessFiles()
+            ->createControllerBase()
+            ->createDefaultTasks()
+            ->createModules()
+            ->createIndexViewFiles()
+            ->createControllerFile()
+            ->createHtrouterFile();
+
+        if ($this->options->has('enableWebTools')) {
+            Tools::install($this->options->get('projectPath'));
+        }
+
+        return true;
+    }
+
+    /**
      * Create indexController file
      *
      * @return $this
@@ -72,13 +100,51 @@ class Modules extends ProjectBuilder
         }
 
         $builder = new ControllerBuilder([
-            'name'           => 'index',
+            'name' => 'index',
             'controllersDir' => $this->options->get('projectPath') . 'app/modules/frontend/controllers/',
-            'namespace'      => ucfirst($namespace) . '\Modules\Frontend\Controllers',
-            'baseClass'      => 'ControllerBase'
+            'namespace' => ucfirst($namespace) . '\Modules\Frontend\Controllers',
+            'baseClass' => 'ControllerBase'
         ]);
 
         $builder->build();
+
+        return $this;
+    }
+
+    /**
+     * Create view files by default
+     *
+     * @return $this
+     */
+    private function createIndexViewFiles()
+    {
+        $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/views/index.' . $engine;
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index.' . $engine;
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/views/index/index.' . $engine;
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index/index.' . $engine;
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
+    }
+
+    /**
+     * Create Module
+     *
+     * @return $this
+     */
+    private function createModules()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/modules/Module_web.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/Module.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/Module_cli.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/cli/Module.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
@@ -96,6 +162,20 @@ class Modules extends ProjectBuilder
 
         $getFile = $this->options->get('templatePath') . '/project/modules/VersionTask.php';
         $putFile = $this->options->get('projectPath') . 'app/modules/cli/tasks/VersionTask.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        return $this;
+    }
+
+    /**
+     * Create ControllerBase
+     *
+     * @return $this
+     */
+    private function createControllerBase()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/modules/ControllerBase.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/controllers/ControllerBase.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
@@ -134,21 +214,28 @@ class Modules extends ProjectBuilder
     }
 
     /**
-     * Create view files by default
+     * Create application bootstrap files for cli and web environments
      *
      * @return $this
      */
-    private function createIndexViewFiles()
+    private function createBootstrapFiles()
     {
-        $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
+        $getFile = $this->options->get('templatePath') . '/project/modules/bootstrap_web.php';
+        $putFile = $this->options->get('projectPath') . 'app/bootstrap_web.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/modules/views/index.' . $engine;
-        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $getFile = $this->options->get('templatePath') . '/project/modules/index.php';
+        $putFile = $this->options->get('projectPath') . 'public/index.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/modules/views/index/index.' . $engine;
-        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index/index.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $getFile = $this->options->get('templatePath') . '/project/modules/bootstrap_cli.php';
+        $putFile = $this->options->get('projectPath') . 'app/bootstrap_cli.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/launcher';
+        $putFile = $this->options->get('projectPath') . 'run';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+        chmod($putFile, 0755);
 
         return $this;
     }
@@ -187,92 +274,5 @@ class Modules extends ProjectBuilder
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
-    }
-
-    /**
-     * Create ControllerBase
-     *
-     * @return $this
-     */
-    private function createControllerBase()
-    {
-        $getFile = $this->options->get('templatePath') . '/project/modules/ControllerBase.php';
-        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/controllers/ControllerBase.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        return $this;
-    }
-
-    /**
-     * Create Module
-     *
-     * @return $this
-     */
-    private function createModules()
-    {
-        $getFile = $this->options->get('templatePath') . '/project/modules/Module_web.php';
-        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/Module.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        $getFile = $this->options->get('templatePath') . '/project/modules/Module_cli.php';
-        $putFile = $this->options->get('projectPath') . 'app/modules/cli/Module.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        return $this;
-    }
-
-    /**
-     * Create application bootstrap files for cli and web environments
-     *
-     * @return $this
-     */
-    private function createBootstrapFiles()
-    {
-        $getFile = $this->options->get('templatePath') . '/project/modules/bootstrap_web.php';
-        $putFile = $this->options->get('projectPath') . 'app/bootstrap_web.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        $getFile = $this->options->get('templatePath') . '/project/modules/index.php';
-        $putFile = $this->options->get('projectPath') . 'public/index.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        $getFile = $this->options->get('templatePath') . '/project/modules/bootstrap_cli.php';
-        $putFile = $this->options->get('projectPath') . 'app/bootstrap_cli.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-
-        $getFile = $this->options->get('templatePath') . '/project/modules/launcher';
-        $putFile = $this->options->get('projectPath') . 'run';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
-        chmod($putFile, 0755);
-
-        return $this;
-    }
-
-    /**
-     * Build project
-     *
-     * @return bool
-     * @throws BuilderException
-     */
-    public function build()
-    {
-        $this
-            ->buildDirectories()
-            ->getVariableValues()
-            ->createConfig()
-            ->createBootstrapFiles()
-            ->createHtaccessFiles()
-            ->createControllerBase()
-            ->createDefaultTasks()
-            ->createModules()
-            ->createIndexViewFiles()
-            ->createControllerFile()
-            ->createHtrouterFile();
-
-        if ($this->options->has('enableWebTools')) {
-            Tools::install($this->options->get('projectPath'));
-        }
-
-        return true;
     }
 }
