@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Web\Tools\Controllers;
 
 use DirectoryIterator;
-use Phalcon\DevTools\Builder\AllModels;
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Model;
+use Phalcon\DevTools\Builder\Component\AllModels;
+use Phalcon\DevTools\Builder\Component\Model;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\DevTools\Mvc\Controller\CodemirrorTrait;
 use Phalcon\Flash\Direct;

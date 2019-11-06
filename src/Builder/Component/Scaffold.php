@@ -10,10 +10,11 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Phalcon\DevTools\Builder;
+namespace Phalcon\DevTools\Builder\Component;
 
 use Phalcon\Db\Column;
-use Phalcon\DevTools\Builder\Model as ModelBuilder;
+use Phalcon\DevTools\Builder\Component\Model as ModelBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
 use Phalcon\Di\FactoryDefault;
@@ -22,7 +23,7 @@ use Phalcon\Text;
 /**
  * Build CRUDs using Phalcon
  */
-class Scaffold extends Component
+class Scaffold extends AbstractComponent
 {
     /**
      * @param string $fieldName

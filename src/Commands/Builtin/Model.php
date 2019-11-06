@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Commands\Builtin;
 
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Model as ModelBuilder;
+use Phalcon\DevTools\Builder\Component\Model as ModelBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;

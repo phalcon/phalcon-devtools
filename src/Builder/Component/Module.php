@@ -10,14 +10,15 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Phalcon\DevTools\Builder;
+namespace Phalcon\DevTools\Builder\Component;
 
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use SplFileInfo;
 
 /**
  * Builder to create module skeletons
  */
-class Module extends Component
+class Module extends AbstractComponent
 {
     protected $moduleDirectories = [
         'config',

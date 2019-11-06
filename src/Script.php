@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools;
 
 use DirectoryIterator;
-use Phalcon\DevTools\Builder\BuilderException;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Commands\CommandsException;
 use Phalcon\DevTools\Script\ScriptException;

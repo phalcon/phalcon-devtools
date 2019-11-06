@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Commands\Builtin;
 
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
-use Phalcon\DevTools\Builder\AllModels as AllModelsBuilder;
-use Phalcon\DevTools\Builder\BuilderException;
+use Phalcon\DevTools\Builder\Component\AllModels as AllModelsBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Commands\CommandsException;
 

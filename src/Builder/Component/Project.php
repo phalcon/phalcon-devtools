@@ -10,8 +10,9 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Phalcon\DevTools\Builder;
+namespace Phalcon\DevTools\Builder\Component;
 
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Builder\Project\Cli;
 use Phalcon\DevTools\Builder\Project\Micro;
 use Phalcon\DevTools\Builder\Project\Modules;
@@ -23,7 +24,7 @@ use SplFileInfo;
 /**
  * Builder to create application skeletons
  */
-class Project extends Component
+class Project extends AbstractComponent
 {
     const TYPE_MICRO   = 'micro';
     const TYPE_SIMPLE  = 'simple';

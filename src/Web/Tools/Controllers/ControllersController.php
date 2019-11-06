@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Web\Tools\Controllers;
 
 use DirectoryIterator;
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Controller as ControllerBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
+use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
 use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\DevTools\Mvc\Controller\CodemirrorTrait;
 use Phalcon\Flash\Direct;

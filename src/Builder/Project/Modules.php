@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Project;
 
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Controller as ControllerBuilder;
+use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Web\Tools;
 
 /**

@@ -14,6 +14,7 @@ namespace Phalcon\DevTools\Builder;
 
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 

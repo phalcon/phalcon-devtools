@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Project as ProjectBuilder;
+use Phalcon\DevTools\Builder\Component\Project as ProjectBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
 

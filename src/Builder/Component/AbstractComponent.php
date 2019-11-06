@@ -10,9 +10,11 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Phalcon\DevTools\Builder;
+namespace Phalcon\DevTools\Builder\Component;
 
 use Phalcon\Config;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
+use Phalcon\DevTools\Builder\Path;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Validation\Validator\Namespaces;
 use Phalcon\Validation;
@@ -20,7 +22,7 @@ use Phalcon\Validation;
 /**
  * Base class for builder components
  */
-abstract class Component
+abstract class AbstractComponent
 {
     /**
      * Builder Options

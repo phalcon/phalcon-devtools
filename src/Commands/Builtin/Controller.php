@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Controller as ControllerBuilder;
+use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
 

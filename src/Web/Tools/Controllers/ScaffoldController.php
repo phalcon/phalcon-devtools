@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Web\Tools\Controllers;
 
 use Exception;
 use PDOException;
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Scaffold;
+use Phalcon\DevTools\Builder\Component\Scaffold;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;

@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Commands\Builtin;
 
 use Phalcon\Config;
-use Phalcon\DevTools\Builder\BuilderException;
-use Phalcon\DevTools\Builder\Scaffold as ScaffoldBuilder;
+use Phalcon\DevTools\Builder\Component\Scaffold as ScaffoldBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Commands\CommandsException;
 use Phalcon\DevTools\Script\Color;

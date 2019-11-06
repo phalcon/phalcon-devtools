@@ -10,11 +10,12 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Phalcon\DevTools\Builder;
+namespace Phalcon\DevTools\Builder\Component;
 
 use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Db\Column;
 use Phalcon\Db\ReferenceInterface;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Exception\InvalidArgumentException;
 use Phalcon\DevTools\Exception\InvalidParameterException;
 use Phalcon\DevTools\Exception\RuntimeException;
@@ -30,7 +31,7 @@ use ReflectionClass;
 /**
  * Builder to generate models
  */
-class Model extends Component
+class Model extends AbstractComponent
 {
     /**
      * Map of scalar data objects

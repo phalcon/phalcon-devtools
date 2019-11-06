@@ -10,15 +10,16 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Phalcon\DevTools\Builder;
+namespace Phalcon\DevTools\Builder\Component;
 
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Utils;
 use SplFileObject;
 
 /**
  * Builder to generate controller
  */
-class Controller extends Component
+class Controller extends AbstractComponent
 {
     /**
      * Create Builder object

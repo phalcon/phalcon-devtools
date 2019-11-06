@@ -10,15 +10,16 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Phalcon\DevTools\Builder;
+namespace Phalcon\DevTools\Builder\Component;
 
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
 
 /**
  * Builder to generate all models
  */
-class AllModels extends Component
+class AllModels extends AbstractComponent
 {
     public $exist = [];
 
