@@ -1,9 +1,9 @@
 parameters:
-    bootstrap: %rootDir%/../../../tests/phpstan.php
+    bootstrap: %rootDir%/../../../bootstrap/phpstan.php
 
     excludes_analyse:
-        - %rootDir%/../../../scripts/Phalcon/Generator/*
-        - %rootDir%/../../../scripts/Phalcon/Commands/DotPhalconMissingException.php
+        - %rootDir%/../../../src/Generator/*
+        - %rootDir%/../../../src/Commands/DotPhalconMissingException.php
     ignoreErrors:
         - '#Strict comparison using === between#'
         - '#Result of && is always true#'

@@ -37,3 +37,5 @@ $I->seeFileContentsEqual($file3);
 
 $I->openFile(app_path('models/all_model_test/Testmodel4.php'));
 $I->seeFileContentsEqual($file4);
+
+$I->deleteDir($modelsTestDir);

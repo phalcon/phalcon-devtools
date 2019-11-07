@@ -8,7 +8,10 @@
     autoloader="bootstrap/autoload.php"
 >
     <projectFiles>
-        <directory name="scripts/" />
+        <directory name="src/" />
+        <file name="bootstrap/autoload.php" />
+        <file name="phalcon" />
+        <file name="webtools.php" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
@@ -94,57 +97,10 @@
         <PossibleRawObjectIteration errorLevel="info" />
 
         <!-- level 5 issues - should be avoided at mosts costs... -->
-
-        <ForbiddenCode errorLevel="info" />
-        <ImplicitToStringCast errorLevel="info" />
-        <InvalidScalarArgument errorLevel="info" />
-        <InvalidToString errorLevel="info" />
-        <InvalidOperand errorLevel="info" />
-        <NoInterfaceProperties errorLevel="info" />
-        <TooManyArguments errorLevel="info" />
         <TypeDoesNotContainType errorLevel="info" />
-        <TypeDoesNotContainNull errorLevel="info" />
-        <MissingDocblockType errorLevel="info" />
-        <ImplementedReturnTypeMismatch errorLevel="info" />
-        <ImplementedParamTypeMismatch errorLevel="info" />
-
-        <!-- level 6 issues - really bad things -->
-
-        <InvalidNullableReturnType errorLevel="info" />
-        <NullableReturnStatement errorLevel="info" />
-        <InvalidFalsableReturnType errorLevel="info" />
-        <FalsableReturnStatement errorLevel="info" />
-
-        <MoreSpecificImplementedParamType errorLevel="info" />
-        <LessSpecificImplementedReturnType errorLevel="info" />
-
-        <InvalidReturnStatement errorLevel="info" />
-        <InvalidReturnType errorLevel="info" />
-        <UndefinedThisPropertyAssignment errorLevel="info" />
-        <UndefinedInterfaceMethod errorLevel="info" />
-
-        <!-- level 7 issues - even worse -->
-
-        <UndefinedThisPropertyAssignment errorLevel="info" />
-        <UndefinedPropertyAssignment errorLevel="info" />
-        <UndefinedThisPropertyFetch errorLevel="info" />
-        <UndefinedPropertyFetch errorLevel="info" />
-
-        <InvalidReturnStatement errorLevel="info" />
-        <InvalidReturnType errorLevel="info" />
-        <InvalidArgument errorLevel="info" />
-        <InvalidPropertyAssignmentValue errorLevel="info" />
-        <InvalidArrayOffset errorLevel="info" />
-        <InvalidArrayAssignment errorLevel="info" />
-        <InvalidArrayAccess errorLevel="info" />
-        <InvalidClone errorLevel="info" />
 
         <!-- level 8 issues - some fatal errors in PHP -->
-
-        <ReservedWord errorLevel="info" />
         <MethodSignatureMismatch errorLevel="info" />
-        <OverriddenMethodAccess errorLevel="info" />
-        <InaccessibleProperty errorLevel="info" />
 
     </issueHandlers>
 </psalm>

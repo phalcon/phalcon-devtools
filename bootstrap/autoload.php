@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -9,7 +10,6 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-use Phalcon\Loader;
 use Phalcon\Version;
 
 if (!extension_loaded('phalcon')) {
@@ -32,7 +32,7 @@ defined('DEVTOOLS_START_MEMORY') || define('DEVTOOLS_START_MEMORY', memory_get_u
 /**
  * @const PTOOLSPATH The path to the Phalcon Developers Tools.
  */
-defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(trim(getenv('PTOOLSPATH'), '\"\'') ?: dirname(dirname(__FILE__)), '\\/'));
+defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(trim((string) getenv('PTOOLSPATH'), '\"\'') ?: dirname(dirname(__FILE__)), '\\/'));
 
 /**
  * Check for old versions
@@ -96,18 +96,6 @@ defined('ADMIN_LTE_VERSION') || define('ADMIN_LTE_VERSION', '2.3.6');
 defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
 
 /**
- * Register Devtools classes.
- */
-(new Loader)->registerDirs([
-        PTOOLSPATH . DS . 'scripts' . DS
-    ])
-    ->registerNamespaces([
-        'Phalcon'              => PTOOLSPATH . DS . 'scripts' . DS . 'Phalcon' . DS,
-        'WebTools\Controllers' => PTOOLSPATH . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers') . DS,
-    ])
-    ->register();
-
-/**
  * Register the Composer autoloader (if any)
  */
 if (file_exists(PTOOLSPATH . DS .'vendor' . DS . 'autoload.php')) {
@@ -116,6 +104,8 @@ if (file_exists(PTOOLSPATH . DS .'vendor' . DS . 'autoload.php')) {
 
 /**
  * Register the custom loader (if any)
+ *
+ * @psalm-suppress MissingFile
  */
 if (file_exists('.phalcon' . DS . 'autoload.php')) {
     require_once '.phalcon' . DS . 'autoload.php';
