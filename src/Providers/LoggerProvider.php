@@ -19,7 +19,7 @@ use Phalcon\Logger\Adapter\Stream as FileLogger;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
 
-class LoggerProvider extends AbstractProvider implements ServiceProviderInterface
+class LoggerProvider implements ServiceProviderInterface
 {
     /**
      * @var string

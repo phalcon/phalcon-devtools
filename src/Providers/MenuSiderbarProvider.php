@@ -17,7 +17,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Registry;
 
-class MenuSiderbarProvider extends AbstractProvider implements ServiceProviderInterface
+class MenuSiderbarProvider implements ServiceProviderInterface
 {
     /**
      * @var string

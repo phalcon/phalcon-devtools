@@ -17,7 +17,7 @@ use Phalcon\DevTools\Scanners\Config as ConfigScanner;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class ConfigProvider extends AbstractProvider implements ServiceProviderInterface
+class ConfigProvider implements ServiceProviderInterface
 {
     /**
      * @var string

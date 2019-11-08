@@ -16,7 +16,7 @@ use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class DatabaseProvider extends AbstractProvider implements ServiceProviderInterface
+class DatabaseProvider implements ServiceProviderInterface
 {
     /**
      * @var string

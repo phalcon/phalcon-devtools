@@ -16,7 +16,7 @@ use Phalcon\DevTools\Utils\SystemInfo;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class SystemInfoProvider extends AbstractProvider implements ServiceProviderInterface
+class SystemInfoProvider implements ServiceProviderInterface
 {
     /**
      * @var string

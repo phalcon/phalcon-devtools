@@ -16,7 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Events\Manager as EventsManager;
 
-class EventsManagerProvider extends AbstractProvider implements ServiceProviderInterface
+class EventsManagerProvider implements ServiceProviderInterface
 {
     /**
      * @var string

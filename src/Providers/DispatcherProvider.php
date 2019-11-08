@@ -18,7 +18,7 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchErrorHandler;
 
-class DispatcherProvider extends AbstractProvider implements ServiceProviderInterface
+class DispatcherProvider implements ServiceProviderInterface
 {
     /**
      * @var string

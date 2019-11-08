@@ -16,7 +16,7 @@ use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class FileSystemProvider extends AbstractProvider implements ServiceProviderInterface
+class FileSystemProvider implements ServiceProviderInterface
 {
     /**
      * @var string

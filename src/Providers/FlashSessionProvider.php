@@ -16,7 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Flash\Session as FlashSession;
 
-class FlashSessionProvider extends AbstractProvider implements ServiceProviderInterface
+class FlashSessionProvider implements ServiceProviderInterface
 {
     /**
      * @var string

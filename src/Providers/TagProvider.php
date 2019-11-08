@@ -16,7 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Tag;
 
-class TagProvider extends AbstractProvider implements ServiceProviderInterface
+class TagProvider implements ServiceProviderInterface
 {
     /**
      * @var string

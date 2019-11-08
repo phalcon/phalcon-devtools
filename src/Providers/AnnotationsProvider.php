@@ -16,7 +16,7 @@ use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class AnnotationsProvider extends AbstractProvider implements ServiceProviderInterface
+class AnnotationsProvider implements ServiceProviderInterface
 {
     /**
      * @var string

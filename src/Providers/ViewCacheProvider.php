@@ -18,7 +18,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
 
-class ViewCacheProvider extends AbstractProvider implements ServiceProviderInterface
+class ViewCacheProvider implements ServiceProviderInterface
 {
     /**
      * @var string

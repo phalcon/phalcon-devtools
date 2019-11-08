@@ -17,7 +17,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 
-class RouterProvider extends AbstractProvider implements ServiceProviderInterface
+class RouterProvider implements ServiceProviderInterface
 {
     /**
      * @var string

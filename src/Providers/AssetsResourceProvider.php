@@ -16,7 +16,7 @@ use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class AssetsResourceProvider extends AbstractProvider implements ServiceProviderInterface
+class AssetsResourceProvider implements ServiceProviderInterface
 {
     /**
      * @var string

@@ -17,7 +17,7 @@ use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Session\Adapter\Stream as SessionStream;
 use Phalcon\Session\Manager;
 
-class SessionProvider extends AbstractProvider implements ServiceProviderInterface
+class SessionProvider implements ServiceProviderInterface
 {
     /**
      * @var string

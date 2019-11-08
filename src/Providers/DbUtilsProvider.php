@@ -16,7 +16,7 @@ use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class DbUtilsProvider extends AbstractProvider implements ServiceProviderInterface
+class DbUtilsProvider implements ServiceProviderInterface
 {
     /**
      * @var string

@@ -17,7 +17,7 @@ use Phalcon\DevTools\Access\Policy\Ip as IpPolicy;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class AccessManagerProvider extends AbstractProvider implements ServiceProviderInterface
+class AccessManagerProvider implements ServiceProviderInterface
 {
     /**
      * @var string

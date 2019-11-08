@@ -16,7 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Flash\Direct as FlashDirect;
 
-class FlashProvider extends AbstractProvider implements ServiceProviderInterface
+class FlashProvider implements ServiceProviderInterface
 {
     /**
      * @var string
