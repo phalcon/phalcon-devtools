@@ -17,7 +17,7 @@ use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Flash\Direct as FlashDirect;
 use Phalcon\Flash\Session as FlashSession;
 
-class FlashProvider implements ServiceProviderInterface
+class FlashProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

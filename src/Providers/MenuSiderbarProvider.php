@@ -17,7 +17,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Registry;
 
-class MenuSiderbarProvider implements ServiceProviderInterface
+class MenuSiderbarProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

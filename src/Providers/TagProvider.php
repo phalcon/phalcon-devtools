@@ -16,7 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Tag;
 
-class TagProvider implements ServiceProviderInterface
+class TagProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

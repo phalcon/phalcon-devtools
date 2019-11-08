@@ -17,8 +17,13 @@ use Phalcon\DevTools\Scanners\Config as ConfigScanner;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class ConfigProvider implements ServiceProviderInterface
+class ConfigProvider extends AbstractProvider implements ServiceProviderInterface
 {
+    /**
+     * @var string
+     */
+    protected $providerName = 'config';
+
     /**
      * Registers a service provider.
      *
@@ -27,7 +32,7 @@ class ConfigProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $basePath = $di->getShared('application')->basePath;
-        $di->setShared('config', function () use ($basePath) {
+        $di->setShared($this->providerName, function () use ($basePath) {
             $scanner = new ConfigScanner($basePath);
             $config = $scanner->load('config');
 

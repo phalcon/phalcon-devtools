@@ -17,7 +17,7 @@ use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Session\Adapter\Stream as SessionStream;
 use Phalcon\Session\Manager;
 
-class SessionProvider implements ServiceProviderInterface
+class SessionProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

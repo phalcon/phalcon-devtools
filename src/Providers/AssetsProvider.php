@@ -16,8 +16,13 @@ use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class AssetsProvider implements ServiceProviderInterface
+class AssetsProvider extends AbstractProvider implements ServiceProviderInterface
 {
+    /**
+     * @var string
+     */
+    protected $providerName = 'assets';
+
     /**
      * Registers a service provider.
      *
@@ -25,7 +30,7 @@ class AssetsProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('assets', function () {
+        $di->setShared($this->providerName, function () {
             return new AssetsManager;
         });
     }

@@ -17,7 +17,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Url as UrlResolver;
 
-class UrlProvider implements ServiceProviderInterface
+class UrlProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

@@ -17,8 +17,13 @@ use Phalcon\DevTools\Access\Policy\Ip as IpPolicy;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class AccessManagerProvider implements ServiceProviderInterface
+class AccessManagerProvider extends AbstractProvider implements ServiceProviderInterface
 {
+    /**
+     * @var string
+     */
+    protected $providerName = 'access';
+
     /**
      * Registers a service provider.
      *
@@ -28,7 +33,7 @@ class AccessManagerProvider implements ServiceProviderInterface
     {
         $ptoolsIp = $di->getShared('application')->ptoolsIp;
 
-        $di->setShared('access', function () use ($ptoolsIp) {
+        $di->setShared($this->providerName, function () use ($ptoolsIp) {
             $policy = new IpPolicy($ptoolsIp);
 
             return new AccessManager($policy);

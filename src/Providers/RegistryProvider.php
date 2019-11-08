@@ -18,7 +18,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Registry;
 
-class RegistryProvider implements ServiceProviderInterface
+class RegistryProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

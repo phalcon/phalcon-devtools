@@ -19,7 +19,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Registry;
 
-class ViewProvider implements ServiceProviderInterface
+class ViewProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

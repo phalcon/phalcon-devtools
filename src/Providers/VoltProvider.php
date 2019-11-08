@@ -18,7 +18,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 
-class VoltProvider implements ServiceProviderInterface
+class VoltProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

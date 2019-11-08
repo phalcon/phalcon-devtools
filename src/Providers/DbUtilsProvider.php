@@ -16,7 +16,7 @@ use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class DbUtilsProvider implements ServiceProviderInterface
+class DbUtilsProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * Registers a service provider.

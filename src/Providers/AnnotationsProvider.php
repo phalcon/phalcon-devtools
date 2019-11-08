@@ -16,8 +16,13 @@ use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
-class AnnotationsProvider implements ServiceProviderInterface
+class AnnotationsProvider extends AbstractProvider implements ServiceProviderInterface
 {
+    /**
+     * @var string
+     */
+    protected $providerName = 'annotations';
+
     /**
      * Registers a service provider.
      *
@@ -25,7 +30,7 @@ class AnnotationsProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('annotations', function () {
+        $di->setShared($this->providerName, function () {
             return new AnnotationsMemory;
         });
     }

@@ -18,8 +18,10 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
 
-class CacheProvider implements ServiceProviderInterface
+class CacheProvider extends AbstractProvider implements ServiceProviderInterface
 {
+    protected $providerName = '';
+
     /**
      * Registers a service provider.
      *
