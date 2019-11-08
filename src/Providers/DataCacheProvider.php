@@ -18,9 +18,12 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
 
-class CacheProvider extends AbstractProvider implements ServiceProviderInterface
+class DataCacheProvider extends AbstractProvider implements ServiceProviderInterface
 {
-    protected $providerName = '';
+    /**
+     * @var string
+     */
+    protected $providerName = 'dataCache';
 
     /**
      * Registers a service provider.
@@ -30,22 +33,10 @@ class CacheProvider extends AbstractProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $instanceName = 'stream';
-        $serializerFactory = new SerializerFactory();
-        $adapterFactory = new AdapterFactory($serializerFactory);
 
-        $di->set('viewCache', function () use ($adapterFactory, $instanceName) {
-            $adapter = $adapterFactory->newInstance($instanceName);
-
-            return new Cache($adapter);
-        });
-
-        $di->setShared('modelsCache', function () use ($adapterFactory, $instanceName) {
-            $adapter = $adapterFactory->newInstance($instanceName);
-
-            return new Cache($adapter);
-        });
-
-        $di->setShared('dataCache', function () use ($adapterFactory, $instanceName) {
+        $di->setShared($this->providerName, function () use ($instanceName) {
+            $serializerFactory = new SerializerFactory();
+            $adapterFactory = new AdapterFactory($serializerFactory);
             $adapter = $adapterFactory->newInstance($instanceName);
 
             return new Cache($adapter);
