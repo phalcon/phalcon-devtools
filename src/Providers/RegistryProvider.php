@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Config;
+use Phalcon\DevTools\Bootstrap;
 use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
@@ -32,9 +33,12 @@ class RegistryProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $basePath = $this->basePath;
-        $ptoolsPath = $this->ptoolsPath;
-        $templatesPath = $this->templatesPath;
+        /** @var Bootstrap $bootstrap */
+        $bootstrap = $di->getShared('application');
+
+        $basePath = $bootstrap->getBasePath();
+        $ptoolsPath = $bootstrap->getPtoolsPath();
+        $templatesPath = $bootstrap->getTemplatesPath();
 
         $di->setShared($this->providerName, function () use ($basePath, $ptoolsPath, $templatesPath) {
             /**

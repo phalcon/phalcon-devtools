@@ -31,21 +31,14 @@ class MenuSiderbarProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $that = $this;
-
-        $di->setShared($this->providerName, function () use ($that) {
+        $di->setShared($this->providerName, function () use ($di) {
             /**
              * @var Registry $registry
              */
-            $registry = $that->di->getShared('registry');
+            $registry = $di->getShared('registry');
             $menuItems = $registry->offsetGet('directories')->elementsDir . DS . 'sidebar-menu.php';
-
             /** @noinspection PhpIncludeInspection */
-            $menu = new SidebarMenu(include $menuItems);
-
-            $menu->setDI($that->di);
-
-            return $menu;
+            return new SidebarMenu(include $menuItems);
         });
     }
 }

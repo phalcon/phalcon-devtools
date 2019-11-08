@@ -21,6 +21,11 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 class VoltProvider implements ServiceProviderInterface
 {
     /**
+     * @var DiInterface
+     */
+    protected $di;
+
+    /**
      * @var string
      */
     protected $providerName = 'volt';
@@ -32,6 +37,7 @@ class VoltProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
+        $this->di = $di;
         $basePath = $di->getShared('application')->basePath;
         $ptoolsPath = $di->getShared('application')->ptoolsPath;
         $that = $this;

@@ -31,7 +31,7 @@ class RouterProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $ptoolsPath = $this->ptoolsPath;
+        $ptoolsPath = $di->getShared('application')->getPtoolsPath();
 
         $di->setShared($this->providerName, function () use ($ptoolsPath) {
             /** @var DiInterface $this */
