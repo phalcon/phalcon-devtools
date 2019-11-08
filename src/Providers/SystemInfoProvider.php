@@ -19,13 +19,18 @@ use Phalcon\Di\ServiceProviderInterface;
 class SystemInfoProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'info';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('info', function () {
+        $di->setShared($this->providerName, function () {
             return new SystemInfo;
         });
     }

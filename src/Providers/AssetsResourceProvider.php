@@ -30,7 +30,7 @@ class AssetsResourceProvider extends AbstractProvider implements ServiceProvider
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared($this->provderName, function () {
+        $di->setShared($this->providerName, function () {
             return new AssetsResource;
         });
     }

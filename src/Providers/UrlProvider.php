@@ -20,13 +20,18 @@ use Phalcon\Url as UrlResolver;
 class UrlProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'url';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('url', function () {
+        $di->setShared($this->providerName, function () {
             /**
              * @var DiInterface $this
              * @var Config $config

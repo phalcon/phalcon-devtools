@@ -22,13 +22,18 @@ use Phalcon\Registry;
 class ViewProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'view';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('view', function () {
+        $di->setShared($this->providerName, function () {
             /**
              * @var DiInterface $this
              * @var Registry $registry

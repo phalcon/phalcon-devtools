@@ -19,13 +19,18 @@ use Phalcon\Di\ServiceProviderInterface;
 class DatabaseProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'db';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('db', function () {
+        $di->setShared($this->providerName, function () {
             /** @var DiInterface $this */
             $em = $this->getShared('eventsManager');
 

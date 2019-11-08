@@ -22,6 +22,11 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
 class LoggerProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'logger';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
@@ -32,7 +37,7 @@ class LoggerProvider extends AbstractProvider implements ServiceProviderInterfac
         $hostName = $application->hostName;
         $basePath = $application->basePath;
 
-        $di->setShared('logger', function () use ($hostName, $basePath) {
+        $di->setShared($this->providerName, function () use ($hostName, $basePath) {
             $ptoolsPath = $basePath . DS . '.phalcon' . DS;
             if (is_dir($ptoolsPath) && is_writable($ptoolsPath)) {
                 $formatter = new LineFormatter("%date% {$hostName} php: [%type%] %message%", 'D j H:i:s');

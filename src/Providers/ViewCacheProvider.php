@@ -20,6 +20,9 @@ use Phalcon\Storage\SerializerFactory;
 
 class ViewCacheProvider extends AbstractProvider implements ServiceProviderInterface
 {
+    /**
+     * @var string
+     */
     protected $providerName = 'viewCache';
 
     /**

@@ -21,6 +21,11 @@ use Phalcon\Mvc\Dispatcher\Exception as DispatchErrorHandler;
 class DispatcherProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'dispatcher';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
@@ -31,7 +36,7 @@ class DispatcherProvider extends AbstractProvider implements ServiceProviderInte
         $eventsManager = $di->getShared('eventsManager');
         $access = $di->getShared('access');
 
-        $di->setShared('dispatcher', function () use ($eventsManager, $access) {
+        $di->setShared($this->providerName, function () use ($eventsManager, $access) {
             $dispatcher = new MvcDispatcher;
             $dispatcher->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
 

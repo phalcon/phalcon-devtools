@@ -20,6 +20,11 @@ use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 class RouterProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'router';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
@@ -28,7 +33,7 @@ class RouterProvider extends AbstractProvider implements ServiceProviderInterfac
     {
         $ptoolsPath = $this->ptoolsPath;
 
-        $di->setShared('router', function () use ($ptoolsPath) {
+        $di->setShared($this->providerName, function () use ($ptoolsPath) {
             /** @var DiInterface $this */
             $em = $this->getShared('eventsManager');
 

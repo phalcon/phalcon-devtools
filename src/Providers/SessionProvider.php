@@ -20,13 +20,18 @@ use Phalcon\Session\Manager;
 class SessionProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'session';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('session', function () {
+        $di->setShared($this->providerName, function () {
             $session = new Manager();
             $files = new SessionStream([
                 'savePath' => '/tmp',

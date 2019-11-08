@@ -21,6 +21,11 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 class VoltProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'volt';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
@@ -31,7 +36,7 @@ class VoltProvider extends AbstractProvider implements ServiceProviderInterface
         $ptoolsPath = $di->getShared('application')->ptoolsPath;
         $that = $this;
 
-        $di->setShared('volt', function ($view, $di) use ($basePath, $ptoolsPath, $that) {
+        $di->setShared($this->providerName, function ($view, $di) use ($basePath, $ptoolsPath, $that) {
             /**
              * @var DiInterface $this
              * @var Config $config

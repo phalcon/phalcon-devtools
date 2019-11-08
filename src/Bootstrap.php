@@ -18,22 +18,25 @@ use Phalcon\DevTools\Providers\AccessManagerProvider;
 use Phalcon\DevTools\Providers\AnnotationsProvider;
 use Phalcon\DevTools\Providers\AssetsProvider;
 use Phalcon\DevTools\Providers\AssetsResourceProvider;
-use Phalcon\DevTools\Providers\CacheProvider;
 use Phalcon\DevTools\Providers\ConfigProvider;
 use Phalcon\DevTools\Providers\DatabaseProvider;
+use Phalcon\DevTools\Providers\DataCacheProvider;
 use Phalcon\DevTools\Providers\DbUtilsProvider;
 use Phalcon\DevTools\Providers\DispatcherProvider;
 use Phalcon\DevTools\Providers\EventsManagerProvider;
 use Phalcon\DevTools\Providers\FileSystemProvider;
 use Phalcon\DevTools\Providers\FlashProvider;
+use Phalcon\DevTools\Providers\FlashSessionProvider;
 use Phalcon\DevTools\Providers\LoggerProvider;
 use Phalcon\DevTools\Providers\MenuSiderbarProvider;
+use Phalcon\DevTools\Providers\ModelsCacheProvider;
 use Phalcon\DevTools\Providers\RegistryProvider;
 use Phalcon\DevTools\Providers\RouterProvider;
 use Phalcon\DevTools\Providers\SessionProvider;
 use Phalcon\DevTools\Providers\SystemInfoProvider;
 use Phalcon\DevTools\Providers\TagProvider;
 use Phalcon\DevTools\Providers\UrlProvider;
+use Phalcon\DevTools\Providers\ViewCacheProvider;
 use Phalcon\DevTools\Providers\ViewProvider;
 use Phalcon\DevTools\Providers\VoltProvider;
 use Phalcon\Di;
@@ -140,7 +143,9 @@ class Bootstrap
             EventsManagerProvider::class,
             ConfigProvider::class,
             LoggerProvider::class,
-            CacheProvider::class,
+            DataCacheProvider::class,
+            ModelsCacheProvider::class,
+            ViewCacheProvider::class,
             VoltProvider::class,
             ViewProvider::class,
             AnnotationsProvider::class,
@@ -151,6 +156,7 @@ class Bootstrap
             AssetsProvider::class,
             SessionProvider::class,
             FlashProvider::class,
+            FlashSessionProvider::class,
             DatabaseProvider::class,
             RegistryProvider::class,
             FileSystemProvider::class,

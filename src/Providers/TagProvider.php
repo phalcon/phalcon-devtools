@@ -19,13 +19,18 @@ use Phalcon\Tag;
 class TagProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'tag';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('tag', function () {
+        $di->setShared($this->providerName, function () {
             $tag = new Tag;
 
             $tag->setDocType(Tag::HTML5);

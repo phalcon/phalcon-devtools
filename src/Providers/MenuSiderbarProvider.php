@@ -20,6 +20,11 @@ use Phalcon\Registry;
 class MenuSiderbarProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'sidebar';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
@@ -28,7 +33,7 @@ class MenuSiderbarProvider extends AbstractProvider implements ServiceProviderIn
     {
         $that = $this;
 
-        $di->setShared('sidebar', function () use ($that) {
+        $di->setShared($this->providerName, function () use ($that) {
             /**
              * @var Registry $registry
              */

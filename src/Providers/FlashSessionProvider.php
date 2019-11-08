@@ -14,14 +14,14 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Flash\Session as FlashSession;
 
-class FlashProvider extends AbstractProvider implements ServiceProviderInterface
+class FlashSessionProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
      * @var string
      */
-    protected $providerName = 'flash';
+    protected $providerName = 'flashSession';
 
     /**
      * Registers a service provider.
@@ -38,7 +38,7 @@ class FlashProvider extends AbstractProvider implements ServiceProviderInterface
         ];
 
         $di->setShared($this->providerName, function () use ($cssClasses) {
-            $flash = new FlashDirect();
+            $flash = new FlashSession();
             $flash->setAutoescape(false);
             $flash->setCssClasses($cssClasses);
 

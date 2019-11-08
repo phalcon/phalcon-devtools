@@ -21,6 +21,11 @@ use Phalcon\Registry;
 class RegistryProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'registry';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
@@ -31,7 +36,7 @@ class RegistryProvider extends AbstractProvider implements ServiceProviderInterf
         $ptoolsPath = $this->ptoolsPath;
         $templatesPath = $this->templatesPath;
 
-        $di->setShared('registry', function () use ($basePath, $ptoolsPath, $templatesPath) {
+        $di->setShared($this->providerName, function () use ($basePath, $ptoolsPath, $templatesPath) {
             /**
              * @var DiInterface $this
              * @var Config $config

@@ -19,13 +19,18 @@ use Phalcon\Events\Manager as EventsManager;
 class EventsManagerProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'eventsManager';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('eventsManager', function () {
+        $di->setShared($this->providerName, function () {
             $em = new EventsManager;
             $em->enablePriorities(true);
 

@@ -19,13 +19,18 @@ use Phalcon\Di\ServiceProviderInterface;
 class DbUtilsProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'dbUtils';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('dbUtils', function () {
+        $di->setShared($this->providerName, function () {
             return new DbUtils;
         });
     }

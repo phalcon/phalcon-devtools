@@ -19,13 +19,18 @@ use Phalcon\Di\ServiceProviderInterface;
 class FileSystemProvider extends AbstractProvider implements ServiceProviderInterface
 {
     /**
+     * @var string
+     */
+    protected $providerName = 'fs';
+
+    /**
      * Registers a service provider.
      *
      * @param DiInterface $di
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared('fs', function () {
+        $di->setShared($this->providerName, function () {
             return new FsUtils;
         });
     }
