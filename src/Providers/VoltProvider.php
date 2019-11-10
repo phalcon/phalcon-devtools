@@ -38,8 +38,8 @@ class VoltProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $this->di = $di;
-        $basePath = $di->getShared('application')->basePath;
-        $ptoolsPath = $di->getShared('application')->ptoolsPath;
+        $basePath = $di->getShared('application')->getBasePath();
+        $ptoolsPath = $di->getShared('application')->getPtoolsPath();
         $that = $this;
 
         $di->setShared($this->providerName, function ($view, $di) use ($basePath, $ptoolsPath, $that) {
