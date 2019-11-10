@@ -51,7 +51,7 @@ class ScaffoldController extends Base
             try {
                 $tableName = $this->request->getPost('tableName', 'string');
 
-                $scaffoldBuilder = new Scaffold([
+                $options = [
                     'name'              => $tableName,
                     'schema'            => $this->request->getPost('schema', 'string'),
                     'force'             => $this->request->getPost('force', 'int'),
@@ -60,8 +60,9 @@ class ScaffoldController extends Base
                     'templatePath'      => $this->request->getPost('templatesPath', 'string'),
                     'templateEngine'    => $this->request->getPost('templateEngine', 'string'),
                     'modelsNamespace'   => $this->request->getPost('modelsNamespace', 'string'),
-                ]);
+                ];
 
+                $scaffoldBuilder = new Scaffold(array_merge($options, ['config' => $this->config->toArray()]));
                 $scaffoldBuilder->build();
 
                 $this->flashSession->success(
