@@ -34,6 +34,7 @@ env:
     - BUILD_PHAR=1
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
+    - BOX_VERSION=3.8.3
     - PHALCON_VERSION=v4.0.0-rc.2
 
 before_install:
@@ -53,6 +54,7 @@ install:
     if [ "$BUILD_PHAR" -eq 1 ]
     then
       echo "Build Phalcon DevTools PHAR"
+      .ci/install-box.sh
       .ci/build-phar.sh
     fi
 
