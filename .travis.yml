@@ -34,6 +34,7 @@ env:
     - BUILD_PHAR=1
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
+    - PHAR_PHP_VERSION=7.2.23
     - BOX_VERSION=3.8.3
     - PHALCON_VERSION=v4.0.0-rc.2
 
@@ -54,6 +55,7 @@ install:
     if [ "$BUILD_PHAR" -eq 1 ]
     then
       echo "Build Phalcon DevTools PHAR"
+      composer config platform.php $PHAR_PHP_VERSION
       .ci/install-box.sh
       .ci/build-phar.sh
     fi
@@ -72,3 +74,13 @@ script:
   - vendor/bin/codecept run console -v
   - vendor/bin/psalm --show-info=false
   - vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: phalcon.phar
+  skip_cleanup: true
+    on:
+      php: '7.2'
+      tags: true
+  repo: phalcon/phalcon-devtools
