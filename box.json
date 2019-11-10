@@ -1,35 +1,35 @@
 {
-  "main": "phalcon",
-  "output": "phalcon.phar",
-  "chmod": "0755",
-  "directories": [
-    "bootstrap",
-    "resources",
-    "src",
-    "templates"
-  ],
-  "files": [
-    "webtools.php",
-    "LICENSE.txt"
-  ],
-  "finder": [
-    {
-      "in": "resources",
-      "name": "*.*"
-    },
-    {
-      "in": "src",
-      "name": "*.*"
-    },
-    {
-      "in": "templates",
-      "ignoreDotFiles": false,
-      "name": [
-        "*.*",
-        ".htrouter.php"
-      ]
-    }
-  ],
-  "git-version": "git_tag",
-  "stub": true
+    "main": "phalcon",
+    "output": "phalcon.phar",
+    "chmod": "0755",
+    "directories": [
+        "bootstrap",
+        "resources",
+        "src",
+        "templates"
+    ],
+    "files": [
+        "webtools.php",
+        "LICENSE.txt"
+    ],
+    "finder": [
+        {
+            "in": "resources",
+            "name": "*.*"
+        },
+        {
+            "in": "src",
+            "name": "*.*"
+        },
+        {
+            "in": "templates",
+            "ignoreDotFiles": false,
+            "name": [
+                "*.*",
+                ".htrouter.php"
+            ]
+        }
+    ],
+    "git-version": "git_tag",
+    "stub": true
 }
