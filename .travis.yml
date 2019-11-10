@@ -80,7 +80,7 @@ deploy:
   api_key: $GITHUB_TOKEN
   file: phalcon.phar
   skip_cleanup: true
-    on:
-      php: '7.2'
-      tags: true
+  on:
+    php: '7.2'
+    tags: true
   repo: phalcon/phalcon-devtools
