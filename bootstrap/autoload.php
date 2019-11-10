@@ -37,7 +37,8 @@ defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(trim((string) getenv('PTOOLS
 /**
  * Check for old versions
  */
-if (rtrim(strtolower(realpath(PTOOLSPATH)), '\\/') !== rtrim(strtolower(realpath(dirname(dirname(__FILE__)))), '\\/')) {
+$currentPath = realpath(dirname(dirname(__FILE__)));
+if ($currentPath !== false && rtrim(strtolower(realpath(PTOOLSPATH)), '\\/') !== rtrim(strtolower($currentPath), '\\/')) {
     throw new Exception(
         sprintf(
             'The environment variable PTOOLSPATH is outdated! Current value: %s. New value: %s',
