@@ -7,9 +7,13 @@ services:
 matrix:
   include:
     - php: 7.2
-      env: ZEND_BACKEND="--backend=ZendEngine3"
+      env:
+        - BUILD_PHAR=1
+        - ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.3
-      env: ZEND_BACKEND="--backend=ZendEngine3"
+      env:
+        - BUILD_PHAR=0
+        - ZEND_BACKEND="--backend=ZendEngine3"
 
 git:
   depth: 1
@@ -27,6 +31,7 @@ cache:
 
 env:
   global:
+    - BUILD_PHAR=1
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
     - PHALCON_VERSION=v4.0.0-rc.2
@@ -44,6 +49,12 @@ before_install:
 install:
   - pecl install --force psr
   - .ci/install-phalcon.sh
+  - |
+    if [ "$BUILD_PHAR" -eq 1 ]
+    then
+      echo "Build Phalcon DevTools PHAR"
+      .ci/build-phar.sh
+    fi
 
 before_script:
   - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest
