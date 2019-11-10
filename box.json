@@ -1,7 +1,4 @@
 {
-    "main": "phalcon",
-    "output": "phalcon.phar",
-    "chmod": "0755",
     "directories": [
         "bootstrap",
         "resources",
@@ -30,6 +27,5 @@
             ]
         }
     ],
-    "git-version": "git_tag",
-    "stub": true
+    "git-version": "git_tag"
 }
