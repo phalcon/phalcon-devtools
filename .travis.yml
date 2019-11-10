@@ -7,9 +7,13 @@ services:
 matrix:
   include:
     - php: 7.2
-      env: ZEND_BACKEND="--backend=ZendEngine3"
+      env:
+        - BUILD_PHAR=1
+        - ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.3
-      env: ZEND_BACKEND="--backend=ZendEngine3"
+      env:
+        - BUILD_PHAR=0
+        - ZEND_BACKEND="--backend=ZendEngine3"
 
 git:
   depth: 1
@@ -27,13 +31,15 @@ cache:
 
 env:
   global:
+    - BUILD_PHAR=1
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
+    - PHAR_PHP_VERSION=7.2.23
+    - BOX_VERSION=3.8.3
     - PHALCON_VERSION=v4.0.0-rc.2
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
-  - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1)"
   - export PHP_EXTENSION_DIR=$(php-config --extension-dir)
   - source $TRAVIS_BUILD_DIR/tests/_ci/environment
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
@@ -44,6 +50,14 @@ before_install:
 install:
   - pecl install --force psr
   - .ci/install-phalcon.sh
+  - |
+    if [ "$BUILD_PHAR" -eq 1 ]
+    then
+      echo "Build Phalcon DevTools PHAR"
+      composer config platform.php $PHAR_PHP_VERSION
+      .ci/install-box.sh
+      .ci/build-phar.sh
+    fi
 
 before_script:
   - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest
@@ -59,3 +73,13 @@ script:
   - vendor/bin/codecept run console -v
   - vendor/bin/psalm --show-info=false
   - vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: phalcon.phar
+  skip_cleanup: true
+  on:
+    php: '7.2'
+    tags: true
+  repo: phalcon/phalcon-devtools
