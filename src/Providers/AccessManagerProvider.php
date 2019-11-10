@@ -31,7 +31,7 @@ class AccessManagerProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $ptoolsIp = $di->getShared('application')->ptoolsIp;
+        $ptoolsIp = $di->getShared('application')->getPtoolsIp();
 
         $di->setShared($this->providerName, function () use ($ptoolsIp) {
             $policy = new IpPolicy($ptoolsIp);

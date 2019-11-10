@@ -39,6 +39,7 @@ class RouterProvider implements ServiceProviderInterface
 
             $router = new AnnotationsRouter(false);
             $router->removeExtraSlashes(true);
+            $router->notFound(['controller' => 'error', 'action' => 'route404']);
             $router->setDefaultAction('index');
             $router->setDefaultController('index');
             $router->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
@@ -63,7 +64,6 @@ class RouterProvider implements ServiceProviderInterface
             }
 
             $router->setEventsManager($em);
-            $router->notFound(['controller' => 'error', 'action' => 'route404']);
 
             return $router;
         });

@@ -182,8 +182,9 @@ class Bootstrap
         $this->initFromConstants();
         $this->setParameters($parameters);
 
-        $this->di  = new FactoryDefault;
         $this->app = new MvcApplication;
+        $this->di = new FactoryDefault;
+        $this->di->setShared('application', $this);
 
         (new ErrorHandler)->register();
 
@@ -194,8 +195,6 @@ class Bootstrap
         }
 
         $this->app->setEventsManager($this->di->getShared('eventsManager'));
-
-        $this->di->setShared('application', $this->app);
         $this->app->setDI($this->di);
 
         Di::setDefault($this->di);

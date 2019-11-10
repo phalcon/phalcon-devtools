@@ -34,8 +34,8 @@ class LoggerProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $application = $di->getShared('application');
-        $hostName = $application->hostName;
-        $basePath = $application->basePath;
+        $hostName = $application->getHostName();
+        $basePath = $application->getBasePath();
 
         $di->setShared($this->providerName, function () use ($hostName, $basePath) {
             $ptoolsPath = $basePath . DS . '.phalcon' . DS;

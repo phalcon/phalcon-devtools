@@ -31,7 +31,7 @@ class ConfigProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $basePath = $di->getShared('application')->basePath;
+        $basePath = $di->getShared('application')->getBasePath();
         $di->setShared($this->providerName, function () use ($basePath) {
             $scanner = new ConfigScanner($basePath);
             $config = $scanner->load('config');
