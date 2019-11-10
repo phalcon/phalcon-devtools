@@ -14,9 +14,35 @@ namespace Phalcon\DevTools;
 
 use Phalcon\DevTools\Error\ErrorHandler;
 use Phalcon\DevTools\Exception\InvalidArgumentException;
+use Phalcon\DevTools\Providers\AccessManagerProvider;
+use Phalcon\DevTools\Providers\AnnotationsProvider;
+use Phalcon\DevTools\Providers\AssetsProvider;
+use Phalcon\DevTools\Providers\AssetsResourceProvider;
+use Phalcon\DevTools\Providers\ConfigProvider;
+use Phalcon\DevTools\Providers\DatabaseProvider;
+use Phalcon\DevTools\Providers\DataCacheProvider;
+use Phalcon\DevTools\Providers\DbUtilsProvider;
+use Phalcon\DevTools\Providers\DispatcherProvider;
+use Phalcon\DevTools\Providers\EventsManagerProvider;
+use Phalcon\DevTools\Providers\FileSystemProvider;
+use Phalcon\DevTools\Providers\FlashProvider;
+use Phalcon\DevTools\Providers\FlashSessionProvider;
+use Phalcon\DevTools\Providers\LoggerProvider;
+use Phalcon\DevTools\Providers\MenuSiderbarProvider;
+use Phalcon\DevTools\Providers\ModelsCacheProvider;
+use Phalcon\DevTools\Providers\RegistryProvider;
+use Phalcon\DevTools\Providers\RouterProvider;
+use Phalcon\DevTools\Providers\SessionProvider;
+use Phalcon\DevTools\Providers\SystemInfoProvider;
+use Phalcon\DevTools\Providers\TagProvider;
+use Phalcon\DevTools\Providers\UrlProvider;
+use Phalcon\DevTools\Providers\ViewCacheProvider;
+use Phalcon\DevTools\Providers\ViewProvider;
+use Phalcon\DevTools\Providers\VoltProvider;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Application as MvcApplication;
 use Phalcon\Text;
 
@@ -26,8 +52,6 @@ use Phalcon\Text;
  */
 class Bootstrap
 {
-    use Initializable;
-
     /**
      * Application instance.
      *
@@ -115,25 +139,31 @@ class Bootstrap
      */
     protected $loaders = [
         'web' => [
-            'accessManager',
-            'eventsManager',
-            'config',
-            'logger',
-            'cache',
-            'volt',
-            'view',
-            'annotations',
-            'router',
-            'url',
-            'tag',
-            'dispatcher',
-            'assets',
-            'session',
-            'flash',
-            'database',
-            'registry',
-            'utils',
-            'ui',
+            AccessManagerProvider::class,
+            EventsManagerProvider::class,
+            ConfigProvider::class,
+            LoggerProvider::class,
+            DataCacheProvider::class,
+            ModelsCacheProvider::class,
+            ViewCacheProvider::class,
+            VoltProvider::class,
+            ViewProvider::class,
+            AnnotationsProvider::class,
+            RouterProvider::class,
+            UrlProvider::class,
+            TagProvider::class,
+            DispatcherProvider::class,
+            AssetsProvider::class,
+            SessionProvider::class,
+            FlashProvider::class,
+            FlashSessionProvider::class,
+            DatabaseProvider::class,
+            RegistryProvider::class,
+            FileSystemProvider::class,
+            DbUtilsProvider::class,
+            SystemInfoProvider::class,
+            AssetsResourceProvider::class,
+            MenuSiderbarProvider::class,
         ],
         'cli' => [
             // @todo
@@ -157,9 +187,10 @@ class Bootstrap
 
         (new ErrorHandler)->register();
 
-        foreach ($this->loaders[$this->mode] as $service) {
-            $serviceName = ucfirst($service);
-            $this->{'init' . $serviceName}();
+        foreach ($this->loaders[$this->mode] as $providerClass) {
+            /** @var ServiceProviderInterface $provider */
+            $provider = new $providerClass;
+            $provider->register($this->di);
         }
 
         $this->app->setEventsManager($this->di->getShared('eventsManager'));
