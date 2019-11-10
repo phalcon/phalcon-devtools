@@ -181,6 +181,7 @@ class Scaffold extends AbstractComponent
         $attributes = $metaData->getAttributes($entity);
         $dataTypes = $metaData->getDataTypes($entity);
         $identityField = $metaData->getIdentityField($entity);
+        $identityField = $identityField ? $identityField : null;
         $primaryKeys = $metaData->getPrimaryKeyAttributes($entity);
 
         $setParams = [];
@@ -234,11 +235,11 @@ class Scaffold extends AbstractComponent
      *
      * @return string
      */
-    private function captureFilterInput(string $var, $fields, bool $useGetSetters, string $identityField): string
+    private function captureFilterInput(string $var, $fields, bool $useGetSetters, string $identityField = null): string
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
-            if ($field == $identityField) {
+            if ($identityField !== null && $field == $identityField) {
                 continue;
             }
 
@@ -502,28 +503,28 @@ class Scaffold extends AbstractComponent
         $code = str_replace('$assignInputFromRequestCreate$', $this->captureFilterInput(
             $this->options->get('singular'),
             $this->options->get('dataTypes'),
-            $this->options->get('genSettersGetters'),
+            (bool) $this->options->get('genSettersGetters'),
             $this->options->get('identityField')
         ), $code);
 
         $code = str_replace('$assignInputFromRequestUpdate$', $this->captureFilterInput(
             $this->options->get('singular'),
             $this->options->get('dataTypes'),
-            $this->options->get('genSettersGetters'),
+            (bool) $this->options->get('genSettersGetters'),
             $this->options->get('identityField')
         ), $code);
 
         $code = str_replace('$assignTagDefaults$', $this->assignTagDefaults(
             $this->options->get('singular'),
             $this->options->get('dataTypes'),
-            $this->options->get('genSettersGetters')
+            (bool) $this->options->get('genSettersGetters')
         ), $code);
 
         $attributes = $this->options->get('attributes');
 
         $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
 
-        if ($this->options->get('genSettersGetters')) {
+        if ((bool) $this->options->get('genSettersGetters')) {
             $code = str_replace('$pkGet$', 'get' . Text::camelize($attributes[0]) . '()', $code);
         } else {
             $code = str_replace('$pkGet$', $attributes[0], $code);
