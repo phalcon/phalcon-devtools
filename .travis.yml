@@ -74,6 +74,9 @@ script:
   - vendor/bin/psalm --show-info=false
   - vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
