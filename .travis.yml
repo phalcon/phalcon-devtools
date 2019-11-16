@@ -68,9 +68,7 @@ script:
   - mkdir .phalcon
   - vendor/bin/phpcs
   - vendor/bin/codecept build
-  - vendor/bin/codecept run unit -v
-  - vendor/bin/codecept run functional -v
-  - vendor/bin/codecept run console -v
+  - vendor/bin/codecept run --coverage --xml
   - vendor/bin/psalm --show-info=false
   - vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
 
