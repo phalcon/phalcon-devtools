@@ -9,10 +9,9 @@ final class IndexControllerCest
 {
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\IndexController::indexAction
-     *
      * @param AcceptanceTester $I
      */
-    public function testIndex(AcceptanceTester $I): void
+    public function testIndexAction(AcceptanceTester $I): void
     {
         $I->amOnPage('/webtools.php/');
         $I->see('Dashboard');
