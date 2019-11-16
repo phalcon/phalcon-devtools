@@ -41,12 +41,11 @@ before_install:
   - export PHP_EXTENSION_DIR=$(php-config --extension-dir)
   - source $TRAVIS_BUILD_DIR/tests/_ci/environment
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
-  - phpenv config-rm xdebug.ini || true
   - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - pecl install --force psr xdebug
+  - pecl install --force psr
   - .ci/install-phalcon.sh
   - |
     if [ "$BUILD_PHAR" -eq 1 ]
