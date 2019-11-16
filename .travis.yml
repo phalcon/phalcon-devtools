@@ -48,7 +48,7 @@ before_install:
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - pecl install --force psr
+  - pecl install --force psr xdebug
   - .ci/install-phalcon.sh
   - |
     if [ "$BUILD_PHAR" -eq 1 ]
