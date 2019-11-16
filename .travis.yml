@@ -60,6 +60,7 @@ before_script:
   - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest
   - composer require --dev phpstan/phpstan
   - ln -s $PWD/phalcon ~/bin/phalcon
+  - .ci/serve-webtools.sh
 
 script:
   - mkdir .phalcon
