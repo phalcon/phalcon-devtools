@@ -9,11 +9,9 @@ matrix:
     - php: 7.2
       env:
         - BUILD_PHAR=1
-        - ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.3
       env:
         - BUILD_PHAR=0
-        - ZEND_BACKEND="--backend=ZendEngine3"
 
 git:
   depth: 1
