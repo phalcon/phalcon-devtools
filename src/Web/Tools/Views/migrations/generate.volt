@@ -70,7 +70,7 @@
                         <div class="col-sm-offset-2 col-sm-10">
                             <div class="radio">
                                 <label for="exportData">
-                                    <input type="radio" name="exportDataType" value="always""> always
+                                    <input type="radio" name="exportDataType" value="always"> always
                                 </label>
                             </div>
                         </div>
