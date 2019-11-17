@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Web\Tools\Controllers;
 
 use DirectoryIterator;
+use PDOException;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\Flash\Direct;
@@ -128,6 +129,13 @@ class MigrationsController extends Base
 
         $this->prepareVersions();
 
+        try {
+            $tables = $this->dbUtils->listTables(true);
+        } catch (PDOException $PDOException) {
+            $tables = [];
+            $this->flash->error($PDOException->getMessage());
+        }
+
         $this->tag->setDefault('basePath', $basePath);
         $this->tag->setDefault('migrationsDir', $migrationsDir);
 
@@ -135,7 +143,7 @@ class MigrationsController extends Base
             [
                 'page_subtitle'  => 'Generate Migration',
                 'migration_path' => $migrationsDir,
-                'tables'         => $this->dbUtils->listTables(true),
+                'tables'         => $tables,
             ]
         );
     }
