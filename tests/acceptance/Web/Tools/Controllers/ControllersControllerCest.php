@@ -29,6 +29,10 @@ final class ControllersControllerCest
         $I->see('Generate Controller');
     }
 
+    /**
+     * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::generateAction
+     * @param AcceptanceTester $I
+     */
     public function testSubmitGenerateAction(AcceptanceTester $I): void
     {
         $controllerName = 'TestControllerName';
@@ -39,5 +43,46 @@ final class ControllersControllerCest
         $I->click('.form-horizontal input[type=submit]');
         $I->see('All controllers that we managed to find');
         $I->see($controllerName . 'Controller');
+    }
+
+    /**
+     * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::editAction
+     * @param AcceptanceTester $I
+     */
+    public function testEditAction(AcceptanceTester $I): void
+    {
+        $controllerName = 'TestControllerName';
+        $newCode = '<?php echo "test";';
+
+        /**
+         * Generate Controller
+         */
+        $I->amOnPage('/webtools.php/controllers/generate');
+        $I->fillField('name', $controllerName);
+        $I->fillField('namespace', 'Test\WebTools');
+        $I->click('.form-horizontal input[type=submit]');
+        $I->see('All controllers that we managed to find');
+        $I->see($controllerName . 'Controller');
+
+        /**
+         * Enter to edit Controller Page
+         */
+        $I->click("//a[contains(@href, \"$controllerName\")]");
+        $I->see($controllerName . 'Controller.php');
+        $I->see('class ' . $controllerName . 'Controller extends');
+
+
+        /**
+         * Edit contents of Controller
+         */
+        $I->fillField('code', $newCode);
+        $I->click('form input[type=submit]');
+
+        /**
+         * Check if contents was saved
+         */
+        $I->click("//a[contains(@href, \"$controllerName\")]");
+        $I->see($controllerName . 'Controller.php');
+        $I->see($newCode);
     }
 }
