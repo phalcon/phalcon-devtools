@@ -28,4 +28,15 @@ final class MigrationsControllerCest
         $I->see('Migrations');
         $I->see('Run Migration');
     }
+
+    /**
+     * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::generateAction
+     * @param AcceptanceTester $I
+     */
+    public function testGenerateAction(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/webtools.php/migrations/generate');
+        $I->see('Migrations');
+        $I->see('Generate Migration');
+    }
 }
