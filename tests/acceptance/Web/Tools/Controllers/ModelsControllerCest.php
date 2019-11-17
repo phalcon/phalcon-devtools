@@ -17,4 +17,15 @@ final class ModelsControllerCest
         $I->see('Models');
         $I->see('All models that we managed to find');
     }
+
+    /**
+     * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::generateAction
+     * @param AcceptanceTester $I
+     */
+    public function testGenerateAction(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/webtools.php/models/generate');
+        $I->see('Models');
+        $I->see('Generate Model');
+    }
 }
