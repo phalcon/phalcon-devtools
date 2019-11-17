@@ -22,10 +22,24 @@ final class ModelsControllerCest
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::generateAction
      * @param AcceptanceTester $I
      */
-    public function testGenerateAction(AcceptanceTester $I): void
+    public function testEnterGenerateAction(AcceptanceTester $I): void
     {
         $I->amOnPage('/webtools.php/models/generate');
         $I->see('Models');
         $I->see('Generate Model');
+    }
+
+    /**
+     * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::generateAction
+     * @param AcceptanceTester $I
+     */
+    public function testGenerateAction(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/webtools.php/models/generate');
+        $I->fillField('namespace', 'Test\WebTools');
+        $I->checkOption('#force');
+        $I->click('input[type=submit]');
+        $I->see('Models List');
+        $I->see('TestMigrations');
     }
 }
