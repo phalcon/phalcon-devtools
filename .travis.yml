@@ -34,14 +34,14 @@ env:
     - DISPLAY=":99.0"
     - PHAR_PHP_VERSION=7.2.23
     - BOX_VERSION=3.8.3
-    - PHALCON_VERSION=v4.0.0-rc.2
+    - PHALCON_VERSION=v4.0.0-rc.3
 
 before_install:
   - export PHP_VERSION=$(php-config --version)
   - export PHP_EXTENSION_DIR=$(php-config --extension-dir)
   - source $TRAVIS_BUILD_DIR/tests/_ci/environment
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
-  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
+  - if [ -n "$GITHUB_TOKEN" ]; then composer config github-oauth.github.com $GITHUB_TOKEN; fi;
   - bash tests/_ci/setup_dbs.sh
 
 install:
