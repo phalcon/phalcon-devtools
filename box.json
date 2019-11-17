@@ -27,5 +27,9 @@
             ]
         }
     ],
-    "git-version": "git_tag"
+    "git-version": "git_tag",
+    "compression": "GZ",
+    "compactors": [
+        "KevinGH\\Box\\Compactor\\Php"
+    ]
 }
