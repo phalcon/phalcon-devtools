@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Web\Tools\Controllers;
 
 use DirectoryIterator;
+use PDOException;
 use Phalcon\DevTools\Builder\Component\AllModels;
 use Phalcon\DevTools\Builder\Component\Model;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
@@ -274,6 +275,13 @@ class ModelsController extends Base
             );
         }
 
+        try {
+            $tables = $this->dbUtils->listTables(true);
+        } catch (PDOException $PDOException) {
+            $tables = [];
+            $this->flash->error($PDOException->getMessage());
+        }
+
         $this->tag->setDefault('basePath', $basePath);
         $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
         $this->tag->setDefault('modelsDir', $modelsDir);
@@ -282,7 +290,7 @@ class ModelsController extends Base
             [
                 'page_subtitle' => 'Generate Model',
                 'model_path'    => $modelsDir,
-                'tables'        => $this->dbUtils->listTables(true),
+                'tables'        => $tables,
             ]
         );
     }
