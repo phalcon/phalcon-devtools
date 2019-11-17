@@ -19,3 +19,22 @@ if (!function_exists('env')) {
         return getenv($key) ?: $default;
     }
 }
+
+/**
+ * @param string $path
+ */
+if (!function_exists('remove_dir')) {
+    function remove_dir(string $path): void
+    {
+        $directoryIterator = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
+        $iterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($iterator as $file) {
+            if ($file->getFileName() === '.gitignore') {
+                continue;
+            }
+
+            $realPath = $file->getRealPath();
+            $file->isDir() ? rmdir($realPath) : unlink($realPath);
+        }
+    }
+}

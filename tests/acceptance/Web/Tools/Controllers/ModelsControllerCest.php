@@ -36,6 +36,10 @@ final class ModelsControllerCest
     public function testGenerateAction(AcceptanceTester $I): void
     {
         $I->amOnPage('/webtools.php/models/generate');
+
+        $modelsDir = $I->grabValueFrom('#modelsDir');
+        remove_dir($modelsDir);
+
         $I->fillField('namespace', 'Test\WebTools');
         $I->checkOption('#force');
         $I->click('input[type=submit]');
