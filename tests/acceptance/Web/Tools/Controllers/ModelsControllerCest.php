@@ -45,6 +45,8 @@ final class ModelsControllerCest
         $I->click('input[type=submit]');
         $I->see('Models List');
         $I->see('TestMigrations');
+
+        remove_dir($modelsDir);
     }
 
     /**
@@ -86,5 +88,7 @@ final class ModelsControllerCest
         $I->click(".table a.btn-xs:nth-child(1)");
         $I->see('Editing Model');
         $I->see($newCode);
+
+        remove_dir($modelsDir);
     }
 }

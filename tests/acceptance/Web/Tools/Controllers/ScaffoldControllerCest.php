@@ -44,5 +44,7 @@ final class ScaffoldControllerCest
         $I->click('input[type=submit]');
         $I->see('Migrations');
         $I->see('All migrations that we managed to find');
+
+        remove_dir($modelsDir);
     }
 }
