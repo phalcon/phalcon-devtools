@@ -71,7 +71,6 @@ final class ControllersControllerCest
         $I->see($controllerName . 'Controller.php');
         $I->see('class ' . $controllerName . 'Controller extends');
 
-
         /**
          * Edit contents of Controller
          */

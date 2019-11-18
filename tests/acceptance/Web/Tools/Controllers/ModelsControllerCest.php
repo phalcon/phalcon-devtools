@@ -46,4 +46,45 @@ final class ModelsControllerCest
         $I->see('Models List');
         $I->see('TestMigrations');
     }
+
+    /**
+     * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::editAction
+     * @param AcceptanceTester $I
+     */
+    public function testEditAction(AcceptanceTester $I): void
+    {
+        $newCode = '<?php echo "test";';
+
+        /**
+         * Generate Models
+         */
+        $I->amOnPage('/webtools.php/models/generate');
+
+        $modelsDir = $I->grabValueFrom('#modelsDir');
+        remove_dir($modelsDir);
+
+        $I->fillField('namespace', 'Test\WebTools');
+        $I->checkOption('#force');
+        $I->click('input[type=submit]');
+        $I->see('Models List');
+
+        /**
+         * Enter to edit Model Page
+         */
+        $I->click(".table a.btn-xs:nth-child(1)");
+        $I->see('Editing Model');
+
+        /**
+         * Edit contents of Model
+         */
+        $I->fillField('code', $newCode);
+        $I->click('form input[type=submit]');
+
+        /**
+         * Check if contents was saved
+         */
+        $I->click(".table a.btn-xs:nth-child(1)");
+        $I->see('Editing Model');
+        $I->see($newCode);
+    }
 }
