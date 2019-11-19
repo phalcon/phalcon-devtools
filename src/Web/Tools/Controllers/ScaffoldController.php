@@ -73,7 +73,7 @@ class ScaffoldController extends Base
             } catch (BuilderException $e) {
                 $this->flash->error($e->getMessage());
             } catch (Exception $e) {
-                $this->flash->error('An unexpected error has occurred.');
+                $this->flash->error($e->getMessage());
             }
         }
 

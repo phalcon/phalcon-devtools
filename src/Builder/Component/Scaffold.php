@@ -366,8 +366,8 @@ class Scaffold extends AbstractComponent
         } else {
             switch ($dataType) {
                 case Column::TYPE_ENUM: // enum
-                    $code .= "\t\t" . '{{ select_static("' . $attribute .
-                        '", "using": [], "class" : "form-control", "id" : "' . $id . '") }}';
+                    $code .= "\t\t" . '{{ select_static(["' . $attribute .
+                        '", "using": [], "class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
                 case Column::TYPE_CHAR:
                     $code .= "\t\t" . '{{ text_field("' . $attribute .

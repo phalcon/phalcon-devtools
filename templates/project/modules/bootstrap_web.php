@@ -53,7 +53,7 @@ try {
      */
     require APP_PATH . '/config/routes.php';
 
-    echo $application->handle()->getContent();
+    echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
 
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
