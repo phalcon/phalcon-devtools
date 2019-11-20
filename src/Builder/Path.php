@@ -60,7 +60,7 @@ class Path
         $directory = new RecursiveDirectoryIterator('.');
         $iterator = new RecursiveIteratorIterator($directory);
         foreach ($iterator as $f) {
-            if (preg_match('/config\.php$/i', $f->getPathName())) {
+            if (preg_match('/\/config\.php$/i', $f->getPathName())) {
                 $config = include $f->getPathName();
                 if (is_array($config)) {
                     $config = new Config($config);
