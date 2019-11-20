@@ -21,6 +21,9 @@ use Phalcon\DevTools\Utils;
  */
 class AllModels extends AbstractComponent
 {
+    /**
+     * @var array
+     */
     public $exist = [];
 
     /**
@@ -120,10 +123,12 @@ class AllModels extends AbstractComponent
                     if (!isset($hasMany[$name])) {
                         $hasMany[$name] = [];
                     }
+
                     if (!isset($belongsTo[$name])) {
                         $belongsTo[$name] = [];
                     }
                 }
+
                 if ($defineForeignKeys) {
                     $foreignKeys[$name] = [];
                 }
@@ -136,22 +141,19 @@ class AllModels extends AbstractComponent
                     $columns = $reference->getColumns();
                     $referencedColumns = $reference->getReferencedColumns();
                     $referencedModel = Utils::camelize($reference->getReferencedTable());
-                    if ($defineRelations) {
-                        if ($reference->getReferencedSchema() == $refSchema) {
-                            if (count($columns) == 1) {
-                                $belongsTo[$name][] = [
-                                    'referencedModel' => $referencedModel,
-                                    'fields' => $columns[0],
-                                    'relationFields' => $referencedColumns[0],
-                                    'options' => $defineForeignKeys ? ['foreignKey'=>true] : null
-                                ];
-                                $hasMany[$reference->getReferencedTable()][] = [
-                                    'camelizedName' => $camelCaseName,
-                                    'fields' => $referencedColumns[0],
-                                    'relationFields' => $columns[0]
-                                ];
-                            }
-                        }
+
+                    if ($defineRelations && $reference->getReferencedSchema() == $refSchema && count($columns) === 1) {
+                        $belongsTo[$name][] = [
+                            'referencedModel' => $referencedModel,
+                            'fields' => $columns[0],
+                            'relationFields' => $referencedColumns[0],
+                            'options' => $defineForeignKeys ? ['foreignKey'=>true] : null
+                        ];
+                        $hasMany[$reference->getReferencedTable()][] = [
+                            'camelizedName' => $camelCaseName,
+                            'fields' => $referencedColumns[0],
+                            'relationFields' => $columns[0]
+                        ];
                     }
                 }
             }
@@ -168,57 +170,40 @@ class AllModels extends AbstractComponent
         }
 
         foreach ($db->listTables($schema) as $name) {
-            $className = ($this->options->has('abstract') ? 'Abstract' : '');
-            $className .= Utils::camelize($name);
+            $className = ($this->options->has('abstract') ? 'Abstract' : '') . Utils::camelize($name);
 
-            if (!file_exists($modelPath . $className . '.php') || $forceProcess) {
-                if (isset($hasMany[$name])) {
-                    $hasManyModel = $hasMany[$name];
-                } else {
-                    $hasManyModel = [];
-                }
-
-                if (isset($belongsTo[$name])) {
-                    $belongsToModel = $belongsTo[$name];
-                } else {
-                    $belongsToModel = [];
-                }
-
-                if (isset($foreignKeys[$name])) {
-                    $foreignKeysModel = $foreignKeys[$name];
-                } else {
-                    $foreignKeysModel = [];
-                }
-
-                $modelBuilder = new Model([
-                    'name' => $name,
-                    'config' => $config,
-                    'schema' => $schema,
-                    'extends' => $this->options->get('extends'),
-                    'namespace' => $this->options->get('namespace'),
-                    'force' => $forceProcess,
-                    'hasMany' => $hasManyModel,
-                    'belongsTo' => $belongsToModel,
-                    'foreignKeys' => $foreignKeysModel,
-                    'genSettersGetters' => $genSettersGetters,
-                    'genDocMethods' => $this->options->get('genDocMethods'),
-                    'directory' => $this->options->get('directory'),
-                    'modelsDir' => $this->options->get('modelsDir'),
-                    'mapColumn' => $mapColumn,
-                    'abstract' => $this->options->get('abstract'),
-                    'referenceList' => $referenceList,
-                    'camelize' => $this->options->get('camelize'),
-                    'annotate' => $this->options->get('annotate'),
-                ]);
-
-                $modelBuilder->build();
-            } else {
+            if (file_exists($modelPath . $className . '.php') && !$forceProcess) {
                 if ($this->isConsole()) {
                     print Color::info(sprintf('Skipping model "%s" because it already exist', Utils::camelize($name)));
                 } else {
                     $this->exist[] = $name;
                 }
+
+                continue;
             }
+
+            $modelBuilder = new Model([
+                'name' => $name,
+                'config' => $config,
+                'schema' => $schema,
+                'extends' => $this->options->get('extends'),
+                'namespace' => $this->options->get('namespace'),
+                'force' => $forceProcess,
+                'hasMany' => $hasMany[$name] ?? [],
+                'belongsTo' => $belongsTo[$name] ?? [],
+                'foreignKeys' => $foreignKeys[$name] ?? [],
+                'genSettersGetters' => $genSettersGetters,
+                'genDocMethods' => $this->options->get('genDocMethods'),
+                'directory' => $this->options->get('directory'),
+                'modelsDir' => $this->options->get('modelsDir'),
+                'mapColumn' => $mapColumn,
+                'abstract' => $this->options->get('abstract'),
+                'referenceList' => $referenceList,
+                'camelize' => $this->options->get('camelize'),
+                'annotate' => $this->options->get('annotate'),
+            ]);
+
+            $modelBuilder->build();
         }
     }
 }
