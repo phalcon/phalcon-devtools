@@ -58,7 +58,7 @@ class Controller extends Command
             'directory' => $this->getOption('directory'),
             'controllersDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
-            'baseClass' => $this->getOption('base-class'),
+            'baseClass' => $this->getOption('base-class', null, '\Phalcon\Mvc\Controller'),
             'force' => $this->isReceivedOption('force')
         ]);
 

@@ -54,11 +54,11 @@ abstract class AbstractComponent
      * @return bool
      * @throws BuilderException
      */
-    protected function checkNamespace(string $namespace)
+    protected function checkNamespace(string $namespace): bool
     {
         $validation = new Validation();
         $validation->add('namespace', new Namespaces([
-            'allowEmpty' => true
+            'allowEmpty' => true,
         ]));
 
         $messages = $validation->validate(['namespace' => $namespace]);
