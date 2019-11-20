@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace @@namespace@@\Modules\Cli;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 

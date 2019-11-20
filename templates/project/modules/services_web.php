@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
 
+use Phalcon\Escaper;
+use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
-use Phalcon\Url as UrlResolver;
 use Phalcon\Session\Adapter\Stream as SessionAdapter;
-use Phalcon\Flash\Direct as Flash;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Url as UrlResolver;
 
 /**
  * Registering a router
@@ -33,10 +36,11 @@ $di->setShared('url', function () {
  * Starts the session the first time some component requests the session service
  */
 $di->setShared('session', function () {
-    $session = new SessionAdapter();
-    $session->open([
-        'savePath' => '/tmp',
+    $session = new SessionManager();
+    $files = new SessionAdapter([
+        'savePath' => '/tmp'
     ]);
+    $session->setAdapter($files);
 
     return $session;
 });
@@ -45,7 +49,9 @@ $di->setShared('session', function () {
  * Register the session flash service with the Twitter Bootstrap classes
  */
 $di->set('flash', function () {
-    return new Flash([
+    $escaper = new Escaper();
+    $flash = new Flash($escaper);
+    $flash->setCssClasses([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
         'notice'  => 'alert alert-info',

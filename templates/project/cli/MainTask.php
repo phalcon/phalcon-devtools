@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 class MainTask extends \Phalcon\Cli\Task
 {
@@ -6,5 +7,4 @@ class MainTask extends \Phalcon\Cli\Task
     {
         echo "Congratulations! You are now flying with Phalcon CLI!";
     }
-
 }

@@ -1,12 +1,15 @@
 <?php
+declare(strict_types=1);
 
+use Phalcon\Escaper;
+use Phalcon\Flash\Direct as Flash;
+use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Stream as SessionAdapter;
-use Phalcon\Flash\Direct as Flash;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Url as UrlResolver;
 
 /**
  * Shared configuration service
@@ -93,7 +96,9 @@ $di->setShared('modelsMetadata', function () {
  * Register the session flash service with the Twitter Bootstrap classes
  */
 $di->set('flash', function () {
-    return new Flash([
+    $escaper = new Escaper();
+    $flash = new Flash($escaper);
+    $flash->setCssClasses([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
         'notice'  => 'alert alert-info',
@@ -105,10 +110,11 @@ $di->set('flash', function () {
  * Start the session the first time some component request the session service
  */
 $di->setShared('session', function () {
-    $session = new SessionAdapter();
-    $session->open([
-        'savePath' => '/tmp',
+    $session = new SessionManager();
+    $files = new SessionAdapter([
+        'savePath' => '/tmp'
     ]);
+    $session->setAdapter($files);
 
     return $session;
 });
