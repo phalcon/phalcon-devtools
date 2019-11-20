@@ -128,9 +128,19 @@ abstract class AbstractComponent
      *
      * @param string $message
      */
-    protected function notifySuccess($message): void
+    protected function notifySuccess(string $message): void
     {
         print Color::success($message);
+    }
+
+    /**
+     * Shows a info notification
+     *
+     * @param string $message
+     */
+    protected function notifyInfo(string $message): void
+    {
+        print Color::info($message);
     }
 
     abstract public function build();
