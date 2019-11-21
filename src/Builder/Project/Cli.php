@@ -65,6 +65,12 @@ class Cli extends ProjectBuilder
         $this->generateFile($getFile, $putFile);
         chmod($putFile, 0755);
 
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $getFile = $this->options->get('templatePath') . '/project/cli/launcher.bat';
+            $putFile = $this->options->get('projectPath') . 'run.bat';
+            $this->generateFile($getFile, $putFile);
+        }
+
         return $this;
     }
 
