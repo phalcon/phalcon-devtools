@@ -51,14 +51,12 @@ class Controller extends Command
      */
     public function run(array $parameters)
     {
-        $controllerName = $this->getOption(['name', 1]);
-
         $controllerBuilder = new ControllerBuilder([
-            'name' => $controllerName,
+            'name' => $this->getOption(['name', 1]),
             'directory' => $this->getOption('directory'),
             'controllersDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
-            'baseClass' => $this->getOption('base-class', null, '\Phalcon\Mvc\Controller'),
+            'baseClass' => $this->getOption('base-class', null, '\\' . \Phalcon\Mvc\Controller::class),
             'force' => $this->isReceivedOption('force')
         ]);
 
