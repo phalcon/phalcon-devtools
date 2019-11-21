@@ -66,20 +66,18 @@ class Model extends AbstractComponent
 
         $this->modelOptions->setNotDefinedOption('camelize', false);
         $this->modelOptions->setNotDefinedOption('force', false);
-        $this->modelOptions->setNotDefinedOption(
-            'className',
-            Utils::lowerCamelizeWithDelimiter($options['name'], '_-')
-        );
+        $this->modelOptions->setNotDefinedOption('className', Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
         $this->modelOptions->setNotDefinedOption('fileName', Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
         $this->modelOptions->setNotDefinedOption('abstract', false);
         $this->modelOptions->setNotDefinedOption('annotate', false);
+
         if ($this->modelOptions->getOption('abstract')) {
             $this->modelOptions->setOption('className', 'Abstract' . $this->modelOptions->getOption('className'));
         }
 
         parent::__construct($options);
-        $this->modelOptions->setOption('config', $this->modelOptions->getOption('config'));
 
+        $this->modelOptions->setOption('config', $this->modelOptions->getOption('config'));
         $this->modelOptions->setOption('snippet', new Snippet());
     }
 
@@ -208,7 +206,6 @@ class Model extends AbstractComponent
         $alreadyFind         = false;
         $alreadyFindFirst    = false;
         $alreadyColumnMapped = false;
-        $alreadyGetSourced   = false;
         $attributes          = [];
 
         if (file_exists($modelPath)) {
@@ -280,9 +277,6 @@ class Model extends AbstractComponent
                             break;
                         case 'columnMap':
                             $alreadyColumnMapped = true;
-                            break;
-                        case 'getSource':
-                            $alreadyGetSourced = true;
                             break;
                     }
                 }
