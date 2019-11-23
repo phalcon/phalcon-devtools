@@ -38,7 +38,7 @@ $di->setShared('url', function () {
 $di->setShared('session', function () {
     $session = new SessionManager();
     $files = new SessionAdapter([
-        'savePath' => '/tmp'
+        'savePath' => sys_get_temp_dir(),
     ]);
     $session->setAdapter($files);
 

@@ -34,7 +34,7 @@ class SessionProvider implements ServiceProviderInterface
         $di->setShared($this->providerName, function () {
             $session = new Manager();
             $files = new SessionStream([
-                'savePath' => '/tmp',
+                'savePath' => sys_get_temp_dir(),
             ]);
             $session->setAdapter($files);
 
