@@ -66,7 +66,10 @@ class Model extends AbstractComponent
 
         $this->modelOptions->setNotDefinedOption('camelize', false);
         $this->modelOptions->setNotDefinedOption('force', false);
-        $this->modelOptions->setNotDefinedOption('className', Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
+        $this->modelOptions->setNotDefinedOption(
+            'className',
+            Utils::lowerCamelizeWithDelimiter($options['name'], '_-')
+        );
         $this->modelOptions->setNotDefinedOption('fileName', Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
         $this->modelOptions->setNotDefinedOption('abstract', false);
         $this->modelOptions->setNotDefinedOption('annotate', false);
