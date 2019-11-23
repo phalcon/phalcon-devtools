@@ -71,11 +71,26 @@ EOD;
     }
 
     /**
+     * @param string $namespace
+     * @param string $useDefinition
+     * @param string $classDoc
+     * @param string $abstract
      * @param ModelOption $modelOptions
+     * @param string $extends
+     * @param string $content
+     * @param string $license
      * @return string
      */
-    public function getClass($namespace, $useDefinition, $classDoc = '', $abstract = '', $modelOptions, $extends = '', $content, $license = '')
-    {
+    public function getClass(
+        string $namespace,
+        string $useDefinition,
+        string $classDoc = '',
+        string $abstract = '',
+        ModelOption $modelOptions,
+        string $extends = '',
+        string $content,
+        string $license = ''
+    ): string {
         $templateCode = <<<EOD
 <?php
 
@@ -136,10 +151,9 @@ EOD;
 
     public function getValidationEnd()
     {
-        $templateValidationFailed = <<<EOD
+        return <<<EOD
         return \$this->validate(\$validator);
 EOD;
-        return $templateValidationFailed;
     }
 
     public function getAttributes($type, $visibility, \Phalcon\Db\ColumnInterface $field, $annotate = false, $customFieldName = null)
@@ -284,9 +298,7 @@ EOD;
             $values[] = sprintf('\'%s\' => %s', $name, $val);
         }
 
-        $syntax = '['. join(',', $values). ']';
-
-        return $syntax;
+        return '['. join(',', $values). ']';
     }
 
     /**
@@ -348,7 +360,7 @@ EOD;
 
     public function getMigrationUp()
     {
-        $template = <<<EOD
+        return <<<EOD
 
     /**
      * Run the migrations
@@ -359,12 +371,11 @@ EOD;
     {
 
 EOD;
-        return $template;
     }
 
     public function getMigrationDown()
     {
-        $template = <<<EOD
+        return <<<EOD
 
     /**
      * Reverse the migrations
@@ -375,7 +386,6 @@ EOD;
     {
 
 EOD;
-        return $template;
     }
 
     public function getMigrationBatchInsert($table, $allFields)
