@@ -22,9 +22,6 @@ use Phalcon\DevTools\Script\Color;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
 
-/**
- * Command Class
- */
 abstract class Command implements CommandsInterface
 {
     /**
@@ -279,13 +276,10 @@ abstract class Command implements CommandsInterface
             } else {
                 $param = $argv;
                 if ($paramName != '') {
-                    if (isset($arguments[$paramName])) {
-                        if ($param == '') {
-                            if ($arguments[$paramName]['have-option'] == true) {
-                                throw new CommandsException("The parameter '$paramName' requires an option");
-                            }
-                        }
+                    if (!empty($arguments[$paramName]['have-option']) && $param == '') {
+                        throw new CommandsException("The parameter '$paramName' requires an option");
                     }
+
                     $receivedParams[$paramName] = $param;
                     $param = '';
                     $paramName = '';
@@ -315,21 +309,6 @@ abstract class Command implements CommandsInterface
     }
 
     /**
-     * Check that a set of parameters has been received.
-     *
-     * @param array $required
-     * @throws CommandsException
-     */
-    public function checkRequired($required): void
-    {
-        foreach ($required as $fieldRequired) {
-            if (!isset($this->parameters[$fieldRequired])) {
-                throw new CommandsException("The parameter '$fieldRequired' is required for this script");
-            }
-        }
-    }
-
-    /**
      * Sets the output encoding of the script.
      * @param string $encoding
      *
@@ -340,19 +319,6 @@ abstract class Command implements CommandsInterface
         $this->encoding = $encoding;
 
         return $this;
-    }
-
-    /**
-     * Displays help for the script.
-     *
-     * @param array $possibleParameters
-     */
-    public function showHelp($possibleParameters): void
-    {
-        echo get_class($this).' - Usage:'.PHP_EOL.PHP_EOL;
-        foreach ($possibleParameters as $description) {
-            echo html_entity_decode($description, ENT_COMPAT, $this->encoding).PHP_EOL;
-        }
     }
 
     /**
@@ -369,7 +335,6 @@ abstract class Command implements CommandsInterface
         }
 
         $result = [];
-
         foreach ($this->parameters as $param) {
             $result[] = $this->filter($param, $filters);
         }
@@ -447,34 +412,6 @@ abstract class Command implements CommandsInterface
         $filter = new Filter();
 
         return $filter->sanitize($paramValue, $filters);
-    }
-
-    /**
-     * Gets the last parameter is not associated with any parameter name.
-     *
-     * @return string|bool
-     */
-    public function getLastUnNamedParam()
-    {
-        foreach (array_reverse($this->parameters) as $key => $value) {
-            if (is_numeric($key)) {
-                return $value;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks if exists a certain unnamed parameter
-     *
-     * @param int $number
-     *
-     * @return bool
-     */
-    public function isSetUnNamedParam($number): bool
-    {
-        return isset($this->parameters[$number]);
     }
 
     /**

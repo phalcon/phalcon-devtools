@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Local variables
  * @var \Phalcon\Mvc\Micro $app

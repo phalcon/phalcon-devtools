@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use Phalcon\Di\FactoryDefault\Cli as FactoryDefault;
 use Phalcon\Cli\Console as ConsoleApp;
@@ -63,7 +64,6 @@ foreach ($argv as $k => $arg) {
 }
 
 try {
-
     /**
      * Handle
      */
@@ -81,7 +81,6 @@ try {
     if (isset($config["printNewLine"]) && $config["printNewLine"]) {
         echo PHP_EOL;
     }
-
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     echo $e->getTraceAsString() . PHP_EOL;

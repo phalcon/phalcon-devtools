@@ -54,11 +54,11 @@ abstract class AbstractComponent
      * @return bool
      * @throws BuilderException
      */
-    protected function checkNamespace(string $namespace)
+    protected function checkNamespace(string $namespace): bool
     {
         $validation = new Validation();
         $validation->add('namespace', new Namespaces([
-            'allowEmpty' => true
+            'allowEmpty' => true,
         ]));
 
         $messages = $validation->validate(['namespace' => $namespace]);
@@ -128,9 +128,19 @@ abstract class AbstractComponent
      *
      * @param string $message
      */
-    protected function notifySuccess($message): void
+    protected function notifySuccess(string $message): void
     {
         print Color::success($message);
+    }
+
+    /**
+     * Shows a info notification
+     *
+     * @param string $message
+     */
+    protected function notifyInfo(string $message): void
+    {
+        print Color::info($message);
     }
 
     abstract public function build();

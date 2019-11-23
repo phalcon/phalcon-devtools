@@ -106,7 +106,6 @@ class Project extends AbstractComponent
 
         /** @var ProjectBuilder $builder */
         $builder = new $builderClass($this->options);
-
         $success = $builder->build();
 
         $root = new SplFileInfo($this->path->getRootPath('public'));
@@ -114,10 +113,9 @@ class Project extends AbstractComponent
         $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
 
         if ($success === true) {
-            $sprintMessage = "Project '%s' was successfully created.\n" .
-                "Please choose a password and username to use Database connection." .
-                "Used default:'root' without password.";
-            $this->notifySuccess(sprintf($sprintMessage, $this->options->get('name')));
+            $this->notifySuccess(sprintf("Project '%s' was successfully created.", $this->options->get('name')));
+            $this->notifyInfo("Please choose a password and username to use Database connection.");
+            $this->notifyInfo("Used default: 'root' without password.");
         }
 
         return $success;

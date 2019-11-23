@@ -1,7 +1,7 @@
 {
-  "application": {
-    "controllersDir": "@@name@@/controllers/",
-    "modelsDir": "@@name@@/models/",
-    "viewsDir": "@@name@@/views/"
-  }
+    "application": {
+        "controllersDir": "@@name@@/controllers/",
+        "modelsDir": "@@name@@/models/",
+        "viewsDir": "@@name@@/views/"
+    }
 }

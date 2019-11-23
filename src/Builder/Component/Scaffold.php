@@ -73,6 +73,10 @@ class Scaffold extends AbstractComponent
         $name = $this->options->get('name');
         $config = $this->options->get('config');
 
+        if ($name === null) {
+            throw new BuilderException('Table name is required.');
+        }
+
         if (empty($config->path('database.adapter'))) {
             throw new BuilderException(
                 'Adapter was not found in the config. Please specify a config variable [database][adapter].'
@@ -131,10 +135,8 @@ class Scaffold extends AbstractComponent
         }
 
         $this->options->offsetSet('viewsDir', $viewPath);
-
-
         $this->options->offsetSet('manager', $di->getShared('modelsManager'));
-        $this->options->offsetSet('className', Text::camelize($this->options->get('name')));
+        $this->options->offsetSet('className', Text::camelize($name));
         $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';

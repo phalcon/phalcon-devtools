@@ -16,6 +16,7 @@ use DirectoryIterator;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Commands\CommandsException;
+use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Script\ScriptException;
 use Phalcon\Events\Manager as EventsManager;
 
@@ -74,7 +75,7 @@ class Script
      *
      * @param Command $command
      */
-    public function attach(Command $command)
+    public function attach(Command $command): void
     {
         $this->commands[] = $command;
     }
@@ -84,7 +85,7 @@ class Script
      *
      * @return Command[]
      */
-    public function getCommands()
+    public function getCommands(): array
     {
         return $this->commands;
     }
@@ -107,8 +108,10 @@ class Script
             $return = true;
             $command->run($command->getParameters());
         } catch (BuilderException $builderException) {
+            echo Color::error($builderException->getMessage());
             $return = false;
         } catch (CommandsException $commandsException) {
+            echo Color::error($commandsException->getMessage());
             $return = false;
         }
 
@@ -171,7 +174,7 @@ class Script
         throw new ScriptException($message);
     }
 
-    public function loadUserScripts()
+    public function loadUserScripts(): void
     {
         if (!file_exists('.phalcon/project.ini')) {
             return;

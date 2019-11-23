@@ -20,6 +20,9 @@ use SplFileInfo;
  */
 class Module extends AbstractComponent
 {
+    /**
+     * @var array
+     */
     protected $moduleDirectories = [
         'config',
         'controllers',
@@ -148,56 +151,54 @@ class Module extends AbstractComponent
      * @param string $putFile To file
      * @param string $name
      * @param string $namespace
-     *
-     * @return $this
      */
-    protected function generateFile(string $getFile, string $putFile, string $name = '', string $namespace = '')
+    protected function generateFile(string $getFile, string $putFile, string $name = '', string $namespace = ''): void
     {
-        if (!file_exists($putFile)) {
-            touch($putFile);
-            $fh = fopen($putFile, "w+");
-
-            $str = file_get_contents($getFile);
-
-            if (!$namespace && $name) {
-                $namespace = $name;
-            }
-
-            if ($namespace) {
-                // default is reserved keyword
-                if (strtolower(trim($namespace)) == 'default') {
-                    $namespace = 'MyDefault';
-                }
-
-                $namespace = ucfirst($namespace);
-            }
-
-            if ($name && 0 != strcasecmp($namespace, $name)) {
-                $namespacePart = $name;
-
-                // default is reserved keyword
-                if (strtolower(trim($namespacePart)) == 'default') {
-                    $namespacePart = 'MyDefault';
-                }
-
-                $namespace = $namespace . '\\' . ucfirst($namespacePart);
-            }
-
-            $str = preg_replace('/@@name@@/', $name, $str);
-            $str = preg_replace('/@@FQMN@@/', $namespace, $str);
-
-            if (count($this->variableValues) > 0) {
-                foreach ($this->variableValues as $variableValueKey => $variableValue) {
-                    $variableValueKeyRegEx = '/@@'.preg_quote($variableValueKey, '/').'@@/';
-                    $str = preg_replace($variableValueKeyRegEx, $variableValue, $str);
-                }
-            }
-
-            fwrite($fh, $str);
-            fclose($fh);
+        if (file_exists($putFile)) {
+            return;
         }
 
-        return $this;
+        touch($putFile);
+        $fh = fopen($putFile, "w+");
+
+        $str = file_get_contents($getFile);
+
+        if (!$namespace && $name) {
+            $namespace = $name;
+        }
+
+        if ($namespace) {
+            // default is reserved keyword
+            if (strtolower(trim($namespace)) == 'default') {
+                $namespace = 'MyDefault';
+            }
+
+            $namespace = ucfirst($namespace);
+        }
+
+        if ($name && 0 != strcasecmp($namespace, $name)) {
+            $namespacePart = $name;
+
+            // default is reserved keyword
+            if (strtolower(trim($namespacePart)) == 'default') {
+                $namespacePart = 'MyDefault';
+            }
+
+            $namespace = $namespace . '\\' . ucfirst($namespacePart);
+        }
+
+        $str = preg_replace('/@@name@@/', $name, $str);
+        $str = preg_replace('/@@FQMN@@/', $namespace, $str);
+
+        if (count($this->variableValues) > 0) {
+            foreach ($this->variableValues as $variableValueKey => $variableValue) {
+                $variableValueKeyRegEx = '/@@'.preg_quote($variableValueKey, '/').'@@/';
+                $str = preg_replace($variableValueKeyRegEx, $variableValue, $str);
+            }
+        }
+
+        fwrite($fh, $str);
+        fclose($fh);
     }
 
     /**

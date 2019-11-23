@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use Phalcon\Loader;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;

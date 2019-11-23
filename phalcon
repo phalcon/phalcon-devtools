@@ -37,9 +37,7 @@ try {
     print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
 
     $eventsManager = new EventsManager();
-
     $eventsManager->attach('command', new CommandsListener());
-
     $script = new Script($eventsManager);
 
     $commandsToEnable = [
