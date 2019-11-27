@@ -99,12 +99,21 @@ defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
 /**
  * Register the Composer autoloader (if any)
  */
-$vendorAutoload = PTOOLSPATH . DS . 'vendor' . DS . 'autoload.php';
-if (!file_exists($vendorAutoload)) {
-    throw new Exception('Please run composer install');
+$vendorAutoload = [
+    PTOOLSPATH . DS . 'vendor' . DS . 'autoload.php', // Is installed locally
+    PTOOLSPATH . DS . '..' . DS . '..' . DS . 'autoload.php',  // Is installed via Composer
+];
+
+foreach ($vendorAutoload as $file) {
+    if (file_exists($file)) {
+        require_once $file;
+        break;
+    }
 }
 
-require_once $vendorAutoload;
+if (false === class_exists('Composer\Autoload\ClassLoader', false)) {
+    throw new Exception('Please run composer install');
+}
 
 /**
  * Register the custom loader (if any)
