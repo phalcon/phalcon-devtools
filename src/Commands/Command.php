@@ -285,6 +285,9 @@ abstract class Command implements CommandsInterface
 
             $param = $argv;
             if ($paramName != '') {
+                /**
+                 * @psalm-suppress InvalidArgument
+                 */
                 if (!empty($arguments[$paramName]['have-option']) && $param == '') {
                     throw new CommandsException("The parameter '$paramName' requires an option");
                 }
