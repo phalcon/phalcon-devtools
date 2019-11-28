@@ -52,3 +52,15 @@ $I->runShellCommand('phalcon project ' . $projectName3 . ' --use-config-ini');
 $I->seeFileFound(app_path($path3));
 $I->seeFileFound(app_path($path3 . '/app/config/config.ini'));
 $I->deleteDir(app_path($path3));
+
+/**
+ * Case 4 - custom template engine
+ */
+$projectName4 = 'hello_world';
+$path4 = $projectsFolder . '/' . $projectName4;
+
+$I->dontSeeFileFound(app_path($path4));
+$I->runShellCommand('phalcon project ' . $projectName4 . ' simple --template-engine=volt');
+$I->seeFileFound(app_path($path4));
+$I->seeFileFound(app_path($path4 . '/app/views/index.volt'));
+$I->deleteDir(app_path($path4));
