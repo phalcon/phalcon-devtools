@@ -204,34 +204,39 @@ abstract class Command implements CommandsInterface
 
         $arguments = [];
         foreach ($parameters as $parameter => $description) {
-            if (strpos($parameter, "=") !== false) {
-                $parameterParts = explode("=", $parameter);
-                if (count($parameterParts) != 2) {
+            if (strpos($parameter, '=') !== false) {
+                $parameterParts = explode('=', $parameter);
+                if (count($parameterParts) !== 2) {
                     throw new CommandsException("Invalid definition for the parameter '$parameter'");
                 }
-                if (strlen($parameterParts[0]) == "") {
+
+                if (strlen($parameterParts[0]) == 0) {
                     throw new CommandsException("Invalid definition for the parameter '$parameter'");
                 }
+
                 if (!in_array($parameterParts[1], ['s', 'i', 'l'])) {
                     throw new CommandsException("Incorrect data type on parameter '$parameter'");
                 }
+
                 $this->preparedArguments[$parameterParts[0]] = true;
                 $arguments[$parameterParts[0]] = [
                     'have-option' => true,
                     'option-required' => true,
-                    'data-type' => $parameterParts[1]
+                    'data-type' => $parameterParts[1],
                 ];
-            } else {
-                if (!preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
-                    throw new CommandsException("Invalid parameter '$parameter'");
-                }
 
-                $this->preparedArguments[$parameter] = true;
-                $arguments[$parameter] = [
-                    'have-option'     => false,
-                    'option-required' => false
-                ];
+                continue;
             }
+
+            if (!preg_match('/([a-zA-Z0-9]+)/', $parameter)) {
+                throw new CommandsException("Invalid parameter '$parameter'");
+            }
+
+            $this->preparedArguments[$parameter] = true;
+            $arguments[$parameter] = [
+                'have-option'     => false,
+                'option-required' => false
+            ];
         }
 
         $param = '';
@@ -267,26 +272,29 @@ abstract class Command implements CommandsInterface
                         $param = '';
                         $paramName = '';
                     }
-                    if ($arguments[$paramName]['have-option'] == false) {
+
+                    if (!$arguments[$paramName]['have-option']) {
                         $receivedParams[$paramName] = true;
                     } elseif (isset($matches[4])) {
                         $receivedParams[$paramName] = $matches[4];
                     }
                 }
-            } else {
-                $param = $argv;
-                if ($paramName != '') {
-                    if (!empty($arguments[$paramName]['have-option']) && $param == '') {
-                        throw new CommandsException("The parameter '$paramName' requires an option");
-                    }
 
-                    $receivedParams[$paramName] = $param;
-                    $param = '';
-                    $paramName = '';
-                } else {
-                    $receivedParams[$i - 1] = $param;
-                    $param = '';
+                continue;
+            }
+
+            $param = $argv;
+            if ($paramName != '') {
+                if (!empty($arguments[$paramName]['have-option']) && $param == '') {
+                    throw new CommandsException("The parameter '$paramName' requires an option");
                 }
+
+                $receivedParams[$paramName] = $param;
+                $param = '';
+                $paramName = '';
+            } else {
+                $receivedParams[$i - 1] = $param;
+                $param = '';
             }
         }
 
@@ -299,6 +307,7 @@ abstract class Command implements CommandsInterface
                 if (!empty($optionsToMerge)) {
                     $receivedParams = array_merge($optionsToMerge->toArray(), $receivedParams);
                 }
+
                 break;
             }
         }
