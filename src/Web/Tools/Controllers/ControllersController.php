@@ -71,7 +71,6 @@ class ControllersController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle'   => 'All controllers that we managed to find',
                 'controllers'     => $controllers,
                 'controllers_dir' => $controllersDir,
             ]

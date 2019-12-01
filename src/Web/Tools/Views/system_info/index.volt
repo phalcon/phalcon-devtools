@@ -1,9 +1,9 @@
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-md-6">
         {{ content() }}
         {{ flashSession.output() }}
-        <div class="box">
-            <div class="box-body table-responsive no-padding">
+        <div class="card card-secondary">
+            <div class="card-body table-responsive">
                 <table class="table">
                     <tbody>
                         <tr>
