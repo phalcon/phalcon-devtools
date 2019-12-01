@@ -4,39 +4,40 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ get_title() }}</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="{{ phalcon_team }}" name="author">
     <link rel="shortcut icon" href="/favicon.ico?v={{ ptools_version }}">
-    {{ stylesheet_link("https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&subset=latin,cyrillic-ext,cyrillic", false) }}
-    {% block head_icons %}
-        {{ stylesheet_link("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css", false) }}
-        {{ stylesheet_link("https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css", false) }}
-    {% endblock %}
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    {{ assets.outputJs('js_ie') }}
-    <![endif]-->
+    {{ stylesheet_link("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css", false) }}
+
     {{ assets.outputCss('main_css') }}
     {% block head_custom %}{% endblock %}
 </head>
+
 {%- block body_start -%}
-    <body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed">
 {%- endblock -%}
-    {%- block wrapper_start -%}
-        <div class="wrapper">
-    {%- endblock -%}
+
+    <div class="wrapper">
         {% block header %}{% endblock %}
         {% block sidebar %}{% endblock %}
-        {% block content %}{% endblock %}
-        {% block footer %}{% endblock %}
-        {% block sidebar_right %}{% endblock %}
-    {%- block wrapper_end -%}
+
+        {%- block wrapper_start -%}
+        <div class="content-wrapper">
+        {%- endblock -%}
+
+            {% block content %}{% endblock %}
+            {% block footer %}{% endblock %}
+            {% block sidebar_right %}{% endblock %}
+
+        {%- block wrapper_end -%}
             <div class="control-sidebar-bg"></div>
         </div>
-    {%- endblock -%}
+        {%- endblock -%}
+    </div>
+
     {% block footer_js %}{% endblock %}
+
 {%- block body_end -%}
-    </body>
+</body>
 {%- endblock -%}
 </html>

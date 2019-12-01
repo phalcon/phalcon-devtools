@@ -1,3 +1,5 @@
 <section class="content">
-    {{ content() }}
+    <div class="container-fluid">
+        {{ content() }}
+    </div>
 </section>

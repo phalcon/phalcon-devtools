@@ -1,5 +1,5 @@
 <div class="lockscreen-logo">
-    <h1 class="headline text-red"> {{ code }}</h1>
+    <h1 class="m-0 headline text-red"> {{ code }}</h1>
 </div>
 
 <div class="help-block text-center">

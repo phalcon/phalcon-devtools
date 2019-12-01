@@ -31,10 +31,6 @@ class IndexController extends Base
      */
     public function indexAction(): void
     {
-        $this->view->setVars(
-            [
-                'page_subtitle' => 'Control panel',
-            ]
-        );
+        // Nothing here
     }
 }

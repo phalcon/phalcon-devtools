@@ -258,7 +258,6 @@ class ControllersController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle'   => 'Generate Controller',
                 'controller_path' => $controllersDir,
                 'controller_name' => basename($controllerName, 'Controller.php') . 'Controller.php'
             ]

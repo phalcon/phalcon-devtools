@@ -13,10 +13,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="content-wrapper">
-        {% include 'partials/content_header.volt' %}
-        {% include 'partials/content.volt' %}
-    </div>
+    {% include 'partials/content_header.volt' %}
+    {% include 'partials/content.volt' %}
 {% endblock %}
 
 {% block footer %}

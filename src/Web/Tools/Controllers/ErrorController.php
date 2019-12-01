@@ -119,8 +119,7 @@ class ErrorController extends Base
             ->setTargetPath('css/webtools.css')
             ->setTargetUri('css/webtools.css?v=' . Version::get())
             ->addCss($this->resource->path('bootstrap/css/bootstrap.min.css'), true, false)
-            ->addCss($this->resource->path('admin-lte/css/AdminLTE.min.css'))
-            ->addCss($this->resource->path('admin-lte/css/skins/_all-skins.min.css'), true, false)
+            ->addCss($this->resource->path('admin-lte/css/adminlte.min.css'))
             ->addCss($this->resource->path('css/dashboard.css'))
             ->join(true)
             ->addFilter(new Cssmin);

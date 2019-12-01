@@ -1,23 +1,13 @@
-{% set head_title = '<span class="logo-mini"><strong>' ~ app_mini ~ '</strong></span><span class="logo-lg"><strong>' ~ app_name ~ '</strong></span>' %}
-
-<header class="main-header">
-    {{ link_to(webtools_uri, head_title, 'class': 'logo') }}
-    <nav class="navbar navbar-static-top">
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a>
-
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    {{ link_to(
-                        "https://github.com/phalcon/phalcon-devtools/issues",
-                        "Did something go wrong? Try the Github Issues.",
-                        'class': 'dropdown-toggle',
-                        "local": false
-                    ) }}
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="https://github.com/phalcon/phalcon-devtools/issues" class="nav-link text-primary" target="_blank">
+                <i class="fas fa-exclamation-triangle"></i>
+                Did something go wrong? Try the Github Issues.
+            </a>
+        </li>
+    </ul>
+</nav>
