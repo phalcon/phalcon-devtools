@@ -144,7 +144,7 @@ class FsUtils
             throw new RuntimeException("A {$root} can't be a file");
         }
 
-        if (!mkdir($root->getPath(), 0777, true)) {
+        if (!mkdir($root->getPathname(), 0777, true)) {
             throw new RuntimeException("Unable to create {$root} path");
         }
     }
