@@ -12,9 +12,7 @@
 
             <div class="card-body">
                 <form role="form" class="form-horizontal" name="generate-controller" method="post" action="{{ url.get(webtools_uri ~ "/controllers/generate") }}">
-                    <div class="box-header with-border">
-                        <p class="pull-left">{{ controller_name }} - [{{ controller_path }}]</p>
-                    </div>
+                    <p>{{ controller_name }} - [{{ controller_path }}]</p>
 
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Controller name</label>
@@ -60,7 +58,6 @@
                     </div>
 
                     <hr />
-
                     {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
                 </form>
             </div>

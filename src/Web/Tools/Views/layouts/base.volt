@@ -1,5 +1,5 @@
 {{ get_doctype() }}
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +14,7 @@
 </head>
 
 {%- block body_start -%}
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-fixed">
 {%- endblock -%}
 
     <div class="wrapper">
@@ -26,13 +26,13 @@
         {%- endblock -%}
 
             {% block content %}{% endblock %}
-            {% block footer %}{% endblock %}
-            {% block sidebar_right %}{% endblock %}
 
         {%- block wrapper_end -%}
             <div class="control-sidebar-bg"></div>
         </div>
         {%- endblock -%}
+
+        {% block footer %}{% endblock %}
     </div>
 
     {% block footer_js %}{% endblock %}

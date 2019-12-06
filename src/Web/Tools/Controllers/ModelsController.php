@@ -70,7 +70,6 @@ class ModelsController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle' => 'All models that we managed to find',
                 'models'        => $models,
                 'models_dir'    => $modelsDir,
             ]
@@ -286,7 +285,6 @@ class ModelsController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle' => 'Generate Model',
                 'model_path'    => $modelsDir,
                 'tables'        => $tables,
             ]
