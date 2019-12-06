@@ -40,6 +40,7 @@ class FlashProvider implements ServiceProviderInterface
         $di->setShared($this->providerName, function () use ($cssClasses) {
             $flash = new FlashDirect();
             $flash->setAutoescape(false);
+            $flash->setImplicitFlush(false);
             $flash->setCssClasses($cssClasses);
 
             return $flash;
