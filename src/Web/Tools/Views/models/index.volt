@@ -1,13 +1,19 @@
+{{ flash.output() }}
+
 <div class="row">
     <div class="col-sm-12">
-        {{ content() }}
-        {{ flashSession.output() }}
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Models List</h3>
-                {{ link_to(webtools_uri ~ "/models/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Models List
+                    <br/>
+                    <small>All models that we managed to find</small>
+                </h3>
+                <div class="card-tools">
+                    {{ link_to(webtools_uri ~ "/models/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
+                </div>
             </div>
-            <div class="box-body table-responsive no-padding">
+            <div class="card-body">
                 <table class="table table-hover">
                     <tr>
                         <th>Name</th>
@@ -30,26 +36,23 @@
                         {% for model in models %}
                             <tr>
                                 <td>
-                                    <h5>
-                                        {{- model.name }}
-                                        {% if model.is_writable is false -%}
-                                            <span class="label label-warning">ro</span>
-                                        {%- endif -%}
-                                    </h5>
+                                    {{- model.name }}
+                                    {% if model.is_writable is false -%}
+                                        <span class="label label-warning">ro</span>
+                                    {%- endif -%}
                                 </td>
                                 <td>{{ model.size ~ ' b'}}</td>
                                 <td>{{ model.owner }}</td>
                                 <td>{{ model.modified_time }}</td>
                                 <td>
                                     {{ link_to(webtools_uri ~ "//models/edit/" ~ rawurlencode(model.filename),
-                                    '<i class="fa fa-pencil"></i>', 'class': 'btn btn-default btn-xs') }}
+                                        '<i class="fas fa-pen-square"></i>', 'class': 'btn btn-warning btn-sm') }}
                                 </td>
                             </tr>
                         {% endfor  %}
                     {%- endif -%}
                 </table>
             </div>
-
         </div>
     </div>
 </div>

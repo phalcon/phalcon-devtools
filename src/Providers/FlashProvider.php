@@ -31,15 +31,16 @@ class FlashProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $cssClasses = [
-            'error'   => 'alert alert-danger fade in',
-            'success' => 'alert alert-success fade in',
-            'notice'  => 'alert alert-info fade in',
-            'warning' => 'alert alert-warning fade in',
+            'error'   => 'alert alert-danger fade show',
+            'success' => 'alert alert-success fade show',
+            'notice'  => 'alert alert-info fade show',
+            'warning' => 'alert alert-warning fade show',
         ];
 
         $di->setShared($this->providerName, function () use ($cssClasses) {
             $flash = new FlashDirect();
             $flash->setAutoescape(false);
+            $flash->setImplicitFlush(false);
             $flash->setCssClasses($cssClasses);
 
             return $flash;

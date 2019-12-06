@@ -37,8 +37,6 @@ class ScaffoldController extends Base
      */
     public function initialize()
     {
-        parent::initialize();
-
         $this->view->setVar('page_title', 'Scaffold');
     }
 

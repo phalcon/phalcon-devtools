@@ -1,17 +1,15 @@
 {%- include 'partials/inputs.volt' -%}
 
+{{ flash.output() }}
+
 <div class="row">
     <div class="col-sm-12">
-        {{ content() }}
-        {{ flashSession.output() }}
-
-        <div class="box box-success">
-            <form role="form" class="form-horizontal" name="generate-scaffold" method="post" action="{{ url.get(webtools_uri ~ "/scaffold/generate") }}">
-                <div class="box-header with-border">
-                    <p class="pull-left">We will use templates from: [{{ template_path }}]</p>
-                    {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
-                </div>
-                <div class="box-body">
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">We will use templates from: [{{ template_path }}]</h3>
+            </div>
+            <div class="card-body">
+                <form role="form" class="form-horizontal" name="generate-scaffold" method="post" action="{{ url.get(webtools_uri ~ "/scaffold/generate") }}">
                     <div class="form-group">
                         <label for="modelsNamespace" class="col-sm-2 control-label">Model's namespace</label>
                         <div class="col-sm-10">
@@ -69,8 +67,11 @@
                             </label>
                         </div>
                     </div>
-                </div>
-            </form>
+
+                    <hr/>
+                    {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -16,7 +16,6 @@ use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
 use Phalcon\Config;
-use Phalcon\DevTools\Elements\Menu\SidebarMenu;
 use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
@@ -41,7 +40,6 @@ use Phalcon\Version as PhVersion;
  * @property SystemInfo $info
  * @property DbUtils $dbUtils
  * @property Registry $registry
- * @property SidebarMenu $sidebar
  * @property AssetsResource $resource
  * @property Manager $assets
  * @property Request|RequestInterface $request
@@ -61,13 +59,7 @@ abstract class Base extends Controller
             ->initialize();
     }
 
-    /**
-     * Override this method to provide custom behavior.
-     */
-    public function initialize()
-    {
-        // nothing
-    }
+    abstract public function initialize();
 
     /**
      * Register CSS assets.
@@ -80,11 +72,12 @@ abstract class Base extends Controller
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
             ->setTargetUri('css/webtools.css?v=' . Version::get())
-            ->addCss($this->resource->path('bootstrap/css/bootstrap.min.css'), true, false)
-            ->addCss($this->resource->path('admin-lte/css/AdminLTE.min.css'))
-            ->addCss($this->resource->path('admin-lte/css/skins/_all-skins.min.css'), true, false)
-            ->addCss($this->resource->path('jvectormap/jquery-jvectormap-1.2.2.css'))
-            ->addCss($this->resource->path('css/dashboard.css'))
+            ->addCss($this->resource->path('admin-lte/css/adminlte.min.css'), true, false)
+            ->addCss(
+                $this->resource->path('admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'),
+                true,
+                false
+            )
             ->join(true)
             ->addFilter(new Cssmin);
 
@@ -102,50 +95,21 @@ abstract class Base extends Controller
             ->collection('footer')
             ->setTargetPath('js/webtools.js')
             ->setTargetUri('js/webtools.js?v=' . Version::get())
-            ->addJs($this->resource->path('jquery/2.2.4/jquery.min.js'), true, false)
-            ->addJs($this->resource->path('jquery-ui/jquery-ui.min.js'), true, false)
+            ->addJs($this->resource->path('admin-lte/plugins/jquery/jquery.min.js'), true, false)
+            ->addJs($this->resource->path('admin-lte/plugins/jquery-ui/jquery-ui.min.js'), true, false)
             ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
-            ->addJs($this->resource->path('bootstrap/js/bootstrap.min.js'), true, false)
-            ->addJs($this->resource->path('sparkline/jquery.sparkline.min.js'), true, false)
-            ->addJs($this->resource->path('jvectormap/jquery-jvectormap-1.2.2.min.js'), true, false)
-            ->addJs($this->resource->path('jvectormap/jquery-jvectormap-world-mill-en.js'), true, false)
-            ->addJs($this->resource->path('slimScroll/jquery.slimscroll.min.js'), false, false)
-            ->addJs($this->resource->path('fastclick/fastclick.min.js'), false, false)
-            ->addJs($this->resource->path('admin-lte/js/app.min.js'), true, false)
-            ->addJs($this->resource->path('js/dashboard.js'))
+            ->addJs($this->resource->path('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'), true, false)
+            ->addJs(
+                $this->resource->path('admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'),
+                true,
+                false
+            )
+            ->addJs($this->resource->path('admin-lte/js/adminlte.min.js'), true, false)
+            ->addJs($this->resource->path('js/webtools.js'), true, false)
             ->join(true)
             ->addFilter(new Jsmin);
 
-        $this->assets
-            ->collection('js_ie')
-            ->addJs('https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js', false, false)
-            ->addJs('https://oss.maxcdn.com/respond/1.4.2/respond.min.js', false, false);
-
         return $this;
-    }
-
-    /**
-     * Returns to the WebTools
-     *
-     * @return ResponseInterface
-     */
-    protected function webtoolsRedirect()
-    {
-        $referer = $this->request->getHTTPReferer();
-        if ($path = parse_url($referer, PHP_URL_PATH)) {
-            $this->router->handle($path);
-            return $this->router->wasMatched() ? $this->response->redirect($path, true) : $this->indexRedirect();
-        }
-
-        return $this->indexRedirect();
-    }
-
-    /**
-     * @return ResponseInterface
-     */
-    protected function indexRedirect()
-    {
-        return $this->response->redirect('/');
     }
 
     /**
@@ -161,7 +125,7 @@ abstract class Base extends Controller
                 'phalcon_version' => PhVersion::get(),
                 'phalcon_team'    => 'Phalcon Team',
                 'lte_team'        => 'Almsaeed Studio',
-                'phalcon_url'     => 'https://phalconphp.com/en/',
+                'phalcon_url'     => 'https://phalcon.io/',
                 'devtools_url'    => 'https://github.com/phalcon/phalcon-devtools',
                 'lte_url'         => 'https://adminlte.io/',
                 'app_name'        => 'Phalcon WebTools',

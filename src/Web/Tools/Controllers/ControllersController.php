@@ -40,8 +40,6 @@ class ControllersController extends Base
      */
     public function initialize()
     {
-        parent::initialize();
-
         $this->view->setVar('page_title', 'Controllers');
     }
 
@@ -71,7 +69,6 @@ class ControllersController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle'   => 'All controllers that we managed to find',
                 'controllers'     => $controllers,
                 'controllers_dir' => $controllersDir,
             ]
@@ -258,7 +255,6 @@ class ControllersController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle'   => 'Generate Controller',
                 'controller_path' => $controllersDir,
                 'controller_name' => basename($controllerName, 'Controller.php') . 'Controller.php'
             ]

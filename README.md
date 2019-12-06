@@ -21,8 +21,8 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 5.5
-* Phalcon >= 3.3.0
+* PHP >= 7.2
+* Phalcon >= 4.0.0
 
 ## Installing via Composer
 
@@ -37,17 +37,17 @@ Create the composer.json file as follows:
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "~3.4"
+        "phalcon/devtools": "~4.0"
     }
 }
 ```
 
-If you are still using Phalcon 2.0.x, create a `composer.json` with the following instead:
+If you are still using Phalcon 3.4.x, create a `composer.json` with the following instead:
 
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "^2.0"
+        "phalcon/devtools": "^3.4"
     }
 }
 ```

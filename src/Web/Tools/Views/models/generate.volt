@@ -1,17 +1,17 @@
 {%- include 'partials/inputs.volt' -%}
 
+{{ flash.output() }}
+
 <div class="row">
     <div class="col-sm-12">
-        {{ content() }}
-        {{ flashSession.output() }}
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">Generate Model</h3>
+            </div>
+            <div class="card-body">
+                <form role="form" class="form-horizontal" name="generate-model" method="post" action="{{ url.get(webtools_uri ~ "/models/generate") }}">
+                    <p>New model will be placed at: [{{ model_path }}]</p>
 
-        <div class="box box-success">
-            <form role="form" class="form-horizontal" name="generate-model" method="post" action="{{ url.get(webtools_uri ~ "/models/generate") }}">
-                <div class="box-header with-border">
-                    <p class="pull-left">New model will be placed at: [{{ model_path }}]</p>
-                    {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
-                </div>
-                <div class="box-body">
                     <div class="form-group">
                         <label for="namespace" class="col-sm-2 control-label">Namespace</label>
                         <div class="col-sm-10">
@@ -46,6 +46,8 @@
                             {{ input("modelsDir", "The absolute path to the model directory") }}
                         </div>
                     </div>
+
+                    <hr/>
 
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
@@ -86,8 +88,11 @@
                             </label>
                         </div>
                     </div>
-                </div>
-            </form>
+
+                    <hr/>
+                    {{ submit_button("Generate", "class": "btn btn-success pull-right") }}
+                </form>
+            </div>
         </div>
     </div>
 </div>

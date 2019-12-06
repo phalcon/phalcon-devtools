@@ -1,13 +1,18 @@
+{{ flash.output() }}
+
 <div class="row">
     <div class="col-sm-12">
-        {{ content() }}
-        {{ flashSession.output() }}
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Controllers List</h3>
-                {{ link_to(webtools_uri ~ "/controllers/generate", "Generate", 'class': 'btn btn-primary pull-right') }}
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Controllers List<br />
+                    <small>All controllers that we managed to find</small>
+                </h3>
+                <div class="card-tools">
+                    {{ link_to(webtools_uri ~ "/controllers/generate", "Generate", 'class': 'btn btn-primary') }}
+                </div>
             </div>
-            <div class="box-body table-responsive no-padding">
+            <div class="card-body">
                 <table class="table table-hover">
                     <tr>
                         <th>Name</th>
@@ -30,26 +35,23 @@
                         {% for controller in controllers %}
                             <tr>
                                 <td>
-                                    <h5>
-                                        {{- controller.name }}
-                                        {% if controller.is_writable is false -%}
-                                            <span class="label label-warning">ro</span>
-                                        {%- endif -%}
-                                    </h5>
+                                    {{- controller.name }}
+                                    {% if controller.is_writable is false -%}
+                                        <span class="label label-warning">ro</span>
+                                    {%- endif -%}
                                 </td>
                                 <td>{{ controller.size ~ ' b'}}</td>
                                 <td>{{ controller.owner }}</td>
                                 <td>{{ controller.modified_time }}</td>
                                 <td>
                                     {{ link_to(webtools_uri ~ "/controllers/edit/" ~ rawurlencode(controller.filename),
-                                    '<i class="fa fa-pencil"></i>', 'class': 'btn btn-default btn-xs') }}
+                                        '<i class="fas fa-pen-square"></i>', 'class': 'btn btn-warning btn-sm') }}
                                 </td>
                             </tr>
                         {% endfor  %}
                     {%- endif -%}
                 </table>
             </div>
-
         </div>
     </div>
 </div>

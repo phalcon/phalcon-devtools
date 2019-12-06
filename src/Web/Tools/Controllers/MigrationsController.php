@@ -33,8 +33,6 @@ class MigrationsController extends Base
      */
     public function initialize()
     {
-        parent::initialize();
-
         $this->view->setVar('page_title', 'Migrations');
     }
 
@@ -81,7 +79,6 @@ class MigrationsController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle'  => 'All migrations that we managed to find',
                 'migrations'     => $migrations,
                 'migrations_dir' => $migrationsDir,
             ]
@@ -141,7 +138,6 @@ class MigrationsController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle'  => 'Generate Migration',
                 'migration_path' => $migrationsDir,
                 'tables'         => $tables,
             ]
@@ -191,7 +187,6 @@ class MigrationsController extends Base
 
         $this->view->setVars(
             [
-                'page_subtitle'  => 'Run Migration',
                 'migration_path' => $migrationsDir,
             ]
         );

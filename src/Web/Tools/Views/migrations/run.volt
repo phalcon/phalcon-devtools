@@ -1,17 +1,17 @@
 {%- include 'partials/inputs.volt' -%}
 
+{{ flash.output() }}
+
 <div class="row">
     <div class="col-sm-12">
-        {{ content() }}
-        {{ flashSession.output() }}
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Run Migration</h3>
+            </div>
+            <div class="card-body">
+                <p>Migrations from: [{{ migration_path }}]</p>
 
-        <div class="box box-success">
-            <form role="form" class="form-horizontal" name="generate-migration" method="post" action="{{ url.get(webtools_uri ~ "/migrations/run") }}">
-                <div class="box-header with-border">
-                    <p class="pull-left">Migrations from: [{{ migration_path }}]</p>
-                    {{ submit_button("Run", "class": "btn btn-success pull-right") }}
-                </div>
-                <div class="box-body">
+                <form role="form" class="form-horizontal" name="generate-migration" method="post" action="{{ url.get(webtools_uri ~ "/migrations/run") }}">
                     <div class="form-group">
                         <label for="oldVersion" class="col-sm-2 control-label">Current Version</label>
                         <div class="col-sm-10">
@@ -34,8 +34,11 @@
                             <span class="help-block">The absolute path to the migrations directory</span>
                         </div>
                     </div>
-                </div>
-            </form>
+
+                    <hr/>
+                    {{ submit_button("Run", "class": "btn btn-success pull-right") }}
+                </form>
+            </div>
         </div>
     </div>
 </div>
