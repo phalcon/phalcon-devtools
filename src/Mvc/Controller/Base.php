@@ -61,6 +61,8 @@ abstract class Base extends Controller
             ->initialize();
     }
 
+    abstract public function initialize();
+
     /**
      * Register CSS assets.
      *
