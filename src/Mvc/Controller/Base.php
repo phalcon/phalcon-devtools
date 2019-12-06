@@ -16,7 +16,6 @@ use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
 use Phalcon\Config;
-use Phalcon\DevTools\Elements\Menu\SidebarMenu;
 use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
@@ -41,7 +40,6 @@ use Phalcon\Version as PhVersion;
  * @property SystemInfo $info
  * @property DbUtils $dbUtils
  * @property Registry $registry
- * @property SidebarMenu $sidebar
  * @property AssetsResource $resource
  * @property Manager $assets
  * @property Request|RequestInterface $request
