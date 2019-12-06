@@ -26,7 +26,6 @@ use Phalcon\DevTools\Providers\DispatcherProvider;
 use Phalcon\DevTools\Providers\EventsManagerProvider;
 use Phalcon\DevTools\Providers\FileSystemProvider;
 use Phalcon\DevTools\Providers\FlashProvider;
-use Phalcon\DevTools\Providers\FlashSessionProvider;
 use Phalcon\DevTools\Providers\LoggerProvider;
 use Phalcon\DevTools\Providers\MenuSiderbarProvider;
 use Phalcon\DevTools\Providers\ModelsCacheProvider;
@@ -156,7 +155,6 @@ class Bootstrap
             AssetsProvider::class,
             SessionProvider::class,
             FlashProvider::class,
-            FlashSessionProvider::class,
             DatabaseProvider::class,
             RegistryProvider::class,
             FileSystemProvider::class,
