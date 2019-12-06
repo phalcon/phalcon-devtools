@@ -1,7 +1,7 @@
+{{ flash.output() }}
+
 <div class="row">
     <div class="col-md-6">
-        {{ content() }}
-        {{ flashSession.output() }}
         <div class="card card-secondary">
             <div class="card-body table-responsive">
                 <table class="table">

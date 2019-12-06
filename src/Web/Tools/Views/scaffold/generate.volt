@@ -1,7 +1,6 @@
 {%- include 'partials/inputs.volt' -%}
 
-{{ content() }}
-{{ flashSession.output() }}
+{{ flash.output() }}
 
 <div class="row">
     <div class="col-sm-12">

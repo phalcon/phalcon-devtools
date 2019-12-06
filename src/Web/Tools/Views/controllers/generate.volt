@@ -1,10 +1,9 @@
 {%- include 'partials/inputs.volt' -%}
 
+{{ flash.output() }}
+
 <div class="row">
     <div class="col-sm-12">
-        {{ content() }}
-        {{ flashSession.output() }}
-
         <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Generate Controller</h3>
