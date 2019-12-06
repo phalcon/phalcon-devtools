@@ -115,14 +115,6 @@ abstract class Base extends Controller
     }
 
     /**
-     * @return ResponseInterface
-     */
-    protected function indexRedirect()
-    {
-        return $this->response->redirect('/');
-    }
-
-    /**
      * @return $this
      */
     protected function setVars()
