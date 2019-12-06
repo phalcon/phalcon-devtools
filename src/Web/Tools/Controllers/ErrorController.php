@@ -28,8 +28,6 @@ class ErrorController extends Base
      */
     public function initialize()
     {
-        parent::initialize();
-
         $this->view->setLayout('error');
         $this->view->setVars(
             [

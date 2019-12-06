@@ -62,14 +62,6 @@ abstract class Base extends Controller
     }
 
     /**
-     * Override this method to provide custom behavior.
-     */
-    public function initialize()
-    {
-        // nothing
-    }
-
-    /**
      * Register CSS assets.
      *
      * @return $this
