@@ -81,7 +81,11 @@ abstract class Base extends Controller
             ->setTargetPath('css/webtools.css')
             ->setTargetUri('css/webtools.css?v=' . Version::get())
             ->addCss($this->resource->path('admin-lte/css/adminlte.min.css'), true, false)
-            ->addCss($this->resource->path('admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'), true, false)
+            ->addCss(
+                $this->resource->path('admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'),
+                true,
+                false
+            )
             ->join(true)
             ->addFilter(new Cssmin);
 
@@ -103,7 +107,11 @@ abstract class Base extends Controller
             ->addJs($this->resource->path('admin-lte/plugins/jquery-ui/jquery-ui.min.js'), true, false)
             ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
             ->addJs($this->resource->path('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'), true, false)
-            ->addJs($this->resource->path('admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'), true, false)
+            ->addJs(
+                $this->resource->path('admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'),
+                true,
+                false
+            )
             ->addJs($this->resource->path('admin-lte/js/adminlte.min.js'), true, false)
             ->addJs($this->resource->path('js/webtools.js'), true, false)
             ->join(true)

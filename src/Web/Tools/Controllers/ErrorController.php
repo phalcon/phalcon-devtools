@@ -118,9 +118,7 @@ class ErrorController extends Base
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
             ->setTargetUri('css/webtools.css?v=' . Version::get())
-            ->addCss($this->resource->path('bootstrap/css/bootstrap.min.css'), true, false)
-            ->addCss($this->resource->path('admin-lte/css/adminlte.min.css'))
-            ->addCss($this->resource->path('css/dashboard.css'))
+            ->addCss($this->resource->path('admin-lte/css/adminlte.min.css'), true, false)
             ->join(true)
             ->addFilter(new Cssmin);
 
@@ -138,8 +136,12 @@ class ErrorController extends Base
             ->collection('js_ie')
             ->setTargetPath('js/webtools-ie.js')
             ->setTargetUri('js/webtools-ie.js?v=' . Version::get())
-            ->addJs('https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js', false, false)
-            ->addJs('https://oss.maxcdn.com/respond/1.4.2/respond.min.js', false, false)
+            ->addJs($this->resource->path('admin-lte/plugins/jquery/jquery.min.js'), true, false)
+            ->addJs($this->resource->path('admin-lte/plugins/jquery-ui/jquery-ui.min.js'), true, false)
+            ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
+            ->addJs($this->resource->path('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'), true, false)
+            ->addJs($this->resource->path('admin-lte/js/adminlte.min.js'), true, false)
+            ->addJs($this->resource->path('js/webtools.js'), true, false)
             ->join(true)
             ->addFilter(new Jsmin);
 
