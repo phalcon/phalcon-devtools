@@ -121,22 +121,6 @@ abstract class Base extends Controller
     }
 
     /**
-     * Returns to the WebTools
-     *
-     * @return ResponseInterface
-     */
-    protected function webtoolsRedirect()
-    {
-        $referer = $this->request->getHTTPReferer();
-        if ($path = parse_url($referer, PHP_URL_PATH)) {
-            $this->router->handle($path);
-            return $this->router->wasMatched() ? $this->response->redirect($path, true) : $this->indexRedirect();
-        }
-
-        return $this->indexRedirect();
-    }
-
-    /**
      * @return ResponseInterface
      */
     protected function indexRedirect()
