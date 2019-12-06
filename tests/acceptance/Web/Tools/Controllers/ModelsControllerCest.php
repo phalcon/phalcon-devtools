@@ -73,7 +73,7 @@ final class ModelsControllerCest
         /**
          * Enter to edit Model Page
          */
-        $I->click(".table a.btn-xs:nth-child(1)");
+        $I->click(".table a.btn-sm:nth-child(1)");
         $I->see('Editing Model');
 
         /**
@@ -85,7 +85,7 @@ final class ModelsControllerCest
         /**
          * Check if contents was saved
          */
-        $I->click(".table a.btn-xs:nth-child(1)");
+        $I->click(".table a.btn-sm:nth-child(1)");
         $I->see('Editing Model');
         $I->see($newCode);
 
