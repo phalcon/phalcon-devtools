@@ -73,6 +73,18 @@ chmod +xr ./phalcon.phar
 php ./phalcon.phar
 ```
 
+## Build Docker Image
+
+Use make command to build the docker image, It will build the image named `phalcon`:
+```bash
+make image
+```
+
+And run container with following command:
+```bash
+docker run -it --rm phalcon
+```
+
 ## Installation via Git
 
 Phalcon Devtools can be installed by using Git.
