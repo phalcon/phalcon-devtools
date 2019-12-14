@@ -936,7 +936,7 @@ class Migration
             return false;
         }
 
-        if ($type == Column::TYPE_TEXT) {
+        if (in_array($type, [Column::TYPE_TEXT, Column::TYPE_DATE, Column::TYPE_DATETIME])) {
             return false;
         }
 
