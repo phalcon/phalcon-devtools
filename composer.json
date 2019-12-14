@@ -27,7 +27,7 @@
         "ext-phalcon": "^4.0.0-rc.3",
         "psy/psysh": "~0.9",
         "nikic/php-parser": "^4.2.4",
-        "phalcon/migrations": "^1.0.4",
+        "phalcon/migrations": "^1.1",
         "vlucas/phpdotenv": "^3.6"
     },
     "require-dev": {

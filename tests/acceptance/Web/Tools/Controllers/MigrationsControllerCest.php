@@ -76,6 +76,6 @@ final class MigrationsControllerCest
         $I->see('Migrations');
         $I->see('Run Migration');
         $I->click('input[type=submit]');
-        $I->see('Info: Everything is up to date');
+        $I->see('Migrations List');
     }
 }
