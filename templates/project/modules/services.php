@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use Phalcon\Loader;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 @@iniConfigImport@@
@@ -32,9 +31,7 @@ $di->setShared('db', function () {
         unset($params['charset']);
     }
 
-    $connection = new $class($params);
-
-    return $connection;
+    return new $class($params);
 });
 
 /**
@@ -52,7 +49,7 @@ $di->setShared('voltShared', function ($view) {
 
     $volt = new VoltEngine($view, $this);
     $volt->setOptions([
-        'compiledPath' => function($templatePath) use ($config) {
+        'path' => function($templatePath) use ($config) {
             $basePath = $config->application->appDir;
             if ($basePath && substr($basePath, 0, 2) == '..') {
                 $basePath = dirname(__DIR__);
@@ -74,7 +71,7 @@ $di->setShared('voltShared', function ($view) {
                 $cacheDir = sys_get_temp_dir();
             }
 
-            if (!is_dir($cacheDir . DIRECTORY_SEPARATOR . 'volt' )) {
+            if (!is_dir($cacheDir . DIRECTORY_SEPARATOR . 'volt')) {
                 @mkdir($cacheDir . DIRECTORY_SEPARATOR . 'volt' , 0755, true);
             }
 
