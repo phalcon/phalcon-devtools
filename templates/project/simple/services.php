@@ -96,12 +96,15 @@ $di->setShared('modelsMetadata', function () {
 $di->set('flash', function () {
     $escaper = new Escaper();
     $flash = new Flash($escaper);
+    $flash->setImplicitFlush(false);
     $flash->setCssClasses([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
         'notice'  => 'alert alert-info',
         'warning' => 'alert alert-warning'
     ]);
+
+    return $flash;
 });
 
 /**
