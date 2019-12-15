@@ -21,6 +21,7 @@ use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\DevTools\Mvc\Controller\CodemirrorTrait;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Tag;
@@ -68,79 +69,62 @@ class ModelsController extends Base
             }
         }
 
-        $this->view->setVars(
-            [
-                'models'        => $models,
-                'models_dir'    => $modelsDir,
-            ]
-        );
+        $this->view->setVars([
+            'models'        => $models,
+            'models_dir'    => $modelsDir,
+        ]);
     }
 
     /**
      * @Get("/models/edit/{file:[\w\d_.~%-]+}", name="models-edit")
+     *
      * @param string $file
+     * @return ResponseInterface|void
      */
     public function editAction($file)
     {
         if (empty($file) || !$fileName = rawurldecode($file)) {
-            $this->flash->error('Model could not be found.');
-            $this->dispatcher->forward([
-                'controller' => 'models',
-                'action'     => 'index',
-            ]);
-            return;
+            $this->flashSession->error('Model could not be found.');
+            return $this->response->redirect('/webtools.php/models/list');
         }
 
         $modelsDir = $this->registry->offsetGet('directories')->modelsDir;
         $path = $this->fs->normalize("{$modelsDir}/{$fileName}");
 
         if (!file_exists($path)) {
-            $this->flash->error('Model could not be found.');
-            $this->dispatcher->forward([
-                'controller' => 'models',
-                'action'     => 'index',
-            ]);
-            return;
+            $this->flashSession->error('Model could not be found.');
+            return $this->response->redirect('/webtools.php/models/list');
         }
 
         $this->registerResources();
 
         if (!is_writable($path)) {
-            $this->flash->error(sprintf('You have not enough rights to edit %s using a browser.', $fileName));
-            $this->dispatcher->forward([
-                'controller' => 'models',
-                'action'     => 'view',
-                'params'     => [$fileName],
-            ]);
-            return;
+            $this->flashSession->error(sprintf('You have not enough rights to edit %s using a browser.', $fileName));
+            return $this->response->redirect('/webtools.php/models/edit/' . $fileName);
         }
 
         $this->tag->setDefault('code', file_get_contents($path));
         $this->tag->setDefault('path', $path);
 
-        $this->view->setVars(
-            [
-                'page_subtitle'=> 'Editing Model',
-                'model_path'   => $modelsDir,
-                'model_name'   => $fileName,
-                'custom_css'   => true,
-            ]
-        );
+        $this->view->setVars([
+            'page_subtitle'=> 'Editing Model',
+            'model_path'   => $modelsDir,
+            'model_name'   => $fileName,
+            'custom_css'   => true,
+        ]);
     }
 
     /**
      * @Get("/models/view/{file:[\w\d_.~%-]+}", name="models-view")
+     *
      * @param string $file
+     * @return ResponseInterface|void
      */
     public function viewAction($file)
     {
         if (empty($file) || !$fileName = rawurldecode($file)) {
-            $this->flash->error('Model could not be found.');
-            $this->dispatcher->forward([
-                'controller' => 'models',
-                'action'     => 'index',
-            ]);
-            return;
+            $this->flashSession->error('Model could not be found.');
+            return $this->response->redirect('/webtools.php/models/list');
         }
 
         $this->registerResources();
@@ -149,27 +133,23 @@ class ModelsController extends Base
         $path = $this->fs->normalize("{$modelsDir}/{$fileName}");
 
         if (!file_exists($path)) {
-            $this->flash->error('Model could not be found.');
-            $this->dispatcher->forward([
-                'controller' => 'models',
-                'action'     => 'index',
-            ]);
-            return;
+            $this->flashSession->error('Model could not be found.');
+            return $this->response->redirect('/webtools.php/models/list');
         }
 
         $this->tag->setDefault('code', file_get_contents($path));
-        $this->view->setVars(
-            [
-                'page_subtitle' => 'View Model',
-                'model_path'    => $modelsDir,
-                'model_name'    => $fileName,
-                'custom_css'    => true,
-            ]
-        );
+        $this->view->setVars([
+            'page_subtitle' => 'View Model',
+            'model_path'    => $modelsDir,
+            'model_name'    => $fileName,
+            'custom_css'    => true,
+        ]);
     }
 
     /**
      * @Route("/models/update", methods={"POST", "PUT"}, name="models-save")
+     *
+     * @return ResponseInterface
      */
     public function updateAction()
     {
@@ -204,6 +184,8 @@ class ModelsController extends Base
 
     /**
      * @Route("/models/generate", methods={"POST", "GET"}, name="models-generate")
+     *
+     * @return ResponseInterface|void
      */
     public function generateAction()
     {
@@ -254,11 +236,9 @@ class ModelsController extends Base
 
                 return $this->response->redirect('/webtools.php/models/list');
             } catch (BuilderException $e) {
-                $this->flash->error($e->getMessage());
+                $this->flashSession->error($e->getMessage());
             } catch (\Exception $e) {
-                $this->flash->error(
-                    sprintf('An unexpected error has occurred: %s', $e->getMessage())
-                );
+                $this->flashSession->error(sprintf('An unexpected error has occurred: %s', $e->getMessage()));
             }
         }
 
@@ -266,7 +246,7 @@ class ModelsController extends Base
         $basePath = $this->registry->offsetGet('directories')->basePath;
 
         if (!$modelsDir) {
-            $this->flash->error(
+            $this->flashSession->error(
                 "Sorry, WebTools doesn't know where the models directory is. " .
                 "Please add to <code>application</code> section <code>modelsDir</code> param with real path."
             );
@@ -276,18 +256,16 @@ class ModelsController extends Base
             $tables = $this->dbUtils->listTables(true);
         } catch (PDOException $PDOException) {
             $tables = [];
-            $this->flash->error($PDOException->getMessage());
+            $this->flashSession->error($PDOException->getMessage());
         }
 
         $this->tag->setDefault('basePath', $basePath);
         $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
         $this->tag->setDefault('modelsDir', $modelsDir);
 
-        $this->view->setVars(
-            [
-                'model_path'    => $modelsDir,
-                'tables'        => $tables,
-            ]
-        );
+        $this->view->setVars([
+            'model_path'    => $modelsDir,
+            'tables'        => $tables,
+        ]);
     }
 }
