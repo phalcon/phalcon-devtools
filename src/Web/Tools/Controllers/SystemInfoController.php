@@ -29,11 +29,9 @@ class SystemInfoController extends Base
      */
     public function indexAction()
     {
-        $this->view->setVars(
-            [
-                'page_subtitle' => 'General information about the application',
-                'info' => $this->info,
-            ]
-        );
+        $this->view->setVars([
+            'page_subtitle' => 'General information about the application',
+            'info' => $this->info,
+        ]);
     }
 }
