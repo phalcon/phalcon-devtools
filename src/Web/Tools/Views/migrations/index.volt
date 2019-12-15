@@ -1,4 +1,4 @@
-{{ flash.output() }}
+{{ flashSession.output() }}
 
 <div class="row">
     <div class="col-sm-12">
