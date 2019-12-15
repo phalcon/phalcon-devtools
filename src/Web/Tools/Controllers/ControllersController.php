@@ -17,7 +17,6 @@ use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
 use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\DevTools\Mvc\Controller\CodemirrorTrait;
-use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Controller;
@@ -26,7 +25,6 @@ use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Tag;
 
 /**
- * @property Direct $flash
  * @property Dispatcher|DispatcherInterface $dispatcher
  * @property Tag $tag
  * @property Session $flashSession

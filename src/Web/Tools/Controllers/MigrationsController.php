@@ -16,7 +16,6 @@ use DirectoryIterator;
 use PDOException;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Mvc\Controller\Base;
-use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Migrations\Migrations;
@@ -24,7 +23,6 @@ use Phalcon\Tag;
 
 /**
  * @property Session $flashSession
- * @property Direct $flash
  * @property Tag $tag
  */
 class MigrationsController extends Base
