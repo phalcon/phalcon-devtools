@@ -45,6 +45,7 @@ final class ModelsControllerCest
         $I->click('input[type=submit]');
         $I->see('Models List');
         $I->see('TestMigrations');
+        $I->see('Models were created successfully.');
 
         remove_dir($modelsDir);
     }
@@ -76,11 +77,16 @@ final class ModelsControllerCest
         $I->click(".table a.btn-sm:nth-child(1)");
         $I->see('Editing Model');
 
+        $modelName = explode('/', $I->grabFromCurrentUrl());
+        $modelName = end($modelName);
+        $modelName = str_replace('.php', '', $modelName);
+
         /**
          * Edit contents of Model
          */
         $I->fillField('code', $newCode);
         $I->click('form input[type=submit]');
+        $I->see('The model "' . $modelName . '" was saved successfully.');
 
         /**
          * Check if contents was saved

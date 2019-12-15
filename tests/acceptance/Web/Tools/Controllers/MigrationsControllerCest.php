@@ -56,6 +56,7 @@ final class MigrationsControllerCest
         $I->checkOption('#force');
         $I->click('input[type=submit]');
         $I->see('1.0.0');
+        $I->see('The migration was generated successfully.');
     }
 
     /**
@@ -77,5 +78,6 @@ final class MigrationsControllerCest
         $I->see('Run Migration');
         $I->click('input[type=submit]');
         $I->see('Migrations List');
+        $I->see('The migration was executed successfully.');
     }
 }
