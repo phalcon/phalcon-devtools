@@ -19,6 +19,7 @@ use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Tag;
@@ -42,6 +43,8 @@ class ScaffoldController extends Base
 
     /**
      * @Route("/scaffold/generate", methods={"POST", "GET"}, name="scaffold-generate")
+     *
+     * @return ResponseInterface|void
      */
     public function generateAction()
     {
@@ -69,9 +72,9 @@ class ScaffoldController extends Base
 
                 return $this->response->redirect('/webtools.php/migrations/list');
             } catch (BuilderException $e) {
-                $this->flash->error($e->getMessage());
+                $this->flashSession->error($e->getMessage());
             } catch (Exception $e) {
-                $this->flash->error($e->getMessage());
+                $this->flashSession->error($e->getMessage());
             }
         }
 
@@ -81,14 +84,14 @@ class ScaffoldController extends Base
         $templatesPath = $this->registry->offsetGet('directories')->templatesPath;
 
         if (!$modelsDir) {
-            $this->flash->error(
+            $this->flashSession->error(
                 "Sorry, WebTools doesn't know where the models directory is. " .
                 "Please add to <code>application</code> section <code>modelsDir</code> param with real path."
             );
         }
 
         if (!$controllersDir) {
-            $this->flash->error(
+            $this->flashSession->error(
                 "Sorry, WebTools doesn't know where the controllers directory is. " .
                 "Please add to <code>application</code> section <code>controllersDir</code> param with real path."
             );
@@ -104,19 +107,17 @@ class ScaffoldController extends Base
             $tables = $this->dbUtils->listTables();
         } catch (PDOException $PDOException) {
             $tables = [];
-            $this->flash->error($PDOException->getMessage());
+            $this->flashSession->error($PDOException->getMessage());
         }
 
-        $this->view->setVars(
-            [
-                'page_subtitle'   => 'Generate code from template',
-                'tables'          => $tables,
-                'template_path'   => $templatesPath,
-                'templateEngines' => [
-                    'volt' => 'Volt',
-                    'php'  => 'PHP',
-                ],
-            ]
-        );
+        $this->view->setVars([
+            'page_subtitle'   => 'Generate code from template',
+            'tables'          => $tables,
+            'template_path'   => $templatesPath,
+            'templateEngines' => [
+                'volt' => 'Volt',
+                'php'  => 'PHP',
+            ],
+        ]);
     }
 }
