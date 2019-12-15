@@ -79,9 +79,7 @@ $di->setShared('db', function () {
         unset($params['charset']);
     }
 
-    $connection = new $class($params);
-
-    return $connection;
+    return new $class($params);
 });
 
 
@@ -115,6 +113,7 @@ $di->setShared('session', function () {
         'savePath' => sys_get_temp_dir(),
     ]);
     $session->setAdapter($files);
+    $session->start();
 
     return $session;
 });

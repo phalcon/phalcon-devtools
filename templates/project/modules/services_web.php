@@ -14,7 +14,6 @@ use Phalcon\Url as UrlResolver;
  */
 $di->setShared('router', function () {
     $router = new Router();
-
     $router->setDefaultModule('frontend');
 
     return $router;
@@ -41,6 +40,7 @@ $di->setShared('session', function () {
         'savePath' => sys_get_temp_dir(),
     ]);
     $session->setAdapter($files);
+    $session->start();
 
     return $session;
 });
@@ -65,5 +65,6 @@ $di->set('flash', function () {
 $di->setShared('dispatcher', function() {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('@@namespace@@\Modules\Frontend\Controllers');
+
     return $dispatcher;
 });
