@@ -16,14 +16,13 @@ use DirectoryIterator;
 use PDOException;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Mvc\Controller\Base;
-use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Migrations\Migrations;
 use Phalcon\Tag;
 
 /**
  * @property Session $flashSession
- * @property Direct $flash
  * @property Tag $tag
  */
 class MigrationsController extends Base
@@ -87,6 +86,8 @@ class MigrationsController extends Base
 
     /**
      * @Route("/migrations/generate", methods={"POST", "GET"}, name="migrations-generate")
+     *
+     * @return ResponseInterface|void
      */
     public function generateAction()
     {
@@ -108,9 +109,9 @@ class MigrationsController extends Base
 
                 return $this->response->redirect('/webtools.php/migrations/list');
             } catch (BuilderException $e) {
-                $this->flash->error($e->getMessage());
+                $this->flashSession->error($e->getMessage());
             } catch (\Exception $e) {
-                $this->flash->error('An unexpected error has occurred. ' . $e->getMessage());
+                $this->flashSession->error('An unexpected error has occurred. ' . $e->getMessage());
             }
         }
 
@@ -118,7 +119,7 @@ class MigrationsController extends Base
         $basePath = $this->registry->offsetGet('directories')->basePath;
 
         if (!$migrationsDir) {
-            $this->flash->error(
+            $this->flashSession->error(
                 "Sorry, WebTools doesn't know where the migrations directory is. " .
                 "Please add to <code>application</code> section <code>migrationsDir</code> param with real path."
             );
@@ -130,7 +131,7 @@ class MigrationsController extends Base
             $tables = $this->dbUtils->listTables(true);
         } catch (PDOException $PDOException) {
             $tables = [];
-            $this->flash->error($PDOException->getMessage());
+            $this->flashSession->error($PDOException->getMessage());
         }
 
         $this->tag->setDefault('basePath', $basePath);
@@ -146,6 +147,8 @@ class MigrationsController extends Base
 
     /**
      * @Route("/migrations/run", methods={"POST", "GET"}, name="migrations-run")
+     *
+     * @return ResponseInterface|void
      */
     public function runAction()
     {
@@ -164,9 +167,9 @@ class MigrationsController extends Base
 
                 return $this->response->redirect('/webtools.php/migrations/list');
             } catch (BuilderException $e) {
-                $this->flash->error($e->getMessage());
+                $this->flashSession->error($e->getMessage());
             } catch (\Exception $e) {
-                $this->flash->error('An unexpected error has occurred. ' . $e->getMessage());
+                $this->flashSession->error('An unexpected error has occurred. ' . $e->getMessage());
             }
         }
 
@@ -174,7 +177,7 @@ class MigrationsController extends Base
         $basePath = $this->registry->offsetGet('directories')->basePath;
 
         if (!$migrationsDir) {
-            $this->flash->error(
+            $this->flashSession->error(
                 "Sorry, WebTools doesn't know where the migrations directory is. " .
                 "Please add to <code>application</code> section <code>migrationsDir</code> param with real path."
             );

@@ -36,13 +36,15 @@ final class ControllersControllerCest
     public function testSubmitGenerateAction(AcceptanceTester $I): void
     {
         $controllerName = 'TestControllerName';
+        $withPrefixControllerName = $controllerName . 'Controller';
 
         $I->amOnPage('/webtools.php/controllers/generate');
         $I->fillField('name', $controllerName);
         $I->fillField('namespace', 'Test\WebTools');
         $I->click('.form-horizontal input[type=submit]');
         $I->see('All controllers that we managed to find');
-        $I->see($controllerName . 'Controller');
+        $I->see($withPrefixControllerName);
+        $I->see('Controller "' . $withPrefixControllerName . '" was created successfully');
     }
 
     /**
@@ -76,6 +78,7 @@ final class ControllersControllerCest
          */
         $I->fillField('code', $newCode);
         $I->click('form input[type=submit]');
+        $I->see('The controller "' . $controllerName . 'Controller" was saved successfully.');
 
         /**
          * Check if contents was saved
