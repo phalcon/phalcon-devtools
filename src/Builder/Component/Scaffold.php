@@ -461,8 +461,11 @@ class Scaffold extends AbstractComponent
         $code = file_get_contents($this->options->get('templatePath') . '/scaffold/no-forms/Controller.php');
         $usesNamespaces = false;
 
+        $controllerNamespace = (string)$this->options->get('controllersNamespace');
         if ($this->options->has('controllersNamespace') &&
-            $this->checkNamespace((string)$this->options->get('controllersNamespace'))) {
+            $controllerNamespace &&
+            $this->checkNamespace($controllerNamespace)
+        ) {
             $code = str_replace(
                 '$namespace$',
                 'namespace ' . $this->options->get('controllersNamespace').';' . PHP_EOL,

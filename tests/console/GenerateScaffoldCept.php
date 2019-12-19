@@ -25,7 +25,8 @@ $I->runShellCommand('phalcon scaffold genScaffold --get-set --config=app/mysql/c
 
 $I->seeInShellOutput($output);
 
-$I->seeFileFound(app_path('controllers/GenscaffoldController.php'));
+$scaffoldControllerPath = app_path('controllers/GenscaffoldController.php');
+$I->seeFileFound($scaffoldControllerPath);
 $I->seeFileFound(app_path('models/Genscaffold.php'));
 $I->seeFileFound(app_path('views/layouts/genscaffold.phtml'));
 $I->seeFileFound(app_path('views/genscaffold/edit.phtml'));
@@ -33,7 +34,10 @@ $I->seeFileFound(app_path('views/genscaffold/index.phtml'));
 $I->seeFileFound(app_path('views/genscaffold/new.phtml'));
 $I->seeFileFound(app_path('views/genscaffold/search.phtml'));
 
+$I->openFile($scaffoldControllerPath);
+$I->dontSeeInThisFile('namespace ');
+
 $I->deleteDir(app_path('views/layouts/'));
 $I->deleteDir(app_path('views/genscaffold/'));
 $I->deleteFile(app_path('models/Genscaffold.php'));
-$I->deleteFile(app_path('controllers/GenscaffoldController.php'));
+$I->deleteFile($scaffoldControllerPath);
