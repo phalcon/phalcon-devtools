@@ -476,8 +476,11 @@ class Scaffold extends AbstractComponent
             $code = str_replace('$namespace$', ' ', $code);
         }
 
-        if (($this->options->has('modelsNamespace') &&
-                $this->checkNamespace((string)$this->options->get('modelsNamespace'))) || $usesNamespaces) {
+        $modelNamespace = (string)$this->options->get('modelsNamespace');
+        if (
+            ($this->options->has('modelsNamespace') && $modelNamespace && $this->checkNamespace($modelNamespace))
+            || $usesNamespaces
+        ) {
             $code = str_replace(
                 '$useFullyQualifiedModelName$',
                 "use " . ltrim($this->options->get('modelClass'), '\\') . ';',
