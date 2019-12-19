@@ -13,30 +13,18 @@
 </div>
 
 <div class="page-header">
-    <h1>
-        Edit $plural$
-    </h1>
+    <h1>Edit $plural$</h1>
 </div>
 
 <?php echo $this->getContent(); ?>
 
-<?php
-    echo $this->tag->form(
-        [
-            "$plural$/save",
-            "autocomplete" => "off",
-            "class" => "form-horizontal"
-        ]
-    );
-?>
+<form action="$plural$/save" class="form-horizontal" method="post">
+    $captureFields$
+    <?php echo $this->tag->hiddenField("id") ?>
 
-$captureFields$
-<?php echo $this->tag->hiddenField("id") ?>
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        <?php echo $this->tag->submitButton(["Save", "class" => "btn btn-default"]) ?>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <?php echo $this->tag->submitButton(["Save", "class" => "btn btn-default"]) ?>
+        </div>
     </div>
-</div>
-
-<?php echo $this->tag->endForm(); ?>
+</form>
