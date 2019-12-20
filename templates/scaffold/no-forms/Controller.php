@@ -14,7 +14,7 @@ class $className$Controller extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        //
     }
 
     /**
@@ -22,19 +22,9 @@ class $className$Controller extends ControllerBase
      */
     public function searchAction()
     {
-        $numberPage = 1;
-        if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, '$fullyQualifiedModelName$', $_POST);
-            $this->persistent->parameters = $query->getParams();
-        } else {
-            $numberPage = $this->request->getQuery("page", "int");
-        }
-
-        $parameters = $this->persistent->parameters;
-        if (!is_array($parameters)) {
-            $parameters = [];
-        }
-        $parameters["order"] = "$pk$";
+        $numberPage = $this->request->getQuery('page', 'int', 1);
+        $parameters = Criteria::fromInput($this->di, '$fullyQualifiedModelName$', $_GET)->getParams();
+        $parameters['order'] = "$pk$";
 
         $pluralVar$ = $className$::find($parameters);
         if (count($pluralVar$) == 0) {
@@ -51,7 +41,7 @@ class $className$Controller extends ControllerBase
         $paginator = new Paginator([
             'data' => $pluralVar$,
             'limit'=> 10,
-            'page' => $numberPage
+            'page' => $numberPage,
         ]);
 
         $this->view->page = $paginator->getPaginate();
@@ -62,7 +52,7 @@ class $className$Controller extends ControllerBase
      */
     public function newAction()
     {
-
+        //
     }
 
     /**
@@ -73,7 +63,6 @@ class $className$Controller extends ControllerBase
     public function editAction($pkVar$)
     {
         if (!$this->request->isPost()) {
-
             $singularVar$ = $className$::findFirstBy$pk$($pkVar$);
             if (!$singularVar$) {
                 $this->flash->error("$singular$ was not found");
