@@ -477,8 +477,7 @@ class Scaffold extends AbstractComponent
         }
 
         $modelNamespace = (string)$this->options->get('modelsNamespace');
-        if (
-            ($this->options->has('modelsNamespace') && $modelNamespace && $this->checkNamespace($modelNamespace))
+        if (($this->options->has('modelsNamespace') && $modelNamespace && $this->checkNamespace($modelNamespace))
             || $usesNamespaces
         ) {
             $code = str_replace(
