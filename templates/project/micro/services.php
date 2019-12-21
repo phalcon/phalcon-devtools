@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
 
 use Phalcon\Mvc\View\Simple as View;
-use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Url as UrlResolver;
 
 /**
  * Shared configuration service
@@ -54,16 +55,4 @@ $di->setShared('db', function () {
     $connection = new $class($params);
 
     return $connection;
-});
-
-/**
- * Register router
- */
-$di->setShared('router', function () {
-    $router = new \Phalcon\Mvc\Router();
-    $router->setUriSource(
-        \Phalcon\Mvc\Router::URI_SOURCE_SERVER_REQUEST_URI
-    );
-
-    return $router;
 });

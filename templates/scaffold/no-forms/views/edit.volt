@@ -7,22 +7,18 @@
 </div>
 
 <div class="page-header">
-    <h1>
-        Edit $plural$
-    </h1>
+    <h1>Edit $plural$</h1>
 </div>
 
 {{ content() }}
 
-{{ form("$plural$/save", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
+<form action="$plural$/save" class="form-horizontal" method="post">
+    $captureFields$
+    {{ hidden_field("id") }}
 
-$captureFields$
-{{ hidden_field("id") }}
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        {{ submit_button('Send', 'class': 'btn btn-default') }}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            {{ submit_button('Send', 'class': 'btn btn-default') }}
+        </div>
     </div>
-</div>
-
 </form>

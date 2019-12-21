@@ -56,10 +56,10 @@ Phalcon Team
 
 
 [pr]: https://help.github.com/articles/about-pull-requests/
-[forum]: https://forum.phalconphp.com/
+[forum]: https://forum.phalcon.io/
 [cphalcon]: https://github.com/phalcon/cphalcon
-[srt]: https://docs.phalconphp.com/en/latest/reproducible-tests
-[gb]: https://docs.phalconphp.com/en/latest/generating-backtrace
-[support]: https://phalconphp.com/en/support/
-[nfr]: https://docs.phalconphp.com/en/latest/new-feature-request
+[srt]: https://docs.phalcon.io/en/latest/reproducible-tests
+[gb]: https://docs.phalcon.io/en/latest/generating-backtrace
+[support]: https://phalcon.io/en/support/
+[nfr]: https://docs.phalcon.io/en/latest/new-feature-request
 [psr]: https://www.php-fig.org/psr/

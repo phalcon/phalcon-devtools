@@ -1,13 +1,15 @@
 <?php
+declare(strict_types=1);
 
-use Phalcon\Mvc\Router;
+use Phalcon\Escaper;
+use Phalcon\Flash\Direct as Flash;
+use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
-use Phalcon\Flash\Direct as Flash;
+use Phalcon\Session\Adapter\Stream as SessionAdapter;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Url as UrlResolver;
 
 /**
  * Shared configuration service
@@ -45,8 +47,8 @@ $di->setShared('view', function () {
             $volt = new VoltEngine($view, $this);
 
             $volt->setOptions([
-                'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
+                'path' => $config->application->cacheDir,
+                'separator' => '_'
             ]);
 
             return $volt;
@@ -77,9 +79,7 @@ $di->setShared('db', function () {
         unset($params['charset']);
     }
 
-    $connection = new $class($params);
-
-    return $connection;
+    return new $class($params);
 });
 
 
@@ -94,32 +94,29 @@ $di->setShared('modelsMetadata', function () {
  * Register the session flash service with the Twitter Bootstrap classes
  */
 $di->set('flash', function () {
-    return new Flash([
+    $escaper = new Escaper();
+    $flash = new Flash($escaper);
+    $flash->setImplicitFlush(false);
+    $flash->setCssClasses([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
         'notice'  => 'alert alert-info',
         'warning' => 'alert alert-warning'
     ]);
+
+    return $flash;
 });
 
 /**
  * Start the session the first time some component request the session service
  */
 $di->setShared('session', function () {
-    $session = new SessionAdapter();
+    $session = new SessionManager();
+    $files = new SessionAdapter([
+        'savePath' => sys_get_temp_dir(),
+    ]);
+    $session->setAdapter($files);
     $session->start();
 
     return $session;
-});
-
-/**
- * Register router
- */
-$di->setShared('router', function () {
-    $router = new Router();
-    $router->setUriSource(
-        Router::URI_SOURCE_SERVER_REQUEST_URI
-    );
-
-    return $router;
 });

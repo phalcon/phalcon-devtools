@@ -25,15 +25,24 @@ $I->runShellCommand('phalcon scaffold genScaffold --get-set --config=app/mysql/c
 
 $I->seeInShellOutput($output);
 
-$I->seeFileFound(app_path('controllers/GenscaffoldController.php'));
-$I->seeFileFound(app_path('models/Genscaffold.php'));
+$scaffoldControllerPath = app_path('controllers/GenscaffoldController.php');
+$scaffoldModelPath = app_path('models/Genscaffold.php');
+
+$I->seeFileFound($scaffoldControllerPath);
+$I->seeFileFound($scaffoldModelPath);
 $I->seeFileFound(app_path('views/layouts/genscaffold.phtml'));
 $I->seeFileFound(app_path('views/genscaffold/edit.phtml'));
 $I->seeFileFound(app_path('views/genscaffold/index.phtml'));
 $I->seeFileFound(app_path('views/genscaffold/new.phtml'));
 $I->seeFileFound(app_path('views/genscaffold/search.phtml'));
 
+$I->openFile($scaffoldControllerPath);
+$I->dontSeeInThisFile('namespace ;');
+
+$I->openFile($scaffoldModelPath);
+$I->dontSeeInThisFile('namespace ;');
+
 $I->deleteDir(app_path('views/layouts/'));
 $I->deleteDir(app_path('views/genscaffold/'));
-$I->deleteFile(app_path('models/Genscaffold.php'));
-$I->deleteFile(app_path('controllers/GenscaffoldController.php'));
+$I->deleteFile($scaffoldModelPath);
+$I->deleteFile($scaffoldControllerPath);

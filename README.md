@@ -1,6 +1,6 @@
 # Phalcon Devtools
 
-[![Discord](https://img.shields.io/discord/310910488152375297?label=Discord)](http://phalcon.link/discord)
+[![codecov](https://codecov.io/gh/phalcon/phalcon-devtools/branch/4.0.x/graph/badge.svg)](https://codecov.io/gh/phalcon/phalcon-devtools)
 [![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)][:devtools:]
 [![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][:license:]
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
@@ -21,8 +21,8 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 5.5
-* Phalcon >= 3.3.0
+* PHP >= 7.2
+* Phalcon >= 4.0.0
 
 ## Installing via Composer
 
@@ -37,17 +37,17 @@ Create the composer.json file as follows:
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "~3.4"
+        "phalcon/devtools": "~4.0"
     }
 }
 ```
 
-If you are still using Phalcon 2.0.x, create a `composer.json` with the following instead:
+If you are still using Phalcon 3.4.x, create a `composer.json` with the following instead:
 
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "^2.0"
+        "phalcon/devtools": "^3.4"
     }
 }
 ```
@@ -72,18 +72,6 @@ bin/box build -v
 chmod +xr ./phalcon.phar
 # Test it!
 php ./phalcon.phar
-```
-
-## Build Docker Image
-
-Use make command to build the docker image, It will build the image named `phalcon`:
-```bash
-make image
-```
-
-And run container with following command:
-```bash
-docker run -it --rm phalcon
 ```
 
 ## Installation via Git
@@ -182,22 +170,6 @@ By creating **config.json** or any other configuration file called **config** in
 ```
 
 And then you can use use `phalcon migration run` or `phalcon controller SomeClass` and those commands will be executed with options from file. Arguments provided by developer from command line will overwrite existing one in file.
-
-## Sponsors
-
-Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/phalcon#sponsor)]
-
-<a href="https://opencollective.com/phalcon/#contributors">
-<img src="https://opencollective.com/phalcon/tiers/sponsors.svg?avatarHeight=48&width=800">
-</a>
-
-## Backers
-
-Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/phalcon#backer)]
-
-<a href="https://opencollective.com/phalcon/#contributors">
-<img src="https://opencollective.com/phalcon/tiers/backers.svg?avatarHeight=48&width=800&height=200">
-</a>
 
 ## License
 

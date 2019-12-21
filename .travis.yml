@@ -1,32 +1,24 @@
 language: php
 
-sudo: required
-
 services:
   - postgresql
   - mysql
 
 matrix:
   include:
-    - php: '5.5'
-      env: PHALCON_VERSION="v3.4.1"
-      dist: trusty
-    - php: '5.6'
-    - php: '7.0'
-      env: ZEND_BACKEND="--backend=ZendEngine3"
-    - php: '7.1'
-      env: ZEND_BACKEND="--backend=ZendEngine3"
-    - php: '7.2'
-      env: ZEND_BACKEND="--backend=ZendEngine3"
-    - php: '7.3'
-      env: ZEND_BACKEND="--backend=ZendEngine3"
+    - php: 7.2
+      env:
+        - BUILD_PHAR=1
+    - php: 7.3
+      env:
+        - BUILD_PHAR=0
 
 git:
   depth: 1
 
 cache:
   ccache: true
-  timeout: 691200
+  timeout: 604800
   directories:
     - .temp
     - vendor
@@ -37,36 +29,54 @@ cache:
 
 env:
   global:
+    - BUILD_PHAR=1
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
-    - PHALCON_VERSION="v3.4.4"
+    - PHAR_PHP_VERSION=7.2.23
+    - BOX_VERSION=3.8.3
+    - PHALCON_VERSION=v4.0.0
 
 before_install:
-  - export PHP_VERSION=$(php-config --version)
-  - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1)"
-  - export PHP_EXTENSION_DIR=$(php-config --extension-dir)
   - source $TRAVIS_BUILD_DIR/tests/_ci/environment
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
-  - phpenv config-rm xdebug.ini || true
-  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com $GH_TOKEN; fi;
-  - if [ ! -f "$HOME/cphalcon/$PHALCON_VERSION/tests/_ci/phalcon.ini" ]; then git clone -q --branch $PHALCON_VERSION --depth=1 https://github.com/phalcon/cphalcon.git $HOME/cphalcon/$PHALCON_VERSION >/dev/null 2>&1; fi;
+  - if [ -n "$GITHUB_TOKEN" ]; then composer config github-oauth.github.com $GITHUB_TOKEN; fi;
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - if [ ! -f $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so ]; then cd $HOME/cphalcon/$PHALCON_VERSION/build && bash ./install --phpize $(phpenv which phpize) --php-config $(phpenv which php-config) && mkdir -p $HOME/ext/$PHP_VERSION && cp $PHP_EXTENSION_DIR/phalcon.so $HOME/ext/$PHP_VERSION/phalcon.so; fi;
-  - if [ -f $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so ]; then cp $HOME/ext/$PHALCON_VERSION/$PHP_VERSION/phalcon.so $PHP_EXTENSION_DIR/phalcon.so; fi;
-  - phpenv config-add $HOME/cphalcon/$PHALCON_VERSION/tests/_ci/phalcon.ini
-  - cd $TRAVIS_BUILD_DIR
-  - travis_retry composer install --prefer-dist --no-interaction
-  - if [ "$PHP_MAJOR" == "7" ]; then composer require --dev phpstan/phpstan:^0.9; fi;
+  - pecl install --force psr
+  - .ci/install-phalcon.sh
+  - |
+    if [ "$BUILD_PHAR" -eq 1 ]
+    then
+      echo "Build Phalcon DevTools PHAR"
+      composer config platform.php $PHAR_PHP_VERSION
+      .ci/install-box.sh
+      .ci/build-phar.sh
+    fi
 
 before_script:
+  - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest
+  - composer require --dev phpstan/phpstan
   - ln -s $PWD/phalcon ~/bin/phalcon
+  - .ci/serve-webtools.sh
 
 script:
+  - mkdir .phalcon
   - vendor/bin/phpcs
   - vendor/bin/codecept build
-  - vendor/bin/codecept run unit -v
-  - vendor/bin/codecept run functional -v
-  - vendor/bin/codecept run console -v
-  - '[[ "$PHP_MAJOR" == "5" ]] || vendor/bin/phpstan analyse -l 5 -c phpstan.neon scripts -v'
+  - vendor/bin/codecept run --coverage-xml
+  - vendor/bin/psalm --show-info=false
+  - vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: phalcon.phar
+  skip_cleanup: true
+  on:
+    php: '7.2'
+    tags: true
+  repo: phalcon/phalcon-devtools

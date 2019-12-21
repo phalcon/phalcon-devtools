@@ -1,18 +1,12 @@
 <?php
+
 /**
- * Phalcon Framework
+ * This file is part of the Phalcon Developer Tools.
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 if (!function_exists('env')) {
@@ -23,5 +17,24 @@ if (!function_exists('env')) {
         }
 
         return getenv($key) ?: $default;
+    }
+}
+
+/**
+ * @param string $path
+ */
+if (!function_exists('remove_dir')) {
+    function remove_dir(string $path): void
+    {
+        $directoryIterator = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
+        $iterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($iterator as $file) {
+            if ($file->getFileName() === '.gitignore') {
+                continue;
+            }
+
+            $realPath = $file->getRealPath();
+            $file->isDir() ? rmdir($realPath) : unlink($realPath);
+        }
     }
 }

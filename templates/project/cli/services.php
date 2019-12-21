@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * Shared configuration service
@@ -27,8 +28,6 @@ $di->setShared('db', function () {
         unset($params['charset']);
     }
 
-    $connection = new $class($params);
-
-    return $connection;
+    return new $class($params);
 });
 

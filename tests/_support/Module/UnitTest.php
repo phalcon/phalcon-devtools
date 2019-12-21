@@ -2,10 +2,9 @@
 
 namespace Phalcon\Test\Module;
 
-use UnitTester;
 use Codeception\Specify;
 use Codeception\Test\Unit;
-use PHPUnit_Runner_Version;
+use UnitTester;
 
 /**
  * \Phalcon\Test\Module\UnitTest

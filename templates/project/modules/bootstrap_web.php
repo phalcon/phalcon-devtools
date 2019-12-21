@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
@@ -9,7 +10,6 @@ define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 
 try {
-
     /**
      * The FactoryDefault Dependency Injector automatically registers the services that
      * provide a full stack framework. These default services can be overidden with custom ones.
@@ -53,8 +53,7 @@ try {
      */
     require APP_PATH . '/config/routes.php';
 
-    echo $application->handle()->getContent();
-
+    echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';

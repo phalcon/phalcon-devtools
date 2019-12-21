@@ -1,25 +1,15 @@
 <?php
+declare(strict_types=1);
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Developer Tools                                                |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Serghei Iakovlev <serghei@phalconphp.com>                     |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use Phalcon\Loader;
 use Phalcon\Version;
 
 if (!extension_loaded('phalcon')) {
@@ -42,12 +32,13 @@ defined('DEVTOOLS_START_MEMORY') || define('DEVTOOLS_START_MEMORY', memory_get_u
 /**
  * @const PTOOLSPATH The path to the Phalcon Developers Tools.
  */
-defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(trim(getenv('PTOOLSPATH'), '\"\'') ?: dirname(dirname(__FILE__)), '\\/'));
+defined('PTOOLSPATH') || define('PTOOLSPATH', rtrim(trim((string) getenv('PTOOLSPATH'), '\"\'') ?: dirname(dirname(__FILE__)), '\\/'));
 
 /**
  * Check for old versions
  */
-if (rtrim(strtolower(realpath(PTOOLSPATH)), '\\/') !== rtrim(strtolower(realpath(dirname(dirname(__FILE__)))), '\\/')) {
+$currentPath = realpath(dirname(dirname(__FILE__)));
+if ($currentPath !== false && rtrim(strtolower(realpath(PTOOLSPATH)), '\\/') !== rtrim(strtolower($currentPath), '\\/')) {
     throw new Exception(
         sprintf(
             'The environment variable PTOOLSPATH is outdated! Current value: %s. New value: %s',
@@ -106,26 +97,28 @@ defined('ADMIN_LTE_VERSION') || define('ADMIN_LTE_VERSION', '2.3.6');
 defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
 
 /**
- * Register Devtools classes.
- */
-(new Loader)->registerDirs([
-        PTOOLSPATH . DS . 'scripts' . DS
-    ])
-    ->registerNamespaces([
-        'Phalcon'              => PTOOLSPATH . DS . 'scripts' . DS . 'Phalcon' . DS,
-        'WebTools\Controllers' => PTOOLSPATH . DS . str_replace('/', DS, 'scripts/Phalcon/Web/Tools/Controllers') . DS,
-    ])
-    ->register();
-
-/**
  * Register the Composer autoloader (if any)
  */
-if (file_exists(PTOOLSPATH . DS .'vendor' . DS . 'autoload.php')) {
-    require_once PTOOLSPATH . DS .'vendor' . DS . 'autoload.php';
+$vendorAutoload = [
+    PTOOLSPATH . DS . 'vendor' . DS . 'autoload.php', // Is installed locally
+    PTOOLSPATH . DS . '..' . DS . '..' . DS . 'autoload.php',  // Is installed via Composer
+];
+
+foreach ($vendorAutoload as $file) {
+    if (file_exists($file)) {
+        require_once $file;
+        break;
+    }
+}
+
+if (false === class_exists('Composer\Autoload\ClassLoader', false)) {
+    throw new Exception('Please run composer install');
 }
 
 /**
  * Register the custom loader (if any)
+ *
+ * @psalm-suppress MissingFile
  */
 if (file_exists('.phalcon' . DS . 'autoload.php')) {
     require_once '.phalcon' . DS . 'autoload.php';

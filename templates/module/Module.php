@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace @@FQMN@@;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
