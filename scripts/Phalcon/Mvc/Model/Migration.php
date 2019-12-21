@@ -932,11 +932,11 @@ class Migration
     {
         $adapter = self::$databaseConfig->path('adapter');
         if ($adapter == 'Postgresql' &&
-            in_array($type, [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])) {
+            in_array($type, [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER, Column::TYPE_DOUBLE])) {
             return false;
         }
 
-        if (in_array($type, [Column::TYPE_TEXT, Column::TYPE_DATE, Column::TYPE_DATETIME])) {
+        if (in_array($type, [Column::TYPE_TEXT, Column::TYPE_DATE, Column::TYPE_DATETIME, Column::TYPE_DOUBLE])) {
             return false;
         }
 
