@@ -85,48 +85,6 @@ class Model extends AbstractComponent
     }
 
     /**
-     * @return ModelOption
-     */
-    public function getModelOptions()
-    {
-        return $this->modelOptions;
-    }
-
-    /**
-     * We should expect schema to be string|null
-     * OptionsAware throws when getting null option values
-     * so we need to handle shouldInitSchema logic with the raw $option array
-     *
-     * Should setSchema in initialize() only if:
-     * - $option['schema'] !== ''
-     *
-     * @return bool
-     */
-    public function shouldInitSchema()
-    {
-        return !isset($this->modelOptions->getOptions()['schema'])
-            || $this->modelOptions->getOptions()['schema'] !== '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getSchema()
-    {
-        if ($this->modelOptions->hasOption('schema') && !empty($this->modelOptions->getOption('schema'))) {
-            $schema = $this->modelOptions->getOption('schema');
-        } else {
-            $schema = Utils::resolveDbSchema($this->modelOptions->getOption('config')->database);
-        }
-
-        if (!empty($schema)) {
-            return $schema;
-        }
-
-        throw new RuntimeException('Cannot find valid schema.  Set schema argument or set in config.');
-    }
-
-    /**
      * Module build
      *
      * @throws BuilderException
@@ -135,7 +93,6 @@ class Model extends AbstractComponent
     {
         $config = $this->modelOptions->getOption('config');
         $snippet = $this->modelOptions->getOption('snippet');
-        $schema = $this->getSchema();
 
         if ($this->modelOptions->hasOption('directory')) {
             $this->path->setRootPath($this->modelOptions->getOption('directory'));
@@ -187,10 +144,15 @@ class Model extends AbstractComponent
 
         $initialize = [];
 
-        if ($this->shouldInitSchema()) {
-            $initialize['schema'] = $snippet->getThisMethod('setSchema', $schema);
+        if ($this->modelOptions->hasOption('schema')) {
+            $schema = $this->modelOptions->getOption('schema');
+        } else {
+            $schema = Utils::resolveDbSchema($config->database);
         }
 
+        if ($schema) {
+            $initialize['schema'] = $snippet->getThisMethod('setSchema', $schema);
+        }
         $initialize['source'] = $snippet->getThisMethod('setSource', $this->modelOptions->getOption('name'));
 
         $table = $this->modelOptions->getOption('name');
@@ -209,7 +171,7 @@ class Model extends AbstractComponent
                 }
 
                 $entityNamespace = '';
-                if ($this->modelOptions->hasOption('namespace')) {
+                if ($this->modelOptions->getOption('namespace')) {
                     $entityNamespace = $this->modelOptions->getOption('namespace')."\\";
                 }
 
@@ -227,8 +189,8 @@ class Model extends AbstractComponent
 
         foreach ($db->describeReferences($this->modelOptions->getOption('name'), $schema) as $reference) {
             $entityNamespace = '';
-            if ($this->modelOptions->hasOption('namespace')) {
-                $entityNamespace = $this->modelOptions->getOption('namespace')."\\";
+            if ($this->modelOptions->getOption('namespace')) {
+                $entityNamespace = $this->modelOptions->getOption('namespace');
             }
 
             $refColumns = $reference->getReferencedColumns();
@@ -236,7 +198,7 @@ class Model extends AbstractComponent
             $initialize[] = $snippet->getRelation(
                 'belongsTo',
                 $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
-                $entityNamespace . Utils::camelize($reference->getReferencedTable()),
+                $this->getEntityClassName($reference, $entityNamespace),
                 $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
                 "['alias' => '" . Text::camelize($reference->getReferencedTable(), '_-') . "']"
             );

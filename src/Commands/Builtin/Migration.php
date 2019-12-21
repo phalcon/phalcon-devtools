@@ -73,7 +73,7 @@ class Migration extends Command
             $config = $this->getConfig($path);
         }
 
-        $exportDataFromTables = [];
+        $exportDataFromTables= [];
         if ($this->isReceivedOption('exportDataFromTables')) {
             $exportDataFromTables = explode(',', $this->getOption('exportDataFromTables'));
         } elseif (isset($config['application']['exportDataFromTables'])) {
@@ -92,6 +92,7 @@ class Migration extends Command
             $migrationsDir = explode(',', $config['application']['migrationsDir']);
         }
 
+
         if (!empty($migrationsDir)) {
             foreach ($migrationsDir as $id => $dir) {
                 if (!$this->path->isAbsolutePath($dir)) {
@@ -105,6 +106,7 @@ class Migration extends Command
         } else {
             $migrationsDir[] = $path . 'migrations';
         }
+
 
         // keep migrations log in db
         // either "log-in-db" option or "logInDb" config variable from "application" block

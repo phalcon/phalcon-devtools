@@ -15,9 +15,6 @@ use Phalcon\Url as UrlResolver;
 $di->setShared('router', function () {
     $router = new Router();
     $router->setDefaultModule('frontend');
-    $router->setUriSource(
-        Router::URI_SOURCE_SERVER_REQUEST_URI
-    );
 
     return $router;
 });
@@ -43,7 +40,6 @@ $di->setShared('session', function () {
         'savePath' => sys_get_temp_dir(),
     ]);
     $session->setAdapter($files);
-    $session->start();
 
     return $session;
 });
@@ -54,23 +50,19 @@ $di->setShared('session', function () {
 $di->set('flash', function () {
     $escaper = new Escaper();
     $flash = new Flash($escaper);
-    $flash->setImplicitFlush(false);
     $flash->setCssClasses([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
         'notice'  => 'alert alert-info',
         'warning' => 'alert alert-warning'
     ]);
-
-    return $flash;
 });
 
 /**
-* Set the default namespace for dispatcher
-*/
+ * Set the default namespace for dispatcher
+ */
 $di->setShared('dispatcher', function() {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('@@namespace@@\Modules\Frontend\Controllers');
-
     return $dispatcher;
 });

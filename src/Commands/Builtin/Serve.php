@@ -115,12 +115,12 @@ class Serve extends Command
         $this->printServerDetails();
 
         return sprintf(
-            '%s -S %s:%s -t %s %s %s',
+            '%s -S %s:%s -t %s -t %s %s',
             $binary_path,
             $this->hostname,
             $this->port,
-            $this->document_root,
             $this->base_path,
+            $this->document_root,
             $this->config
         );
     }
@@ -162,9 +162,9 @@ class Serve extends Command
 
         print Color::head('Usage:') . PHP_EOL;
         print Color::colorize('  serve [hostname='.self::DEFAULT_HOSTNAME.
-            '] [port='.self::DEFAULT_PORT.
-            '] [entrypoint='.self::DEFAULT_BASE_PATH.
-            '] [document-root='.self::DEFAULT_DOCUMENT_ROOT.']', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+                '] [port='.self::DEFAULT_PORT.
+                '] [entrypoint='.self::DEFAULT_BASE_PATH.
+                '] [document-root='.self::DEFAULT_DOCUMENT_ROOT.']', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
         print Color::colorize('  help', Color::FG_GREEN);
