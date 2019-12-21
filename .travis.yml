@@ -34,7 +34,7 @@ env:
     - DISPLAY=":99.0"
     - PHAR_PHP_VERSION=7.2.23
     - BOX_VERSION=3.8.3
-    - PHALCON_VERSION=v4.0.0-rc.3
+    - PHALCON_VERSION=v4.0.0
 
 before_install:
   - source $TRAVIS_BUILD_DIR/tests/_ci/environment
