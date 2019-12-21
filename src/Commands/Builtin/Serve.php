@@ -115,12 +115,12 @@ class Serve extends Command
         $this->printServerDetails();
 
         return sprintf(
-            '%s -S %s:%s -t %s -t %s %s',
+            '%s -S %s:%s -t %s %s %s',
             $binary_path,
             $this->hostname,
             $this->port,
-            $this->base_path,
             $this->document_root,
+            $this->base_path,
             $this->config
         );
     }
