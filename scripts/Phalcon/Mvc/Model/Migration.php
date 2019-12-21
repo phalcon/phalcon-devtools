@@ -930,13 +930,12 @@ class Migration
      */
     public static function columnHasSize($type)
     {
-        $adapter = self::$databaseConfig->path('adapter');
-        if ($adapter == 'Postgresql' &&
-            in_array($type, [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER])) {
+        $postgresTypes = [Column::TYPE_BOOLEAN, Column::TYPE_INTEGER, Column::TYPE_BIGINTEGER, Column::TYPE_DOUBLE];
+        if (self::$databaseConfig->path('adapter') == 'Postgresql' && in_array($type, $postgresTypes)) {
             return false;
         }
 
-        if (in_array($type, [Column::TYPE_TEXT, Column::TYPE_DATE, Column::TYPE_DATETIME])) {
+        if (in_array($type, [Column::TYPE_TEXT, Column::TYPE_DATE, Column::TYPE_DATETIME, Column::TYPE_DOUBLE])) {
             return false;
         }
 
