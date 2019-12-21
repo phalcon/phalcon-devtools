@@ -40,6 +40,7 @@ $di->setShared('session', function () {
         'savePath' => sys_get_temp_dir(),
     ]);
     $session->setAdapter($files);
+    $session->start();
 
     return $session;
 });
@@ -50,6 +51,7 @@ $di->setShared('session', function () {
 $di->set('flash', function () {
     $escaper = new Escaper();
     $flash = new Flash($escaper);
+    $flash->setImplicitFlush(false);
     $flash->setCssClasses([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
@@ -64,5 +66,6 @@ $di->set('flash', function () {
 $di->setShared('dispatcher', function() {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('@@namespace@@\Modules\Frontend\Controllers');
+
     return $dispatcher;
 });
