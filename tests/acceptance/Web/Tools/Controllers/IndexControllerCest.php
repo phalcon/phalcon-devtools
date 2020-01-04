@@ -16,5 +16,9 @@ final class IndexControllerCest
         $I->amOnPage('/webtools.php/');
         $I->see('Dashboard');
         $I->see('Welcome to WebTools');
+
+        $I->amOnPage('/webtools.php');
+        $I->see('Dashboard');
+        $I->see('Welcome to WebTools');
     }
 }

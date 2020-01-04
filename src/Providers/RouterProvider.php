@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Providers;
 
 use DirectoryIterator;
+use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
@@ -36,16 +37,15 @@ class RouterProvider implements ServiceProviderInterface
         $di->setShared($this->providerName, function () use ($ptoolsPath) {
             /** @var DiInterface $this */
             $em = $this->getShared('eventsManager');
+            $fs = new FsUtils();
 
             $router = new AnnotationsRouter(false);
             $router->removeExtraSlashes(true);
-            $router->notFound(['controller' => 'error', 'action' => 'route404']);
             $router->setDefaultAction('index');
             $router->setDefaultController('index');
             $router->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
 
-            // @todo Use Path::normalize()
-            $controllersDir = $ptoolsPath . DS . str_replace('/', DS, 'src/Web/Tools/Controllers');
+            $controllersDir = $fs->normalize($ptoolsPath . '/src/Web/Tools/Controllers');
             $dir = new DirectoryIterator($controllersDir);
 
             $resources = [];
