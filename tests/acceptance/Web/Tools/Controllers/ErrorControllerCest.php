@@ -11,8 +11,10 @@ final class ErrorControllerCest
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ErrorController::route404Action
      * @param AcceptanceTester $I
      */
-    public function testRoute404Action(AcceptanceTester $I): void
+    public function testRoute404Action(AcceptanceTester $I, $scenario): void
     {
+        $scenario->skip('Deprecated approach');
+
         $I->amOnPage('/webtools.php/404');
         $I->see('404');
         $I->see('Not Found');
