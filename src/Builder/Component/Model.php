@@ -139,6 +139,9 @@ class Model extends AbstractComponent
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
+		if (isset($configArray['options'])) {
+			$configArray = $configArray['options'];
+		}
         /** @var AbstractPdo $db */
         $db = new $adapterName($configArray);
 
@@ -623,7 +626,7 @@ class Model extends AbstractComponent
      * @param AbstractPdo $db
      * @return array
      */
-    protected function getReferenceList(string $schema, AbstractPdo $db): array
+    protected function getReferenceList(?string $schema, AbstractPdo $db): array
     {
         if ($this->modelOptions->hasOption('referenceList')) {
             return $this->modelOptions->getOption('referenceList');
