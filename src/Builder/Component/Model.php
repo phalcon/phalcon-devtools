@@ -139,9 +139,9 @@ class Model extends AbstractComponent
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
-		if (isset($configArray['options'])) {
-			$configArray = $configArray['options'];
-		}
+        if (isset($configArray['options'])) {
+            $configArray = $configArray['options'];
+        }
         /** @var AbstractPdo $db */
         $db = new $adapterName($configArray);
 
