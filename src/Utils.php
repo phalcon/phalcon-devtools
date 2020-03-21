@@ -17,9 +17,9 @@ use Phalcon\Config;
 
 class Utils
 {
-    const DB_ADAPTER_POSTGRESQL = 'Postgresql';
+    const DB_ADAPTER_POSTGRESQL = 'postgresql';
 
-    const DB_ADAPTER_SQLITE = 'Sqlite';
+    const DB_ADAPTER_SQLITE = 'sqlite';
 
     /**
      * Converts the underscore_notation to the UpperCamelCase
@@ -107,11 +107,11 @@ class Utils
             return $config->get('schema');
         }
 
-        if (self::DB_ADAPTER_POSTGRESQL == $config->get('adapter')) {
+        if (self::DB_ADAPTER_POSTGRESQL === strtolower($config->get('adapter'))) {
             return 'public';
         }
 
-        if (self::DB_ADAPTER_SQLITE == $config->get('adapter')) {
+        if (self::DB_ADAPTER_SQLITE === strtolower($config->get('adapter'))) {
             // SQLite only supports the current database, unless one is
             // attached. This is not the case, so don't return a schema.
             return null;
