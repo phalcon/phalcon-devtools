@@ -290,12 +290,12 @@ class Model extends AbstractComponent
                 $possibleFields = $possibleFieldsTransformed = [];
                 foreach ($fields as $field) {
                     $possibleFields[$field->getName()] = true;
-					if ($this->modelOptions->getOption('camelize')) {
-						$fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
-					} else {
-						$fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
-					}
-					$possibleFieldsTransformed[$fieldName] = true;
+                    if ($this->modelOptions->getOption('camelize')) {
+                        $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
+                    } else {
+                        $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
+                    }
+                    $possibleFieldsTransformed[$fieldName] = true;
                 }
 
                 if (method_exists($reflection, 'getReflectionConstants')) {
