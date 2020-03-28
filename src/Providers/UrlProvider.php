@@ -32,11 +32,7 @@ class UrlProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            /**
-             * @var DiInterface $this
-             */
-
-            /* @var Config $config */
+            /** @var DiInterface $this */
             $config = $this->getShared('config');
 
             $url = new UrlResolver;

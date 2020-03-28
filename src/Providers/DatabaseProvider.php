@@ -31,6 +31,8 @@ class DatabaseProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
+            /** @var DiInterface $this */
+
             $em = $this->getShared('eventsManager');
 
             if ($this->getShared('config')->offsetExists('database')) {

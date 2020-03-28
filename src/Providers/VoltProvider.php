@@ -43,6 +43,7 @@ class VoltProvider implements ServiceProviderInterface
         $that = $this;
 
         $di->setShared($this->providerName, function ($view, $di) use ($basePath, $ptoolsPath, $that) {
+            /** @var DiInterface $this */
 
             $volt = new VoltEngine($view, $di);
             $config = $this->getShared('config');

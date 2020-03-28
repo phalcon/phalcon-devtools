@@ -46,7 +46,6 @@ abstract class AbstractComponent
     public function __construct(array $options = [])
     {
         $this->options = new Config($options);
-
         $this->path = new Path(realpath('.') . DIRECTORY_SEPARATOR);
     }
 

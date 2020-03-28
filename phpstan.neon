@@ -13,6 +13,5 @@ parameters:
         - '#Parameter \#1 \$eventsManager of method Phalcon#'
         - '#Parameter \#1 \$exception_handler of function set_exception_handler expects#'
         - '#Parameter \#1 \$function of function register_shutdown_function expects callable()#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::getShared\(\)#'
     reportUnmatchedIgnoredErrors: false
-    earlyTerminatingFunctionCalls:
-        - forward
