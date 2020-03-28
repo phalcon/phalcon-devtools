@@ -159,7 +159,7 @@ class AllModels extends AbstractComponent
             }
         } else {
             foreach ($db->listTables($schema) as $name) {
-                if ($defineRelations) {
+                if (true === $defineRelations) {
                     $hasMany[$name] = [];
                     $belongsTo[$name] = [];
                     $foreignKeys[$name] = [];

@@ -728,7 +728,7 @@ class Scaffold extends AbstractComponent
                     $rowCode .= '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true) .
                         '->get' . Text::camelize($fieldName) . '()';
                 } else {
-                    $rowCode .= '$' . $this->options->get('singular') . '->' . $fieldName;
+                    $rowCode .= '$' . $this->options->get('singular') . '[\'' . $fieldName . '\']';
                 }
             } else {
                 $detailField = ucfirst($this->options->get('allReferences')[$fieldName]['detail']);
@@ -739,9 +739,6 @@ class Scaffold extends AbstractComponent
         }
 
         $idField =  $this->options->get('attributes')[0];
-        if ($this->options->has('genSettersGetters')) {
-            $idField = 'get' . Text::camelize($this->options->get('attributes')[0]) . '()';
-        }
 
         $code = file_get_contents($templatePath);
 
@@ -798,7 +795,7 @@ class Scaffold extends AbstractComponent
             if (!isset($this->options->get('allReferences')[$fieldName])) {
                 if ($this->options->has('genSettersGetters')) {
                     $rowCode .= Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true) .
-                        '.get' . Text::camelize($fieldName) . '()';
+                        '[\'' . $fieldName . '\']';
                 } else {
                     $rowCode .= $this->options->get('singular') . '.' . $fieldName;
                 }
@@ -811,9 +808,6 @@ class Scaffold extends AbstractComponent
         }
 
         $idField = $this->options->get('attributes')[0];
-        if ($this->options->has('genSettersGetters')) {
-            $idField = 'get' . Text::camelize($this->options->get('attributes')[0]) . '()';
-        }
 
         $code = file_get_contents($templatePath);
 

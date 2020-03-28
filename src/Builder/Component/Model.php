@@ -675,21 +675,17 @@ class Model extends AbstractComponent
             case Column::TYPE_INTEGER:
             case Column::TYPE_BIGINTEGER:
                 return 'integer';
-                break;
             case Column::TYPE_DECIMAL:
             case Column::TYPE_FLOAT:
                 return 'double';
-                break;
             case Column::TYPE_DATE:
             case Column::TYPE_VARCHAR:
             case Column::TYPE_DATETIME:
             case Column::TYPE_CHAR:
             case Column::TYPE_TEXT:
                 return 'string';
-                break;
             default:
                 return 'string';
-                break;
         }
     }
 }

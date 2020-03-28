@@ -4,10 +4,14 @@ parameters:
     excludes_analyse:
         - %rootDir%/../../../src/Generator/*
         - %rootDir%/../../../src/Commands/DotPhalconMissingException.php
+        - %rootDir%/../../../src/Mvc/Dispatcher/ErrorHandler.php
     ignoreErrors:
         - '#Strict comparison using === between#'
         - '#Result of && is always true#'
-        - '#Result of || is always true#'
+        - '#Result of \|\| is always true#'
         - '#Parameter \#1 \$adapter of class Phalcon\\Cache constructor expects#'
         - '#Parameter \#1 \$eventsManager of method Phalcon#'
+        - '#Parameter \#1 \$exception_handler of function set_exception_handler expects#'
+        - '#Parameter \#1 \$function of function register_shutdown_function expects callable()#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::getShared\(\)#'
     reportUnmatchedIgnoredErrors: false
