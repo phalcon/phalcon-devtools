@@ -38,9 +38,8 @@ class FlashSessionProvider implements ServiceProviderInterface
             'warning' => 'alert alert-warning fade show',
         ];
 
-        $di->setShared($this->providerName, function () use ($cssClasses) {
-            /** @var DiInterface $this */
-            $session = $this->getShared('session');
+        $di->setShared($this->providerName, function ($di) use ($cssClasses) {
+            $session = $di->getShared('session');
 
             $flash = new FlashSession(new Escaper(), $session);
             $flash->setAutoescape(false);

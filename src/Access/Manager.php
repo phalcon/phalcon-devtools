@@ -15,7 +15,11 @@ namespace Phalcon\DevTools\Access;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
+use Phalcon\Events\ManagerInterface;
 
+/**
+ * @property ManagerInterface $eventsManager
+ */
 class Manager extends Injectable
 {
     const EXCEPTION_ACTION_DISALLOWED = 10;

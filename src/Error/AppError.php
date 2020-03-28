@@ -52,7 +52,7 @@ class AppError
      * Magic method to retrieve the attributes.
      *
      * @param string $method
-     * @param $args
+     * @param mixed $args
      * @return mixed|null
      */
     public function __call($method, $args)

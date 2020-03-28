@@ -34,9 +34,8 @@ class RouterProvider implements ServiceProviderInterface
     {
         $ptoolsPath = $di->getShared('application')->getPtoolsPath();
 
-        $di->setShared($this->providerName, function () use ($ptoolsPath) {
-            /** @var DiInterface $this */
-            $em = $this->getShared('eventsManager');
+        $di->setShared($this->providerName, function ($di) use ($ptoolsPath) {
+            $em = $di->getShared('eventsManager');
             $fs = new FsUtils();
 
             $router = new AnnotationsRouter(false);

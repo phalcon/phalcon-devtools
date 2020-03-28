@@ -43,18 +43,14 @@ class VoltProvider implements ServiceProviderInterface
         $that = $this;
 
         $di->setShared($this->providerName, function ($view, $di) use ($basePath, $ptoolsPath, $that) {
-            /**
-             * @var DiInterface $this
-             * @var Config $config
-             * @var Config $voltConfig
-             */
 
             $volt = new VoltEngine($view, $di);
-            $config = $this->getShared('config');
+            $config = $di->getShared('config');
 
             $appCacheDir = $config->get('application', new Config)->get('cacheDir');
             $defaultCacheDir = sys_get_temp_dir() . DS . 'phalcon' . DS . 'volt';
 
+            /** @var Config $voltConfig */
             $voltConfig = null;
             if ($config->offsetExists('volt')) {
                 $voltConfig = $config->get('volt');
