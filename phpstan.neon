@@ -7,7 +7,7 @@ parameters:
     ignoreErrors:
         - '#Strict comparison using === between#'
         - '#Result of && is always true#'
-        - '#Result of || is always true#'
+        - '#Result of \|\| is always true#'
         - '#Parameter \#1 \$adapter of class Phalcon\\Cache constructor expects#'
         - '#Parameter \#1 \$eventsManager of method Phalcon#'
     reportUnmatchedIgnoredErrors: false
