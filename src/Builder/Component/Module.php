@@ -136,7 +136,7 @@ class Module extends AbstractComponent
         } catch (\Exception $e) {
             throw new BuilderException(
                 $e->getMessage(),
-                (int) $e->getCode(),
+                $e->getCode(),
                 ($e instanceof BuilderException ? null : $e)
             );
         }
