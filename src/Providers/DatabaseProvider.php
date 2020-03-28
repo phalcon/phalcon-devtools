@@ -30,14 +30,14 @@ class DatabaseProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $di): void
     {
-        $di->setShared($this->providerName, function ($di) {
-            $em = $di->getShared('eventsManager');
+        $di->setShared($this->providerName, function () {
+            $em = $this->getShared('eventsManager');
 
-            if ($di->getShared('config')->offsetExists('database')) {
-                $config = $di->getShared('config')->get('database')->toArray();
+            if ($this->getShared('config')->offsetExists('database')) {
+                $config = $this->getShared('config')->get('database')->toArray();
             } else {
                 $dbname = sys_get_temp_dir() . DS . 'phalcon.sqlite';
-                $di->getShared('logger')->warning(
+                $this->getShared('logger')->warning(
                     'Unable to initialize "db" service. Used Sqlite adapter at path: {path}',
                     ['path' => $dbname]
                 );
