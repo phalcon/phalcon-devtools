@@ -87,24 +87,26 @@ class Migrations
         $optionStack->setDefaultOption('noAutoIncrement', null);
         $optionStack->setDefaultOption('verbose', false);
 
-        $migrationsDirs = $optionStack->getOption('migrationsDir');
+        $migrationsDir = $migrationsDirs = $optionStack->getOption('migrationsDir');
         //select multiple dir
-        if (count($migrationsDirs) > 1) {
-            $question = 'Which migrations path would you like to use?' . PHP_EOL;
-            foreach ($migrationsDirs as $id => $dir) {
-                $question .= " [{$id}] $dir" . PHP_EOL;
+        if (is_array($migrationsDirs)) {
+            if (count($migrationsDirs) > 1) {
+                $question = 'Which migrations path would you like to use?' . PHP_EOL;
+                foreach ($migrationsDirs as $id => $dir) {
+                    $question .= " [{$id}] $dir" . PHP_EOL;
+                }
+                fwrite(STDOUT, Color::info($question));
+                $handle = fopen("php://stdin", "r");
+                $line = (int)fgets($handle);
+                if (!isset($migrationsDirs[$line])) {
+                    echo "ABORTING!\n";
+                    return false;
+                }
+                fclose($handle);
+                $migrationsDir = $migrationsDirs[$line];
+            } else {
+                $migrationsDir = $migrationsDirs[0];
             }
-            fwrite(STDOUT, Color::info($question));
-            $handle = fopen("php://stdin", "r");
-            $line = (int)fgets($handle);
-            if (!isset($migrationsDirs[$line])) {
-                echo "ABORTING!\n";
-                return false;
-            }
-            fclose($handle);
-            $migrationsDir = $migrationsDirs[$line];
-        } else {
-            $migrationsDir = $migrationsDirs[0];
         }
         // Migrations directory
         if ($migrationsDir && !file_exists($migrationsDir)) {
