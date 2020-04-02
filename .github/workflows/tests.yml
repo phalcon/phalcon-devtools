@@ -14,7 +14,7 @@ jobs:
                 image: mysql:5.7
                 env:
                     MYSQL_DATABASE: devtools
-                    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                    MYSQL_ROOT_PASSWORD: root
                 ports:
                     - 3306/tcp
                 options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -23,7 +23,6 @@ jobs:
                 ports:
                     - 5432/tcp
                 env:
-                    POSTGRES_PASSWORD: ""
                     POSTGRES_DB: devtools
                 options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         strategy:
@@ -70,11 +69,11 @@ jobs:
             - name: Install Composer dependencies
               run: composer install --prefer-dist --no-suggest
 
-            - name: Initialise DataBase
-              env:
-                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-              run: bash tests/_ci/setup_dbs_github.sh
+#            - name: Initialise DataBase
+#              env:
+#                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+#                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+#              run: bash tests/_ci/setup_dbs_github.sh
 
             #- name: Install Phalcon Devtools
             #  run: ./phalcon.sh
@@ -100,10 +99,13 @@ jobs:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
-              run: |
-                vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
-                vendor/bin/psalm --show-info=false
-                vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
+              run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
+
+            - name: Check psalm
+              run: vendor/bin/psalm --show-info=false
+
+            - name: Check phpstan
+              run: vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
 
             - name: Upload coverage to Codecov
               if: success()
