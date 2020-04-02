@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+use Codeception\Util\Autoload;
+
+$root = dirname(realpath(__DIR__) . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+define('PROJECT_PATH', $root);
+
+require_once $root . 'tests/_ci/functions.php';
+
 error_reporting(-1);
 
 ini_set('display_errors', 1);
