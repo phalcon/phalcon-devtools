@@ -69,15 +69,29 @@ jobs:
             - name: Initialise DataBase
               run: bash tests/_ci/setup_dbs.sh
 
+            - name: Symbolic link to phalcon devtool
+              run: ln -s $PWD/phalcon ~/bin/phalcon
+
+            - name: Init Webtools
+              run: .ci/serve-webtools.sh
+
             #- name: Copy .env file
             #  run: cp tests/.env.example tests/.env
+
+            - name: Setup tests
+              run: |
+                mkdir .phalcon
+                vendor/bin/phpcs
+                vendor/bin/codecept build
 
             - name: Run test suites
               env:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
-              run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
+                vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
+                vendor/bin/psalm --show-info=false
+                vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
 
             - name: Upload coverage to Codecov
               if: success()
