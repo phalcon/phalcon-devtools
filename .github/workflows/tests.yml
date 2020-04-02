@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             extensions: mbstring, intl, json, psr, phalcon-4.0.5, mysql, pgsql, xdebug
-            key: cache-v2.0~19.03.2020
+            #key: cache-v2.0~19.03.2020
         services:
             mysql:
                 image: mysql:5.7
@@ -16,16 +16,17 @@ jobs:
                     MYSQL_DATABASE: test
                 ports:
                     - 3306/tcp
-                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+                #options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
             postgres:
                 image: postgres:10.8
                 ports:
                     - 5432/tcp
-                options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 2
+                #options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 2
         strategy:
             fail-fast: false
             matrix:
-                php-versions: ['7.2', '7.3', '7.4']
+                #php-versions: ['7.2', '7.3', '7.4']
+                php-versions: ['7.2']
         steps:
             - uses: actions/checkout@v1
 
