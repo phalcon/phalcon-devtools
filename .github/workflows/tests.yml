@@ -70,7 +70,7 @@ jobs:
               run: bash tests/_ci/setup_dbs.sh
 
             - name: Symbolic link to phalcon devtool
-              run: ln -s $PWD/phalcon ~/bin/phalcon
+              run: ln -s phalcon ~/bin/phalcon
 
             - name: Init Webtools
               run: .ci/serve-webtools.sh
@@ -80,6 +80,7 @@ jobs:
 
             - name: Setup tests
               run: |
+                cp tests/.env.test .env
                 mkdir .phalcon
                 vendor/bin/phpcs
                 vendor/bin/codecept build
