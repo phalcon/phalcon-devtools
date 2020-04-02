@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Acceptance\Web\Tools\Controllers;
 
-use AcceptanceTester;
+use MySQLTester;
 
 final class ControllersControllerCest
 {
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::indexAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testIndexAction(AcceptanceTester $I): void
+    public function testIndexAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/controllers/list');
         $I->see('Controllers List');
@@ -20,9 +21,10 @@ final class ControllersControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::generateAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testGenerateAction(AcceptanceTester $I): void
+    public function testGenerateAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/controllers/generate');
         $I->see('Controllers');
@@ -31,9 +33,10 @@ final class ControllersControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::generateAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testSubmitGenerateAction(AcceptanceTester $I): void
+    public function testSubmitGenerateAction(MySQLTester $I): void
     {
         $controllerName = 'TestControllerName';
         $withPrefixControllerName = $controllerName . 'Controller';
@@ -49,9 +52,10 @@ final class ControllersControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::editAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testEditAction(AcceptanceTester $I): void
+    public function testEditAction(MySQLTester $I): void
     {
         $controllerName = 'TestControllerName';
         $newCode = '<?php echo "test";';

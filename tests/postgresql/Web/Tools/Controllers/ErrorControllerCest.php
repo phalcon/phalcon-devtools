@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Acceptance\Web\Tools\Controllers;
 
-use AcceptanceTester;
+use MySQLTester;
 
 final class ErrorControllerCest
 {
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ErrorController::route404Action
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testRoute404Action(AcceptanceTester $I, $scenario): void
+    public function testRoute404Action(MySQLTester $I, $scenario): void
     {
         $scenario->skip('Deprecated approach');
 

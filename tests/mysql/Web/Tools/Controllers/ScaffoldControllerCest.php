@@ -3,22 +3,23 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Acceptance\Web\Tools\Controllers;
 
-use AcceptanceTester;
+use MySQLTester;
 
 final class ScaffoldControllerCest
 {
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ScaffoldController::generateAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testEnterGenerateAction(AcceptanceTester $I): void
+    public function testEnterGenerateAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/scaffold/generate');
         $I->see('Scaffold');
         $I->see('Generate code from template');
     }
 
-    public function testGenerateAction(AcceptanceTester $I): void
+    public function testGenerateAction(MySQLTester $I): void
     {
         $namespace = 'Test\WebTools';
 

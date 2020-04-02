@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Acceptance\Web\Tools\Controllers;
 
-use AcceptanceTester;
+use MySQLTester;
 
 final class MigrationsControllerCest
 {
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::indexAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testIndexAction(AcceptanceTester $I): void
+    public function testIndexAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/migrations/list');
         $I->see('Migrations');
@@ -20,9 +21,10 @@ final class MigrationsControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::runAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testEnterRunAction(AcceptanceTester $I): void
+    public function testEnterRunAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/migrations/run');
         $I->see('Migrations');
@@ -31,9 +33,10 @@ final class MigrationsControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::generateAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testEnterGenerateAction(AcceptanceTester $I): void
+    public function testEnterGenerateAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/migrations/generate');
         $I->see('Migrations');
@@ -42,9 +45,10 @@ final class MigrationsControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::generateAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testGenerateAction(AcceptanceTester $I): void
+    public function testGenerateAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/migrations/generate');
         $I->see('Migrations');
@@ -61,9 +65,10 @@ final class MigrationsControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::runAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testRunAction(AcceptanceTester $I): void
+    public function testRunAction(MySQLTester $I): void
     {
         $this->testGenerateAction($I);
 

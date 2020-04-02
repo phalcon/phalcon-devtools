@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Acceptance\Web\Tools\Controllers;
 
-use AcceptanceTester;
+use MySQLTester;
 
 final class ModelsControllerCest
 {
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::indexAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testIndexAction(AcceptanceTester $I): void
+    public function testIndexAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/models/list');
         $I->see('Models');
@@ -20,9 +21,10 @@ final class ModelsControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::generateAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testEnterGenerateAction(AcceptanceTester $I): void
+    public function testEnterGenerateAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/models/generate');
         $I->see('Models');
@@ -31,9 +33,10 @@ final class ModelsControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::generateAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testGenerateAction(AcceptanceTester $I): void
+    public function testGenerateAction(MySQLTester $I): void
     {
         $I->amOnPage('/webtools.php/models/generate');
 
@@ -52,9 +55,10 @@ final class ModelsControllerCest
 
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::editAction
-     * @param AcceptanceTester $I
+     *
+     * @param MySQLTester $I
      */
-    public function testEditAction(AcceptanceTester $I): void
+    public function testEditAction(MySQLTester $I): void
     {
         $newCode = '<?php echo "test";';
 
