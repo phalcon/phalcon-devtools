@@ -69,9 +69,6 @@ jobs:
             - name: Initialise DataBase
               run: bash tests/_ci/setup_dbs.sh
 
-            - name: Symbolic link to phalcon devtool
-              run: ln -s phalcon ~/bin/phalcon
-
             - name: Init Webtools
               run: .ci/serve-webtools.sh
 
