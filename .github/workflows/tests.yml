@@ -13,7 +13,10 @@ jobs:
             mysql:
                 image: mysql:5.7
                 env:
-                    MYSQL_DATABASE: test
+                    MYSQL_DATABASE: devtools
+                    MYSQL_ROOT_PASSWORD: ""
+                    MYSQL_USER: root
+                    MYSQL_PASSWORD: ""
                 ports:
                     - 3306/tcp
                 #options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -21,6 +24,9 @@ jobs:
                 image: postgres:10.8
                 ports:
                     - 5432/tcp
+                env:
+                    POSTGRES_PASSWORD: ""
+                    POSTGRES_DB: devtools
                 #options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 2
         strategy:
             fail-fast: false
