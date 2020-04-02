@@ -1,0 +1,83 @@
+name: "Tests"
+
+on: [push, pull_request]
+
+jobs:
+    run-tests:
+        name: PHP ${{ matrix.php-versions }}
+        runs-on: ubuntu-latest
+        env:
+            extensions: mbstring, intl, json, psr, phalcon-4.0.5, mysql, pgsql, xdebug
+            key: cache-v2.0~19.03.2020
+        services:
+            mysql:
+                image: mysql:5.7
+                env:
+                    MYSQL_DATABASE: test
+                ports:
+                    - 3306/tcp
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+            postgres:
+                image: postgres:10.8
+                ports:
+                    - 5432/tcp
+                options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 2
+        strategy:
+            fail-fast: false
+            matrix:
+                php-versions: ['7.2', '7.3', '7.4']
+        steps:
+            - uses: actions/checkout@v1
+
+            - name: Setup cache environment
+              id: cache-env
+              uses: shivammathur/cache-extensions@v1
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: ${{ env.extensions }}
+                  key: ${{ env.key }}
+
+            - name: Cache extensions
+              uses: actions/cache@v1
+              with:
+                  path: ${{ steps.cache-env.outputs.dir }}
+                  key: ${{ steps.cache-env.outputs.key }}
+                  restore-keys: ${{ steps.cache-env.outputs.key }}
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: ${{ env.extensions }}
+                  tools: pecl
+
+            - name: Get Composer Cache Directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            - name: Cache composer dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ runner.os }}-composer-
+
+            - name: Install Composer dependencies
+              run: composer install --prefer-dist --no-suggest
+
+            #- name: Copy .env file
+            #  run: cp tests/.env.example tests/.env
+
+            - name: Run test suites
+              env:
+                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+              if: success()
+              run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
+
+            - name: Upload coverage to Codecov
+              if: success()
+              uses: codecov/codecov-action@v1
+              with:
+                  token: ${{secrets.CODECOV_TOKEN}}
+                  file: ./tests/_output/coverage-*.xml
