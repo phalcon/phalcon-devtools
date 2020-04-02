@@ -9,7 +9,7 @@
 
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
-
+echo -e $POSTGRES_TEST_DB_PORT
 echo -e "Create PostgreSQL database..."
 psql -c 'create database devtools;' -U postgres
 psql -U postgres devtools -p $POSTGRES_TEST_DB_PORT -q -f "${TRAVIS_BUILD_DIR}/tests/_data/schemas/postgresql/dump.sql"
