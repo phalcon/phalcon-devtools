@@ -11,7 +11,7 @@ modules:
               url: 'http://%CODECEPTION_URL%:%CODECEPTION_PORT%'
               curl:
                   CURLOPT_RETURNTRANSFER: true
-        - \Helper\Acceptance
+        - \Helper\MySQL
         -   Db:
                 dsn: 'mysql:host=%MYSQL_TEST_DB_HOST%;port=%MYSQL_TEST_DB_PORT%'
                 user: '%MYSQL_TEST_DB_USER%'
