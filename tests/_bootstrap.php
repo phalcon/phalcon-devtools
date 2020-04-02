@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-use Codeception\Util\Autoload;
-
-$root = dirname(realpath(__DIR__) . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-define('PROJECT_PATH', $root);
-
-require_once $root . 'tests/_ci/functions.php';
-
 error_reporting(-1);
 
 ini_set('display_errors', 1);
@@ -34,6 +27,10 @@ defined('PATH_DATA')    || define('PATH_DATA', $root .  '_data' . DIRECTORY_SEPA
 defined('PATH_CACHE')   || define('PATH_CACHE', $root . '_cache' . DIRECTORY_SEPARATOR);
 defined('PATH_OUTPUT')  || define('PATH_OUTPUT', $root .  '_output' . DIRECTORY_SEPARATOR);
 defined('PATH_FIXTURES')|| define('PATH_FIXTURES', $root .  '_fixtures' . DIRECTORY_SEPARATOR);
+
+require_once $root . 'tests' .
+    DIRECTORY_SEPARATOR . '_ci' .
+    DIRECTORY_SEPARATOR . 'functions.php';
 
 unset($root);
 
