@@ -11,7 +11,7 @@ use Phalcon\Config;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Db\Adapter\PdoFactory;
 
-class Acceptance extends Module
+class MySQL extends Module
 {
     /**
      * @var string
