@@ -66,6 +66,9 @@ jobs:
             - name: Install Composer dependencies
               run: composer install --prefer-dist --no-suggest
 
+            - name: Initialise DataBase
+              run: bash tests/_ci/setup_dbs.sh
+
             #- name: Copy .env file
             #  run: cp tests/.env.example tests/.env
 
