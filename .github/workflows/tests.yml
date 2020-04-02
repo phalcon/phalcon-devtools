@@ -78,9 +78,7 @@ jobs:
             #- name: Install Phalcon Devtools
             #  run: ./phalcon.sh
             - name: Symbolic link Phalcon devtools
-              run: |
-                sudo chown -R $(whoami) /usr/local/bin
-                ln -s phalcon /usr/local/bin/phalcon
+              run: sudo ln -s phalcon /usr/bin/phalcon
 
             - name: Init Webtools
               run: .ci/serve-webtools.sh
