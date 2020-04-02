@@ -27,7 +27,7 @@ jobs:
                 env:
                     POSTGRES_PASSWORD: ""
                     POSTGRES_DB: devtools
-                #options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 2
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         strategy:
             fail-fast: false
             matrix:
@@ -73,7 +73,10 @@ jobs:
               run: composer install --prefer-dist --no-suggest
 
             - name: Initialise DataBase
-              run: bash tests/_ci/setup_dbs.sh
+              env:
+                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+              run: bash tests/_ci/setup_dbs_github.sh
 
             #- name: Install Phalcon Devtools
             #  run: ./phalcon.sh
@@ -86,9 +89,6 @@ jobs:
 
             - name: Init Webtools
               run: .ci/serve-webtools.sh
-
-            #- name: Copy .env file
-            #  run: cp tests/.env.example tests/.env
 
             - name: Setup tests
               run: |
