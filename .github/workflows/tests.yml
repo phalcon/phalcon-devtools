@@ -80,7 +80,7 @@ jobs:
             - name: Symbolic link Phalcon devtools
               run: |
                 mkdir ~/bin
-                ln -s $PWD/phalcon ~/bin/phalcon
+                ln -s ${{ GITHUB_WORKSPACE }}/phalcon ~/bin/phalcon
                 echo "::add-path::~/bin"
 
             - name: Init Webtools
