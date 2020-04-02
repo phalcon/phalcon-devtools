@@ -89,6 +89,7 @@ jobs:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
+              run: |
                 vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
                 vendor/bin/psalm --show-info=false
                 vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
