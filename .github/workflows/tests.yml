@@ -78,7 +78,10 @@ jobs:
             #- name: Install Phalcon Devtools
             #  run: ./phalcon.sh
             - name: Symbolic link Phalcon devtools
-              run: echo "::add-path::~/bin"
+              run: |
+                mkdir ~/bin
+                ln -s $PWD/phalcon ~/bin/phalcon
+                echo "::add-path::~/bin"
 
             - name: Init Webtools
               run: .ci/serve-webtools.sh
