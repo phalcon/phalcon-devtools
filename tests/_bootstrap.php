@@ -26,7 +26,7 @@ defined('PATH_CACHE')   || define('PATH_CACHE', $root . '_cache' . DIRECTORY_SEP
 defined('PATH_OUTPUT')  || define('PATH_OUTPUT', $root .  '_output' . DIRECTORY_SEPARATOR);
 defined('PATH_FIXTURES')|| define('PATH_FIXTURES', $root .  '_fixtures' . DIRECTORY_SEPARATOR);
 
-require_once $root . 'tests' .
+require_once $root .
     DIRECTORY_SEPARATOR . '_ci' .
     DIRECTORY_SEPARATOR . 'functions.php';
 
