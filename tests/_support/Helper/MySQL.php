@@ -20,7 +20,7 @@ class MySQL extends Module
     public function _initialize()
     {
         $this->projectPath = tests_path('_data/acceptance/' . $this->projectName);
-        $this->config = new Phalcon\Config([
+        $this->config = new \Phalcon\Config([
             'database' => [
                 'adapter' => 'mysql',
                 'host' => getenv('MYSQL_TEST_DB_HOST'),
