@@ -10,6 +10,8 @@ final class ModelsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::indexAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testIndexAction(AcceptanceTester $I): void
     {
@@ -21,6 +23,8 @@ final class ModelsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::generateAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testEnterGenerateAction(AcceptanceTester $I): void
     {
@@ -32,6 +36,8 @@ final class ModelsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::generateAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testGenerateAction(AcceptanceTester $I): void
     {
@@ -53,6 +59,8 @@ final class ModelsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ModelsController::editAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testEditAction(AcceptanceTester $I): void
     {

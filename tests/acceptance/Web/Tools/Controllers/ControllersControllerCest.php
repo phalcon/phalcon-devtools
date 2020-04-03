@@ -3,24 +3,14 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Acceptance\Web\Tools\Controllers;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use AcceptanceTester;
 
 final class ControllersControllerCest
 {
-    use DiTrait;
-
-    public function _before(AcceptanceTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase($I);
-    }
-
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::indexAction
      * @param AcceptanceTester $I
-     * @group mysql
-     * @group pgsql
+     * @group common
      */
     public function testIndexAction(AcceptanceTester $I): void
     {
@@ -32,8 +22,7 @@ final class ControllersControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::generateAction
      * @param AcceptanceTester $I
-     * @group mysql
-     * @group pgsql
+     * @group common
      */
     public function testGenerateAction(AcceptanceTester $I): void
     {
@@ -45,8 +34,7 @@ final class ControllersControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::generateAction
      * @param AcceptanceTester $I
-     * @group mysql
-     * @group pgsql
+     * @group common
      */
     public function testSubmitGenerateAction(AcceptanceTester $I): void
     {
@@ -65,6 +53,7 @@ final class ControllersControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::editAction
      * @param AcceptanceTester $I
+     * @group common
      */
     public function testEditAction(AcceptanceTester $I): void
     {

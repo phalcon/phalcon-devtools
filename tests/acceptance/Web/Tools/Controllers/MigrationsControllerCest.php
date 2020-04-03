@@ -10,6 +10,8 @@ final class MigrationsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::indexAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testIndexAction(AcceptanceTester $I): void
     {
@@ -21,6 +23,8 @@ final class MigrationsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::runAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testEnterRunAction(AcceptanceTester $I): void
     {
@@ -32,6 +36,8 @@ final class MigrationsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::generateAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testEnterGenerateAction(AcceptanceTester $I): void
     {
@@ -43,6 +49,8 @@ final class MigrationsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::generateAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testGenerateAction(AcceptanceTester $I): void
     {
@@ -62,6 +70,8 @@ final class MigrationsControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\MigrationsController::runAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testRunAction(AcceptanceTester $I): void
     {
