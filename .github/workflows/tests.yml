@@ -98,7 +98,10 @@ jobs:
               env:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-              if: success()
+              if: failure()
+              with:
+                  name: Codeception Logs
+                  path: tests/_output
               run: |
                 vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
