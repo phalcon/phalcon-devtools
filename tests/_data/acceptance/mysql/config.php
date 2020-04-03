@@ -9,12 +9,12 @@ defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 
 return new \Phalcon\Config([
     'database' => [
-        'adapter'     => 'Mysql',
-        'host'     => env('MYSQL_TEST_DB_HOST'),
-        'username' => env('MYSQL_TEST_DB_USER'),
-        'password' => env('MYSQL_TEST_DB_PASSWORD'),
-        'dbname'   => env('MYSQL_TEST_DB_DATABASE'),
-        'port'     => env('MYSQL_TEST_DB_PORT'),
+        'adapter'  => 'Mysql',
+        'host'     => getenv('MYSQL_TEST_DB_HOST'),
+        'username' => getenv('MYSQL_TEST_DB_USER'),
+        'password' => getenv('MYSQL_TEST_DB_PASSWORD'),
+        'dbname'   => getenv('MYSQL_TEST_DB_DATABASE'),
+        'port'     => getenv('MYSQL_TEST_DB_PORT'),
         'charset'  => 'utf8'
     ],
     'application' => [

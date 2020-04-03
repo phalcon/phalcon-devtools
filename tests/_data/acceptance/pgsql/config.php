@@ -10,11 +10,11 @@ defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 return new \Phalcon\Config([
     'database' => [
         'adapter'     => 'Postgresql',
-        'host'     => env('POSTGRES_TEST_DB_HOST'),
-        'username' => env('POSTGRES_TEST_DB_USER'),
-        'password' => env('POSTGRES_TEST_DB_PASSWORD'),
-        'port'     => env('POSTGRES_TEST_DB_PORT'),
-        'dbname'   => env('POSTGRES_TEST_DB_DATABASE')
+        'host'     => getenv('POSTGRES_TEST_DB_HOST'),
+        'username' => getenv('POSTGRES_TEST_DB_USER'),
+        'password' => getenv('POSTGRES_TEST_DB_PASSWORD'),
+        'port'     => getenv('POSTGRES_TEST_DB_PORT'),
+        'dbname'   => getenv('POSTGRES_TEST_DB_DATABASE')
     ],
     'application' => [
         'appDir'         => APP_PATH . '/',
