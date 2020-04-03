@@ -98,10 +98,7 @@ jobs:
               env:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-              if: failure()
-              with:
-                  name: Codeception Logs
-                  path: tests/_output
+              if: success()
               run: |
                 vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
@@ -110,6 +107,12 @@ jobs:
                 vendor/bin/codecept run --ext DotReporter console
                 vendor/bin/codecept run --ext DotReporter functional
               #run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
+
+            - uses: actions/upload-artifact@v1
+              if: failure()
+              with:
+                  name: Codeception Logs
+                  path: /tests/_output/
 
             - name: Check psalm
               run: vendor/bin/psalm --show-info=false
