@@ -29,13 +29,11 @@ class Acceptance extends Module
             $this->driver = $driver;
         }
 
-        print_r(scandir(getenv('WEB_TOOLS_PROJECT')));
+      /*  print_r(scandir(getenv('WEB_TOOLS_PROJECT')));
         echo '-----';
         print_r(scandir(getenv('HOME')));
-        echo '-----';
+        echo '-----';*/
         print_r(scandir(PROJECT_PATH));
-        echo '-----';
-        print_r(scandir(TESTS_PATH));
         echo '-----';
         print_r(scandir(TESTS_PATH));
         die;
