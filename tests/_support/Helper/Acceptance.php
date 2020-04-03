@@ -33,6 +33,14 @@ class Acceptance extends Module
             copy(PATH_DATA . 'acceptance' .
                 DIRECTORY_SEPARATOR . $driver .
                 DIRECTORY_SEPARATOR . 'config.php', PROJECT_PATH . 'webtools/app/config/config.php');
+            $data = htmlentities(file_get_contents(PROJECT_PATH . 'webtools/app/config/config.php'));
+            echo $data;
+            echo '---';
+            $data = htmlentities(file_get_contents(PATH_DATA . 'acceptance' .
+                DIRECTORY_SEPARATOR . $driver .
+                DIRECTORY_SEPARATOR . 'config.php'));
+            echo $data;
+            echo '---';
         }
 
         parent::_before($test);

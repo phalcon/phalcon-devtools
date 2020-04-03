@@ -29,7 +29,6 @@ try {
      * Get config service for use in inline setup below
      */
     $config = $di->getConfig();
-    var_dump($config);die;
 
     /**
      * Include Autoloader
