@@ -32,7 +32,7 @@ class Acceptance extends Module
         if (true === in_array($driver, [ 'mysql', 'pgsql' ])) {
             copy(PATH_DATA . 'acceptance' .
                 DIRECTORY_SEPARATOR . $driver .
-                DIRECTORY_SEPARATOR . 'config.php', PROJECT_PATH . 'webtools/app/config/config.php');
+                DIRECTORY_SEPARATOR . 'config.php', 'webtools/app/config/config.php');
         }
 
         parent::_before($test);
