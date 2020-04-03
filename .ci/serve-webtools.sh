@@ -11,7 +11,7 @@ set -e
 
 #WEB_TOOLS_PROJECT=${HOME}/webtools
 
-rm -rf ${WEB_TOOLS_PROJECT}
+rm -rf webtools
 phalcon project --name=webtools
 #phalcon project --directory=$HOME --name=webtools
 #sed -i "s/'dbname'      => 'test',/'dbname'      => 'devtools',/g" ${WEB_TOOLS_PROJECT}/app/config/config.php
