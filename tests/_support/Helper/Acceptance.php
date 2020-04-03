@@ -29,19 +29,10 @@ class Acceptance extends Module
             $this->driver = $driver;
         }
 
-      /*  print_r(scandir(getenv('WEB_TOOLS_PROJECT')));
-        echo '-----';
-        print_r(scandir(getenv('HOME')));
-        echo '-----';*/
-        print_r(scandir(PROJECT_PATH));
-        echo '-----';
-        print_r(scandir(TESTS_PATH));
-        die;
-
         if (true === in_array($driver, [ 'mysql', 'pgsql' ])) {
             copy(PATH_DATA . 'acceptance' .
                 DIRECTORY_SEPARATOR . $driver .
-                DIRECTORY_SEPARATOR . 'config.php', getenv('WEB_TOOLS_PROJECT') . '/app/config/config.php');
+                DIRECTORY_SEPARATOR . 'config.php', PROJECT_PATH . 'webtools/app/config/config.php');
         }
 
         parent::_before($test);
