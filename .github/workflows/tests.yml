@@ -100,9 +100,9 @@ jobs:
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
               run: |
-                vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
                 vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
+                vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter unit
                 vendor/bin/codecept run --ext DotReporter console
                 vendor/bin/codecept run --ext DotReporter functional
