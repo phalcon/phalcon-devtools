@@ -29,32 +29,6 @@ class Acceptance extends Module
             $this->driver = $driver;
         }
 
-      /*  print_r(scandir(getenv('WEB_TOOLS_PROJECT')));
-        echo '-----';
-        print_r(scandir(getenv('HOME')));
-        echo '-----';*/
-        echo '-----';
-        echo getenv('MYSQL_TEST_DB_HOST');
-        echo '-----';
-        echo getenv('MYSQL_TEST_DB_USER');
-        echo '-----';
-        echo getenv('MYSQL_TEST_DB_PASSWORD');
-        echo '-----';
-        echo getenv('MYSQL_TEST_DB_DATABASE');
-        echo '-----';
-        echo getenv('MYSQL_TEST_DB_PORT');
-        echo '-----';
-        echo '-----';
-        echo getenv('POSTGRES_TEST_DB_HOST');
-        echo '-----';
-        echo getenv('POSTGRES_TEST_DB_USER');
-        echo '-----';
-        echo getenv('POSTGRES_TEST_DB_PASSWORD');
-        echo '-----';
-        echo getenv('POSTGRES_TEST_DB_PORT');
-        echo '-----';
-        echo getenv('POSTGRES_TEST_DB_DATABASE');
-
         if (true === in_array($driver, [ 'mysql', 'pgsql' ])) {
             copy(PATH_DATA . 'acceptance' .
                 DIRECTORY_SEPARATOR . $driver .

@@ -112,7 +112,7 @@ jobs:
               if: failure()
               with:
                   name: Codeception Logs
-                  path: /tests/_output/
+                  path: tests/_output
 
             - name: Check psalm
               run: vendor/bin/psalm --show-info=false
