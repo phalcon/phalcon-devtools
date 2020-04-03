@@ -6,15 +6,7 @@
  */
 defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
-print_r([
-    'adapter'  => 'Mysql',
-    'host'     => getenv('MYSQL_TEST_DB_HOST'),
-    'username' => getenv('MYSQL_TEST_DB_USER'),
-    'password' => getenv('MYSQL_TEST_DB_PASSWORD'),
-    'dbname'   => getenv('MYSQL_TEST_DB_DATABASE'),
-    'port'     => getenv('MYSQL_TEST_DB_PORT'),
-    'charset'  => 'utf8'
-]);die;
+
 return new \Phalcon\Config([
     'database' => [
         'adapter'  => 'Mysql',
