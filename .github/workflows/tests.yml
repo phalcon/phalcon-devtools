@@ -84,10 +84,9 @@ jobs:
                 echo "::add-path::~/bin"
                 chmod +x $GITHUB_WORKSPACE/phalcon
 
-            - name: Init Webtools
+            - name: Init Webtools and add ports in database setup
               run: |
                 .ci/serve-webtools.sh
-                sed -i "s/'charset'      => $config->database->charset,/'port'      => $config->database->port,'charset'      => $config->database->charset,/g" webtools/app/config/services.php
 
             - name: Setup tests
               run: |
@@ -98,8 +97,16 @@ jobs:
 
             - name: Run test suites
               env:
+                  MYSQL_TEST_DB_HOST: 127.0.0.1
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  MYSQL_TEST_DB_DATABASE: devtools
+                  MYSQL_TEST_DB_USER: root
+                  MYSQL_TEST_DB_PASSWORD: root
+                  POSTGRES_TEST_DB_HOST: 127.0.0.1
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+                  POSTGRES_TEST_DB_DATABASE: devtools
+                  POSTGRES_TEST_DB_USER: postgres
+                  POSTGRES_TEST_DB_PASSWORD: postgres
               if: success()
               run: |
                 vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
@@ -110,16 +117,24 @@ jobs:
                 vendor/bin/codecept run --ext DotReporter functional
               #run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
 
-            - name: Check Config file
+            - name: If fail - Check Config file
               env:
+                  MYSQL_TEST_DB_HOST: 127.0.0.1
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  MYSQL_TEST_DB_DATABASE: devtools
+                  MYSQL_TEST_DB_USER: root
+                  MYSQL_TEST_DB_PASSWORD: root
+                  POSTGRES_TEST_DB_HOST: 127.0.0.1
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+                  POSTGRES_TEST_DB_DATABASE: devtools
+                  POSTGRES_TEST_DB_USER: postgres
+                  POSTGRES_TEST_DB_PASSWORD: postgres
               if: failure()
               run: |
                   cat webtools/app/config/config.php
                   cat webtools/app/config/services.php
-                  echo "<?php print_r(include('webtools/app/config/config.php')) ?>" > try.php
-                  php try.php
+                  echo "<?php print_r(include('webtools/app/config/config.php')) ?>" > content_config.php
+                  php content_config.php
 
             - uses: actions/upload-artifact@v1
               if: failure()
