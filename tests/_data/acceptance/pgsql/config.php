@@ -14,7 +14,6 @@ return new \Phalcon\Config([
         'username' => getenv('POSTGRES_TEST_DB_USER'),
         'password' => '',
         'dbname'   => getenv('POSTGRES_TEST_DB_DATABASE'),
-        'charset'  => 'utf8',
         'port'     => getenv('POSTGRES_TEST_DB_PORT')
     ],
     'application' => [
