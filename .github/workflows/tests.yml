@@ -87,7 +87,7 @@ jobs:
             - name: Init Webtools
               run: |
                 .ci/serve-webtools.sh
-                sed -i "s/'charset'      => $config->database->charset,/'port'      => $config->database->port,'charset'      => $config->database->charset,/g" ${WEB_TOOLS_PROJECT}/app/config/services.php
+                sed -i "s/'charset'      => $config->database->charset,/'port'      => $config->database->port,'charset'      => $config->database->charset,/g" webtools/app/config/services.php
 
             - name: Setup tests
               run: |
