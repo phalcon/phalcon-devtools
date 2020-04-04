@@ -14,8 +14,10 @@ psql -U postgres devtools -p $POSTGRES_TEST_DB_PORT -h localhost -q -f "${BUILD_
 echo -e "Done\n"
 
 echo -e "Create MySQL database..."
-mysql --host=127.0.0.1 --user=root --port=$MYSQL_TEST_DB_PORT -e "CREATE DATABASE IF NOT EXISTS devtools charset=utf8 collate=utf8_general_ci;"
-cat "${BUILD_DIR}/tests/_data/schemas/mysql/dump.sql" | mysql --host=127.0.0.1 --user=root --port=$MYSQL_TEST_DB_PORT --database devtools
+#mysql --host=127.0.0.1 --user=root --port=$MYSQL_TEST_DB_PORT -e "CREATE DATABASE IF NOT EXISTS devtools charset=utf8 collate=utf8_general_ci;"
+cat "${BUILD_DIR}/tests/_data/schemas/mysql/dump.sql" | mysql --host=127.0.0.1 --user=root --password=root --port=$MYSQL_TEST_DB_PORT --database devtools
+echo -e "Check database"
+mysql --host=127.0.0.1 --user=root --password=root --port=$MYSQL_TEST_DB_PORT -e 'show databases;'
 echo -e "Done\n"
 
 wait

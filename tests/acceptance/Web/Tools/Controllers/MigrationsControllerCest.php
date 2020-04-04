@@ -43,7 +43,7 @@ final class MigrationsControllerCest
     {
         $I->amOnPage('/webtools.php/migrations/generate');
         $I->see('Migrations');
-        $I->see('Generate Migration test');
+        $I->see('Generate Migration');
     }
 
     /**
