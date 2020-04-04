@@ -1,6 +1,8 @@
 <?php
 $config =  include './webtools/app/config/config.php';
 
+print_r($config);
+
 $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
 
 $params = [
@@ -12,12 +14,14 @@ $params = [
     'port'     => $config->database->port
 ];
 
+print_r($params);
+
 if ($config->database->adapter == 'Postgresql') {
 unset($params['charset']);
 }
-var_dump($params);
-var_dump($config);
-var_dump($class);
+print_r($params);
+print_r($config);
+print_r($class);
 var_dump(new $class($params));
 
 ?>
