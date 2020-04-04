@@ -12,7 +12,6 @@ return new \Phalcon\Config([
         'adapter'     => 'Postgresql',
         'host'     => getenv('POSTGRES_TEST_DB_HOST'),
         'username' => getenv('POSTGRES_TEST_DB_USER'),
-        'password' => '',
         'dbname'   => getenv('POSTGRES_TEST_DB_DATABASE'),
         'port'     => getenv('POSTGRES_TEST_DB_PORT')
     ],

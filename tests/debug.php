@@ -1,4 +1,5 @@
 <?php
+var_dump(scandir('../webtools/app/config/'));
 $config =  include '../webtools/app/config/config.php';
 
 $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
