@@ -96,6 +96,12 @@ jobs:
                 vendor/bin/phpcs
                 vendor/bin/codecept build
 
+            - name: Check Config file
+              run: |
+                cat webtools/app/config/config.php
+                cat webtools/app/config/services.php
+                php webtools/app/config/config.php
+
             - name: Run test suites
               env:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
