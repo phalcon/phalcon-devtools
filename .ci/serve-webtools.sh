@@ -15,7 +15,7 @@ rm -rf webtools
 phalcon project --name=webtools
 #phalcon project --directory=$HOME --name=webtools
 #sed -i "s/'dbname'      => 'test',/'dbname'      => 'devtools',/g" ${WEB_TOOLS_PROJECT}/app/config/config.php
-sed -i "s/database->charset/database->charset,\n\t\t'port'     => \$config->database->port/g" app/config/services.php
+sed -i "s/database->charset/database->charset,\n\t\t'port'     => \$config->database->port/g" webtools/app/config/services.php
 #cd ${WEB_TOOLS_PROJECT}
 cd webtools
 
