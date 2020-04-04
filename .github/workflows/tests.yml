@@ -133,7 +133,7 @@ jobs:
                   cat webtools/app/config/services.php
                   echo "<?php print_r(include('webtools/app/config/config.php')) ?>" > content_config.php
                   php content_config.php
-                  php test/debug.php
+                  php tests/debug.php
 
             - uses: actions/upload-artifact@v1
               if: failure()
