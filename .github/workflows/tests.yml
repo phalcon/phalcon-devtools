@@ -97,7 +97,7 @@ jobs:
 
             - name: Run test suites
               env:
-                  MYSQL_TEST_DB_HOST: 127.0.0.1
+                  MYSQL_TEST_DB_HOST: localhost
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   MYSQL_TEST_DB_DATABASE: devtools
                   MYSQL_TEST_DB_USER: root
@@ -107,13 +107,10 @@ jobs:
                   POSTGRES_TEST_DB_DATABASE: devtools
                   POSTGRES_TEST_DB_USER: postgres
                   POSTGRES_TEST_DB_PASSWORD: postgres
-                  TEST_DB_POSTGRESQL_PASSWD: postgres
-                  TEST_DB_MYSQL_PORT: ${{ job.services.postgres.ports['5432'] }}
-                  TEST_DB_MYSQL_PASSWD: root
               if: success()
               run: |
-                vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
                 vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
+                vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
                 vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter unit
                 vendor/bin/codecept run --ext DotReporter console
