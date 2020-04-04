@@ -114,7 +114,7 @@ jobs:
               env:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-              if: success()
+              if: failure()
               run: |
                   cat webtools/app/config/config.php
                   cat webtools/app/config/services.php
