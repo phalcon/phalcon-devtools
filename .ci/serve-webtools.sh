@@ -20,4 +20,3 @@ cd webtools
 
 phalcon webtools enable
 phalcon serve &
-'charset'  => $config->database->charset
