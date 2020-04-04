@@ -30,10 +30,11 @@ class DbUtils extends Injectable
     public function listTables(bool $all = false, $connection = 'db'): array
     {
         $tables = $all ? ['@' => 'all'] : [];
+        var_dump($connection);
 
         if ($this->getDI()->has($connection)) {
             $connection = $this->getDI()->getShared($connection);
-
+            var_dump($connection);die;
             $dbTables = $connection->listTables();
             foreach ($dbTables as $dbTable) {
                 $tables[$dbTable] = $dbTable;
