@@ -96,12 +96,6 @@ jobs:
                 vendor/bin/phpcs
                 vendor/bin/codecept build
 
-            - name: Check Config file
-              run: |
-                cat webtools/app/config/config.php
-                cat webtools/app/config/services.php
-                php webtools/app/config/config.php
-
             - name: Run test suites
               env:
                   MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
@@ -115,6 +109,17 @@ jobs:
                 vendor/bin/codecept run --ext DotReporter console
                 vendor/bin/codecept run --ext DotReporter functional
               #run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
+
+            - name: Check Config file
+              env:
+                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+              if: success()
+              run: |
+                  cat webtools/app/config/config.php
+                  cat webtools/app/config/services.php
+                  echo "<?php print_r(include('webtools/app/config/config.php')) ?>" > try.php
+                  php try.php
 
             - uses: actions/upload-artifact@v1
               if: failure()
