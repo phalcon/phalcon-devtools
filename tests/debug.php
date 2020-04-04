@@ -1,5 +1,5 @@
 <?php
-$config =  '../webtools/app/config/config.php';
+$config =  include '../webtools/app/config/config.php';
 
 $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
 
