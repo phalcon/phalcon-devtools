@@ -17,7 +17,7 @@ final class ModelsControllerCest
     {
         $I->amOnPage('/webtools.php/models/list');
         $I->see('Models');
-        $I->see('All models that we managed to find');
+        $I->see('All models that we managgff');
     }
 
     /**
