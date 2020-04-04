@@ -34,8 +34,6 @@ class DbUtils extends Injectable
         if ($this->getDI()->has($connection)) {
             $connection = $this->getDI()->getShared($connection);
 
-            print_r($connection);die;
-
             $dbTables = $connection->listTables();
             foreach ($dbTables as $dbTable) {
                 $tables[$dbTable] = $dbTable;
