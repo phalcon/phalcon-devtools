@@ -78,7 +78,7 @@ $di->setShared('db', function () {
     if ($config->database->adapter == 'Postgresql') {
         unset($params['charset']);
     }
-
+    var_dump($params);die;
     return new $class($params);
 });
 
