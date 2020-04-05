@@ -71,7 +71,5 @@ class DatabaseProvider implements ServiceProviderInterface
 
             return $connection;
         });
-        print_r($di->config);
-        print_r($di->db);
     }
 }
