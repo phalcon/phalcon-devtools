@@ -78,7 +78,6 @@ class Config extends Injectable
                 if (is_file($probablyConfig) && is_readable($probablyConfig)) {
                     if (in_array($ext, ['php', 'php5', 'inc'])) {
                         /** @noinspection PhpIncludeInspection */
-                        print_r($probablyConfig);
                         $config = include($probablyConfig);
                         if (is_array($config)) {
                             $config = new Config($config);

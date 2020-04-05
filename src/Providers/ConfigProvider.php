@@ -45,11 +45,5 @@ class ConfigProvider implements ServiceProviderInterface
             }
             return $config;
         });
-        $scanner = new ConfigScanner($basePath);
-        var_dump($scanner);
-        $di->setShared('fs', function () {
-            return new FsUtils;
-        });
-        print_r($scanner->load('config'));
     }
 }
