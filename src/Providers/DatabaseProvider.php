@@ -65,6 +65,11 @@ class DatabaseProvider implements ServiceProviderInterface
                 unset($params['charset']);
             }
 
+            print_r($params);
+            print_r($config);
+            print_r($adapter);
+            var_dump(new $adapter($params));
+
             /** @var AbstractPdo $connection */
             $connection = new $adapter($params);
             $connection->setEventsManager($em);
