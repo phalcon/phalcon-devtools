@@ -43,7 +43,7 @@ class ConfigProvider implements ServiceProviderInterface
                 }
             }
 
-            print_r($config);die;
+            return $config;
         });
     }
 }
