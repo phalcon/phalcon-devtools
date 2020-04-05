@@ -85,6 +85,9 @@ jobs:
                 chmod +x $GITHUB_WORKSPACE/phalcon
 
             - name: Init Webtools and add ports in database setup
+              env:
+                  MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               run: |
                 .ci/serve-webtools.sh
 
@@ -96,9 +99,6 @@ jobs:
               #vendor/bin/phpcs
 
             - name: Run test suites
-              env:
-                  MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-                  POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
               run: |
                 vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
