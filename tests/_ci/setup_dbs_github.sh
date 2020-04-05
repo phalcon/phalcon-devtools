@@ -20,6 +20,4 @@ echo -e "Check database created"
 mysql --host=127.0.0.1 --user=root --password=root --port=$MYSQL_DB_PORT -e 'show databases;'
 echo -e "Done\n"
 
-sed -i "s/database->charset/database->charset,\n\t\t'port'     => \$config->database->port/g" tests/_ci/app/config/services.php
-
 wait

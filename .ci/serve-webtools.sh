@@ -17,7 +17,7 @@ phalcon project --name=webtools
 #sed -i "s/'dbname'      => 'test',/'dbname'      => 'devtools',/g" ${WEB_TOOLS_PROJECT}/app/config/config.php
 sed -i "s/database->charset/database->charset,\n\t\t'port'     => \$config->database->port/g" webtools/app/config/services.php
 sed -i "s/getenv('MYSQL_DB_PORT')/$MYSQL_DB_PORT/g" tests/_data/acceptance/mysql/config.php
-sed -i "s/getenv('POSTGRES_DB_PORT')/$POSTGRES_DB_PORT/g" tests/_data/acceptance/mysql/config.php
+sed -i "s/getenv('POSTGRES_DB_PORT')/$POSTGRES_DB_PORT/g" tests/_data/acceptance/pgsql/config.php
 #cd ${WEB_TOOLS_PROJECT}
 cd webtools
 
