@@ -12,7 +12,7 @@ return new \Phalcon\Config([
         'adapter'  => 'Mysql',
         'host'     => 'mysql',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'dbname'   => 'devtools',
         'port'     => getenv('MYSQL_DB_PORT'),
         'charset'  => 'utf8'
