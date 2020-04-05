@@ -82,9 +82,6 @@ jobs:
                 mkdir ~/bin
                 ln -s $GITHUB_WORKSPACE/phalcon ~/bin/phalcon
                 echo "::add-path::~/bin"
-                echo $PATH
-                export PATH="$PATH:~/bin"
-                echo $PATH
                 chmod +x $GITHUB_WORKSPACE/phalcon
 
             - name: Init Webtools and add ports in database setup
@@ -93,7 +90,6 @@ jobs:
                   POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               run: |
                 .ci/serve-webtools.sh
-                echo $PATH
 
             - name: Setup tests
               run: |
@@ -101,7 +97,6 @@ jobs:
                 mkdir .phalcon
                 vendor/bin/codecept build
                 vendor/bin/phpcs
-                echo $PATH
 
             - name: Run test suites
               if: success()
@@ -111,7 +106,7 @@ jobs:
                 vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter unit
                 vendor/bin/codecept run --ext DotReporter functional
-                echo $PATH
+                phalcon
                 vendor/bin/codecept run --ext DotReporter console
               #run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
 
