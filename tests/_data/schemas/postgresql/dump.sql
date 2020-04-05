@@ -86,5 +86,5 @@ CREATE TABLE test_migrations (
     created_at timestamp  NOT NULL,
     updated_at timestamp  NOT NULL,
     active smallint  NOT NULL,
-    PRIMARY KEY ('id')
+    PRIMARY KEY (id)
 );
