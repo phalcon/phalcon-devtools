@@ -33,6 +33,19 @@ jobs:
         steps:
             - uses: actions/checkout@v1
 
+            - name: Symbolic link Phalcon devtools
+              run: |
+                mkdir ~/bin
+                ln -s $GITHUB_WORKSPACE/phalcon ~/bin/phalcon
+                echo "::add-path::~/bin"
+                export PATH="$PATH:~/bin"
+                chmod +x $GITHUB_WORKSPACE/phalcon
+
+            - name: Try Phalcon
+              run: |
+                phalcon
+                phalcon all-models --config=app/mysql/config.php --output=app/models/all_model_test --annotate
+
             - name: Setup cache environment
               id: cache-env
               uses: shivammathur/cache-extensions@v1
