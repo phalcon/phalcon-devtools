@@ -15,9 +15,9 @@ echo -e "Done\n"
 
 echo -e "Create MySQL database..."
 #mysql --host=127.0.0.1 --user=root --port=$MYSQL_DB_PORT -e "CREATE DATABASE IF NOT EXISTS devtools charset=utf8 collate=utf8_general_ci;"
-cat "${BUILD_DIR}/tests/_data/schemas/mysql/dump.sql" | mysql --host=127.0.0.1 --user=root --password=root --port=$MYSQL_DB_PORT --database devtools
+cat "${BUILD_DIR}/tests/_data/schemas/mysql/dump.sql" | mysql --host=127.0.0.1 --user=root --port=$MYSQL_DB_PORT --database devtools
 echo -e "Check database created"
-mysql --host=127.0.0.1 --user=root --password=root --port=$MYSQL_DB_PORT -e 'show databases;'
+mysql --host=127.0.0.1 --user=root --port=$MYSQL_DB_PORT -e 'show databases;'
 echo -e "Done\n"
 
 wait
