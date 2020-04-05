@@ -71,8 +71,8 @@ jobs:
 
             - name: Initialise DataBase
               env:
-                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+                  MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               run: bash tests/_ci/setup_dbs_github.sh
 
             #- name: Install Phalcon Devtools
@@ -97,15 +97,8 @@ jobs:
 
             - name: Run test suites
               env:
-                  MYSQL_TEST_DB_HOST: localhost
-                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-                  MYSQL_TEST_DB_DATABASE: devtools
-                  MYSQL_TEST_DB_USER: root
-                  MYSQL_TEST_DB_PASSWORD: root
-                  POSTGRES_TEST_DB_HOST: localhost
-                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-                  POSTGRES_TEST_DB_DATABASE: devtools
-                  POSTGRES_TEST_DB_USER: postgres
+                  MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
               run: |
                 vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
@@ -118,15 +111,8 @@ jobs:
 
             - name: If fail - Check Config file
               env:
-                  MYSQL_TEST_DB_HOST: localhost
-                  MYSQL_TEST_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-                  MYSQL_TEST_DB_DATABASE: devtools
-                  MYSQL_TEST_DB_USER: root
-                  MYSQL_TEST_DB_PASSWORD: root
-                  POSTGRES_TEST_DB_HOST: localhost
-                  POSTGRES_TEST_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-                  POSTGRES_TEST_DB_DATABASE: devtools
-                  POSTGRES_TEST_DB_USER: postgres
+                  MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: failure()
               run: |
                   cat webtools/app/config/config.php

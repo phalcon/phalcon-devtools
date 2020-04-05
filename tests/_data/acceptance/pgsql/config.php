@@ -14,7 +14,7 @@ return new \Phalcon\Config([
         'username' => 'postgres',
         'password' => '',
         'dbname'   => 'devtools',
-        'port'     => getenv('POSTGRES_TEST_DB_PORT')
+        'port'     => getenv('POSTGRES_DB_PORT')
     ],
     'application' => [
         'appDir'         => APP_PATH . '/',

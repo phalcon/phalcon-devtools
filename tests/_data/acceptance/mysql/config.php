@@ -14,7 +14,7 @@ return new \Phalcon\Config([
         'username' => 'root',
         'password' => 'root',
         'dbname'   => 'devtools',
-        'port'     => getenv('MYSQL_TEST_DB_PORT'),
+        'port'     => getenv('MYSQL_DB_PORT'),
         'charset'  => 'utf8'
     ],
     'application' => [
