@@ -101,8 +101,8 @@ jobs:
             - name: Run test suites
               if: success()
               run: |
-                vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
+                vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
                 vendor/bin/codecept run --ext DotReporter unit
                 vendor/bin/codecept run --ext DotReporter console
