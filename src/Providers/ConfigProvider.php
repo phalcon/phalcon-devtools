@@ -42,7 +42,7 @@ class ConfigProvider implements ServiceProviderInterface
                     $config->merge($override);
                 }
             }
-
+print_r($config);
             return $config;
         });
     }
