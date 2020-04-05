@@ -92,7 +92,6 @@ jobs:
               run: |
                 cp tests/.env.test .env
                 mkdir .phalcon
-                vendor/bin/phpcs
                 vendor/bin/codecept build
 
             - name: Run test suites

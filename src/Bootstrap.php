@@ -189,7 +189,7 @@ class Bootstrap
             $provider = new $providerClass;
             $provider->register($this->di);
         }
-
+print_r($this->di);
         $this->app->setEventsManager($this->di->getShared('eventsManager'));
         $this->app->setDI($this->di);
 
