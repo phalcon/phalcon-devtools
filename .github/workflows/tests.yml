@@ -100,8 +100,8 @@ jobs:
                   POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
               run: |
-                vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql --coverage-xml=coverage-mysql-${{ matrix.php-versions }}.xml
-                vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql --coverage-xml=coverage-pgsql-${{ matrix.php-versions }}.xml
+                vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
+                vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
                 vendor/bin/codecept run --ext DotReporter acceptance -g common --coverage-xml=coverage-common-${{ matrix.php-versions }}.xml
                 vendor/bin/codecept run --ext DotReporter unit --coverage-xml=coverage-unit-${{ matrix.php-versions }}.xml
                 vendor/bin/codecept run --ext DotReporter functional --coverage-xml=coverage-functional-${{ matrix.php-versions }}.xml
