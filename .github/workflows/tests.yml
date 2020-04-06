@@ -81,6 +81,7 @@ jobs:
 
             - name: Init Webtools and add ports in database setup
               env:
+                  MYSQL_DB_PASSWORD: 'root'
                   MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               run: bash ./.ci/serve-webtools_github.sh
@@ -105,7 +106,6 @@ jobs:
                 vendor/bin/codecept run --ext DotReporter unit --coverage-xml=coverage-unit-${{ matrix.php-versions }}.xml
                 vendor/bin/codecept run --ext DotReporter functional --coverage-xml=coverage-functional-${{ matrix.php-versions }}.xml
                 vendor/bin/codecept run --ext DotReporter console --coverage-xml=coverage-console-${{ matrix.php-versions }}.xml
-              #run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
 
             - name: If fail - Check Config file
               env:
