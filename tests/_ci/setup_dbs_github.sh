@@ -10,11 +10,11 @@
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 BUILD_DIR="${BUILD_DIR:-"$( dirname "$( dirname "$CURRENT_DIR" ) ")"}"
 echo -e "Create PostgreSQL database..."
-psql -U postgres devtools -p "$POSTGRES_DB_PORT" -h localhost -q -f ""${BUILD_DIR}"/tests/_data/schemas/postgresql/dump.sql"
+psql -U postgres devtools -p "$POSTGRES_DB_PORT" -h localhost -q -f "${BUILD_DIR}/tests/_data/schemas/postgresql/dump.sql"
 echo -e "Done\n"
 
 echo -e "Create MySQL database..."
-< ""${BUILD_DIR}"/tests/_data/schemas/mysql/dump.sql" | mysql --host=127.0.0.1 --user=root --password=root --port="$MYSQL_DB_PORT" --database devtools
+< "${BUILD_DIR}/tests/_data/schemas/mysql/dump.sql" | mysql --host=127.0.0.1 --user=root --password=root --port="$MYSQL_DB_PORT" --database devtools
 
 echo -e "Check database created"
 mysql --host=127.0.0.1 --user=root --password=root --port="$MYSQL_DB_PORT" -e 'show databases;'
