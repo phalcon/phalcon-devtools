@@ -7,7 +7,7 @@
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
 
-mkdir $GITHUB_WORKSPACE/bin
-ln -s $GITHUB_WORKSPACE/phalcon $GITHUB_WORKSPACE/bin/phalcon
+mkdir "$GITHUB_WORKSPACE"/bin
+ln -s "$GITHUB_WORKSPACE"/phalcon "$GITHUB_WORKSPACE"/bin/phalcon
 echo "::add-path::$GITHUB_WORKSPACE/bin"
-chmod +x $GITHUB_WORKSPACE/phalcon
+chmod +x "$GITHUB_WORKSPACE"/phalcon
