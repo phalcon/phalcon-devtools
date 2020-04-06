@@ -64,7 +64,12 @@ script:
   - mkdir .phalcon
   - vendor/bin/phpcs
   - vendor/bin/codecept build
-  - vendor/bin/codecept run --coverage-xml
+  - vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
+  - vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
+  - vendor/bin/codecept run --ext DotReporter acceptance -g common --coverage-xml=coverage-common-${{ matrix.php-versions }}.xml
+  - vendor/bin/codecept run --ext DotReporter unit --coverage-xml=coverage-unit-${{ matrix.php-versions }}.xml
+  - vendor/bin/codecept run --ext DotReporter functional --coverage-xml=coverage-functional-${{ matrix.php-versions }}.xml
+  - vendor/bin/codecept run --ext DotReporter console --coverage-xml=coverage-console-${{ matrix.php-versions }}.xml
   - vendor/bin/psalm --show-info=false
   - vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
 
