@@ -78,7 +78,7 @@ jobs:
             #- name: Install Phalcon Devtools
             #  run: ./phalcon.sh
             - name: Symbolic link Phalcon devtools
-              run: .ci/link_devtools.sh
+              run: bash ./.ci/link_devtools.sh
 
             - name: Init Webtools and add ports in database setup
               env:
