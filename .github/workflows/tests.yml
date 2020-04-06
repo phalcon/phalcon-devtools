@@ -75,8 +75,6 @@ jobs:
                   POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               run: bash tests/_ci/setup_dbs_github.sh
 
-            #- name: Install Phalcon Devtools
-            #  run: ./phalcon.sh
             - name: Symbolic link Phalcon devtools
               run: bash ./.ci/link_devtools.sh
 
@@ -94,6 +92,10 @@ jobs:
                 vendor/bin/phpcs
 
             - name: Run test suites
+              env:
+                  MYSQL_DB_PASSWORD: 'root'
+                  MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
               if: success()
               run: |
                 vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
@@ -101,7 +103,6 @@ jobs:
                 vendor/bin/codecept run --ext DotReporter acceptance -g common
                 vendor/bin/codecept run --ext DotReporter unit
                 vendor/bin/codecept run --ext DotReporter functional
-                phalcon
                 vendor/bin/codecept run --ext DotReporter console
               #run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml
 
