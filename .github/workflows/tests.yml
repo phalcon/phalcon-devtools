@@ -78,18 +78,13 @@ jobs:
             #- name: Install Phalcon Devtools
             #  run: ./phalcon.sh
             - name: Symbolic link Phalcon devtools
-              run: |
-                mkdir ~/bin
-                ln -s $GITHUB_WORKSPACE/phalcon ~/bin/phalcon
-                echo "::add-path::$GITHUB_WORKSPACE/bin"
-                chmod +x $GITHUB_WORKSPACE/phalcon
+              run: .ci/link_devtools.sh
 
             - name: Init Webtools and add ports in database setup
               env:
                   MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-              run: |
-                .ci/serve-webtools.sh
+              run: .ci/serve-webtools.sh
 
             - name: Setup tests
               run: |
