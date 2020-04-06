@@ -69,7 +69,7 @@ jobs:
             - name: Install Composer dependencies
               run: |
                 composer install --prefer-dist --no-suggest
-                composer config platform.php ${{ matrix.php-versions }}
+                composer require --dev phpstan/phpstan
 
             - name: Initialise DataBase
               env:
