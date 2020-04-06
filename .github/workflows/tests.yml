@@ -67,7 +67,9 @@ jobs:
                   restore-keys: ${{ runner.os }}-composer-
 
             - name: Install Composer dependencies
-              run: composer install --prefer-dist --no-suggest
+              run: |
+                composer install --prefer-dist --no-suggest
+                composer config platform.php ${{ matrix.php-versions }}
 
             - name: Initialise DataBase
               env:
