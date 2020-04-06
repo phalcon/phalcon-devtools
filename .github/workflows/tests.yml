@@ -83,7 +83,7 @@ jobs:
               env:
                   MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
                   POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-              run: .ci/serve-webtools.sh
+              run: .ci/serve-webtools_github.sh
 
             - name: Setup tests
               run: |
