@@ -1,7 +1,8 @@
 <?php
 
 /*
- * Modified: prepend directory path of current file, because of this file own different ENV under between Apache and command line.
+ * Modified: prepend directory path of current file,
+ * because of this file own different ENV under between Apache and command line.
  * NOTE: please remove this comment.
  */
 defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
