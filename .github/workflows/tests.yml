@@ -81,7 +81,7 @@ jobs:
               run: |
                 mkdir ~/bin
                 ln -s $GITHUB_WORKSPACE/phalcon ~/bin/phalcon
-                echo "::add-path::~/bin"
+                echo "::add-path::$GITHUB_WORKSPACE/bin"
                 chmod +x $GITHUB_WORKSPACE/phalcon
 
             - name: Init Webtools and add ports in database setup
