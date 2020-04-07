@@ -63,8 +63,8 @@ script:
   - mkdir .phalcon
   - vendor/bin/phpcs
   - vendor/bin/codecept build
-  - vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
   - vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
+  - vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
   - vendor/bin/codecept run --ext DotReporter acceptance -g common --coverage-xml=coverage-common-$PHAR_PHP_VERSION.xml
   - vendor/bin/codecept run --ext DotReporter unit --coverage-xml=coverage-unit-$PHAR_PHP_VERSION.xml
   - vendor/bin/codecept run --ext DotReporter functional --coverage-xml=coverage-functional-$PHAR_PHP_VERSION.xml
