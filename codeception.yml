@@ -18,6 +18,3 @@ coverage:
     enabled: true
     include:
         - src/*
-# Get params from .env file
-params:
-    - tests/.env.test
