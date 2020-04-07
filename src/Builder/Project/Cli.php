@@ -60,13 +60,20 @@ class Cli extends ProjectBuilder
      */
     private function createLauncher()
     {
-        $getFile = $this->options->get('templatePath') . '/project/cli/launcher';
+        $getFile = $this->options->get('templatePath') .
+            DIRECTORY_SEPARATOR . 'project' .
+            DIRECTORY_SEPARATOR . 'cli' .
+            DIRECTORY_SEPARATOR . 'launcher';
+
         $putFile = $this->options->get('projectPath') . 'run';
         $this->generateFile($getFile, $putFile);
         chmod($putFile, 0755);
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $getFile = $this->options->get('templatePath') . '/project/cli/launcher.bat';
+            $getFile = $this->options->get('templatePath') .
+                DIRECTORY_SEPARATOR . 'project' .
+                DIRECTORY_SEPARATOR . 'cli' .
+                DIRECTORY_SEPARATOR . 'launcher.bat';
             $putFile = $this->options->get('projectPath') . 'run.bat';
             $this->generateFile($getFile, $putFile);
         }
