@@ -29,7 +29,7 @@ class Acceptance extends Module
             $this->driver = $driver;
         }
 
-        if (true === in_array($driver, [ 'mysql', 'pgsql' ])) {
+        if (true === in_array($driver, ['mysql', 'pgsql'])) {
 
             $codeceptionDataFile = PATH_DATA . 'acceptance' .
                 DIRECTORY_SEPARATOR . $driver .
