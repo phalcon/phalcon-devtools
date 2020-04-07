@@ -57,9 +57,10 @@ before_script:
   - composer require --dev phpstan/phpstan
   - ln -s $PWD/phalcon ~/bin/phalcon
   - .ci/serve-webtools.sh
+  - sed -i "s/getenv('POSTGRES_DB_PORT')/5432/g" tests/_data/acceptance/pgsql/config.php
+  - cp tests/.env.test .env
 
 script:
-  - cp tests/.env.test .env
   - mkdir .phalcon
   - vendor/bin/phpcs
   - vendor/bin/codecept build
