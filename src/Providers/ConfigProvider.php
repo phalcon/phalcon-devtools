@@ -14,7 +14,6 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Config;
 use Phalcon\DevTools\Scanners\Config as ConfigScanner;
-use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
