@@ -29,10 +29,25 @@ class Acceptance extends Module
             $this->driver = $driver;
         }
 
-        if (true === in_array($driver, ['mysql', 'pgsql'])) {
-            copy(PATH_DATA . 'acceptance' .
+        if (true === in_array($driver, [ 'mysql', 'pgsql' ])) {
+
+            $codeceptionDataFile = PATH_DATA . 'acceptance' .
                 DIRECTORY_SEPARATOR . $driver .
-                DIRECTORY_SEPARATOR . 'config.php', PROJECT_PATH . 'webtools/app/config/config.php');
+                DIRECTORY_SEPARATOR . 'config.php';
+
+            $targetWebtoolFile = PROJECT_PATH . 'webtools' .
+                DIRECTORY_SEPARATOR . 'app' .
+                DIRECTORY_SEPARATOR . 'config' .
+                DIRECTORY_SEPARATOR . 'config.php';
+
+            copy($codeceptionDataFile, $targetWebtoolFile);
+
+            //Replace config data from env
+            $content = file_get_contents($targetWebtoolFile);
+            $content = str_replace('getenv(\'MYSQL_DB_PORT\')', getenv('MYSQL_DB_PORT'), $content);
+            $content = str_replace('getenv(\'MYSQL_DB_PASSWORD\')', getenv('MYSQL_DB_PASSWORD'), $content);
+            $content = str_replace('getenv(\'POSTGRES_DB_PORT\')', getenv('POSTGRES_DB_PORT'), $content);
+            file_put_contents('msghistory.txt', $content);
         }
 
         parent::_before($test);
