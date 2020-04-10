@@ -24,6 +24,25 @@ class Acceptance extends Module
 
     public function _before(TestInterface $test)
     {
+        $driver = $test->getMetadata()->getCurrent('env');
+        if (!empty($driver)) {
+            $this->driver = $driver;
+        }
+
+        if (true === in_array($driver, ['mysql', 'pgsql'])) {
+
+            $codeceptionDataFile = PATH_DATA . 'acceptance' .
+                DIRECTORY_SEPARATOR . $driver .
+                DIRECTORY_SEPARATOR . 'config.php';
+
+            $targetWebtoolFile = PROJECT_PATH . 'webtools' .
+                DIRECTORY_SEPARATOR . 'app' .
+                DIRECTORY_SEPARATOR . 'config' .
+                DIRECTORY_SEPARATOR . 'config.php';
+
+            copy($codeceptionDataFile, $targetWebtoolFile);
+        }
+
         parent::_before($test);
 
         //shell_exec('phalcon project --directory=' . $this->projectPath);

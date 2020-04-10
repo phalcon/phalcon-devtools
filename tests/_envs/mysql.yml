@@ -1,0 +1,18 @@
+# `postgres` environment config goes here
+modules:
+    enabled:
+#        - Db:
+#              dsn: 'mysql:host=%MYSQL_TEST_DB_HOST%;port=%MYSQL_TEST_DB_PORT%'
+#              user: '%MYSQL_TEST_DB_USER%'
+#              password: '%MYSQL_TEST_DB_PASSWORD%'
+#              cleanup: true
+#              reconnect: true
+#              waitlock: 10
+#              initial_queries:
+#                  - "SET NAMES utf8;"
+#                  - "CREATE DATABASE IF NOT EXISTS `%MYSQL_TEST_DB_DATABASE%`"
+#                  - "SET GLOBAL sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
+#                  - "SET FOREIGN_KEY_CHECKS=1"
+#                  - "SET GLOBAL FOREIGN_KEY_CHECKS=1"
+#                  - "USE `%MYSQL_TEST_DB_DATABASE%`"
+#              dump: tests/_data/schemas/mysql/dump.sql

@@ -5,11 +5,12 @@ use Phalcon\Logger;
 
 return new Config([
     'database' => [
-        'adapter' => 'Mysql',
-        'host' => '127.0.0.1',
-        'username' => 'root',
-        'password' => '',
-        'dbname' => 'devtools'
+        'adapter'   => 'Mysql',
+        'host'      => '127.0.0.1',
+        'username'  => 'root',
+        'password'  => env('MYSQL_DB_PASSWORD'),
+        'dbname'    => 'devtools',
+        'port'      => env('MYSQL_DB_PORT')
     ],
     'logger' => [
         'path'     => tests_path('_output/logs/console/mysql/'),
