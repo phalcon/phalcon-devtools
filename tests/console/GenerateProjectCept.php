@@ -64,3 +64,27 @@ $I->runShellCommand('phalcon project ' . $projectName4 . ' simple --template-eng
 $I->seeFileFound(app_path($path4));
 $I->seeFileFound(app_path($path4 . '/app/views/index.volt'));
 $I->deleteDir(app_path($path4));
+
+/** 
+ * Case 5 - Check webtools is disable by default
+ */
+$projectName5 = 'webtools_defaults';
+$path5 = $projectsFolder . '/' . $projectName5;
+
+$I->dontSeeFileFound(app_path($path5));
+$I->runShellCommand('phalcon project ' . $projectName5);
+$I->dontSeeFileFound(app_path($path5 . '/public/webtools.php'));
+$I->dontSeeFileFound(app_path($path5 . '/public/webtools.config.php'));
+$I->deleteDir(app_path($path5));
+
+/** 
+ * Case 6 - Check webtools file when it's activated
+ */
+$projectName6 = 'webtools_activated';
+$path6 = $projectsFolder . '/' . $projectName6;
+
+$I->dontSeeFileFound(app_path($path6));
+$I->runShellCommand('phalcon project ' . $projectName6 . '--enable-webtools');
+$I->seeFileFound(app_path($path6 . '/public/webtools.php'));
+$I->seeFileFound(app_path($path6 . '/public/webtools.config.php'));
+$I->deleteDir(app_path($path6));
