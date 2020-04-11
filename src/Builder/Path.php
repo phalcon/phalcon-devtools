@@ -77,7 +77,10 @@ class Path
         throw new BuilderException("Builder can't locate the configuration file");
     }
 
-    public function setRootPath(string $path)
+    /**
+     * @param null|string $path
+    */
+    public function setRootPath(?string $path = null)
     {
         $this->rootPath = rtrim(str_replace('/', DIRECTORY_SEPARATOR, $path), '\\/') . DIRECTORY_SEPARATOR;
 
