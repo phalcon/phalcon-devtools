@@ -10,6 +10,8 @@ final class ScaffoldControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ScaffoldController::generateAction
      * @param AcceptanceTester $I
+     * @group mysql
+     * @group pgsql
      */
     public function testEnterGenerateAction(AcceptanceTester $I): void
     {
@@ -18,6 +20,10 @@ final class ScaffoldControllerCest
         $I->see('Generate code from template');
     }
 
+    /**
+     * @group mysql
+     * @group pgsql
+     */
     public function testGenerateAction(AcceptanceTester $I): void
     {
         $namespace = 'Test\WebTools';

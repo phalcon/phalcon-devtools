@@ -10,6 +10,7 @@ final class SystemInfoControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\SystemInfoController::indexAction
      * @param AcceptanceTester $I
+     * @group common
      */
     public function testIndexAction(AcceptanceTester $I): void
     {

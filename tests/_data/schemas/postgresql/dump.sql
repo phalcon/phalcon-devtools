@@ -78,3 +78,13 @@ ALTER TABLE public.test_insert_delete OWNER TO postgres;
 
 INSERT INTO public.test_insert_delete VALUES
   (3, 3, 'superadmin3', 'First name Last name', 'email@test.com', '', NULL, null);
+
+DROP TABLE IF EXISTS test_migrations;
+CREATE TABLE test_migrations (
+    id SERIAL,
+    name VARCHAR(45) NOT NULL,
+    created_at timestamp  NOT NULL,
+    updated_at timestamp  NOT NULL,
+    active smallint  NOT NULL,
+    PRIMARY KEY (id)
+);

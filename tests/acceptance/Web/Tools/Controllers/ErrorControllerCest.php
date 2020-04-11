@@ -10,6 +10,7 @@ final class ErrorControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ErrorController::route404Action
      * @param AcceptanceTester $I
+     * @group common
      */
     public function testRoute404Action(AcceptanceTester $I, $scenario): void
     {

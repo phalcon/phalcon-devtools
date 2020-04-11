@@ -1,0 +1,11 @@
+# `postgres` environment config goes here
+modules:
+    enabled:
+#        - Db:
+#              dsn: 'pgsql:host=%POSTGRES_TEST_DB_HOST%;dbname=%POSTGRES_TEST_DB_DATABASE%;port=%POSTGRES_TEST_DB_PORT%'
+#              user: '%POSTGRES_TEST_DB_USER%'
+#              password: '%POSTGRES_TEST_DB_PASSWORD%'
+#              cleanup: true
+#              reconnect: true
+#              waitlock: 10
+#              dump: tests/_data/schemas/postgresql/dump.sql

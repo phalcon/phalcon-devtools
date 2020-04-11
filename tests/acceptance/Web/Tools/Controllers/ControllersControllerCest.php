@@ -10,6 +10,7 @@ final class ControllersControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::indexAction
      * @param AcceptanceTester $I
+     * @group common
      */
     public function testIndexAction(AcceptanceTester $I): void
     {
@@ -21,6 +22,7 @@ final class ControllersControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::generateAction
      * @param AcceptanceTester $I
+     * @group common
      */
     public function testGenerateAction(AcceptanceTester $I): void
     {
@@ -32,6 +34,7 @@ final class ControllersControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::generateAction
      * @param AcceptanceTester $I
+     * @group common
      */
     public function testSubmitGenerateAction(AcceptanceTester $I): void
     {
@@ -50,6 +53,7 @@ final class ControllersControllerCest
     /**
      * @covers \Phalcon\Devtools\Web\Tools\Controllers\ControllersController::editAction
      * @param AcceptanceTester $I
+     * @group common
      */
     public function testEditAction(AcceptanceTester $I): void
     {

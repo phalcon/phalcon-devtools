@@ -46,8 +46,8 @@ class ErrorHandler extends Injectable
 
         $that = $this;
         set_exception_handler(
+            /** @var \Exception\Error $e */
             function ($e) use ($that) {
-                /** @var \Exception|\Error $e */
                 $options = [
                     'type'        => $e->getCode(),
                     'message'     => $e->getMessage(),

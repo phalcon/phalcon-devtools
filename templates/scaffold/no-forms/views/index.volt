@@ -5,6 +5,8 @@
 
 {{ content() }}
 
+{{ flash.output() }}
+
 <form action="$plural$/search" class="form-horizontal" method="get">
     $captureFields$
     <div class="form-group">

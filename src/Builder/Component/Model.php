@@ -139,6 +139,9 @@ class Model extends AbstractComponent
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
+        if (isset($configArray['options'])) {
+            $configArray = $configArray['options'];
+        }
         /** @var AbstractPdo $db */
         $db = new $adapterName($configArray);
 
@@ -284,10 +287,17 @@ class Model extends AbstractComponent
                     }
                 }
 
-                $possibleFields = [];
+                $possibleFields = $possibleFieldsTransformed = [];
                 foreach ($fields as $field) {
                     $possibleFields[$field->getName()] = true;
+                    if ($this->modelOptions->getOption('camelize')) {
+                        $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
+                    } else {
+                        $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
+                    }
+                    $possibleFieldsTransformed[$fieldName] = true;
                 }
+
                 if (method_exists($reflection, 'getReflectionConstants')) {
                     foreach ($reflection->getReflectionConstants() as $constant) {
                         if ($constant->getDeclaringClass()->getName() != $fullClassName) {
@@ -326,16 +336,18 @@ class Model extends AbstractComponent
                     }
                 }
 
-                foreach ($reflection->getProperties() as $propertie) {
-                    $propertieName = $propertie->getName();
+                foreach ($reflection->getProperties() as $property) {
+                    $propertyName = $property->getName();
+                    /** @var null|string $possibleFieldsValue */
+                    $possibleFieldsValue = $possibleFieldsTransformed[$propertyName];
 
-                    if ($propertie->getDeclaringClass()->getName() != $fullClassName ||
-                        !empty($possibleFields[$propertieName])) {
+                    if ($property->getDeclaringClass()->getName() != $fullClassName ||
+                        !empty($possibleFieldsValue)) {
                         continue;
                     }
 
                     $modifiersPreg = '';
-                    switch ($propertie->getModifiers()) {
+                    switch ($property->getModifiers()) {
                         case \ReflectionProperty::IS_PUBLIC:
                             $modifiersPreg = '^(\s*)public(\s+)';
                             break;
@@ -356,7 +368,7 @@ class Model extends AbstractComponent
                             break;
                     }
 
-                    $modifiersPreg = '/' . $modifiersPreg . '\$' . $propertieName . '([\s=;]+)/';
+                    $modifiersPreg = '/' . $modifiersPreg . '\$' . $propertyName . '([\s=;]+)/';
                     $endLine = $startLine = 0;
                     foreach ($linesCode as $line => $code) {
                         if (preg_match($modifiersPreg, $code)) {
@@ -376,7 +388,7 @@ class Model extends AbstractComponent
                     }
 
                     if (!empty($startLine) && !empty($endLine)) {
-                        $propertieDeclaration = join(
+                        $propertyDeclaration = join(
                             '',
                             array_slice(
                                 $linesCode,
@@ -384,8 +396,8 @@ class Model extends AbstractComponent
                                 $endLine - $startLine + 1
                             )
                         );
-                        $attributes[] = PHP_EOL . "    " . $propertie->getDocComment() . PHP_EOL .
-                            $propertieDeclaration;
+                        $attributes[] = PHP_EOL . "    " . $property->getDocComment() . PHP_EOL .
+                            $propertyDeclaration;
                     }
                 }
             } catch (\Exception $e) {
@@ -623,7 +635,7 @@ class Model extends AbstractComponent
      * @param AbstractPdo $db
      * @return array
      */
-    protected function getReferenceList(string $schema, AbstractPdo $db): array
+    protected function getReferenceList(?string $schema, AbstractPdo $db): array
     {
         if ($this->modelOptions->hasOption('referenceList')) {
             return $this->modelOptions->getOption('referenceList');
@@ -672,21 +684,17 @@ class Model extends AbstractComponent
             case Column::TYPE_INTEGER:
             case Column::TYPE_BIGINTEGER:
                 return 'integer';
-                break;
             case Column::TYPE_DECIMAL:
             case Column::TYPE_FLOAT:
                 return 'double';
-                break;
             case Column::TYPE_DATE:
             case Column::TYPE_VARCHAR:
             case Column::TYPE_DATETIME:
             case Column::TYPE_CHAR:
             case Column::TYPE_TEXT:
                 return 'string';
-                break;
             default:
                 return 'string';
-                break;
         }
     }
 }

@@ -36,10 +36,10 @@ class ViewProvider implements ServiceProviderInterface
         $di->setShared($this->providerName, function () {
             /**
              * @var DiInterface $this
-             * @var Registry $registry
              */
-
             $view = new View;
+
+            /** @var Registry $registry */
             $registry = $this->getShared('registry');
 
             $view->registerEngines([

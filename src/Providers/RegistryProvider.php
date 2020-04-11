@@ -43,12 +43,14 @@ class RegistryProvider implements ServiceProviderInterface
         $di->setShared($this->providerName, function () use ($basePath, $ptoolsPath, $templatesPath) {
             /**
              * @var DiInterface $this
-             * @var Config $config
-             * @var FsUtils $fs
              */
+
             $registry = new Registry;
 
+            /* @var Config $config */
             $config = $this->getShared('config');
+
+            /* @var FsUtils $fs */
             $fs = $this->getShared('fs');
 
             $basePath = $fs->normalize(rtrim($basePath, '\\/'));

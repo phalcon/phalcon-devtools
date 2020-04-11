@@ -37,8 +37,6 @@ env:
     - PHALCON_VERSION=v4.0.0
 
 before_install:
-  - source $TRAVIS_BUILD_DIR/tests/_ci/environment
-  - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
   - if [ -n "$GITHUB_TOKEN" ]; then composer config github-oauth.github.com $GITHUB_TOKEN; fi;
   - bash tests/_ci/setup_dbs.sh
 
@@ -59,12 +57,19 @@ before_script:
   - composer require --dev phpstan/phpstan
   - ln -s $PWD/phalcon ~/bin/phalcon
   - .ci/serve-webtools.sh
+  - sed -i "s/getenv('POSTGRES_DB_PORT')/5432/g" tests/_data/acceptance/pgsql/config.php
+  - cp tests/.env.test .env
 
 script:
   - mkdir .phalcon
   - vendor/bin/phpcs
   - vendor/bin/codecept build
-  - vendor/bin/codecept run --coverage-xml
+  - vendor/bin/codecept run --ext DotReporter acceptance -g mysql --env mysql
+  - vendor/bin/codecept run --ext DotReporter acceptance -g pgsql --env pgsql
+  - vendor/bin/codecept run --ext DotReporter acceptance -g common --coverage-xml=coverage-common-$PHAR_PHP_VERSION.xml
+  - vendor/bin/codecept run --ext DotReporter unit --coverage-xml=coverage-unit-$PHAR_PHP_VERSION.xml
+  - vendor/bin/codecept run --ext DotReporter functional --coverage-xml=coverage-functional-$PHAR_PHP_VERSION.xml
+  - vendor/bin/codecept run --ext DotReporter console --coverage-xml=coverage-console-$PHAR_PHP_VERSION.xml
   - vendor/bin/psalm --show-info=false
   - vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
 

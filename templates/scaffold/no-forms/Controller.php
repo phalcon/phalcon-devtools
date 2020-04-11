@@ -4,7 +4,7 @@ declare(strict_types=1);
 $namespace$
 
 use Phalcon\Mvc\Model\Criteria;
-use Phalcon\Paginator\Adapter\Model as Paginator;
+use Phalcon\Paginator\Adapter\Model;
 $useFullyQualifiedModelName$
 
 class $className$Controller extends ControllerBase
@@ -26,8 +26,18 @@ class $className$Controller extends ControllerBase
         $parameters = Criteria::fromInput($this->di, '$fullyQualifiedModelName$', $_GET)->getParams();
         $parameters['order'] = "$pk$";
 
-        $pluralVar$ = $className$::find($parameters);
-        if (count($pluralVar$) == 0) {
+        $paginator   = new Model(
+            [
+                'model'      => '$fullyQualifiedModelName$',
+                'parameters' => $parameters,
+                'limit'      => 10,
+                'page'       => $numberPage,
+            ]
+        );
+
+        $paginate = $paginator->paginate();
+
+        if (0 === $paginate->getTotalItems()) {
             $this->flash->notice("The search did not find any $plural$");
 
             $this->dispatcher->forward([
@@ -38,13 +48,7 @@ class $className$Controller extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $pluralVar$,
-            'limit'=> 10,
-            'page' => $numberPage,
-        ]);
-
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $paginate;
     }
 
     /**

@@ -32,6 +32,7 @@ class DatabaseProvider implements ServiceProviderInterface
     {
         $di->setShared($this->providerName, function () {
             /** @var DiInterface $this */
+
             $em = $this->getShared('eventsManager');
 
             if ($this->getShared('config')->offsetExists('database')) {
@@ -50,10 +51,22 @@ class DatabaseProvider implements ServiceProviderInterface
             }
 
             $adapter = 'Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
-            unset($config['adapter']);
+
+            $params = [
+                'host'     => $config['host'],
+                'username' => $config['username'],
+                'password' => $config['password'],
+                'dbname'   => $config['dbname'],
+                'charset'  => $config['charset'],
+                'port'     => $config['port'],
+            ];
+
+            if ($config['adapter'] == 'Postgresql') {
+                unset($params['charset']);
+            }
 
             /** @var AbstractPdo $connection */
-            $connection = new $adapter($config);
+            $connection = new $adapter($params);
             $connection->setEventsManager($em);
 
             return $connection;

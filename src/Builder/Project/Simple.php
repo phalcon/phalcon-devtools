@@ -58,6 +58,7 @@ class Simple extends ProjectBuilder
      */
     public function build()
     {
+        
         $this
             ->buildDirectories()
             ->getVariableValues()
@@ -69,7 +70,7 @@ class Simple extends ProjectBuilder
             ->createControllerFile()
             ->createHtrouterFile();
 
-        if ($this->options->has('enableWebTools')) {
+        if ($this->options->has('enableWebTools') && true === $this->options->enableWebTools) {
             Tools::install($this->options->get('projectPath'));
         }
 
