@@ -7,3 +7,4 @@
 - Fixed include order of files in created project [#1417](https://github.com/phalcon/phalcon-devtools/issues/1417)
 - Fixed Scaffold templates errors and phpstan errors. [#1429](https://github.com/phalcon/phalcon-devtools/issues/1429) [@jenovateurs](https://github.com/jenovateurs)
 - Fixed duplicate camelCase properties [#1433](https://github.com/phalcon/phalcon-devtools/pull/1433)
+- Fixed webtools not enabled by default when creating a new project [#1410](https://github.com/phalcon/phalcon-devtools/issues/1410) [@jenovateurs](https://github.com/jenovateurs)
