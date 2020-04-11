@@ -342,7 +342,7 @@ class Model extends AbstractComponent
                     $possibleFieldsValue = $possibleFieldsTransformed[$propertyName];
 
                     if ($property->getDeclaringClass()->getName() != $fullClassName ||
-                        !empty($possibleFieldsTransformedValue)) {
+                        !empty($possibleFieldsValue)) {
                         continue;
                     }
 
