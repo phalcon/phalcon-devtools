@@ -65,7 +65,7 @@ $I->seeFileFound(app_path($path4));
 $I->seeFileFound(app_path($path4 . '/app/views/index.volt'));
 $I->deleteDir(app_path($path4));
 
-/** 
+/**
  * Case 5 - Check webtools is disable by default
  */
 $projectName5 = 'webtools_defaults';
@@ -77,7 +77,7 @@ $I->dontSeeFileFound(app_path($path5 . '/public/webtools.php'));
 $I->dontSeeFileFound(app_path($path5 . '/public/webtools.config.php'));
 $I->deleteDir(app_path($path5));
 
-/** 
+/**
  * Case 6 - Check webtools file when it's activated
  */
 $projectName6 = 'webtools_activated';
