@@ -339,7 +339,7 @@ class Model extends AbstractComponent
                 foreach ($reflection->getProperties() as $property) {
                     $propertyName = $property->getName();
                     /** @var null|string $possibleFieldsTransformedValue */
-                    $possibleFieldsTransformedValue = $possibleFieldsTransformed[$propertyName];
+                    $possibleFieldsValue = $possibleFieldsTransformed[$propertyName];
 
                     if ($property->getDeclaringClass()->getName() != $fullClassName ||
                         !empty($possibleFieldsTransformedValue)) {
