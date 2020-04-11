@@ -84,7 +84,7 @@ $projectName6 = 'webtools_activated';
 $path6 = $projectsFolder . '/' . $projectName6;
 
 $I->dontSeeFileFound(app_path($path6));
-$I->runShellCommand('phalcon project ' . $projectName6 . '--enable-webtools');
+$I->runShellCommand('phalcon project ' . $projectName6 . ' --enable-webtools');
 $I->seeFileFound(app_path($path6 . '/public/webtools.php'));
 $I->seeFileFound(app_path($path6 . '/public/webtools.config.php'));
 $I->deleteDir(app_path($path6));
