@@ -19,7 +19,7 @@ final class ScaffoldVoltCest
         $I->amOnPage('/webtools.php/scaffold/generate');
         $I->selectOption('form select[name=templateEngine]', 'Volt');
 
-        Fixtures::add('tablename', 'genscaffold');
+        Fixtures::add('tablename', 'genScaffold');
 
         $I->selectOption('form select[name=tableName]', Fixtures::get('tablename'));
 
@@ -65,6 +65,8 @@ final class ScaffoldVoltCest
         $I->see('Dateofbirth');
         $I->fillField('dateofbirth', '2019-04-17');
         $I->click('input[type=submit]');
+
+        $I->see('Lillian');
     }
 
     /**
