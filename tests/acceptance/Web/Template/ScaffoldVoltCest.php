@@ -60,16 +60,59 @@ final class ScaffoldVoltCest
      */
     public function testGenScaffoldFileExist(AcceptanceTester $I): void
     {
-        $scaffoldControllerPath = app_path('controllers/GenscaffoldController.php');
-        $scaffoldModelPath = app_path('models/Genscaffold.php');
+        $basePath = Fixtures::get('base_path');
 
-        $I->seeFileFound($scaffoldControllerPath);
-        $I->seeFileFound($scaffoldModelPath);
-        $I->seeFileFound(app_path('views/layouts/genscaffold.phtml'));
-        $I->seeFileFound(app_path('views/genscaffold/edit.phtml'));
-        $I->seeFileFound(app_path('views/genscaffold/index.phtml'));
-        $I->seeFileFound(app_path('views/genscaffold/new.phtml'));
-        $I->seeFileFound(app_path('views/genscaffold/search.phtml'));
+        Fixtures::add('controller', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'controllers' .
+            DIRECTORY_SEPARATOR . 'GenscaffoldController.php');
+
+        Fixtures::add('model', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'models' .
+            DIRECTORY_SEPARATOR . 'Genscaffold.php');
+
+        Fixtures::add('layout', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'views' .
+            DIRECTORY_SEPARATOR . 'layouts' .
+            DIRECTORY_SEPARATOR . 'genscaffold.volt');
+
+        Fixtures::add('views', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'views' .
+            DIRECTORY_SEPARATOR . 'genscaffold');
+
+        Fixtures::add('views_edit', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'views' .
+            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'edit.volt');
+
+        Fixtures::add('views_index', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'views' .
+            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'index.volt');
+
+        Fixtures::add('views_new', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'views' .
+            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'new.volt');
+
+        Fixtures::add('views_search', $basePath .
+            DIRECTORY_SEPARATOR . 'app' .
+            DIRECTORY_SEPARATOR . 'views' .
+            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'search.volt');
+
+        $I->seeFileFound(Fixtures::get('controller'));
+        $I->seeFileFound(Fixtures::get('model'));
+        $I->seeFileFound(Fixtures::get('layout'));
+        $I->seeFileFound(Fixtures::get('views_edit'));
+        $I->seeFileFound(Fixtures::get('views_index'));
+        $I->seeFileFound(Fixtures::get('views_search'));
     }
 
     /**
@@ -94,32 +137,9 @@ final class ScaffoldVoltCest
      */
     public function after(AcceptanceTester $I): void
     {
-        $basePath = Fixtures::get('base_path');
-
-        unlink($basePath .
-            DIRECTORY_SEPARATOR . 'app' .
-            DIRECTORY_SEPARATOR . 'controllers' .
-            DIRECTORY_SEPARATOR . 'GenscaffoldController.php');
-
-        unlink($basePath .
-            DIRECTORY_SEPARATOR . 'app' .
-            DIRECTORY_SEPARATOR . 'models' .
-            DIRECTORY_SEPARATOR . 'Genscaffold.php');
-
-        unlink($basePath .
-            DIRECTORY_SEPARATOR . 'app' .
-            DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'layouts' .
-            DIRECTORY_SEPARATOR . 'genscaffold.volt');
-
-        remove_dir($basePath .
-            DIRECTORY_SEPARATOR . 'app' .
-            DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'genscaffold');
-
-        rmdir($basePath .
-            DIRECTORY_SEPARATOR . 'app' .
-            DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'genscaffold');
+        $I->deleteFile(Fixtures::get('controller'));
+        $I->deleteFile(Fixtures::get('model'));
+        $I->deleteFile(Fixtures::get('layout'));
+        $I->deleteDir(Fixtures::get('views'));
     }
 }
