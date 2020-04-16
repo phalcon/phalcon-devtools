@@ -142,7 +142,6 @@ final class ScaffoldVoltCest
         $I->see('Search result');
 
         $I->click(
-            "Next",
             Locator::elementAt("//a[contains(@class, 'page-link')]", 2)
         );
 
