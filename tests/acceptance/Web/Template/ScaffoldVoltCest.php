@@ -121,7 +121,7 @@ final class ScaffoldVoltCest
      */
     public function testSearchAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/Genscaffold');
+        $I->amOnPage('/genscaffold');
         $I->see('Scaffold');
         $I->see('Search '.Fixtures::get('pageename'));
         $I->see('Dateofbirth');
@@ -129,6 +129,68 @@ final class ScaffoldVoltCest
         $I->click('input[type=submit]');
 
         $I->see('Lillian');
+    }
+
+    /**
+     * @group mysql
+     * @group pgsql
+     */
+    public function testSearchButtonAction(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->see('Search result');
+
+        //
+        $I->click("a.page-link:eq(2)");
+        $I->click("a.page-link:eq(0)");
+        $I->click("a.page-link:eq(3)");
+        $I->click("a.page-link:eq(1)");
+    }
+
+
+    /**
+     * @group mysql
+     * @group pgsql
+     */
+    public function testNewAction(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/genscaffold/new');
+        $I->see('Create genscaffold');
+        $I->fillField('firstname', 'jeremy');
+        $I->fillField('surname', 'jenovateurs');
+        $I->fillField('membertype', 'aaa');
+        $I->fillField('dateofbirth', '2019-04-17');
+        $I->click('input[type=submit]');
+    }
+
+    /**
+     * @group mysql
+     * @group pgsql
+     */
+    public function testEditAction(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->see('Search result');
+        $I->click("a[href*='edit/2']");
+        $I->seeInField('firstname','Lillian');
+        $I->fillField('firstname', 'jeremy');
+        $I->click('input[type=submit]');
+    }
+
+    /**
+     * @group mysql
+     * @group pgsql
+     */
+    public function testDeleteAction(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->see('Search result');
+        $I->click("a[href*='delete/2']");
+        $I->see('genscaffold was deleted successfully');
+
+        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->cantSee('Lilian');
+        $I->click('input[type=submit]');
     }
 
     /**
