@@ -171,7 +171,7 @@ final class ScaffoldVoltCest
         $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->see('Search result');
         $I->click("a[href*='edit/2']");
-        $I->seeInField('firstname','Lillian');
+        $I->see('Lillian');
         $I->fillField('firstname', 'jeremy');
         $I->click('input[type=submit]');
     }
