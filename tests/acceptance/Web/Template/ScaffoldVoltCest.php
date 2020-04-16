@@ -20,6 +20,7 @@ final class ScaffoldVoltCest
         $I->selectOption('form select[name=templateEngine]', 'Volt');
 
         Fixtures::add('tablename', 'genScaffold');
+        Fixtures::add('pageename', strtolower(Fixtures::get('tablename')));
 
         $I->selectOption('form select[name=tableName]', Fixtures::get('tablename'));
 
@@ -59,9 +60,9 @@ final class ScaffoldVoltCest
      */
     public function testSearchAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/'.Fixtures::get('tablename'));
+        $I->amOnPage('/'.Fixtures::get('pageename'));
         $I->see('Scaffold');
-        $I->see('Search '.Fixtures::get('tablename'));
+        $I->see('Search '.Fixtures::get('pageename'));
         $I->see('Dateofbirth');
         $I->fillField('dateofbirth', '2019-04-17');
         $I->click('input[type=submit]');
