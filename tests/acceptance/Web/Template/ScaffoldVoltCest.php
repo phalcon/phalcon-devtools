@@ -20,7 +20,7 @@ final class ScaffoldVoltCest
         $I->selectOption('form select[name=templateEngine]', 'Volt');
 
         Fixtures::add('tablename', 'genScaffold');
-        Fixtures::add('pageename', strtolower(Fixtures::get('tablename')));
+        Fixtures::add('pageename', 'genscaffold');
 
         $I->selectOption('form select[name=tableName]', Fixtures::get('tablename'));
 
