@@ -58,9 +58,27 @@ final class ScaffoldVoltCest
      * @group mysql
      * @group pgsql
      */
+    public function testGenScaffoldFileExist(AcceptanceTester $I): void
+    {
+        $scaffoldControllerPath = app_path('controllers/GenscaffoldController.php');
+        $scaffoldModelPath = app_path('models/Genscaffold.php');
+
+        $I->seeFileFound($scaffoldControllerPath);
+        $I->seeFileFound($scaffoldModelPath);
+        $I->seeFileFound(app_path('views/layouts/genscaffold.phtml'));
+        $I->seeFileFound(app_path('views/genscaffold/edit.phtml'));
+        $I->seeFileFound(app_path('views/genscaffold/index.phtml'));
+        $I->seeFileFound(app_path('views/genscaffold/new.phtml'));
+        $I->seeFileFound(app_path('views/genscaffold/search.phtml'));
+    }
+
+    /**
+     * @group mysql
+     * @group pgsql
+     */
     public function testSearchAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/'.Fixtures::get('pageename'));
+        $I->amOnPage('/genscaffold');
         $I->see('Scaffold');
         $I->see('Search '.Fixtures::get('pageename'));
         $I->see('Dateofbirth');
