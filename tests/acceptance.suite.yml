@@ -12,4 +12,5 @@ modules:
             curl:
                 CURLOPT_RETURNTRANSFER: true
         - \Helper\Acceptance
+        - Filesystem
     step_decorators: ~
