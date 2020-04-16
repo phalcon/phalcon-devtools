@@ -140,11 +140,10 @@ final class ScaffoldVoltCest
         $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->see('Search result');
 
-        //
-        $I->click("a.page-link:eq(2)");
-        $I->click("a.page-link:eq(0)");
-        $I->click("a.page-link:eq(3)");
-        $I->click("a.page-link:eq(1)");
+        $I->click("Next");
+        $I->click("Previous");
+        $I->click("Last");
+        $I->click("First");
     }
 
 
