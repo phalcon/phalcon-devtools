@@ -121,7 +121,7 @@ final class ScaffoldVoltCest
      */
     public function testSearchAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/genscaffold');
+        $I->amOnPage('/Genscaffold');
         $I->see('Scaffold');
         $I->see('Search '.Fixtures::get('pageename'));
         $I->see('Dateofbirth');
