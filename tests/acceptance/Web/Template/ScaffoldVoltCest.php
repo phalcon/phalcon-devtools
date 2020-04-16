@@ -5,6 +5,7 @@ namespace Phalcon\DevTools\Tests\Acceptance\Web\Template;
 
 use AcceptanceTester;
 use Codeception\Util\Fixtures;
+use Codeception\Util\Locator;
 
 final class ScaffoldVoltCest
 {
@@ -140,10 +141,25 @@ final class ScaffoldVoltCest
         $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->see('Search result');
 
-        $I->click("Next");
-        $I->click("Previous");
-        $I->click("Last");
-        $I->click("First");
+        $I->click(
+            "Next",
+            Locator::elementAt("//a[contains(@class, 'page-link')]", 2)
+        );
+
+        $I->click(
+            "First",
+            Locator::elementAt("//a[contains(@class, 'page-link')]", 0)
+        );
+
+        $I->click(
+            "Last",
+            Locator::elementAt("//a[contains(@class, 'page-link')]", 3)
+        );
+
+        $I->click(
+            "Previous",
+            Locator::elementAt("//a[contains(@class, 'page-link')]", 1)
+        );
     }
 
 
