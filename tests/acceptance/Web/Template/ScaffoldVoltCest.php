@@ -20,9 +20,7 @@ final class ScaffoldVoltCest
         $I->amOnPage('/webtools.php/scaffold/generate');
         $I->selectOption('form select[name=templateEngine]', 'Volt');
 
-        Fixtures::add('tablename', 'genscaffold');
-        //Fixtures::add('tablename', 'genScaffold');
-        Fixtures::add('pageename', 'genscaffold');
+        Fixtures::add('tablename', 'customers');
 
         $I->selectOption('form select[name=tableName]', Fixtures::get('tablename'));
 
@@ -67,46 +65,46 @@ final class ScaffoldVoltCest
         Fixtures::add('controller', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'controllers' .
-            DIRECTORY_SEPARATOR . 'GenscaffoldController.php');
+            DIRECTORY_SEPARATOR . 'CustomersController.php');
 
         Fixtures::add('model', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'models' .
-            DIRECTORY_SEPARATOR . 'Genscaffold.php');
+            DIRECTORY_SEPARATOR . 'Customers.php');
 
         Fixtures::add('layout', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'views' .
             DIRECTORY_SEPARATOR . 'layouts' .
-            DIRECTORY_SEPARATOR . 'genscaffold.volt');
+            DIRECTORY_SEPARATOR . 'customers.volt');
 
         Fixtures::add('views', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'genscaffold');
+            DIRECTORY_SEPARATOR . 'customers');
 
         Fixtures::add('views_edit', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'customers' .
             DIRECTORY_SEPARATOR . 'edit.volt');
 
         Fixtures::add('views_index', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'customers' .
             DIRECTORY_SEPARATOR . 'index.volt');
 
         Fixtures::add('views_new', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'customers' .
             DIRECTORY_SEPARATOR . 'new.volt');
 
         Fixtures::add('views_search', $basePath .
             DIRECTORY_SEPARATOR . 'app' .
             DIRECTORY_SEPARATOR . 'views' .
-            DIRECTORY_SEPARATOR . 'genscaffold' .
+            DIRECTORY_SEPARATOR . 'customers' .
             DIRECTORY_SEPARATOR . 'search.volt');
 
         $I->seeFileFound(Fixtures::get('controller'));
@@ -123,9 +121,9 @@ final class ScaffoldVoltCest
      */
     public function testSearchAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/genscaffold');
-        $I->see('Scaffold');
-        $I->see('Search '.Fixtures::get('pageename'));
+        $I->amOnPage('/'.Fixtures::get('tablename'));
+        $I->see(Fixtures::get('tablename'));
+        $I->see('Search '.Fixtures::get('tablename'));
         $I->see('Dateofbirth');
         $I->fillField('dateofbirth', '2019-04-17');
         $I->click('input[type=submit]');
@@ -139,7 +137,7 @@ final class ScaffoldVoltCest
      */
     public function testSearchButtonAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/genscaffold/search');
+        $I->amOnPage('/'.Fixtures::get('tablename').'/search');
         $I->see('Search result');
 
         $I->click("#next");
@@ -166,8 +164,8 @@ final class ScaffoldVoltCest
      */
     public function testNewAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/genscaffold/new');
-        $I->see('Create genscaffold');
+        $I->amOnPage('/'.Fixtures::get('tablename').'/new');
+        $I->see('Create '.Fixtures::get('tablename'));
         $I->fillField('firstname', 'jeremy');
         $I->fillField('surname', 'jenovateurs');
         $I->fillField('membertype', 'aaa');
@@ -181,7 +179,8 @@ final class ScaffoldVoltCest
      */
     public function testEditAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->amOnPage('/'.Fixtures::get('tablename').
+            '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->see('Search result');
         $I->click("a[href*='edit/2']");
         $I->see('Lillian');
@@ -195,12 +194,14 @@ final class ScaffoldVoltCest
      */
     public function testDeleteAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->amOnPage('/'.Fixtures::get('tablename').
+            '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->see('Search result');
         $I->click("a[href*='delete/2']");
         $I->see('genscaffold was deleted successfully');
 
-        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->amOnPage('/'.Fixtures::get('tablename').
+            '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->cantSee('Lilian');
         $I->click('input[type=submit]');
     }
@@ -211,7 +212,7 @@ final class ScaffoldVoltCest
      */
     public function after(AcceptanceTester $I): void
     {
-       /* $I->deleteFile(Fixtures::get('controller'));
+        /*$I->deleteFile(Fixtures::get('controller'));
         $I->deleteFile(Fixtures::get('model'));
         $I->deleteFile(Fixtures::get('layout'));
         $I->deleteDir(Fixtures::get('views'));*/
