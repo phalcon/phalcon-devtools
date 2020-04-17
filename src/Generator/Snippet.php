@@ -427,7 +427,7 @@ EOD;
         return sprintf($template, $table);
     }
 
-    public function getMigrationDefinition($name, $definition)
+    public function getMigrationDefinition(string $name, $definition)
     {
         $template = <<<EOD
                 '%s' => [
