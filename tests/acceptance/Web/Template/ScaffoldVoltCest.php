@@ -20,7 +20,8 @@ final class ScaffoldVoltCest
         $I->amOnPage('/webtools.php/scaffold/generate');
         $I->selectOption('form select[name=templateEngine]', 'Volt');
 
-        Fixtures::add('tablename', 'genScaffold');
+        Fixtures::add('tablename', 'genscaffold');
+        //Fixtures::add('tablename', 'genScaffold');
         Fixtures::add('pageename', 'genscaffold');
 
         $I->selectOption('form select[name=tableName]', Fixtures::get('tablename'));
@@ -129,7 +130,7 @@ final class ScaffoldVoltCest
         $I->fillField('dateofbirth', '2019-04-17');
         $I->click('input[type=submit]');
 
-        $I->see('Lillian');
+        $I->see('Brandon');
     }
 
     /**
@@ -138,27 +139,24 @@ final class ScaffoldVoltCest
      */
     public function testSearchButtonAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/genscaffold/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+        $I->amOnPage('/genscaffold/search');
         $I->see('Search result');
 
-        $I->click(
-            Locator::elementAt("//a[contains(@class, 'page-link')]", 2)
-        );
+        $I->click("#next");
 
-        $I->click(
-            "First",
-            Locator::elementAt("//a[contains(@class, 'page-link')]", 0)
-        );
+        $I->see("K1S6X");
 
-        $I->click(
-            "Last",
-            Locator::elementAt("//a[contains(@class, 'page-link')]", 3)
-        );
+        $I->click("#previous");
 
-        $I->click(
-            "Previous",
-            Locator::elementAt("//a[contains(@class, 'page-link')]", 1)
-        );
+        $I->see("U7B0Q");
+
+        $I->click("#last");
+
+        $I->see("N2Z7T");
+
+        $I->click("#first");
+
+        $I->see("U7B0Q");
     }
 
 
@@ -213,9 +211,9 @@ final class ScaffoldVoltCest
      */
     public function after(AcceptanceTester $I): void
     {
-        $I->deleteFile(Fixtures::get('controller'));
+       /* $I->deleteFile(Fixtures::get('controller'));
         $I->deleteFile(Fixtures::get('model'));
         $I->deleteFile(Fixtures::get('layout'));
-        $I->deleteDir(Fixtures::get('views'));
+        $I->deleteDir(Fixtures::get('views'));*/
     }
 }
