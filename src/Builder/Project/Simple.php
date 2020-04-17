@@ -70,7 +70,7 @@ class Simple extends ProjectBuilder
             ->createControllerFile()
             ->createHtrouterFile();
 
-        if ($this->options->has('enableWebTools') && true === $this->options->enableWebTools) {
+        if ($this->options->has('enableWebTools') && true === $this->options->get('enableWebTools')) {
             Tools::install($this->options->get('projectPath'));
         }
 
