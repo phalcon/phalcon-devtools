@@ -191,7 +191,6 @@ final class ScaffoldVoltCest
         $I->see('Search result');
         //Check if edit work
        // $I->see('samedi');
-
     }
 
     /**
@@ -201,14 +200,14 @@ final class ScaffoldVoltCest
     public function testDeleteAction(AcceptanceTester $I): void
     {
         $I->amOnPage('/'.Fixtures::get('tablename').
-            '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+            '/search');
         $I->see('Search result');
-        $I->click("a[href*='delete/3']");
+        $I->click(['link' => 'Delete']);
         $I->see('customer was deleted successfully');
 
         $I->amOnPage('/'.Fixtures::get('tablename').
-            '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
-        $I->cantSee('Lilian');
+            '/search');
+        $I->cantSee('Hedley');
     }
 
     /**
@@ -217,9 +216,9 @@ final class ScaffoldVoltCest
      */
     public function after(AcceptanceTester $I): void
     {
-        /*$I->deleteFile(Fixtures::get('controller'));
+        $I->deleteFile(Fixtures::get('controller'));
         $I->deleteFile(Fixtures::get('model'));
         $I->deleteFile(Fixtures::get('layout'));
-        $I->deleteDir(Fixtures::get('views'));*/
+        $I->deleteDir(Fixtures::get('views'));
     }
 }
