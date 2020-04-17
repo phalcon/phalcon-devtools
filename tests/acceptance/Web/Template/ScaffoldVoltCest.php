@@ -180,12 +180,18 @@ final class ScaffoldVoltCest
     public function testEditAction(AcceptanceTester $I): void
     {
         $I->amOnPage('/'.Fixtures::get('tablename').
-            '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
+            '/search');
         $I->see('Search result');
-        $I->click("a[href*='edit/2']");
-        $I->see('Lillian');
-        $I->fillField('firstname', 'jeremy');
+        $I->click(['link' => 'Edit']);
+        $I->seeInField('firstname', 'Hedley');
+        $I->fillField('firstname', 'samedi');
         $I->click('input[type=submit]');
+        $I->amOnPage('/'.Fixtures::get('tablename').
+            '/search');
+        $I->see('Search result');
+        //Check if edit work
+       // $I->see('samedi');
+
     }
 
     /**
@@ -197,13 +203,12 @@ final class ScaffoldVoltCest
         $I->amOnPage('/'.Fixtures::get('tablename').
             '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->see('Search result');
-        $I->click("a[href*='delete/2']");
-        $I->see('genscaffold was deleted successfully');
+        $I->click("a[href*='delete/3']");
+        $I->see('customer was deleted successfully');
 
         $I->amOnPage('/'.Fixtures::get('tablename').
             '/search?id=&firstname=&surname=&membertype=&dateofbirth=2019-04-17');
         $I->cantSee('Lilian');
-        $I->click('input[type=submit]');
     }
 
     /**
