@@ -142,7 +142,7 @@ final class ScaffoldVoltCest
 
         $I->click("#previous");
 
-        $I->see("U7B0Q");
+        $I->see("W2Q7K");
 
         $I->click("#last");
 
@@ -150,7 +150,7 @@ final class ScaffoldVoltCest
 
         $I->click("#first");
 
-        $I->see("U7B0Q");
+        $I->see("W2Q7K");
     }
 
 
@@ -177,7 +177,7 @@ final class ScaffoldVoltCest
             '/search');
         $I->see('Search result');
         $I->click(['link' => 'Edit']);
-        $I->seeInField('firstname', 'Hedley');
+        $I->seeInField('firstname', 'Lillian');
         $I->fillField('firstname', 'samedi');
         $I->click('input[type=submit]');
         $I->amOnPage('/'.Fixtures::get('tablename').
@@ -200,7 +200,7 @@ final class ScaffoldVoltCest
 
         $I->amOnPage('/'.Fixtures::get('tablename').
             '/search');
-        $I->cantSee('Hedley');
+        $I->cantSee('samedi');
     }
 
     /**
