@@ -208,9 +208,9 @@ final class ScaffoldPhtmlCest
      */
     public function after(AcceptanceTester $I): void
     {
-        $I->deleteFile(Fixtures::get('controller'));
+        /*$I->deleteFile(Fixtures::get('controller'));
         $I->deleteFile(Fixtures::get('model'));
         $I->deleteFile(Fixtures::get('layout'));
-        $I->deleteDir(Fixtures::get('views'));
+        $I->deleteDir(Fixtures::get('views'));*/
     }
 }
