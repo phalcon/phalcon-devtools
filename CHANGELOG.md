@@ -1,5 +1,6 @@
-# [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-xx-xx)
+# [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-04-26)
 ## Fixed
+- Fixed notice error during SQLite connection [#1451](https://github.com/phalcon/phalcon-devtools/pull/1451)
 - Fixed global autoload [#1378](https://github.com/phalcon/phalcon-devtools/issues/1378)
 - Fixed empty `vendor/` directory inside `phalcon.phar` during building [#1456](https://github.com/phalcon/phalcon-devtools/pull/1456)
 
