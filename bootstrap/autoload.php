@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 use Phalcon\Version;
 
@@ -100,9 +101,17 @@ defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
  * Register the Composer autoloader (if any)
  */
 $vendorAutoload = [
-    PTOOLSPATH . DS . 'vendor' . DS . 'autoload.php', // Is installed locally
-    PTOOLSPATH . DS . '..' . DS . '..' . DS . 'autoload.php',  // Is installed via Composer
+    __DIR__ . DS . '..' . DS . '..' . DS . 'autoload.php',
+    __DIR__ . DS . '..' . DS . 'vendor' . DS . 'autoload.php',
+    __DIR__ . DS . 'vendor' . DS . 'autoload.php',
 ];
+
+foreach ($vendorAutoload as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
 
 foreach ($vendorAutoload as $file) {
     if (file_exists($file)) {
