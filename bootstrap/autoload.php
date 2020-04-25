@@ -113,13 +113,6 @@ foreach ($vendorAutoload as $file) {
     }
 }
 
-foreach ($vendorAutoload as $file) {
-    if (file_exists($file)) {
-        require_once $file;
-        break;
-    }
-}
-
 if (false === class_exists('Composer\Autoload\ClassLoader', false)) {
     throw new Exception('Please run composer install');
 }
