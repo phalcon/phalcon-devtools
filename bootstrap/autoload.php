@@ -101,6 +101,7 @@ defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
  * Register the Composer autoloader (if any)
  */
 $vendorAutoload = [
+    __DIR__ . DS . '..' . DS . '..' . DS . '..' . DS . 'autoload.php',
     __DIR__ . DS . '..' . DS . '..' . DS . 'autoload.php',
     __DIR__ . DS . '..' . DS . 'vendor' . DS . 'autoload.php',
     __DIR__ . DS . 'vendor' . DS . 'autoload.php',
