@@ -1,4 +1,5 @@
 {
+    "force-autodiscovery": true,
     "directories": [
         "bootstrap",
         "resources",
