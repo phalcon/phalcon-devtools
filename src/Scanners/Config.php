@@ -80,7 +80,7 @@ class Config extends Injectable
                         /** @noinspection PhpIncludeInspection */
                         $config = include($probablyConfig);
                         if (is_array($config)) {
-                            $config = new Config($config);
+                            $config = new PhConfig($config);
                         }
                     } else {
                         $config = new $adapter($probablyConfig);
