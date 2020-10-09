@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "humbug/box": "^3.8",
-        "codeception/codeception": "^4.1",
+        "codeception/codeception": "^4.0",
         "phpdocumentor/reflection-docblock": "^4.3",
         "phpunit/phpunit": "^8.0",
         "codeception/specify": "^1.2",
