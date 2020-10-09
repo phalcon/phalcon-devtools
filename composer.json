@@ -27,19 +27,19 @@
         "ext-phalcon": "^4.0.0",
         "psy/psysh": "~0.9",
         "nikic/php-parser": "^4.2.4",
-        "phalcon/migrations": "^1.1",
-        "vlucas/phpdotenv": "^5.2"
+        "phalcon/migrations": "^1.1"
     },
     "require-dev": {
         "humbug/box": "^3.8",
-        "codeception/codeception": "^3.1",
+        "codeception/codeception": "4.1.x-dev",
         "phpdocumentor/reflection-docblock": "^4.3",
         "phpunit/phpunit": "^8.0",
         "codeception/specify": "^1.2",
         "codeception/verify": "^1.2",
         "squizlabs/php_codesniffer": "^3.5",
         "phalcon/ide-stubs": "^4.0.0",
-        "vimeo/psalm": "^3.7"
+        "vimeo/psalm": "^3.7",
+        "vlucas/phpdotenv": "^5.2"
     },
     "autoload": {
         "psr-4" : {
