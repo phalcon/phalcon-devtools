@@ -178,8 +178,8 @@ class Bootstrap
         $this->initFromConstants();
         $this->setParameters($parameters);
 
-        $this->app = new MvcApplication;
         $this->di = new FactoryDefault;
+        $this->app = new MvcApplication;
         $this->di->setShared('application', $this);
 
         (new ErrorHandler)->register();
