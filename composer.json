@@ -41,7 +41,9 @@
         "phalcon/ide-stubs": "^4.0.0",
         "vimeo/psalm": "^3.7",
         "codeception/module-phpbrowser": "^1.0",
-        "codeception/module-filesystem": "^1.0"
+        "codeception/module-filesystem": "^1.0",
+        "codeception/module-asserts": "^1.3",
+        "codeception/module-cli": "^1.0"
     },
     "autoload": {
         "psr-4" : {
