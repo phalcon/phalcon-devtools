@@ -28,7 +28,7 @@
         "psy/psysh": "~0.9",
         "nikic/php-parser": "^4.2.4",
         "phalcon/migrations": "^1.1",
-        "vlucas/phpdotenv": "^3.6"
+        "vlucas/phpdotenv": "^3.6|^4.0|^5.0"
     },
     "require-dev": {
         "humbug/box": "^3.8",
