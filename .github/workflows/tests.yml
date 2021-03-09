@@ -78,7 +78,7 @@ jobs:
         run: bash tests/_ci/setup_dbs_github.sh
 
       - name: Symbolic link Phalcon devtools
-        run: bash ./.ci/link_devtools.sh
+        run: sudo ln -s "$(pwd)/phalcon" /usr/local/bin/phalcon
 
       - name: Init Webtools and add ports in database setup
         env:
