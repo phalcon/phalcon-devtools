@@ -33,7 +33,6 @@ require_once TESTS_PATH . 'shim.php';
 
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.cli_color', 1);
-    ini_set('xdebug.collect_params', 0);
     ini_set('xdebug.dump_globals', 'on');
     ini_set('xdebug.show_local_vars', 'on');
     ini_set('xdebug.max_nesting_level', 100);
