@@ -127,11 +127,11 @@ jobs:
           name: Codeception Logs
           path: tests/_output
 
-      - name: Check psalm
-        run: vendor/bin/psalm --show-info=false
+      #- name: Check psalm
+      #  run: vendor/bin/psalm --show-info=false
 
-      - name: Check phpstan
-        run: vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
+      #- name: Check phpstan
+      #  run: vendor/bin/phpstan analyse -l 5 -c phpstan.neon src -v
 
       - name: Upload coverage to Codecov
         if: success()
