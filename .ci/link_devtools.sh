@@ -9,5 +9,5 @@
 
 mkdir "$GITHUB_WORKSPACE"/bin
 ln -s "$GITHUB_WORKSPACE"/phalcon "$GITHUB_WORKSPACE"/bin/phalcon
-echo "::add-path::$GITHUB_WORKSPACE/bin"
+#echo "::add-path::$GITHUB_WORKSPACE/bin"
 chmod +x "$GITHUB_WORKSPACE"/phalcon
