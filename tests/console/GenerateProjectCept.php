@@ -21,10 +21,10 @@ $I->amInPath(app_path($projectsFolder));
  */
 $projectName1 = 'project-tests1';
 $path1 = $projectsFolder . '/' . $projectName1;
+$foundFile1 = app_path($path1 . '/app/config/config.php');
 
-$I->dontSeeFileFound(app_path($path1));
+$I->dontSeeFileFound($foundFile1);
 $I->runShellCommand('phalcon project ' . $projectName1);
-$I->seeFileFound(app_path($path1));
 $I->seeFileFound(app_path($path1 . '/app/config/config.php'));
 $I->deleteDir(app_path($path1));
 
@@ -34,11 +34,11 @@ $I->deleteDir(app_path($path1));
 $projectName2 = 'project-tests2';
 $projectPath2 = 'project-tests2-custom';
 $path2 = $projectsFolder . '/' . $projectPath2;
+$foundFile2 = app_path($path2 . '/' . $projectName2 . '/app/config/config.php');
 
-$I->dontSeeFileFound(app_path($path2));
+$I->dontSeeFileFound($foundFile2);
 $I->runShellCommand("phalcon project $projectName2 simple $projectPath2");
-$I->seeFileFound(app_path($path2));
-$I->seeFileFound(app_path($projectsFolder . '/' . $projectPath2 . '/' . $projectName2 . '/app/config/config.php'));
+$I->seeFileFound($foundFile2);
 $I->deleteDir(app_path($path2));
 
 /**
@@ -46,11 +46,11 @@ $I->deleteDir(app_path($path2));
  */
 $projectName3 = 'project-tests3';
 $path3 = $projectsFolder . '/' . $projectName3;
+$foundFile3 = app_path($path3 . '/app/config/config.ini');
 
-$I->dontSeeFileFound(app_path($path3));
+$I->dontSeeFileFound($foundFile3);
 $I->runShellCommand('phalcon project ' . $projectName3 . ' --use-config-ini');
-$I->seeFileFound(app_path($path3));
-$I->seeFileFound(app_path($path3 . '/app/config/config.ini'));
+$I->seeFileFound($foundFile3);
 $I->deleteDir(app_path($path3));
 
 /**
@@ -58,11 +58,11 @@ $I->deleteDir(app_path($path3));
  */
 $projectName4 = 'hello_world';
 $path4 = $projectsFolder . '/' . $projectName4;
+$foundFile4 = app_path($path4 . '/app/views/index.volt');
 
-$I->dontSeeFileFound(app_path($path4));
+$I->dontSeeFileFound($foundFile4);
 $I->runShellCommand('phalcon project ' . $projectName4 . ' simple --template-engine=volt');
-$I->seeFileFound(app_path($path4));
-$I->seeFileFound(app_path($path4 . '/app/views/index.volt'));
+$I->seeFileFound($foundFile4);
 $I->deleteDir(app_path($path4));
 
 /**
@@ -70,11 +70,14 @@ $I->deleteDir(app_path($path4));
  */
 $projectName5 = 'webtools_defaults';
 $path5 = $projectsFolder . '/' . $projectName5;
+$foundFile5 = app_path($path5 . '/public/webtools.php');
+$foundFile5Config = app_path($path5 . '/public/webtools.php');
 
-$I->dontSeeFileFound(app_path($path5));
+$I->dontSeeFileFound($foundFile5);
+$I->dontSeeFileFound($foundFile5Config);
 $I->runShellCommand('phalcon project ' . $projectName5);
-$I->dontSeeFileFound(app_path($path5 . '/public/webtools.php'));
-$I->dontSeeFileFound(app_path($path5 . '/public/webtools.config.php'));
+$I->dontSeeFileFound($foundFile5);
+$I->dontSeeFileFound($foundFile5Config);
 $I->deleteDir(app_path($path5));
 
 /**
@@ -82,9 +85,12 @@ $I->deleteDir(app_path($path5));
  */
 $projectName6 = 'webtools_activated';
 $path6 = $projectsFolder . '/' . $projectName6;
+$foundFile6 = app_path($path6 . '/public/webtools.php');
+$foundFile6Config = app_path($path6 . '/public/webtools.config.php');
 
-$I->dontSeeFileFound(app_path($path6));
+$I->dontSeeFileFound($foundFile6);
+$I->dontSeeFileFound($foundFile6Config);
 $I->runShellCommand('phalcon project ' . $projectName6 . ' --enable-webtools');
-$I->seeFileFound(app_path($path6 . '/public/webtools.php'));
-$I->seeFileFound(app_path($path6 . '/public/webtools.config.php'));
+$I->seeFileFound($foundFile6);
+$I->seeFileFound($foundFile6Config);
 $I->deleteDir(app_path($path6));
