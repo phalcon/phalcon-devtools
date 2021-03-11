@@ -1,14 +1,16 @@
-name: "Tests"
-
 on: [ push, pull_request ]
+
+name: "Tests"
 
 jobs:
   run-tests:
     name: PHP ${{ matrix.php-versions }}
     runs-on: ubuntu-latest
+
     env:
       extensions: mbstring, intl, json, zip, phalcon-4.0.5, mysql, pgsql, xdebug-2.9.8
       key: cache-v2.0~19.03.2020
+
     services:
       mysql:
         image: mysql:5.7
@@ -18,6 +20,7 @@ jobs:
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
       postgres:
         image: postgres:10.8
         ports:
@@ -25,6 +28,7 @@ jobs:
         env:
           POSTGRES_DB: devtools
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     strategy:
       fail-fast: false
       matrix:
@@ -85,12 +89,22 @@ jobs:
           MYSQL_DB_PASSWORD: 'root'
           MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-        run: bash ./.ci/serve-webtools.sh
+        run: |
+          rm -rf webtools
+          phalcon project --name=webtools
+          sed -i "s/database->charset/database->charset,\n\t\t'port'     => \$config->database->port/g" webtools/app/config/services.php
+          cd webtools
+          phalcon webtools enable
+          phalcon serve &
 
       - name: Setup tests
         run: |
           cp tests/.env.test .env
-          bash ./.ci/github_set_env.sh
+
+          sed -i "s/MYSQL_DB_PORT=3306/MYSQL_DB_PORT=$MYSQL_DB_PORT/g" .env
+          sed -i "s/MYSQL_DB_PASSWORD=''/MYSQL_DB_PASSWORD='$MYSQL_DB_PASSWORD'/g" .env
+          sed -i "s/POSTGRES_DB_PORT=5432/POSTGRES_DB_PORT=$POSTGRES_DB_PORT/g" .env
+
           mkdir .phalcon
           vendor/bin/codecept build
           vendor/bin/phpcs
