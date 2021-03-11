@@ -1,4 +1,4 @@
-# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (xxxx-xx-xx)
+# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2021-03-11)
 ## Added
 - Added support for PHP `7.4` [#1482](https://github.com/phalcon/phalcon-devtools/pull/1482)
 
