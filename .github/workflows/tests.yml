@@ -89,7 +89,13 @@ jobs:
           MYSQL_DB_PASSWORD: 'root'
           MYSQL_DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           POSTGRES_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
-        run: bash ./.ci/serve-webtools.sh
+        run: |
+          rm -rf webtools
+          phalcon project --name=webtools
+          sed -i "s/database->charset/database->charset,\n\t\t'port'     => \$config->database->port/g" webtools/app/config/services.php
+          cd webtools
+          phalcon webtools enable
+          phalcon serve &
 
       - name: Setup tests
         run: |
