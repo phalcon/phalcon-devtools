@@ -50,8 +50,6 @@ $defaults = [
     "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
 ];
 
-
-
 foreach ($defaults as $key => $defaultValue) {
     if (defined($key)) {
         continue;

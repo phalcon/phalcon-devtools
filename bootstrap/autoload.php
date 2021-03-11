@@ -11,8 +11,6 @@
 
 declare(strict_types=1);
 
-use Phalcon\Version;
-
 if (!extension_loaded('phalcon')) {
     throw new Exception(
         "Phalcon extension isn't installed, follow these instructions to install it: " .
@@ -94,9 +92,6 @@ defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
  */
 defined('ADMIN_LTE_VERSION') || define('ADMIN_LTE_VERSION', '2.3.6');
 
-/** @const COMPATIBLE_VERSION The compatible Phalcon version. */
-defined('COMPATIBLE_VERSION') || define('COMPATIBLE_VERSION', 3020040);
-
 /**
  * Register the Composer autoloader (if any)
  */
@@ -125,11 +120,4 @@ if (false === class_exists('Composer\Autoload\ClassLoader', false)) {
  */
 if (file_exists('.phalcon' . DS . 'autoload.php')) {
     require_once '.phalcon' . DS . 'autoload.php';
-}
-
-if (Version::getId() < COMPATIBLE_VERSION) {
-    throw new Exception(
-        "Your Phalcon version isn't compatible with Developer Tools, " .
-        'download the latest at: https://phalconphp.com/en/download/linux'
-    );
 }
