@@ -7,11 +7,7 @@ services:
 matrix:
   include:
     - php: 7.2
-      env:
-        - BUILD_PHAR=1
     - php: 7.3
-      env:
-        - BUILD_PHAR=0
 
 git:
   depth: 1
@@ -29,7 +25,6 @@ cache:
 
 env:
   global:
-    - BUILD_PHAR=1
     - PATH="$PATH:~/bin"
     - DISPLAY=":99.0"
     - PHAR_PHP_VERSION=7.2.23
@@ -43,14 +38,6 @@ before_install:
 install:
   - pecl install --force psr
   - .ci/install-phalcon.sh
-  - |
-    if [ "$BUILD_PHAR" -eq 1 ]
-    then
-      echo "Build Phalcon DevTools PHAR"
-      composer config platform.php $PHAR_PHP_VERSION
-      .ci/install-box.sh
-      .ci/build-phar.sh
-    fi
 
 before_script:
   - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest
