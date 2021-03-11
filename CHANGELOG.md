@@ -9,6 +9,7 @@
 ## Changed
 - Upgraded lucas/phpdotenv [#1460](http://github.com/phalcon/phalcon-devtools/issues/1460)
 - Updated `README.md` [#1458](https://github.com/phalcon/phalcon-devtools/issues/1458)
+- Moved phar generation during release from Travis CI to Github Actions [#1483](https://github.com/phalcon/phalcon-devtools/issues/1483)
 
 
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-04-26)
