@@ -14,7 +14,7 @@ declare(strict_types=1);
 if (!extension_loaded('phalcon')) {
     throw new Exception(
         "Phalcon extension isn't installed, follow these instructions to install it: " .
-        'https://docs.phalconphp.com/en/latest/installation'
+        'https://docs.phalcon.io/en/latest/installation'
     );
 }
 

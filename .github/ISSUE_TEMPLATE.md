@@ -1,4 +1,4 @@
-> Questions should go to https://forum.phalconphp.com
+> Questions should go to https://forum.phalcon.io
 > Documentation issues should go to https://github.com/phalcon/docs/issues
 
 ### Expected and Actual Behavior
@@ -23,5 +23,4 @@
 * PHP Version: (`php -v`)
 * Operating System:
 * Server: Nginx | Apache | Other
-* Other related info (Database, table schema): 
-
+* Other related info (Database, table schema):
