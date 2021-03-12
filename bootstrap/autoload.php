@@ -88,11 +88,6 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV
 defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
 
 /**
- * @const ADMIN_LTE_VERSION The AdminLTE version.
- */
-defined('ADMIN_LTE_VERSION') || define('ADMIN_LTE_VERSION', '2.3.6');
-
-/**
  * Register the Composer autoloader (if any)
  */
 $vendorAutoload = [
