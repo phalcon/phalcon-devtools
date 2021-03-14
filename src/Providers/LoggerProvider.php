@@ -38,7 +38,7 @@ class LoggerProvider implements ServiceProviderInterface
         $basePath = $application->getBasePath();
 
         $di->setShared($this->providerName, function () use ($hostName, $basePath) {
-            $ptoolsPath = $basePath . DS . '.phalcon' . DS;
+            $ptoolsPath = $basePath . DIRECTORY_SEPARATOR . '.phalcon' . DIRECTORY_SEPARATOR;
             if (is_dir($ptoolsPath) && is_writable($ptoolsPath)) {
                 $formatter = new LineFormatter("%date% {$hostName} php: [%type%] %message%", 'D j H:i:s');
                 $adapter = new FileLogger($ptoolsPath . 'devtools.log');

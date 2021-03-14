@@ -5,12 +5,12 @@ namespace Phalcon\DevTools\Tests\Acceptance\Web\Template;
 
 use AcceptanceTester;
 use Codeception\Util\Fixtures;
-use Codeception\Util\Locator;
 
 final class ScaffoldVoltCest
 {
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function before(AcceptanceTester $I): void
     {
@@ -45,9 +45,9 @@ final class ScaffoldVoltCest
 
         $content .= $returnLine .
             '$loader->registerNamespaces(' .
-                $returnLine . '[ '.
-                    '"'.$namespace.'" => $config->application->modelsDir' .
-                $returnLine . ' ]' .
+            $returnLine . '[ ' .
+            '"' . $namespace . '" => $config->application->modelsDir' .
+            $returnLine . ' ]' .
             $returnLine . ');';
 
         file_put_contents($loaderFile, $content);
@@ -55,6 +55,7 @@ final class ScaffoldVoltCest
 
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function testGenScaffoldFileExist(AcceptanceTester $I): void
     {
@@ -115,12 +116,13 @@ final class ScaffoldVoltCest
 
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function testSearchAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/'.Fixtures::get('tablename'));
+        $I->amOnPage('/' . Fixtures::get('tablename'));
         $I->see(Fixtures::get('tablename'));
-        $I->see('Search '.Fixtures::get('tablename'));
+        $I->see('Search ' . Fixtures::get('tablename'));
         $I->see('Dateofbirth');
         $I->fillField('dateofbirth', '2019-04-17');
         $I->click('input[type=submit]');
@@ -130,37 +132,34 @@ final class ScaffoldVoltCest
 
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function testSearchButtonAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/'.Fixtures::get('tablename').'/search');
+        $I->amOnPage('/' . Fixtures::get('tablename') . '/search');
         $I->see('Search result');
 
         $I->click("#next");
-
         $I->see("K1S6X");
 
         $I->click("#previous");
-
         $I->see("W2Q7K");
 
         $I->click("#last");
-
         $I->see("N2Z7T");
 
         $I->click("#first");
-
         $I->see("W2Q7K");
     }
 
-
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function testNewAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/'.Fixtures::get('tablename').'/new');
-        $I->see('Create '.Fixtures::get('tablename'));
+        $I->amOnPage('/' . Fixtures::get('tablename') . '/new');
+        $I->see('Create ' . Fixtures::get('tablename'));
         $I->fillField('firstname', 'jeremy');
         $I->fillField('surname', 'jenovateurs');
         $I->fillField('membertype', 'aaa');
@@ -170,41 +169,41 @@ final class ScaffoldVoltCest
 
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function testEditAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/'.Fixtures::get('tablename').
+        $I->amOnPage('/' . Fixtures::get('tablename') .
             '/search');
         $I->see('Search result');
         $I->click(['link' => 'Edit']);
         $I->seeInField('firstname', 'Lillian');
         $I->fillField('firstname', 'samedi');
         $I->click('input[type=submit]');
-        $I->amOnPage('/'.Fixtures::get('tablename').
-            '/search');
+        $I->amOnPage('/' . Fixtures::get('tablename') . '/search');
         $I->see('Search result');
         //Check if edit work
-       // $I->see('samedi');
+        // $I->see('samedi');
     }
 
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function testDeleteAction(AcceptanceTester $I): void
     {
-        $I->amOnPage('/'.Fixtures::get('tablename').
-            '/search');
+        $I->amOnPage('/' . Fixtures::get('tablename') . '/search');
         $I->see('Search result');
         $I->click(['link' => 'Delete']);
         $I->see('customer was deleted successfully');
 
-        $I->amOnPage('/'.Fixtures::get('tablename').
-            '/search');
+        $I->amOnPage('/' . Fixtures::get('tablename') . '/search');
         $I->cantSee('samedi');
     }
 
     /**
      * @group mysql
+     * @param AcceptanceTester $I
      */
     public function after(AcceptanceTester $I): void
     {

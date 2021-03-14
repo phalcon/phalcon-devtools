@@ -37,7 +37,7 @@ class DispatcherProvider implements ServiceProviderInterface
         $access = $di->getShared('access');
 
         $di->setShared($this->providerName, function () use ($eventsManager, $access) {
-            $dispatcher = new MvcDispatcher;
+            $dispatcher = new MvcDispatcher();
             $dispatcher->setDefaultNamespace('Phalcon\DevTools\Web\Tools\Controllers');
 
             $eventsManager->attach('dispatch', $access, 1000);

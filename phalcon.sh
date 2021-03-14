@@ -110,7 +110,7 @@ check_install(){
 			printf "\n"
 			printf "\nIn case of problems: "
 			printf "${YELLOW}https://github.com/phalcon/phalcon-devtools/issues${NC} "
-			printf "\n                and: ${YELLOW}https://forum.phalconphp.com${NC}"
+			printf "\n                and: ${YELLOW}https://forum.phalcon.io${NC}"
 			printf "\n"
 
 			check_bash

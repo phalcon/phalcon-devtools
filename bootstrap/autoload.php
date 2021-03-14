@@ -14,7 +14,7 @@ declare(strict_types=1);
 if (!extension_loaded('phalcon')) {
     throw new Exception(
         "Phalcon extension isn't installed, follow these instructions to install it: " .
-        'https://docs.phalconphp.com/en/latest/installation'
+        'https://docs.phalcon.io/en/latest/installation'
     );
 }
 
@@ -86,11 +86,6 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APP_ENV') ?: ENV
  * @const HOSTNAME The current hostname.
  */
 defined('HOSTNAME') || define('HOSTNAME', explode('.', gethostname())[0]);
-
-/**
- * @const ADMIN_LTE_VERSION The AdminLTE version.
- */
-defined('ADMIN_LTE_VERSION') || define('ADMIN_LTE_VERSION', '2.3.6');
 
 /**
  * Register the Composer autoloader (if any)

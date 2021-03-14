@@ -1,7 +1,23 @@
 <?php
 
 /**
- * @var Codeception\Scenario $scenario
+ * This file is part of the Phalcon Developer Tools.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\DevTools\Tests\Console;
+
+use Codeception\Scenario;
+use ConsoleTester;
+
+/**
+ * @var Scenario $scenario
  */
 
 $I = new ConsoleTester($scenario);

@@ -31,7 +31,7 @@ class DbUtilsProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            return new DbUtils;
+            return new DbUtils();
         });
     }
 }

@@ -31,7 +31,7 @@ class AssetsProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            return new AssetsManager;
+            return new AssetsManager();
         });
     }
 }

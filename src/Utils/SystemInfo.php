@@ -58,7 +58,7 @@ class SystemInfo extends Injectable
         return [
             'Phalcon DevTools Version' => Version::get(),
             'Phalcon Version' => PhVersion::get(),
-            'AdminLTE Version' => ADMIN_LTE_VERSION,
+            'AdminLTE Version' => '3.0.1',
         ];
     }
 
