@@ -43,34 +43,32 @@ class Path
         $type  = isset($types[$type]) ? $type : 'ini';
 
         foreach (['app/config/', 'config/', 'apps/config/', 'apps/frontend/config/'] as $configPath) {
-            if ('ini' == $type && file_exists($this->rootPath . $configPath . 'config.ini')) {
+            if ('ini' === $type && file_exists($this->rootPath . $configPath . 'config.ini')) {
                 return new ConfigIni($this->rootPath . $configPath . 'config.ini');
-            } else {
-                if (file_exists($this->rootPath . $configPath. 'config.php')) {
-                    $config = include($this->rootPath . $configPath . 'config.php');
-                    if (is_array($config)) {
-                        $config = new Config($config);
-                    }
-
-                    return $config;
+            }
+            if (file_exists($this->rootPath . $configPath. 'config.php')) {
+                $config = include($this->rootPath . $configPath . 'config.php');
+                if (is_array($config)) {
+                    $config = new Config($config);
                 }
+
+                return $config;
             }
         }
 
         $directory = new RecursiveDirectoryIterator('.');
         $iterator = new RecursiveIteratorIterator($directory);
         foreach ($iterator as $f) {
-            if (preg_match('/\/config\.php$/i', $f->getPathName())) {
+            if (false !== strpos($f->getPathName(), 'config.php')) {
                 $config = include $f->getPathName();
                 if (is_array($config)) {
                     $config = new Config($config);
                 }
 
                 return $config;
-            } else {
-                if (preg_match('/config\.ini$/i', $f->getPathName())) {
-                    return new ConfigIni($f->getPathName());
-                }
+            }
+            if (false !== strpos($f->getPathName(), 'config.ini')) {
+                return new ConfigIni($f->getPathName());
             }
         }
 
