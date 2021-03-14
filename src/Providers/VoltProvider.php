@@ -49,7 +49,7 @@ class VoltProvider implements ServiceProviderInterface
             $config = $this->getShared('config');
 
             $appCacheDir = $config->get('application', new Config)->get('cacheDir');
-            $defaultCacheDir = sys_get_temp_dir() . DS . 'phalcon' . DS . 'volt';
+            $defaultCacheDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phalcon' . DIRECTORY_SEPARATOR . 'volt';
 
             /** @var Config $voltConfig */
             $voltConfig = null;
@@ -80,8 +80,8 @@ class VoltProvider implements ServiceProviderInterface
                  */
                 if (0 === strpos($templatePath, $basePath)) {
                     $templatePath = substr($templatePath, strlen($basePath));
-                } elseif (0 === strpos($templatePath, $ptoolsPath . DS . 'src')) {
-                    $templatePath = substr($templatePath, strlen($ptoolsPath . DS . 'src'));
+                } elseif (0 === strpos($templatePath, $ptoolsPath . DIRECTORY_SEPARATOR . 'src')) {
+                    $templatePath = substr($templatePath, strlen($ptoolsPath . DIRECTORY_SEPARATOR . 'src'));
                 }
 
                 $templatePath = trim($templatePath, '\\/');
@@ -90,7 +90,7 @@ class VoltProvider implements ServiceProviderInterface
 
                 $cacheDir = $that->getCacheDir($voltConfig);
 
-                return rtrim($cacheDir, '\\/') . DS . $filename;
+                return rtrim($cacheDir, '\\/') . DIRECTORY_SEPARATOR . $filename;
             };
 
             $options = [
@@ -112,11 +112,11 @@ class VoltProvider implements ServiceProviderInterface
      *
      * @return string
      */
-    protected function getCacheDir(Config $voltConfig)
+    protected function getCacheDir(Config $voltConfig): string
     {
         $appCacheDir = $this->di->getShared('config')->path('application.cacheDir');
         $cacheDir = $voltConfig->get('cacheDir', $appCacheDir);
-        $defaultCacheDir = sys_get_temp_dir() . DS . 'phalcon' . DS . 'volt';
+        $defaultCacheDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phalcon' . DIRECTORY_SEPARATOR . 'volt';
 
         if ($cacheDir && is_dir($cacheDir) && is_writable($cacheDir)) {
             return $cacheDir;

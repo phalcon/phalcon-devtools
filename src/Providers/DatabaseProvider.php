@@ -38,7 +38,7 @@ class DatabaseProvider implements ServiceProviderInterface
             if ($this->getShared('config')->offsetExists('database')) {
                 $config = $this->getShared('config')->get('database')->toArray();
             } else {
-                $dbname = sys_get_temp_dir() . DS . 'phalcon.sqlite';
+                $dbname = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phalcon.sqlite';
                 $this->getShared('logger')->warning(
                     'Unable to initialize "db" service. Used Sqlite adapter at path: {path}',
                     ['path' => $dbname]

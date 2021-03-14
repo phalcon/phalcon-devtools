@@ -44,11 +44,11 @@ class ViewProvider implements ServiceProviderInterface
 
             $view->registerEngines([
                 '.volt' => $this->getShared('volt', [$view, $this]),
-                '.phtml' => Php::class
+                '.phtml' => Php::class,
             ]);
 
-            $view->setViewsDir($registry->offsetGet('directories')->webToolsViews . DS)
-                ->setLayoutsDir('layouts' . DS)
+            $view->setViewsDir($registry->offsetGet('directories')->webToolsViews . DIRECTORY_SEPARATOR)
+                ->setLayoutsDir('layouts' . DIRECTORY_SEPARATOR)
                 ->setRenderLevel(View::LEVEL_AFTER_TEMPLATE);
 
             $em = $this->getShared('eventsManager');

@@ -28,6 +28,6 @@ class AssetsResource extends Injectable
      */
     public function path(string $path): string
     {
-        return PTOOLSPATH . DS . 'resources' . DS . $this->fs->normalize($path);
+        return PTOOLSPATH . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . $this->fs->normalize($path);
     }
 }

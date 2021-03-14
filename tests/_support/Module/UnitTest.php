@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Module;
+namespace Phalcon\DevTools\Tests\Support\Module;
 
 use Codeception\Specify;
 use Codeception\Test\Unit;

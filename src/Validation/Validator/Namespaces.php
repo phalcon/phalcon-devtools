@@ -48,7 +48,7 @@ class Namespaces extends AbstractValidator
 
         $re = '#^(?:(?:\\\)?[a-z](?:[a-z0-9_]+)?)+(?:\\\\(?:[a-z](?:[a-z0-9_]+)?)+)*$#i';
 
-        if (false === (bool)preg_match($re, $value)) {
+        if (!preg_match($re, $value)) {
             $label = $this->getOption('label') ?: $validation->getLabel($field);
             $message = $this->getOption('message') ?: 'Invalid namespace syntax!';
             $replacePairs = array(':field' => $label);

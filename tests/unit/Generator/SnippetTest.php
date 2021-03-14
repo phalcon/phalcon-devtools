@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Generator;
+namespace Phalcon\DevTools\Tests\Unit\Generator;
 
 use Codeception\Test\Unit;
 use Phalcon\DevTools\Generator\Snippet;

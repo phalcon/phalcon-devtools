@@ -1,11 +1,4 @@
 <?php
-declare(strict_types=1);
-
-namespace Phalcon\DevTools\Tests\Unit;
-
-use Phalcon\DevTools\Utils;
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Text;
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -15,6 +8,15 @@ use Phalcon\Text;
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
+
+namespace Phalcon\DevTools\Tests\Unit;
+
+use Phalcon\DevTools\Utils;
+use Phalcon\DevTools\Tests\Support\Module\UnitTest;
+use Phalcon\Text;
+
 final class UtilsTest extends UnitTest
 {
     /**

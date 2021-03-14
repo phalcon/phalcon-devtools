@@ -32,10 +32,11 @@ class SessionProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            $session = new Manager();
             $files = new SessionStream([
                 'savePath' => sys_get_temp_dir(),
             ]);
+
+            $session = new Manager();
             $session->setAdapter($files);
             $session->start();
 

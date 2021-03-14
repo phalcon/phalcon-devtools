@@ -52,9 +52,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Phalcon\\Test\\": "tests/unit",
-            "Phalcon\\Test\\Models\\": "tests/_data/models",
-            "Phalcon\\Test\\Module\\": "tests/_support/Module"
+            "Phalcon\\DevTools\\Tests\\Acceptance\\": "tests/acceptance/",
+            "Phalcon\\DevTools\\Tests\\Console\\": "tests/console/",
+            "Phalcon\\DevTools\\Tests\\Functional\\": "tests/functional/",
+            "Phalcon\\DevTools\\Tests\\Unit\\": "tests/unit/",
+            "Phalcon\\DevTools\\Tests\\Support\\Module\\": "tests/_support/Module"
         },
         "files": [
             "tests/_support/helpers.php"

@@ -60,11 +60,11 @@ class DbUtils extends Injectable
             return $config->get('schema');
         }
 
-        if ('Postgresql' == $config->get('adapter')) {
+        if ('Postgresql' === $config->get('adapter')) {
             return 'public';
         }
 
-        if ('Sqlite' == $config->get('adapter')) {
+        if ('Sqlite' === $config->get('adapter')) {
             // SQLite only supports the current database, unless one is
             // attached. This is not the case, so don't return a schema.
             return null;

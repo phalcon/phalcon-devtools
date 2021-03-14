@@ -31,7 +31,7 @@ class EventsManagerProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            $em = new EventsManager;
+            $em = new EventsManager();
             $em->enablePriorities(true);
 
             return $em;

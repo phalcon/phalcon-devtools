@@ -34,18 +34,18 @@ class Tools
     public static function install(string $path): void
     {
         $fsUtils = new FsUtils();
-        $path = $fsUtils->normalize(realpath($path)) . DS;
-        $publicPath = $path . self::PROJECT_PUBLIC_FOLDER . DS;
+        $path = $fsUtils->normalize(realpath($path)) . DIRECTORY_SEPARATOR;
+        $publicPath = $path . self::PROJECT_PUBLIC_FOLDER . DIRECTORY_SEPARATOR;
 
         $root = new SplFileInfo($publicPath);
         $fsUtils->setDirectoryPermission($root, ['js' => 0777, 'css' => 0777]);
 
-        $tools = rtrim(str_replace(["\\", '/'], DS, PTOOLSPATH), DS);
+        $tools = rtrim(str_replace(["\\", '/'], DIRECTORY_SEPARATOR, PTOOLSPATH), DIRECTORY_SEPARATOR);
 
-        copy($tools . DS . self::WEB_TOOLS_FILE, $publicPath . self::WEB_TOOLS_FILE);
+        copy($tools . DIRECTORY_SEPARATOR . self::WEB_TOOLS_FILE, $publicPath . self::WEB_TOOLS_FILE);
 
         if (!file_exists($configPath = $publicPath . self::WEB_TOOLS_CONFIG_FILE)) {
-            $template = file_get_contents(TEMPLATE_PATH . DS . self::WEB_TOOLS_CONFIG_FILE);
+            $template = file_get_contents(TEMPLATE_PATH . DIRECTORY_SEPARATOR . self::WEB_TOOLS_CONFIG_FILE);
             $code = str_replace('@@PATH@@', $tools, $template);
 
             file_put_contents($configPath, $code);
@@ -59,16 +59,16 @@ class Tools
      * @return void
      * @throws Exception
      */
-    public static function uninstall($path): void
+    public static function uninstall(string $path): void
     {
         $fsUtils = new FsUtils();
-        $path = $fsUtils->normalize(realpath($path)) . DS;
+        $path = $fsUtils->normalize(realpath($path)) . DIRECTORY_SEPARATOR;
 
-        $root = new SplFileInfo($path . self::PROJECT_PUBLIC_FOLDER . DS);
+        $root = new SplFileInfo($path . self::PROJECT_PUBLIC_FOLDER . DIRECTORY_SEPARATOR);
         $fsUtils->deleteFilesFromDirectory($root, [
-            'css' . DS . 'webtools.css',
-            'js' . DS . 'webtools.js',
-            'js' . DS . 'webtools-ie.js',
+            'css' . DIRECTORY_SEPARATOR . 'webtools.css',
+            'js' . DIRECTORY_SEPARATOR . 'webtools.js',
+            'js' . DIRECTORY_SEPARATOR . 'webtools-ie.js',
             self::WEB_TOOLS_CONFIG_FILE,
             self::WEB_TOOLS_FILE,
         ]);
