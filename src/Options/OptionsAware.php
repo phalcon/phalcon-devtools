@@ -30,11 +30,9 @@ class OptionsAware implements FactoryOptions
     /**
      * @param array $options
      */
-    public function __construct(array $options = null)
+    public function __construct(array $options = [])
     {
-        if (!empty($options)) {
-            $this->options = $options;
-        }
+        $this->options = $options;
     }
 
     /**
@@ -110,7 +108,7 @@ class OptionsAware implements FactoryOptions
     public function getOption($key)
     {
         if (!isset($this->options[$key])) {
-            throw new InvalidArgumentException("Option " . $key . " has't been defined");
+            throw new InvalidArgumentException("Option " . $key . " hasn't been defined");
         }
 
         return $this->options[$key];

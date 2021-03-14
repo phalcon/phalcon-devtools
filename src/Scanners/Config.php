@@ -66,14 +66,14 @@ class Config extends Injectable
      * @param string $filename The config basename.
      * @return null|PhConfig
      */
-    public function scan($filename): ?PhConfig
+    public function scan(string $filename): ?PhConfig
     {
         $config = null;
         $filename = pathinfo($filename, PATHINFO_FILENAME);
 
         foreach ($this->getConfigPaths() as $probablyPath) {
             foreach ($this->configAdapters as $ext => $adapter) {
-                $probablyConfig = $probablyPath . DS . "{$filename}.{$ext}";
+                $probablyConfig = $probablyPath . DIRECTORY_SEPARATOR . "{$filename}.{$ext}";
 
                 if (is_file($probablyConfig) && is_readable($probablyConfig)) {
                     if (in_array($ext, ['php', 'php5', 'inc'])) {
@@ -102,7 +102,7 @@ class Config extends Injectable
      * @return PhConfig
      * @throws Exception
      */
-    public function load($filename): PhConfig
+    public function load(string $filename): PhConfig
     {
         $config = $this->scan($filename);
 

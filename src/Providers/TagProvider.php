@@ -31,7 +31,7 @@ class TagProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            $tag = new Tag;
+            $tag = new Tag();
 
             $tag->setDocType(Tag::HTML5);
             $tag->setTitleSeparator(' :: ');

@@ -31,7 +31,7 @@ class SystemInfoProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            return new SystemInfo;
+            return new SystemInfo();
         });
     }
 }

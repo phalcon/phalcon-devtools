@@ -35,23 +35,23 @@ class UrlProvider implements ServiceProviderInterface
             /** @var DiInterface $this */
             $config = $this->getShared('config');
 
-            $url = new UrlResolver;
+            $url = new UrlResolver();
 
-            if ($config->get('application', new Config)->offsetExists('baseUri')) {
-                $baseUri = $config->get('application', new Config)->get('baseUri');
+            if ($config->get('application', new Config())->offsetExists('baseUri')) {
+                $baseUri = $config->get('application', new Config())->get('baseUri');
             } elseif ($config->offsetExists('baseUri')) {
                 $baseUri = $config->get('baseUri');
             } else {
-                // @todo Log notice here
+                // TODO: Log notice here
                 $baseUri = '/';
             }
 
-            if ($config->get('application', new Config)->offsetExists('staticUri')) {
-                $staticUri = $config->get('application', new Config)->get('staticUri');
+            if ($config->get('application', new Config())->offsetExists('staticUri')) {
+                $staticUri = $config->get('application', new Config())->get('staticUri');
             } elseif ($config->offsetExists('staticUri')) {
                 $staticUri = $config->get('staticUri');
             } else {
-                // @todo Log notice here
+                // TODO: Log notice here
                 $staticUri = '/';
             }
 
