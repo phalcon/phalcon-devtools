@@ -3,6 +3,7 @@
 
 ## Fixed
 - Fixed model creation failure in webtools due to wrong variable mutation [#1415](https://github.com/phalcon/phalcon-devtools/issues/1415)
+- Fixed config path detection to platform independent [#1426](https://github.com/phalcon/phalcon-devtools/issues/1426)
 
 ## Changed
 
