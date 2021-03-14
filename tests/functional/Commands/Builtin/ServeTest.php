@@ -1,7 +1,4 @@
 <?php
-declare(strict_types=1);
-
-namespace Phalcon\DevTools\Tests\Functional;
 
 /**
  * This file is part of the Phalcon Developer Tools.
@@ -11,6 +8,10 @@ namespace Phalcon\DevTools\Tests\Functional;
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
+
+namespace Phalcon\DevTools\Tests\Functional;
 
 use Codeception\Test\Unit;
 use Phalcon\DevTools\Commands\Builtin\Serve;
