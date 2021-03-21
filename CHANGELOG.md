@@ -2,6 +2,7 @@
 ## Fixed
 - Fixed model findFirst return type error [#1478](https://github.com/phalcon/phalcon-devtools/issues/1478)
 - Added trailing semicolon to scaffolding crud views getters [#1477](https://github.com/phalcon/phalcon-devtools/issues/1477)
+- Fixed optional options (namespace, abstract) checks on model create [#1491](https://github.com/phalcon/phalcon-devtools/issues/1491)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2021-03-14)
 ## Fixed
