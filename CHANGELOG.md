@@ -5,6 +5,8 @@
 - Fixed optional options (namespace, abstract) checks on model create [#1491](https://github.com/phalcon/phalcon-devtools/issues/1491)
 - Fixed wrong request filtering [#1468](https://github.com/phalcon/phalcon-devtools/issues/1468)
 - Fixed empty namespace generation [#1467](https://github.com/phalcon/phalcon-devtools/issues/1467)
+- Removed `model->getSource()` method generation due to its becoming final in `Phalcon\Mvc\Model` [#1297](https://github.com/phalcon/phalcon-devtools/issues/1297)
+
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2021-03-14)
 ## Fixed

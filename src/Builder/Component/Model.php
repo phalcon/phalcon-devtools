@@ -226,8 +226,6 @@ class Model extends AbstractComponent
                     }
                 }
 
-                $possibleMethods['getSource'] = true;
-
                 /** @noinspection PhpIncludeInspection */
                 require_once $modelPath;
 
