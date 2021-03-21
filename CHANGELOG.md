@@ -1,3 +1,7 @@
+# [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.6)
+## Fixed
+- Fixed model findFirst return type error [#1478](https://github.com/phalcon/phalcon-devtools/issues/1478)
+
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2021-03-14)
 ## Fixed
 - Fixed model creation failure in webtools due to wrong variable mutation [#1415](https://github.com/phalcon/phalcon-devtools/issues/1415)

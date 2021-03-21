@@ -28,22 +28,12 @@ class TestModel5 extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'TestModel5';
-    }
-
-    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
      * @return TestModel5[]|TestModel5|\Phalcon\Mvc\Model\ResultSetInterface
      */
-    public static function find($parameters = null)
+    public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
     {
         return parent::find($parameters);
     }
@@ -52,9 +42,9 @@ class TestModel5 extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return TestModel5|\Phalcon\Mvc\Model\ResultInterface
+     * @return TestModel5|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface|null
      */
-    public static function findFirst($parameters = null)
+    public static function findFirst($parameters = null): ?\Phalcon\Mvc\ModelInterface
     {
         return parent::findFirst($parameters);
     }
