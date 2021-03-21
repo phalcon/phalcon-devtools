@@ -111,9 +111,10 @@ class Model extends AbstractComponent
             require_once $config->devtools->loader;
         }
 
-        $namespace = '';
-        if ($this->modelOptions->hasOption('namespace') &&
-            $this->checkNamespace((string)$this->modelOptions->getOption('namespace'))) {
+        $namespace = $this->modelOptions->hasOption('namespace')
+            ? (string) $this->modelOptions->getOption('namespace') : '';
+
+        if ($this->checkNamespace($namespace) && !empty(trim($namespace))) {
             $namespace = 'namespace ' . $this->modelOptions->getOption('namespace') . ';' . PHP_EOL . PHP_EOL;
         }
 
