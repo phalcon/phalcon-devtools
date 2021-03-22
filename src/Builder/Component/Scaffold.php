@@ -183,7 +183,7 @@ class Scaffold extends AbstractComponent
         $attributes = $metaData->getAttributes($entity);
         $dataTypes = $metaData->getDataTypes($entity);
         $identityField = $metaData->getIdentityField($entity);
-        $identityField = $identityField ? $identityField : null;
+        $identityField = $identityField ?: null;
         $primaryKeys = $metaData->getPrimaryKeyAttributes($entity);
 
         $setParams = [];
@@ -210,7 +210,7 @@ class Scaffold extends AbstractComponent
         // Build Controller
         $this->makeController();
 
-        if ($this->options->get('templateEngine') == 'volt') {
+        if ($this->options->get('templateEngine') === 'volt') {
             $this->makeLayoutsVolt();
             $this->makeViewVolt('index');
             $this->makeViewSearchVolt();
@@ -233,7 +233,7 @@ class Scaffold extends AbstractComponent
      * @param string $var
      * @param mixed $fields
      * @param bool $useGetSetters
-     * @param string $identityField
+     * @param null|string $identityField
      *
      * @return string
      */
@@ -241,18 +241,16 @@ class Scaffold extends AbstractComponent
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
-            if ($identityField !== null && $field == $identityField) {
+            if ($identityField !== null && $field === $identityField) {
                 continue;
             }
 
-            if (is_int($dataType) !== false) {
+            if (\in_array($dataType, [Column::TYPE_DECIMAL, Column::TYPE_INTEGER])) {
                 $fieldCode = '$this->request->getPost("'.$field.'", "int")';
+            } elseif ($field === 'email') {
+                $fieldCode = '$this->request->getPost("'.$field.'", "email")';
             } else {
-                if ($field == 'email') {
-                    $fieldCode = '$this->request->getPost("'.$field.'", "email")';
-                } else {
-                    $fieldCode = '$this->request->getPost("'.$field.'")';
-                }
+                $fieldCode = '$this->request->getPost("'.$field.'")';
             }
 
             $code .= '$' . Utils::lowerCamelizeWithDelimiter($var, '-', true) . '->';
@@ -309,33 +307,33 @@ class Scaffold extends AbstractComponent
             $code .= "\t\t" . '<?php echo $this->tag->select(["' . $attribute . '", $' .
                 $selectDefinition[$attribute]['varName'] . ', "using" => "' .
                 $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] .
-                '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"] ?>';
+                '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"]; ?>';
         } else {
             switch ($dataType) {
                 case Column::TYPE_ENUM: // enum
                     $code .= "\t\t" . '<?php echo $this->tag->selectStatic(["' . $attribute .
-                        '", [], "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", [], "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_CHAR:
                     $code .=  "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
                     $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "type" => "number", "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "type" => "number", "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_DATE:
                     $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "type" => "date", "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "type" => "date", "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_TEXT:
                     $code .= "\t\t" . '<?php echo $this->tag->textArea(["' . $attribute .
-                        '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 default:
                     $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "size" => 30, "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "size" => 30, "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
             }
         }
@@ -461,14 +459,13 @@ class Scaffold extends AbstractComponent
         $code = file_get_contents($this->options->get('templatePath') . '/scaffold/no-forms/Controller.php');
         $usesNamespaces = false;
 
-        $controllerNamespace = (string)$this->options->get('controllersNamespace');
-        if ($this->options->has('controllersNamespace') &&
-            $controllerNamespace &&
-            $this->checkNamespace($controllerNamespace)
-        ) {
+        $controllerNamespace = $this->options->has('controllersNamespace')
+            ? (string) $this->options->get('controllersNamespace') : '';
+
+        if (!empty(trim($controllerNamespace)) && $this->checkNamespace($controllerNamespace)) {
             $code = str_replace(
                 '$namespace$',
-                'namespace ' . $this->options->get('controllersNamespace').';' . PHP_EOL,
+                'namespace ' . $controllerNamespace.';' . PHP_EOL,
                 $code
             );
             $usesNamespaces = true;
@@ -565,8 +562,8 @@ class Scaffold extends AbstractComponent
             // View model layout
             $code = '';
             if ($this->options->has('theme')) {
-                $code .= '<?php $this->tag->stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
-                $code .= '<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
+                $code .= '<?php $this->tag->stylesheetLink("themes/lightness/style"); ?>'.PHP_EOL;
+                $code .= '<?php $this->tag->stylesheetLink("themes/base"); ?>'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
                 $code .= '<div class="center-block">' . PHP_EOL;
@@ -733,9 +730,9 @@ class Scaffold extends AbstractComponent
             } else {
                 $detailField = ucfirst($this->options->get('allReferences')[$fieldName]['detail']);
                 $rowCode .= '$' . $this->options->get('singular') . '->get' .
-                    $this->options->get('allReferences')[$fieldName]['tableName'] . '()->get' . $detailField . '()';
+                    $this->options->get('allReferences')[$fieldName]['tableName'] . '()->get' . $detailField . '();';
             }
-            $rowCode .= ' ?></td>' . PHP_EOL;
+            $rowCode .= '; ?></td>' . PHP_EOL;
         }
 
         $idField =  $this->options->get('attributes')[0];

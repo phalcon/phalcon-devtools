@@ -27,6 +27,8 @@ use Phalcon\Text;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use ReflectionClass;
+use ReflectionClassConstant;
+use ReflectionProperty;
 
 /**
  * Builder to generate models
@@ -111,22 +113,18 @@ class Model extends AbstractComponent
             require_once $config->devtools->loader;
         }
 
-        $namespace = '';
-        if ($this->modelOptions->hasOption('namespace') &&
-            $this->checkNamespace((string)$this->modelOptions->getOption('namespace'))) {
+        $namespace = $this->modelOptions->hasOption('namespace')
+            ? (string) $this->modelOptions->getOption('namespace') : '';
+
+        if ($this->checkNamespace($namespace) && !empty(trim($namespace))) {
             $namespace = 'namespace ' . $this->modelOptions->getOption('namespace') . ';' . PHP_EOL . PHP_EOL;
         }
 
         $genDocMethods = $this->modelOptions->getValidOptionOrDefault('genDocMethods', false);
         $useSettersGetters = $this->modelOptions->getValidOptionOrDefault('genSettersGetters', false);
 
-        $adapter = $config->database->adapter;
+        $adapter = $config->database->adapter ?? 'Mysql';
         $this->isSupportedAdapter($adapter);
-
-        $adapter = 'Mysql';
-        if (isset($config->database->adapter)) {
-            $adapter = $config->database->adapter;
-        }
 
         if (is_object($config->database)) {
             $configArray = $config->database->toArray();
@@ -167,40 +165,36 @@ class Model extends AbstractComponent
 
         foreach ($referenceList as $tableName => $references) {
             foreach ($references as $reference) {
-                if ($reference->getReferencedTable() != $this->modelOptions->getOption('name')) {
+                if ($reference->getReferencedTable() !== $this->modelOptions->getOption('name')) {
                     continue;
                 }
 
-                $entityNamespace = '';
-                if ($this->modelOptions->getOption('namespace')) {
-                    $entityNamespace = $this->modelOptions->getOption('namespace')."\\";
-                }
+                $entityNamespace = $this->modelOptions->hasOption('namespace')
+                    ? $this->modelOptions->getOption('namespace')."\\" : '';
 
                 $refColumns = $reference->getReferencedColumns();
                 $columns = $reference->getColumns();
                 $initialize[] = $snippet->getRelation(
                     'hasMany',
-                    $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
+                    $this->getFieldName($refColumns[0]),
                     $entityNamespace . Text::camelize($tableName, '_-'),
-                    $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
+                    $this->getFieldName($columns[0]),
                     "['alias' => '" . Text::camelize($tableName, '_-') . "']"
                 );
             }
         }
 
         foreach ($db->describeReferences($this->modelOptions->getOption('name'), $schema) as $reference) {
-            $entityNamespace = '';
-            if ($this->modelOptions->getOption('namespace')) {
-                $entityNamespace = $this->modelOptions->getOption('namespace');
-            }
+            $entityNamespace = $this->modelOptions->hasOption('namespace')
+                ? $this->modelOptions->getOption('namespace') : '';
 
             $refColumns = $reference->getReferencedColumns();
             $columns = $reference->getColumns();
             $initialize[] = $snippet->getRelation(
                 'belongsTo',
-                $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($columns[0]) : $columns[0],
+                $this->getFieldName($columns[0]),
                 $this->getEntityClassName($reference, $entityNamespace),
-                $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($refColumns[0]) : $refColumns[0],
+                $this->getFieldName($refColumns[0]),
                 "['alias' => '" . Text::camelize($reference->getReferencedTable(), '_-') . "']"
             );
         }
@@ -225,8 +219,6 @@ class Model extends AbstractComponent
                     }
                 }
 
-                $possibleMethods['getSource'] = true;
-
                 /** @noinspection PhpIncludeInspection */
                 require_once $modelPath;
 
@@ -237,7 +229,7 @@ class Model extends AbstractComponent
                 }
                 $reflection = new ReflectionClass($fullClassName);
                 foreach ($reflection->getMethods() as $method) {
-                    if ($method->getDeclaringClass()->getName() != $fullClassName) {
+                    if ($method->getDeclaringClass()->getName() !== $fullClassName) {
                         continue;
                     }
 
@@ -285,117 +277,60 @@ class Model extends AbstractComponent
                     }
                 }
 
-                $possibleFields = $possibleFieldsTransformed = [];
+                $possibleFieldsTransformed = [];
                 foreach ($fields as $field) {
-                    $possibleFields[$field->getName()] = true;
-                    if ($this->modelOptions->getOption('camelize')) {
-                        $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
-                    } else {
-                        $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
-                    }
+                    $fieldName = $this->getFieldName($field->getName());
                     $possibleFieldsTransformed[$fieldName] = true;
                 }
 
                 if (method_exists($reflection, 'getReflectionConstants')) {
                     foreach ($reflection->getReflectionConstants() as $constant) {
-                        if ($constant->getDeclaringClass()->getName() != $fullClassName) {
+                        if ($constant->getDeclaringClass()->getName() !== $fullClassName) {
                             continue;
                         }
-                        $constantsPreg = '/^(\s*)const(\s+)'.$constant->getName().'([\s=;]+)/';
-                        $endLine = $startLine = 0;
-                        foreach ($linesCode as $line => $code) {
-                            if (preg_match($constantsPreg, $code)) {
-                                $startLine = $line;
-                                break;
-                            }
-                        }
-                        if (!empty($startLine)) {
-                            $countLines = count($linesCode);
-                            for ($i = $startLine; $i < $countLines; $i++) {
-                                if (preg_match('/;(\s*)$/', $linesCode[$i])) {
-                                    $endLine = $i;
-                                    break;
-                                }
-                            }
-                        }
 
-                        if (!empty($startLine) && !empty($endLine)) {
-                            $constantDeclaration = join(
-                                '',
-                                array_slice(
-                                    $linesCode,
-                                    $startLine,
-                                    $endLine - $startLine + 1
-                                )
-                            );
-                            $attributes[] = PHP_EOL . "    " . $constant->getDocComment() .
-                                PHP_EOL . $constantDeclaration;
+                        $constantsPreg = '/const(\s+)' . $constant->getName() . '([\s=;]+)/';
+                        $attribute = $this->getAttribute($linesCode, $constantsPreg, $constant);
+                        if (!empty($attribute)) {
+                            $attributes[] = $attribute;
                         }
                     }
                 }
 
                 foreach ($reflection->getProperties() as $property) {
                     $propertyName = $property->getName();
-                    /** @var null|string $possibleFieldsValue */
-                    $possibleFieldsValue = $possibleFieldsTransformed[$propertyName];
-
-                    if ($property->getDeclaringClass()->getName() != $fullClassName ||
-                        !empty($possibleFieldsValue)) {
+                    if (!empty($possibleFieldsTransformed[$propertyName])
+                        || $property->getDeclaringClass()->getName() !== $fullClassName
+                    ) {
                         continue;
                     }
 
                     $modifiersPreg = '';
                     switch ($property->getModifiers()) {
-                        case \ReflectionProperty::IS_PUBLIC:
+                        case ReflectionProperty::IS_PUBLIC:
                             $modifiersPreg = '^(\s*)public(\s+)';
                             break;
-                        case \ReflectionProperty::IS_PRIVATE:
+                        case ReflectionProperty::IS_PRIVATE:
                             $modifiersPreg = '^(\s*)private(\s+)';
                             break;
-                        case \ReflectionProperty::IS_PROTECTED:
+                        case ReflectionProperty::IS_PROTECTED:
                             $modifiersPreg = '^(\s*)protected(\s+)';
                             break;
-                        case \ReflectionProperty::IS_STATIC + \ReflectionProperty::IS_PUBLIC:
+                        case ReflectionProperty::IS_STATIC + ReflectionProperty::IS_PUBLIC:
                             $modifiersPreg = '^(\s*)(public?)(\s+)static(\s+)';
                             break;
-                        case \ReflectionProperty::IS_STATIC + \ReflectionProperty::IS_PROTECTED:
+                        case ReflectionProperty::IS_STATIC + ReflectionProperty::IS_PROTECTED:
                             $modifiersPreg = '^(\s*)protected(\s+)static(\s+)';
                             break;
-                        case \ReflectionProperty::IS_STATIC + \ReflectionProperty::IS_PRIVATE:
+                        case ReflectionProperty::IS_STATIC + ReflectionProperty::IS_PRIVATE:
                             $modifiersPreg = '^(\s*)private(\s+)static(\s+)';
                             break;
                     }
 
                     $modifiersPreg = '/' . $modifiersPreg . '\$' . $propertyName . '([\s=;]+)/';
-                    $endLine = $startLine = 0;
-                    foreach ($linesCode as $line => $code) {
-                        if (preg_match($modifiersPreg, $code)) {
-                            $startLine = $line;
-                            break;
-                        }
-                    }
-
-                    if (!empty($startLine)) {
-                        $countLines = count($linesCode);
-                        for ($i = $startLine; $i < $countLines; $i++) {
-                            if (preg_match('/;(\s*)$/', $linesCode[$i])) {
-                                $endLine = $i;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!empty($startLine) && !empty($endLine)) {
-                        $propertyDeclaration = join(
-                            '',
-                            array_slice(
-                                $linesCode,
-                                $startLine,
-                                $endLine - $startLine + 1
-                            )
-                        );
-                        $attributes[] = PHP_EOL . "    " . $property->getDocComment() . PHP_EOL .
-                            $propertyDeclaration;
+                    $attribute = $this->getAttribute($linesCode, $modifiersPreg, $property);
+                    if (!empty($attribute)) {
+                        $attributes[] = $attribute;
                     }
                 }
             } catch (\Exception $e) {
@@ -411,12 +346,9 @@ class Model extends AbstractComponent
 
         $validations = [];
         foreach ($fields as $field) {
+            $fieldName = $this->getFieldName($field->getName());
+
             if ($field->getType() === Column::TYPE_CHAR) {
-                if ($this->modelOptions->getOption('camelize')) {
-                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
-                } else {
-                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
-                }
                 $domain = [];
                 if (preg_match('/\((.*)\)/', (string)$field->getType(), $matches)) {
                     foreach (explode(',', $matches[1]) as $item) {
@@ -429,12 +361,7 @@ class Model extends AbstractComponent
                 }
             }
 
-            if ($field->getName() == 'email') {
-                if ($this->modelOptions->getOption('camelize')) {
-                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '_-'));
-                } else {
-                    $fieldName = Utils::lowerCamelize(Utils::camelize($field->getName(), '-'));
-                }
+            if ($field->getName() === 'email') {
                 $validations[] = $snippet->getValidateEmail($fieldName);
                 $uses[] = $snippet->getUseAs(EmailValidator::class, 'EmailValidator');
             }
@@ -466,8 +393,7 @@ class Model extends AbstractComponent
             }
 
             $type = $this->getPHPType($field->getType());
-            $fieldName = Utils::lowerCamelizeWithDelimiter($field->getName(), '-', true);
-            $fieldName = $this->modelOptions->getOption('camelize') ? Utils::lowerCamelize($fieldName) : $fieldName;
+            $fieldName = $this->getFieldName($field->getName());
             $attributes[] = $snippet->getAttributes(
                 $type,
                 $useSettersGetters ? 'protected' : 'public',
@@ -570,6 +496,65 @@ class Model extends AbstractComponent
             $msgSuccess .= 'Model "%s" was successfully created.';
             $this->notifySuccess(sprintf($msgSuccess, Text::camelize($this->modelOptions->getOption('name'), '_-')));
         }
+    }
+
+    /**
+     * @param array $linesCode
+     * @param string $pattern
+     * @param ReflectionProperty|ReflectionClassConstant $attribute
+     *
+     * @return null|string
+     */
+    protected function getAttribute(array $linesCode, string $pattern, $attribute): ?string
+    {
+        $endLine = $startLine = 0;
+        foreach ($linesCode as $line => $code) {
+            if (preg_match($pattern, $code)) {
+                $startLine = $line;
+                break;
+            }
+        }
+        if (!empty($startLine)) {
+            $countLines = count($linesCode);
+            for ($i = $startLine; $i < $countLines; $i++) {
+                if (preg_match('/;(\s*)$/', $linesCode[$i])) {
+                    $endLine = $i;
+                    break;
+                }
+            }
+        }
+
+        if (!empty($startLine) && !empty($endLine)) {
+            $attributeDeclaration = join(
+                '',
+                array_slice(
+                    $linesCode,
+                    $startLine,
+                    $endLine - $startLine + 1
+                )
+            );
+            $attributeFormatted = $attributeDeclaration;
+            if (!empty($attribute->getDocComment())) {
+                $attributeFormatted = "    " . $attribute->getDocComment() . PHP_EOL . $attribute;
+            }
+            return $attributeFormatted;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $fieldName
+     *
+     * @return string
+     */
+    protected function getFieldName(string $fieldName): string
+    {
+        if ($this->modelOptions->getOption('camelize')) {
+            return Utils::lowerCamelize(Utils::camelize($fieldName, '_-'));
+        }
+
+        return Utils::lowerCamelizeWithDelimiter($fieldName, '-', true);
     }
 
     /**

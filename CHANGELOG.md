@@ -1,3 +1,15 @@
+# [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.6) (2021-03-22)
+## Fixed
+- Fixed model findFirst return type error [#1478](https://github.com/phalcon/phalcon-devtools/issues/1478)
+- Added trailing semicolon to scaffolding crud views getters [#1477](https://github.com/phalcon/phalcon-devtools/issues/1477)
+- Fixed optional options (namespace, abstract) checks on model create [#1491](https://github.com/phalcon/phalcon-devtools/issues/1491)
+- Fixed wrong request filtering [#1468](https://github.com/phalcon/phalcon-devtools/issues/1468)
+- Fixed empty namespace generation [#1467](https://github.com/phalcon/phalcon-devtools/issues/1467)
+- Removed `model->getSource()` method generation due to its becoming final in `Phalcon\Mvc\Model` [#1297](https://github.com/phalcon/phalcon-devtools/issues/1297)
+- Fixed model `--force` creation bugs [#1317](https://github.com/phalcon/phalcon-devtools/issues/1317)
+- Fixed mapping of PascalCase table fields [#1463](https://github.com/phalcon/phalcon-devtools/issues/1463)
+
+
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2021-03-14)
 ## Fixed
 - Fixed model creation failure in webtools due to wrong variable mutation [#1415](https://github.com/phalcon/phalcon-devtools/issues/1415)
