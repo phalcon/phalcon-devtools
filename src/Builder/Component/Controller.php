@@ -103,12 +103,14 @@ class Controller extends AbstractComponent
      */
     protected function constructNamespace(): string
     {
-        $namespace = $this->options->get('namespace');
+        $namespace = $this->options->has('namespace')
+            ? (string) $this->options->get('namespace') : null;
+
         if ($namespace === null) {
             return '';
         }
 
-        if ($this->checkNamespace((string)$namespace)) {
+        if ($this->checkNamespace($namespace) && !empty(trim($namespace))) {
             return 'namespace ' . $this->options->get('namespace') . ';' . PHP_EOL . PHP_EOL;
         }
 

@@ -4,6 +4,7 @@
 - Added trailing semicolon to scaffolding crud views getters [#1477](https://github.com/phalcon/phalcon-devtools/issues/1477)
 - Fixed optional options (namespace, abstract) checks on model create [#1491](https://github.com/phalcon/phalcon-devtools/issues/1491)
 - Fixed wrong request filtering [#1468](https://github.com/phalcon/phalcon-devtools/issues/1468)
+- Fixed empty namespace generation [#1467](https://github.com/phalcon/phalcon-devtools/issues/1467)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2021-03-14)
 ## Fixed
