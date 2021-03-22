@@ -57,9 +57,9 @@ class TestModel extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return TestModel|\Phalcon\Mvc\Model\ResultInterface
+     * @return TestModel|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface|null
      */
-    public static function findFirst($parameters = null)
+    public static function findFirst($parameters = null): ?\Phalcon\Mvc\ModelInterface
     {
         return parent::findFirst($parameters);
     }
