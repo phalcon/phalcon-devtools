@@ -6,6 +6,8 @@
 - Fixed wrong request filtering [#1468](https://github.com/phalcon/phalcon-devtools/issues/1468)
 - Fixed empty namespace generation [#1467](https://github.com/phalcon/phalcon-devtools/issues/1467)
 - Removed `model->getSource()` method generation due to its becoming final in `Phalcon\Mvc\Model` [#1297](https://github.com/phalcon/phalcon-devtools/issues/1297)
+- Fixed model `--force` creation bugs [#1317](https://github.com/phalcon/phalcon-devtools/issues/1317)
+- Fixed mapping of PascalCase table fields [#1463](https://github.com/phalcon/phalcon-devtools/issues/1463)
 
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2021-03-14)

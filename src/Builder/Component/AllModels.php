@@ -85,13 +85,8 @@ class AllModels extends AbstractComponent
         $genSettersGetters = $this->options->get('genSettersGetters', false);
         $mapColumn = $this->options->get('mapColumn', false);
 
-        $adapter = $config->database->adapter;
+        $adapter = $config->database->adapter ?? 'Mysql';
         $this->isSupportedAdapter($adapter);
-
-        $adapter = 'Mysql';
-        if (isset($config->database->adapter)) {
-            $adapter = $config->database->adapter;
-        }
 
         if (is_object($config->database)) {
             $configArray = $config->database->toArray();
