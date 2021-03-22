@@ -183,7 +183,7 @@ class Scaffold extends AbstractComponent
         $attributes = $metaData->getAttributes($entity);
         $dataTypes = $metaData->getDataTypes($entity);
         $identityField = $metaData->getIdentityField($entity);
-        $identityField = $identityField ? $identityField : null;
+        $identityField = $identityField ?: null;
         $primaryKeys = $metaData->getPrimaryKeyAttributes($entity);
 
         $setParams = [];
@@ -210,7 +210,7 @@ class Scaffold extends AbstractComponent
         // Build Controller
         $this->makeController();
 
-        if ($this->options->get('templateEngine') == 'volt') {
+        if ($this->options->get('templateEngine') === 'volt') {
             $this->makeLayoutsVolt();
             $this->makeViewVolt('index');
             $this->makeViewSearchVolt();
@@ -233,7 +233,7 @@ class Scaffold extends AbstractComponent
      * @param string $var
      * @param mixed $fields
      * @param bool $useGetSetters
-     * @param string $identityField
+     * @param null|string $identityField
      *
      * @return string
      */
@@ -241,18 +241,16 @@ class Scaffold extends AbstractComponent
     {
         $code = '';
         foreach ($fields as $field => $dataType) {
-            if ($identityField !== null && $field == $identityField) {
+            if ($identityField !== null && $field === $identityField) {
                 continue;
             }
 
-            if (is_int($dataType) !== false) {
+            if (\in_array($dataType, [Column::TYPE_DECIMAL, Column::TYPE_INTEGER])) {
                 $fieldCode = '$this->request->getPost("'.$field.'", "int")';
+            } elseif ($field === 'email') {
+                $fieldCode = '$this->request->getPost("'.$field.'", "email")';
             } else {
-                if ($field == 'email') {
-                    $fieldCode = '$this->request->getPost("'.$field.'", "email")';
-                } else {
-                    $fieldCode = '$this->request->getPost("'.$field.'")';
-                }
+                $fieldCode = '$this->request->getPost("'.$field.'")';
             }
 
             $code .= '$' . Utils::lowerCamelizeWithDelimiter($var, '-', true) . '->';
