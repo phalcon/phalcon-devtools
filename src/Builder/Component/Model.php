@@ -172,7 +172,7 @@ class Model extends AbstractComponent
                 }
 
                 $entityNamespace = '';
-                if ($this->modelOptions->getOption('namespace')) {
+                if ($this->modelOptions->hasOption('namespace')) {
                     $entityNamespace = $this->modelOptions->getOption('namespace')."\\";
                 }
 
@@ -190,7 +190,7 @@ class Model extends AbstractComponent
 
         foreach ($db->describeReferences($this->modelOptions->getOption('name'), $schema) as $reference) {
             $entityNamespace = '';
-            if ($this->modelOptions->getOption('namespace')) {
+            if ($this->modelOptions->hasOption('namespace')) {
                 $entityNamespace = $this->modelOptions->getOption('namespace');
             }
 
