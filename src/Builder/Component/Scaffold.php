@@ -309,33 +309,33 @@ class Scaffold extends AbstractComponent
             $code .= "\t\t" . '<?php echo $this->tag->select(["' . $attribute . '", $' .
                 $selectDefinition[$attribute]['varName'] . ', "using" => "' .
                 $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] .
-                '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"] ?>';
+                '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"]; ?>';
         } else {
             switch ($dataType) {
                 case Column::TYPE_ENUM: // enum
                     $code .= "\t\t" . '<?php echo $this->tag->selectStatic(["' . $attribute .
-                        '", [], "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", [], "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_CHAR:
                     $code .=  "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
                     $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "type" => "number", "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "type" => "number", "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_DATE:
                     $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "type" => "date", "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "type" => "date", "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_TEXT:
                     $code .= "\t\t" . '<?php echo $this->tag->textArea(["' . $attribute .
-                        '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 default:
                     $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "size" => 30, "class" => "form-control", "id" => "' . $id . '"]) ?>';
+                        '", "size" => 30, "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
             }
         }
@@ -565,8 +565,8 @@ class Scaffold extends AbstractComponent
             // View model layout
             $code = '';
             if ($this->options->has('theme')) {
-                $code .= '<?php $this->tag->stylesheetLink("themes/lightness/style") ?>'.PHP_EOL;
-                $code .= '<?php $this->tag->stylesheetLink("themes/base") ?>'.PHP_EOL;
+                $code .= '<?php $this->tag->stylesheetLink("themes/lightness/style"); ?>'.PHP_EOL;
+                $code .= '<?php $this->tag->stylesheetLink("themes/base"); ?>'.PHP_EOL;
                 $code .= '<div class="ui-layout" align="center">' . PHP_EOL;
             } else {
                 $code .= '<div class="center-block">' . PHP_EOL;
@@ -733,9 +733,9 @@ class Scaffold extends AbstractComponent
             } else {
                 $detailField = ucfirst($this->options->get('allReferences')[$fieldName]['detail']);
                 $rowCode .= '$' . $this->options->get('singular') . '->get' .
-                    $this->options->get('allReferences')[$fieldName]['tableName'] . '()->get' . $detailField . '()';
+                    $this->options->get('allReferences')[$fieldName]['tableName'] . '()->get' . $detailField . '();';
             }
-            $rowCode .= ' ?></td>' . PHP_EOL;
+            $rowCode .= '; ?></td>' . PHP_EOL;
         }
 
         $idField =  $this->options->get('attributes')[0];
