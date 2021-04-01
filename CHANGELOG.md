@@ -1,3 +1,8 @@
+# [4.0.7](https://github.com/phalcon/cphalcon/releases/tag/v4.0.7)
+## Fixed
+- Fixed not found error on webtools [#1500](https://github.com/phalcon/phalcon-devtools/issues/1500)
+
+
 # [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.6) (2021-03-22)
 ## Fixed
 - Fixed model findFirst return type error [#1478](https://github.com/phalcon/phalcon-devtools/issues/1478)
