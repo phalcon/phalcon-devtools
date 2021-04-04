@@ -203,7 +203,7 @@ class Bootstrap
      */
     public function run()
     {
-        if (PHP_SAPI == 'cli') {
+        if (PHP_SAPI === 'cli') {
             set_time_limit(0);
         }
 
@@ -219,7 +219,7 @@ class Bootstrap
      *
      * @return string
      */
-    public function getOutput()
+    public function getOutput(): string
     {
         return $this->app->handle($this->getCurrentUri())->getContent();
     }
@@ -231,7 +231,7 @@ class Bootstrap
      *
      * @return $this
      */
-    public function setPtoolsPath($path)
+    public function setPtoolsPath(string $path): Bootstrap
     {
         $this->ptoolsPath = rtrim($path, '\\/');
 
@@ -243,7 +243,7 @@ class Bootstrap
      *
      * @return string
      */
-    public function getPtoolsPath()
+    public function getPtoolsPath(): string
     {
         return $this->ptoolsPath;
     }
@@ -255,7 +255,7 @@ class Bootstrap
      *
      * @return $this
      */
-    public function setPtoolsIp($ip)
+    public function setPtoolsIp(string $ip): Bootstrap
     {
         $this->ptoolsIp = trim($ip);
 
@@ -267,7 +267,7 @@ class Bootstrap
      *
      * @return string
      */
-    public function getPtoolsIp()
+    public function getPtoolsIp(): string
     {
         return $this->ptoolsIp;
     }
@@ -279,7 +279,7 @@ class Bootstrap
      *
      * @return $this
      */
-    public function setBasePath($path)
+    public function setBasePath(string $path): Bootstrap
     {
         $this->basePath = rtrim($path, '\\/');
 
@@ -291,7 +291,7 @@ class Bootstrap
      *
      * @return string
      */
-    public function getBasePath()
+    public function getBasePath(): string
     {
         return $this->basePath;
     }
@@ -303,7 +303,7 @@ class Bootstrap
      *
      * @return $this
      */
-    public function setTemplatesPath($path)
+    public function setTemplatesPath(string $path): Bootstrap
     {
         $this->templatesPath = rtrim($path, '\\/');
 
@@ -315,7 +315,7 @@ class Bootstrap
      *
      * @return string
      */
-    public function getTemplatesPath()
+    public function getTemplatesPath(): string
     {
         return $this->templatesPath;
     }
@@ -327,7 +327,7 @@ class Bootstrap
      *
      * @return $this
      */
-    public function setMode($mode)
+    public function setMode(string $mode): Bootstrap
     {
         $mode = strtolower(trim($mode));
 
@@ -345,7 +345,7 @@ class Bootstrap
      *
      * @return string
      */
-    public function getMode()
+    public function getMode(): string
     {
         return $this->mode;
     }
@@ -357,7 +357,7 @@ class Bootstrap
      *
      * @return $this
      */
-    public function setHostName($name)
+    public function setHostName(string $name): Bootstrap
     {
         $this->hostName = trim($name);
 
@@ -369,7 +369,7 @@ class Bootstrap
      *
      * @return string
      */
-    public function getHostName()
+    public function getHostName(): string
     {
         return $this->hostName;
     }
@@ -381,7 +381,7 @@ class Bootstrap
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): Bootstrap
     {
         foreach ($this->configurable as $param) {
             if (!isset($parameters[$param])) {
@@ -401,7 +401,7 @@ class Bootstrap
      * @param mixed $value The value
      * @return $this
      */
-    public function setParameter(string $parameter, $value)
+    public function setParameter(string $parameter, $value): Bootstrap
     {
         $method = 'set' . Text::camelize($parameter);
 
@@ -417,10 +417,10 @@ class Bootstrap
      *
      * @return $this
      */
-    public function initFromConstants()
+    public function initFromConstants(): Bootstrap
     {
         foreach ($this->defines as $const => $property) {
-            if (defined($const) && in_array($property, $this->configurable)) {
+            if (defined($const) && in_array($property, $this->configurable, true)) {
                 $this->setParameter($property, constant($const));
             }
         }
@@ -430,8 +430,12 @@ class Bootstrap
 
     public function getCurrentUri(): string
     {
-        $webToolsFileName = basename($_SERVER['SCRIPT_FILENAME']);
+        $baseUrl = $this->di->getShared('url')->getBaseUri();
 
-        return str_replace($webToolsFileName . '/', '', $_SERVER['REQUEST_URI']);
+        return str_replace(
+            basename($_SERVER['SCRIPT_FILENAME']),
+            '',
+            substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], $baseUrl) + strlen($baseUrl))
+        );
     }
 }
