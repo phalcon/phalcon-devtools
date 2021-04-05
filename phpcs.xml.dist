@@ -12,7 +12,9 @@
     <description>Phalcon Coding Standards</description>
 
     <!-- Show sniff codes in all reports -->
-    <arg value="s"/>
+    <arg value="wsp"/>
+    <arg name="colors"/>
+    <arg name="encoding" value="utf-8"/>
 
     <!-- Use PSR-2 as a base -->
     <rule ref="PSR2"/>
@@ -33,4 +35,7 @@
         custom standard so you don't have to specify the
         patterns on the command line.
     -->
+    <rule ref="Generic.Files.LineEndings">
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
+    </rule>
 </ruleset>
