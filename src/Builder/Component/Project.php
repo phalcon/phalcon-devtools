@@ -39,6 +39,13 @@ class Project extends AbstractComponent
     private $currentType = self::TYPE_SIMPLE;
 
     /**
+     * Force create project if directory exists
+     *
+     * @var string
+     */
+    private $force = false;
+
+    /**
      * Available Project Types
      *
      * @var array
@@ -57,6 +64,10 @@ class Project extends AbstractComponent
      */
     public function build()
     {
+        if ($this->options->has('force')) {
+            $this->force = $this->options->get('force');
+        }
+
         if ($this->options->has('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
         }
@@ -89,11 +100,13 @@ class Project extends AbstractComponent
             $this->path->appendRootPath($this->options->get('name'));
         }
 
-        if (file_exists($this->path->getRootPath())) {
+        if (!$this->force && file_exists($this->path->getRootPath())) {
             throw new BuilderException(sprintf('Directory %s already exists.', $this->path->getRootPath()));
         }
 
-        if (!mkdir($this->path->getRootPath(), 0777, true)) {
+        if (!mkdir($concurrentDirectory = $this->path->getRootPath(), 0777, true)
+            && !is_dir($concurrentDirectory)
+        ) {
             throw new BuilderException(sprintf('Unable create project directory %s', $this->path->getRootPath()));
         }
 

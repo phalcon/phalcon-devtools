@@ -40,6 +40,7 @@ class Project extends Command
             'template-engine=s' => 'Define the template engine, default phtml (phtml, volt) [optional]',
             'use-config-ini'    => 'Use a ini file as configuration file [optional]',
             'trace'             => 'Shows the trace of the framework in case of exception [optional]',
+            'force'             => 'Creates project even if directory already exists [optional]',
             'help'              => 'Shows this help [optional]',
         ];
     }
@@ -58,6 +59,7 @@ class Project extends Command
         $projectPath    = $this->getOption(['directory', 3], null, '.');
         $templatePath   = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $enableWebtools = $this->getOption(['enable-webtools', 4], null, false);
+        $force          = $this->getOption(['force', 5], null, false);
         $useConfigIni   = $this->getOption('use-config-ini');
         $templateEngine = $this->getOption(['template-engine'], null, "phtml");
 
@@ -66,6 +68,7 @@ class Project extends Command
             'type'           => $projectType,
             'directory'      => $projectPath,
             'enableWebTools' => $enableWebtools,
+            'force'          => $force,
             'templatePath'   => $templatePath,
             'templateEngine' => $templateEngine,
             'useConfigIni'   => $useConfigIni
@@ -105,7 +108,7 @@ class Project extends Command
         print Color::colorize('  Creates a project') . PHP_EOL . PHP_EOL;
 
         print Color::head('Usage:') . PHP_EOL;
-        print Color::colorize('  project [name] [type] [directory] [enable-webtools]', Color::FG_GREEN)
+        print Color::colorize('  project [name] [type] [directory] [enable-webtools] [force]', Color::FG_GREEN)
             . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
