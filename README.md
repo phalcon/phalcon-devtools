@@ -37,7 +37,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "~4.0"
+        "phalcon/devtools": "~4.1"
     }
 }
 ```
@@ -115,7 +115,7 @@ This command should display something similar to:
 ```sh
 $ phalcon --help
 
-Phalcon DevTools (4.0.4)
+Phalcon DevTools (4.1.0)
 
 Help:
   Lists the commands available in Phalcon DevTools
@@ -169,7 +169,7 @@ By creating **config.json** or any other configuration file called **config** in
 }
 ```
 
-And then you can use use `phalcon migration run` or `phalcon controller SomeClass` and those commands will be executed with options from file. Arguments provided by developer from command line will overwrite existing one in file.
+And then you can use `phalcon migration run` or `phalcon controller SomeClass` and those commands will be executed with options from file. Arguments provided by developer from command line will overwrite existing one in a file.
 
 ## License
 

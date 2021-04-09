@@ -665,17 +665,29 @@ class Model extends AbstractComponent
     {
         switch ($type) {
             case Column::TYPE_INTEGER:
+            case Column::TYPE_TINYINTEGER:
+            case Column::TYPE_SMALLINTEGER:
+            case Column::TYPE_MEDIUMINTEGER:
             case Column::TYPE_BIGINTEGER:
+            case Column::TYPE_BIT:
                 return 'integer';
             case Column::TYPE_DECIMAL:
             case Column::TYPE_FLOAT:
+            case Column::TYPE_DOUBLE:
                 return 'double';
+            case Column::TYPE_BOOLEAN:
+                return 'boolean';
             case Column::TYPE_DATE:
-            case Column::TYPE_VARCHAR:
             case Column::TYPE_DATETIME:
+            case Column::TYPE_TIME:
             case Column::TYPE_CHAR:
+            case Column::TYPE_VARCHAR:
             case Column::TYPE_TEXT:
-                return 'string';
+            case Column::TYPE_TINYTEXT:
+            case Column::TYPE_MEDIUMTEXT:
+            case Column::TYPE_LONGTEXT:
+            case Column::TYPE_JSON:
+            case Column::TYPE_JSONB:
             default:
                 return 'string';
         }
