@@ -1,3 +1,14 @@
+# [4.1.0](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0)
+## Fixed
+- Fixed column annotation bugs on model creation [1425](https://github.com/phalcon/phalcon-devtools/issues/1425)
+
+## Changed
+- Migrated phalcon-migrations dependency up to v2 [1464](https://github.com/phalcon/phalcon-devtools/issues/1464)
+
+## Added
+- Added docker environment for devtools isolated development
+
+
 # [4.0.7](https://github.com/phalcon/cphalcon/releases/tag/v4.0.7)
 ## Fixed
 - Fixed not found error on webtools [#1500](https://github.com/phalcon/phalcon-devtools/issues/1500)

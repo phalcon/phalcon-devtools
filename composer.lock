@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d8b99b8325d47da90180cf10f1eb4b1",
+    "content-hash": "372828cb86155c74475fb05d08710d74",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -166,30 +166,115 @@
             "time": "2020-12-20T10:01:03+00:00"
         },
         {
-            "name": "phalcon/migrations",
-            "version": "v1.2.2",
+            "name": "phalcon/cli-options-parser",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phalcon/migrations.git",
-                "reference": "d225f6188a4ca648033203553dd13e26ef43bd00"
+                "url": "https://github.com/phalcon/cli-options-parser.git",
+                "reference": "9487c84fb320c6b6882c76d4388d039316d234b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/migrations/zipball/d225f6188a4ca648033203553dd13e26ef43bd00",
-                "reference": "d225f6188a4ca648033203553dd13e26ef43bd00",
+                "url": "https://api.github.com/repos/phalcon/cli-options-parser/zipball/9487c84fb320c6b6882c76d4388d039316d234b9",
+                "reference": "9487c84fb320c6b6882c76d4388d039316d234b9",
                 "shasum": ""
             },
             "require": {
-                "ext-phalcon": "^4.0.0",
+                "php": ">=7.0 <8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=5.3 <8.0",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Phalcon\\Cop\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Phalcon Team",
+                    "email": "team@phalconphp.com",
+                    "homepage": "https://phalconphp.com/en/team"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/phalcon/cli-options-parser/graphs/contributors"
+                }
+            ],
+            "description": "Command line arguments/options parser.",
+            "homepage": "https://phalconphp.com",
+            "keywords": [
+                "argparse",
+                "cli",
+                "command",
+                "command-line",
+                "getopt",
+                "line",
+                "option",
+                "optparse",
+                "parser",
+                "terminal"
+            ],
+            "support": {
+                "forum": "https://forum.phalconphp.com/",
+                "issues": "https://github.com/phalcon/cli-options-parser/issues",
+                "source": "https://github.com/phalcon/cli-options-parser"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/phalcon",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/phalcon",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-03-14T18:48:08+00:00"
+        },
+        {
+            "name": "phalcon/migrations",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phalcon/migrations.git",
+                "reference": "171fe6dbcd2fa252f2439555c1ea8a11f97cdd7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phalcon/migrations/zipball/171fe6dbcd2fa252f2439555c1ea8a11f97cdd7e",
+                "reference": "171fe6dbcd2fa252f2439555c1ea8a11f97cdd7e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-phalcon": "^4.0.5",
+                "phalcon/cli-options-parser": "^1.2",
                 "php": ">=7.2"
             },
             "require-dev": {
+                "codeception/codeception": "^4.1",
+                "codeception/module-asserts": "^1.0.0",
+                "codeception/module-cli": "^1.0",
+                "codeception/module-db": "^1.0",
+                "codeception/module-phpbrowser": "^1.0.0",
+                "ext-pdo": "*",
                 "fzaninotto/faker": "^1.9",
                 "humbug/box": "^3.8",
                 "phalcon/ide-stubs": "^4.0.0",
-                "phpunit/phpunit": "8.4.1",
                 "squizlabs/php_codesniffer": "3.5.1",
-                "vimeo/psalm": "3.6.2"
+                "vimeo/psalm": "3.6.2",
+                "vlucas/phpdotenv": "^4.1"
             },
             "suggest": {
                 "robmorgan/phinx": "Phinx makes it ridiculously easy to manage the database migrations for your PHP app."
@@ -241,7 +326,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2020-03-18T15:14:14+00:00"
+            "time": "2020-03-19T21:42:30+00:00"
         },
         {
             "name": "phpoption/phpoption",
