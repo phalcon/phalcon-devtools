@@ -74,7 +74,7 @@ class Module extends Component
                 . 'templates' . DIRECTORY_SEPARATOR . 'module';
         }
 
-        if ($this->options->offsetExists('directory')) {
+        if ($this->options->offsetExists('directory') && $this->options->get('directory') !== null) {
             $this->path->setRootPath($this->options->get('directory'));
         }
 

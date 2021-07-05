@@ -58,7 +58,7 @@ class Controller extends Component
      */
     public function build()
     {
-        if ($this->options->offsetExists('directory')) {
+        if ($this->options->offsetExists('directory') && $this->options->get('directory') !== null) {
             $this->path->setRootPath($this->options->get('directory'));
         }
 
