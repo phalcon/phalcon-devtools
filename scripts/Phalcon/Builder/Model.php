@@ -21,6 +21,7 @@
 
 namespace Phalcon\Builder;
 
+use PDOException;
 use Phalcon\Text;
 use Phalcon\Utils;
 use ReflectionClass;
@@ -34,7 +35,9 @@ use Phalcon\Exception\WriteFileException;
 use Phalcon\Exception\InvalidArgumentException;
 use Phalcon\Options\OptionsAware as ModelOption;
 use Phalcon\Exception\InvalidParameterException;
+use Phalcon\Exception\Db\PDODriverNotFoundException;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+
 
 /**
  * ModelBuilderComponent
@@ -191,9 +194,19 @@ class Model extends Component
 
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
-        /** @var Pdo $db */
-        $db = new $adapterName($configArray);
-
+        try {
+            /** @var Pdo $db */
+            $db = new $adapterName($configArray);
+        } catch(PDOException $e){
+            switch($e->getMessage())
+            {
+                case 'could not find driver':
+                    throw new PDODriverNotFoundException("PDO could not find driver $adapter", $adapter);
+                    break;
+                default:
+                    throw new PDOException($e->getMessage());
+            }
+        }
         $initialize = [];
 
         if ($this->shouldInitSchema()) {
