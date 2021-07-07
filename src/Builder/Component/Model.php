@@ -20,6 +20,7 @@ use Phalcon\DevTools\Exception\InvalidArgumentException;
 use Phalcon\DevTools\Exception\InvalidParameterException;
 use Phalcon\DevTools\Exception\RuntimeException;
 use Phalcon\DevTools\Exception\WriteFileException;
+use Phalcon\DevTools\Exception\PDODriverNotFoundException;
 use Phalcon\DevTools\Generator\Snippet;
 use Phalcon\DevTools\Options\OptionsAware as ModelOption;
 use Phalcon\DevTools\Utils;
@@ -29,6 +30,7 @@ use Phalcon\Validation\Validator\Email as EmailValidator;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionProperty;
+use PDOException;
 
 /**
  * Builder to generate models
@@ -138,8 +140,18 @@ class Model extends AbstractComponent
         $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
         unset($configArray['adapter']);
 
-        /** @var AbstractPdo $db */
-        $db = new $adapterName($configArray);
+        try {
+            /** @var AbstractPdo $db */
+            $db = new $adapterName($configArray);
+        } catch (PDOException $e) {
+            switch ($e->getMessage()) {
+                case 'could not find driver':
+                    throw new PDODriverNotFoundException("PDO could not find driver $adapter", $adapter);
+                    break;
+                default:
+                    throw new PDOException($e->getMessage());
+            }
+        }
 
         $initialize = [];
 
