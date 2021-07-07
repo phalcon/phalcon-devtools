@@ -25,7 +25,7 @@ class Version extends PhVersion
      * @return array
      */
     // phpcs:disable
-    protected static function _getVersion(): array
+    protected static function getVersion(): array
     {
         return [4, 1, 0, 0, 0];
     }
