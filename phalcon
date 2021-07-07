@@ -24,6 +24,7 @@ use Phalcon\DevTools\Commands\Builtin\Serve;
 use Phalcon\DevTools\Commands\Builtin\Webtools;
 use Phalcon\DevTools\Commands\CommandsListener;
 use Phalcon\DevTools\Commands\DotPhalconMissingException;
+use Phalcon\DevTools\Exception\PDODriverNotFoundException;
 use Phalcon\DevTools\Script;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Version;
@@ -71,6 +72,11 @@ try {
     }
 } catch (PhalconException $e) {
     fwrite(STDERR, Color::error($e->getMessage()) . PHP_EOL);
+    exit(1);
+} catch (PDODriverNotFoundException $e) {
+    $e->writeNicelyFormattedErrorOutput();
+    fwrite(STDERR, 'Backtrace:'. PHP_EOL);
+    fwrite(STDERR, $e->getTraceAsString() . PHP_EOL);
     exit(1);
 } catch (Exception $e) {
     fwrite(STDERR, 'ERROR: ' . $e->getMessage() . PHP_EOL);
