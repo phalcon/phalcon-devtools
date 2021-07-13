@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Utils;
 
-use Phalcon\DevTools\Version;
+use Phalcon\DevTools\Version as DevToolsVersion;
+use Phalcon\DevTools\PhalconVersion;
 use Phalcon\Di\Injectable;
 use Phalcon\Registry;
 use Phalcon\Url;
 use Phalcon\Url\UrlInterface;
-use Phalcon\Version as PhVersion;
 
 /**
  * @property Registry $registry
@@ -53,11 +53,28 @@ class SystemInfo extends Injectable
         ];
     }
 
+    /**
+     * @return string
+     */
+    public function getPhalconVersion(): string
+    {
+        // Check if Phalcon is version >= 5.0
+        if (class_exists('\Phalcon\Support\Version')) {
+            return (new \Phalcon\Support\Version())->get();
+        }
+
+        if (class_exists('\Phalcon\Version')) {
+            return \Phalcon\Version::get();
+        }
+
+        return 'Unknown';
+    }
+
     public function getVersions(): array
     {
         return [
-            'Phalcon DevTools Version' => Version::get(),
-            'Phalcon Version' => PhVersion::get(),
+            'Phalcon DevTools Version' => DevToolsVersion::get(),
+            'Phalcon Version' => $this->getPhalconVersion(),
             'AdminLTE Version' => '3.0.1',
         ];
     }
