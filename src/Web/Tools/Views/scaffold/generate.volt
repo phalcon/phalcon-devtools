@@ -18,6 +18,13 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="controllersNamespace" class="col-sm-2 control-label">Model's namespace</label>
+                        <div class="col-sm-10">
+                            {{ input("controllersNamespace", 'eg. My\Awesome\Namespace') }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="schema" class="col-sm-2 control-label">Schema</label>
                         <div class="col-sm-10">
                             {{ input("schema", "Database name") }}

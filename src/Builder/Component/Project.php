@@ -26,10 +26,10 @@ use SplFileInfo;
  */
 class Project extends AbstractComponent
 {
-    const TYPE_MICRO   = 'micro';
-    const TYPE_SIMPLE  = 'simple';
-    const TYPE_MODULES = 'modules';
-    const TYPE_CLI     = 'cli';
+    public const TYPE_MICRO   = 'micro';
+    public const TYPE_SIMPLE  = 'simple';
+    public const TYPE_MODULES = 'modules';
+    public const TYPE_CLI     = 'cli';
 
     /**
      * Current Project Type

@@ -15,6 +15,7 @@ namespace Phalcon\DevTools\Builder\Component;
 use Phalcon\Config;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Builder\Path;
+use Phalcon\DevTools\Generator\AbstractEntityGenerator;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Validation\Validator\Namespaces;
 use Phalcon\Validation;
@@ -24,6 +25,11 @@ use Phalcon\Validation;
  */
 abstract class AbstractComponent
 {
+    /**
+     * @var AbstractEntityGenerator
+     */
+    protected $generator = null;
+
     /**
      * Builder Options
      *
@@ -104,7 +110,7 @@ abstract class AbstractComponent
      */
     public function isConsole(): bool
     {
-        return PHP_SAPI == 'cli';
+        return PHP_SAPI === 'cli';
     }
 
     /**

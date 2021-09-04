@@ -58,7 +58,7 @@ class Project extends Command
         $projectType    = $this->getOption(['type', 2], null, 'simple');
         $projectPath    = $this->getOption(['directory', 3], null, '.');
         $templatePath   = $this->getOption(['template-path'], null, TEMPLATE_PATH);
-        $enableWebtools = $this->getOption(['enable-webtools', 4], null, false);
+        $enableWebTools = $this->getOption(['enable-webtools', 4], null, false);
         $force          = $this->getOption(['force', 5], null, false);
         $useConfigIni   = $this->getOption('use-config-ini');
         $templateEngine = $this->getOption(['template-engine'], null, "phtml");
@@ -67,11 +67,11 @@ class Project extends Command
             'name'           => $projectName,
             'type'           => $projectType,
             'directory'      => $projectPath,
-            'enableWebTools' => $enableWebtools,
+            'enableWebTools' => $enableWebTools,
             'force'          => $force,
             'templatePath'   => $templatePath,
             'templateEngine' => $templateEngine,
-            'useConfigIni'   => $useConfigIni
+            'useConfigIni'   => $useConfigIni,
         ]);
 
         return $builder->build();

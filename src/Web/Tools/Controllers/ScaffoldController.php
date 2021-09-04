@@ -59,6 +59,7 @@ class ScaffoldController extends Base
                     'templatePath'      => $this->request->getPost('templatesPath', 'string'),
                     'templateEngine'    => $this->request->getPost('templateEngine', 'string'),
                     'modelsNamespace'   => $this->request->getPost('modelsNamespace', 'string'),
+                    'controllersNamespace'   => $this->request->getPost('controllersNamespace', 'string'),
                 ];
                 $scaffoldBuilder = new Scaffold(array_merge($options, ['config' => $this->config->toArray()]));
                 $scaffoldBuilder->build();
@@ -94,11 +95,11 @@ class ScaffoldController extends Base
             );
         }
 
-        $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('controllersDir', $controllersDir);
-        $this->tag->setDefault('modelsDir', $modelsDir);
-        $this->tag->setDefault('templatesPath', $templatesPath);
-        $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
+        Tag::setDefault('basePath', $basePath);
+        Tag::setDefault('controllersDir', $controllersDir);
+        Tag::setDefault('modelsDir', $modelsDir);
+        Tag::setDefault('templatesPath', $templatesPath);
+        Tag::setDefault('schema', $this->dbUtils->resolveDbSchema());
 
         try {
             $tables = $this->dbUtils->listTables();

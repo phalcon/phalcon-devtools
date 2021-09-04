@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Component;
 
+use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
@@ -55,7 +56,7 @@ class AllModels extends AbstractComponent
 
         $this->options->offsetSet('directory', $this->path->getRootPath());
 
-        if (gettype($this->options->get('config')) == 'object') {
+        if (is_object($this->options->get('config'))) {
             $config = $this->options->get('config');
         } else {
             $config = $this->getConfig();
@@ -98,7 +99,7 @@ class AllModels extends AbstractComponent
         unset($configArray['adapter']);
 
         /**
-         * @var \Phalcon\Db\Adapter\Pdo\AbstractPdo $db
+         * @var AbstractPdo $db
          */
         $db = new $adapterName($configArray);
 
@@ -129,7 +130,7 @@ class AllModels extends AbstractComponent
                 }
 
                 $camelCaseName = Utils::camelize($name);
-                $refSchema = ($adapter != 'Postgresql') ? $schema : $config->database->dbname;
+                $refSchema = $adapter !== 'Postgresql' ? $schema : $config->database->dbname;
                 $referenceList[$name] = $db->describeReferences($name, $schema);
 
                 foreach ($referenceList[$name] as $reference) {

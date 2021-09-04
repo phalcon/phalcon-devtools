@@ -18,9 +18,9 @@ use Phalcon\DevTools\Generator\Entity\ControllerEntityGenerator;
 use Phalcon\DevTools\Utils;
 
 /**
- * Builder to generate controller
+ * Builder to generate task
  */
-class Controller extends AbstractComponent
+class Task extends AbstractComponent
 {
     /**
      * Create Builder object
@@ -31,7 +31,7 @@ class Controller extends AbstractComponent
     public function __construct(array $options = [])
     {
         if (!isset($options['name'])) {
-            throw new BuilderException('Please specify the controller name.');
+            throw new BuilderException('Please specify the task name.');
         }
 
         if (!isset($options['force'])) {
@@ -39,7 +39,7 @@ class Controller extends AbstractComponent
         }
 
         if (!isset($options['suffix'])) {
-            $options['suffix'] = 'Controller';
+            $options['suffix'] = 'Task';
         }
 
         parent::__construct($options);
@@ -51,7 +51,7 @@ class Controller extends AbstractComponent
     public function build(array $actions = []): self
     {
         if (!$this->options->has('name')) {
-            throw new BuilderException('The controller name is required.');
+            throw new BuilderException('The task name is required.');
         }
 
         $name = str_replace(' ', '_', $this->options->get('name'));
@@ -82,30 +82,30 @@ class Controller extends AbstractComponent
             $this->path->setRootPath($this->options->get('directory'));
         }
 
-        if (!$controllersDir = $this->options->get('controllersDir')) {
+        if (!$tasksDir = $this->options->get('tasksDir')) {
             $config = $this->getConfig();
-            if (empty($config->path('application.controllersDir'))) {
-                throw new BuilderException('Please specify a controller directory.');
+            if (empty($config->path('application.tasksDir'))) {
+                throw new BuilderException('Please specify a task directory.');
             }
 
-            $controllersDir = $config->path('application.controllersDir');
+            $tasksDir = $config->path('application.tasksDir');
         }
 
-        // Oops! We are in APP_PATH and try to get controllersDir from outside from project dir
-        if ($this->isConsole() && strpos($controllersDir, '../') === 0) {
-            $controllersDir = ltrim($controllersDir, './');
+        // Oops! We are in APP_PATH and try to get tasksDir from outside from project dir
+        if ($this->isConsole() && strpos($tasksDir, '../') === 0) {
+            $tasksDir = ltrim($tasksDir, './');
         }
 
-        $controllerPath = rtrim($controllersDir, '\\/') . DIRECTORY_SEPARATOR . "{$className}.php";
-        if (file_exists($controllerPath) && !$this->options->has('force')) {
-            throw new BuilderException(sprintf('The Controller %s already exists.', $name));
+        $taskPath = rtrim($tasksDir, '\\/') . DIRECTORY_SEPARATOR . "{$className}.php";
+        if (file_exists($taskPath) && !$this->options->has('force')) {
+            throw new BuilderException(sprintf('The Task %s already exists.', $name));
         }
 
-        $this->generator->save($controllerPath);
+        $this->generator->save($taskPath);
 
         if ($this->isConsole()) {
-            $this->notifySuccess(sprintf('Controller "%s" was successfully created.', $name));
-            $this->notifyInfo($controllerPath);
+            $this->notifySuccess(sprintf('Task "%s" was successfully created.', $name));
+            $this->notifyInfo($taskPath);
         }
 
         return $className;

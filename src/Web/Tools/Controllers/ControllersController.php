@@ -99,8 +99,8 @@ class ControllersController extends Base
             return $this->response->redirect('/webtools.php/controllers/edit/' . $fileName);
         }
 
-        $this->tag->setDefault('code', file_get_contents($path));
-        $this->tag->setDefault('path', $path);
+        Tag::setDefault('code', file_get_contents($path));
+        Tag::setDefault('path', $path);
 
         $this->view->setVars([
             'page_subtitle'   => 'Editing Controller',
@@ -133,7 +133,7 @@ class ControllersController extends Base
             return $this->response->redirect('/webtools.php/controllers/list');
         }
 
-        $this->tag->setDefault('code', file_get_contents($path));
+        Tag::setDefault('code', file_get_contents($path));
         $this->view->setVars([
             'page_subtitle'   => 'View Controller',
             'controller_path' => $controllersDir,
@@ -192,16 +192,16 @@ class ControllersController extends Base
                 $controllerBuilder = new ControllerBuilder([
                     'name'           => $this->request->getPost('name', 'string'),
                     'basePath'       => $this->request->getPost('basePath', 'string'),
+                    'controllersDir' => $this->request->getPost('controllersDir', 'string'),
                     'namespace'      => $this->request->getPost('namespace', 'string'),
                     'baseClass'      => $this->request->getPost('baseClass', 'string'),
                     'force'          => $this->request->getPost('force', 'int'),
-                    'controllersDir' => $this->request->getPost('controllersDir', 'string')
                 ]);
 
-                $fileName = $controllerBuilder->build();
+                $className = $controllerBuilder->build(['indexAction' => []])->write();
 
                 $this->flashSession->success(
-                    sprintf('Controller "%s" was created successfully', str_replace('.php', '', $fileName))
+                    sprintf('Controller "%s" was created successfully', $className)
                 );
 
                 return $this->response->redirect('/webtools.php/controllers/list');
@@ -223,10 +223,10 @@ class ControllersController extends Base
             );
         }
 
-        $this->tag->setDefault('name', $controllerName);
-        $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('baseClass', '\\' . Controller::class);
-        $this->tag->setDefault('controllersDir', $controllersDir);
+        Tag::setDefault('name', $controllerName);
+        Tag::setDefault('basePath', $basePath);
+        Tag::setDefault('baseClass', '\\' . Controller::class);
+        Tag::setDefault('controllersDir', $controllersDir);
 
         $this->view->setVars([
             'controller_path' => $controllersDir,

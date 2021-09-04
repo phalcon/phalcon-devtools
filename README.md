@@ -21,7 +21,7 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 7.2
+* PHP >= 7.3
 * Phalcon >= 4.0.0
 
 ## Installing via Composer
@@ -124,6 +124,7 @@ Available commands:
   info             (alias of: i)
   commands         (alias of: list, enumerate)
   controller       (alias of: create-controller)
+  task             (alias of: create-task)
   module           (alias of: create-module)
   model            (alias of: create-model)
   all-models       (alias of: create-all-models)

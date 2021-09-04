@@ -12,17 +12,17 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
+use Phalcon\DevTools\Builder\Component\Task as TaskBuilder;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
 
 /**
- * Controller Command
+ * Task Command
  *
  * Create a handler for the command line.
  */
-class Controller extends Command
+class Task extends Command
 {
     /**
      * {@inheritdoc}
@@ -32,12 +32,12 @@ class Controller extends Command
     public function getPossibleParams(): array
     {
         return [
-            'name=s'        => 'Controller name',
-            'namespace=s'   => "Controller's namespace [option]",
+            'name=s'        => 'Task name',
+            'namespace=s'   => "Task's namespace [option]",
             'directory=s'   => 'Base path on which project is located [optional]',
-            'output=s'      => 'Directory where the controller should be created [optional]',
-            'base-class=s'  => 'Base class to be inherited by the controller [optional]',
-            'force'         => 'Force to rewrite controller [optional]',
+            'output=s'      => 'Directory where the task should be created [optional]',
+            'base-class=s'  => 'Base class to be inherited by the task [optional]',
+            'force'         => 'Force to rewrite task [optional]',
             'help'          => 'Shows this help [optional]',
         ];
     }
@@ -52,16 +52,17 @@ class Controller extends Command
      */
     public function run(array $parameters): string
     {
-        $controllerBuilder = new ControllerBuilder([
+        $taskBuilder = new TaskBuilder([
             'name' => $this->getOption(['name', 1]),
+            'suffix' => 'Task',
             'directory' => $this->getOption('directory'),
-            'controllersDir' => $this->getOption('output'),
+            'tasksDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
-            'baseClass' => $this->getOption('base-class', null, '\\' . \Phalcon\Mvc\Controller::class),
-            'force' => $this->isReceivedOption('force')
+            'baseClass' => $this->getOption('base-class', null, '\\' . \Phalcon\Cli\Task::class),
+            'force' => $this->isReceivedOption('force'),
         ]);
 
-        return $controllerBuilder->build(['indexAction' => []])->write();
+        return $taskBuilder->build(['mainAction' => []])->write();
     }
 
     /**
@@ -71,7 +72,7 @@ class Controller extends Command
      */
     public function getCommands(): array
     {
-        return ['controller', 'create-controller'];
+        return ['task', 'create-task'];
     }
 
     /**
@@ -82,10 +83,10 @@ class Controller extends Command
     public function getHelp(): void
     {
         print Color::head('Help:') . PHP_EOL;
-        print Color::colorize('  Creates a controller') . PHP_EOL . PHP_EOL;
+        print Color::colorize('  Creates a task') . PHP_EOL . PHP_EOL;
 
         print Color::head('Usage:') . PHP_EOL;
-        print Color::colorize('  controller [name] [directory]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::colorize('  task [name] [directory]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
         print Color::colorize('  help', Color::FG_GREEN);

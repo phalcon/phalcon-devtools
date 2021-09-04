@@ -32,7 +32,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [ '7.2', '7.3', '7.4' ]
+        php-versions: ['7.3', '7.4']
+        # There is no 4.1.1 version due release bug
+        phalcon-versions: ['4.0.0', '4.0.5', '4.0.6', '4.1.0', '4.1.2']
     steps:
       - uses: actions/checkout@v1
 

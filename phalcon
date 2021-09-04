@@ -21,6 +21,7 @@ use Phalcon\DevTools\Commands\Builtin\Module;
 use Phalcon\DevTools\Commands\Builtin\Project;
 use Phalcon\DevTools\Commands\Builtin\Scaffold;
 use Phalcon\DevTools\Commands\Builtin\Serve;
+use Phalcon\DevTools\Commands\Builtin\Task;
 use Phalcon\DevTools\Commands\Builtin\Webtools;
 use Phalcon\DevTools\Commands\CommandsListener;
 use Phalcon\DevTools\Commands\DotPhalconMissingException;
@@ -45,6 +46,7 @@ try {
         Info::class,
         Enumerate::class,
         Controller::class,
+        Task::class,
         Module::class,
         Model::class,
         AllModels::class,
