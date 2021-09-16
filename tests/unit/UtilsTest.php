@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Unit;
 
+use Phalcon\Config;
 use Phalcon\DevTools\Utils;
 use Phalcon\DevTools\Tests\Support\Module\UnitTest;
 use Phalcon\Text;
@@ -116,5 +117,17 @@ final class UtilsTest extends UnitTest
                 ]
             ]
         );
+    }
+
+    public function testResolveDbSchema()
+    {
+        $dbSchema = Utils::resolveDbSchema(new Config([
+            'dbname' => 'devtools',
+            'schema' => 'public',
+            'adapter' => 'Mysql',
+        ]));
+
+
+        $this->assertSame('public', $dbSchema);
     }
 }

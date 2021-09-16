@@ -21,6 +21,7 @@ return new Config([
     ],
     'application' => [
         'controllersDir' => app_path() . '/controllers/',
+        'tasksDir'       => app_path() . '/tasks/',
         'modelsDir'      => app_path() . '/models/',
         'viewsDir'       => app_path() . '/views/',
     ],

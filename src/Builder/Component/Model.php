@@ -312,7 +312,7 @@ class Model extends AbstractComponent
                 ->addComments([
                     "Allows to query a set of records that match the specified conditions\n",
                     '@param mixed $parameters',
-                    "@return {$className}[]|{$className}|ResultSetInterface",
+                    "@return {$className}[]|{$className}|ResultsetInterface",
                 ]);
             $modelGenerator->addImport(ResultsetInterface::class);
         }

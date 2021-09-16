@@ -37,4 +37,15 @@ final class IpTest extends Unit
 
         $this->assertSame($expected, $checkIpMethod->invokeArgs($ipClass, [$allowedIp]));
     }
+
+    /**
+     * @dataProvider IPsDataProvider
+     */
+    public function testIsAllowedAccess(): void
+    {
+        $class = $this->createMock(Ip::class);
+        $class->method('isAllowedAccess')->willReturn(true);
+
+        $this->assertTrue($class->isAllowedAccess('devtools', []));
+    }
 }
