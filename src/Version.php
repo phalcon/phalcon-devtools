@@ -17,23 +17,22 @@ namespace Phalcon\DevTools;
  */
 class Version
 {
-
     /**
      * @return array
      */
     // phpcs:disable
     protected static function getVersion(): array
     {
-        return [4, 2, 0, 0, 0];
+        return [4, 3, 0, 0, 0];
     }
     // phpcs:enable
 
     public static function get(): string
     {
-        list($major,$medium,$minor,$special,$specialNumber) = self::getVersion();
+        [$major, $medium, $minor, $special, $specialNumber] = self::getVersion();
 
-        $result  = $major . '.' . $medium . '.' . $minor;
-        $suffix  = self::getSpecial($special);
+        $result = $major . '.' . $medium . '.' . $minor;
+        $suffix = self::getSpecial($special);
 
         if ($suffix !== '') {
             /**
@@ -58,7 +57,7 @@ class Version
      */
     protected static function getSpecial(int $special): string
     {
-        switch($special) {
+        switch ($special) {
             case 1:
                 $suffix = 'alpha';
                 break;
@@ -71,7 +70,7 @@ class Version
             default:
                 $suffix = '';
         }
+
         return $suffix;
     }
-
 }

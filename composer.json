@@ -34,9 +34,9 @@
         "roave/better-reflection": "^3.5|^4.12"
     },
     "require-dev": {
-        "humbug/box": "^3.13",
+        "humbug/box": "^3.8|^3.13",
         "codeception/codeception": "^4.1",
-        "phpdocumentor/reflection-docblock": "^5.2",
+        "phpdocumentor/reflection-docblock": "^4.3|^5.2",
         "phpunit/phpunit": "^8.0",
         "codeception/specify": "^1.2",
         "codeception/verify": "^1.2",

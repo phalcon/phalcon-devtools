@@ -4,11 +4,11 @@ name: "Tests"
 
 jobs:
   run-tests:
-    name: PHP ${{ matrix.php-versions }}
+    name: PHP ${{ matrix.php-versions }} with Phalcon ${{ matrix.phalcon-versions }}
     runs-on: ubuntu-latest
 
     env:
-      extensions: mbstring, intl, json, zip, phalcon-4.0.5, mysql, pgsql, xdebug-2.9.8
+      extensions: mbstring, intl, json, zip, phalcon-${{ matrix.phalcon-versions }}, mysql, pgsql, xdebug-2.9.8
       key: cache-v2.0~19.03.2020
 
     services:
@@ -34,7 +34,7 @@ jobs:
       matrix:
         php-versions: ['7.3', '7.4']
         # There is no 4.1.1 version due release bug
-        phalcon-versions: ['4.0.0', '4.0.5', '4.0.6', '4.1.0', '4.1.2']
+        phalcon-versions: ['4.0.5', '4.0.6', '4.1.0', '4.1.2']
     steps:
       - uses: actions/checkout@v1
 
