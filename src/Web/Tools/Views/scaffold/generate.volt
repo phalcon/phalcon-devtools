@@ -13,14 +13,14 @@
                     <div class="form-group">
                         <label for="modelsNamespace" class="col-sm-2 control-label">Model's namespace</label>
                         <div class="col-sm-10">
-                            {{ input("modelsNamespace", 'eg. My\Awesome\Namespace') }}
+                            {{ input("modelsNamespace", 'eg. My\\Awesome\\Namespace') }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="controllersNamespace" class="col-sm-2 control-label">Model's namespace</label>
                         <div class="col-sm-10">
-                            {{ input("controllersNamespace", 'eg. My\Awesome\Namespace') }}
+                            {{ input("controllersNamespace", 'eg. My\\Awesome\\Namespace') }}
                         </div>
                     </div>
 
