@@ -28,11 +28,6 @@ class ModelEntityGenerator extends AbstractEntityGenerator
         $this->methodsHelper = $methodsHelper;
     }
 
-    public function afterMethodCreation(string $methodName): void
-    {
-        $this->methodsHelper->setState($methodName);
-    }
-
     public function addPropertyFromColumn(
         ColumnInterface $field,
         string $fieldName,
@@ -113,13 +108,8 @@ class ModelEntityGenerator extends AbstractEntityGenerator
             ]);
     }
 
-    public function afterPropertyCreation(string $propertyName): void
+    public function afterMethodCreation(string $methodName): void
     {
-        // TODO: Implement afterPropertyCreation() method.
-    }
-
-    public function afterConstantCreation(string $constantName): void
-    {
-        // TODO: Implement afterConstantCreation() method.
+        $this->methodsHelper->setState($methodName);
     }
 }

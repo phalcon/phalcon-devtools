@@ -17,18 +17,4 @@ use Phalcon\DevTools\Generator\AbstractEntityGenerator;
 
 class ControllerEntityGenerator extends AbstractEntityGenerator
 {
-    public function afterMethodCreation(string $methodName): void
-    {
-        // TODO: Implement afterMethodCreation() method.
-    }
-
-    public function afterPropertyCreation(string $propertyName): void
-    {
-        // TODO: Implement afterPropertyCreation() method.
-    }
-
-    public function afterConstantCreation(string $constantName): void
-    {
-        // TODO: Implement afterConstantCreation() method.
-    }
 }

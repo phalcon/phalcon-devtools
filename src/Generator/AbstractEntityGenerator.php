@@ -436,9 +436,15 @@ abstract class AbstractEntityGenerator
         }
     }
 
-    abstract public function afterMethodCreation(string $methodName): void;
+    public function afterMethodCreation(string $methodName): void
+    {
+    }
 
-    abstract public function afterPropertyCreation(string $propertyName): void;
+    public function afterPropertyCreation(string $propertyName): void
+    {
+    }
 
-    abstract public function afterConstantCreation(string $constantName): void;
+    public function afterConstantCreation(string $constantName): void
+    {
+    }
 }
