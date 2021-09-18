@@ -95,11 +95,11 @@ class ScaffoldController extends Base
             );
         }
 
-        Tag::setDefault('basePath', $basePath);
-        Tag::setDefault('controllersDir', $controllersDir);
-        Tag::setDefault('modelsDir', $modelsDir);
-        Tag::setDefault('templatesPath', $templatesPath);
-        Tag::setDefault('schema', $this->dbUtils->resolveDbSchema());
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('controllersDir', $controllersDir);
+        $this->tag->setDefault('modelsDir', $modelsDir);
+        $this->tag->setDefault('templatesPath', $templatesPath);
+        $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
 
         try {
             $tables = $this->dbUtils->listTables();

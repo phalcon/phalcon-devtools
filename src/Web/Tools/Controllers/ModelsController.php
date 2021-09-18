@@ -101,8 +101,8 @@ class ModelsController extends Base
             return $this->response->redirect('/webtools.php/models/edit/' . $fileName);
         }
 
-        Tag::setDefault('code', file_get_contents($path));
-        Tag::setDefault('path', $path);
+        $this->tag->setDefault('code', file_get_contents($path));
+        $this->tag->setDefault('path', $path);
 
         $this->view->setVars([
             'page_subtitle'=> 'Editing Model',
@@ -135,7 +135,7 @@ class ModelsController extends Base
             return $this->response->redirect('/webtools.php/models/list');
         }
 
-        Tag::setDefault('code', file_get_contents($path));
+        $this->tag->setDefault('code', file_get_contents($path));
         $this->view->setVars([
             'page_subtitle' => 'View Model',
             'model_path'    => $modelsDir,
@@ -258,9 +258,9 @@ class ModelsController extends Base
             $this->flashSession->error($PDOException->getMessage());
         }
 
-        Tag::setDefault('basePath', $basePath);
-        Tag::setDefault('schema', $this->dbUtils->resolveDbSchema());
-        Tag::setDefault('modelsDir', $modelsDir);
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
+        $this->tag->setDefault('modelsDir', $modelsDir);
 
         $this->view->setVars([
             'model_path'    => $modelsDir,

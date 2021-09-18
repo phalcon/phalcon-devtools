@@ -41,7 +41,7 @@ class ErrorController extends Base
      */
     public function route400Action(): void
     {
-        Tag::prependTitle('Bad Request');
+        $this->tag->prependTitle('Bad Request');
         $this->response->resetHeaders()->setStatusCode(400, null);
 
         $this->view->setVars(
@@ -59,7 +59,7 @@ class ErrorController extends Base
      */
     public function route403Action(): void
     {
-        Tag::prependTitle('Forbidden');
+        $this->tag->prependTitle('Forbidden');
         $this->response->resetHeaders()->setStatusCode(403, null);
 
         $this->view->setVars(
@@ -76,7 +76,7 @@ class ErrorController extends Base
      */
     public function route404Action(): void
     {
-        Tag::prependTitle('Not Found');
+        $this->tag->prependTitle('Not Found');
         $this->response->resetHeaders()->setStatusCode(404, null);
 
         $this->view->setVars(
@@ -93,7 +93,7 @@ class ErrorController extends Base
      */
     public function route500Action(): void
     {
-        Tag::prependTitle('Internal Server Error');
+        $this->tag->prependTitle('Internal Server Error');
         $this->response->resetHeaders()->setStatusCode(500, null);
 
         $this->view->setVars(

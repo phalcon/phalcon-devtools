@@ -99,8 +99,8 @@ class ControllersController extends Base
             return $this->response->redirect('/webtools.php/controllers/edit/' . $fileName);
         }
 
-        Tag::setDefault('code', file_get_contents($path));
-        Tag::setDefault('path', $path);
+        $this->tag->setDefault('code', file_get_contents($path));
+        $this->tag->setDefault('path', $path);
 
         $this->view->setVars([
             'page_subtitle'   => 'Editing Controller',
@@ -133,7 +133,7 @@ class ControllersController extends Base
             return $this->response->redirect('/webtools.php/controllers/list');
         }
 
-        Tag::setDefault('code', file_get_contents($path));
+        $this->tag->setDefault('code', file_get_contents($path));
         $this->view->setVars([
             'page_subtitle'   => 'View Controller',
             'controller_path' => $controllersDir,
@@ -223,10 +223,10 @@ class ControllersController extends Base
             );
         }
 
-        Tag::setDefault('name', $controllerName);
-        Tag::setDefault('basePath', $basePath);
-        Tag::setDefault('baseClass', '\\' . Controller::class);
-        Tag::setDefault('controllersDir', $controllersDir);
+        $this->tag->setDefault('name', $controllerName);
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('baseClass', '\\' . Controller::class);
+        $this->tag->setDefault('controllersDir', $controllersDir);
 
         $this->view->setVars([
             'controller_path' => $controllersDir,

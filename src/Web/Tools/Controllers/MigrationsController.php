@@ -134,8 +134,8 @@ class MigrationsController extends Base
             $this->flashSession->error($PDOException->getMessage());
         }
 
-        Tag::setDefault('basePath', $basePath);
-        Tag::setDefault('migrationsDir', $migrationsDir);
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('migrationsDir', $migrationsDir);
 
         $this->view->setVars(
             [
@@ -185,8 +185,8 @@ class MigrationsController extends Base
 
         $this->prepareVersions();
 
-        Tag::setDefault('basePath', $basePath);
-        Tag::setDefault('migrationsDir', $migrationsDir);
+        $this->tag->setDefault('basePath', $basePath);
+        $this->tag->setDefault('migrationsDir', $migrationsDir);
         $this->view->setVars(
             [
                 'migration_path' => $migrationsDir,
@@ -199,7 +199,7 @@ class MigrationsController extends Base
         $migrationsDir = $this->registry->offsetGet('directories')->migrationsDir;
 
         if (!$migrationsDir || !is_dir($migrationsDir) || !is_readable($migrationsDir)) {
-            Tag::setDefault('oldVersion', 'None');
+            $this->tag->setDefault('oldVersion', 'None');
 
             return;
         }
@@ -219,9 +219,9 @@ class MigrationsController extends Base
         $foldersKeys = array_keys($folders);
 
         if (isset($foldersKeys[0])) {
-            Tag::setDefault('oldVersion', $foldersKeys[0]);
+            $this->tag->setDefault('oldVersion', $foldersKeys[0]);
         } else {
-            Tag::setDefault('oldVersion', 'None');
+            $this->tag->setDefault('oldVersion', 'None');
         }
     }
 }

@@ -357,7 +357,7 @@ $this->dispatcher->forward([
             }
 
             $code[] = "\t" .
-                      "Tag::setDefault('$field', $" .
+                      "\$this->tag->setDefault('$field', $" .
                       Utils::lowerCamelizeWithDelimiter($var, '-', true) .
                       '->' .
                       $accessor .
