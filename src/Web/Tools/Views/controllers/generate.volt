@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label for="namespace" class="col-sm-2 control-label">Namespace</label>
                         <div class="col-sm-10">
-                            {{ input("namespace", 'eg. My\Awesome\Namespace') }}
+                            {{ input("namespace", 'eg. My\\Awesome\\Namespace') }}
                         </div>
                     </div>
 

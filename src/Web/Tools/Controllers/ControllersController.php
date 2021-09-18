@@ -192,16 +192,16 @@ class ControllersController extends Base
                 $controllerBuilder = new ControllerBuilder([
                     'name'           => $this->request->getPost('name', 'string'),
                     'basePath'       => $this->request->getPost('basePath', 'string'),
+                    'controllersDir' => $this->request->getPost('controllersDir', 'string'),
                     'namespace'      => $this->request->getPost('namespace', 'string'),
                     'baseClass'      => $this->request->getPost('baseClass', 'string'),
                     'force'          => $this->request->getPost('force', 'int'),
-                    'controllersDir' => $this->request->getPost('controllersDir', 'string')
                 ]);
 
-                $fileName = $controllerBuilder->build();
+                $className = $controllerBuilder->build(['indexAction' => []])->write();
 
                 $this->flashSession->success(
-                    sprintf('Controller "%s" was created successfully', str_replace('.php', '', $fileName))
+                    sprintf('Controller "%s" was created successfully', $className)
                 );
 
                 return $this->response->redirect('/webtools.php/controllers/list');

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -12,23 +13,29 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Component;
 
+use Nette\PhpGenerator\PsrPrinter;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Db\Column;
-use Phalcon\Db\ReferenceInterface;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Exception\InvalidArgumentException;
 use Phalcon\DevTools\Exception\InvalidParameterException;
 use Phalcon\DevTools\Exception\RuntimeException;
 use Phalcon\DevTools\Exception\WriteFileException;
-use Phalcon\DevTools\Generator\Snippet;
+use Phalcon\DevTools\Generator\Entity\ModelEntityGenerator;
+use Phalcon\DevTools\Generator\Helper\MethodArgumentDto;
+use Phalcon\DevTools\Generator\Helper\ModelMethodsHelper;
 use Phalcon\DevTools\Options\OptionsAware as ModelOption;
+use Phalcon\DevTools\Snippet\ModelSnippet;
 use Phalcon\DevTools\Utils;
+use Phalcon\Mvc\Model\ResultInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Text;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
-use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionProperty;
+use Roave\BetterReflection\Reflection\ReflectionClass;
 
 /**
  * Builder to generate models
@@ -44,7 +51,6 @@ class Model extends AbstractComponent
         //'Date' => 'Date',
         //'Decimal' => 'Decimal'
     ];
-
     /**
      * Options container
      *
@@ -56,6 +62,7 @@ class Model extends AbstractComponent
      * Create Builder object
      *
      * @param array $options
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(array $options)
@@ -83,7 +90,7 @@ class Model extends AbstractComponent
         parent::__construct($options);
 
         $this->modelOptions->setOption('config', $this->modelOptions->getOption('config'));
-        $this->modelOptions->setOption('snippet', new Snippet());
+        $this->modelOptions->setOption('snippet', new ModelSnippet());
     }
 
     /**
@@ -93,8 +100,9 @@ class Model extends AbstractComponent
      */
     public function build(): void
     {
-        $config = $this->modelOptions->getOption('config');
+        /** @var ModelSnippet $snippet */
         $snippet = $this->modelOptions->getOption('snippet');
+        $config = $this->modelOptions->getOption('config');
 
         if ($this->modelOptions->hasOption('directory')) {
             $this->path->setRootPath($this->modelOptions->getOption('directory'));
@@ -102,277 +110,82 @@ class Model extends AbstractComponent
 
         $methodRawCode = [];
         $this->setModelsDir();
-        $this->setModelPath();
-
-        $modelPath = $this->modelOptions->getOption('modelPath');
-
-        $this->checkDataBaseParam();
-
-        if (isset($config->devtools->loader)) {
-            /** @noinspection PhpIncludeInspection */
-            require_once $config->devtools->loader;
+        $modelPath = $this->setModelPath();
+        if (file_exists($modelPath) && !is_writable($modelPath)) {
+            throw new WriteFileException(sprintf('Unable to write to %s. Check write-access of a file.', $modelPath));
         }
 
-        $namespace = $this->modelOptions->hasOption('namespace')
-            ? (string) $this->modelOptions->getOption('namespace') : '';
+        $db = $this->getDb($config);
 
-        if ($this->checkNamespace($namespace) && !empty(trim($namespace))) {
-            $namespace = 'namespace ' . $this->modelOptions->getOption('namespace') . ';' . PHP_EOL . PHP_EOL;
+        $namespace = $this->modelOptions->getValidOptionOrDefault('namespace', '');
+        if (!$this->checkNamespace($namespace) || empty(trim($namespace))) {
+            $namespace = null;
         }
+        $baseClass = $this->modelOptions->getValidOptionOrDefault('extends', \Phalcon\Mvc\Model::class);
+        $className = $this->modelOptions->getOption('className');
+        $fullClassName = $this->getFullClassName($this->modelOptions->getOption('className'));
+        $modelGenerator = new ModelEntityGenerator($className, $baseClass, $namespace);
+        $modelMethodsHelper = new ModelMethodsHelper();
+        $modelGenerator->setMethodsHelper($modelMethodsHelper);
 
         $genDocMethods = $this->modelOptions->getValidOptionOrDefault('genDocMethods', false);
         $useSettersGetters = $this->modelOptions->getValidOptionOrDefault('genSettersGetters', false);
-
-        $adapter = $config->database->adapter ?? 'Mysql';
-        $this->isSupportedAdapter($adapter);
-
-        if (is_object($config->database)) {
-            $configArray = $config->database->toArray();
-        } else {
-            $configArray = $config->database;
-        }
-
-        // An array for use statements
-        $uses = [];
-
-        $adapterName = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
-        unset($configArray['adapter']);
-
-        /** @var AbstractPdo $db */
-        $db = new $adapterName($configArray);
-
-        $initialize = [];
-
-        if ($this->modelOptions->hasOption('schema')) {
-            $schema = $this->modelOptions->getOption('schema');
-        } else {
-            $schema = Utils::resolveDbSchema($config->database);
-        }
-
-        if ($schema) {
-            $initialize['schema'] = $snippet->getThisMethod('setSchema', $schema);
-        }
-        $initialize['source'] = $snippet->getThisMethod('setSource', $this->modelOptions->getOption('name'));
+        $schema = $this->modelOptions->getValidOptionOrDefault('schema', Utils::resolveDbSchema($config->database));
 
         $table = $this->modelOptions->getOption('name');
-
         if (!$db->tableExists($table, $schema)) {
             throw new InvalidArgumentException(sprintf('Table "%s" does not exist.', $table));
         }
-
         $fields = $db->describeColumns($table, $schema);
-        $referenceList = $this->getReferenceList($schema, $db);
-
-        foreach ($referenceList as $tableName => $references) {
-            foreach ($references as $reference) {
-                if ($reference->getReferencedTable() !== $this->modelOptions->getOption('name')) {
-                    continue;
-                }
-
-                $entityNamespace = $this->modelOptions->hasOption('namespace')
-                    ? $this->modelOptions->getOption('namespace')."\\" : '';
-
-                $refColumns = $reference->getReferencedColumns();
-                $columns = $reference->getColumns();
-                $initialize[] = $snippet->getRelation(
-                    'hasMany',
-                    $this->getFieldName($refColumns[0]),
-                    $entityNamespace . Text::camelize($tableName, '_-'),
-                    $this->getFieldName($columns[0]),
-                    "['alias' => '" . Text::camelize($tableName, '_-') . "']"
-                );
-            }
-        }
-
-        foreach ($db->describeReferences($this->modelOptions->getOption('name'), $schema) as $reference) {
-            $entityNamespace = $this->modelOptions->hasOption('namespace')
-                ? $this->modelOptions->getOption('namespace') : '';
-
-            $refColumns = $reference->getReferencedColumns();
-            $columns = $reference->getColumns();
-            $initialize[] = $snippet->getRelation(
-                'belongsTo',
-                $this->getFieldName($columns[0]),
-                $this->getEntityClassName($reference, $entityNamespace),
-                $this->getFieldName($refColumns[0]),
-                "['alias' => '" . Text::camelize($reference->getReferencedTable(), '_-') . "']"
-            );
-        }
-
-        $alreadyInitialized  = false;
-        $alreadyValidations  = false;
-        $alreadyFind         = false;
-        $alreadyFindFirst    = false;
-        $alreadyColumnMapped = false;
-        $attributes          = [];
 
         if (file_exists($modelPath)) {
             try {
+                /** @noinspection PhpIncludeInspection */
+                require_once $modelPath;
+
+                $linesCode = file($modelPath);
+                $imports = preg_grep('/^use\s(.*);$/', $linesCode);
+                foreach ($imports as $import) {
+                    $importClass = trim(str_replace(['use', ';'], '', $import));
+                    $modelGenerator->addImport($importClass);
+                }
+
+                $reflection = ReflectionClass::createFromName($fullClassName);
+
                 $possibleMethods = [];
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
-                        /** @var \Phalcon\Db\Column $field */
+                        /** @var Column $field */
                         $methodName = Text::camelize($field->getName(), '_-');
 
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
                     }
                 }
-
-                /** @noinspection PhpIncludeInspection */
-                require_once $modelPath;
-
-                $linesCode = file($modelPath);
-                $fullClassName = $this->modelOptions->getOption('className');
-                if ($this->modelOptions->hasOption('namespace')) {
-                    $fullClassName = $this->modelOptions->getOption('namespace').'\\'.$fullClassName;
-                }
-                $reflection = new ReflectionClass($fullClassName);
-                foreach ($reflection->getMethods() as $method) {
-                    if ($method->getDeclaringClass()->getName() !== $fullClassName) {
-                        continue;
-                    }
-
-                    $methodName = $method->getName();
-                    if (isset($possibleMethods[$methodName])) {
-                        continue;
-                    }
-
-                    $indent = PHP_EOL;
-                    if ($method->getDocComment()) {
-                        $firstLine = $linesCode[$method->getStartLine() - 1];
-                        preg_match('#^\s+#', $firstLine, $matches);
-                        if (isset($matches[0])) {
-                            $indent .= $matches[0];
-                        }
-                    }
-
-                    $methodDeclaration = join(
-                        '',
-                        array_slice(
-                            $linesCode,
-                            $method->getStartLine() - 1,
-                            $method->getEndLine() - $method->getStartLine() + 1
-                        )
-                    );
-
-                    $methodRawCode[$methodName] = $indent . $method->getDocComment() . PHP_EOL . $methodDeclaration;
-
-                    switch ($methodName) {
-                        case 'initialize':
-                            $alreadyInitialized = true;
-                            break;
-                        case 'validation':
-                            $alreadyValidations = true;
-                            break;
-                        case 'find':
-                            $alreadyFind = true;
-                            break;
-                        case 'findFirst':
-                            $alreadyFindFirst = true;
-                            break;
-                        case 'columnMap':
-                            $alreadyColumnMapped = true;
-                            break;
-                    }
-                }
+                $modelGenerator->createMethodsFromReflection(
+                    $fullClassName,
+                    $reflection,
+                    $possibleMethods
+                );
 
                 $possibleFieldsTransformed = [];
                 foreach ($fields as $field) {
                     $fieldName = $this->getFieldName($field->getName());
                     $possibleFieldsTransformed[$fieldName] = true;
                 }
+                $modelGenerator->createPropertiesFromReflection(
+                    $fullClassName,
+                    $reflection,
+                    $possibleFieldsTransformed
+                );
 
-                if (method_exists($reflection, 'getReflectionConstants')) {
-                    foreach ($reflection->getReflectionConstants() as $constant) {
-                        if ($constant->getDeclaringClass()->getName() !== $fullClassName) {
-                            continue;
-                        }
-
-                        $constantsPreg = '/const(\s+)' . $constant->getName() . '([\s=;]+)/';
-                        $attribute = $this->getAttribute($linesCode, $constantsPreg, $constant);
-                        if (!empty($attribute)) {
-                            $attributes[] = $attribute;
-                        }
-                    }
-                }
-
-                foreach ($reflection->getProperties() as $property) {
-                    $propertyName = $property->getName();
-                    if (!empty($possibleFieldsTransformed[$propertyName])
-                        || $property->getDeclaringClass()->getName() !== $fullClassName
-                    ) {
-                        continue;
-                    }
-
-                    $modifiersPreg = '';
-                    switch ($property->getModifiers()) {
-                        case ReflectionProperty::IS_PUBLIC:
-                            $modifiersPreg = '^(\s*)public(\s+)';
-                            break;
-                        case ReflectionProperty::IS_PRIVATE:
-                            $modifiersPreg = '^(\s*)private(\s+)';
-                            break;
-                        case ReflectionProperty::IS_PROTECTED:
-                            $modifiersPreg = '^(\s*)protected(\s+)';
-                            break;
-                        case ReflectionProperty::IS_STATIC + ReflectionProperty::IS_PUBLIC:
-                            $modifiersPreg = '^(\s*)(public?)(\s+)static(\s+)';
-                            break;
-                        case ReflectionProperty::IS_STATIC + ReflectionProperty::IS_PROTECTED:
-                            $modifiersPreg = '^(\s*)protected(\s+)static(\s+)';
-                            break;
-                        case ReflectionProperty::IS_STATIC + ReflectionProperty::IS_PRIVATE:
-                            $modifiersPreg = '^(\s*)private(\s+)static(\s+)';
-                            break;
-                    }
-
-                    $modifiersPreg = '/' . $modifiersPreg . '\$' . $propertyName . '([\s=;]+)/';
-                    $attribute = $this->getAttribute($linesCode, $modifiersPreg, $property);
-                    if (!empty($attribute)) {
-                        $attributes[] = $attribute;
-                    }
-                }
-            } catch (\Exception $e) {
+                $modelGenerator->createConstantsFromReflection($fullClassName, $reflection);
+            } catch (\Throwable $throwable) {
                 throw new RuntimeException(
-                    sprintf(
-                        'Failed to create the model "%s". Error: %s',
-                        $this->modelOptions->getOption('className'),
-                        $e->getMessage()
-                    )
+                    sprintf('Failed to create the model "%s". Error: %s', $className, $throwable->getMessage())
                 );
             }
         }
-
-        $validations = [];
-        foreach ($fields as $field) {
-            $fieldName = $this->getFieldName($field->getName());
-
-            if ($field->getType() === Column::TYPE_CHAR) {
-                $domain = [];
-                if (preg_match('/\((.*)\)/', (string)$field->getType(), $matches)) {
-                    foreach (explode(',', $matches[1]) as $item) {
-                        $domain[] = $item;
-                    }
-                }
-                if (count($domain)) {
-                    $varItems = join(', ', $domain);
-                    $validations[] = $snippet->getValidateInclusion($fieldName, $varItems);
-                }
-            }
-
-            if ($field->getName() === 'email') {
-                $validations[] = $snippet->getValidateEmail($fieldName);
-                $uses[] = $snippet->getUseAs(EmailValidator::class, 'EmailValidator');
-            }
-        }
-
-        if (count($validations)) {
-            $validations[] = $snippet->getValidationEnd();
-        }
-
-        // Check if there has been an extender class
-        $extends = $this->modelOptions->getValidOptionOrDefault('extends', '\Phalcon\Mvc\Model');
 
         // Check if there have been any excluded fields
         $exclude = [];
@@ -380,122 +193,299 @@ class Model extends AbstractComponent
             $keys = explode(',', $this->modelOptions->getOption('excludeFields'));
             if (count($keys) > 0) {
                 foreach ($keys as $key) {
-                    $exclude[trim($key)] = '';
+                    $exclude[trim($key)] = true;
                 }
             }
         }
 
-        $setters = [];
-        $getters = [];
         foreach ($fields as $field) {
-            if (array_key_exists(strtolower($field->getName()), $exclude)) {
+            if (isset($exclude[strtolower($field->getName())])) {
                 continue;
             }
 
             $type = $this->getPHPType($field->getType());
             $fieldName = $this->getFieldName($field->getName());
-            $attributes[] = $snippet->getAttributes(
+            $modelGenerator->addPropertyFromColumn(
+                $field,
+                $fieldName,
                 $type,
                 $useSettersGetters ? 'protected' : 'public',
-                $field,
-                $this->modelOptions->getOption('annotate'),
-                $fieldName
+                $this->modelOptions->getValidOptionOrDefault('annotate', false)
             );
 
             if ($useSettersGetters) {
                 $methodName = Utils::camelize($field->getName(), '_-');
-                $setters[] = $snippet->getSetter($field->getName(), $fieldName, $type, $methodName);
-
-                if (isset($this->typeMap[$type])) {
-                    $getters[] = $snippet->getGetterMap($fieldName, $type, $methodName, $this->typeMap[$type]);
-                } else {
-                    $getters[] = $snippet->getGetter($fieldName, $type, $methodName);
-                }
+                $modelGenerator->addSetter($field, $methodName, $type, $fieldName);
+                $modelGenerator->addGetter($field, $methodName, $type, $fieldName, $this->typeMap);
             }
         }
 
-        $validationsCode = '';
-        if (!$alreadyValidations && count($validations) > 0) {
-            $validationsCode = $snippet->getValidationsMethod($validations);
-            $uses[] = $snippet->getUse(Validation::class);
+        if (!$modelMethodsHelper->alreadyValidations()) {
+            $validations = [];
+            foreach ($fields as $field) {
+                $fieldName = $this->getFieldName($field->getName());
+
+                if ($field->getType() === Column::TYPE_CHAR) {
+                    $domain = [];
+                    if (preg_match('/\((.*)\)/', (string)$field->getType(), $matches)) {
+                        foreach (explode(',', $matches[1]) as $item) {
+                            $domain[] = $item;
+                        }
+                    }
+                    if (count($domain)) {
+                        $varItems = join(', ', $domain);
+                        $validations[] = $snippet->getValidateInclusion($fieldName, $varItems);
+                    }
+                }
+
+                if ($field->getName() === 'email') {
+                    $validations[] = $snippet->getValidateEmail($fieldName);
+                    $modelGenerator->addImport(EmailValidator::class, 'EmailValidator');
+                }
+            }
+
+            if (count($validations)) {
+                array_unshift($validations, '$validator = new Validation();');
+                $validations[] = 'return $this->validate($validator);';
+
+                $modelGenerator->addMethod('validation')
+                    ->setBody(implode('', $validations))
+                    ->addComments([
+                        "Validations and business logic\n",
+                        '@return bool',
+                    ]);
+                $modelGenerator->addImport(Validation::class);
+            }
         }
 
-        $initCode = '';
-        if (!$alreadyInitialized && count($initialize) > 0) {
-            $initCode = $snippet->getInitialize($initialize);
+        if (!$modelMethodsHelper->alreadyInitialized()) {
+            $initialize = [];
+            if ($schema) {
+                $initialize['schema'] = "\$this->setSchema('{$schema}');" . PHP_EOL;
+            }
+            $initialize['source'] = "\$this->setSource('{$table}');" . PHP_EOL;
+
+            $referenceList = $this->getReferenceList($schema, $db);
+            foreach ($referenceList as $tableName => $references) {
+                foreach ($references as $reference) {
+                    if ($reference->getReferencedTable() !== $table) {
+                        continue;
+                    }
+
+                    $refColumns = $reference->getReferencedColumns();
+                    $columns = $reference->getColumns();
+                    $initialize[] = $snippet->getRelation(
+                        'hasMany',
+                        $this->getFieldName($refColumns[0]),
+                        $this->getEntityClassName($tableName),
+                        $this->getFieldName($columns[0]),
+                        $this->getEntityAlias($tableName)
+                    );
+                }
+            }
+
+            foreach ($db->describeReferences($table, $schema) as $reference) {
+                $refColumns = $reference->getReferencedColumns();
+                $columns = $reference->getColumns();
+                $initialize[] = $snippet->getRelation(
+                    'belongsTo',
+                    $this->getFieldName($columns[0]),
+                    $this->getEntityClassName($reference->getReferencedTable()),
+                    $this->getFieldName($refColumns[0]),
+                    $this->getEntityAlias($reference->getReferencedTable())
+                );
+            }
+
+            $modelGenerator->addMethod('initialize')
+                ->setBody(implode('', $initialize))
+                ->addComments(['Initialize method for model.']);
         }
 
-        $license = '';
-        if (file_exists('license.txt')) {
-            $license = trim(file_get_contents('license.txt')) . PHP_EOL . PHP_EOL;
+        if (!$modelMethodsHelper->alreadyFind()) {
+            $modelGenerator->addMethod('find')
+                ->setStatic()
+                ->setBody('return parent::find($parameters);')
+                ->setReturnType(ResultsetInterface::class)
+                ->addArguments([
+                    new MethodArgumentDto('parameters', null, false, null),
+                ])
+                ->addComments([
+                    "Allows to query a set of records that match the specified conditions\n",
+                    '@param mixed $parameters',
+                    "@return {$className}[]|{$className}|ResultsetInterface",
+                ]);
+            $modelGenerator->addImport(ResultsetInterface::class);
         }
 
-        if (!$alreadyFind) {
-            $methodRawCode[] = $snippet->getModelFind($this->modelOptions->getOption('className'));
+        if (!$modelMethodsHelper->alreadyFindFirst()) {
+            $modelGenerator->addMethod('findFirst')
+                ->setStatic()
+                ->setBody('return parent::findFirst($parameters);')
+                ->setReturnType(ModelInterface::class, true)
+                ->addArguments([
+                    new MethodArgumentDto('parameters', null, false, null),
+                ])
+                ->addComments([
+                    "Allows to query the first record that match the specified conditions\n",
+                    '@param mixed $parameters',
+                    "@return {$className}|ResultInterface|ModelInterface|null",
+                ]);
+            $modelGenerator->addImport(ResultInterface::class);
+            $modelGenerator->addImport(ModelInterface::class);
         }
 
-        if (!$alreadyFindFirst) {
-            $methodRawCode[] = $snippet->getModelFindFirst($this->modelOptions->getOption('className'));
-        }
-
-        $content = join('', $attributes);
-
-        if ($useSettersGetters) {
-            $content .= join('', $setters) . join('', $getters);
-        }
-
-        $content .= $validationsCode . $initCode;
-        foreach ($methodRawCode as $methodCode) {
-            $content .= $methodCode;
-        }
-
-        $classDoc = '';
         if ($genDocMethods) {
-            $classDoc = $snippet->getClassDoc($this->modelOptions->getOption('className'), $namespace);
+            $modelGenerator->addClassComments([
+                $className,
+                !empty($namespace) ? '@package ' . str_replace(['namespace ', ';', "\r", "\n"], '', $namespace) : '',
+                '@autogenerated by Phalcon Developer Tools',
+                '@date ' . date('Y-m-d, H:i:s'),
+            ]);
         }
 
         if ($this->modelOptions->hasOption('mapColumn') &&
             $this->modelOptions->getOption('mapColumn') &&
-            !$alreadyColumnMapped
+            !$modelMethodsHelper->alreadyColumnMapped()
         ) {
-            $content .= $snippet->getColumnMap($fields, $this->modelOptions->getOption('camelize'));
+            $modelGenerator->addMethod('columnMap')
+                ->setBody(
+                    $snippet->getColumnMap(
+                        $fields,
+                        $this->modelOptions->getValidOptionOrDefault('camelize', false)
+                    )
+                )
+                ->addComments([
+                    'Independent Column Mapping.',
+                    "Keys are the real names in the table and the values their names in the application\n",
+                    '@return array',
+                ]);
         }
 
-        $useDefinition = '';
-        if (!empty($uses)) {
-            usort($uses, function ($a, $b) {
-                return strlen($a) - strlen($b);
-            });
-
-            $useDefinition = join("\n", $uses) . PHP_EOL . PHP_EOL;
+        $abstract = $this->modelOptions->getValidOptionOrDefault('abstract', false);
+        if ($abstract) {
+            $modelGenerator->setClassAbstract();
         }
 
-        $abstract = ($this->modelOptions->getOption('abstract') ? 'abstract ' : '');
-
-        $code = $snippet->getClass(
-            $namespace,
-            $useDefinition,
-            $classDoc,
-            $abstract,
-            $this->modelOptions,
-            $extends,
-            $content,
-            $license
-        );
-
-        if (file_exists($modelPath) && !is_writable($modelPath)) {
-            throw new WriteFileException(sprintf('Unable to write to %s. Check write-access of a file.', $modelPath));
-        }
-
+        $code = $this->setLicense($modelGenerator);
         if (!file_put_contents($modelPath, $code)) {
             throw new WriteFileException(sprintf('Unable to write to %s', $modelPath));
         }
 
         if ($this->isConsole()) {
-            $msgSuccess = ($this->modelOptions->getOption('abstract') ? 'Abstract ' : '');
+            $msgSuccess = $abstract ? 'Abstract ' : '';
             $msgSuccess .= 'Model "%s" was successfully created.';
-            $this->notifySuccess(sprintf($msgSuccess, Text::camelize($this->modelOptions->getOption('name'), '_-')));
+            $this->notifySuccess(sprintf($msgSuccess, Text::camelize($table, '_-')));
         }
+    }
+
+    protected function setLicense(ModelEntityGenerator $modelGenerator): string
+    {
+        if (file_exists('license.txt')) {
+            $license = trim(file_get_contents('license.txt')) . PHP_EOL . PHP_EOL;
+            if (false !== strpos($license, '*')) {
+                return str_replace(
+                    '<?php' . PHP_EOL . PHP_EOL,
+                    '<?php' . PHP_EOL . PHP_EOL . $license,
+                    $modelGenerator->printCode(new PsrPrinter())
+                );
+            }
+
+            $licenseLines = explode("\n", $license);
+            $modelGenerator->addComments($licenseLines);
+        }
+
+        return $modelGenerator->printCode(new PsrPrinter());
+    }
+
+    /**
+     * Set path to folder where models are
+     *
+     * @throw InvalidParameterException
+     */
+    protected function setModelsDir(): void
+    {
+        if ($this->modelOptions->hasOption('modelsDir')) {
+            $this->modelOptions->setOption(
+                'modelsDir',
+                rtrim($this->modelOptions->getOption('modelsDir'), '/\\') . DIRECTORY_SEPARATOR
+            );
+
+            return;
+        }
+
+        if ($modelsDir = $this->modelOptions->getOption('config')->path('application.modelsDir')) {
+            $this->modelOptions->setOption('modelsDir', rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR);
+
+            return;
+        }
+
+        throw new InvalidParameterException("Builder doesn't know where is the models directory.");
+    }
+
+    /**
+     * Set path to model
+     *
+     * @throw WriteFileException
+     */
+    protected function setModelPath(): string
+    {
+        $modelPath = $this->modelOptions->getOption('modelsDir');
+
+        if (!$this->isAbsolutePath($modelPath)) {
+            $modelPath = $this->path->getRootPath($modelPath);
+        }
+
+        $modelPath .= $this->modelOptions->getOption('className') . '.php';
+
+        if (file_exists($modelPath) && !$this->modelOptions->getOption('force')) {
+            throw new WriteFileException(
+                sprintf(
+                    'The model file "%s.php" already exists in models dir',
+                    $this->modelOptions->getOption('className')
+                )
+            );
+        }
+
+        $this->modelOptions->setOption('modelPath', $modelPath);
+
+        return $modelPath;
+    }
+
+    /**
+     * @throw InvalidParameterException
+     */
+    protected function checkDatabaseParam(): void
+    {
+        if (!isset($this->modelOptions->getOption('config')->database)) {
+            throw new InvalidParameterException('Database configuration cannot be loaded from your config file.');
+        }
+
+        if (!isset($this->modelOptions->getOption('config')->database->adapter)) {
+            throw new InvalidParameterException(
+                "Adapter was not found in the config. " . "Please specify a config variable [database][adapter]"
+            );
+        }
+    }
+
+    /**
+     * @throws BuilderException
+     */
+    protected function getDb($config): AbstractPdo
+    {
+        $this->checkDatabaseParam();
+        if (isset($config->devtools->loader)) {
+            /** @noinspection PhpIncludeInspection */
+            require_once $config->devtools->loader;
+        }
+
+        $adapter = $config->database->adapter ?? 'Mysql';
+        $this->isSupportedAdapter($adapter);
+        $configArray = is_object($config->database) ? $config->database->toArray() : $config->database;
+
+        $adapterName = "\Phalcon\Db\Adapter\Pdo\\{$adapter}";
+        unset($configArray['adapter']);
+
+        return new $adapterName($configArray);
     }
 
     /**
@@ -537,6 +527,7 @@ class Model extends AbstractComponent
             if (!empty($attribute->getDocComment())) {
                 $attributeFormatted = "    " . $attribute->getDocComment() . PHP_EOL . $attribute;
             }
+
             return $attributeFormatted;
         }
 
@@ -558,64 +549,50 @@ class Model extends AbstractComponent
     }
 
     /**
-     * Set path to model
+     * @param string $tableName
      *
-     * @throw WriteFileException
-     */
-    protected function setModelPath(): void
-    {
-        $modelPath = $this->modelOptions->getOption('modelsDir');
-
-        if (!$this->isAbsolutePath($modelPath)) {
-            $modelPath = $this->path->getRootPath($modelPath);
-        }
-
-        $modelPath .= $this->modelOptions->getOption('className') . '.php';
-
-        if (file_exists($modelPath) && !$this->modelOptions->getOption('force')) {
-            throw new WriteFileException(sprintf(
-                'The model file "%s.php" already exists in models dir',
-                $this->modelOptions->getOption('className')
-            ));
-        }
-
-        $this->modelOptions->setOption('modelPath', $modelPath);
-    }
-
-    /**
-     * @throw InvalidParameterException
-     */
-    protected function checkDataBaseParam(): void
-    {
-        if (!isset($this->modelOptions->getOption('config')->database)) {
-            throw new InvalidParameterException('Database configuration cannot be loaded from your config file.');
-        }
-
-        if (!isset($this->modelOptions->getOption('config')->database->adapter)) {
-            throw new InvalidParameterException(
-                "Adapter was not found in the config. " .
-                "Please specify a config variable [database][adapter]"
-            );
-        }
-    }
-
-    /**
-     * @param ReferenceInterface $reference
-     * @param string $namespace
      * @return string
      */
-    protected function getEntityClassName(ReferenceInterface $reference, string $namespace): string
+    protected function getEntityAlias(string $tableName): string
     {
-        $referencedTable = Utils::camelize($reference->getReferencedTable());
+        return "['alias' => '" . Text::camelize($tableName, '_-') . "']";
+    }
 
-        return "{$namespace}\\{$referencedTable}";
+    /**
+     * @param string $classname
+     *
+     * @return string
+     */
+    protected function getFullClassName(string $classname): string
+    {
+        $namespace = $this->modelOptions->getValidOptionOrDefault('namespace', '');
+        if (!empty($namespace)) {
+            $namespace .= "\\";
+        }
+
+        return $namespace . $classname;
+    }
+
+    /**
+     * Get reference full class name
+     *
+     * @param string $reference
+     *
+     * @return string
+     */
+    protected function getEntityClassName(string $reference): string
+    {
+        $classname = Utils::camelize($reference);
+
+        return $this->getFullClassName($classname);
     }
 
     /**
      * Get reference list from option
      *
-     * @param string $schema
+     * @param string|null $schema
      * @param AbstractPdo $db
+     *
      * @return array
      */
     protected function getReferenceList(?string $schema, AbstractPdo $db): array
@@ -633,32 +610,10 @@ class Model extends AbstractComponent
     }
 
     /**
-     * Set path to folder where models are
-     *
-     * @throw InvalidParameterException
-     */
-    protected function setModelsDir(): void
-    {
-        if ($this->modelOptions->hasOption('modelsDir')) {
-            $this->modelOptions->setOption(
-                'modelsDir',
-                rtrim($this->modelOptions->getOption('modelsDir'), '/\\') . DIRECTORY_SEPARATOR
-            );
-            return;
-        }
-
-        if ($modelsDir = $this->modelOptions->getOption('config')->path('application.modelsDir')) {
-            $this->modelOptions->setOption('modelsDir', rtrim($modelsDir, '/\\') . DIRECTORY_SEPARATOR);
-            return;
-        }
-
-        throw new InvalidParameterException("Builder doesn't know where is the models directory.");
-    }
-
-    /**
      * Returns the associated PHP type
      *
-     * @param  int $type
+     * @param int $type
+     *
      * @return string
      */
     protected function getPHPType(int $type): string

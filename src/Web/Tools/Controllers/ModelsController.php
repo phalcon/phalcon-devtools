@@ -190,7 +190,7 @@ class ModelsController extends Base
         if ($this->request->isPost()) {
             try {
                 $tableName = $this->request->getPost('tableName', 'string');
-                $component = '@' == $tableName ? AllModels::class : Model::class;
+                $component = '@' === $tableName ? AllModels::class : Model::class;
 
                 /** @var AllModels $modelBuilder */
                 $modelBuilder = new $component([
@@ -209,7 +209,7 @@ class ModelsController extends Base
 
                 $modelBuilder->build();
 
-                if ($tableName == '@') {
+                if ('@' === $tableName) {
                     if (($n = count($modelBuilder->exist)) > 0) {
                         $mList = implode('</strong>, <strong>', $modelBuilder->exist);
 

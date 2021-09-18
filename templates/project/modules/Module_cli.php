@@ -12,9 +12,9 @@ class Module implements ModuleDefinitionInterface
     /**
      * Registers an autoloader related to the module
      *
-     * @param DiInterface $di
+     * @param DiInterface $container
      */
-    public function registerAutoloaders(DiInterface $di = null)
+    public function registerAutoloaders(DiInterface $container = null)
     {
         $loader = new Loader();
 
@@ -28,9 +28,9 @@ class Module implements ModuleDefinitionInterface
     /**
      * Registers services related to the module
      *
-     * @param DiInterface $di
+     * @param DiInterface $container
      */
-    public function registerServices(DiInterface $di)
+    public function registerServices(DiInterface $container)
     {
     }
 }

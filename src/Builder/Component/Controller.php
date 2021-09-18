@@ -13,8 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Builder\Component;
 
 use Phalcon\DevTools\Builder\Exception\BuilderException;
+use Phalcon\DevTools\Generator\AbstractEntityGenerator;
+use Phalcon\DevTools\Generator\Entity\ControllerEntityGenerator;
 use Phalcon\DevTools\Utils;
-use SplFileObject;
 
 /**
  * Builder to generate controller
@@ -37,17 +38,45 @@ class Controller extends AbstractComponent
             $options['force'] = false;
         }
 
+        if (!isset($options['suffix'])) {
+            $options['suffix'] = 'Controller';
+        }
+
         parent::__construct($options);
     }
 
     /**
      * @throws BuilderException
      */
-    public function build()
+    public function build(array $actions = []): self
     {
         if (!$this->options->has('name')) {
             throw new BuilderException('The controller name is required.');
         }
+
+        $name = str_replace(' ', '_', $this->options->get('name'));
+        $baseClass = $this->options->get('baseClass');
+        $namespace = $this->constructNamespace();
+        $className = Utils::camelize($name) . $this->options->get('suffix');
+
+        $this->generator = new ControllerEntityGenerator($className, $baseClass, $namespace);
+        $this->generator->setStrict();
+        $this->generator->addMethods($actions);
+
+        return $this;
+    }
+
+    /**
+     * @throws BuilderException
+     */
+    public function write(array $actions = []): string
+    {
+        if (null === $this->generator) {
+            $this->build($actions);
+        }
+
+        $name = str_replace(' ', '_', $this->options->get('name'));
+        $className = Utils::camelize($name) . $this->options->get('suffix');
 
         if ($this->options->has('directory')) {
             $this->path->setRootPath($this->options->get('directory'));
@@ -62,58 +91,50 @@ class Controller extends AbstractComponent
             $controllersDir = $config->path('application.controllersDir');
         }
 
-        $name = str_replace(' ', '_', $this->options->get('name'));
-        $className = Utils::camelize($name);
-
         // Oops! We are in APP_PATH and try to get controllersDir from outside from project dir
-        if ($this->isConsole() && substr($controllersDir, 0, 3) === '../') {
+        if ($this->isConsole() && strpos($controllersDir, '../') === 0) {
             $controllersDir = ltrim($controllersDir, './');
         }
 
-        $baseClass = $this->options->get('baseClass');
-        $controllerPath = rtrim($controllersDir, '\\/') . DIRECTORY_SEPARATOR . $className . "Controller.php";
-
-        $namespace = $this->constructNamespace();
-        $code = "<?php\ndeclare(strict_types=1);\n\n" . $namespace . "class " . $className . "Controller extends " .
-            $baseClass . "\n{\n\n\tpublic function indexAction()\n\t{\n\n\t}\n\n}\n\n";
-        $code = str_replace("\t", "    ", $code);
-
+        $controllerPath = rtrim($controllersDir, '\\/') . DIRECTORY_SEPARATOR . "{$className}.php";
         if (file_exists($controllerPath) && !$this->options->has('force')) {
             throw new BuilderException(sprintf('The Controller %s already exists.', $name));
         }
 
-        $controller = new SplFileObject($controllerPath, 'w');
-        if (!$controller->fwrite($code)) {
-            throw new BuilderException(
-                sprintf('Unable to write to %s. Check write-access of a file.', $controller->getRealPath())
-            );
-        }
+        $this->generator->save($controllerPath);
 
         if ($this->isConsole()) {
             $this->notifySuccess(sprintf('Controller "%s" was successfully created.', $name));
-            $this->notifyInfo($controller->getRealPath());
+            $this->notifyInfo($controllerPath);
         }
 
-        return $className . 'Controller.php';
+        return $className;
+    }
+
+    /**
+     * @throws BuilderException
+     */
+    public function getGenerator(): AbstractEntityGenerator
+    {
+        if (null === $this->generator) {
+            $this->build();
+        }
+
+        return $this->generator;
     }
 
     /**
      * @return string
      * @throws BuilderException
      */
-    protected function constructNamespace(): string
+    protected function constructNamespace(): ?string
     {
-        $namespace = $this->options->has('namespace')
-            ? (string) $this->options->get('namespace') : null;
+        $namespace = $this->options->has('namespace') ? (string) $this->options->get('namespace') : null;
 
         if ($namespace === null) {
-            return '';
+            return null;
         }
 
-        if ($this->checkNamespace($namespace) && !empty(trim($namespace))) {
-            return 'namespace ' . $this->options->get('namespace') . ';' . PHP_EOL . PHP_EOL;
-        }
-
-        return '';
+        return $this->checkNamespace($namespace) && !empty(trim($namespace)) ? $namespace : null;
     }
 }

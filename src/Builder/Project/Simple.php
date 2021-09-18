@@ -22,8 +22,6 @@ use Phalcon\Exception;
  */
 class Simple extends ProjectBuilder
 {
-    use ProjectAware;
-
     /**
      * Project directories
      *
@@ -58,7 +56,7 @@ class Simple extends ProjectBuilder
      */
     public function build()
     {
-        
+
         $this
             ->buildDirectories()
             ->getVariableValues()
@@ -85,14 +83,14 @@ class Simple extends ProjectBuilder
      */
     private function createControllerFile()
     {
-        $builder = new ControllerBuilder([
+        $controllerBuilder = new ControllerBuilder([
             'name' => 'index',
             'directory' => $this->options->get('projectPath'),
             'controllersDir' => $this->options->get('projectPath') . 'app/controllers',
             'baseClass' => 'ControllerBase'
         ]);
 
-        $builder->build();
+        $controllerBuilder->build()->write();
 
         return $this;
     }
@@ -104,15 +102,15 @@ class Simple extends ProjectBuilder
      */
     private function createIndexViewFiles()
     {
-        $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
+        $engine = $this->options->get('templateEngine') === 'volt' ? 'volt' : 'phtml';
 
         $getFile = $this->options->get('templatePath') . '/project/simple/views/index.' . $engine;
         $putFile = $this->options->get('projectPath') . 'app/views/index.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/simple/views/index/index.' . $engine;
         $putFile = $this->options->get('projectPath') . 'app/views/index/index.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
@@ -121,12 +119,19 @@ class Simple extends ProjectBuilder
      * Create ControllerBase
      *
      * @return $this
+     * @throws BuilderException
      */
     private function createControllerBase()
     {
-        $getFile = $this->options->get('templatePath') . '/project/simple/ControllerBase.php';
-        $putFile = $this->options->get('projectPath') . 'app/controllers/ControllerBase.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+        $controllerBuilder = new ControllerBuilder([
+            'name' => 'ControllerBase',
+            'directory' => $this->options->get('projectPath'),
+            'controllersDir' => $this->options->get('projectPath') . 'app/controllers',
+            'baseClass' => '\Phalcon\Mvc\Controller',
+            'suffix' => '',
+        ]);
+
+        $controllerBuilder->build()->write();
 
         return $this;
     }
@@ -138,7 +143,7 @@ class Simple extends ProjectBuilder
      */
     private function createHtaccessFiles()
     {
-        if (file_exists($this->options->get('projectPath') . '.htaccess') == false) {
+        if (!file_exists($this->options->get('projectPath') . '.htaccess')) {
             $code = '<IfModule mod_rewrite.c>' . PHP_EOL .
                 "\t" . 'RewriteEngine on' . PHP_EOL .
                 "\t" . 'RewriteRule  ^$ public/    [L]' . PHP_EOL .
@@ -147,14 +152,14 @@ class Simple extends ProjectBuilder
             file_put_contents($this->options->get('projectPath') . '.htaccess', $code);
         }
 
-        if (file_exists($this->options->get('projectPath') . 'public/.htaccess') == false) {
+        if (!file_exists($this->options->get('projectPath') . 'public/.htaccess')) {
             file_put_contents(
                 $this->options->get('projectPath') . 'public/.htaccess',
                 file_get_contents($this->options->get('templatePath') . '/project/simple/htaccess')
             );
         }
 
-        if (file_exists($this->options->get('projectPath') . 'index.html') == false) {
+        if (!file_exists($this->options->get('projectPath') . 'index.html')) {
             $code = '<html><body><h1>Mod-Rewrite is not enabled</h1>' .
                 '<p>Please enable rewrite module on your web server to continue</body></html>';
             file_put_contents($this->options->get('projectPath') . 'index.html', $code);
@@ -172,7 +177,7 @@ class Simple extends ProjectBuilder
     {
         $getFile = $this->options->get('templatePath') . '/project/simple/index.php';
         $putFile = $this->options->get('projectPath') . 'public/index.php';
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }

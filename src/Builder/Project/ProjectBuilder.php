@@ -106,18 +106,15 @@ abstract class ProjectBuilder
      *
      * @return $this
      */
-    protected function generateFile($getFile, $putFile, $name = '')
+    protected function generateFile(string $getFile, string $putFile, string $name = '')
     {
         if (!file_exists($putFile)) {
             touch($putFile);
-            $fh = fopen($putFile, "w+");
+            $fh = fopen($putFile, 'wb+');
 
             $str = file_get_contents($getFile);
             if ($name) {
-                $namespace = ucfirst($name);
-                if (strtolower(trim($name)) == 'default') {
-                    $namespace = 'MyDefault';
-                }
+                $namespace = $this->getNamespace();
 
                 $str = preg_replace('/@@name@@/', $name, $str);
                 $str = preg_replace('/@@namespace@@/', $namespace, $str);
@@ -135,5 +132,41 @@ abstract class ProjectBuilder
         }
 
         return $this;
+    }
+
+    /**
+     * Create .htrouter.php file
+     *
+     * @param string|null $templatePath
+     * @param string|null $projectPath
+     *
+     * @return $this
+     */
+    protected function createHtrouterFile(string $projectPath = null, string $templatePath = null)
+    {
+        if (!$projectPath) {
+            $projectPath = $this->options->get('projectPath');
+        }
+
+        if (!$templatePath) {
+            $templatePath = $this->options->get('templatePath');
+        }
+
+        $fromFile = rtrim($templatePath, '\\/') . DIRECTORY_SEPARATOR . '.htrouter.php';
+        $toFile = $projectPath . '.htrouter.php';
+
+        $this->generateFile($fromFile, $toFile, $this->options->get('name'));
+
+        return $this;
+    }
+
+    protected function getNamespace(string $name = ''): string
+    {
+        $namespace = $name ? ucfirst($name) : ucfirst($this->options->get('name', ''));
+        if (strtolower(trim($name)) === 'default') {
+            $namespace = 'MyDefault';
+        }
+
+        return $namespace;
     }
 }

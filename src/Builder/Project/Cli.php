@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Project;
 
+use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
+use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
 
 /**
@@ -36,6 +38,7 @@ class Cli extends ProjectBuilder
      * Build project
      *
      * @return bool
+     * @throws BuilderException
      */
     public function build(): bool
     {
@@ -66,16 +69,16 @@ class Cli extends ProjectBuilder
             DIRECTORY_SEPARATOR . 'launcher';
 
         $putFile = $this->options->get('projectPath') . 'run';
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
         chmod($putFile, 0755);
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (stripos(PHP_OS, 'WIN') === 0) {
             $getFile = $this->options->get('templatePath') .
                 DIRECTORY_SEPARATOR . 'project' .
                 DIRECTORY_SEPARATOR . 'cli' .
                 DIRECTORY_SEPARATOR . 'launcher.bat';
             $putFile = $this->options->get('projectPath') . 'run.bat';
-            $this->generateFile($getFile, $putFile);
+            $this->generateFile($getFile, $putFile, $this->options->get('name'));
         }
 
         return $this;
@@ -85,16 +88,39 @@ class Cli extends ProjectBuilder
      * Create Default Tasks
      *
      * @return $this
+     * @throws BuilderException
      */
     private function createDefaultTasks()
     {
-        $getFile = $this->options->get('templatePath') . '/project/cli/MainTask.php';
-        $putFile = $this->options->get('projectPath') . 'app/tasks/MainTask.php';
-        $this->generateFile($getFile, $putFile);
+        $extends = '\Phalcon\Cli\Task';
 
-        $getFile = $this->options->get('templatePath') . '/project/cli/VersionTask.php';
-        $putFile = $this->options->get('projectPath') . 'app/tasks/VersionTask.php';
-        $this->generateFile($getFile, $putFile);
+        $controllerBuilder = new ControllerBuilder([
+            'name' => 'Main',
+            'suffix' => 'Task',
+            'directory' => $this->options->get('projectPath'),
+            'controllersDir' => $this->options->get('projectPath') . 'app/tasks/',
+            'baseClass' => $extends,
+            'force' => true,
+        ]);
+        $controllerBuilder->build(['mainAction' => [
+            'body' => 'echo "Congratulations! You are now flying with Phalcon CLI!";',
+        ]])->write();
+
+        $controllerBuilder = new ControllerBuilder([
+            'name' => 'Version',
+            'suffix' => 'Task',
+            'directory' => $this->options->get('projectPath'),
+            'controllersDir' => $this->options->get('projectPath') . 'app/tasks/',
+            'baseClass' => $extends,
+            'force' => true,
+        ]);
+        $controllerBuilder->build(['mainAction' => [
+            'body' => function () {
+                $config = $this->getDI()->get('config');
+
+                echo $config['version'];
+            },
+        ]])->write();
 
         return $this;
     }
@@ -108,7 +134,7 @@ class Cli extends ProjectBuilder
     {
         $getFile = $this->options->get('templatePath') . '/project/cli/bootstrap.php';
         $putFile = $this->options->get('projectPath') . 'app/bootstrap.php';
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
@@ -124,15 +150,15 @@ class Cli extends ProjectBuilder
 
         $getFile = $this->options->get('templatePath') . '/project/cli/config.' . $type;
         $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/cli/services.php';
         $putFile = $this->options->get('projectPath') . 'app/config/services.php';
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/cli/loader.php';
         $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
