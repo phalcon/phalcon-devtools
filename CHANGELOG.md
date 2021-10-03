@@ -1,6 +1,7 @@
 # [4.3.0](https://github.com/phalcon/cphalcon/releases/tag/v4.3.0)
 ## Changed
 - Changed code generation to external implementation [1455](https://github.com/phalcon/phalcon-devtools/issues/1455)
+- Updated composer packages [1523](https://github.com/phalcon/phalcon-devtools/pull/1523)
 
 # [4.2.0](https://github.com/phalcon/cphalcon/releases/tag/v4.2.0)
 Supported PHP Versions: 7.3, 7.4, 8.0
