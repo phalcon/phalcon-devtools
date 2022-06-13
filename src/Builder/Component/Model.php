@@ -82,6 +82,7 @@ class Model extends AbstractComponent
         $this->modelOptions->setNotDefinedOption('fileName', Utils::lowerCamelizeWithDelimiter($options['name'], '_-'));
         $this->modelOptions->setNotDefinedOption('abstract', false);
         $this->modelOptions->setNotDefinedOption('annotate', false);
+        $this->modelOptions->setNotDefinedOption('no-relation', false);
 
         if ($this->modelOptions->getOption('abstract')) {
             $this->modelOptions->setOption('className', 'Abstract' . $this->modelOptions->getOption('className'));
@@ -265,22 +266,24 @@ class Model extends AbstractComponent
             }
             $initialize['source'] = "\$this->setSource('{$table}');" . PHP_EOL;
 
-            $referenceList = $this->getReferenceList($schema, $db);
-            foreach ($referenceList as $tableName => $references) {
-                foreach ($references as $reference) {
-                    if ($reference->getReferencedTable() !== $table) {
-                        continue;
-                    }
+            if (!$this->modelOptions->getOption('noRelation')) {
+                $referenceList = $this->getReferenceList($schema, $db);
+                foreach ($referenceList as $tableName => $references) {
+                    foreach ($references as $reference) {
+                        if ($reference->getReferencedTable() !== $table) {
+                            continue;
+                        }
 
-                    $refColumns = $reference->getReferencedColumns();
-                    $columns = $reference->getColumns();
-                    $initialize[] = $snippet->getRelation(
-                        'hasMany',
-                        $this->getFieldName($refColumns[0]),
-                        $this->getEntityClassName($tableName),
-                        $this->getFieldName($columns[0]),
-                        $this->getEntityAlias($tableName)
-                    );
+                        $refColumns = $reference->getReferencedColumns();
+                        $columns = $reference->getColumns();
+                        $initialize[] = $snippet->getRelation(
+                            'hasMany',
+                            $this->getFieldName($refColumns[0]),
+                            $this->getEntityClassName($tableName),
+                            $this->getFieldName($columns[0]),
+                            $this->getEntityAlias($tableName)
+                        );
+                    }
                 }
             }
 

@@ -52,6 +52,7 @@ class Model extends Command
             'mapcolumn'       => 'Get some code for map columns [optional]',
             'abstract'        => 'Abstract Model [optional]',
             'annotate'        => 'Annotate Attributes [optional]',
+            'no-relation'     => 'Fast generate one model without relation searching [optional]',
             'help'            => 'Shows this help [optional]',
         ];
     }
@@ -85,7 +86,8 @@ class Model extends Command
                 'force'             => $this->isReceivedOption('force'),
                 'mapColumn'         => $this->isReceivedOption('mapcolumn'),
                 'abstract'          => $this->isReceivedOption('abstract'),
-                'annotate'          => $this->isReceivedOption('annotate')
+                'annotate'          => $this->isReceivedOption('annotate'),
+                'noRelation'        => $this->isReceivedOption('no-relation')
             ]
         );
 
