@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 
 $loader = new Loader();
 

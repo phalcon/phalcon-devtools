@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace @@namespace@@\Modules\Cli;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 
 class Module implements ModuleDefinitionInterface
