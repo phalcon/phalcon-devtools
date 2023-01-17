@@ -23,7 +23,7 @@ class Version
     // phpcs:disable
     protected static function getVersion(): array
     {
-        return [4, 3, 0, 0, 0];
+        return [5, 0, 0, 0, 0];
     }
     // phpcs:enable
 
