@@ -20,7 +20,7 @@ use Phalcon\DevTools\Builder\Path;
 use Phalcon\DevTools\Script;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 abstract class Command implements CommandsInterface
 {

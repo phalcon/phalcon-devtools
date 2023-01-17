@@ -27,7 +27,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Html\Escaper;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
