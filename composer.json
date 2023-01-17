@@ -25,10 +25,10 @@
         "php": ">=8.0",
         "ext-pdo": "*",
         "ext-json": "*",
-        "ext-phalcon": ">=5.0.0",
+        "ext-phalcon": ">=5.0.1",
         "psy/psysh": "~0.9",
         "nikic/php-parser": "^4.2.4",
-        "phalcon/migrations": "^2.0",
+        "phalcon/migrations": "^3.0",
         "vlucas/phpdotenv": "^3.6|^4.0|^5.0",
         "nette/php-generator": "^3.5",
         "roave/better-reflection": "^5.10.0|^6.1.0"

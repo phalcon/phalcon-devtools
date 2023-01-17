@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c3a1f0920444426cd2dd0ad2bbb69a6",
+    "content-hash": "afd3310d6e525dffff54312e95bfb57b",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -644,23 +644,23 @@
         },
         {
             "name": "phalcon/migrations",
-            "version": "v2.2.4",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/migrations.git",
-                "reference": "df71fb394a9a0840e27ff79d25ac7276dd7f9217"
+                "reference": "84f509fcdd62b5d4cb029490120d0a45690a12b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/migrations/zipball/df71fb394a9a0840e27ff79d25ac7276dd7f9217",
-                "reference": "df71fb394a9a0840e27ff79d25ac7276dd7f9217",
+                "url": "https://api.github.com/repos/phalcon/migrations/zipball/84f509fcdd62b5d4cb029490120d0a45690a12b0",
+                "reference": "84f509fcdd62b5d4cb029490120d0a45690a12b0",
                 "shasum": ""
             },
             "require": {
-                "ext-phalcon": ">=4.0.5",
+                "ext-phalcon": ">=5.0.1",
                 "nette/php-generator": "^3.5",
                 "phalcon/cli-options-parser": "^1.2",
-                "php": ">=7.3"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "codeception/codeception": "^4.1",
@@ -671,7 +671,8 @@
                 "ext-pdo": "*",
                 "fakerphp/faker": "^1.15",
                 "humbug/box": "^3.8",
-                "phalcon/ide-stubs": "^4.0.0",
+                "phalcon/ide-stubs": "^5.0.1",
+                "phpstan/phpstan": "^1.8",
                 "squizlabs/php_codesniffer": "^3.5",
                 "vimeo/psalm": "^4.6",
                 "vlucas/phpdotenv": "^4.1"
@@ -726,7 +727,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-12-10T08:24:47+00:00"
+            "time": "2022-09-26T07:15:01+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -7732,7 +7733,7 @@
         "php": ">=8.0",
         "ext-pdo": "*",
         "ext-json": "*",
-        "ext-phalcon": ">=5.0.0"
+        "ext-phalcon": ">=5.0.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
