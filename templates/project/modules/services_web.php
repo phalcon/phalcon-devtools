@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;

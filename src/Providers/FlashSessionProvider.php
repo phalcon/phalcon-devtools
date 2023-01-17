@@ -14,7 +14,7 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Flash\Session as FlashSession;
 
 class FlashSessionProvider implements ServiceProviderInterface
