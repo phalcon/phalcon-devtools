@@ -30,7 +30,7 @@ use Phalcon\DevTools\Script;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Version;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Exception as PhalconException;
+use Exception as PhalconException;
 
 try {
     require dirname(__FILE__) . '/bootstrap/autoload.php';
