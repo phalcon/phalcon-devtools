@@ -1,6 +1,6 @@
 # Phalcon Devtools
 
-[![codecov](https://codecov.io/gh/phalcon/phalcon-devtools/branch/4.0.x/graph/badge.svg)](https://codecov.io/gh/phalcon/phalcon-devtools)
+[![codecov](https://codecov.io/gh/phalcon/phalcon-devtools/branch/5.0.x/graph/badge.svg)](https://codecov.io/gh/phalcon/phalcon-devtools)
 [![Latest Version](https://img.shields.io/packagist/v/phalcon/devtools.svg?style=flat-square)][:devtools:]
 [![Software License](https://img.shields.io/badge/license-BSD--3-brightgreen.svg?style=flat-square)][:license:]
 [![Total Downloads](https://img.shields.io/packagist/dt/phalcon/devtools.svg?style=flat-square)][:packagist:]
@@ -21,8 +21,8 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 7.3
-* Phalcon >= 4.0.0
+* PHP >= 8.0
+* Phalcon >= 5.0.1
 
 ## Installing via Composer
 
@@ -37,17 +37,7 @@ Create the composer.json file as follows:
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "~4.1"
-    }
-}
-```
-
-If you are still using Phalcon 3.4.x, create a `composer.json` with the following instead:
-
-```json
-{
-    "require-dev": {
-        "phalcon/devtools": "^3.4"
+        "phalcon/devtools": "~5.0.0"
     }
 }
 ```
@@ -115,7 +105,7 @@ This command should display something similar to:
 ```sh
 $ phalcon --help
 
-Phalcon DevTools (4.1.0)
+Phalcon DevTools (5.0.0)
 
 Help:
   Lists the commands available in Phalcon DevTools
