@@ -23,7 +23,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as ModelPaginator;
 use Phalcon\Tag;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 use SplFileObject;
 
 /**
@@ -77,7 +77,8 @@ class Scaffold extends AbstractComponent
     public function build(): bool
     {
         $name = $this->options->get('name');
-        $config = $this->options->get('config');
+        $config = $this->options->get('config');        
+        $helper = new HelperFactory();
 
         if ($name === null) {
             throw new BuilderException('Table name is required.');
@@ -142,8 +143,8 @@ class Scaffold extends AbstractComponent
 
         $this->options->offsetSet('viewsDir', $viewPath);
         $this->options->offsetSet('manager', $di->getShared('modelsManager'));
-        $this->options->offsetSet('className', Text::camelize($name));
-        $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
+        $this->options->offsetSet('className', $helper->camelize($name));
+        $this->options->offsetSet('fileName', $helper->uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
         if ($this->options->has('modelsNamespace') &&
@@ -152,7 +153,7 @@ class Scaffold extends AbstractComponent
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
-        $modelName = Text::camelize($name);
+        $modelName = $helper->camelize($name);
 
         if ($modelsNamespace) {
             $modelClass = '\\' . trim($modelsNamespace, '\\') . '\\' . $modelName;
@@ -198,7 +199,7 @@ class Scaffold extends AbstractComponent
         $relationField = '';
 
         $single = $name;
-        $this->options->offsetSet('name', strtolower(Text::camelize($single)));
+        $this->options->offsetSet('name', strtolower($helper->camelize($single)));
         $this->options->offsetSet('baseClass', 'ControllerBase');
         $this->options->offsetSet('plural', $this->getPossiblePlural($name));
         $this->options->offsetSet('singular', $this->getPossibleSingular($name));

@@ -16,7 +16,7 @@ use ArrayIterator;
 use DirectoryIterator;
 use Iterator;
 use Phalcon\DevTools\Exception\InvalidArgumentException;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 use RuntimeException;
 use SplFileInfo;
 
@@ -42,11 +42,14 @@ class FsUtils
             return '';
         }
 
+        $helper = new HelperFactory();
+        $method = 'set' . $helper->camelize($parameter);
+
         $normalized = preg_replace('#\p{C}+|^\./#u', '', $path);
         $normalized = preg_replace('#/\.(?=/)|^\./|(/|^)\./?$#', '', $normalized);
         $normalized = str_replace(['\\', '/'], DS, $normalized);
 
-        return Text::reduceSlashes($normalized);
+        return $helper->reduceSlashes($normalized);
     }
 
     /**

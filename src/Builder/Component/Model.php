@@ -30,7 +30,7 @@ use Phalcon\DevTools\Utils;
 use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\Email as EmailValidator;
 use ReflectionClassConstant;
@@ -102,7 +102,8 @@ class Model extends AbstractComponent
     {
         /** @var ModelSnippet $snippet */
         $snippet = $this->modelOptions->getOption('snippet');
-        $config = $this->modelOptions->getOption('config');
+        $config = $this->modelOptions->getOption('config');        
+        $helper = new HelperFactory();
 
         if ($this->modelOptions->hasOption('directory')) {
             $this->path->setRootPath($this->modelOptions->getOption('directory'));
@@ -156,7 +157,7 @@ class Model extends AbstractComponent
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
                         /** @var Column $field */
-                        $methodName = Text::camelize($field->getName(), '_-');
+                        $methodName = $helper->camelize($field->getName(), '_-');
 
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
@@ -374,7 +375,7 @@ class Model extends AbstractComponent
         if ($this->isConsole()) {
             $msgSuccess = $abstract ? 'Abstract ' : '';
             $msgSuccess .= 'Model "%s" was successfully created.';
-            $this->notifySuccess(sprintf($msgSuccess, Text::camelize($table, '_-')));
+            $this->notifySuccess(sprintf($msgSuccess, $helper->camelize($table, '_-')));
         }
     }
 
@@ -554,8 +555,9 @@ class Model extends AbstractComponent
      * @return string
      */
     protected function getEntityAlias(string $tableName): string
-    {
-        return "['alias' => '" . Text::camelize($tableName, '_-') . "']";
+    {        
+        $helper = new HelperFactory();
+        return "['alias' => '" . $helper->camelize($tableName, '_-') . "']";
     }
 
     /**

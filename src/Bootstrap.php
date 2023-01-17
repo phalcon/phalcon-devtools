@@ -42,7 +42,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Application as MvcApplication;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 
 /**
  * @method mixed getShared($name, $parameters=null)
@@ -403,7 +403,8 @@ class Bootstrap
      */
     public function setParameter(string $parameter, $value): Bootstrap
     {
-        $method = 'set' . Text::camelize($parameter);
+        $helper = new HelperFactory();
+        $method = 'set' . $helper->camelize($parameter);
 
         if (method_exists($this, $method)) {
             $this->$method($value);
