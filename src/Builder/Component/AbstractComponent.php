@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Component;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Builder\Path;
 use Phalcon\DevTools\Generator\AbstractEntityGenerator;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Validation\Validator\Namespaces;
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
 
 /**
  * Base class for builder components

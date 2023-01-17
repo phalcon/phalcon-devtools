@@ -7,7 +7,7 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Session\Manager as SessionManager;
-use Phalcon\Url as UrlResolver;
+use Phalcon\Mvc\Url as UrlResolver;
 
 /**
  * Registering a router

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Unit;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Utils;
 use Phalcon\DevTools\Tests\Support\Module\UnitTest;
 use Phalcon\Text;

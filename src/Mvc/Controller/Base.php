@@ -15,7 +15,7 @@ namespace Phalcon\DevTools\Mvc\Controller;
 use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
@@ -30,9 +30,9 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Registry;
-use Phalcon\Url;
-use Phalcon\Url\UrlInterface;
-use Phalcon\Version as PhVersion;
+use Phalcon\Mvc\Url;
+use Phalcon\Mvc\Url\UrlInterface;
+use Phalcon\Support\Version as PhVersion;
 
 /**
  * @property Config $config

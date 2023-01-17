@@ -1,3 +1,8 @@
+# [5.0.1](https://github.com/phalcon/cphalcon/releases/tag/v5.5.1)
+## Changed
+- Update composer dependencies to require and function with 8.1
+- Removed support for PHP 7.X
+
 # [4.3.0](https://github.com/phalcon/cphalcon/releases/tag/v4.3.0)
 ## Changed
 - Changed code generation to external implementation [1455](https://github.com/phalcon/phalcon-devtools/issues/1455)

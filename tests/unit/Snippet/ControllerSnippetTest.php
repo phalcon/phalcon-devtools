@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Tests\Unit\Snippet;
 
 use Codeception\Test\Unit;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Snippet\ControllerSnippet;
 
 final class ControllerSnippetTest extends Unit

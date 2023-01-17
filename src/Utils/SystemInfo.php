@@ -16,8 +16,8 @@ use Phalcon\DevTools\Version as DevToolsVersion;
 use Phalcon\DevTools\PhalconVersion;
 use Phalcon\Di\Injectable;
 use Phalcon\Registry;
-use Phalcon\Url;
-use Phalcon\Url\UrlInterface;
+use Phalcon\Mvc\Url;
+use Phalcon\Mvc\Url\UrlInterface;
 
 /**
  * @property Registry $registry
@@ -58,16 +58,7 @@ class SystemInfo extends Injectable
      */
     public function getPhalconVersion(): string
     {
-        // Check if Phalcon is version >= 5.0
-        if (class_exists('\Phalcon\Support\Version')) {
-            return (new \Phalcon\Support\Version())->get();
-        }
-
-        if (class_exists('\Phalcon\Version')) {
-            return \Phalcon\Version::get();
-        }
-
-        return 'Unknown';
+        return (new \Phalcon\Support\Version())->get();
     }
 
     public function getVersions(): array

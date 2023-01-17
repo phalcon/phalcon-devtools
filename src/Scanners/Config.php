@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Scanners;
 
-use Phalcon\Config as PhConfig;
+use Phalcon\Config\Config as PhConfig;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 use Phalcon\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Adapter\Yaml as YamlConfig;
