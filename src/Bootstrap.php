@@ -37,7 +37,7 @@ use Phalcon\DevTools\Providers\UrlProvider;
 use Phalcon\DevTools\Providers\ViewCacheProvider;
 use Phalcon\DevTools\Providers\ViewProvider;
 use Phalcon\DevTools\Providers\VoltProvider;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\ServiceProviderInterface;
