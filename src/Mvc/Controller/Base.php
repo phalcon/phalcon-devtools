@@ -29,7 +29,7 @@ use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\View;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Support\Version as PhVersion;

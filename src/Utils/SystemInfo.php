@@ -15,7 +15,7 @@ namespace Phalcon\DevTools\Utils;
 use Phalcon\DevTools\Version as DevToolsVersion;
 use Phalcon\DevTools\PhalconVersion;
 use Phalcon\Di\Injectable;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\Url\UrlInterface;
 

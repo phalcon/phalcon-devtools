@@ -17,7 +17,7 @@ use Phalcon\DevTools\Bootstrap;
 use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 
 class RegistryProvider implements ServiceProviderInterface
 {
