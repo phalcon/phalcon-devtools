@@ -13,12 +13,18 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Builder\Component;
 
 use Phalcon\Db\Column;
+use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
 use Phalcon\DevTools\Builder\Component\Model as ModelBuilder;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
+use Phalcon\DevTools\Snippet\ControllerSnippet;
 use Phalcon\DevTools\Utils;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Text;
+use Phalcon\Mvc\Model\Criteria;
+use Phalcon\Paginator\Adapter\Model as ModelPaginator;
+use Phalcon\Tag;
+use Phalcon\Support\HelperFactory;
+use SplFileObject;
 
 /**
  * Build CRUDs using Phalcon
@@ -45,8 +51,8 @@ class Scaffold extends AbstractComponent
      */
     private function getPossibleSingular(string $className): string
     {
-        if (substr($className, strlen($className) - 1, 1) == 's') {
-            return substr($className, 0, strlen($className) - 1);
+        if ($className[strlen($className) - 1] === 's') {
+            return substr($className, 0, -1);
         }
 
         return $className;
@@ -58,7 +64,7 @@ class Scaffold extends AbstractComponent
      */
     private function getPossiblePlural(string $className): string
     {
-        if (substr($className, strlen($className) - 1, 1) == 's') {
+        if ($className[strlen($className) - 1] === 's') {
             return $className;
         }
 
@@ -71,7 +77,8 @@ class Scaffold extends AbstractComponent
     public function build(): bool
     {
         $name = $this->options->get('name');
-        $config = $this->options->get('config');
+        $config = $this->options->get('config');        
+        $helper = new HelperFactory();
 
         if ($name === null) {
             throw new BuilderException('Table name is required.');
@@ -136,8 +143,8 @@ class Scaffold extends AbstractComponent
 
         $this->options->offsetSet('viewsDir', $viewPath);
         $this->options->offsetSet('manager', $di->getShared('modelsManager'));
-        $this->options->offsetSet('className', Text::camelize($name));
-        $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
+        $this->options->offsetSet('className', $helper->camelize($name));
+        $this->options->offsetSet('fileName', $helper->uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
         if ($this->options->has('modelsNamespace') &&
@@ -146,7 +153,7 @@ class Scaffold extends AbstractComponent
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
-        $modelName = Text::camelize($name);
+        $modelName = $helper->camelize($name);
 
         if ($modelsNamespace) {
             $modelClass = '\\' . trim($modelsNamespace, '\\') . '\\' . $modelName;
@@ -192,7 +199,8 @@ class Scaffold extends AbstractComponent
         $relationField = '';
 
         $single = $name;
-        $this->options->offsetSet('name', strtolower(Text::camelize($single)));
+        $this->options->offsetSet('name', strtolower($helper->camelize($single)));
+        $this->options->offsetSet('baseClass', 'ControllerBase');
         $this->options->offsetSet('plural', $this->getPossiblePlural($name));
         $this->options->offsetSet('singular', $this->getPossibleSingular($name));
         $this->options->offsetSet('modelClass', $modelClass);
@@ -227,66 +235,6 @@ class Scaffold extends AbstractComponent
         print Color::success('Scaffold was successfully created.');
 
         return true;
-    }
-
-    /**
-     * @param string $var
-     * @param mixed $fields
-     * @param bool $useGetSetters
-     * @param null|string $identityField
-     *
-     * @return string
-     */
-    private function captureFilterInput(string $var, $fields, bool $useGetSetters, string $identityField = null): string
-    {
-        $code = '';
-        foreach ($fields as $field => $dataType) {
-            if ($identityField !== null && $field === $identityField) {
-                continue;
-            }
-
-            if (\in_array($dataType, [Column::TYPE_DECIMAL, Column::TYPE_INTEGER])) {
-                $fieldCode = '$this->request->getPost("'.$field.'", "int")';
-            } elseif ($field === 'email') {
-                $fieldCode = '$this->request->getPost("'.$field.'", "email")';
-            } else {
-                $fieldCode = '$this->request->getPost("'.$field.'")';
-            }
-
-            $code .= '$' . Utils::lowerCamelizeWithDelimiter($var, '-', true) . '->';
-            if ($useGetSetters) {
-                $code .= 'set' . Utils::lowerCamelizeWithDelimiter($field, '_', true) . '(' . $fieldCode . ')';
-            } else {
-                $code .= Utils::lowerCamelizeWithDelimiter($field, '-_', true) . ' = ' . $fieldCode;
-            }
-
-            $code .= ';' . PHP_EOL . "\t\t";
-        }
-
-        return $code;
-    }
-
-    /**
-     * @param string $var
-     * @param mixed $fields
-     * @param bool $useGetSetters
-     * @return string
-     */
-    private function assignTagDefaults(string $var, $fields, bool $useGetSetters): string
-    {
-        $code = '';
-        foreach ($fields as $field => $dataType) {
-            if ($useGetSetters) {
-                $accessor = 'get' . Text::camelize($field) . '()';
-            } else {
-                $accessor = $field;
-            }
-
-            $code .= '$this->tag->setDefault("' . $field . '", $' .
-                Utils::lowerCamelizeWithDelimiter($var, '-', true) . '->' . $accessor . ');' . PHP_EOL . "\t\t\t";
-        }
-
-        return $code;
     }
 
     /**
@@ -413,7 +361,7 @@ class Scaffold extends AbstractComponent
 
         $code = '';
         foreach ($this->options->get('dataTypes') as $attribute => $dataType) {
-            if (($action == 'new' || $action == 'edit') && $attribute == $identityField) {
+            if (($action === 'new' || $action === 'edit') && $attribute == $identityField) {
                 continue;
             }
 
@@ -435,7 +383,7 @@ class Scaffold extends AbstractComponent
 
         $code = '';
         foreach ($this->options->get('dataTypes') as $attribute => $dataType) {
-            if (($action == 'new' || $action == 'edit') && $attribute == $identityField) {
+            if (($action === 'new' || $action === 'edit') && $attribute == $identityField) {
                 continue;
             }
 
@@ -451,109 +399,94 @@ class Scaffold extends AbstractComponent
      */
     private function makeController(): void
     {
-        $controllerPath = $this->options->get('controllersDir') . $this->options->get('className') . 'Controller.php';
-        if (file_exists($controllerPath) && !$this->options->has('force')) {
-            return;
+        $nsOptKey = 'controllersNamespace';
+        $controllerNamespace = $this->options->has($nsOptKey) ? (string)$this->options->get($nsOptKey) : '';
+        if (empty(trim($controllerNamespace)) || !$this->checkNamespace($controllerNamespace)) {
+            $controllerNamespace = null;
         }
 
-        $code = file_get_contents($this->options->get('templatePath') . '/scaffold/no-forms/Controller.php');
-        $usesNamespaces = false;
+        $baseClass = $controllerNamespace . '\\' . $this->options->get('baseClass');
+        $controllerBuilder = new ControllerBuilder([
+            'name' => $this->options->get('className'),
+            'directory' => $this->options->get('directory'),
+            'controllersDir' => $this->options->get('controllersDir'),
+            'baseClass' => $baseClass,
+            'namespace' => $controllerNamespace,
+            'force' => $this->options->get('force'),
+        ]);
+        $controllerBuilder->build();
 
-        $controllerNamespace = $this->options->has('controllersNamespace')
-            ? (string) $this->options->get('controllersNamespace') : '';
+        $generator = $controllerBuilder->getGenerator();
+        $generator->addImport(Criteria::class);
+        $generator->addImport(ModelPaginator::class);
+        $generator->addImport(Tag::class);
 
-        if (!empty(trim($controllerNamespace)) && $this->checkNamespace($controllerNamespace)) {
-            $code = str_replace(
-                '$namespace$',
-                'namespace ' . $controllerNamespace.';' . PHP_EOL,
-                $code
-            );
-            $usesNamespaces = true;
-        } else {
-            $code = str_replace('$namespace$', ' ', $code);
+        $nsOptKey = 'modelsNamespace';
+        $modelClass = $fullyQualifiedModelName = $this->options->get('modelClass');
+        $modelNamespace = $this->options->has($nsOptKey) ? (string)$this->options->get($nsOptKey) : '';
+        if (!empty(trim($modelNamespace)) && $this->checkNamespace($modelNamespace)) {
+            $generator->addImport($fullyQualifiedModelName);
+            $modelClass = str_replace([$modelNamespace . '\\', '\\'], '', $modelClass);
         }
 
-        $modelNamespace = (string)$this->options->get('modelsNamespace');
-        if (($this->options->has('modelsNamespace') && $modelNamespace && $this->checkNamespace($modelNamespace))
-            || $usesNamespaces
-        ) {
-            $code = str_replace(
-                '$useFullyQualifiedModelName$',
-                "use " . ltrim($this->options->get('modelClass'), '\\') . ';',
-                $code
-            );
-        } else {
-            $code = str_replace('$useFullyQualifiedModelName$', '', $code);
-        }
+        $snippet = new ControllerSnippet($modelClass, $this->options);
+        $generator->addMethods([
+            'indexAction' => [
+                'comments' => ['Index action'],
+                'body' => '//',
+            ],
+            'searchAction' => [
+                'comments' => ["Searches for $snippet->plural"],
+                'body' => $snippet->getSearchAction(),
+            ],
+            'newAction' => [
+                'comments' => ['Displays the creation form'],
+                'body' => '//',
+            ],
+            'editAction' => [
+                'comments' => [
+                    "Edits a $snippet->singular\n",
+                    "@param string $snippet->pkVar",
+                ],
+                'arguments' => [$snippet->pk],
+                'body' => $snippet->getEditAction(),
+            ],
+            'createAction' => [
+                'comments' => ["Creates a new $snippet->singular"],
+                'body' => $snippet->getCreateAction(),
+            ],
+            'saveAction' => [
+                'comments' => ["Saves a $snippet->singular edited"],
+                'body' => $snippet->getSaveAction(),
+            ],
+            'deleteAction' => [
+                'comments' => [
+                    "Deletes a $snippet->singular\n",
+                    "@param string $snippet->pkVar",
+                ],
+                'arguments' => [$snippet->pk],
+                'body' => $snippet->getDeleteAction(),
+            ],
+        ]);
 
-        $code = str_replace('$fullyQualifiedModelName$', $this->options->get('modelClass'), $code);
-
-        $code = str_replace(
-            '$singularVar$',
-            '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true),
-            $code
-        );
-        $code = str_replace('$singular$', $this->options->get('singular'), $code);
-
-        $code = str_replace(
-            '$pluralVar$',
-            '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('plural'), '-', true),
-            $code
-        );
-        $code = str_replace('$plural$', $this->options->get('plural'), $code);
-
-        $code = str_replace('$className$', $this->options->get('className'), $code);
-
-        $code = str_replace('$assignInputFromRequestCreate$', $this->captureFilterInput(
-            $this->options->get('singular'),
-            $this->options->get('dataTypes'),
-            (bool) $this->options->get('genSettersGetters'),
-            $this->options->get('identityField')
-        ), $code);
-
-        $code = str_replace('$assignInputFromRequestUpdate$', $this->captureFilterInput(
-            $this->options->get('singular'),
-            $this->options->get('dataTypes'),
-            (bool) $this->options->get('genSettersGetters'),
-            $this->options->get('identityField')
-        ), $code);
-
-        $code = str_replace('$assignTagDefaults$', $this->assignTagDefaults(
-            $this->options->get('singular'),
-            $this->options->get('dataTypes'),
-            (bool) $this->options->get('genSettersGetters')
-        ), $code);
-
-        $attributes = $this->options->get('attributes');
-
-        $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
-
-        if ((bool) $this->options->get('genSettersGetters')) {
-            $code = str_replace('$pkGet$', 'get' . Text::camelize($attributes[0]) . '()', $code);
-        } else {
-            $code = str_replace('$pkGet$', $attributes[0], $code);
-        }
-
-        $code = str_replace('$pk$', $attributes[0], $code);
+        $className = $controllerBuilder->write();
 
         if ($this->isConsole()) {
-            echo $controllerPath, PHP_EOL;
+            echo $className . PHP_EOL;
         }
-
-        $code = str_replace("\t", "    ", $code);
-        file_put_contents($controllerPath, $code);
     }
 
     /**
      * Make layouts of model using scaffold
      *
-     * @return $this
+     * @return void
+     * @throws BuilderException
      */
-    private function makeLayouts()
+    private function makeLayouts(): void
     {
         $dirPathLayouts = $this->options->get('viewsDir') . 'layouts';
-        if (!is_dir($dirPathLayouts)) {
-            mkdir($dirPathLayouts, 0777, true);
+        if (!is_dir($dirPathLayouts) && !mkdir($dirPathLayouts, 0777, true) && !is_dir($dirPathLayouts)) {
+            throw new BuilderException(sprintf('Directory "%s" was not created', $dirPathLayouts));
         }
 
         $fileName = $this->options->get('fileName');
@@ -577,20 +510,19 @@ class Scaffold extends AbstractComponent
             $code = str_replace("\t", "    ", $code);
             file_put_contents($viewPath, $code);
         }
-
-        return $this;
     }
 
     /**
      * Make View layouts
      *
-     * @return $this
+     * @return void
+     * @throws BuilderException
      */
-    private function makeLayoutsVolt()
+    private function makeLayoutsVolt(): void
     {
         $dirPathLayouts = $this->options->get('viewsDir') . 'layouts';
-        if (!is_dir($dirPathLayouts)) {
-            mkdir($dirPathLayouts, 0777, true);
+        if (!is_dir($dirPathLayouts) && !mkdir($dirPathLayouts, 0777, true) && !is_dir($dirPathLayouts)) {
+            throw new BuilderException(sprintf('Directory "%s" was not created', $dirPathLayouts));
         }
 
         $fileName = Text::uncamelize($this->options->get('fileName'));
@@ -615,8 +547,6 @@ class Scaffold extends AbstractComponent
             $code = str_replace("\t", "    ", $code);
             file_put_contents($viewPath, $code);
         }
-
-        return $this;
     }
 
     /**
@@ -626,8 +556,8 @@ class Scaffold extends AbstractComponent
     private function makeView(string $type): void
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (!is_dir($dirPath)) {
-            mkdir($dirPath);
+        if (!is_dir($dirPath) && !mkdir($dirPath) && !is_dir($dirPath)) {
+            throw new BuilderException(sprintf('Directory "%s" was not created', $dirPath));
         }
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . $type . '.phtml';
@@ -641,8 +571,11 @@ class Scaffold extends AbstractComponent
         }
 
         $code = file_get_contents($templatePath);
-        $code = str_replace('$plural$', $this->options->get('plural'), $code);
-        $code = str_replace('$captureFields$', self::makeFields($type), $code);
+        $code = str_replace(
+            ['$plural$', '$captureFields$'],
+            [$this->options->get('plural'), $this->makeFields($type)],
+            $code
+        );
 
         if ($this->isConsole()) {
             echo $viewPath, PHP_EOL;
@@ -659,8 +592,8 @@ class Scaffold extends AbstractComponent
     private function makeViewVolt(string $type): void
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (!is_dir($dirPath)) {
-            mkdir($dirPath, 0777, true);
+        if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
+            throw new BuilderException(sprintf('Directory "%s" was not created', $dirPath));
         }
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . $type . '.volt';
@@ -675,8 +608,11 @@ class Scaffold extends AbstractComponent
 
         $code = file_get_contents($templatePath);
 
-        $code = str_replace('$plural$', $this->options->get('plural'), $code);
-        $code = str_replace('$captureFields$', self::makeFieldsVolt($type), $code);
+        $code = str_replace(
+            ['$plural$', '$captureFields$'],
+            [$this->options->get('plural'), $this->makeFieldsVolt($type)],
+            $code
+        );
 
         if ($this->isConsole()) {
             echo $viewPath, PHP_EOL;
@@ -694,8 +630,8 @@ class Scaffold extends AbstractComponent
     private function makeViewSearch(): void
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (!is_dir($dirPath)) {
-            mkdir($dirPath);
+        if (!is_dir($dirPath) && !mkdir($dirPath) && !is_dir($dirPath)) {
+            throw new BuilderException(sprintf('Directory "%s" was not created', $dirPath));
         }
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . 'search.phtml';
@@ -739,15 +675,17 @@ class Scaffold extends AbstractComponent
 
         $code = file_get_contents($templatePath);
 
-        $code = str_replace('$plural$', $this->options->get('plural'), $code);
-        $code = str_replace('$headerColumns$', $headerCode, $code);
-        $code = str_replace('$rowColumns$', $rowCode, $code);
         $code = str_replace(
-            '$singularVar$',
-            '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true),
+            ['$plural$', '$headerColumns$', '$rowColumns$', '$singularVar$', '$pk$'],
+            [
+                $this->options->get('plural'),
+                $headerCode,
+                $rowCode,
+                '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true),
+                $idField
+            ],
             $code
         );
-        $code = str_replace('$pk$', $idField, $code);
 
         if ($this->isConsole()) {
             echo $viewPath, PHP_EOL;
@@ -760,11 +698,11 @@ class Scaffold extends AbstractComponent
     /**
      * @throws BuilderException
      */
-    private function makeViewSearchVolt()
+    private function makeViewSearchVolt(): void
     {
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
-        if (!is_dir($dirPath)) {
-            mkdir($dirPath);
+        if (!is_dir($dirPath) && !mkdir($dirPath) && !is_dir($dirPath)) {
+            throw new BuilderException(sprintf('Directory "%s" was not created', $dirPath));
         }
 
         $viewPath = $dirPath . DIRECTORY_SEPARATOR . 'search.volt';
@@ -808,15 +746,17 @@ class Scaffold extends AbstractComponent
 
         $code = file_get_contents($templatePath);
 
-        $code = str_replace('$plural$', $this->options->get('plural'), $code);
-        $code = str_replace('$headerColumns$', $headerCode, $code);
-        $code = str_replace('$rowColumns$', $rowCode, $code);
         $code = str_replace(
-            '$singularVar$',
-            Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true),
+            ['$plural$', '$headerColumns$', '$rowColumns$', '$singularVar$', '$pk$'],
+            [
+                $this->options->get('plural'),
+                $headerCode,
+                $rowCode,
+                Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true),
+                $idField
+            ],
             $code
         );
-        $code = str_replace('$pk$', $idField, $code);
 
         if ($this->isConsole()) {
             echo $viewPath, PHP_EOL;

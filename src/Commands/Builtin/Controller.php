@@ -46,10 +46,11 @@ class Controller extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
+     *
+     * @return string
      * @throws BuilderException
      */
-    public function run(array $parameters)
+    public function run(array $parameters): string
     {
         $controllerBuilder = new ControllerBuilder([
             'name' => $this->getOption(['name', 1]),
@@ -60,7 +61,7 @@ class Controller extends Command
             'force' => $this->isReceivedOption('force')
         ]);
 
-        return $controllerBuilder->build();
+        return $controllerBuilder->build(['indexAction' => []])->write();
     }
 
     /**

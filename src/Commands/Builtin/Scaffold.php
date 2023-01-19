@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Builder\Component\Scaffold as ScaffoldBuilder;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
@@ -53,11 +53,12 @@ class Scaffold extends Command
      * {@inheritdoc}
      *
      * @param array $parameters
-     * @return mixed
+     *
+     * @return bool
      * @throws CommandsException
      * @throws BuilderException
      */
-    public function run(array $parameters)
+    public function run(array $parameters): bool
     {
         $name = $this->getOption(['table-name', 1]);
         $templatePath = $this->getOption(['template-path'], null, TEMPLATE_PATH);
@@ -111,7 +112,7 @@ class Scaffold extends Command
         $this->printParameters($this->getPossibleParams());
     }
 
-    protected function getDirectoryPath()
+    protected function getDirectoryPath(): string
     {
         $path = $this->isReceivedOption('directory') ? $this->getOption('directory') : '';
 

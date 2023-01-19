@@ -8,16 +8,16 @@ name: Append phalcon.phar to release
 jobs:
   build:
     name: Compile and upload Phar
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set PHP 7.2
+      - name: Set PHP 8.0
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.2'
-          extensions: phalcon-4.0.5
+          php-version: '8.0'
+          extensions: phalcon-5.0.1
 
       - name: Compile phalcon.phar
         run: |

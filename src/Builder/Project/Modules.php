@@ -25,8 +25,6 @@ use Phalcon\DevTools\Web\Tools;
  */
 class Modules extends ProjectBuilder
 {
-    use ProjectAware;
-
     /**
      * Project directories
      * @var array
@@ -94,19 +92,15 @@ class Modules extends ProjectBuilder
      */
     private function createControllerFile()
     {
-        $namespace = $this->options->get('name');
-        if (strtolower(trim($namespace)) == 'default') {
-            $namespace = 'MyDefault';
-        }
-
-        $builder = new ControllerBuilder([
+        $controllerBuilder = new ControllerBuilder([
             'name' => 'index',
+            'directory' => $this->options->get('projectPath'),
             'controllersDir' => $this->options->get('projectPath') . 'app/modules/frontend/controllers/',
-            'namespace' => ucfirst($namespace) . '\Modules\Frontend\Controllers',
-            'baseClass' => 'ControllerBase'
+            'namespace' => "{$this->getNamespace()}\Modules\Frontend\Controllers",
+            'baseClass' => "{$this->getNamespace()}\Modules\Frontend\Controllers\ControllerBase",
         ]);
 
-        $builder->build();
+        $controllerBuilder->build(['indexAction' => []])->write();
 
         return $this;
     }
@@ -118,15 +112,15 @@ class Modules extends ProjectBuilder
      */
     private function createIndexViewFiles()
     {
-        $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
+        $engine = $this->options->get('templateEngine') === 'volt' ? 'volt' : 'phtml';
 
         $getFile = $this->options->get('templatePath') . '/project/modules/views/index.' . $engine;
         $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/modules/views/index/index.' . $engine;
         $putFile = $this->options->get('projectPath') . 'app/modules/frontend/views/index/index.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
@@ -153,16 +147,42 @@ class Modules extends ProjectBuilder
      * Create Default Tasks
      *
      * @return $this
+     * @throws BuilderException
      */
     private function createDefaultTasks()
     {
-        $getFile = $this->options->get('templatePath') . '/project/modules/MainTask.php';
-        $putFile = $this->options->get('projectPath') . 'app/modules/cli/tasks/MainTask.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+        $extends = '\Phalcon\Cli\Task';
+        $namespace = "{$this->getNamespace()}\Modules\Cli\Tasks";
 
-        $getFile = $this->options->get('templatePath') . '/project/modules/VersionTask.php';
-        $putFile = $this->options->get('projectPath') . 'app/modules/cli/tasks/VersionTask.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+        $controllerBuilder = new ControllerBuilder([
+            'name' => 'Main',
+            'suffix' => 'Task',
+            'directory' => $this->options->get('projectPath'),
+            'controllersDir' => $this->options->get('projectPath') . 'app/modules/cli/tasks/',
+            'namespace' => $namespace,
+            'baseClass' => $extends,
+            'force' => true,
+        ]);
+        $controllerBuilder->build(['mainAction' => [
+            'body' => 'echo "Congratulations! You are now flying with Phalcon CLI!";',
+        ]])->write();
+
+        $controllerBuilder = new ControllerBuilder([
+            'name' => 'Version',
+            'suffix' => 'Task',
+            'directory' => $this->options->get('projectPath'),
+            'controllersDir' => $this->options->get('projectPath') . 'app/modules/cli/tasks/',
+            'namespace' => $namespace,
+            'baseClass' => $extends,
+            'force' => true,
+        ]);
+        $controllerBuilder->build(['mainAction' => [
+            'body' => function () {
+                $config = $this->getDI()->get('config');
+
+                echo $config['version'];
+            },
+        ]])->write();
 
         return $this;
     }
@@ -171,12 +191,20 @@ class Modules extends ProjectBuilder
      * Create ControllerBase
      *
      * @return $this
+     * @throws BuilderException
      */
     private function createControllerBase()
     {
-        $getFile = $this->options->get('templatePath') . '/project/modules/ControllerBase.php';
-        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/controllers/ControllerBase.php';
-        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+        $controllerBuilder = new ControllerBuilder([
+            'name' => 'ControllerBase',
+            'directory' => $this->options->get('projectPath'),
+            'controllersDir' => $this->options->get('projectPath') . 'app/modules/frontend/controllers',
+            'namespace' => "{$this->getNamespace()}\Modules\Frontend\Controllers",
+            'baseClass' => '\Phalcon\Mvc\Controller',
+            'suffix' => '',
+        ]);
+
+        $controllerBuilder->build()->write();
 
         return $this;
     }
@@ -188,7 +216,7 @@ class Modules extends ProjectBuilder
      */
     private function createHtaccessFiles()
     {
-        if (file_exists($this->options->get('projectPath') . '.htaccess') == false) {
+        if (!file_exists($this->options->get('projectPath') . '.htaccess')) {
             $code = '<IfModule mod_rewrite.c>' . PHP_EOL .
                 "\t" . 'RewriteEngine on' . PHP_EOL .
                 "\t" . 'RewriteRule  ^$ public/    [L]' . PHP_EOL .
@@ -197,14 +225,14 @@ class Modules extends ProjectBuilder
             file_put_contents($this->options->get('projectPath') . '.htaccess', $code);
         }
 
-        if (file_exists($this->options->get('projectPath') . 'public/.htaccess') == false) {
+        if (!file_exists($this->options->get('projectPath') . 'public/.htaccess')) {
             file_put_contents(
                 $this->options->get('projectPath') . 'public/.htaccess',
                 file_get_contents($this->options->get('templatePath') . '/project/modules/htaccess')
             );
         }
 
-        if (file_exists($this->options->get('projectPath') . 'index.html') == false) {
+        if (!file_exists($this->options->get('projectPath') . 'index.html')) {
             $code = '<html><body><h1>Mod-Rewrite is not enabled</h1>' .
                 '<p>Please enable rewrite module on your web server to continue</body></html>';
             file_put_contents($this->options->get('projectPath') . 'index.html', $code);
@@ -237,7 +265,7 @@ class Modules extends ProjectBuilder
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
         chmod($putFile, 0755);
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (stripos(PHP_OS, 'WIN') === 0) {
             $getFile = $this->options->get('templatePath') . '/project/modules/launcher.bat';
             $putFile = $this->options->get('projectPath') . 'run.bat';
             $this->generateFile($getFile, $putFile, $this->options->get('name'));

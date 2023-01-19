@@ -187,7 +187,6 @@ class MigrationsController extends Base
 
         $this->tag->setDefault('basePath', $basePath);
         $this->tag->setDefault('migrationsDir', $migrationsDir);
-
         $this->view->setVars(
             [
                 'migration_path' => $migrationsDir,
@@ -201,6 +200,7 @@ class MigrationsController extends Base
 
         if (!$migrationsDir || !is_dir($migrationsDir) || !is_readable($migrationsDir)) {
             $this->tag->setDefault('oldVersion', 'None');
+
             return;
         }
 

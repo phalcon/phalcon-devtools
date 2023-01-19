@@ -62,15 +62,15 @@ class Micro extends ProjectBuilder
      */
     private function createIndexViewFiles()
     {
-        $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
+        $engine = $this->options->get('templateEngine') === 'volt' ? 'volt' : 'phtml';
 
         $getFile = $this->options->get('templatePath') . '/project/micro/views/index.' . $engine;
         $putFile = $this->options->get('projectPath') . 'app/views/index.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         $getFile = $this->options->get('templatePath') . '/project/micro/views/404.' . $engine;
         $putFile = $this->options->get('projectPath') . 'app/views/404.' . $engine;
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }
@@ -82,7 +82,7 @@ class Micro extends ProjectBuilder
      */
     private function createHtaccessFiles()
     {
-        if (file_exists($this->options->get('projectPath') . '.htaccess') == false) {
+        if (!file_exists($this->options->get('projectPath') . '.htaccess')) {
             $code = '<IfModule mod_rewrite.c>' . PHP_EOL .
                 "\t" . 'RewriteEngine on' . PHP_EOL .
                 "\t" . 'RewriteRule  ^$ public/    [L]' . PHP_EOL .
@@ -91,14 +91,14 @@ class Micro extends ProjectBuilder
             file_put_contents($this->options->get('projectPath') . '.htaccess', $code);
         }
 
-        if (file_exists($this->options->get('projectPath') . 'public/.htaccess') == false) {
+        if (!file_exists($this->options->get('projectPath') . 'public/.htaccess')) {
             file_put_contents(
                 $this->options->get('projectPath') . 'public/.htaccess',
                 file_get_contents($this->options->get('templatePath') . '/project/micro/htaccess')
             );
         }
 
-        if (file_exists($this->options->get('projectPath') . 'index.html') == false) {
+        if (!file_exists($this->options->get('projectPath') . 'index.html')) {
             $code = '<html><body><h1>Mod-Rewrite is not enabled</h1>' .
                 '<p>Please enable rewrite module on your web server to continue</body></html>';
             file_put_contents($this->options->get('projectPath') . 'index.html', $code);
@@ -116,7 +116,7 @@ class Micro extends ProjectBuilder
     {
         $getFile = $this->options->get('templatePath') . '/project/micro/index.php';
         $putFile = $this->options->get('projectPath') . 'public/index.php';
-        $this->generateFile($getFile, $putFile);
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
     }

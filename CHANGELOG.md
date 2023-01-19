@@ -1,3 +1,21 @@
+# [5.0.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.1)
+## Changed
+- Update composer dependencies to require and support with 8.0
+- Updated phalcon v4 classes for v5 replacements 
+- Removed support for PHP 7.X
+
+# [4.3.0](https://github.com/phalcon/cphalcon/releases/tag/v4.3.0)
+## Changed
+- Changed code generation to external implementation [1455](https://github.com/phalcon/phalcon-devtools/issues/1455)
+- Updated composer packages [1523](https://github.com/phalcon/phalcon-devtools/pull/1523)
+
+# [4.2.0](https://github.com/phalcon/cphalcon/releases/tag/v4.2.0)
+Supported PHP Versions: 7.3, 7.4, 8.0
+
+This release provides initial PHP 8 and Phalcon 5 support.
+## Fixed
+- Fixed Phalcon\Version class not found error in Phalcon 5 [1515](https://github.com/phalcon/phalcon-devtools/issues/1515)
+
 # [4.1.0](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0)
 ## Fixed
 - Fixed column annotation bugs on model creation [1425](https://github.com/phalcon/phalcon-devtools/issues/1425)

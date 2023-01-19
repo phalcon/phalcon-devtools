@@ -12,7 +12,7 @@ _phalcon()
 	local cur prev
 	_get_comp_words_by_ref -n = cur prev
 
-	commands="commands list enumerate controller create-controller model \
+	commands="commands list enumerate controller create-controller create-task model \
 	create-model all-models create-all-models project create-project scaffold \
 	create-scaffold migration create-migration webtools create-webtools"
 

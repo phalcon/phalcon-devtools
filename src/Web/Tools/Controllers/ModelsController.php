@@ -24,7 +24,7 @@ use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Tag;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 
 /**
  * @property Dispatcher|DispatcherInterface $dispatcher
@@ -190,7 +190,8 @@ class ModelsController extends Base
         if ($this->request->isPost()) {
             try {
                 $tableName = $this->request->getPost('tableName', 'string');
-                $component = '@' == $tableName ? AllModels::class : Model::class;
+                $component = '@' === $tableName ? AllModels::class : Model::class;
+                $helper = new HelperFactory();
 
                 /** @var AllModels $modelBuilder */
                 $modelBuilder = new $component([
@@ -209,7 +210,7 @@ class ModelsController extends Base
 
                 $modelBuilder->build();
 
-                if ($tableName == '@') {
+                if ('@' === $tableName) {
                     if (($n = count($modelBuilder->exist)) > 0) {
                         $mList = implode('</strong>, <strong>', $modelBuilder->exist);
 
@@ -227,7 +228,7 @@ class ModelsController extends Base
                 } else {
                     $message = sprintf(
                         'Model "%s" was created successfully',
-                        Text::camelize(basename($tableName, '.php'))
+                        $helper->camelize(basename($tableName, '.php'))
                     );
                 }
 

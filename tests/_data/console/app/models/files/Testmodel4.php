@@ -1,10 +1,13 @@
 <?php
 
-class Testmodel4 extends \Phalcon\Mvc\Model
-{
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ResultInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
+class Testmodel4 extends Model
+{
     /**
-     *
      * @var integer
      * @Primary
      * @Identity
@@ -13,7 +16,6 @@ class Testmodel4 extends \Phalcon\Mvc\Model
     public $id;
 
     /**
-     *
      * @var string
      * @Column(column="name", type="string", length=45, nullable=false)
      */
@@ -24,17 +26,17 @@ class Testmodel4 extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("devtools");
-        $this->setSource("Testmodel4");
+        $this->setSchema('devtools');
+        $this->setSource('Testmodel4');
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Testmodel4[]|Testmodel4|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Testmodel4[]|Testmodel4|ResultsetInterface
      */
-    public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
+    public static function find($parameters = null): ResultsetInterface
     {
         return parent::find($parameters);
     }
@@ -43,11 +45,10 @@ class Testmodel4 extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Testmodel4|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface|null
+     * @return Testmodel4|ResultInterface|ModelInterface|null
      */
-    public static function findFirst($parameters = null): ?\Phalcon\Mvc\ModelInterface
+    public static function findFirst($parameters = null): ?ModelInterface
     {
         return parent::findFirst($parameters);
     }
-
 }

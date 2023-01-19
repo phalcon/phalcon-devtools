@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Tests\Unit;
 
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Utils;
 use Phalcon\DevTools\Tests\Support\Module\UnitTest;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 
 final class UtilsTest extends UnitTest
 {
@@ -103,6 +104,7 @@ final class UtilsTest extends UnitTest
      */
     public function shouldUncamelizeString()
     {
+        $helper = new HelperFactory();
         $this->specify(
             "Method Text::uncamelize hasn't returned proper string",
             function ($string, $expected) {
@@ -110,11 +112,23 @@ final class UtilsTest extends UnitTest
             },
             [
                 'examples' => [
-                    [Text::uncamelize('MyFooBar'), 'my_foo_bar'],
-                    [Text::uncamelize('MyFooBar', '-'), 'my-foo-bar'],
-                    [Text::uncamelize('MyFooBar', '_'), 'my_foo_bar']
+                    [$helper->camelize('MyFooBar'), 'my_foo_bar'],
+                    [$helper->camelize('MyFooBar', '-'), 'my-foo-bar'],
+                    [$helper->camelize('MyFooBar', '_'), 'my_foo_bar']
                 ]
             ]
         );
+    }
+
+    public function testResolveDbSchema()
+    {
+        $dbSchema = Utils::resolveDbSchema(new Config([
+            'dbname' => 'devtools',
+            'schema' => 'public',
+            'adapter' => 'Mysql',
+        ]));
+
+
+        $this->assertSame('public', $dbSchema);
     }
 }

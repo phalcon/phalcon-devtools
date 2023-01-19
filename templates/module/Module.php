@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace @@FQMN@@;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -16,9 +16,9 @@ class Module implements ModuleDefinitionInterface
     /**
      * Registers an autoloader related to the module
      *
-     * @param DiInterface $di
+     * @param DiInterface $container
      */
-    public function registerAutoloaders(DiInterface $di = null)
+    public function registerAutoloaders(DiInterface $container = null)
     {
         $loader = new Loader();
 
@@ -33,17 +33,17 @@ class Module implements ModuleDefinitionInterface
     /**
      * Registers services related to the module
      *
-     * @param DiInterface $di
+     * @param DiInterface $container
      */
-    public function registerServices(DiInterface $di)
+    public function registerServices(DiInterface $container)
     {
         /**
          * Try to load local configuration
          */
         if (file_exists(@@configName@@)) {
-            
-            $config = $di['config'];
-            
+
+            $config = $container['config'];
+
             $override = @@configLoader@@;
 
             if ($config instanceof Config) {
@@ -56,12 +56,12 @@ class Module implements ModuleDefinitionInterface
         /**
          * Setting up the view component
          */
-        $di['view'] = function () {
+        $container['view'] = function () {
             $config = $this->getConfig();
 
             $view = new View();
             $view->setViewsDir($config->get('application')->viewsDir);
-            
+
             $view->registerEngines([
                 '.volt'  => 'voltShared',
                 '.phtml' => PhpEngine::class
@@ -73,7 +73,7 @@ class Module implements ModuleDefinitionInterface
         /**
          * Database connection is created based in the parameters defined in the configuration file
          */
-        $di['db'] = function () {
+        $container['db'] = function () {
             $config = $this->getConfig();
 
             $dbConfig = $config->database->toArray();

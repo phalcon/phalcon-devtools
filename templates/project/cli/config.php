@@ -1,6 +1,6 @@
 <?php
 
-return new \Phalcon\Config([
+return new \Phalcon\Config\Config([
     'database' => [
       'adapter'     => 'Mysql',
       'host'        => 'localhost',

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use RecursiveDirectoryIterator;
@@ -80,7 +80,8 @@ class Path
     */
     public function setRootPath(?string $path = null)
     {
-        $this->rootPath = rtrim(str_replace('/', DIRECTORY_SEPARATOR, $path), '\\/') . DIRECTORY_SEPARATOR;
+        if ($path)
+            $this->rootPath = rtrim(str_replace('/', DIRECTORY_SEPARATOR, $path), '\\/') . DIRECTORY_SEPARATOR;
 
         return $this;
     }

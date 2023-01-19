@@ -1,7 +1,7 @@
 <?php
 
-use Phalcon\Config;
-use Phalcon\Logger;
+use Phalcon\Config\Config;
+use Phalcon\Logger\Logger;
 
 return new Config([
     'database' => [
@@ -21,6 +21,7 @@ return new Config([
     ],
     'application' => [
         'controllersDir' => app_path() . '/controllers/',
+        'tasksDir'       => app_path() . '/tasks/',
         'modelsDir'      => app_path() . '/models/',
         'viewsDir'       => app_path() . '/views/',
     ],
