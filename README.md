@@ -92,7 +92,6 @@ where a phalcon project resides.
 
 ```bash
 cd phalcon-devtools
-composer install
 ln -s $(pwd)/phalcon /usr/bin/phalcon
 chmod ugo+x /usr/bin/phalcon
 ```

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Exception;
 
-use Phalcon\Exception;
+use Exception;
 
 class ProviderException extends Exception
 {

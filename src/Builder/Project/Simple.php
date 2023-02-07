@@ -15,7 +15,7 @@ namespace Phalcon\DevTools\Builder\Project;
 use Phalcon\DevTools\Builder\Component\Controller as ControllerBuilder;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Web\Tools;
-use Phalcon\Exception;
+use Exception;
 
 /**
  * Builder to create Simple application skeletons
@@ -58,7 +58,7 @@ class Simple extends ProjectBuilder
      */
     public function build()
     {
-        
+
         $this
             ->buildDirectories()
             ->getVariableValues()

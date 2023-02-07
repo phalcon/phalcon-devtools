@@ -86,9 +86,9 @@ EOD;
         string $useDefinition,
         string $classDoc = '',
         string $abstract = '',
-        ModelOption $modelOptions,
+        ModelOption $modelOptions = null,
         string $extends = '',
-        string $content,
+        string $content = '',
         string $license = ''
     ): string {
         $templateCode = <<<EOD

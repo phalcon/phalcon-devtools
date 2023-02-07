@@ -18,7 +18,6 @@ use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Text;
 
 /**
  * Build CRUDs using Phalcon
@@ -136,8 +135,8 @@ class Scaffold extends AbstractComponent
 
         $this->options->offsetSet('viewsDir', $viewPath);
         $this->options->offsetSet('manager', $di->getShared('modelsManager'));
-        $this->options->offsetSet('className', Text::camelize($name));
-        $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
+        $this->options->offsetSet('className', ucwords($name));
+        $this->options->offsetSet('fileName', strtolower($this->options->get('className')));
 
         $modelsNamespace = '';
         if ($this->options->has('modelsNamespace') &&
@@ -146,7 +145,7 @@ class Scaffold extends AbstractComponent
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
-        $modelName = Text::camelize($name);
+        $modelName = ucwords($name);
 
         if ($modelsNamespace) {
             $modelClass = '\\' . trim($modelsNamespace, '\\') . '\\' . $modelName;
@@ -192,7 +191,7 @@ class Scaffold extends AbstractComponent
         $relationField = '';
 
         $single = $name;
-        $this->options->offsetSet('name', strtolower(Text::camelize($single)));
+        $this->options->offsetSet('name', strtolower(ucwords($single)));
         $this->options->offsetSet('plural', $this->getPossiblePlural($name));
         $this->options->offsetSet('singular', $this->getPossibleSingular($name));
         $this->options->offsetSet('modelClass', $modelClass);
@@ -277,7 +276,7 @@ class Scaffold extends AbstractComponent
         $code = '';
         foreach ($fields as $field => $dataType) {
             if ($useGetSetters) {
-                $accessor = 'get' . Text::camelize($field) . '()';
+                $accessor = 'get' . ucwords($field) . '()';
             } else {
                 $accessor = $field;
             }
@@ -298,7 +297,7 @@ class Scaffold extends AbstractComponent
      */
     private function makeField(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
-        $id = 'field' . Text::camelize($attribute);
+        $id = 'field' . ucwords($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
             '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL .
             "\t" . '<div class="col-sm-10">' . PHP_EOL;
@@ -353,7 +352,7 @@ class Scaffold extends AbstractComponent
      */
     private function makeFieldVolt(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
-        $id = 'field' . Text::camelize($attribute);
+        $id = 'field' . ucwords($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
             '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL . "\t" .
             '<div class="col-sm-10">' . PHP_EOL;
@@ -529,7 +528,7 @@ class Scaffold extends AbstractComponent
         $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
 
         if ((bool) $this->options->get('genSettersGetters')) {
-            $code = str_replace('$pkGet$', 'get' . Text::camelize($attributes[0]) . '()', $code);
+            $code = str_replace('$pkGet$', 'get' . ucwords($attributes[0]) . '()', $code);
         } else {
             $code = str_replace('$pkGet$', $attributes[0], $code);
         }
@@ -593,7 +592,7 @@ class Scaffold extends AbstractComponent
             mkdir($dirPathLayouts, 0777, true);
         }
 
-        $fileName = Text::uncamelize($this->options->get('fileName'));
+        $fileName = strtolower($this->options->get('fileName'));
         $viewPath = $dirPathLayouts . DIRECTORY_SEPARATOR . $fileName . '.volt';
         if (!file_exists($viewPath) || $this->options->has('force')) {
             // View model layout
@@ -723,7 +722,7 @@ class Scaffold extends AbstractComponent
             if (!isset($this->options->get('allReferences')[$fieldName])) {
                 if ($this->options->get('genSettersGetters')) {
                     $rowCode .= '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true) .
-                        '->get' . Text::camelize($fieldName) . '()';
+                        '->get' . ucwords($fieldName) . '()';
                 } else {
                     $rowCode .= '$' . $this->options->get('singular') . '[\'' . $fieldName . '\']';
                 }
