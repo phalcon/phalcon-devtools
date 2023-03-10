@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Cache\AdapterFactory;
-use Phalcon\Di\Di\DiInterface;
-use Phalcon\Di\Di\ServiceProviderInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
 
 class ViewCacheProvider implements ServiceProviderInterface

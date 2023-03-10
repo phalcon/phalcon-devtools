@@ -17,7 +17,7 @@ use Phalcon\DevTools\Builder\Component\Model as ModelBuilder;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
-use Phalcon\Di\Di\FactoryDefault;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Support\HelperFactory;
 
 /**

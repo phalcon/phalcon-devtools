@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Error;
 
-use Phalcon\Di\Di\Injectable;
+use Phalcon\Di\Injectable;
 use Phalcon\Logger\Logger;
 
 class ErrorHandler extends Injectable

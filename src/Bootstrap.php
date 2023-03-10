@@ -38,9 +38,9 @@ use Phalcon\DevTools\Providers\ViewCacheProvider;
 use Phalcon\DevTools\Providers\ViewProvider;
 use Phalcon\DevTools\Providers\VoltProvider;
 use Phalcon\Di\Di;
-use Phalcon\Di\Di\DiInterface;
-use Phalcon\Di\Di\FactoryDefault;
-use Phalcon\Di\Di\ServiceProviderInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Application as MvcApplication;
 use Phalcon\Support\HelperFactory;
 

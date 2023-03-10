@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Access\Policy;
 
 use Phalcon\DevTools\Access\PolicyInterface;
-use Phalcon\Di\Di\Injectable;
+use Phalcon\Di\Injectable;
 use Phalcon\Http\RequestInterface;
 
 /**

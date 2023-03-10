@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\DevTools\Access\Manager as AccessManager;
 use Phalcon\DevTools\Access\Policy\Ip as IpPolicy;
-use Phalcon\Di\Di\DiInterface;
-use Phalcon\Di\Di\ServiceProviderInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
 
 class AccessManagerProvider implements ServiceProviderInterface
 {

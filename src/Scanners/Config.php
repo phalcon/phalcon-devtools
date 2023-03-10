@@ -18,7 +18,7 @@ use Phalcon\Config\Config\Adapter\Json as JsonConfig;
 use Phalcon\Config\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\Config\Config\Exception;
 use Phalcon\DevTools\Utils\FsUtils;
-use Phalcon\Di\Di\Injectable;
+use Phalcon\Di\Injectable;
 
 class Config extends Injectable
 {

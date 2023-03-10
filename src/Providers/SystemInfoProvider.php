@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Providers;
 
 use Phalcon\DevTools\Utils\SystemInfo;
-use Phalcon\Di\Di\DiInterface;
-use Phalcon\Di\Di\ServiceProviderInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
 
 class SystemInfoProvider implements ServiceProviderInterface
 {

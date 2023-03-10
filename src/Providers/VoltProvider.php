@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Config\Config;
 use Phalcon\DevTools\Mvc\View\Engine\Volt\Extension\Php as PhpExt;
-use Phalcon\Di\Di\DiInterface;
-use Phalcon\Di\Di\ServiceProviderInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 
 class VoltProvider implements ServiceProviderInterface

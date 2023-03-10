@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Mvc\View;
 
 use Exception;
-use Phalcon\Di\Di\Injectable;
+use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\ViewInterface;
 use Psr\Log\LoggerInterface;

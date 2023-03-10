@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Phalcon\Di\Di\FactoryDefault\Cli as FactoryDefault;
+use Phalcon\Di\FactoryDefault\Cli as FactoryDefault;
 use Phalcon\Cli\Console as ConsoleApp;
 
 define('BASE_PATH', dirname(__DIR__));
