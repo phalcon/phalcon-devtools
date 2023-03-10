@@ -21,6 +21,12 @@
         "source": "https://github.com/phalcon/phalcon-devtools",
         "forum": "https://forum.phalcon.io"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lmfmaier/phalcon-5-devtools"
+        }
+    ],
     "require": {
         "php": ">=7.4",
         "ext-pdo": "*",
