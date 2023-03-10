@@ -26,11 +26,11 @@
             "type": "package",
             "package": {
                 "name": "phalcon/devtools",
-                "version": "dev-5.0",
+                "version": "dev-master",
                 "source": {
                     "url": "https://github.com/lmfmaier/phalcon-5-devtools.git",
                     "type": "git",
-                    "reference": "5.0"
+                    "reference": "master"
                 },
                 "autoload": {
                     "classmap": [""]
