@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Providers;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Scanners\Config as ConfigScanner;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Di\Di\DiInterface;
+use Phalcon\Di\Di\ServiceProviderInterface;
 
 class ConfigProvider implements ServiceProviderInterface
 {

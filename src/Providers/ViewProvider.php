@@ -13,11 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Providers;
 
 use Phalcon\DevTools\Mvc\View\NotFoundListener;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Di\Di\DiInterface;
+use Phalcon\Di\Di\ServiceProviderInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 
 class ViewProvider implements ServiceProviderInterface
 {

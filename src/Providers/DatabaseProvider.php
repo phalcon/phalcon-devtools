@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Db\Adapter\Pdo\AbstractPdo;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Di\Di\DiInterface;
+use Phalcon\Di\Di\ServiceProviderInterface;
 
 class DatabaseProvider implements ServiceProviderInterface
 {

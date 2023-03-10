@@ -15,8 +15,8 @@ namespace Phalcon\DevTools\Commands\Builtin;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils\SystemInfo;
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Registry;
+use Phalcon\Di\Di\FactoryDefault;
+use Phalcon\Support\Registry;
 
 /**
  * Serve Command

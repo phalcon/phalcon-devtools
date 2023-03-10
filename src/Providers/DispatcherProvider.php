@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Providers;
 
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Di\Di\DiInterface;
+use Phalcon\Di\Di\ServiceProviderInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchErrorHandler;

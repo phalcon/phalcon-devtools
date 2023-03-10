@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Providers;
 
-use Phalcon\Config;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Url as UrlResolver;
+use Phalcon\Config\Config;
+use Phalcon\Di\Di\DiInterface;
+use Phalcon\Di\Di\ServiceProviderInterface;
+use Phalcon\Mvc\Url as UrlResolver;
 
 class UrlProvider implements ServiceProviderInterface
 {

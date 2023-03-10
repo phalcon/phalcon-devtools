@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Providers;
 
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\Stream as FileLogger;
-use Phalcon\Logger\Adapter\Syslog;
-use Phalcon\Logger\Formatter\Line as LineFormatter;
+use Phalcon\Di\Di\DiInterface;
+use Phalcon\Di\Di\ServiceProviderInterface;
+use Phalcon\Logger\Logger;
+use Phalcon\Logger\Logger\Adapter\Stream as FileLogger;
+use Phalcon\Logger\Logger\Adapter\Syslog;
+use Phalcon\Logger\Logger\Formatter\Line as LineFormatter;
 
 class LoggerProvider implements ServiceProviderInterface
 {

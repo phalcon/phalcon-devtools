@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\DevTools\Resources;
 
 use Phalcon\DevTools\Utils\FsUtils;
-use Phalcon\Di\Injectable;
+use Phalcon\Di\Di\Injectable;
 
 /**
  * @property FsUtils $fs

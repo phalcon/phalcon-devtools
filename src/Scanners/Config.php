@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Scanners;
 
-use Phalcon\Config as PhConfig;
-use Phalcon\Config\Adapter\Ini as IniConfig;
-use Phalcon\Config\Adapter\Json as JsonConfig;
-use Phalcon\Config\Adapter\Yaml as YamlConfig;
-use Phalcon\Config\Exception;
+use Phalcon\Config\Config as PhConfig;
+use Phalcon\Config\Config\Adapter\Ini as IniConfig;
+use Phalcon\Config\Config\Adapter\Json as JsonConfig;
+use Phalcon\Config\Config\Adapter\Yaml as YamlConfig;
+use Phalcon\Config\Config\Exception;
 use Phalcon\DevTools\Utils\FsUtils;
-use Phalcon\Di\Injectable;
+use Phalcon\Di\Di\Injectable;
 
 class Config extends Injectable
 {

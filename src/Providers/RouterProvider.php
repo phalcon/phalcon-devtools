@@ -14,8 +14,8 @@ namespace Phalcon\DevTools\Providers;
 
 use DirectoryIterator;
 use Phalcon\DevTools\Utils\FsUtils;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Di\Di\DiInterface;
+use Phalcon\Di\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 
 class RouterProvider implements ServiceProviderInterface

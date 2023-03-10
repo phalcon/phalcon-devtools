@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Utils;
 
-use Phalcon\Config;
-use Phalcon\Di\Injectable;
+use Phalcon\Config\Config;
+use Phalcon\Di\Di\Injectable;
 
 /**
  * @property Config $config

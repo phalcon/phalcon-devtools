@@ -12,15 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands;
 
-use Phalcon\Config;
-use Phalcon\Config\Adapter\Ini as IniConfig;
-use Phalcon\Config\Adapter\Json as JsonConfig;
-use Phalcon\Config\Adapter\Yaml as YamlConfig;
+use Phalcon\Config\Config;
+use Phalcon\Config\Config\Adapter\Ini as IniConfig;
+use Phalcon\Config\Config\Adapter\Json as JsonConfig;
+use Phalcon\Config\Config\Adapter\Yaml as YamlConfig;
 use Phalcon\DevTools\Builder\Path;
 use Phalcon\DevTools\Script;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 abstract class Command implements CommandsInterface
 {
