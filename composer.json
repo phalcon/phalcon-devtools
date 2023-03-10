@@ -21,23 +21,6 @@
         "source": "https://github.com/phalcon/phalcon-devtools",
         "forum": "https://forum.phalcon.io"
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "phalcon/devtools",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/lmfmaier/phalcon-5-devtools.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "autoload": {
-                    "classmap": [""]
-                }
-            }
-        }
-    ],
     "require": {
         "php": ">=7.4",
         "ext-pdo": "*",
