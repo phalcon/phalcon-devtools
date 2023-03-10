@@ -55,9 +55,10 @@ class SystemInfo extends Injectable
 
     public function getVersions(): array
     {
+        $v = new PhVersion();
         return [
             'Phalcon DevTools Version' => Version::get(),
-            'Phalcon Version' => PhVersion::get(),
+            'Phalcon Version' => $v->get(),
             'AdminLTE Version' => '3.0.1',
         ];
     }
