@@ -5,7 +5,7 @@
  */
 $loader = new \Phalcon\Autoload\Loader();
 
-$loader->registerDirs(
+$loader->setDirectories(
     [
         $config->application->modelsDir
     ]
