@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
