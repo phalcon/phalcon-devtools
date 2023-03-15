@@ -28,12 +28,11 @@ use Phalcon\DevTools\Script;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Version;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Exception as PhalconException;
 
 try {
     require dirname(__FILE__) . '/bootstrap/autoload.php';
 
-    $vendor = sprintf('Phalcon DevTools (%s)', Version::get());
+    $vendor = sprintf('Phalcon DevTools (%s)', (new Version())->get());
     print PHP_EOL . Color::colorize($vendor, Color::FG_GREEN, Color::AT_BOLD) . PHP_EOL . PHP_EOL;
 
     $eventsManager = new EventsManager();
@@ -69,10 +68,7 @@ try {
     } else {
         exit(1);
     }
-} catch (PhalconException $e) {
+} catch (\Exception $e) {
     fwrite(STDERR, Color::error($e->getMessage()) . PHP_EOL);
-    exit(1);
-} catch (Exception $e) {
-    fwrite(STDERR, 'ERROR: ' . $e->getMessage() . PHP_EOL);
     exit(1);
 }

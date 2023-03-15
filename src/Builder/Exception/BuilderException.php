@@ -12,11 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Exception;
 
-use Phalcon\Exception;
 
 /**
  * Exception Builder made
  */
-class BuilderException extends Exception
+class BuilderException extends \Exception
 {
 }

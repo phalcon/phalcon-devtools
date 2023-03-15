@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use RecursiveDirectoryIterator;

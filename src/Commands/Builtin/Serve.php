@@ -16,7 +16,7 @@ use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils\SystemInfo;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 
 /**
  * Serve Command

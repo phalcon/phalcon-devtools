@@ -29,7 +29,7 @@ trait CodemirrorTrait
         $this->assets
             ->collection('custom_css')
             ->setTargetPath('css/codemirror.css')
-            ->setTargetUri('css/codemirror.css?v=' . Version::get())
+            ->setTargetUri('css/codemirror.css?v=' . (new Version())->get())
             ->addCss($this->resource->path('codemirror/theme/ambiance.css'))
             ->addCss($this->resource->path('codemirror/lib/codemirror.css'))
             ->addCss($this->resource->path('codemirror/lib/codephalcon.css'))
@@ -39,7 +39,7 @@ trait CodemirrorTrait
         $this->assets
             ->collection('codemirror')
             ->setTargetPath('js/codemirror.js')
-            ->setTargetUri('js/codemirror.js?v=' . Version::get())
+            ->setTargetUri('js/codemirror.js?v=' . (new Version())->get())
             ->addJs($this->resource->path('codemirror/lib/codemirror.js'))
             ->addJs($this->resource->path('codemirror/addon/edit/matchbrackets.js'))
             ->addJs($this->resource->path('codemirror/addon/selection/active-line.js'))

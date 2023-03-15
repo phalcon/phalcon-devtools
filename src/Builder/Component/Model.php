@@ -23,9 +23,9 @@ use Phalcon\DevTools\Exception\WriteFileException;
 use Phalcon\DevTools\Generator\Snippet;
 use Phalcon\DevTools\Options\OptionsAware as ModelOption;
 use Phalcon\DevTools\Utils;
-use Phalcon\Text;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Support\HelperFactory;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Email as EmailValidator;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionProperty;
@@ -100,6 +100,7 @@ class Model extends AbstractComponent
             $this->path->setRootPath($this->modelOptions->getOption('directory'));
         }
 
+        $helper = new HelperFactory();
         $methodRawCode = [];
         $this->setModelsDir();
         $this->setModelPath();
@@ -177,9 +178,9 @@ class Model extends AbstractComponent
                 $initialize[] = $snippet->getRelation(
                     'hasMany',
                     $this->getFieldName($refColumns[0]),
-                    $entityNamespace . Text::camelize($tableName, '_-'),
+                    $entityNamespace . $helper->camelize($tableName, '_-'),
                     $this->getFieldName($columns[0]),
-                    "['alias' => '" . Text::camelize($tableName, '_-') . "']"
+                    "['alias' => '" . $helper->camelize($tableName, '_-') . "']"
                 );
             }
         }
@@ -195,7 +196,7 @@ class Model extends AbstractComponent
                 $this->getFieldName($columns[0]),
                 $this->getEntityClassName($reference, $entityNamespace),
                 $this->getFieldName($refColumns[0]),
-                "['alias' => '" . Text::camelize($reference->getReferencedTable(), '_-') . "']"
+                "['alias' => '" . $helper->camelize($reference->getReferencedTable(), '_-') . "']"
             );
         }
 
@@ -212,7 +213,7 @@ class Model extends AbstractComponent
                 if ($useSettersGetters) {
                     foreach ($fields as $field) {
                         /** @var \Phalcon\Db\Column $field */
-                        $methodName = Text::camelize($field->getName(), '_-');
+                        $methodName = $helper->camelize($field->getName(), '_-');
 
                         $possibleMethods['set' . $methodName] = true;
                         $possibleMethods['get' . $methodName] = true;
@@ -494,7 +495,7 @@ class Model extends AbstractComponent
         if ($this->isConsole()) {
             $msgSuccess = ($this->modelOptions->getOption('abstract') ? 'Abstract ' : '');
             $msgSuccess .= 'Model "%s" was successfully created.';
-            $this->notifySuccess(sprintf($msgSuccess, Text::camelize($this->modelOptions->getOption('name'), '_-')));
+            $this->notifySuccess(sprintf($msgSuccess, $this->modelOptions->getOption('className')));
         }
     }
 

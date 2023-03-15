@@ -1,13 +1,13 @@
 <?php
 
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 
 $loader = new Loader();
 
 /**
  * Register Namespaces
  */
-$loader->registerNamespaces([
+$loader->setNamespaces([
     '@@namespace@@\Models' => APP_PATH . '/common/models/',
     '@@namespace@@'        => APP_PATH . '/common/library/',
 ]);
@@ -15,7 +15,7 @@ $loader->registerNamespaces([
 /**
  * Register module classes
  */
-$loader->registerClasses([
+$loader->setClasses([
     '@@namespace@@\Modules\Frontend\Module' => APP_PATH . '/modules/frontend/Module.php',
     '@@namespace@@\Modules\Cli\Module'      => APP_PATH . '/modules/cli/Module.php'
 ]);

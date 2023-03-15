@@ -24,7 +24,7 @@ use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Tag;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 
 /**
  * @property Dispatcher|DispatcherInterface $dispatcher
@@ -225,9 +225,11 @@ class ModelsController extends Base
 
                     $message = 'Models were created successfully.';
                 } else {
+                    $helper = new HelperFactory();
+
                     $message = sprintf(
                         'Model "%s" was created successfully',
-                        Text::camelize(basename($tableName, '.php'))
+                        $helper->camelize(basename($tableName, '.php'))
                     );
                 }
 
