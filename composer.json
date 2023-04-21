@@ -37,7 +37,7 @@
         "phpunit/phpunit": "^8.0",
         "codeception/specify": "^1.2",
         "codeception/verify": "^1.2",
-        "squizlabs/php_codesniffer": "^3.5",
+        "squizlabs/php_codesniffer": "^3.7",
         "phalcon/ide-stubs": "^5.0.0",
         "vimeo/psalm": "^4.6",
         "codeception/module-phpbrowser": "^1.0",
