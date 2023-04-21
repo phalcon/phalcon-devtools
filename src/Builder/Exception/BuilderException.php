@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Exception;
 
-
 /**
  * Exception Builder made
  */
