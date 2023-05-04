@@ -160,7 +160,7 @@ EOD;
     {
         $fieldName = $customFieldName ?: $field->getName();
 
-    $phpTypedProp = (!$field->isNotNull() ? '?' : '').str_replace(['integer', 'boolean', 'double'], ['int', 'bool', 'float'], $type);
+    $phpTypedProp = (!$field->isNotNull() || $field->getName() === 'id' ? '?' : '').str_replace(['integer', 'boolean', 'double'], ['int', 'bool', 'float'], $type);
 
         if ($annotate) {
             $templateAttributes = <<<EOD
@@ -169,7 +169,7 @@ EOD;
      * @var %s%s%s
      * @Column(column="%s", type="%s"%s, nullable=%s)
      */
-    %s %s \$%s;
+    %s %s \$%s %s;
 EOD;
 
             return PHP_EOL.sprintf($templateAttributes,
@@ -179,7 +179,7 @@ EOD;
                 $field->getName(),
                 $type,
                 $field->getSize() ? ', length=' . $field->getSize() : '',
-                $field->isNotNull() ? 'false' : 'true', $visibility, $phpTypedProp, $fieldName).PHP_EOL;
+                $field->isNotNull() ? 'false' : 'true', $visibility, $phpTypedProp, $fieldName, ($field->getName()==='id' ? ' = null' : '')).PHP_EOL;
         } else {
             $templateAttributes = <<<EOD
     /**
