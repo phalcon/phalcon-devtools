@@ -18,7 +18,7 @@ use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 
 /**
  * Build CRUDs using Phalcon
@@ -72,6 +72,7 @@ class Scaffold extends AbstractComponent
     {
         $name = $this->options->get('name');
         $config = $this->options->get('config');
+        $helper = new HelperFactory();
 
         if ($name === null) {
             throw new BuilderException('Table name is required.');
@@ -136,8 +137,8 @@ class Scaffold extends AbstractComponent
 
         $this->options->offsetSet('viewsDir', $viewPath);
         $this->options->offsetSet('manager', $di->getShared('modelsManager'));
-        $this->options->offsetSet('className', Text::camelize($name));
-        $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
+        $this->options->offsetSet('className', $helper->camelize($name));
+        $this->options->offsetSet('fileName', $helper->uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
         if ($this->options->has('modelsNamespace') &&
@@ -146,7 +147,7 @@ class Scaffold extends AbstractComponent
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
-        $modelName = Text::camelize($name);
+        $modelName = $helper->camelize($name);
 
         if ($modelsNamespace) {
             $modelClass = '\\' . trim($modelsNamespace, '\\') . '\\' . $modelName;
@@ -192,7 +193,7 @@ class Scaffold extends AbstractComponent
         $relationField = '';
 
         $single = $name;
-        $this->options->offsetSet('name', strtolower(Text::camelize($single)));
+        $this->options->offsetSet('name', strtolower($helper->camelize($single)));
         $this->options->offsetSet('plural', $this->getPossiblePlural($name));
         $this->options->offsetSet('singular', $this->getPossibleSingular($name));
         $this->options->offsetSet('modelClass', $modelClass);
@@ -275,9 +276,10 @@ class Scaffold extends AbstractComponent
     private function assignTagDefaults(string $var, $fields, bool $useGetSetters): string
     {
         $code = '';
+        $helper = new HelperFactory();
         foreach ($fields as $field => $dataType) {
             if ($useGetSetters) {
-                $accessor = 'get' . Text::camelize($field) . '()';
+                $accessor = 'get' . $helper->camelize($field) . '()';
             } else {
                 $accessor = $field;
             }
@@ -298,7 +300,8 @@ class Scaffold extends AbstractComponent
      */
     private function makeField(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
-        $id = 'field' . Text::camelize($attribute);
+        $helper = new HelperFactory();
+        $id = 'field' . $helper->camelize($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
             '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL .
             "\t" . '<div class="col-sm-10">' . PHP_EOL;
@@ -353,7 +356,8 @@ class Scaffold extends AbstractComponent
      */
     private function makeFieldVolt(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
-        $id = 'field' . Text::camelize($attribute);
+        $helper = new HelperFactory();
+        $id = 'field' . $helper->camelize($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
             '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL . "\t" .
             '<div class="col-sm-10">' . PHP_EOL;
@@ -451,6 +455,7 @@ class Scaffold extends AbstractComponent
      */
     private function makeController(): void
     {
+        $helper = new HelperFactory();
         $controllerPath = $this->options->get('controllersDir') . $this->options->get('className') . 'Controller.php';
         if (file_exists($controllerPath) && !$this->options->has('force')) {
             return;
@@ -529,7 +534,7 @@ class Scaffold extends AbstractComponent
         $code = str_replace('$pkVar$', '$' . $attributes[0], $code);
 
         if ((bool) $this->options->get('genSettersGetters')) {
-            $code = str_replace('$pkGet$', 'get' . Text::camelize($attributes[0]) . '()', $code);
+            $code = str_replace('$pkGet$', 'get' . $helper->camelize($attributes[0]) . '()', $code);
         } else {
             $code = str_replace('$pkGet$', $attributes[0], $code);
         }
@@ -588,12 +593,13 @@ class Scaffold extends AbstractComponent
      */
     private function makeLayoutsVolt()
     {
+        $helper = new HelperFactory();
         $dirPathLayouts = $this->options->get('viewsDir') . 'layouts';
         if (!is_dir($dirPathLayouts)) {
             mkdir($dirPathLayouts, 0777, true);
         }
 
-        $fileName = Text::uncamelize($this->options->get('fileName'));
+        $fileName = $helper->uncamelize($this->options->get('fileName'));
         $viewPath = $dirPathLayouts . DIRECTORY_SEPARATOR . $fileName . '.volt';
         if (!file_exists($viewPath) || $this->options->has('force')) {
             // View model layout
@@ -693,6 +699,7 @@ class Scaffold extends AbstractComponent
      */
     private function makeViewSearch(): void
     {
+        $helper = new HelperFactory();
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
         if (!is_dir($dirPath)) {
             mkdir($dirPath);
@@ -723,7 +730,7 @@ class Scaffold extends AbstractComponent
             if (!isset($this->options->get('allReferences')[$fieldName])) {
                 if ($this->options->get('genSettersGetters')) {
                     $rowCode .= '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true) .
-                        '->get' . Text::camelize($fieldName) . '()';
+                        '->get' . $helper->camelize($fieldName) . '()';
                 } else {
                     $rowCode .= '$' . $this->options->get('singular') . '[\'' . $fieldName . '\']';
                 }

@@ -14,7 +14,7 @@ namespace Phalcon\DevTools\Mvc\Dispatcher;
 
 use Exception;
 use Phalcon\DevTools\Access\Manager;
-use Phalcon\Dispatcher\Exception as DispatcherException;
+use Phalcon\Di\Dispatcher\Exception as DispatcherException;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;

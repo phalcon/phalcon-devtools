@@ -15,7 +15,7 @@ namespace Phalcon\DevTools\Mvc\Controller;
 use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
@@ -29,10 +29,10 @@ use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\View;
-use Phalcon\Registry;
-use Phalcon\Url;
-use Phalcon\Url\UrlInterface;
-use Phalcon\Version as PhVersion;
+use Phalcon\Support\Registry;
+use Phalcon\Mvc\Url;
+use Phalcon\Mvc\Url\UrlInterface;
+use Phalcon\Support\Version as PhVersion;
 
 /**
  * @property Config $config
@@ -117,12 +117,13 @@ abstract class Base extends Controller
      */
     protected function setVars()
     {
+        $version = new PhVersion();
         $this->view->setVars(
             [
                 'base_uri'        => $this->url->getBaseUri(),
                 'webtools_uri'    => rtrim('/', $this->url->getBaseUri()) . '/webtools.php',
                 'ptools_version'  => Version::get(),
-                'phalcon_version' => PhVersion::get(),
+                'phalcon_version' => $version->get(),
                 'phalcon_team'    => 'Phalcon Team',
                 'lte_team'        => 'Almsaeed Studio',
                 'phalcon_url'     => 'https://phalcon.io/',
