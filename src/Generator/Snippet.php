@@ -160,7 +160,7 @@ EOD;
     {
         $fieldName = $customFieldName ?: $field->getName();
 
-    $phpTypedProp = str_replace(['integer', 'boolean', 'double'], ['int', 'bool', 'float'], $type);
+    $phpTypedProp = (!$field->isNotNull() ? '?' : '').str_replace(['integer', 'boolean', 'double'], ['int', 'bool', 'float'], $type);
 
         if ($annotate) {
             $templateAttributes = <<<EOD
