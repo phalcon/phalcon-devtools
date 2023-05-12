@@ -23,12 +23,12 @@ use Phalcon\Flash\Session;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
-use Phalcon\Tag;
+use Phalcon\Html\TagFactory;
 use Phalcon\Support\HelperFactory;
 
 /**
  * @property Dispatcher|DispatcherInterface $dispatcher
- * @property Tag $tag
+ * @property TagFactory $tag
  * @property Session $flashSession
  */
 class ModelsController extends Base
@@ -101,14 +101,16 @@ class ModelsController extends Base
             return $this->response->redirect('/webtools.php/models/edit/' . $fileName);
         }
 
-        $this->tag->setDefault('code', file_get_contents($path));
-        $this->tag->setDefault('path', $path);
+        $model_code = file_get_contents($path);
+        $model_path = $path;
 
         $this->view->setVars([
             'page_subtitle'=> 'Editing Model',
-            'model_path'   => $modelsDir,
+            'models_dir'   => $modelsDir,
             'model_name'   => $fileName,
             'custom_css'   => true,
+            'model_code'   => $model_code,
+            'model_path'   => $model_path
         ]);
     }
 
@@ -135,12 +137,14 @@ class ModelsController extends Base
             return $this->response->redirect('/webtools.php/models/list');
         }
 
-        $this->tag->setDefault('code', file_get_contents($path));
+        $model_code = file_get_contents($path);
+
         $this->view->setVars([
             'page_subtitle' => 'View Model',
-            'model_path'    => $modelsDir,
+            'models_dir'    => $modelsDir,
             'model_name'    => $fileName,
             'custom_css'    => true,
+            'model_code'    => $model_code,
         ]);
     }
 
@@ -260,12 +264,12 @@ class ModelsController extends Base
             $this->flashSession->error($PDOException->getMessage());
         }
 
-        $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
-        $this->tag->setDefault('modelsDir', $modelsDir);
+        $schema = $this->dbUtils->resolveDbSchema();
 
         $this->view->setVars([
-            'model_path'    => $modelsDir,
+            'base_path'     => $basePath,
+            'schema'        => $schema,
+            'models_dir'    => $modelsDir,
             'tables'        => $tables,
         ]);
     }

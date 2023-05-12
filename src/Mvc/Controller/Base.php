@@ -97,7 +97,7 @@ abstract class Base extends Controller
             ->setTargetUri('js/webtools.js?v=' . (new Version())->get())
             ->addJs($this->resource->path('admin-lte/plugins/jquery/jquery.min.js'), true, false)
             ->addJs($this->resource->path('admin-lte/plugins/jquery-ui/jquery-ui.min.js'), true, false)
-            ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
+            ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false)
             ->addJs($this->resource->path('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'), true, false)
             ->addJs(
                 $this->resource->path('admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'),

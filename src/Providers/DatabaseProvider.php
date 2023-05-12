@@ -58,7 +58,7 @@ class DatabaseProvider implements ServiceProviderInterface
                 'password' => $config['password'],
                 'dbname'   => $config['dbname'],
                 'charset'  => $config['charset'],
-                'port'     => $config['port'],
+                'port'     => $config['port'] ?? null,
             ];
 
             if ($config['adapter'] == 'Postgresql' || $config['adapter'] == 'Sqlite') {

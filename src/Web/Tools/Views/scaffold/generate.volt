@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label for="schema" class="col-sm-2 control-label">Schema</label>
                         <div class="col-sm-10">
-                            {{ input("schema", "Database name") }}
+                            {{ input("schema", "Database name", schema) }}
                         </div>
                     </div>
 
@@ -41,14 +41,14 @@
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "The absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project", base_path) }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="templatesPath" class="col-sm-2 control-label">Templates path</label>
                         <div class="col-sm-10">
-                            {{ input("templatesPath", "The absolute path to the templates") }}
+                            {{ input("templatesPath", "The absolute path to the templates", template_path) }}
                         </div>
                     </div>
 

@@ -19,11 +19,11 @@ use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\Flash\Session;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Migrations\Migrations;
-use Phalcon\Tag;
+use Phalcon\Html\TagFactory;
 
 /**
  * @property Session $flashSession
- * @property Tag $tag
+ * @property TagFactory $tag
  */
 class MigrationsController extends Base
 {
@@ -125,7 +125,7 @@ class MigrationsController extends Base
             );
         }
 
-        $this->prepareVersions();
+        $old_version = $this->prepareVersions();
 
         try {
             $tables = $this->dbUtils->listTables(true);
@@ -134,13 +134,12 @@ class MigrationsController extends Base
             $this->flashSession->error($PDOException->getMessage());
         }
 
-        $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('migrationsDir', $migrationsDir);
-
         $this->view->setVars(
             [
-                'migration_path' => $migrationsDir,
+                'base_path'      => $basePath,
+                'migrations_dir' => $migrationsDir,
                 'tables'         => $tables,
+                'old_version'    => $old_version
             ]
         );
     }
@@ -183,25 +182,23 @@ class MigrationsController extends Base
             );
         }
 
-        $this->prepareVersions();
-
-        $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('migrationsDir', $migrationsDir);
+        $old_version = $this->prepareVersions();
 
         $this->view->setVars(
             [
-                'migration_path' => $migrationsDir,
+                'base_path'      => $basePath,
+                'migrations_dir' => $migrationsDir,
+                'old_version'    => $old_version
             ]
         );
     }
 
-    protected function prepareVersions(): void
+    protected function prepareVersions(): string
     {
         $migrationsDir = $this->registry->offsetGet('directories')->migrationsDir;
 
         if (!$migrationsDir || !is_dir($migrationsDir) || !is_readable($migrationsDir)) {
-            $this->tag->setDefault('oldVersion', 'None');
-            return;
+            return 'None';
         }
 
         $folders = [];
@@ -219,9 +216,9 @@ class MigrationsController extends Base
         $foldersKeys = array_keys($folders);
 
         if (isset($foldersKeys[0])) {
-            $this->tag->setDefault('oldVersion', $foldersKeys[0]);
+            return $foldersKeys[0];
         } else {
-            $this->tag->setDefault('oldVersion', 'None');
+            return 'None';
         }
     }
 }
