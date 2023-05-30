@@ -7,7 +7,7 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(["$plural$", "Go Back"]) ?></li>
+            <li class="previous"><?php echo $this->tag->a($this->url->get("$plural$"), "Go Back") ?></li>
         </ul>
     </nav>
 </div>
@@ -18,11 +18,11 @@
 
 <?php echo $this->getContent(); ?>
 
-<form action="$plural$/create" class="form-horizontal" method="post">
+<form action="<?= $this->url->get('$plural$/create') ?>" class="form-horizontal" method="post">
     $captureFields$
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <?php echo $this->tag->submitButton(["Save", "class" => "btn btn-default"]) ?>
+            <?php echo $this->tag->inputSubmit("save", "Save", ['class' => "btn btn-primary"]) ?>
         </div>
     </div>
 </form>

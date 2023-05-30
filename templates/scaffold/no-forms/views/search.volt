@@ -1,8 +1,8 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <li class="previous">{{ link_to("$plural$/index", "Go Back") }}</li>
-            <li class="next">{{ link_to("$plural$/new", "Create ") }}</li>
+            <li class="previous">{{ a(url("$plural$/index"), "Go Back") }}</li>
+            <li class="next">{{ a(url("$plural$/new"), "Create") }}</li>
         </ul>
     </nav>
 </div>
@@ -26,8 +26,8 @@
         {% for $singularVar$ in page.getItems() %}
             <tr>
     $rowColumns$
-                <td>{{ link_to("$plural$/edit/"~$singularVar$['$pk$'], "Edit") }}</td>
-                <td>{{ link_to("$plural$/delete/"~$singularVar$['$pk$'], "Delete") }}</td>
+                <td>{{ a(url("$plural$/edit/"~$singularVar$.$pk$), "Edit") }}</td>
+                <td>{{ a(url("$plural$/delete/"~$singularVar$.$pk$), "Delete") }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -43,10 +43,10 @@
     <div class="col-sm-11">
         <nav>
             <ul class="pagination">
-                <li>{{ link_to("$plural$/search", "First", false, "class": "page-link", 'id': 'first') }}</li>
-                <li>{{ link_to("$plural$/search?page="~page.getPrevious(), "Previous", false, "class": "page-link", 'id': 'previous') }}</li>
-                <li>{{ link_to("$plural$/search?page="~page.getNext(), "Next", false, "class": "page-link", 'id': 'next') }}</li>
-                <li>{{ link_to("$plural$/search?page="~page.getLast(), "Last", false, "class": "page-link", 'id': 'last') }}</li>
+                <li>{{ a(url("$plural$/search"), "First", ["class": "page-link", 'id': 'first']) }}</li>
+                <li>{{ a(url("$plural$/search?page="~page.getPrevious()), "Previous", ["class": "page-link", 'id': 'previous']) }}</li>
+                <li>{{ a(url("$plural$/search?page="~page.getNext()), "Next", ["class": "page-link", 'id': 'next']) }}</li>
+                <li>{{ a(url("$plural$/search?page="~page.getLast()), "Last", ["class": "page-link", 'id': 'last']) }}</li>
             </ul>
         </nav>
     </div>

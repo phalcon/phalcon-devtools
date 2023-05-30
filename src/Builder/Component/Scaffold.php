@@ -269,31 +269,6 @@ class Scaffold extends AbstractComponent
     }
 
     /**
-     * @param string $var
-     * @param mixed $fields
-     * @param bool $useGetSetters
-     * @return string
-     */
-    private function assignTagDefaults(string $var, $fields, bool $useGetSetters): string
-    {
-        $helper = new HelperFactory();
-
-        $code = '';
-        foreach ($fields as $field => $dataType) {
-            if ($useGetSetters) {
-                $accessor = 'get' . $helper->camelize($field) . '()';
-            } else {
-                $accessor = $field;
-            }
-
-            $code .= '$this->tag->setDefault("' . $field . '", $' .
-                Utils::lowerCamelizeWithDelimiter($var, '-', true) . '->' . $accessor . ');' . PHP_EOL . "\t\t\t";
-        }
-
-        return $code;
-    }
-
-    /**
      * @param string $attribute
      * @param int $dataType
      * @param mixed $relationField
@@ -303,6 +278,7 @@ class Scaffold extends AbstractComponent
     private function makeField(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
         $helper = new HelperFactory();
+        $singularVar = '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true);
 
         $id = 'field' . $helper->camelize($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
@@ -321,25 +297,25 @@ class Scaffold extends AbstractComponent
                         '", [], "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .=  "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .=  "\t\t" . '<?php echo $this->tag->inputText("' . $attribute . '", ' . $singularVar . '->' . $attribute .
+                        ', ["class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "type" => "number", "class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->inputNumeric("' . $attribute . '", ' . $singularVar . '->' . $attribute .
+                        ', ["class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "type" => "date", "class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->inputDate("' . $attribute . '", ' . $singularVar . '->' . $attribute .
+                        ', ["class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= "\t\t" . '<?php echo $this->tag->textArea(["' . $attribute .
-                        '", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->inputTextarea("' . $attribute . '", ' . $singularVar . '->' . $attribute .
+                        ', ["cols" => 30, "rows" => 4 ["class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
                 default:
-                    $code .= "\t\t" . '<?php echo $this->tag->textField(["' . $attribute .
-                        '", "size" => 30, "class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?php echo $this->tag->inputText("' . $attribute . '", ' . $singularVar . '->' . $attribute .
+                        ', ["size" => 30, "class" => "form-control", "id" => "' . $id . '"]); ?>';
                     break;
             }
         }
@@ -360,6 +336,7 @@ class Scaffold extends AbstractComponent
     private function makeFieldVolt(string $attribute, int $dataType, $relationField, array $selectDefinition): string
     {
         $helper = new HelperFactory();
+        $singular = $this->options->get('singular');
 
         $id = 'field' . $helper->camelize($attribute);
         $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
@@ -378,25 +355,25 @@ class Scaffold extends AbstractComponent
                         '", "using": [], "class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .= "\t\t" . '{{ text_field("' . $attribute .
-                        '", "class" : "form-control", "id" : "' . $id . '") }}';
+                    $code .= "\t\t" . '{{ inputText("' . $attribute . '", ' . $singular . '.' . $attribute .
+                        ', ["class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= "\t\t" . '{{ text_field("' . $attribute .
-                        '", "type" : "numeric", "class" : "form-control", "id" : "' . $id . '") }}';
+                    $code .= "\t\t" . '{{ inputNumeric("' . $attribute . '", ' . $singular . '.' . $attribute .
+                        ', ["class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= "\t\t" . '{{ text_field("' . $attribute .
-                        '", "type" : "date", "class" : "form-control", "id" : "' . $id . '") }}';
+                    $code .= "\t\t" . '{{ inputDate("' . $attribute . '", ' . $singular . '.' . $attribute .
+                        ', ["class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= "\t\t" . '{{ text_area("' . $attribute .
-                        '", "cols": "30", "rows": "4", "class" : "form-control", "id" : "' . $id . '") }}';
+                    $code .= "\t\t" . '{{ inputTextarea("' . $attribute . '", ' . $singular . '.' . $attribute .
+                        ', ["cols": "30", "rows": "4", "class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
                 default:
-                    $code .= "\t\t" . '{{ text_field("' . $attribute .
-                        '", "size" : 30, "class" : "form-control", "id" : "' . $id . '") }}';
+                    $code .= "\t\t" . '{{ inputText("' . $attribute . '", ' . $singular . '.' . $attribute .
+                        ', ["size" : 30, "class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
             }
         }
@@ -528,11 +505,6 @@ class Scaffold extends AbstractComponent
             $this->options->get('identityField')
         ), $code);
 
-        $code = str_replace('$assignTagDefaults$', $this->assignTagDefaults(
-            $this->options->get('singular'),
-            $this->options->get('dataTypes'),
-            (bool) $this->options->get('genSettersGetters')
-        ), $code);
 
         $attributes = $this->options->get('attributes');
 
@@ -637,6 +609,8 @@ class Scaffold extends AbstractComponent
      */
     private function makeView(string $type): void
     {
+        $helper = new HelperFactory();
+
         $dirPath = $this->options->get('viewsDir') . $this->options->get('fileName');
         if (!is_dir($dirPath)) {
             mkdir($dirPath);
@@ -652,8 +626,18 @@ class Scaffold extends AbstractComponent
             throw new BuilderException(sprintf('Template "%s" does not exist', $templatePath));
         }
 
+        $idField = $this->options->get('attributes')[0];
+        $idFieldGet = $this->options->get('genSettersGetters') ? 'get' . $helper->camelize($idField) . '()' : $idField;
+
         $code = file_get_contents($templatePath);
         $code = str_replace('$plural$', $this->options->get('plural'), $code);
+        $code = str_replace(
+            '$singularVar$',
+            '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true),
+            $code
+        );
+        $code = str_replace('$pk$', $idField, $code);
+        $code = str_replace('$pkGet$', $idFieldGet, $code);
         $code = str_replace('$captureFields$', self::makeFields($type), $code);
 
         if ($this->isConsole()) {
@@ -685,9 +669,13 @@ class Scaffold extends AbstractComponent
             throw new BuilderException(sprintf('Template "%s" does not exist.', $templatePath));
         }
 
+        $idField =  $this->options->get('attributes')[0];
+
         $code = file_get_contents($templatePath);
 
         $code = str_replace('$plural$', $this->options->get('plural'), $code);
+        $code = str_replace('$singular$', $this->options->get('singular'), $code);
+        $code = str_replace('$pk$', $idField, $code);
         $code = str_replace('$captureFields$', self::makeFieldsVolt($type), $code);
 
         if ($this->isConsole()) {
@@ -739,7 +727,7 @@ class Scaffold extends AbstractComponent
                     $rowCode .= '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true) .
                         '->get' . $helper->camelize($fieldName) . '()';
                 } else {
-                    $rowCode .= '$' . $this->options->get('singular') . '[\'' . $fieldName . '\']';
+                    $rowCode .= '$' . $this->options->get('singular') . '->' . $fieldName;
                 }
             } else {
                 $detailField = ucfirst($this->options->get('allReferences')[$fieldName]['detail']);
@@ -750,6 +738,7 @@ class Scaffold extends AbstractComponent
         }
 
         $idField =  $this->options->get('attributes')[0];
+        $idFieldGet = ((bool) $this->options->get('genSettersGetters') ? 'get' . $helper->camelize($idField) . '()' : $idField);
 
         $code = file_get_contents($templatePath);
 
@@ -762,6 +751,7 @@ class Scaffold extends AbstractComponent
             $code
         );
         $code = str_replace('$pk$', $idField, $code);
+        $code = str_replace('$pkGet$', $idFieldGet, $code);
 
         if ($this->isConsole()) {
             echo $viewPath, PHP_EOL;
@@ -806,7 +796,7 @@ class Scaffold extends AbstractComponent
             if (!isset($this->options->get('allReferences')[$fieldName])) {
                 if ($this->options->has('genSettersGetters')) {
                     $rowCode .= Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true) .
-                        '[\'' . $fieldName . '\']';
+                        '.' . $fieldName;
                 } else {
                     $rowCode .= $this->options->get('singular') . '.' . $fieldName;
                 }

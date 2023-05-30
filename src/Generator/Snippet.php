@@ -73,22 +73,22 @@ EOD;
     /**
      * @param string $namespace
      * @param string $useDefinition
+     * @param ModelOption $modelOptions
+     * @param string $content
      * @param string $classDoc
      * @param string $abstract
-     * @param ModelOption $modelOptions
      * @param string $extends
-     * @param string $content
      * @param string $license
      * @return string
      */
     public function getClass(
         string $namespace,
         string $useDefinition,
+        ModelOption $modelOptions,
+        string $content,
         string $classDoc = '',
         string $abstract = '',
-        ModelOption $modelOptions,
         string $extends = '',
-        string $content,
         string $license = ''
     ): string {
         $templateCode = <<<EOD

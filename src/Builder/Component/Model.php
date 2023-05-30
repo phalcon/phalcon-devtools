@@ -476,11 +476,11 @@ class Model extends AbstractComponent
         $code = $snippet->getClass(
             $namespace,
             $useDefinition,
+            $this->modelOptions,
+            $content,
             $classDoc,
             $abstract,
-            $this->modelOptions,
             $extends,
-            $content,
             $license
         );
 

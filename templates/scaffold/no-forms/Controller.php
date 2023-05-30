@@ -14,7 +14,7 @@ class $className$Controller extends ControllerBase
      */
     public function indexAction()
     {
-        //
+        $this->view->setVar('$singular$', new $className$());
     }
 
     /**
@@ -56,7 +56,7 @@ class $className$Controller extends ControllerBase
      */
     public function newAction()
     {
-        //
+        $this->view->setVar('$singular$', new $className$());
     }
 
     /**
@@ -80,8 +80,9 @@ class $className$Controller extends ControllerBase
             }
 
             $this->view->$pk$ = $singularVar$->$pkGet$;
+            $this->view->setVar('$singular$', $singularVar$);
 
-            $assignTagDefaults$
+            //$assignTagDefaults$
         }
     }
 
