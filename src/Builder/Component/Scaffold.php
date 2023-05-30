@@ -286,36 +286,36 @@ class Scaffold extends AbstractComponent
             "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
-            $code .= "\t\t" . '<?php echo $this->tag->select(["' . $attribute . '", $' .
+            $code .= "\t\t" . '<?= $this->tag->select(["' . $attribute . '", $' .
                 $selectDefinition[$attribute]['varName'] . ', "using" => "' .
                 $selectDefinition[$attribute]['primaryKey'] . ',' . $selectDefinition[$attribute]['detail'] .
-                '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"]; ?>';
+                '", "useDummy" => true), "class" => "form-control", "id" => "' . $id . '"] ?>';
         } else {
             switch ($dataType) {
                 case Column::TYPE_ENUM: // enum
-                    $code .= "\t\t" . '<?php echo $this->tag->selectStatic(["' . $attribute .
-                        '", [], "class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?= $this->tag->selectStatic(["' . $attribute .
+                        '", [], "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_CHAR:
-                    $code .=  "\t\t" . '<?php echo $this->tag->inputText("' . $attribute . '", ' . $singularVar . '->' . $attribute .
-                        ', ["class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .=  "\t\t" . '<?= $this->tag->inputText("' . $attribute . '", ' . $singularVar . '->'
+                    . $attribute . ', ["class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_INTEGER:
-                    $code .= "\t\t" . '<?php echo $this->tag->inputNumeric("' . $attribute . '", ' . $singularVar . '->' . $attribute .
-                        ', ["class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?= $this->tag->inputNumeric("' . $attribute . '", ' . $singularVar . '->'
+                    . $attribute . ', ["class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_DATE:
-                    $code .= "\t\t" . '<?php echo $this->tag->inputDate("' . $attribute . '", ' . $singularVar . '->' . $attribute .
-                        ', ["class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?= $this->tag->inputDate("' . $attribute . '", ' . $singularVar . '->'
+                    . $attribute . ', ["class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 case Column::TYPE_TEXT:
-                    $code .= "\t\t" . '<?php echo $this->tag->inputTextarea("' . $attribute . '", ' . $singularVar . '->' . $attribute .
-                        ', ["cols" => 30, "rows" => 4 ["class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?= $this->tag->inputTextarea("' . $attribute . '", ' . $singularVar . '->'
+                    . $attribute . ', ["rows" => 4 ["class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
                 default:
-                    $code .= "\t\t" . '<?php echo $this->tag->inputText("' . $attribute . '", ' . $singularVar . '->' . $attribute .
-                        ', ["size" => 30, "class" => "form-control", "id" => "' . $id . '"]); ?>';
+                    $code .= "\t\t" . '<?= $this->tag->inputText("' . $attribute . '", ' . $singularVar . '->'
+                    . $attribute . ', ["size" => 30, "class" => "form-control", "id" => "' . $id . '"]) ?>';
                     break;
             }
         }
@@ -369,7 +369,7 @@ class Scaffold extends AbstractComponent
                     break;
                 case Column::TYPE_TEXT:
                     $code .= "\t\t" . '{{ inputTextarea("' . $attribute . '", ' . $singular . '.' . $attribute .
-                        ', ["cols": "30", "rows": "4", "class" : "form-control", "id" : "' . $id . '"]) }}';
+                        ', ["rows": "4", "class" : "form-control", "id" : "' . $id . '"]) }}';
                     break;
                 default:
                     $code .= "\t\t" . '{{ inputText("' . $attribute . '", ' . $singular . '.' . $attribute .
@@ -738,7 +738,7 @@ class Scaffold extends AbstractComponent
         }
 
         $idField =  $this->options->get('attributes')[0];
-        $idFieldGet = ((bool) $this->options->get('genSettersGetters') ? 'get' . $helper->camelize($idField) . '()' : $idField);
+        $idFieldGet = $this->options->get('genSettersGetters') ? 'get' . $helper->camelize($idField) . '()' : $idField;
 
         $code = file_get_contents($templatePath);
 
