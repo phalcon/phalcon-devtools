@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands\Builtin;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\DevTools\Builder\Component\Model as ModelBuilder;
 use Phalcon\DevTools\Builder\Exception\BuilderException;
 use Phalcon\DevTools\Commands\Command;
 use Phalcon\DevTools\Script\Color;
 use Phalcon\DevTools\Utils;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 
 /**
  * Model Command
@@ -73,7 +73,7 @@ class Model extends Command
                 'schema'            => $this->getOption('schema'),
                 'config'            => $this->getConfigObject(),
                 'className'         => $className,
-                'fileName'          => Text::uncamelize($className),
+                'fileName'          => (new HelperFactory())->uncamelize($className),
                 'genSettersGetters' => $this->isReceivedOption('get-set'),
                 'genDocMethods'     => $this->isReceivedOption('doc'),
                 'namespace'         => $this->getOption('namespace'),

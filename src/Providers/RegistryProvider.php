@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Providers;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Bootstrap;
 use Phalcon\DevTools\Utils\FsUtils;
 use Phalcon\Di\DiInterface;

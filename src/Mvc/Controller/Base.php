@@ -15,7 +15,7 @@ namespace Phalcon\DevTools\Mvc\Controller;
 use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
