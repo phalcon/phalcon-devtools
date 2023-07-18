@@ -44,7 +44,7 @@ final class ScaffoldPhtmlCest
         $returnLine = "\r\n";
 
         $content .= $returnLine .
-            '$loader->registerNamespaces(' .
+            '$loader->setNamespaces(' .
             $returnLine . '[ ' .
             '"' . $namespace . '" => $config->application->modelsDir' .
             $returnLine . ' ]' .
