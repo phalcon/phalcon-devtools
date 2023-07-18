@@ -54,7 +54,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label for="exportData">
-                                {{- check_field("exportData", "value": 1, "id": "force") ~ " Export data" -}}
+                                {{- check_field("exportData", "value": 1, "id": "exportData") ~ " Export data" -}}
                             </label>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label for="noAi">
-                                {{- check_field("noAi", "value": 1, "id": "force") ~ " Disable auto increment" -}}
+                                {{- check_field("noAi", "value": 1, "id": "noAi") ~ " Disable auto increment" -}}
                             </label>
                         </div>
                     </div>
