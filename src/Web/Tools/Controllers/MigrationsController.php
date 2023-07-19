@@ -102,7 +102,7 @@ class MigrationsController extends Base
                     'noAutoIncrement' => $this->request->getPost('noAi', 'int'),
                     'config'          => $this->config,
                     'descr'           => null, // @todo
-                    'version'         => $this->request->getPost('version', 'string'),
+                    'version'         => $this->request->getPost('version', 'string') ?: null,
                 ]);
 
                 $this->flashSession->success('The migration was generated successfully.');
