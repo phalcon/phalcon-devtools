@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Builder\Project;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 
 /**
  * @property Config $options
