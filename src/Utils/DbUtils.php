@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Utils;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\Injectable;
 
 /**
