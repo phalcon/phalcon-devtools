@@ -53,7 +53,7 @@ class Controller extends Command
     {
         $controllerBuilder = new ControllerBuilder([
             'name' => $this->getOption(['name', 1]),
-            'directory' => $this->getOption('directory'),
+            'directory' => $this->getOption('directory', null, realpath('.')),
             'controllersDir' => $this->getOption('output'),
             'namespace' => $this->getOption('namespace'),
             'baseClass' => $this->getOption('base-class', null, '\\' . \Phalcon\Mvc\Controller::class),

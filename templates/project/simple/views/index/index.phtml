@@ -1,6 +1,4 @@
-<div class="page-header">
-    <h1>Congratulations!</h1>
-</div>
+<h1>Congratulations!</h1>
 
 <p>You're now flying with Phalcon. Great things are about to happen!</p>
 

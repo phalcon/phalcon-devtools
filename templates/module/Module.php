@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace @@FQMN@@;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -22,7 +22,7 @@ class Module implements ModuleDefinitionInterface
     {
         $loader = new Loader();
 
-        $loader->registerNamespaces([
+        $loader->setNamespaces([
             '@@FQMN@@\Controllers' => __DIR__ . '/controllers/',
             '@@FQMN@@\Models'      => __DIR__ . '/models/'
         ]);

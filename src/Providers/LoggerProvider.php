@@ -14,7 +14,7 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream as FileLogger;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\Line as LineFormatter;

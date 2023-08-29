@@ -22,11 +22,11 @@ use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
-use Phalcon\Tag;
+use Phalcon\Html\TagFactory;
 
 /**
  * @property Dispatcher|DispatcherInterface $dispatcher
- * @property Tag $tag
+ * @property TagFactory $tag
  * @property Session $flashSession
  */
 class ControllersController extends Base
@@ -99,14 +99,16 @@ class ControllersController extends Base
             return $this->response->redirect('/webtools.php/controllers/edit/' . $fileName);
         }
 
-        $this->tag->setDefault('code', file_get_contents($path));
-        $this->tag->setDefault('path', $path);
+        $controller_code = file_get_contents($path);
+        $controller_path = $path;
 
         $this->view->setVars([
             'page_subtitle'   => 'Editing Controller',
-            'controller_path' => $controllersDir,
+            'controllers_dir' => $controllersDir,
             'controller_name' => $fileName,
             'custom_css'      => true,
+            'controller_code' => $controller_code,
+            'controller_path' => $controller_path
         ]);
     }
 
@@ -133,12 +135,14 @@ class ControllersController extends Base
             return $this->response->redirect('/webtools.php/controllers/list');
         }
 
-        $this->tag->setDefault('code', file_get_contents($path));
+        $controller_code = file_get_contents($path);
+
         $this->view->setVars([
             'page_subtitle'   => 'View Controller',
-            'controller_path' => $controllersDir,
+            'controllers_dir' => $controllersDir,
             'controller_name' => $fileName,
             'custom_css'      => true,
+            'controller_code' => $controller_code
         ]);
     }
 
@@ -223,14 +227,12 @@ class ControllersController extends Base
             );
         }
 
-        $this->tag->setDefault('name', $controllerName);
-        $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('baseClass', '\\' . Controller::class);
-        $this->tag->setDefault('controllersDir', $controllersDir);
-
         $this->view->setVars([
-            'controller_path' => $controllersDir,
-            'controller_name' => basename($controllerName, 'Controller.php') . 'Controller.php'
+            'base_path' => $basePath,
+            'base_class' => '\\' . Controller::class,
+            'controllers_dir' => $controllersDir,
+            'controller_name' => basename($controllerName, 'Controller.php') . 'Controller.php',
+            'controllerName' => $controllerName
         ]);
     }
 }

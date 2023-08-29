@@ -21,12 +21,12 @@ use Phalcon\Flash\Session;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\DispatcherInterface;
-use Phalcon\Tag;
-use Phalcon\Text;
+use Phalcon\Html\TagFactory;
+use Phalcon\Support\HelperFactory;
 
 /**
  * @property Dispatcher|DispatcherInterface $dispatcher
- * @property Tag $tag
+ * @property TagFactory $tag
  * @property Session $flashSession
  */
 class ScaffoldController extends Base
@@ -63,8 +63,10 @@ class ScaffoldController extends Base
                 $scaffoldBuilder = new Scaffold(array_merge($options, ['config' => $this->config->toArray()]));
                 $scaffoldBuilder->build();
 
+                $helper = new HelperFactory();
+
                 $this->flashSession->success(
-                    sprintf('Scaffold for table "%s" was generated successfully', Text::camelize($tableName))
+                    sprintf('Scaffold for table "%s" was generated successfully', $helper->camelize($tableName))
                 );
 
                 return $this->response->redirect('/webtools.php/migrations/list');
@@ -94,11 +96,7 @@ class ScaffoldController extends Base
             );
         }
 
-        $this->tag->setDefault('basePath', $basePath);
-        $this->tag->setDefault('controllersDir', $controllersDir);
-        $this->tag->setDefault('modelsDir', $modelsDir);
-        $this->tag->setDefault('templatesPath', $templatesPath);
-        $this->tag->setDefault('schema', $this->dbUtils->resolveDbSchema());
+        $schema = $this->dbUtils->resolveDbSchema();
 
         try {
             $tables = $this->dbUtils->listTables();
@@ -115,6 +113,10 @@ class ScaffoldController extends Base
                 'volt' => 'Volt',
                 'php'  => 'PHP',
             ],
+            'base_path'       => $basePath,
+            'schema'          => $schema,
+            'controllers_dir' => $controllersDir,
+            'models_dir'      => $modelsDir,
         ]);
     }
 }

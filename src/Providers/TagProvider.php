@@ -14,7 +14,8 @@ namespace Phalcon\DevTools\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Tag;
+use Phalcon\Html\TagFactory;
+use Phalcon\Html\Escaper;
 
 class TagProvider implements ServiceProviderInterface
 {
@@ -31,11 +32,11 @@ class TagProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared($this->providerName, function () {
-            $tag = new Tag();
+            $tag = new TagFactory(new Escaper());
 
-            $tag->setDocType(Tag::HTML5);
-            $tag->setTitleSeparator(' :: ');
-            $tag->setTitle('Phalcon WebTools');
+            $tag->title()
+                ->set('Phalcon WebTools')
+                ->setSeparator(' :: ');
 
             return $tag;
         });

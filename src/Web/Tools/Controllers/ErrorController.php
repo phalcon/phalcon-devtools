@@ -16,10 +16,10 @@ use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\DevTools\Mvc\Controller\Base;
 use Phalcon\DevTools\Version;
-use Phalcon\Tag;
+use Phalcon\Html\TagFactory;
 
 /**
- * @property Tag $tag
+ * @property TagFactory $tag
  */
 class ErrorController extends Base
 {
@@ -41,7 +41,7 @@ class ErrorController extends Base
      */
     public function route400Action(): void
     {
-        $this->tag->prependTitle('Bad Request');
+        $this->tag->title()->prepend('Bad Request');
         $this->response->resetHeaders()->setStatusCode(400, null);
 
         $this->view->setVars(
@@ -59,7 +59,7 @@ class ErrorController extends Base
      */
     public function route403Action(): void
     {
-        $this->tag->prependTitle('Forbidden');
+        $this->tag->title()->prepend('Forbidden');
         $this->response->resetHeaders()->setStatusCode(403, null);
 
         $this->view->setVars(
@@ -76,7 +76,7 @@ class ErrorController extends Base
      */
     public function route404Action(): void
     {
-        $this->tag->prependTitle('Not Found');
+        $this->tag->title()->prepend('Not Found');
         $this->response->resetHeaders()->setStatusCode(404, null);
 
         $this->view->setVars(
@@ -93,7 +93,7 @@ class ErrorController extends Base
      */
     public function route500Action(): void
     {
-        $this->tag->prependTitle('Internal Server Error');
+        $this->tag->title()->prepend('Internal Server Error');
         $this->response->resetHeaders()->setStatusCode(500, null);
 
         $this->view->setVars(
@@ -115,7 +115,7 @@ class ErrorController extends Base
         $this->assets
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
-            ->setTargetUri('css/webtools.css?v=' . Version::get())
+            ->setTargetUri('css/webtools.css?v=' . (new Version())->get())
             ->addCss($this->resource->path('admin-lte/css/adminlte.min.css'), true, false)
             ->join(true)
             ->addFilter(new Cssmin);
@@ -133,10 +133,10 @@ class ErrorController extends Base
         $this->assets
             ->collection('js_ie')
             ->setTargetPath('js/webtools-ie.js')
-            ->setTargetUri('js/webtools-ie.js?v=' . Version::get())
+            ->setTargetUri('js/webtools-ie.js?v=' . (new Version())->get())
             ->addJs($this->resource->path('admin-lte/plugins/jquery/jquery.min.js'), true, false)
             ->addJs($this->resource->path('admin-lte/plugins/jquery-ui/jquery-ui.min.js'), true, false)
-            ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
+            ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false)
             ->addJs($this->resource->path('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'), true, false)
             ->addJs($this->resource->path('admin-lte/js/adminlte.min.js'), true, false)
             ->addJs($this->resource->path('js/webtools.js'), true, false)

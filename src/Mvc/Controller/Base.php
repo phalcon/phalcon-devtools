@@ -15,7 +15,7 @@ namespace Phalcon\DevTools\Mvc\Controller;
 use Phalcon\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Manager;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\DevTools\Resources\AssetsResource;
 use Phalcon\DevTools\Utils\DbUtils;
 use Phalcon\DevTools\Utils\FsUtils;
@@ -29,10 +29,10 @@ use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\View;
-use Phalcon\Registry;
-use Phalcon\Url;
-use Phalcon\Url\UrlInterface;
-use Phalcon\Version as PhVersion;
+use Phalcon\Support\Registry;
+use Phalcon\Mvc\Url;
+use Phalcon\Mvc\Url\UrlInterface;
+use Phalcon\support\Version as PhVersion;
 
 /**
  * @property Config $config
@@ -71,7 +71,7 @@ abstract class Base extends Controller
         $this->assets
             ->collection('main_css')
             ->setTargetPath('css/webtools.css')
-            ->setTargetUri('css/webtools.css?v=' . Version::get())
+            ->setTargetUri('css/webtools.css?v=' . (new Version())->get())
             ->addCss($this->resource->path('admin-lte/css/adminlte.min.css'), true, false)
             ->addCss(
                 $this->resource->path('admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'),
@@ -94,10 +94,10 @@ abstract class Base extends Controller
         $this->assets
             ->collection('footer')
             ->setTargetPath('js/webtools.js')
-            ->setTargetUri('js/webtools.js?v=' . Version::get())
+            ->setTargetUri('js/webtools.js?v=' . (new Version())->get())
             ->addJs($this->resource->path('admin-lte/plugins/jquery/jquery.min.js'), true, false)
             ->addJs($this->resource->path('admin-lte/plugins/jquery-ui/jquery-ui.min.js'), true, false)
-            ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false, false)
+            ->addInlineJs("$.widget.bridge('uibutton', $.ui.button);", false)
             ->addJs($this->resource->path('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'), true, false)
             ->addJs(
                 $this->resource->path('admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'),
@@ -121,8 +121,8 @@ abstract class Base extends Controller
             [
                 'base_uri'        => $this->url->getBaseUri(),
                 'webtools_uri'    => rtrim('/', $this->url->getBaseUri()) . '/webtools.php',
-                'ptools_version'  => Version::get(),
-                'phalcon_version' => PhVersion::get(),
+                'ptools_version'  => (new Version())->get(),
+                'phalcon_version' => (new PhVersion())->get(),
                 'phalcon_team'    => 'Phalcon Team',
                 'lte_team'        => 'Almsaeed Studio',
                 'phalcon_url'     => 'https://phalcon.io/',

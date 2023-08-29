@@ -15,7 +15,7 @@ namespace Phalcon\DevTools\Tests\Unit;
 
 use Phalcon\DevTools\Utils;
 use Phalcon\DevTools\Tests\Support\Module\UnitTest;
-use Phalcon\Text;
+use Phalcon\Support\HelperFactory;
 
 final class UtilsTest extends UnitTest
 {
@@ -95,7 +95,7 @@ final class UtilsTest extends UnitTest
     }
 
     /**
-     * Tests Text::uncamelize
+     * Tests (new HelperFactory())->uncamelize
      *
      * @test
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
@@ -103,16 +103,18 @@ final class UtilsTest extends UnitTest
      */
     public function shouldUncamelizeString()
     {
+        $helper = new HelperFactory();
+
         $this->specify(
-            "Method Text::uncamelize hasn't returned proper string",
+            "Method (new HelperFactory())->uncamelize hasn't returned proper string",
             function ($string, $expected) {
                 expect($string)->equals($expected);
             },
             [
                 'examples' => [
-                    [Text::uncamelize('MyFooBar'), 'my_foo_bar'],
-                    [Text::uncamelize('MyFooBar', '-'), 'my-foo-bar'],
-                    [Text::uncamelize('MyFooBar', '_'), 'my_foo_bar']
+                    [$helper->uncamelize('MyFooBar'), 'my_foo_bar'],
+                    [$helper->uncamelize('MyFooBar', '-'), 'my-foo-bar'],
+                    [$helper->uncamelize('MyFooBar', '_'), 'my_foo_bar']
                 ]
             ]
         );

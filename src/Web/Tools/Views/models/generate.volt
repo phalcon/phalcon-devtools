@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 <form role="form" class="form-horizontal" name="generate-model" method="post" action="{{ url.get(webtools_uri ~ "/models/generate") }}">
-                    <p>New model will be placed at: [{{ model_path }}]</p>
+                    <p>New model will be placed at: [{{ models_dir }}]</p>
 
                     <div class="form-group">
                         <label for="namespace" class="col-sm-2 control-label">Namespace</label>
@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="schema" class="col-sm-2 control-label">Schema</label>
                         <div class="col-sm-10">
-                            {{ input("schema", "Database name") }}
+                            {{ input("schema", "Database name", schema) }}
                         </div>
                     </div>
 
@@ -36,14 +36,14 @@
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "The absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project", base_path) }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="modelsDir" class="col-sm-2 control-label">Model Directory</label>
                         <div class="col-sm-10">
-                            {{ input("modelsDir", "The absolute path to the model directory") }}
+                            {{ input("modelsDir", "The absolute path to the model directory", models_dir) }}
                         </div>
                     </div>
 

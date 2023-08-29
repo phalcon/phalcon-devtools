@@ -17,7 +17,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 
 class ViewProvider implements ServiceProviderInterface
 {

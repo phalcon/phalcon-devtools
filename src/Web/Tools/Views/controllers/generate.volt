@@ -11,12 +11,12 @@
 
             <div class="card-body">
                 <form role="form" class="form-horizontal" name="generate-controller" method="post" action="{{ url.get(webtools_uri ~ "/controllers/generate") }}">
-                    <p>{{ controller_name }} - [{{ controller_path }}]</p>
+                    <p>{{ controller_name }} - [{{ controllers_dir }}]</p>
 
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Controller name</label>
                         <div class="col-sm-10">
-                            {{ input("name", "Class name without suffix eg. Users") }}
+                            {{ input("name", "Class name without suffix eg. Users", controllerName) }}
                         </div>
                     </div>
 
@@ -30,21 +30,21 @@
                     <div class="form-group">
                         <label for="baseClass" class="col-sm-2 control-label">Base class</label>
                         <div class="col-sm-10">
-                            {{ input("baseClass", "eg. BaseController") }}
+                            {{ input("baseClass", "eg. BaseController", base_class) }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "The absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project", base_path) }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="controllersDir" class="col-sm-2 control-label">Controller Directory</label>
                         <div class="col-sm-10">
-                            {{ input("controllersDir", "The absolute path to the controller directory") }}
+                            {{ input("controllersDir", "The absolute path to the controller directory", controllers_dir) }}
                         </div>
                     </div>
 

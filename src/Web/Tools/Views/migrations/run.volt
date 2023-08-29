@@ -9,20 +9,20 @@
                 <h3 class="card-title">Run Migration</h3>
             </div>
             <div class="card-body">
-                <p>Migrations from: [{{ migration_path }}]</p>
+                <p>Migrations from: [{{ migrations_dir }}]</p>
 
                 <form role="form" class="form-horizontal" name="generate-migration" method="post" action="{{ url.get(webtools_uri ~ "/migrations/run") }}">
                     <div class="form-group">
                         <label for="oldVersion" class="col-sm-2 control-label">Current Version</label>
                         <div class="col-sm-10">
-                            {{ input_disabled("oldVersion") }}
+                            {{ input_disabled("oldVersion", old_version) }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "The absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project", base_path) }}
                             <span class="help-block">Directory where the project was created</span>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="migrationsDir" class="col-sm-2 control-label">Migrations Dir</label>
                         <div class="col-sm-10">
-                            {{ input("migrationsDir", "The absolute path to the model directory") }}
+                            {{ input("migrationsDir", "The absolute path to the model directory", migrations_dir) }}
                             <span class="help-block">The absolute path to the migrations directory</span>
                         </div>
                     </div>

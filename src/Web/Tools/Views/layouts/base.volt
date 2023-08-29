@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ get_title() }}</title>
+    {{ title() }}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="{{ phalcon_team }}" name="author">
     <link rel="shortcut icon" href="/favicon.ico?v={{ ptools_version }}">

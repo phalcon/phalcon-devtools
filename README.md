@@ -21,8 +21,8 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 7.2
-* Phalcon >= 4.0.0
+* PHP >= 7.4.1
+* Phalcon >= 5.0.0
 
 ## Installing via Composer
 
@@ -37,17 +37,17 @@ Create the composer.json file as follows:
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "~4.1"
+        "phalcon/devtools": "~5.0"
     }
 }
 ```
 
-If you are still using Phalcon 3.4.x, create a `composer.json` with the following instead:
+If you are still using Phalcon 4.2.x, create a `composer.json` with the following instead:
 
 ```json
 {
     "require-dev": {
-        "phalcon/devtools": "^3.4"
+        "phalcon/devtools": "^4.2"
     }
 }
 ```
@@ -116,7 +116,7 @@ This command should display something similar to:
 ```sh
 $ phalcon --help
 
-Phalcon DevTools (4.1.0)
+Phalcon DevTools (5.0.0)
 
 Help:
   Lists the commands available in Phalcon DevTools

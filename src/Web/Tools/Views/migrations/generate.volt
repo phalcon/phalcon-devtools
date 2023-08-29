@@ -9,13 +9,13 @@
                 <h3 class="card-title">Generate Migration</h3>
             </div>
             <div class="card-body">
-                <p>New model will be placed at: [{{ migration_path }}]</p>
+                <p>New model will be placed at: [{{ migrations_dir }}]</p>
 
                 <form role="form" class="form-horizontal" name="generate-migration" method="post" action="{{ url.get(webtools_uri ~ "/migrations/generate") }}">
                     <div class="form-group">
                         <label for="oldVersion" class="col-sm-2 control-label">Current Version</label>
                         <div class="col-sm-10">
-                            {{ input_disabled("oldVersion") }}
+                            {{ input_disabled("oldVersion", old_version) }}
                         </div>
                     </div>
 
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="basePath" class="col-sm-2 control-label">Project Root</label>
                         <div class="col-sm-10">
-                            {{ input("basePath", "The absolute path to the project") }}
+                            {{ input("basePath", "The absolute path to the project", base_path) }}
                             <span class="help-block">Directory where the project was created</span>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label for="migrationsDir" class="col-sm-2 control-label">Migrations Dir</label>
                         <div class="col-sm-10">
-                            {{ input("migrationsDir", "The absolute path to the model directory") }}
+                            {{ input("migrationsDir", "The absolute path to the model directory", migrations_dir) }}
                             <span class="help-block">The absolute path to the migrations directory</span>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label for="exportData">
-                                {{- check_field("exportData", "value": 1, "id": "force") ~ " Export data" -}}
+                                {{- check_field("exportData", "value": 1, "id": "exportData") ~ " Export data" -}}
                             </label>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label for="noAi">
-                                {{- check_field("noAi", "value": 1, "id": "force") ~ " Disable auto increment" -}}
+                                {{- check_field("noAi", "value": 1, "id": "noAi") ~ " Disable auto increment" -}}
                             </label>
                         </div>
                     </div>

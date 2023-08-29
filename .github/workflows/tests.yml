@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      extensions: mbstring, intl, json, zip, phalcon-4.0.5, mysql, pgsql, xdebug-2.9.8
+      extensions: mbstring, intl, json, zip, phalcon-5.2.0, mysql, pgsql, xdebug-2.9.8
       key: cache-v2.0~19.03.2020
 
     services:
@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [ '7.2', '7.3', '7.4' ]
+        php-versions: [ '7.4', '8.0', '8.1', '8.2' ]
     steps:
       - uses: actions/checkout@v1
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Phalcon\Mvc\View\Simple as View;
-use Phalcon\Url as UrlResolver;
+use Phalcon\Mvc\Url as UrlResolver;
 
 /**
  * Shared configuration service

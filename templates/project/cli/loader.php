@@ -1,7 +1,7 @@
 <?php
 
-$loader = new \Phalcon\Loader();
-$loader->registerDirs([
+$loader = new \Phalcon\Autoload\Loader();
+$loader->setDirectories([
     APP_PATH . '/tasks',
     APP_PATH . '/models'
 ]);
