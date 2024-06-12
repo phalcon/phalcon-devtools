@@ -21,6 +21,8 @@ class TestModel3 extends \Phalcon\Mvc\Model
 
     /**
      * Initialize method for model.
+     *
+     * @return void
      */
     public function initialize()
     {
@@ -32,6 +34,7 @@ class TestModel3 extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
+     *
      * @return TestModel3[]|TestModel3|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
@@ -43,6 +46,7 @@ class TestModel3 extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
+     *
      * @return TestModel3|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface|null
      */
     public static function findFirst($parameters = null): ?\Phalcon\Mvc\ModelInterface
