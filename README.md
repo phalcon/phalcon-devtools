@@ -21,7 +21,7 @@ with Phalcon framework.
 
 ## Requirements
 
-* PHP >= 7.4.1
+* PHP >= 7.4.1 <8.3
 * Phalcon >= 5.0.0
 
 ## Installing via Composer
