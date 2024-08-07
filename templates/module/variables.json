@@ -2,7 +2,7 @@
     "config-type": {
         "php": {
             "configLoader": "new Config(include __DIR__ . '/config/config.php')",
-            "iniConfigImport": "use Phalcon\\Config;",
+            "iniConfigImport": "use Phalcon\\Config\\Config;",
             "configName": "__DIR__ . '/config/config.php'",
             "useConfig": ""
         },
@@ -10,19 +10,19 @@
             "configLoader": "new Ini(__DIR__ . '/config/config.ini')",
             "iniConfigImport": "use Phalcon\\Config\\Adapter\\Ini;",
             "configName": "__DIR__ . '/config/config.ini'",
-            "useConfig": "use Phalcon\\Config;"
+            "useConfig": "use Phalcon\\Config\\Config;"
         },
         "yaml": {
             "configLoader": "new Yaml(__DIR__ . '/config/config.yaml', array('!local' => function($value) { return __DIR__ . $value; }))",
             "iniConfigImport": "use Phalcon\\Config\\Adapter\\Yaml;",
             "configName": "__DIR__ . '/config/config.yaml'",
-            "useConfig": "use Phalcon\\Config;"
+            "useConfig": "use Phalcon\\Config\\Config;"
         },
         "json": {
             "configLoader": "new Json(__DIR__ . '/config/config.json')",
             "iniConfigImport": "use Phalcon\\Config\\Adapter\\Json;",
             "configName": "__DIR__ . '/config/config.json'",
-            "useConfig": "use Phalcon\\Config;"
+            "useConfig": "use Phalcon\\Config\\Config;"
         }
     }
 }
