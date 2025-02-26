@@ -14,7 +14,7 @@
 try {
     require dirname(__FILE__) . '/bootstrap/autoload.php';
 } catch (\Throwable $e) {
-    fwrite(STDERR, Color::error($e->getMessage()) . PHP_EOL);
+    fwrite(STDERR, $e->getMessage() . PHP_EOL);
     exit(1);
 }
 
