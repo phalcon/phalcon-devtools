@@ -7,10 +7,6 @@ services:
     restart: always
     volumes:
       - ./:/app
-      - ./docker/php/mods/psr.ini:/etc/php/7.4/fpm/conf.d/20-psr.ini
-      - ./docker/php/mods/phalcon.ini:/etc/php/7.4/fpm/conf.d/50-phalcon.ini
-      - ./docker/php/mods/psr.ini:/etc/php/7.4/cli/conf.d/20-psr.ini
-      - ./docker/php/mods/phalcon.ini:/etc/php/7.4/cli/conf.d/50-phalcon.ini
     depends_on:
       - service_mysql
       - service_postgres
