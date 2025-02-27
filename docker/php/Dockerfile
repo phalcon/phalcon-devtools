@@ -8,7 +8,7 @@ ENV PATH=/root/composer/vendor/bin:/app/vendor/bin:/app/bin:/app:${PATH} \
 LABEL description="Docker image to build Phalcon on Debian Bookworm" \
       maintainer="Phalcon Team <team@phalconphp.com>" \
       vendor=Phalcon \
-      name="com.phalconphp.images.build.buster-${PHP_VERSION}"
+      name="com.phalconphp.images.build.bookworm-${PHP_VERSION}"
 
 # Installing php and extentions
 RUN set -eux \
