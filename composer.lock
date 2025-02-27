@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb5e7c38d0e5dbceac0dc7e9855558ab",
+    "content-hash": "a1fd3ae348b341cfee13d399ab740635",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -5099,73 +5099,6 @@
             "time": "2024-04-22T22:05:04+00:00"
         },
         {
-            "name": "phalcon/ide-stubs",
-            "version": "v5.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "f9cc44828f6d4b8110c633a274a9da7067973800"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/f9cc44828f6d4b8110c633a274a9da7067973800",
-                "reference": "f9cc44828f6d4b8110c633a274a9da7067973800",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "squizlabs/php_codesniffer": "3.*",
-                "vimeo/psalm": "^3.4"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Phalcon Team",
-                    "email": "team@phalcon.io",
-                    "homepage": "https://phalcon.io/en-us/team"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/phalcon/ide-stubs/graphs/contributors"
-                }
-            ],
-            "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
-            "homepage": "https://phalcon.io",
-            "keywords": [
-                "Devtools",
-                "Eclipse",
-                "autocomplete",
-                "ide",
-                "netbeans",
-                "phalcon",
-                "phpstorm",
-                "stub",
-                "stubs"
-            ],
-            "support": {
-                "forum": "https://forum.phalcon.io/",
-                "issues": "https://github.com/phalcon/ide-stubs/issues",
-                "source": "https://github.com/phalcon/ide-stubs"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/phalcon",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/phalcon",
-                    "type": "open_collective"
-                }
-            ],
-            "time": "2024-07-18T22:40:31+00:00"
-        },
-        {
             "name": "phar-io/manifest",
             "version": "2.0.4",
             "source": {
@@ -7993,7 +7926,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4||^8.0||^8.1||^8.2||^8.3",
+        "php": "^7.4||~8.0||~8.1||~8.2||~8.3",
         "ext-pdo": "*",
         "ext-phalcon": "^5.0.0"
     },

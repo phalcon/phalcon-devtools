@@ -10,6 +10,9 @@ services:
     depends_on:
       - service_mysql
       - service_postgres
+    links:
+      - service_mysql
+      - service_postgres
 
   service_nginx:
     image: nginx:alpine
