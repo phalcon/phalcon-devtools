@@ -4,7 +4,7 @@ services:
     build:
       context: ./docker/php
     working_dir: /app
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./:/app
     depends_on:
@@ -16,7 +16,7 @@ services:
 
   service_nginx:
     image: nginx:alpine
-    restart: always
+    restart: unless-stopped
     ports:
       - 8081:80
     volumes:
@@ -29,7 +29,7 @@ services:
 
   service_mysql:
     image: mariadb
-    restart: always
+    restart: unless-stopped
     environment:
       - MYSQL_DATABASE=devtools
       - MYSQL_USER=devtools
@@ -41,7 +41,7 @@ services:
 
   service_postgres:
     image: postgis/postgis:13-master
-    restart: always
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=devtools
       - POSTGRES_PASSWORD=password
