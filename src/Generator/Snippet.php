@@ -283,10 +283,10 @@ EOD;
     /**
      * Builds a PHP syntax with all the options in the array
      *
-     * @param  array  $options
+     * @param  array|null  $options
      * @return string PHP syntax
      */
-    public function getRelationOptions(array $options = null)
+    public function getRelationOptions(?array $options = null)
     {
         if (empty($options)) {
             return 'NULL';
