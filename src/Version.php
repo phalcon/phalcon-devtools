@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools;
 
-use Phalcon\support\Version as PhVersion;
+use Phalcon\Support\Version as PhVersion;
 
 /**
  * This class allows to get the installed version of the Developer Tools
