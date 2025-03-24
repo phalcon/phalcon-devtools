@@ -4,20 +4,19 @@ services:
     build:
       context: ./docker/php
     working_dir: /app
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./:/app
-      - ./docker/php/mods/psr.ini:/etc/php/7.4/fpm/conf.d/20-psr.ini
-      - ./docker/php/mods/phalcon.ini:/etc/php/7.4/fpm/conf.d/50-phalcon.ini
-      - ./docker/php/mods/psr.ini:/etc/php/7.4/cli/conf.d/20-psr.ini
-      - ./docker/php/mods/phalcon.ini:/etc/php/7.4/cli/conf.d/50-phalcon.ini
     depends_on:
+      - service_mysql
+      - service_postgres
+    links:
       - service_mysql
       - service_postgres
 
   service_nginx:
     image: nginx:alpine
-    restart: always
+    restart: unless-stopped
     ports:
       - 8081:80
     volumes:
@@ -30,7 +29,7 @@ services:
 
   service_mysql:
     image: mariadb
-    restart: always
+    restart: unless-stopped
     environment:
       - MYSQL_DATABASE=devtools
       - MYSQL_USER=devtools
@@ -42,7 +41,7 @@ services:
 
   service_postgres:
     image: postgis/postgis:13-master
-    restart: always
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=devtools
       - POSTGRES_PASSWORD=password

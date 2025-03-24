@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\DevTools\Commands;
 
+use Exception;
+
 /**
  * Commands Exception
  */
-class CommandsException extends \Exception
+class CommandsException extends Exception
 {
 }

@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set PHP 7.2
+      - name: Set PHP 7.4
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.2'
-          extensions: phalcon-4.0.5
+          php-version: '7.4'
+          extensions: phalcon-5.1.2
 
       - name: Compile phalcon.phar
         run: |
