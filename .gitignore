@@ -5,4 +5,15 @@
 #
 # https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 
-/vendor
+# IDE
+.idea/
+*.iml
+
+# local tests
+.local/
+.phalcon/
+dummy/
+default/
+
+# composer
+vendor/

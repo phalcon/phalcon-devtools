@@ -2,7 +2,14 @@
     "name": "phalcon/devtools",
     "type": "library",
     "description": "This tools provide you useful scripts to generate code helping to develop faster and easy applications that use with Phalcon framework.",
-    "keywords": ["framework", "phalcon", "devtools", "webtools", "phar", "dev"],
+    "keywords": [
+        "framework",
+        "phalcon",
+        "devtools",
+        "webtools",
+        "phar",
+        "dev"
+    ],
     "homepage": "https://phalcon.io",
     "license": "BSD-3-Clause",
     "authors": [
@@ -21,8 +28,12 @@
         "source": "https://github.com/phalcon/phalcon-devtools",
         "forum": "https://forum.phalcon.io"
     },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
     "require": {
-        "php": ">=7.4.1",
+        "php": "^7.4||~8.0||~8.1||~8.2",
         "ext-pdo": "*",
         "ext-phalcon": "^5.0.0",
         "psy/psysh": "~0.9",
@@ -46,8 +57,8 @@
         "codeception/module-cli": "^1.0"
     },
     "autoload": {
-        "psr-4" : {
-            "Phalcon\\DevTools\\" : "src/"
+        "psr-4": {
+            "Phalcon\\DevTools\\": "src/"
         }
     },
     "autoload-dev": {
@@ -62,5 +73,7 @@
             "tests/_support/helpers.php"
         ]
     },
-    "bin": ["phalcon"]
+    "bin": [
+        "phalcon"
+    ]
 }
