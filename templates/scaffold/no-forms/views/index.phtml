@@ -13,9 +13,9 @@
 
 <?php echo $this->flash->output() ?>
 
-<form action="<?= $this->url->get('$plural$/search') ?>" class="form-horizontal" method="get">
+<form action="<?= $this->url->get('$plural$/search') ?>" method="get">
     $captureFields$
-    <div class="form-group">
+    <div class="row mb-3">
         <div class="col-sm-offset-2 col-sm-10">
             <?php echo $this->tag->inputSubmit("search", "Search", ["class" => "btn btn-primary"]) ?>
         </div>

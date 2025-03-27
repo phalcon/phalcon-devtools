@@ -281,8 +281,8 @@ class Scaffold extends AbstractComponent
         $singularVar = '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true);
 
         $id = 'field' . $helper->camelize($attribute);
-        $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
-            '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL .
+        $code = '<div class="row mb-3">' . PHP_EOL . "\t" . '<label for="' . $id .
+            '" class="col-sm-2 col-form-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL .
             "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
@@ -339,8 +339,8 @@ class Scaffold extends AbstractComponent
         $singular = $this->options->get('singular');
 
         $id = 'field' . $helper->camelize($attribute);
-        $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
-            '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL . "\t" .
+        $code = '<div class="row mb-3">' . PHP_EOL . "\t" . '<label for="' . $id .
+            '" class="col-sm-2 col-form-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL . "\t" .
             '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
