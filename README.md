@@ -42,12 +42,14 @@ Create the composer.json file as follows:
 }
 ```
 or (if you are ok with dev stability)
+
 ```json
 {
     "require-dev": {
         "phalcon/devtools": "5.*"
     }
 }
+```
 
 If you are still using Phalcon 3.4.x, create a `composer.json` with the following instead:
 
