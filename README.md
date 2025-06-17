@@ -41,6 +41,15 @@ Create the composer.json file as follows:
     }
 }
 ```
+or (if you are ok with dev stability)
+
+```json
+{
+    "require-dev": {
+        "phalcon/devtools": "5.*"
+    }
+}
+```
 
 If you are still using Phalcon 3.4.x, create a `composer.json` with the following instead:
 
@@ -57,6 +66,19 @@ Run the composer installer:
 ```bash
 php composer.phar install
 ```
+
+(Windows) create somewhere in the directories listed in your %PATH% the file named phalcon.cmd with the next contents:
+```cmd
+vendor/bin/phalcon.bat %*
+```
+
+(Linux) add to .bash_profile or .bashrc
+
+(MacOS) add to .zprofile or .zrc
+```bash
+alias phalcon=vendor/bin/phalcon
+```
+
 
 ## Build `.phar`
 
