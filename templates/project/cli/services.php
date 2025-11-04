@@ -30,4 +30,3 @@ $di->setShared('db', function () {
 
     return new $class($params);
 });
-

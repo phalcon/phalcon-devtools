@@ -41,7 +41,6 @@ class Module implements ModuleDefinitionInterface
          * Try to load local configuration
          */
         if (file_exists(@@configName@@)) {
-            
             $config = $di['config'];
             
             $override = @@configLoader@@;

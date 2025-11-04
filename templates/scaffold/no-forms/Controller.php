@@ -157,7 +157,6 @@ class $className$Controller extends ControllerBase
         $assignInputFromRequestUpdate$
 
         if (!$singularVar$->save()) {
-
             foreach ($singularVar$->getMessages() as $message) {
                 $this->flash->error($message);
             }
@@ -199,7 +198,6 @@ class $className$Controller extends ControllerBase
         }
 
         if (!$singularVar$->delete()) {
-
             foreach ($singularVar$->getMessages() as $message) {
                 $this->flash->error($message);
             }

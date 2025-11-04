@@ -76,7 +76,7 @@ class Path
     }
 
     /**
-     * @param null|string $path
+     * @param string|null $path
     */
     public function setRootPath(?string $path = null)
     {
@@ -86,7 +86,7 @@ class Path
     }
 
     /**
-     * @param null|string $path
+     * @param string|null $path
      */
     public function getRootPath(?string $path = null): string
     {

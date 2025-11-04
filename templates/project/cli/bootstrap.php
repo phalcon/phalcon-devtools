@@ -67,7 +67,6 @@ try {
     if (isset($config["printNewLine"]) && $config["printNewLine"]) {
         echo PHP_EOL;
     }
-
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     echo $e->getTraceAsString() . PHP_EOL;
