@@ -235,12 +235,16 @@ class Scaffold extends AbstractComponent
      * @param string $var
      * @param mixed $fields
      * @param bool $useGetSetters
-     * @param null|string $identityField
+     * @param string|null $identityField
      *
      * @return string
      */
-    private function captureFilterInput(string $var, $fields, bool $useGetSetters, string $identityField = null): string
-    {
+    private function captureFilterInput(
+        string $var,
+        $fields,
+        bool $useGetSetters,
+        ?string $identityField = null
+    ): string {
         $code = '';
         foreach ($fields as $field => $dataType) {
             if ($identityField !== null && $field === $identityField) {
@@ -281,8 +285,8 @@ class Scaffold extends AbstractComponent
         $singularVar = '$' . Utils::lowerCamelizeWithDelimiter($this->options->get('singular'), '-', true);
 
         $id = 'field' . $helper->camelize($attribute);
-        $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
-            '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL .
+        $code = '<div class="row mb-3">' . PHP_EOL . "\t" . '<label for="' . $id .
+            '" class="col-sm-2 col-form-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL .
             "\t" . '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {
@@ -339,8 +343,8 @@ class Scaffold extends AbstractComponent
         $singular = $this->options->get('singular');
 
         $id = 'field' . $helper->camelize($attribute);
-        $code = '<div class="form-group">' . PHP_EOL . "\t" . '<label for="' . $id .
-            '" class="col-sm-2 control-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL . "\t" .
+        $code = '<div class="row mb-3">' . PHP_EOL . "\t" . '<label for="' . $id .
+            '" class="col-sm-2 col-form-label">' . $this->getPossibleLabel($attribute) . '</label>' . PHP_EOL . "\t" .
             '<div class="col-sm-10">' . PHP_EOL;
 
         if (isset($relationField[$attribute])) {

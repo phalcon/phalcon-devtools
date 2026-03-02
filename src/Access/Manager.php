@@ -46,11 +46,11 @@ class Manager extends Injectable
      *
      * @param Event $event Event object.
      * @param Dispatcher $dispatcher Dispatcher object.
-     * @param array $data Data.
+     * @param array|null $data Data.
      *
      * @return mixed
      */
-    public function beforeDispatch(Event $event, Dispatcher $dispatcher, array $data = null)
+    public function beforeDispatch(Event $event, Dispatcher $dispatcher, ?array $data = null)
     {
         $controller = $dispatcher->getControllerName();
 
@@ -72,10 +72,10 @@ class Manager extends Injectable
      * Checks whether a user is allowed to access an resource.
      *
      * @param string $resourceName Resource name.
-     * @param array $data Data. [Optional]
+     * @param array|null $data Data. [Optional]
      * @return bool
      */
-    public function isAllowedAccess(string $resourceName, array $data = null): bool
+    public function isAllowedAccess(string $resourceName, ?array $data = null): bool
     {
         return $resourceName == 'error' || $this->policy->isAllowedAccess($resourceName, $data);
     }

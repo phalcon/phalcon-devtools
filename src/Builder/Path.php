@@ -23,9 +23,9 @@ class Path
     /**
      * @var string|null
      */
-    protected $rootPath = null;
+    protected ?string $rootPath = null;
 
-    public function __construct(string $rootPath = null)
+    public function __construct(?string $rootPath = null)
     {
         $this->rootPath = $rootPath ?: realpath('.') . DIRECTORY_SEPARATOR;
     }
@@ -76,7 +76,7 @@ class Path
     }
 
     /**
-     * @param null|string $path
+     * @param string|null $path
     */
     public function setRootPath(?string $path = null)
     {
@@ -86,7 +86,7 @@ class Path
     }
 
     /**
-     * @param null|string $path
+     * @param string|null $path
      */
     public function getRootPath(?string $path = null): string
     {

@@ -12,9 +12,9 @@
 
 {{ content() }}
 
-<form action="{{ url('$plural$/create') }}" class="form-horizontal" method="post">
+<form action="{{ url('$plural$/create') }}" method="post">
     $captureFields$
-    <div class="form-group">
+    <div class="row mb-3">
         <div class="col-sm-offset-2 col-sm-10">
             {{ inputSubmit('save', 'Save', ['class': 'btn btn-primary']) }}
         </div>

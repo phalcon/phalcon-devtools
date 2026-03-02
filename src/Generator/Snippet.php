@@ -24,6 +24,7 @@ class Snippet
      * Method to set the value of field %s
      *
      * @param %s \$%s
+     *
      * @return \$this
      */
     public function set%s(\$%s)
@@ -232,6 +233,8 @@ EOD;
         $templateInitialize = <<<EOD
     /**
      * Initialize method for model.
+     *
+     * @return void
      */
     public function initialize()
     {
@@ -248,6 +251,7 @@ EOD;
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed \$parameters
+     *
      * @return %s[]|%s|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find(\$parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
@@ -265,6 +269,7 @@ EOD;
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed \$parameters
+     *
      * @return %s|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface|null
      */
     public static function findFirst(\$parameters = null): ?\Phalcon\Mvc\ModelInterface
@@ -278,10 +283,10 @@ EOD;
     /**
      * Builds a PHP syntax with all the options in the array
      *
-     * @param  array  $options
+     * @param  array|null  $options
      * @return string PHP syntax
      */
-    public function getRelationOptions(array $options = null)
+    public function getRelationOptions(?array $options = null)
     {
         if (empty($options)) {
             return 'NULL';

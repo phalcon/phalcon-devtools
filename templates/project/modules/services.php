@@ -49,7 +49,7 @@ $di->setShared('voltShared', function ($view) {
 
     $volt = new VoltEngine($view, $this);
     $volt->setOptions([
-        'path' => function($templatePath) use ($config) {
+        'path' => function ($templatePath) use ($config) {
             $basePath = $config->application->appDir;
             if ($basePath && substr($basePath, 0, 2) == '..') {
                 $basePath = dirname(__DIR__);
@@ -72,7 +72,7 @@ $di->setShared('voltShared', function ($view) {
             }
 
             if (!is_dir($cacheDir . DIRECTORY_SEPARATOR . 'volt')) {
-                @mkdir($cacheDir . DIRECTORY_SEPARATOR . 'volt' , 0755, true);
+                @mkdir($cacheDir . DIRECTORY_SEPARATOR . 'volt', 0755, true);
             }
 
             return $cacheDir . DIRECTORY_SEPARATOR . 'volt' . DIRECTORY_SEPARATOR . $filename;

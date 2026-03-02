@@ -16,9 +16,9 @@ class Module implements ModuleDefinitionInterface
     /**
      * Registers an autoloader related to the module
      *
-     * @param DiInterface $di
+     * @param DiInterface|null $di
      */
-    public function registerAutoloaders(DiInterface $di = null)
+    public function registerAutoloaders(?DiInterface $di = null)
     {
         $loader = new Loader();
 
@@ -41,7 +41,6 @@ class Module implements ModuleDefinitionInterface
          * Try to load local configuration
          */
         if (file_exists(@@configName@@)) {
-            
             $config = $di['config'];
             
             $override = @@configLoader@@;

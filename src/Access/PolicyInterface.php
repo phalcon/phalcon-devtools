@@ -18,8 +18,8 @@ interface PolicyInterface
      * Checks whether a user is allowed to access an resource.
      *
      * @param string $resourceName Resource name.
-     * @param array $data Data. [Optional]
+     * @param array|null $data Data. [Optional]
      * @return bool
      */
-    public function isAllowedAccess(string $resourceName, array $data = null): bool;
+    public function isAllowedAccess(string $resourceName, ?array $data = null): bool;
 }
