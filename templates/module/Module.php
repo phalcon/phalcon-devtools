@@ -18,7 +18,7 @@ class Module implements ModuleDefinitionInterface
      *
      * @param DiInterface $di
      */
-    public function registerAutoloaders(DiInterface $di = null)
+    public function registerAutoloaders(?DiInterface $di = null)
     {
         $loader = new Loader();
 
@@ -41,9 +41,9 @@ class Module implements ModuleDefinitionInterface
          * Try to load local configuration
          */
         if (file_exists(@@configName@@)) {
-            
+
             $config = $di['config'];
-            
+
             $override = @@configLoader@@;
 
             if ($config instanceof Config) {
@@ -61,7 +61,7 @@ class Module implements ModuleDefinitionInterface
 
             $view = new View();
             $view->setViewsDir($config->get('application')->viewsDir);
-            
+
             $view->registerEngines([
                 '.volt'  => 'voltShared',
                 '.phtml' => PhpEngine::class

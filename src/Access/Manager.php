@@ -50,7 +50,7 @@ class Manager extends Injectable
      *
      * @return mixed
      */
-    public function beforeDispatch(Event $event, Dispatcher $dispatcher, array $data = null)
+    public function beforeDispatch(Event $event, Dispatcher $dispatcher, ?array $data = null)
     {
         $controller = $dispatcher->getControllerName();
 
@@ -75,7 +75,7 @@ class Manager extends Injectable
      * @param array $data Data. [Optional]
      * @return bool
      */
-    public function isAllowedAccess(string $resourceName, array $data = null): bool
+    public function isAllowedAccess(string $resourceName, ?array $data = null): bool
     {
         return $resourceName == 'error' || $this->policy->isAllowedAccess($resourceName, $data);
     }

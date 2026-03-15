@@ -239,7 +239,7 @@ class Scaffold extends AbstractComponent
      *
      * @return string
      */
-    private function captureFilterInput(string $var, $fields, bool $useGetSetters, string $identityField = null): string
+    private function captureFilterInput(string $var, $fields, bool $useGetSetters, ?string $identityField = null): string
     {
         $code = '';
         foreach ($fields as $field => $dataType) {

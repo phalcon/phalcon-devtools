@@ -25,7 +25,7 @@ class Path
      */
     protected $rootPath = null;
 
-    public function __construct(string $rootPath = null)
+    public function __construct(?string $rootPath = null)
     {
         $this->rootPath = $rootPath ?: realpath('.') . DIRECTORY_SEPARATOR;
     }
