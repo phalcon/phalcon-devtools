@@ -14,7 +14,7 @@ class Module implements ModuleDefinitionInterface
      *
      * @param DiInterface $di
      */
-    public function registerAutoloaders(DiInterface $di = null)
+    public function registerAutoloaders(?DiInterface $di = null)
     {
         $loader = new Loader();
 

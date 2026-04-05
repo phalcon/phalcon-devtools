@@ -281,7 +281,7 @@ EOD;
      * @param  array  $options
      * @return string PHP syntax
      */
-    public function getRelationOptions(array $options = null)
+    public function getRelationOptions(?array $options = null)
     {
         if (empty($options)) {
             return 'NULL';
