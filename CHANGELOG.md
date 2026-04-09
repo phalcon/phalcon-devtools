@@ -1,3 +1,7 @@
+# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0)
+## Changed
+- Phalcon v5 support, upgraded dependencies
+
 # [4.1.0](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0)
 ## Fixed
 - Fixed column annotation bugs on model creation [1425](https://github.com/phalcon/phalcon-devtools/issues/1425)

@@ -118,7 +118,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://docs.phalcon.io/4.0/en/introduction" target="_blank">
+                    <a class="nav-link" href="https://docs.phalcon.io/5.0/en/introduction" target="_blank">
                         <i class="nav-icon fas fa-book"></i> <p>Phalcon Docs</p>
                     </a>
                 </li>
